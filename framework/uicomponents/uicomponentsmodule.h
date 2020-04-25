@@ -2,7 +2,7 @@
 //  MuseScore
 //  Music Composition & Notation
 //
-//  Copyright (C) 2019 MuseScore BVBA and others
+//  Copyright (C) 2020 MuseScore BVBA and others
 //
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License version 2.
@@ -17,26 +17,23 @@
 //  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 //=============================================================================
 
-#ifndef TELEMETRYSETUP_H
-#define TELEMETRYSETUP_H
+#ifndef MUF_UICOMPONENTSMODULE_H
+#define MUF_UICOMPONENTSMODULE_H
 
-#include "framework/global/modularity/imodulesetup.h"
+#include "global/modularity/imodulesetup.h"
 
-//---------------------------------------------------------
-//   TelemetrySetup
-//---------------------------------------------------------
+namespace muf {
 
-class TelemetrySetup : public muf::IModuleSetup {
-   public:
-      TelemetrySetup();
+class UiComponentsModule : public IModuleSetup
+{
+public:
 
-      std::string moduleName() const override;
+    std::string moduleName() const override;
 
-      void registerExports() override;
+    void registerResources() override;
+    void registerUiTypes() override;
+};
 
-      void registerResources() override;
+}
 
-      void registerUiTypes() override;
-      };
-
-#endif // TELEMETRYSETUP_H
+#endif // MUF_UICOMPONENTSMODULE_H

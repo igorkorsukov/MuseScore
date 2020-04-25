@@ -937,6 +937,8 @@ if (MSVC)
 
 endif (MSVC)
 
+add_subdirectory(framework)
+
 ## TEMP: Display all variables!
 ### message(STATUS "===========================================================")
 ### message(STATUS "VARIABLES:")
