@@ -34,6 +34,7 @@ include_directories(
 )
 
 qt5_add_resources(RCC_SOURCES uicomponents.qrc)
+set(QML_IMPORT_PATH "${QML_IMPORT_PATH};${CMAKE_CURRENT_LIST_DIR}/qml" CACHE STRING "Qt Creator 4.1 extra qml import paths")
 
 add_library ( ${MODULE} ${LIBRARY_TYPE}
     ${_all_h_file}

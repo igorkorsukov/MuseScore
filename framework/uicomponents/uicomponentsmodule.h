@@ -20,7 +20,7 @@
 #ifndef MUF_UICOMPONENTSMODULE_H
 #define MUF_UICOMPONENTSMODULE_H
 
-#include "global/modularity/imodulesetup.h"
+#include "framework/global/modularity/imodulesetup.h"
 
 namespace muf {
 

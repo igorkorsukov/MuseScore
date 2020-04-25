@@ -20,6 +20,8 @@
 #include "modulessetup.h"
 #include "config.h"
 
+#include "framework/uicomponents/uicomponentsmodule.h"
+
 #ifdef BUILD_TELEMETRY_MODULE
 #include "telemetry/telemetrysetup.h"
 #endif
@@ -36,6 +38,7 @@ ModulesSetup::ModulesSetup()
 {
 
     m_modulesSetupList
+            << new muf::UiComponentsModule()
 #ifdef BUILD_TELEMETRY_MODULE
             << new TelemetrySetup()
 #endif

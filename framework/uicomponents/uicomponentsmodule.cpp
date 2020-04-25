@@ -2,6 +2,11 @@
 
 using namespace muf;
 
+static void uicomponents_init_qrc()
+{
+    Q_INIT_RESOURCE(uicomponents);
+}
+
 std::string UiComponentsModule::moduleName() const
 {
     return "uicomponents";
@@ -9,7 +14,7 @@ std::string UiComponentsModule::moduleName() const
 
 void UiComponentsModule::registerResources()
 {
-    Q_INIT_RESOURCE(uicomponents);
+    uicomponents_init_qrc();
 }
 
 void UiComponentsModule::registerUiTypes()
