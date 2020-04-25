@@ -19,6 +19,7 @@
 
 set(MODULE uiengine)
 set(LIBRARY_TYPE STATIC)
+message(STATUS "Configuring " ${MODULE})
 
 include (${PROJECT_SOURCE_DIR}/build/gch.cmake)
 

@@ -22,7 +22,7 @@
 
 #ifdef BUILD_TELEMETRY_MODULE
 
-#include "serviceinjector.h"
+#include "framework/global/modularity/serviceinjector.h"
 #include "interfaces/itelemetryservice.h"
 
 namespace Ms {

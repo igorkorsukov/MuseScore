@@ -29,7 +29,7 @@ include_directories(
       ${Qt5Gui_INCLUDE_DIRS}
       ${PROJECT_SOURCE_DIR}/thirdparty
       ${PROJECT_SOURCE_DIR}/mscore
-      ${PROJECT_SOURCE_DIR}/global
+      ${PROJECT_SOURCE_DIR}/framework/global
       ${PROJECT_BINARY_DIR}
       )
 

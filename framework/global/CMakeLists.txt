@@ -17,8 +17,9 @@
 #  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 #=============================================================================
 
-set(MODULE global_)
+set(MODULE global)
 set(LIBRARY_TYPE STATIC)
+message(STATUS "Configuring " ${MODULE})
 
 include (${PROJECT_SOURCE_DIR}/build/gch.cmake)
 
@@ -38,6 +39,8 @@ add_library (${MODULE} ${LIBRARY_TYPE}
     ${_all_h_file}
     ${PCH}
     ${MODULARITY_SRC}
+    ${CMAKE_CURRENT_LIST_DIR}/log.h
+    ${CMAKE_CURRENT_LIST_DIR}/dummy.cpp
 )
 
 if (NOT MSVC)

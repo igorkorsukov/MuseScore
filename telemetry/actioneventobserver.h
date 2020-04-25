@@ -23,7 +23,7 @@
 #include <QObject>
 #include <QAction>
 #include <QPair>
-#include "serviceinjector.h"
+#include "framework/global/modularity/serviceinjector.h"
 #include "globals.h"
 
 #include "interfaces/itelemetryservice.h"

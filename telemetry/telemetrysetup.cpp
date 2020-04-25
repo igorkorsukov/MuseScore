@@ -21,7 +21,7 @@
 
 #include <QtQml/qqml.h>
 
-#include "servicesresolver.h"
+#include "modularity/servicesresolver.h"
 
 #include "interfaces/itelemetryservice.h"
 #include "services/telemetryservice.h"
