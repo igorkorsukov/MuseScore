@@ -86,8 +86,10 @@ int main(int argc, char** argv)
     int argcFinal = argcUTF16;
     char** argvFinal = argvUTF8.data();
 #else
+
     int argcFinal = argc;
     char** argvFinal = argv;
+
 #endif
 
     return Ms::runApplication(argcFinal, argvFinal);
