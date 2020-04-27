@@ -22,6 +22,18 @@
 
 #include "modulesioc.h"
 
+#define IOCINJECT(Module, Interface, getter) \
+private: \
+    mutable std::shared_ptr<Interface> _##getter; \
+public: \
+    std::shared_ptr<Interface> getter() const {  \
+        if (!_##getter) { \
+            _##getter = msf::ioc()->resolve<Interface>(#Module); \
+        } \
+        return _##getter; \
+    } \
+    void set##getter(std::shared_ptr<Interface> impl) { _##getter = impl; } \
+
 namespace msf {
 
 inline ModulesIoC* ioc()

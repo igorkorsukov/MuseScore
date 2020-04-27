@@ -21,7 +21,7 @@
 
 #include <QtQml/qqml.h>
 
-#include "modularity/servicesresolver.h"
+#include "modularity/ioc.h"
 
 #include "interfaces/itelemetryservice.h"
 #include "services/telemetryservice.h"
@@ -42,9 +42,7 @@ TelemetrySetup::TelemetrySetup()
 
 void TelemetrySetup::registerExports()
       {
-      ServicesResolver::registerService<ITelemetryService, TelemetryService>([]() -> TelemetryService* {
-            return new TelemetryService();
-            });
+      msf::ioc()->registerExport<ITelemetryService>("telemetry", new TelemetryService());
       }
 
 //---------------------------------------------------------
