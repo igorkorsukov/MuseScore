@@ -24,7 +24,7 @@
 #include "framework/uicomponents/uicomponentsmodule.h"
 
 #ifdef BUILD_TELEMETRY_MODULE
-#include "telemetry/telemetrysetup.h"
+#include "framework/telemetry/telemetrysetup.h"
 #endif
 
 #ifdef AVSOMR
