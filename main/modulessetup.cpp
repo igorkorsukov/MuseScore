@@ -20,6 +20,7 @@
 #include "modulessetup.h"
 #include "config.h"
 
+#include "framework/ui/uimodule.h"
 #include "framework/uicomponents/uicomponentsmodule.h"
 
 #ifdef BUILD_TELEMETRY_MODULE
@@ -38,7 +39,8 @@ ModulesSetup::ModulesSetup()
 {
 
     m_modulesSetupList
-            << new muf::UiComponentsModule()
+            << new msf::UiModule()
+            << new msf::UiComponentsModule()
 #ifdef BUILD_TELEMETRY_MODULE
             << new TelemetrySetup()
 #endif
@@ -54,11 +56,11 @@ ModulesSetup::ModulesSetup()
 
 void ModulesSetup::setup()
 {
-    for (muf::IModuleSetup* m : m_modulesSetupList) {
+    for (msf::IModuleSetup* m : m_modulesSetupList) {
         m->registerExports();
     }
 
-    for (muf::IModuleSetup* m : m_modulesSetupList) {
+    for (msf::IModuleSetup* m : m_modulesSetupList) {
         m->resolveImports();
 
         m->registerResources();
@@ -66,7 +68,7 @@ void ModulesSetup::setup()
     }
 
     //! NOTE Need to move to the place where the application finishes initializing
-    for (muf::IModuleSetup* m : m_modulesSetupList) {
+    for (msf::IModuleSetup* m : m_modulesSetupList) {
         m->onStartInit();
     }
 }

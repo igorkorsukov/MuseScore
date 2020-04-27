@@ -17,12 +17,12 @@
 //  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 //=============================================================================
 
-#ifndef MUF_IMODULESETUP_H
-#define MUF_IMODULESETUP_H
+#ifndef MSF_IMODULESETUP_H
+#define MSF_IMODULESETUP_H
 
 #include <string>
 
-namespace muf {
+namespace msf {
 
 class IModuleSetup
 {
@@ -44,4 +44,4 @@ public:
 
 }
 
-#endif // MUF_IMODULESETUP_H
+#endif // MSF_IMODULESETUP_H

@@ -17,23 +17,26 @@
 //  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 //=============================================================================
 
-#ifndef MSF_UICOMPONENTSMODULE_H
-#define MSF_UICOMPONENTSMODULE_H
+#ifndef MSF_IUIENGINE_H
+#define MSF_IUIENGINE_H
 
-#include "framework/global/modularity/imodulesetup.h"
+#include "framework/global/modularity/imoduleexport.h"
 
+class QQmlEngine;
 namespace msf {
 
-class UiComponentsModule : public IModuleSetup
+class IUiEngine : MODULE_EXPORT_INTERFACE
 {
+    INTERFACE_ID(msf::IUiEngine)
+
 public:
+    virtual ~IUiEngine() {}
 
-    std::string moduleName() const override;
+    virtual QQmlEngine* qmlEngine() const = 0;
 
-    void registerResources() override;
-    void registerUiTypes() override;
+    virtual void clearComponentCache() = 0;
 };
 
 }
 
-#endif // MSF_UICOMPONENTSMODULE_H
+#endif // MSF_UIENGINEMODULE_H

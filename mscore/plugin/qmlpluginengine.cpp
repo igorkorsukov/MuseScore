@@ -24,6 +24,8 @@
 
 namespace Ms {
 
+extern QString mscoreGlobalShare;
+
 static constexpr int maxCmdCount = 10; // recursion prevention
 
 //---------------------------------------------------------
@@ -31,8 +33,20 @@ static constexpr int maxCmdCount = 10; // recursion prevention
 //---------------------------------------------------------
 
 QmlPluginEngine::QmlPluginEngine(QObject* parent)
-   : MsQmlEngine(parent)
+   : QQmlEngine(parent)
       {
+#ifdef Q_OS_WIN
+      QStringList importPaths;
+      QDir dir(QCoreApplication::applicationDirPath() + QString("/../qml"));
+      importPaths.append(dir.absolutePath());
+      setImportPathList(importPaths);
+#endif
+#ifdef Q_OS_MAC
+      QStringList importPaths;
+      QDir dir(mscoreGlobalShare + QString("/qml"));
+      importPaths.append(dir.absolutePath());
+      setImportPathList(importPaths);
+#endif
       PluginAPI::PluginAPI::registerQmlTypes();
       }
 

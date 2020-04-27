@@ -17,23 +17,23 @@
 //  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 //=============================================================================
 
-#ifndef MSF_UICOMPONENTSMODULE_H
-#define MSF_UICOMPONENTSMODULE_H
+#ifndef MSF_UIMODULE_H
+#define MSF_UIMODULE_H
 
 #include "framework/global/modularity/imodulesetup.h"
 
 namespace msf {
 
-class UiComponentsModule : public IModuleSetup
+class UiModule : public IModuleSetup
 {
 public:
 
     std::string moduleName() const override;
 
-    void registerResources() override;
+    void registerExports() override;
     void registerUiTypes() override;
 };
 
 }
 
-#endif // MSF_UICOMPONENTSMODULE_H
+#endif // MSF_UIMODULE_H

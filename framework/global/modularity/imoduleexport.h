@@ -17,23 +17,35 @@
 //  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 //=============================================================================
 
-#ifndef MSF_UICOMPONENTSMODULE_H
-#define MSF_UICOMPONENTSMODULE_H
+#ifndef MSF_IMODULEEXPORT_H
+#define MSF_IMODULEEXPORT_H
 
-#include "framework/global/modularity/imodulesetup.h"
+#include <memory>
+
+#define INTERFACE_ID(cls)               \
+public:                                 \
+    static const char* interfaceId() {  \
+        static const char* id = #cls;   \
+        return id;                      \
+    }                                   \
 
 namespace msf {
 
-class UiComponentsModule : public IModuleSetup
+class IModuleExportInterface
 {
 public:
+    virtual ~IModuleExportInterface() {}
 
-    std::string moduleName() const override;
+};
 
-    void registerResources() override;
-    void registerUiTypes() override;
+struct IModuleExportCreator {
+    virtual ~IModuleExportCreator() {}
+    virtual std::shared_ptr<IModuleExportInterface> create() = 0;
 };
 
 }
 
-#endif // MSF_UICOMPONENTSMODULE_H
+#define MODULE_EXPORT_INTERFACE public msf::IModuleExportInterface
+#define MODULE_EXPORT_CREATOR public msf::IModuleExportCreator
+
+#endif // MSF_IMODULEEXPORT_H

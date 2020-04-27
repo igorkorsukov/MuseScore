@@ -251,7 +251,7 @@ add_library(mscoreapp STATIC
       extension.cpp extension.h
       tourhandler.cpp
       script/script.cpp script/scriptentry.cpp script/testscript.cpp script/recorderwidget.cpp
-      qml/msqmlengine.cpp qml/nativemenu.cpp qml/nativetooltip.cpp
+      qml/nativemenu.cpp qml/nativetooltip.cpp
       qmldockwidget.cpp
 
       ${CLOUD_SRC}
