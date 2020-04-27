@@ -44,6 +44,7 @@ add_library ( ${MODULE} ${LIBRARY_TYPE}
     ${CMAKE_CURRENT_LIST_DIR}/uiengine.h
     ${CMAKE_CURRENT_LIST_DIR}/qmltheme.cpp
     ${CMAKE_CURRENT_LIST_DIR}/qmltheme.h
+    ${CMAKE_CURRENT_LIST_DIR}/iconfont.h
 )
 
 if (NOT MSVC)
