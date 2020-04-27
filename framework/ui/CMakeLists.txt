@@ -42,6 +42,8 @@ add_library ( ${MODULE} ${LIBRARY_TYPE}
     ${CMAKE_CURRENT_LIST_DIR}/interfaces/iuiengine.h
     ${CMAKE_CURRENT_LIST_DIR}/uiengine.cpp
     ${CMAKE_CURRENT_LIST_DIR}/uiengine.h
+    ${CMAKE_CURRENT_LIST_DIR}/qmltheme.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/qmltheme.h
 )
 
 if (NOT MSVC)

@@ -19,18 +19,26 @@
 
 #include "uiengine.h"
 
-#include <QCoreApplication>
+#include <QApplication>
 #include <QQmlEngine>
 #include <QStringList>
 #include <QDir>
+#include <QQmlContext>
 
 namespace Ms {
 
-extern QString mscoreGlobalShare;
+extern QString mscoreGlobalShare; //! FIXME Need to remove global variable
 
 }
 
 using namespace msf;
+
+const std::shared_ptr<UiEngine>& UiEngine::instance()
+{
+    struct make_shared_enabler : public UiEngine {};
+    static std::shared_ptr<UiEngine> e = std::make_shared<make_shared_enabler>();
+    return e;
+}
 
 UiEngine::UiEngine()
 {
@@ -39,38 +47,59 @@ UiEngine::UiEngine()
 
 UiEngine::~UiEngine()
 {
-    delete _engine;
 }
 
-QQmlEngine* UiEngine::engine() const
+QQmlEngine* UiEngine::engine()
 {
     if (_engine) {
         return _engine;
     }
 
-     _engine = new QQmlEngine();
+    _engine = new QQmlEngine(this);
+
+    setup();
+
+    return _engine;
+}
+
+void UiEngine::setup()
+{
+    _engine->rootContext()->setContextProperty("ui", this);
+    _theme = new QmlTheme(QApplication::palette(), this);
 
 #ifdef Q_OS_WIN
-      QStringList importPaths;
-      QDir dir(QCoreApplication::applicationDirPath() + QString("/../qml"));
-      importPaths.append(dir.absolutePath());
-      _engine->setImportPathList(importPaths);
+    QStringList importPaths;
+    QDir dir(QCoreApplication::applicationDirPath() + QString("/../qml"));
+    importPaths.append(dir.absolutePath());
+    engine->setImportPathList(importPaths);
 #endif
 #ifdef Q_OS_MAC
-      QStringList importPaths;
-      QDir dir(mscoreGlobalShare + QString("/qml"));
-      importPaths.append(dir.absolutePath());
-      _engine->setImportPathList(importPaths);
+    QStringList importPaths;
+    QDir dir(mscoreGlobalShare + QString("/qml"));
+    importPaths.append(dir.absolutePath());
+    engine->setImportPathList(importPaths);
 #endif
 
-      _engine->addImportPath(":/qml");
+    _engine->addImportPath(":/qml");
+}
 
-      return _engine;
+void UiEngine::updateTheme()
+{
+    if (!_engine) {
+        return;
+    }
+
+    theme()->update(QApplication::palette());
+}
+
+QmlTheme* UiEngine::theme() const
+{
+    return _theme;
 }
 
 QQmlEngine* UiEngine::qmlEngine() const
 {
-    return engine();
+    return const_cast<UiEngine*>(this)->engine();
 }
 
 void UiEngine::clearComponentCache()

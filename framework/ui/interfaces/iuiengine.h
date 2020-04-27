@@ -32,8 +32,8 @@ class IUiEngine : MODULE_EXPORT_INTERFACE
 public:
     virtual ~IUiEngine() {}
 
+    virtual void updateTheme() = 0;
     virtual QQmlEngine* qmlEngine() const = 0;
-
     virtual void clearComponentCache() = 0;
 };
 

@@ -1,8 +1,11 @@
 #include "uimodule.h"
 
+#include <QtQml>
+
 #include "modularity/ioc.h"
 
 #include "uiengine.h"
+#include "qmltheme.h"
 
 using namespace msf;
 
@@ -19,5 +22,6 @@ void UiModule::registerExports()
 
 void UiModule::registerUiTypes()
 {
-
+    qmlRegisterUncreatableType<UiEngine>("MuseScore.Ui", 1, 0, "UiEngine", "Cannot create an UiEngine");
+    qmlRegisterUncreatableType<QmlTheme>("MuseScore.Ui", 1, 0, "QmlTheme", "Cannot create a QmlTheme");
 }
