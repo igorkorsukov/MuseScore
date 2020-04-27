@@ -20,7 +20,6 @@
 #ifndef __QMLPLUGINENGINE_H__
 #define __QMLPLUGINENGINE_H__
 
-#include "../qml/msqmlengine.h"
 #include "libmscore/score.h"
 
 namespace Ms {
@@ -31,7 +30,7 @@ class MuseScore;
 //   QmlPluginEngine
 //---------------------------------------------------------
 
-class QmlPluginEngine : public MsQmlEngine {
+class QmlPluginEngine : public QQmlEngine {
       Q_OBJECT
 
       QMap<QString, QVariant> endCmdInfo;

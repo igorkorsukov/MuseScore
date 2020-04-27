@@ -2,7 +2,7 @@
 //  MuseScore
 //  Music Composition & Notation
 //
-//  Copyright (C) 2019 Werner Schweer and others
+//  Copyright (C) 2020 MuseScore BVBA and others
 //
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License version 2.
@@ -17,34 +17,18 @@
 //  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 //=============================================================================
 
-#include "msqmlengine.h"
+#ifndef MSF_IOC_H
+#define MSF_IOC_H
 
-#include <QQmlEngine>
+#include "modulesioc.h"
 
-namespace Ms {
+namespace msf {
 
-extern QString mscoreGlobalShare;
-
-//---------------------------------------------------------
-//   MsQmlEngine
-//---------------------------------------------------------
-
-MsQmlEngine::MsQmlEngine(QObject* parent)
-   : QQmlEngine(parent)
-      {
-#ifdef Q_OS_WIN
-      QStringList importPaths;
-      QDir dir(QCoreApplication::applicationDirPath() + QString("/../qml"));
-      importPaths.append(dir.absolutePath());
-      setImportPathList(importPaths);
-#endif
-#ifdef Q_OS_MAC
-      QStringList importPaths;
-      QDir dir(mscoreGlobalShare + QString("/qml"));
-      importPaths.append(dir.absolutePath());
-      setImportPathList(importPaths);
-#endif
-
-      addImportPath(":/qml");
-      }
+inline ModulesIoC* ioc()
+{
+    return ModulesIoC::instance();
 }
+
+}
+
+#endif // MSF_IOC_H

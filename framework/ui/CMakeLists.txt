@@ -17,7 +17,7 @@
 #  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 #=============================================================================
 
-set(MODULE uiengine)
+set(MODULE ui)
 set(LIBRARY_TYPE STATIC)
 message(STATUS "Configuring " ${MODULE})
 
@@ -31,11 +31,15 @@ endif (NOT MSVC)
 
 include_directories(
     ${PROJECT_SOURCE_DIR}
+    ${PROJECT_SOURCE_DIR}/framework/global
 )
 
 add_library ( ${MODULE} ${LIBRARY_TYPE}
     ${_all_h_file}
     ${PCH}
+    ${CMAKE_CURRENT_LIST_DIR}/uimodule.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/uimodule.h
+    ${CMAKE_CURRENT_LIST_DIR}/interfaces/iuiengine.h
     ${CMAKE_CURRENT_LIST_DIR}/uiengine.cpp
     ${CMAKE_CURRENT_LIST_DIR}/uiengine.h
 )

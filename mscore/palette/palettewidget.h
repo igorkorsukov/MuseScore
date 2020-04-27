@@ -97,7 +97,6 @@ class PaletteWidget : public QmlDockWidget
 
    public:
       PaletteWidget(PaletteWorkspace* w, QWidget* parent = nullptr, Qt::WindowFlags flags = Qt::WindowFlags());
-      PaletteWidget(PaletteWorkspace* w, QQmlEngine* e, QWidget* parent, Qt::WindowFlags flags = Qt::WindowFlags());
 
       void activateSearchBox();
       void applyCurrentPaletteElement();

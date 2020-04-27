@@ -23,6 +23,8 @@
 #include "preferences.h"
 #include "qml/nativemenu.h"
 
+#include "framework/global/modularity/ioc.h"
+
 #include <QQmlContext>
 
 namespace Ms {
@@ -178,13 +180,19 @@ void QmlStyle::setShadowOverlay(bool val)
 //   QmlDockWidget
 //---------------------------------------------------------
 
-QmlDockWidget::QmlDockWidget(QQmlEngine* e, QWidget* parent, Qt::WindowFlags flags)
-   : QDockWidget(parent, flags), engine(e)
-      {}
+QmlDockWidget::QmlDockWidget(QWidget* parent, Qt::WindowFlags flags)
+   : QDockWidget(parent, flags)
 
-QmlDockWidget::QmlDockWidget(QQmlEngine* e, const QString& title, QWidget* parent, Qt::WindowFlags flags)
-   : QDockWidget(title, parent, flags), engine(e)
-      {}
+{
+    _engine = msf::ioc()->resolve<msf::IUiEngine>("mscore");
+}
+
+QmlDockWidget::QmlDockWidget(const QString& title, QWidget* parent, Qt::WindowFlags flags)
+   : QDockWidget(title, parent, flags)
+
+{
+    _engine = msf::ioc()->resolve<msf::IUiEngine>("mscore");
+}
 
 //---------------------------------------------------------
 //   QmlDockWidget::getView
@@ -193,8 +201,8 @@ QmlDockWidget::QmlDockWidget(QQmlEngine* e, const QString& title, QWidget* paren
 QQuickView* QmlDockWidget::getView()
       {
       if (!_view) {
-            if (engine)
-                  _view = new MsQuickView(engine, nullptr);
+            if (_engine)
+                  _view = new MsQuickView(_engine, nullptr);
             else
                   _view = new MsQuickView();
 
@@ -254,6 +262,9 @@ QString QmlDockWidget::qmlSourcePrefix()
 
 void QmlDockWidget::setSource(const QUrl& url)
       {
+
+      _engine->clearComponentCache();;
+
       QQuickView* view = getView();
 
       setupStyle();
@@ -263,7 +274,7 @@ void QmlDockWidget::setSource(const QUrl& url)
       // If this happens, reload the sources from the same URL.
       // For some reason, it seems to work the second time.
       if (view->status() == QQuickView::Error) {
-            engine->clearComponentCache();
+            _engine->clearComponentCache();
             view->setSource(url);
             }
       view->setResizeMode(QQuickView::SizeRootObjectToView);
