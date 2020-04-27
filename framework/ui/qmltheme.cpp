@@ -17,52 +17,17 @@
 //  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 //=============================================================================
 
-#ifndef MSF_UIENGINE_H
-#define MSF_UIENGINE_H
-
-#include <QObject>
-#include <memory>
-
-#include "interfaces/iuiengine.h"
 #include "qmltheme.h"
 
-class QQmlEngine;
+using namespace msf;
 
-namespace msf {
-
-class UiEngine : public QObject, public IUiEngine
+QmlTheme::QmlTheme(const QPalette& pal, QObject *parent)
+    : QObject(parent), _palette(pal)
 {
-    Q_OBJECT
-
-    Q_PROPERTY(QmlTheme* theme READ theme NOTIFY themeChanged)
-
-public:
-    ~UiEngine();
-
-    static const std::shared_ptr<UiEngine>& instance();
-
-    QmlTheme* theme() const;
-
-    // IUiEngine
-    void updateTheme() override;
-    QQmlEngine* qmlEngine() const override;
-    void clearComponentCache() override;
-    // ---
-
-signals:
-    void themeChanged(QmlTheme* theme);
-
-private:
-
-    UiEngine();
-
-    QQmlEngine* engine();
-    void setup();
-
-    QQmlEngine* _engine = nullptr;
-    QmlTheme* _theme = nullptr;
-};
-
 }
 
-#endif // MSF_UIENGINE_H
+void QmlTheme::update(const QPalette &pal)
+{
+    _palette = pal;
+    emit themeChanged();
+}
