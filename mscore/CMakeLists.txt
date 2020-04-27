@@ -51,7 +51,7 @@ include_directories(
       )
 
 if (BUILD_TELEMETRY_MODULE)
-      include_directories(${PROJECT_SOURCE_DIR}/telemetry)
+      include_directories(${PROJECT_SOURCE_DIR}/framework/telemetry)
 endif (BUILD_TELEMETRY_MODULE)
 
 if (SCRIPT_INTERFACE)
