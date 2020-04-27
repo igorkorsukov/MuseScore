@@ -37,7 +37,7 @@ class UiEngine : public QObject, public IUiEngine
     Q_PROPERTY(QmlTheme* theme READ theme NOTIFY themeChanged)
 
 public:
-    ~UiEngine();
+    ~UiEngine() = default;
 
     static const std::shared_ptr<UiEngine>& instance();
 
@@ -54,7 +54,7 @@ signals:
 
 private:
 
-    UiEngine();
+    UiEngine() = default;
 
     QQmlEngine* engine();
     void setup();

@@ -40,16 +40,17 @@ public:
     }
 
     template<class I>
-    void registerExportCreator(const std::string &module, IModuleExportCreator *c)
+    void registerExportCreator(const std::string& module, IModuleExportCreator* c)
     {
         if (!c) {
             assert(c);
+            return;
         }
-        registerInjection(module, I::interfaceId(), std::shared_ptr<IModuleExportInterface>(), c);
+        registerService(module, I::interfaceId(), std::shared_ptr<IModuleExportInterface>(), c);
     }
 
     template<class I>
-    void registerExport(const std::string &module, I* p)
+    void registerExport(const std::string& module, I* p)
     {
         if (!p) {
             assert(p);
@@ -59,17 +60,17 @@ public:
     }
 
     template<class I>
-    void registerExport(const std::string &module, std::shared_ptr<I> p)
+    void registerExport(const std::string& module, std::shared_ptr<I> p)
     {
         if (!p) {
             assert(p);
             return;
         }
-        registerInjection(module, I::interfaceId(), std::static_pointer_cast<IModuleExportInterface>(p), nullptr);
+        registerService(module, I::interfaceId(), std::static_pointer_cast<IModuleExportInterface>(p), nullptr);
     }
 
     template<class I>
-    std::shared_ptr<I> resolve(const std::string &module)
+    std::shared_ptr<I> resolve(const std::string& module)
     {
         std::shared_ptr<IModuleExportInterface> p = doResolvePtrById(module, I::interfaceId());
 #ifdef DEBUG
@@ -80,7 +81,7 @@ public:
     }
 
     template<class I>
-    std::shared_ptr<I> resolveRequiredImport(const std::string &module)
+    std::shared_ptr<I> resolveRequiredImport(const std::string& module)
     {
         std::shared_ptr<IModuleExportInterface> p = doResolvePtrById(module, I::interfaceId());
         if (!p) {
@@ -95,41 +96,41 @@ public:
     }
 
     void reset() {
-        _map.clear();
+        m_map.clear();
     }
 
 private:
 
-    ModulesIoC() {}
+    ModulesIoC() = default;
 
-    void removeInjection(const std::string& id)
+    void unregisterService(const std::string& id)
     {
-        _map.erase(id);
+        m_map.erase(id);
     }
 
-    void registerInjection(const std::string &registerModule
+    void registerService(const std::string& module
                            , const std::string& id
                            , std::shared_ptr<IModuleExportInterface> p
-                           , IModuleExportCreator *c)
+                           , IModuleExportCreator* c)
     {
-        auto foundIt = _map.find(id);
-        if (foundIt != _map.end()) {
+        auto foundIt = m_map.find(id);
+        if (foundIt != m_map.end()) {
             //LOGE() << registerModule << ": double register:" << id << ", first register in" << _map[id].registerModule;
             assert(false);
             return;
         }
 
-        Injection inj;
-        inj.registerModule = registerModule;
+        Service inj;
+        inj.sourceModule = module;
         inj.c = c;
         inj.p = p;
-        _map[id] = inj;
+        m_map[id] = inj;
     }
 
-    std::shared_ptr<IModuleExportInterface> doResolvePtrById(const std::string &resolveModule, const std::string& id)
+    std::shared_ptr<IModuleExportInterface> doResolvePtrById(const std::string& resolveModule, const std::string& id)
     {
         (void)(resolveModule); //! TODO add statistics collection / monitoring, who resolves what
-        Injection &inj = _map[id];
+        Service& inj = m_map[id];
         if (inj.p) {
             return inj.p;
         }
@@ -141,14 +142,13 @@ private:
         return nullptr;
     }
 
-    struct Injection {
-        IModuleExportCreator *c;
-        std::string registerModule;
+    struct Service {
+        IModuleExportCreator* c = nullptr;
+        std::string sourceModule;
         std::shared_ptr<IModuleExportInterface> p;
-        Injection() : c(nullptr) {}
     };
 
-    std::map<std::string, Injection > _map;
+    std::map<std::string, Service > m_map;
 
 };
 

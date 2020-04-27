@@ -6,6 +6,7 @@
 
 #include "uiengine.h"
 #include "qmltheme.h"
+#include "iconcodes.h"
 
 using namespace msf;
 
@@ -24,4 +25,5 @@ void UiModule::registerUiTypes()
 {
     qmlRegisterUncreatableType<UiEngine>("MuseScore.Ui", 1, 0, "UiEngine", "Cannot create an UiEngine");
     qmlRegisterUncreatableType<QmlTheme>("MuseScore.Ui", 1, 0, "QmlTheme", "Cannot create a QmlTheme");
+    qmlRegisterUncreatableType<IconCode>("MuseScore.Ui", 1, 0, "IconCode", "Cannot create an IconCode");
 }

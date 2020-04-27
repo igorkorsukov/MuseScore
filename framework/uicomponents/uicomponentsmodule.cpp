@@ -3,7 +3,6 @@
 #include <QtQml>
 #include "cpp/sampleobject.h"
 
-
 using namespace msf;
 
 static const char* QML_MODULE = "MuseScore.UiComponents";

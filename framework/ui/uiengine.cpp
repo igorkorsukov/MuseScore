@@ -40,15 +40,6 @@ const std::shared_ptr<UiEngine>& UiEngine::instance()
     return e;
 }
 
-UiEngine::UiEngine()
-{
-
-}
-
-UiEngine::~UiEngine()
-{
-}
-
 QQmlEngine* UiEngine::engine()
 {
     if (_engine) {
