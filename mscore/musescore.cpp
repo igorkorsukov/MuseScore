@@ -15,6 +15,8 @@
 #include <fenv.h>
 #include <QStyleFactory>
 
+#include "framework/global/modularity/ioc.h"
+
 #include "config.h"
 
 #include "cloud/loginmanager.h"
@@ -7347,6 +7349,8 @@ void MuseScore::updateUiStyleAndTheme()
 
       genIcons();
       Shortcut::refreshIcons();
+
+      msf::ioc()->resolve<msf::IUiEngine>("mscore")->updateTheme();
       }
 
 //---------------------------------------------------------
