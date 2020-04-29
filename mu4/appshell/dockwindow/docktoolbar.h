@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 //  MuseScore
 //  Music Composition & Notation
 //
@@ -17,26 +17,38 @@
 //  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 //=============================================================================
 
-#include "uicomponentsmodule.h"
+#ifndef MU_DOCK_DOCKTOOLBAR_H
+#define MU_DOCK_DOCKTOOLBAR_H
 
-using namespace mu::framework;
+#include "dockview.h"
 
-static void uicomponents_init_qrc()
+class QToolBar;
+
+namespace mu::dock {
+
+class DockToolBar : public DockView
 {
-    Q_INIT_RESOURCE(uicomponents);
+    Q_OBJECT
+
+public:
+    explicit DockToolBar(QQuickItem *parent = nullptr);
+    ~DockToolBar();
+
+    struct Widget {
+        QToolBar* bar = nullptr;
+        Qt::ToolBarArea breakArea{Qt::TopToolBarArea};
+    };
+
+    Widget widget() const;
+
+protected:
+    void onComponentCompleted() override;
+
+private:
+
+    Widget _tool;
+};
+
 }
 
-std::string UiComponentsModule::moduleName() const
-{
-    return "uicomponents";
-}
-
-void UiComponentsModule::registerResources()
-{
-    uicomponents_init_qrc();
-}
-
-void UiComponentsModule::registerUiTypes()
-{
-
-}
+#endif // MU_DOCK_DOCKTOOLBAR_H

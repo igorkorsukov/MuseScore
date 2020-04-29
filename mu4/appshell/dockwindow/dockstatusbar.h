@@ -16,27 +16,36 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 //=============================================================================
+#ifndef MU_DOCK_DOCKSTATUSBAR_H
+#define MU_DOCK_DOCKSTATUSBAR_H
 
-#include "uicomponentsmodule.h"
+#include "dockview.h"
 
-using namespace mu::framework;
+class QWidget;
 
-static void uicomponents_init_qrc()
+namespace mu::dock {
+
+class DockStatusBar : public DockView
 {
-    Q_INIT_RESOURCE(uicomponents);
+    Q_OBJECT
+public:
+    explicit DockStatusBar(QQuickItem *parent = nullptr);
+    ~DockStatusBar();
+
+    struct Widget {
+        QWidget* widget = nullptr;
+    };
+
+    Widget widget() const;
+
+private:
+
+    void onComponentCompleted() override;
+
+    Widget _widget;
+
+};
+
 }
 
-std::string UiComponentsModule::moduleName() const
-{
-    return "uicomponents";
-}
-
-void UiComponentsModule::registerResources()
-{
-    uicomponents_init_qrc();
-}
-
-void UiComponentsModule::registerUiTypes()
-{
-
-}
+#endif // MU_DOCK_DOCKSTATUSBAR_H

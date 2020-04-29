@@ -17,26 +17,25 @@
 //  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 //=============================================================================
 
-#include "uicomponentsmodule.h"
+#include "dockcentral.h"
 
-using namespace mu::framework;
+using namespace mu::dock;
 
-static void uicomponents_init_qrc()
+DockCentral::DockCentral(QQuickItem *parent)
+    : DockView(parent)
 {
-    Q_INIT_RESOURCE(uicomponents);
 }
 
-std::string UiComponentsModule::moduleName() const
+DockCentral::~DockCentral()
 {
-    return "uicomponents";
 }
 
-void UiComponentsModule::registerResources()
+DockCentral::Widget DockCentral::widget() const
 {
-    uicomponents_init_qrc();
+    return _widget;
 }
 
-void UiComponentsModule::registerUiTypes()
+void DockCentral::onComponentCompleted()
 {
-
+    _widget.widget = view();
 }

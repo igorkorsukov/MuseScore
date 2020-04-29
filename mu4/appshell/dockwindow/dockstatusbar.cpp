@@ -16,27 +16,30 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 //=============================================================================
+#include "dockstatusbar.h"
 
-#include "uicomponentsmodule.h"
+#include <QWidget>
 
-using namespace mu::framework;
+using namespace mu::dock;
 
-static void uicomponents_init_qrc()
+DockStatusBar::DockStatusBar(QQuickItem *parent)
+    : DockView(parent)
 {
-    Q_INIT_RESOURCE(uicomponents);
+    setHeight(40);
 }
 
-std::string UiComponentsModule::moduleName() const
+DockStatusBar::~DockStatusBar()
 {
-    return "uicomponents";
 }
 
-void UiComponentsModule::registerResources()
+DockStatusBar::Widget DockStatusBar::widget() const
 {
-    uicomponents_init_qrc();
+    return _widget;
 }
 
-void UiComponentsModule::registerUiTypes()
+void DockStatusBar::onComponentCompleted()
 {
-
+    _widget.widget = view();
+    _widget.widget->setFixedHeight(height());
 }
+

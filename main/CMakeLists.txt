@@ -81,7 +81,9 @@ target_link_libraries(mscore
     mscoreapp
     global
     ui
-    uicomponents)
+    uicomponents
+    appshell
+    )
 
 
 if (APPLE)

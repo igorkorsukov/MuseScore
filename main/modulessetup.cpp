@@ -31,6 +31,8 @@
 #include "avsomr/avsomrsetup.h"
 #endif
 
+#include "mu4/appshell/appshellmodule.h"
+
 //---------------------------------------------------------
 //   ModulesSetup
 //---------------------------------------------------------
@@ -47,6 +49,7 @@ ModulesSetup::ModulesSetup()
 #ifdef AVSOMR
             << new Ms::Avs::AvsOmrSetup()
 #endif
+            << new mu::appshell::AppShellModule()
                ;
 }
 

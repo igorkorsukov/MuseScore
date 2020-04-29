@@ -17,26 +17,17 @@
 //  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 //=============================================================================
 
-#include "uicomponentsmodule.h"
+#include "eventswatcher.h"
 
-using namespace mu::framework;
+using namespace mu::dock;
 
-static void uicomponents_init_qrc()
+EventsWatcher::EventsWatcher(QObject *parent)
+    : QObject(parent)
 {
-    Q_INIT_RESOURCE(uicomponents);
 }
 
-std::string UiComponentsModule::moduleName() const
+bool EventsWatcher::eventFilter(QObject *obj, QEvent *ev)
 {
-    return "uicomponents";
-}
-
-void UiComponentsModule::registerResources()
-{
-    uicomponents_init_qrc();
-}
-
-void UiComponentsModule::registerUiTypes()
-{
-
+    emit eventReceived(ev);
+    return QObject::eventFilter(obj, ev);
 }

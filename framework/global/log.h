@@ -21,6 +21,7 @@
 #define MS_LOG_H
 
 #include <QDebug>
+#include <QElapsedTimer>
 
 #define LOGD() qDebug()
 #define LOGI() qInfo()
@@ -37,6 +38,19 @@ if (!(cond)) \
     LOGE() << "\"FAILED!\":" << #cond << __FILE__ << __LINE__; \
 } \
 if (!(cond)) \
+
+
+#define TIMER_START \
+    QElapsedTimer __timer; \
+    int __lastElapsed = 0; \
+    __timer.start(); \
+    auto __getElapsed = [&__timer, &__lastElapsed]() { \
+        int delta = __timer.elapsed() - __lastElapsed; \
+        __lastElapsed = __timer.elapsed(); \
+        return QString("elapsed: %1, delta: %2").arg(__lastElapsed).arg(delta); \
+    }; \
+
+#define PRINT_TIMER_ELAPSED(info) LOGI() << info << " elapsed: " << __getElapsed();
 
 
 #endif // MS_LOG_H

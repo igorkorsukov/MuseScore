@@ -55,15 +55,23 @@ QQmlEngine* UiEngine::engine()
         return _engine;
     }
 
-    _engine = new QQmlEngine(this);
-
-    setup();
+    setup(new QQmlEngine(this));
 
     return _engine;
 }
 
-void UiEngine::setup()
+void UiEngine::moveQQmlEngine(QQmlEngine* e)
 {
+    setup(e);
+}
+
+void UiEngine::setup(QQmlEngine* e)
+{
+    delete _engine;
+    delete _theme;
+
+    _engine = e;
+
     _engine->rootContext()->setContextProperty("ui", this);
     _theme = new QmlTheme(QApplication::palette(), this);
 

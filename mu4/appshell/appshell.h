@@ -17,26 +17,19 @@
 //  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 //=============================================================================
 
-#include "uicomponentsmodule.h"
+#ifndef MU_APPSHELL_APPSHELL_H
+#define MU_APPSHELL_APPSHELL_H
 
-using namespace mu::framework;
+namespace mu::appshell {
 
-static void uicomponents_init_qrc()
+class AppShell
 {
-    Q_INIT_RESOURCE(uicomponents);
+public:
+    AppShell();
+
+    int run(int argc, char** argv);
+};
+
 }
 
-std::string UiComponentsModule::moduleName() const
-{
-    return "uicomponents";
-}
-
-void UiComponentsModule::registerResources()
-{
-    uicomponents_init_qrc();
-}
-
-void UiComponentsModule::registerUiTypes()
-{
-
-}
+#endif // MU_APPSHELL_APPSHELL_H

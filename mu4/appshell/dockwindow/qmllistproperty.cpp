@@ -17,26 +17,22 @@
 //  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 //=============================================================================
 
-#include "uicomponentsmodule.h"
+#include "qmllistproperty.h"
 
-using namespace mu::framework;
+using namespace mu::dock;
 
-static void uicomponents_init_qrc()
+QmlListPropertyNotifier::QmlListPropertyNotifier()
+    : QObject()
 {
-    Q_INIT_RESOURCE(uicomponents);
+
 }
 
-std::string UiComponentsModule::moduleName() const
+void QmlListPropertyNotifier::fireAppended(int index)
 {
-    return "uicomponents";
+    emit appended(index);
 }
 
-void UiComponentsModule::registerResources()
+void QmlListPropertyNotifier::fireCleared()
 {
-    uicomponents_init_qrc();
-}
-
-void UiComponentsModule::registerUiTypes()
-{
-
+    emit cleared();
 }

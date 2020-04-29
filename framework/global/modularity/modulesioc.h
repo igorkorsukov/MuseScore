@@ -69,14 +69,13 @@ public:
     }
 
     template<class I>
-    std::shared_ptr<I> resolve(const std::string &module)
+    std::shared_ptr<I> resolve(const std::string &module, bool required = true)
     {
         std::shared_ptr<IModuleExportInterface> p = doResolvePtrById(module, I::interfaceId());
-#ifdef DEBUG
-        return std::dynamic_pointer_cast<I>(p);
-#else
+        if (required) {
+            assert(p);
+        }
         return std::static_pointer_cast<I>(p);
-#endif
     }
 
     template<class I>

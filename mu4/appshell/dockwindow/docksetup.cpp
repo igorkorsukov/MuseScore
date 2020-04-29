@@ -17,26 +17,29 @@
 //  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 //=============================================================================
 
-#include "uicomponentsmodule.h"
+#include "docksetup.h"
 
-using namespace mu::framework;
+#include <QtQml>
 
-static void uicomponents_init_qrc()
+#include "dockwindow.h"
+#include "dockpage.h"
+#include "docktoolbar.h"
+#include "dockpanel.h"
+#include "dockcentral.h"
+#include "dockstatusbar.h"
+
+using namespace mu::dock;
+
+DockSetup::DockSetup()
 {
-    Q_INIT_RESOURCE(uicomponents);
 }
 
-std::string UiComponentsModule::moduleName() const
+void DockSetup::registerQmlTypes()
 {
-    return "uicomponents";
-}
-
-void UiComponentsModule::registerResources()
-{
-    uicomponents_init_qrc();
-}
-
-void UiComponentsModule::registerUiTypes()
-{
-
+    qmlRegisterType<DockWindow>("MuseScore.Dock", 1, 0, "DockWindow");
+    qmlRegisterType<DockPage>("MuseScore.Dock", 1, 0, "DockPage");
+    qmlRegisterType<DockToolBar>("MuseScore.Dock", 1, 0, "DockToolBar");
+    qmlRegisterType<DockPanel>("MuseScore.Dock", 1, 0, "DockPanel");
+    qmlRegisterType<DockCentral>("MuseScore.Dock", 1, 0, "DockCentral");
+    qmlRegisterType<DockStatusBar>("MuseScore.Dock", 1, 0, "DockStatusBar");
 }

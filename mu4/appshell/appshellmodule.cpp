@@ -17,26 +17,34 @@
 //  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 //=============================================================================
 
-#include "uicomponentsmodule.h"
+#include "appshellmodule.h"
 
-using namespace mu::framework;
+#include <QtQml>
 
-static void uicomponents_init_qrc()
+#include "dockwindow/docksetup.h"
+
+using namespace mu::appshell;
+
+static void appshell_init_qrc()
 {
-    Q_INIT_RESOURCE(uicomponents);
+    Q_INIT_RESOURCE(appshell);
 }
 
-std::string UiComponentsModule::moduleName() const
+AppShellModule::AppShellModule()
 {
-    return "uicomponents";
 }
 
-void UiComponentsModule::registerResources()
+std::string AppShellModule::moduleName() const
 {
-    uicomponents_init_qrc();
+    return "appshell";
 }
 
-void UiComponentsModule::registerUiTypes()
+void AppShellModule::registerResources()
 {
+    appshell_init_qrc();
+}
 
+void AppShellModule::registerUiTypes()
+{
+    dock::DockSetup::registerQmlTypes();
 }

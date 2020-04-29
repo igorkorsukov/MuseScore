@@ -49,6 +49,8 @@ public:
     void clearComponentCache() override;
     // ---
 
+    void moveQQmlEngine(QQmlEngine* e);
+
 signals:
     void themeChanged(QmlTheme* theme);
 
@@ -57,7 +59,7 @@ private:
     UiEngine();
 
     QQmlEngine* engine();
-    void setup();
+    void setup(QQmlEngine* e);
 
     QQmlEngine* _engine = nullptr;
     QmlTheme* _theme = nullptr;

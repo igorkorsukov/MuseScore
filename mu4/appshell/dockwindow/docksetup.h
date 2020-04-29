@@ -17,26 +17,19 @@
 //  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 //=============================================================================
 
-#include "uicomponentsmodule.h"
+#ifndef MU_DOCK_DOCKSETUP_H
+#define MU_DOCK_DOCKSETUP_H
 
-using namespace mu::framework;
+namespace mu::dock {
 
-static void uicomponents_init_qrc()
+class DockSetup
 {
-    Q_INIT_RESOURCE(uicomponents);
+public:
+    DockSetup();
+
+    static void registerQmlTypes();
+};
+
 }
 
-std::string UiComponentsModule::moduleName() const
-{
-    return "uicomponents";
-}
-
-void UiComponentsModule::registerResources()
-{
-    uicomponents_init_qrc();
-}
-
-void UiComponentsModule::registerUiTypes()
-{
-
-}
+#endif // MU_DOCK_DOCKSETUP_H
