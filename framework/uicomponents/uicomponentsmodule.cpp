@@ -1,6 +1,6 @@
 #include "uicomponentsmodule.h"
 
-using namespace msf;
+using namespace mu::framework;
 
 static void uicomponents_init_qrc()
 {

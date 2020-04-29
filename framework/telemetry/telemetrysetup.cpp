@@ -42,7 +42,7 @@ TelemetrySetup::TelemetrySetup()
 
 void TelemetrySetup::registerExports()
       {
-      msf::ioc()->registerExport<ITelemetryService>("telemetry", new TelemetryService());
+      mu::framework::ioc()->registerExport<ITelemetryService>("telemetry", new TelemetryService());
       }
 
 //---------------------------------------------------------

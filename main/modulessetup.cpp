@@ -39,8 +39,8 @@ ModulesSetup::ModulesSetup()
 {
 
     m_modulesSetupList
-            << new msf::UiModule()
-            << new msf::UiComponentsModule()
+            << new mu::framework::UiModule()
+            << new mu::framework::UiComponentsModule()
 #ifdef BUILD_TELEMETRY_MODULE
             << new TelemetrySetup()
 #endif
@@ -56,11 +56,11 @@ ModulesSetup::ModulesSetup()
 
 void ModulesSetup::setup()
 {
-    for (msf::IModuleSetup* m : m_modulesSetupList) {
+    for (mu::framework::IModuleSetup* m : m_modulesSetupList) {
         m->registerExports();
     }
 
-    for (msf::IModuleSetup* m : m_modulesSetupList) {
+    for (mu::framework::IModuleSetup* m : m_modulesSetupList) {
         m->resolveImports();
 
         m->registerResources();
@@ -68,7 +68,7 @@ void ModulesSetup::setup()
     }
 
     //! NOTE Need to move to the place where the application finishes initializing
-    for (msf::IModuleSetup* m : m_modulesSetupList) {
+    for (mu::framework::IModuleSetup* m : m_modulesSetupList) {
         m->onStartInit();
     }
 }

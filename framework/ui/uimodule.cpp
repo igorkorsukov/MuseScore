@@ -8,7 +8,7 @@
 #include "qmltheme.h"
 #include "iconfont.h"
 
-using namespace msf;
+using namespace mu::framework;
 
 std::string UiModule::moduleName() const
 {

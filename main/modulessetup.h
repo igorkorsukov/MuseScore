@@ -42,7 +42,7 @@ class ModulesSetup {
 
       ModulesSetup();
 
-      QList<msf::IModuleSetup*> m_modulesSetupList;
+      QList<mu::framework::IModuleSetup*> m_modulesSetupList;
       };
 
 #endif // MODULESSETUP_H

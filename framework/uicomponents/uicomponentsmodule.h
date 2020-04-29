@@ -17,12 +17,12 @@
 //  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 //=============================================================================
 
-#ifndef MSF_UICOMPONENTSMODULE_H
-#define MSF_UICOMPONENTSMODULE_H
+#ifndef MU_FRAMEWORK_UICOMPONENTSMODULE_H
+#define MU_FRAMEWORK_UICOMPONENTSMODULE_H
 
 #include "framework/global/modularity/imodulesetup.h"
 
-namespace msf {
+namespace mu::framework {
 
 class UiComponentsModule : public IModuleSetup
 {
@@ -36,4 +36,4 @@ public:
 
 }
 
-#endif // MSF_UICOMPONENTSMODULE_H
+#endif // MU_FRAMEWORK_UICOMPONENTSMODULE_H

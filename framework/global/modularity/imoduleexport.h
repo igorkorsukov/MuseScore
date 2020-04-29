@@ -17,8 +17,8 @@
 //  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 //=============================================================================
 
-#ifndef MSF_IMODULEEXPORT_H
-#define MSF_IMODULEEXPORT_H
+#ifndef MU_FRAMEWORK_IMODULEEXPORT_H
+#define MU_FRAMEWORK_IMODULEEXPORT_H
 
 #include <memory>
 
@@ -29,7 +29,7 @@ public:                                 \
         return id;                      \
     }                                   \
 
-namespace msf {
+namespace mu::framework {
 
 class IModuleExportInterface
 {
@@ -45,7 +45,7 @@ struct IModuleExportCreator {
 
 }
 
-#define MODULE_EXPORT_INTERFACE public msf::IModuleExportInterface
-#define MODULE_EXPORT_CREATOR public msf::IModuleExportCreator
+#define MODULE_EXPORT_INTERFACE public mu::framework::IModuleExportInterface
+#define MODULE_EXPORT_CREATOR public mu::framework::IModuleExportCreator
 
-#endif // MSF_IMODULEEXPORT_H
+#endif // MU_FRAMEWORK_IMODULEEXPORT_H
