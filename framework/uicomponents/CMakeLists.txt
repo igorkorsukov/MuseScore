@@ -42,6 +42,8 @@ add_library ( ${MODULE} ${LIBRARY_TYPE}
     ${RCC_SOURCES}
     ${CMAKE_CURRENT_LIST_DIR}/uicomponentsmodule.cpp
     ${CMAKE_CURRENT_LIST_DIR}/uicomponentsmodule.h
+    ${CMAKE_CURRENT_LIST_DIR}/cpp/sampleobject.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/cpp/sampleobject.h
 )
 
 if (NOT MSVC)
