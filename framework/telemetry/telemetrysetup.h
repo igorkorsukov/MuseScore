@@ -26,7 +26,7 @@
 //   TelemetrySetup
 //---------------------------------------------------------
 
-class TelemetrySetup : public msf::IModuleSetup {
+class TelemetrySetup : public mu::framework::IModuleSetup {
    public:
       TelemetrySetup();
 

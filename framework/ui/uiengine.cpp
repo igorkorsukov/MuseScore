@@ -31,7 +31,7 @@ extern QString mscoreGlobalShare; //! FIXME Need to remove global variable
 
 }
 
-using namespace msf;
+using namespace mu::framework;
 
 const std::shared_ptr<UiEngine>& UiEngine::instance()
 {

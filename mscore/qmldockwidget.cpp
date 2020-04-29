@@ -184,14 +184,14 @@ QmlDockWidget::QmlDockWidget(QWidget* parent, Qt::WindowFlags flags)
    : QDockWidget(parent, flags)
 
 {
-    _engine = msf::ioc()->resolve<msf::IUiEngine>("mscore");
+    _engine = mu::framework::ioc()->resolve<mu::framework::IUiEngine>("mscore");
 }
 
 QmlDockWidget::QmlDockWidget(const QString& title, QWidget* parent, Qt::WindowFlags flags)
    : QDockWidget(title, parent, flags)
 
 {
-    _engine = msf::ioc()->resolve<msf::IUiEngine>("mscore");
+    _engine = mu::framework::ioc()->resolve<mu::framework::IUiEngine>("mscore");
 }
 
 //---------------------------------------------------------

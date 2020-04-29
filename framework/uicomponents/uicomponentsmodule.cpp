@@ -3,9 +3,7 @@
 #include <QtQml>
 #include "cpp/sampleobject.h"
 
-using namespace muf;
-
-static const char* QML_MODULE = "MuseScore.UiComponents";
+using namespace mu::framework;
 
 static void uicomponents_init_qrc()
 {
@@ -24,5 +22,5 @@ void UiComponentsModule::registerResources()
 
 void UiComponentsModule::registerUiTypes()
 {
-    qmlRegisterType<msf::SampleObject>(QML_MODULE, 1, 0, "SampleObject");
+    qmlRegisterType<msf::SampleObject>("MuseScore.UiComponents", 1, 0, "SampleObject");
 }

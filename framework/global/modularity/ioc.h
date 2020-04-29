@@ -17,8 +17,8 @@
 //  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 //=============================================================================
 
-#ifndef MSF_IOC_H
-#define MSF_IOC_H
+#ifndef MU_FRAMEWORK_IOC_H
+#define MU_FRAMEWORK_IOC_H
 
 #include "modulesioc.h"
 
@@ -28,13 +28,13 @@ private: \
 public: \
     std::shared_ptr<Interface> getter() const {  \
         if (!_##getter) { \
-            _##getter = msf::ioc()->resolve<Interface>(#Module); \
+            _##getter = mu::framework::ioc()->resolve<Interface>(#Module); \
         } \
         return _##getter; \
     } \
     void set##getter(std::shared_ptr<Interface> impl) { _##getter = impl; } \
 
-namespace msf {
+namespace mu::framework {
 
 inline ModulesIoC* ioc()
 {
@@ -43,4 +43,4 @@ inline ModulesIoC* ioc()
 
 }
 
-#endif // MSF_IOC_H
+#endif // MU_FRAMEWORK_IOC_H

@@ -66,7 +66,7 @@ class MsQuickView : public QQuickView
 
    public:
       MsQuickView(const QUrl& source, QWindow* parent = nullptr);
-      MsQuickView(std::shared_ptr<msf::IUiEngine> engine, QWindow* parent)
+      MsQuickView(std::shared_ptr<mu::framework::IUiEngine> engine, QWindow* parent)
          : QQuickView(engine->qmlEngine(), parent) { init(); }
       MsQuickView(QWindow* parent = nullptr)
          : QQuickView(parent) { init(); }
@@ -149,7 +149,7 @@ class QmlDockWidget : public QDockWidget
 
       QQuickView* _view = nullptr;
       QmlStyle* qmlStyle = nullptr;
-      std::shared_ptr<msf::IUiEngine> _engine;
+      std::shared_ptr<mu::framework::IUiEngine> _engine;
 
       QQuickView* getView();
       void setupStyle();

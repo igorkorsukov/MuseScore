@@ -17,10 +17,10 @@
 //  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 //=============================================================================
 
-#ifndef MSF_ICONFONT_H
-#define MSF_ICONFONT_H
+#ifndef MU_FRAMEWORK_ICONFONT_H
+#define MU_FRAMEWORK_ICONFONT_H
 
-namespace msf {
+namespace mu::framework {
 
 class IconFont
 {
@@ -150,4 +150,4 @@ public:
 
 }
 
-#endif // MSF_ICONFONT_H
+#endif // MU_FRAMEWORK_ICONFONT_H

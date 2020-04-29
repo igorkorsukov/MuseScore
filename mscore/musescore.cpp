@@ -7350,7 +7350,7 @@ void MuseScore::updateUiStyleAndTheme()
       genIcons();
       Shortcut::refreshIcons();
 
-      msf::ioc()->resolve<msf::IUiEngine>("mscore")->updateTheme();
+      mu::framework::ioc()->resolve<mu::framework::IUiEngine>("mscore")->updateTheme();
       }
 
 //---------------------------------------------------------

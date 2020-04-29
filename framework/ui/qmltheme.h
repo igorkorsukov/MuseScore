@@ -17,14 +17,14 @@
 //  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 //=============================================================================
 
-#ifndef MSF_QMLTHEME_H
-#define MSF_QMLTHEME_H
+#ifndef MU_FRAMEWORK_QMLTHEME_H
+#define MU_FRAMEWORK_QMLTHEME_H
 
 #include <QObject>
 #include <QPalette>
 #include <QColor>
 
-namespace msf {
+namespace mu::framework {
 
 class QmlTheme : public QObject
 {
@@ -68,4 +68,4 @@ private:
 
 }
 
-#endif // MSF_QMLTHEME_H
+#endif // MU_FRAMEWORK_QMLTHEME_H

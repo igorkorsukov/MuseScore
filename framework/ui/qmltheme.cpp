@@ -19,7 +19,7 @@
 
 #include "qmltheme.h"
 
-using namespace msf;
+using namespace mu::framework;
 
 QmlTheme::QmlTheme(const QPalette& pal, QObject *parent)
     : QObject(parent), _palette(pal)

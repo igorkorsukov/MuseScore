@@ -17,8 +17,8 @@
 //  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 //=============================================================================
 
-#ifndef MSF_MODULESIOC_H
-#define MSF_MODULESIOC_H
+#ifndef MU_FRAMEWORK_MODULESIOC_H
+#define MU_FRAMEWORK_MODULESIOC_H
 
 #include <memory>
 #include <map>
@@ -28,7 +28,7 @@
 #include "imoduleexport.h"
 #include "log.h"
 
-namespace msf {
+namespace mu::framework {
 
 class ModulesIoC
 {
@@ -160,4 +160,4 @@ struct Creator : MODULE_EXPORT_CREATOR
 
 }
 
-#endif // MSF_MODULESIOC_H
+#endif // MU_FRAMEWORK_MODULESIOC_H
