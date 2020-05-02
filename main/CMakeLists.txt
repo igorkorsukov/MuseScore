@@ -83,6 +83,8 @@ target_link_libraries(mscore
     ui
     uicomponents
     appshell
+    scores
+    extensions
     )
 
 

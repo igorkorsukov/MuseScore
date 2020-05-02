@@ -32,6 +32,8 @@
 #endif
 
 #include "mu4/appshell/appshellmodule.h"
+#include "mu4/scores/scoresmodule.h"
+#include "mu4/extensions/extensionsmodule.h"
 
 //---------------------------------------------------------
 //   ModulesSetup
@@ -50,6 +52,8 @@ ModulesSetup::ModulesSetup()
             << new Ms::Avs::AvsOmrSetup()
 #endif
             << new mu::appshell::AppShellModule()
+            << new mu::scores::ScoresModule()
+            << new mu::extensions::ExtensionsModule()
                ;
 }
 

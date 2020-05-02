@@ -1,6 +1,8 @@
 import QtQuick 2.9
 import MuseScore.Dock 1.0
 
+import "./HomePage"
+
 DockWindow {
 
     id: dockWindow

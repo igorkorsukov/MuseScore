@@ -933,7 +933,7 @@ if (MSVC)
 endif (MSVC)
 
 add_subdirectory(framework)
-add_subdirectory(mu4/appshell)
+add_subdirectory(mu4)
 
 ## TEMP: Display all variables!
 ### message(STATUS "===========================================================")

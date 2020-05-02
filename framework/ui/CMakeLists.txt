@@ -18,25 +18,8 @@
 #=============================================================================
 
 set(MODULE ui)
-set(LIBRARY_TYPE STATIC)
-message(STATUS "Configuring " ${MODULE})
 
-include (${PROJECT_SOURCE_DIR}/build/gch.cmake)
-
-if (NOT MSVC)
-    set(_all_h_file "${PROJECT_BINARY_DIR}/all.h")
-else (NOT MSVC)
-    set(_all_h_file "${PROJECT_SOURCE_DIR}/all.h")
-endif (NOT MSVC)
-
-include_directories(
-    ${PROJECT_SOURCE_DIR}
-    ${PROJECT_SOURCE_DIR}/framework/global
-)
-
-add_library ( ${MODULE} ${LIBRARY_TYPE}
-    ${_all_h_file}
-    ${PCH}
+set(MODULE_SRC
     ${CMAKE_CURRENT_LIST_DIR}/uimodule.cpp
     ${CMAKE_CURRENT_LIST_DIR}/uimodule.h
     ${CMAKE_CURRENT_LIST_DIR}/interfaces/iuiengine.h
@@ -45,21 +28,6 @@ add_library ( ${MODULE} ${LIBRARY_TYPE}
     ${CMAKE_CURRENT_LIST_DIR}/qmltheme.cpp
     ${CMAKE_CURRENT_LIST_DIR}/qmltheme.h
     ${CMAKE_CURRENT_LIST_DIR}/iconfont.h
-)
+    )
 
-if (NOT MSVC)
-    set_target_properties (${MODULE} PROPERTIES COMPILE_FLAGS "${PCH_INCLUDE} -g -Wall -Wextra -Winvalid-pch")
-else (NOT MSVC)
-    set_target_properties (${MODULE} PROPERTIES COMPILE_FLAGS "${PCH_INCLUDE}" )
-endif (NOT MSVC)
-
-xcode_pch(${MODULE} all)
-
-# Use MSVC pre-compiled headers
-vstudio_pch( ${MODULE} )
-
-# MSVC does not depend on mops1 & mops2 for PCH
-if (NOT MSVC)
-    ADD_DEPENDENCIES(${MODULE} mops1)
-    ADD_DEPENDENCIES(${MODULE} mops2)
-endif (NOT MSVC)
+include(${PROJECT_SOURCE_DIR}/build/module.cmake)
