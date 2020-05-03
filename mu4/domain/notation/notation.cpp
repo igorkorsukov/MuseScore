@@ -79,7 +79,7 @@ bool Notation::load(const std::string& path, const Params &params)
     return true;
 }
 
-void Notation::paint(QPainter* p)
+void Notation::paint(QPainter* p, const QRect& r)
 {
     const QList<Ms::Page*>& mspages = m_score->pages();
 
@@ -88,11 +88,12 @@ void Notation::paint(QPainter* p)
         return;
     }
 
-    QTransform t = p->transform();
-    t = t.scale(0.2, 0.2);
-    p->setTransform(t);
+    Ms::Page* page = mspages.first();
+    page->draw(p);
 
-    QList<Ms::Element*> ell = mspages.first()->elements();
+     p->fillRect(page->bbox(), QColor("#ffffff"));
+
+    QList<Ms::Element*> ell = page->elements();
     for (const Ms::Element* e : ell) {
         if (!e->visible()) {
             continue;

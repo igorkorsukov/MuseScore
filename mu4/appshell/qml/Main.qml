@@ -12,7 +12,7 @@ DockWindow {
 
     color: ui.theme.window
 
-    currentPageName: "home"
+    currentPageName: "notation"
 
     toolbar: DockToolBar {
 
@@ -25,6 +25,7 @@ DockWindow {
 
         MainToolBar {
             color: windowToolBar.color
+            currentItem: dockWindow.currentPageName
             onSelected: {
                 dockWindow.currentPageName = item;
             }

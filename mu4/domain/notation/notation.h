@@ -37,7 +37,7 @@ public:
     static void init();
 
     bool load(const std::string& path, const Params& params) override;
-    void paint(QPainter* p) override;
+    void paint(QPainter* p, const QRect &r) override;
 
 private:
 

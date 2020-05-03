@@ -33,6 +33,7 @@ public:
     virtual ~IInteractive() = default;
 
     virtual QString selectOpeningFile(const QString& title, const QString& dir, const QString& filter) = 0;
+
 };
 
 

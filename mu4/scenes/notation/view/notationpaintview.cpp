@@ -19,30 +19,44 @@
 #include "notationpaintview.h"
 
 #include <QPainter>
+#include <cmath>
 
 #include "log.h"
 
 using namespace mu::notation;
 
 NotationPaintView::NotationPaintView()
+    : QQuickPaintedItem()
 {
+    setFlag(ItemHasContents, true);
+    setAcceptedMouseButtons(Qt::AllButtons);
 
+    //! TODO
+    double mag  = 0.267;//preferences.getDouble(PREF_SCORE_MAGNIFICATION) * (mscore->physicalDotsPerInch() / DPI);
+    m_matrix = QTransform::fromScale(mag, mag);
+
+    m_inputController = new NotationInputController(this);
+    using controller = NotationInputController;
+    using view = NotationPaintView;
+    connect(m_inputController, &controller::requiredMoveScene, this, &view::moveScene);
+    connect(m_inputController, &controller::requiredScrollHorizontal, this, &view::scrollHorizontal);
+    connect(m_inputController, &controller::requiredScrollVertical, this, &view::scrollVertical);
+    connect(m_inputController, &controller::requiredZoomStep, this, &view::zoomStep);
 }
 
 void NotationPaintView::open()
 {
     QString filePath = interactive()->selectOpeningFile("Score", "", "");
-    LOGI() << "filePath: " << filePath;
 
-    _notation = notationCreator()->newNotation();
-    IF_ASSERT_FAILED(_notation) {
+    m_notation = notationCreator()->newNotation();
+    IF_ASSERT_FAILED(m_notation) {
         return;
     }
 
     INotation::Params params;
     params.pageSize.width = width();
     params.pageSize.height = height();
-    bool ok = _notation->load(filePath.toStdString(), params);
+    bool ok = m_notation->load(filePath.toStdString(), params);
     if (!ok) {
         LOGE() << "failed load: " << filePath;
     }
@@ -52,9 +66,107 @@ void NotationPaintView::open()
 
 void NotationPaintView::paint(QPainter *p)
 {
-    if (_notation) {
-        _notation->paint(p);
+    QRect rect(0, 0, width(), height());
+    p->fillRect(rect, QColor("#D6E0E9"));
+
+    p->setTransform(m_matrix);
+
+    if (m_notation) {
+        m_notation->paint(p, rect);
     } else {
         p->drawText(10, 10, "no notation");
     }
 }
+
+void NotationPaintView::moveScene(int dx, int dy)
+{
+    m_matrix.translate(dx, dy);
+    update();
+}
+
+void NotationPaintView::scrollVertical(int dy)
+{
+    m_matrix.translate(0, dy);
+    update();
+}
+
+void NotationPaintView::scrollHorizontal(int dx)
+{
+    m_matrix.translate(dx, 0);
+    update();
+}
+
+void NotationPaintView::zoomStep(qreal step, const QPoint &pos)
+{
+    qreal mag = m_matrix.m11();
+    mag *= qPow(1.1, step);
+    zoom(mag, pos);
+}
+
+void NotationPaintView::zoom(qreal mag, const QPointF& pos)
+{
+    //! TODO Zoom to point not completed
+    mag = qBound(0.05, mag, 16.0);
+
+    qreal cmag = m_matrix.m11();
+    if (qFuzzyCompare(mag, cmag)) {
+        return;
+    }
+
+    qreal deltamag = mag / mag;
+
+    QPointF p1 = m_matrix.inverted().map(pos);
+
+    m_matrix.setMatrix(mag, m_matrix.m12(), m_matrix.m13(), m_matrix.m21(),
+                       mag, m_matrix.m23(), m_matrix.dx()*deltamag, m_matrix.dy()*deltamag, m_matrix.m33());
+
+    QPointF p2 = m_matrix.inverted().map(pos);
+    QPointF p3 = p2 - p1;
+    int dx = std::lrint(p3.x() * cmag);
+    int dy = std::lrint(p3.y() * cmag);
+
+    m_matrix.translate(dx, dy);
+
+    update();
+}
+
+void NotationPaintView::wheelEvent(QWheelEvent* ev)
+{
+    m_inputController->wheelEvent(ev);
+}
+
+void NotationPaintView::mousePressEvent(QMouseEvent* ev)
+{
+    m_inputController->mousePressEvent(ev);
+}
+
+void NotationPaintView::mouseMoveEvent(QMouseEvent* ev)
+{
+    m_inputController->mouseMoveEvent(ev);
+}
+
+void NotationPaintView::mouseReleaseEvent(QMouseEvent* ev)
+{
+    m_inputController->mouseReleaseEvent(ev);
+}
+
+int NotationPaintView::viewWidth() const
+{
+    return width();
+}
+
+int NotationPaintView::viewHeight() const
+{
+    return height();
+}
+
+QPoint NotationPaintView::toLogical(const QPoint& p) const
+{
+    return m_matrix.inverted().map(p);
+}
+
+QPoint NotationPaintView::toPhysical(const QPoint& p) const
+{
+    return m_matrix.map(p);
+}
+

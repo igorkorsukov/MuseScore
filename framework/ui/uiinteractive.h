@@ -26,9 +26,11 @@ namespace mu::framework {
 class UiInteractive : public IInteractive
 {
 public:
+
     UiInteractive() = default;
 
-    QString selectOpeningFile(const QString &title, const QString &dir, const QString &filter) override;
+    QString selectOpeningFile(const QString& title, const QString& dir, const QString& filter) override;
+
 };
 
 }

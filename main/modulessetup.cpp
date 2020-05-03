@@ -79,9 +79,9 @@ void ModulesSetup::setup()
 
     for (mu::framework::IModuleSetup* m : m_modulesSetupList) {
         m->resolveImports();
-
         m->registerResources();
         m->registerUiTypes();
+        m->onInit();
     }
 
     //! NOTE Need to move to the place where the application finishes initializing

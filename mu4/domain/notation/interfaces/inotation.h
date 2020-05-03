@@ -19,7 +19,9 @@
 #ifndef MU_NOTATION_INOTATION_H
 #define MU_NOTATION_INOTATION_H
 
+#include <QRect>
 #include <string>
+
 #include "modularity/imoduleexport.h"
 
 class QPainter;
@@ -42,7 +44,7 @@ public:
     };
 
     virtual bool load(const std::string& path, const Params& params) = 0;
-    virtual void paint(QPainter* p) = 0;
+    virtual void paint(QPainter* p, const QRect& r) = 0;
 };
 
 }
