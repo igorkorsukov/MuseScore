@@ -16,22 +16,35 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 //=============================================================================
+#ifndef MU_NOTATION_INOTATION_H
+#define MU_NOTATION_INOTATION_H
 
-#ifndef MU_APPSHELL_APPSHELL_H
-#define MU_APPSHELL_APPSHELL_H
+#include <string>
+#include "modularity/imoduleexport.h"
 
-#include <functional>
+class QPainter;
+namespace mu::notation {
 
-namespace mu::appshell {
-
-class AppShell
+class INotation : MODULE_EXPORT_INTERFACE
 {
-public:
-    AppShell();
+    INTERFACE_ID(mu::notation::INotation)
 
-    int run(int argc, char** argv, std::function<void()> moduleSetup);
+public:
+    ~INotation() = default;
+
+    struct PageSize {
+        int width = -1;
+        int height = -1;
+    };
+
+    struct Params {
+        PageSize pageSize;
+    };
+
+    virtual bool load(const std::string& path, const Params& params) = 0;
+    virtual void paint(QPainter* p) = 0;
 };
 
 }
 
-#endif // MU_APPSHELL_APPSHELL_H
+#endif // MU_NOTATION_INOTATION_H

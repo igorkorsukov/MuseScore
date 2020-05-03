@@ -17,15 +17,22 @@
 #  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 #=============================================================================
 
-set(MODULE global)
+set(MODULE notation_scene)
 
-include(${CMAKE_CURRENT_LIST_DIR}/modularity/modularity.cmake)
+set(MODULE_QRC
+    ${CMAKE_CURRENT_LIST_DIR}/view/notation_view.qrc
+    )
+
+include(${CMAKE_CURRENT_LIST_DIR}/view/notationview.cmake)
 
 set(MODULE_SRC
-    ${MODULARITY_SRC}
-    ${CMAKE_CURRENT_LIST_DIR}/log.h
-    ${CMAKE_CURRENT_LIST_DIR}/dummy.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/interfaces/iinteractive.h
+    ${NOTATIONVIEW_SRC}
+    ${CMAKE_CURRENT_LIST_DIR}/notationscenemodule.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/notationscenemodule.h
     )
 
 include(${PROJECT_SOURCE_DIR}/build/module.cmake)
+
+
+
+

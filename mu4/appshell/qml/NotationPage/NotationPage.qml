@@ -1,12 +1,27 @@
 import QtQuick 2.9
+import QtQuick.Controls 2.2
 import MuseScore.Ui 1.0
 import MuseScore.Dock 1.0
+import MuseScore.NotationScene 1.0
 
 DockPage {
     id: notationPage
     objectName: "notation"
 
     property var color: ui.theme.window
+
+    QtObject {
+        id: observer
+
+        property var _callbacks: ({})
+        function register(target, callback) {
+            _callbacks[target] = callback;
+        }
+
+        function call(target, method, args) {
+            _callbacks[target](method, args)
+        }
+    }
 
     toolbar: DockToolBar {
         id: notationToolBar
@@ -19,10 +34,10 @@ DockPage {
         Rectangle {
             color: notationToolBar.color
 
-            Text {
-                anchors.fill: parent
-                verticalAlignment: Text.AlignVCenter
-                text: "Notation toolbar"
+            ToolButton {
+                anchors.verticalCenter: parent.verticalCenter
+                text: "Open"
+                onClicked: observer.call("view", "open")
             }
         }
     }
@@ -76,13 +91,18 @@ DockPage {
         id: notationCentral
         objectName: "notationCentral"
 
-        Rectangle {
+        NotationView {
+            id: notationView
 
-            Text {
-                anchors.fill: parent
-                verticalAlignment: Text.AlignVCenter
-                horizontalAlignment: Text.AlignHCenter
-                text: "Notation"
+            function onCall(method, args) {
+                console.info("[view] onCall: " + method + "(" + args + ")")
+                switch (method) {
+                case "open": notationView.open()
+                }
+            }
+
+            Component.onCompleted: {
+                observer.register("view", onCall)
             }
         }
     }

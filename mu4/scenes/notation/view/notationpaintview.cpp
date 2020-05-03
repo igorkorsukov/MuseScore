@@ -16,22 +16,45 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 //=============================================================================
+#include "notationpaintview.h"
 
-#ifndef MU_APPSHELL_APPSHELL_H
-#define MU_APPSHELL_APPSHELL_H
+#include <QPainter>
 
-#include <functional>
+#include "log.h"
 
-namespace mu::appshell {
+using namespace mu::notation;
 
-class AppShell
+NotationPaintView::NotationPaintView()
 {
-public:
-    AppShell();
-
-    int run(int argc, char** argv, std::function<void()> moduleSetup);
-};
 
 }
 
-#endif // MU_APPSHELL_APPSHELL_H
+void NotationPaintView::open()
+{
+    QString filePath = interactive()->selectOpeningFile("Score", "", "");
+    LOGI() << "filePath: " << filePath;
+
+    _notation = notationCreator()->newNotation();
+    IF_ASSERT_FAILED(_notation) {
+        return;
+    }
+
+    INotation::Params params;
+    params.pageSize.width = width();
+    params.pageSize.height = height();
+    bool ok = _notation->load(filePath.toStdString(), params);
+    if (!ok) {
+        LOGE() << "failed load: " << filePath;
+    }
+
+    update();
+}
+
+void NotationPaintView::paint(QPainter *p)
+{
+    if (_notation) {
+        _notation->paint(p);
+    } else {
+        p->drawText(10, 10, "no notation");
+    }
+}

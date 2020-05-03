@@ -16,22 +16,35 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 //=============================================================================
+#ifndef MU_NOTATION_NOTATION_H
+#define MU_NOTATION_NOTATION_H
 
-#ifndef MU_APPSHELL_APPSHELL_H
-#define MU_APPSHELL_APPSHELL_H
+#include "interfaces/inotation.h"
 
-#include <functional>
+namespace Ms {
+class MScore;
+class MasterScore;
+}
 
-namespace mu::appshell {
+namespace mu::notation {
 
-class AppShell
+class Notation : public INotation
 {
 public:
-    AppShell();
+    Notation();
 
-    int run(int argc, char** argv, std::function<void()> moduleSetup);
+    //! NOTE Needed at the moment to initialize libmscore
+    static void init();
+
+    bool load(const std::string& path, const Params& params) override;
+    void paint(QPainter* p) override;
+
+private:
+
+    Ms::MScore* m_scoreGlobal = nullptr;
+    Ms::MasterScore* m_score = nullptr;
 };
 
 }
 
-#endif // MU_APPSHELL_APPSHELL_H
+#endif // MU_NOTATION_NOTATION_H

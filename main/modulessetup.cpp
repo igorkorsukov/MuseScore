@@ -32,8 +32,13 @@
 #endif
 
 #include "mu4/appshell/appshellmodule.h"
+
+#include "mu4/domain/notation/notationdomainmodule.h"
+
 #include "mu4/scores/scoresmodule.h"
 #include "mu4/extensions/extensionsmodule.h"
+
+#include "mu4/scenes/notation/notationscenemodule.h"
 
 //---------------------------------------------------------
 //   ModulesSetup
@@ -45,15 +50,20 @@ ModulesSetup::ModulesSetup()
     m_modulesSetupList
             << new mu::framework::UiModule()
             << new mu::framework::UiComponentsModule()
-#ifdef BUILD_TELEMETRY_MODULE
+           #ifdef BUILD_TELEMETRY_MODULE
             << new TelemetrySetup()
-#endif
-#ifdef AVSOMR
+           #endif
+           #ifdef AVSOMR
             << new Ms::Avs::AvsOmrSetup()
-#endif
+           #endif
             << new mu::appshell::AppShellModule()
+
+            << new mu::notation::NotationDomainModule()
+
             << new mu::scores::ScoresModule()
             << new mu::extensions::ExtensionsModule()
+
+            << new mu::notation::NotationSceneModule()
                ;
 }
 
@@ -76,7 +86,7 @@ void ModulesSetup::setup()
 
     //! NOTE Need to move to the place where the application finishes initializing
     for (mu::framework::IModuleSetup* m : m_modulesSetupList) {
-        m->onStartInit();
+        m->onStartApp();
     }
 }
 

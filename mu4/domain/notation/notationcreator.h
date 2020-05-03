@@ -16,22 +16,21 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 //=============================================================================
+#ifndef MU_NOTATION_NOTATIONCREATOR_H
+#define MU_NOTATION_NOTATIONCREATOR_H
 
-#ifndef MU_APPSHELL_APPSHELL_H
-#define MU_APPSHELL_APPSHELL_H
+#include "interfaces/inotationcreator.h"
 
-#include <functional>
+namespace mu::notation {
 
-namespace mu::appshell {
-
-class AppShell
+class NotationCreator : public INotationCreator
 {
 public:
-    AppShell();
+    NotationCreator() = default;
 
-    int run(int argc, char** argv, std::function<void()> moduleSetup);
+    std::shared_ptr<INotation> newNotation() override;
 };
 
 }
 
-#endif // MU_APPSHELL_APPSHELL_H
+#endif // MU_NOTATION_NOTATIONCREATOR_H

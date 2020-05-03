@@ -17,15 +17,28 @@
 #  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 #=============================================================================
 
-set(MODULE global)
+set(MODULE notation)
 
-include(${CMAKE_CURRENT_LIST_DIR}/modularity/modularity.cmake)
+find_package(Qt5 COMPONENTS Svg REQUIRED)
 
 set(MODULE_SRC
-    ${MODULARITY_SRC}
-    ${CMAKE_CURRENT_LIST_DIR}/log.h
-    ${CMAKE_CURRENT_LIST_DIR}/dummy.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/interfaces/iinteractive.h
+    ${CMAKE_CURRENT_LIST_DIR}/notationdomainmodule.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/notationdomainmodule.h
+    ${CMAKE_CURRENT_LIST_DIR}/interfaces/inotation.h
+    ${CMAKE_CURRENT_LIST_DIR}/interfaces/inotationcreator.h
+    ${CMAKE_CURRENT_LIST_DIR}/notation.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/notation.h
+    ${CMAKE_CURRENT_LIST_DIR}/notationcreator.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/notationcreator.h
+    )
+
+set(MODULE_LINK
+    Qt5::Svg
+    freetype
+    qzip
+    z
+    libmscore
     )
 
 include(${PROJECT_SOURCE_DIR}/build/module.cmake)
+

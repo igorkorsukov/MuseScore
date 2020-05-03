@@ -16,22 +16,26 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 //=============================================================================
+#ifndef MU_FRAMEWORK_IINTERACTIVE_H
+#define MU_FRAMEWORK_IINTERACTIVE_H
 
-#ifndef MU_APPSHELL_APPSHELL_H
-#define MU_APPSHELL_APPSHELL_H
+#include <QString>
 
-#include <functional>
+#include "modularity/imoduleexport.h"
 
-namespace mu::appshell {
+namespace mu::framework {
 
-class AppShell
+class IInteractive : MODULE_EXPORT_INTERFACE
 {
-public:
-    AppShell();
+    INTERFACE_ID(IInteractive)
 
-    int run(int argc, char** argv, std::function<void()> moduleSetup);
+public:
+    virtual ~IInteractive() = default;
+
+    virtual QString selectOpeningFile(const QString& title, const QString& dir, const QString& filter) = 0;
 };
+
 
 }
 
-#endif // MU_APPSHELL_APPSHELL_H
+#endif // MU_FRAMEWORK_IINTERACTIVE_H

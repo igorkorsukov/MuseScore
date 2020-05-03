@@ -16,22 +16,24 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 //=============================================================================
+#ifndef MU_NOTATION_INOTATIONCREATOR_H
+#define MU_NOTATION_INOTATIONCREATOR_H
 
-#ifndef MU_APPSHELL_APPSHELL_H
-#define MU_APPSHELL_APPSHELL_H
+#include <memory>
+#include "inotation.h"
+#include "modularity/imoduleexport.h"
 
-#include <functional>
+namespace mu::notation {
 
-namespace mu::appshell {
-
-class AppShell
+class INotationCreator : MODULE_EXPORT_INTERFACE
 {
+    INTERFACE_ID(mu::notation::INotationCreator)
+
 public:
-    AppShell();
+    ~INotationCreator() = default;
 
-    int run(int argc, char** argv, std::function<void()> moduleSetup);
+    virtual std::shared_ptr<INotation> newNotation() = 0;
 };
-
 }
 
-#endif // MU_APPSHELL_APPSHELL_H
+#endif // MU_NOTATION_INOTATIONCREATOR_H

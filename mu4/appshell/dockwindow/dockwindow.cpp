@@ -45,8 +45,8 @@ DockWindow::DockWindow(QQuickItem *parent)
     setFlag(QQuickItem::ItemHasContents, true);
     _window = new QMainWindow();
     _window->setMinimumSize(800, 600);
-    setWidth(800);
-    setHeight(600);
+    setWidth(1024);
+    setHeight(800);
 
     _eventsWatcher = new EventsWatcher(this);
     _window->installEventFilter(_eventsWatcher);

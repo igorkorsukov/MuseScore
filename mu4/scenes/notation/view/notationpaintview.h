@@ -16,22 +16,41 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 //=============================================================================
+#ifndef MU_NOTATION_NOTATIONPAINTVIEW_H
+#define MU_NOTATION_NOTATIONPAINTVIEW_H
 
-#ifndef MU_APPSHELL_APPSHELL_H
-#define MU_APPSHELL_APPSHELL_H
+#include <QObject>
+#include <QQuickPaintedItem>
 
-#include <functional>
+#include "modularity/ioc.h"
+#include "interfaces/iinteractive.h"
+#include "domain/notation/interfaces/inotationcreator.h"
 
-namespace mu::appshell {
+namespace mu::notation {
 
-class AppShell
+class NotationPaintView : public QQuickPaintedItem
 {
-public:
-    AppShell();
+    Q_OBJECT
 
-    int run(int argc, char** argv, std::function<void()> moduleSetup);
+    IOCINJECT("notation", framework::IInteractive, interactive)
+    IOCINJECT("notation", INotationCreator, notationCreator)
+
+public:
+    NotationPaintView();
+
+    Q_INVOKABLE void open();
+
+
+
+
+private:
+    void paint(QPainter *painter) override;
+    //void componentComplete() override;
+
+    std::shared_ptr<INotation> _notation;
+
 };
 
 }
 
-#endif // MU_APPSHELL_APPSHELL_H
+#endif // MU_NOTATION_NOTATIONPAINTVIEW_H

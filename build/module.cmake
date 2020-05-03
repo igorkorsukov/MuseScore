@@ -37,6 +37,7 @@ include_directories(
     ${PROJECT_SOURCE_DIR}
     ${PROJECT_SOURCE_DIR}/framework
     ${PROJECT_SOURCE_DIR}/framework/global
+    ${PROJECT_SOURCE_DIR}/mu4
     ${MODULE_INCLUDE}
 )
 

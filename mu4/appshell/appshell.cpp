@@ -33,7 +33,7 @@ AppShell::AppShell()
 
 }
 
-int AppShell::run(int argc, char **argv)
+int AppShell::run(int argc, char **argv, std::function<void()> moduleSetup)
 {
     LOGI() << "start run";
 
@@ -41,6 +41,8 @@ int AppShell::run(int argc, char **argv)
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 
     QApplication app(argc, argv);
+
+    moduleSetup();
 
     QQmlApplicationEngine* engine = new QQmlApplicationEngine();
     //! NOTE Move ownership to UiEngine
