@@ -21,7 +21,8 @@
 #define MODULESSETUP_H
 
 #include <QList>
-#include "interfaces/abstractmodulesetup.h"
+
+#include "framework/global/modularity/imodulesetup.h"
 
 //---------------------------------------------------------
 //   ModulesSetup
@@ -41,7 +42,7 @@ class ModulesSetup {
 
       ModulesSetup();
 
-      QList<AbstractModuleSetup*> m_modulesSetupList;
+      QList<muf::IModuleSetup*> m_modulesSetupList;
       };
 
 #endif // MODULESSETUP_H

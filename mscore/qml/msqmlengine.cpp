@@ -19,6 +19,8 @@
 
 #include "msqmlengine.h"
 
+#include <QQmlEngine>
+
 namespace Ms {
 
 extern QString mscoreGlobalShare;
@@ -42,5 +44,7 @@ MsQmlEngine::MsQmlEngine(QObject* parent)
       importPaths.append(dir.absolutePath());
       setImportPathList(importPaths);
 #endif
+
+      addImportPath(":/qml");
       }
 }

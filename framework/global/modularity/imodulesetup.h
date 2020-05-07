@@ -2,7 +2,7 @@
 //  MuseScore
 //  Music Composition & Notation
 //
-//  Copyright (C) 2019 MuseScore BVBA and others
+//  Copyright (C) 2020 MuseScore BVBA and others
 //
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License version 2.
@@ -17,35 +17,31 @@
 //  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 //=============================================================================
 
-#ifndef IMODULESETUP_H
-#define IMODULESETUP_H
+#ifndef MUF_IMODULESETUP_H
+#define MUF_IMODULESETUP_H
 
-#include <QString>
-#include <QtQml/qqml.h>
+#include <string>
 
-//---------------------------------------------------------
-//   AbstractModuleSetup
-//---------------------------------------------------------
+namespace muf {
 
-class AbstractModuleSetup {
-   public:
-      void setup() {
-            registerExports();
-            registerResources();
-            registerQmlTypes();
-            onStartInit();
-            }
+class IModuleSetup
+{
+public:
 
-   protected:
-      virtual QString moduleName() const = 0;
+    virtual ~IModuleSetup(){}
 
-      virtual void registerExports() {}
+    virtual std::string moduleName() const = 0;
 
-      virtual void registerResources() {}
+    virtual void registerExports() {}
+    virtual void resolveImports() {}
 
-      virtual void registerQmlTypes() {}
+    virtual void registerResources() {}
+    virtual void registerUiTypes() {}
 
-      virtual void onStartInit() {}
-      };
+    virtual void onStartInit() {}
 
-#endif // IMODULESETUP_H
+};
+
+}
+
+#endif // MUF_IMODULESETUP_H

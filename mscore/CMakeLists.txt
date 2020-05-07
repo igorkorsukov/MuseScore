@@ -45,7 +45,7 @@ include_directories(
       ${CMAKE_CURRENT_BINARY_DIR}
       ${PROJECT_SOURCE_DIR}
       ${PROJECT_SOURCE_DIR}/thirdparty
-      ${PROJECT_SOURCE_DIR}/global
+      ${PROJECT_SOURCE_DIR}/framework/global
       ${PROJECT_SOURCE_DIR}/importexport
       ${QTSINGLEAPPLICATION_INCLUDE_DIRS}
       )

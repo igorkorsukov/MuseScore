@@ -20,6 +20,8 @@
 #include "modulessetup.h"
 #include "config.h"
 
+#include "framework/uicomponents/uicomponentsmodule.h"
+
 #ifdef BUILD_TELEMETRY_MODULE
 #include "telemetry/telemetrysetup.h"
 #endif
@@ -33,24 +35,39 @@
 //---------------------------------------------------------
 
 ModulesSetup::ModulesSetup()
-      {
+{
 
-      m_modulesSetupList
+    m_modulesSetupList
+            << new muf::UiComponentsModule()
 #ifdef BUILD_TELEMETRY_MODULE
-              << new TelemetrySetup()
+            << new TelemetrySetup()
 #endif
 #ifdef AVSOMR
-              << new Ms::Avs::AvsOmrSetup()
+            << new Ms::Avs::AvsOmrSetup()
 #endif
-              ;
-      }
+               ;
+}
 
 //---------------------------------------------------------
 //   setup
 //---------------------------------------------------------
 
 void ModulesSetup::setup()
-      {
-      for (AbstractModuleSetup* moduleSetup : m_modulesSetupList)
-            moduleSetup->setup();
-      }
+{
+    for (muf::IModuleSetup* m : m_modulesSetupList) {
+        m->registerExports();
+    }
+
+    for (muf::IModuleSetup* m : m_modulesSetupList) {
+        m->resolveImports();
+
+        m->registerResources();
+        m->registerUiTypes();
+    }
+
+    //! NOTE Need to move to the place where the application finishes initializing
+    for (muf::IModuleSetup* m : m_modulesSetupList) {
+        m->onStartInit();
+    }
+}
+

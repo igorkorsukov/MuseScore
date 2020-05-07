@@ -23,7 +23,7 @@
 #include <QString>
 #include <QVariant>
 #include <QVariantMap>
-#include "servicesresolver.h"
+#include "framework/global/modularity/servicesresolver.h"
 
 //---------------------------------------------------------
 //   ITelemetryService

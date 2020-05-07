@@ -19,7 +19,9 @@
 
 #include "telemetrysetup.h"
 
-#include "servicesresolver.h"
+#include <QtQml/qqml.h>
+
+#include "modularity/servicesresolver.h"
 
 #include "interfaces/itelemetryservice.h"
 #include "services/telemetryservice.h"
@@ -49,9 +51,9 @@ void TelemetrySetup::registerExports()
 //   moduleName
 //---------------------------------------------------------
 
-QString TelemetrySetup::moduleName() const
+std::string TelemetrySetup::moduleName() const
       {
-      return QStringLiteral("telemetry");
+      return "telemetry";
       }
 
 //---------------------------------------------------------
@@ -67,7 +69,7 @@ void TelemetrySetup::registerResources()
 //   registerQmlTypes
 //---------------------------------------------------------
 
-void TelemetrySetup::registerQmlTypes()
+void TelemetrySetup::registerUiTypes()
       {
       qmlRegisterType<TelemetryPermissionModel>("MuseScore.Telemetry", 3, 3, "TelemetryPermissionModel");
       }
