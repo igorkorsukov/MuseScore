@@ -38,13 +38,15 @@ QString mscoreGlobalShare;
 //! ---------
 
 
-using namespace mu::notation;
+using namespace mu::domain::notation;
 using namespace Ms;
 
 Notation::Notation()
 {
     m_scoreGlobal = new MScore();
     m_score = new MasterScore(m_scoreGlobal->baseStyle());
+
+    m_inputController = new NotationInputController(this /*IGetScore*/);
 }
 
 void Notation::init()
@@ -59,19 +61,19 @@ bool Notation::load(const std::string& path, const Params &params)
         return false;
     }
 
-//    Ms::MStyle& styleRef = m_score->style();
-//    styleRef.set(Ms::Sid::pageWidth, params.pageSize.width / Ms::DPI);
-   // styleRef.set(Ms::Sid::pageHeight, params.pageSize.height / Ms::DPI);
+    //    Ms::MStyle& styleRef = m_score->style();
+    //    styleRef.set(Ms::Sid::pageWidth, params.pageSize.width / Ms::DPI);
+    // styleRef.set(Ms::Sid::pageHeight, params.pageSize.height / Ms::DPI);
 
-//    styleRef.set(Ms::Sid::pagePrintableWidth, (pageSize.pageWidth - pageSize.margingLeft
-//                                               - pageSize.margingRight) / Ms::DPI);
-//    styleRef.set(Ms::Sid::pageEvenLeftMargin, pageSize.margingLeft / Ms::DPI);
-//    styleRef.set(Ms::Sid::pageOddLeftMargin, pageSize.margingLeft / Ms::DPI);
+    //    styleRef.set(Ms::Sid::pagePrintableWidth, (pageSize.pageWidth - pageSize.margingLeft
+    //                                               - pageSize.margingRight) / Ms::DPI);
+    //    styleRef.set(Ms::Sid::pageEvenLeftMargin, pageSize.margingLeft / Ms::DPI);
+    //    styleRef.set(Ms::Sid::pageOddLeftMargin, pageSize.margingLeft / Ms::DPI);
 
-//    styleRef.set(Ms::Sid::pageEvenTopMargin, pageSize.margingTop / Ms::DPI);
-//    styleRef.set(Ms::Sid::pageOddTopMargin, pageSize.margingTop / Ms::DPI);
-//    styleRef.set(Ms::Sid::pageEvenBottomMargin, pageSize.margingBottom / Ms::DPI);
-//    styleRef.set(Ms::Sid::pageOddBottomMargin, pageSize.margingBottom / Ms::DPI);
+    //    styleRef.set(Ms::Sid::pageEvenTopMargin, pageSize.margingTop / Ms::DPI);
+    //    styleRef.set(Ms::Sid::pageOddTopMargin, pageSize.margingTop / Ms::DPI);
+    //    styleRef.set(Ms::Sid::pageEvenBottomMargin, pageSize.margingBottom / Ms::DPI);
+    //    styleRef.set(Ms::Sid::pageOddBottomMargin, pageSize.margingBottom / Ms::DPI);
 
     m_score->setUpdateAll();
     m_score->doLayout();
@@ -81,7 +83,7 @@ bool Notation::load(const std::string& path, const Params &params)
 
 void Notation::paint(QPainter* p, const QRect& r)
 {
-    const QList<Ms::Page*>& mspages = m_score->pages();
+    const QList<Ms::Page*>& mspages = score()->pages();
 
     if (mspages.isEmpty()) {
         p->drawText(10, 10, "no pages");
@@ -91,7 +93,7 @@ void Notation::paint(QPainter* p, const QRect& r)
     Ms::Page* page = mspages.first();
     page->draw(p);
 
-     p->fillRect(page->bbox(), QColor("#ffffff"));
+    p->fillRect(page->bbox(), QColor("#ffffff"));
 
     QList<Ms::Element*> ell = page->elements();
     for (const Ms::Element* e : ell) {
@@ -109,4 +111,24 @@ void Notation::paint(QPainter* p, const QRect& r)
 
         p->translate(-pos);
     }
+}
+
+void Notation::select(const QPointF& p, SelectType type)
+{
+
+}
+
+Ms::MasterScore* Notation::score() const
+{
+    return m_score;
+}
+
+INotationInputController* Notation::inputController() const
+{
+    return m_inputController;
+}
+
+Ms::MasterScore* Notation::masterScore() const
+{
+    return m_score;
 }

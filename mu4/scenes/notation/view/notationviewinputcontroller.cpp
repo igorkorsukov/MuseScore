@@ -16,19 +16,22 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 //=============================================================================
-#include "notationinputcontroller.h"
+#include "notationviewinputcontroller.h"
 
-using namespace mu::notation;
+#include "log.h"
+
+using namespace mu::scene::notation;
+using namespace mu::domain::notation;
 
 static constexpr int PIXELSSTEPSFACTOR = 5;
 
-NotationInputController::NotationInputController(IView *view)
+NotationViewInputController::NotationViewInputController(IView *view)
     : m_view(view)
 {
 
 }
 
-void NotationInputController::wheelEvent(QWheelEvent* ev)
+void NotationViewInputController::wheelEvent(QWheelEvent* ev)
 {
     QPoint pixelsScrolled = ev->pixelDelta();
     QPoint stepsScrolled  = ev->angleDelta();
@@ -65,12 +68,16 @@ void NotationInputController::wheelEvent(QWheelEvent* ev)
     }
 }
 
-void NotationInputController::mousePressEvent(QMouseEvent* ev)
+void NotationViewInputController::mousePressEvent(QMouseEvent* ev)
 {
-    m_interactData.beginPoint = m_view->toLogical(ev->pos());
+    QPoint logicPos = m_view->toLogical(ev->pos());
+
+    m_interactData.beginPoint = logicPos;
+    m_interactData.element = notationInputController()->hitElement(logicPos, m_view->hitWidth());
+    LOGI() << "hitElement valid: " << m_interactData.element.isValid();
 }
 
-void NotationInputController::mouseMoveEvent(QMouseEvent* ev)
+void NotationViewInputController::mouseMoveEvent(QMouseEvent* ev)
 {
     QPoint pos = m_view->toLogical(ev->pos());
     QPoint d = pos - m_interactData.beginPoint;
@@ -81,10 +88,18 @@ void NotationInputController::mouseMoveEvent(QMouseEvent* ev)
         return;
     }
 
-    emit requiredMoveScene(dx, dy);
+    if (!m_interactData.element.isValid()) {
+        emit requiredMoveScene(dx, dy);
+        return;
+    }
 }
 
-void NotationInputController::mouseReleaseEvent(QMouseEvent* /*ev*/)
+void NotationViewInputController::mouseReleaseEvent(QMouseEvent* /*ev*/)
 {
 
+}
+
+mu::domain::notation::INotationInputController* NotationViewInputController::notationInputController() const
+{
+    return m_view->notationInputController();
 }

@@ -25,51 +25,54 @@
 
 #include "modularity/ioc.h"
 #include "interfaces/iinteractive.h"
-#include "domain/notation/interfaces/inotationcreator.h"
+#include "domain/notation/inotationcreator.h"
 
-#include "notationinputcontroller.h"
+#include "notationviewinputcontroller.h"
 
-namespace mu::notation {
+namespace mu::scene::notation {
 
-class NotationPaintView : public QQuickPaintedItem, public NotationInputController::IView
+class NotationPaintView : public QQuickPaintedItem, public NotationViewInputController::IView
 {
     Q_OBJECT
 
     IOCINJECT("notation", framework::IInteractive, interactive)
-    IOCINJECT("notation", INotationCreator, notationCreator)
+    IOCINJECT("notation", domain::notation::INotationCreator, notationCreator)
 
 public:
     NotationPaintView();
 
     Q_INVOKABLE void open();
 
-    // NotationInputController::IView
-    int viewWidth() const override;
-    int viewHeight() const override;
-    QPoint toLogical(const QPoint& p) const override;
-    QPoint toPhysical(const QPoint& p) const;
-    // --
-
 public slots:
     void moveScene(int dx, int dy);
     void scrollVertical(int dy);
     void scrollHorizontal(int dx);
     void zoomStep(qreal step, const QPoint& pos);
-    void zoom(qreal mag, const QPointF& pos);
+    void zoom(qreal mag, const QPoint& pos);
+    void selectSingal(const QPoint& pos);
 
 private:
+    // Draw
     void paint(QPainter *painter) override;
-    //void componentComplete() override;
 
+    // Input
     void wheelEvent(QWheelEvent*) override;
     void mousePressEvent(QMouseEvent*) override;
     void mouseMoveEvent(QMouseEvent*) override;
     void mouseReleaseEvent(QMouseEvent*) override;
 
-    std::shared_ptr<INotation> m_notation;
+    // controll IView
+    int viewWidth() const override;
+    int viewHeight() const override;
+    QPoint toLogical(const QPoint& p) const override;
+    QPoint toPhysical(const QPoint& p) const;
+    float hitWidth() const;
+    domain::notation::INotationInputController* notationInputController() const;
+    // ---
+
+    std::shared_ptr<domain::notation::INotation> m_notation;
     QTransform m_matrix;
-    QTransform m_imatrix;
-    NotationInputController* m_inputController = nullptr;
+    NotationViewInputController* m_inputController = nullptr;
 
 };
 

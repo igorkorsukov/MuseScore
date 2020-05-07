@@ -19,10 +19,10 @@
 #include "notationdomainmodule.h"
 
 #include "modularity/ioc.h"
-#include "notationcreator.h"
-#include "notation.h"
+#include "impl/notationcreator.h"
+#include "impl/notation.h"
 
-using namespace mu::notation;
+using namespace mu::domain::notation;
 
 std::string NotationDomainModule::moduleName() const
 {

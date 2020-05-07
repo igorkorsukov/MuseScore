@@ -24,12 +24,20 @@ find_package(Qt5 COMPONENTS Svg REQUIRED)
 set(MODULE_SRC
     ${CMAKE_CURRENT_LIST_DIR}/notationdomainmodule.cpp
     ${CMAKE_CURRENT_LIST_DIR}/notationdomainmodule.h
-    ${CMAKE_CURRENT_LIST_DIR}/interfaces/inotation.h
-    ${CMAKE_CURRENT_LIST_DIR}/interfaces/inotationcreator.h
-    ${CMAKE_CURRENT_LIST_DIR}/notation.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/notation.h
-    ${CMAKE_CURRENT_LIST_DIR}/notationcreator.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/notationcreator.h
+
+    ${CMAKE_CURRENT_LIST_DIR}/inotation.h
+    ${CMAKE_CURRENT_LIST_DIR}/inotationinputvontroller.h
+    ${CMAKE_CURRENT_LIST_DIR}/inotationcreator.h
+
+    ${CMAKE_CURRENT_LIST_DIR}/impl/notation.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/impl/notation.h
+    ${CMAKE_CURRENT_LIST_DIR}/impl/notationinputcontroller.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/impl/notationinputcontroller.h
+    ${CMAKE_CURRENT_LIST_DIR}/impl/notationcreator.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/impl/notationcreator.h
+    ${CMAKE_CURRENT_LIST_DIR}/impl/igetscore.h
+    ${CMAKE_CURRENT_LIST_DIR}/impl/scorehelpful.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/impl/scorehelpful.h
     )
 
 set(MODULE_LINK

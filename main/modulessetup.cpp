@@ -58,12 +58,12 @@ ModulesSetup::ModulesSetup()
            #endif
             << new mu::appshell::AppShellModule()
 
-            << new mu::notation::NotationDomainModule()
+            << new mu::domain::notation::NotationDomainModule()
 
             << new mu::scores::ScoresModule()
             << new mu::extensions::ExtensionsModule()
 
-            << new mu::notation::NotationSceneModule()
+            << new mu::scene::notation::NotationSceneModule()
                ;
 }
 

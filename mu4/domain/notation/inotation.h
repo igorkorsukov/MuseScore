@@ -16,24 +16,27 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 //=============================================================================
-#ifndef MU_NOTATION_INOTATION_H
-#define MU_NOTATION_INOTATION_H
+#ifndef MU_DOMAIN_INOTATION_H
+#define MU_DOMAIN_INOTATION_H
 
 #include <QRect>
 #include <string>
 
 #include "modularity/imoduleexport.h"
 
+#include "inotationinputvontroller.h"
+
 class QPainter;
-namespace mu::notation {
+namespace mu::domain::notation {
 
 class INotation : MODULE_EXPORT_INTERFACE
 {
-    INTERFACE_ID(mu::notation::INotation)
+    INTERFACE_ID(mu::domain::notation::INotation)
 
-public:
-    ~INotation() = default;
+    public:
+        ~INotation() = default;
 
+    // Load
     struct PageSize {
         int width = -1;
         int height = -1;
@@ -44,9 +47,20 @@ public:
     };
 
     virtual bool load(const std::string& path, const Params& params) = 0;
+
+    // Draw
     virtual void paint(QPainter* p, const QRect& r) = 0;
+
+    // Input
+    enum class SelectType {
+        SINGLE, RANGE, ADD
+    };
+
+    virtual INotationInputController* inputController() const = 0;
+
+    //virtual void select(const QPointF& p, SelectType type) = 0;
 };
 
 }
 
-#endif // MU_NOTATION_INOTATION_H
+#endif // MU_DOMAIN_INOTATION_H

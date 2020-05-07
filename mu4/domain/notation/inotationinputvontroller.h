@@ -16,13 +16,30 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 //=============================================================================
-#include "notationcreator.h"
+#ifndef MU_DOMAIN_INOTATIONINPUTCONTROLLER_H
+#define MU_DOMAIN_INOTATIONINPUTCONTROLLER_H
 
-#include "notation.h"
+#include <QPoint>
 
-using namespace mu::notation;
+namespace mu::domain::notation {
 
-std::shared_ptr<INotation> NotationCreator::newNotation()
+class INotationInputController
 {
-    return std::make_shared<Notation>();
+public:
+    virtual ~INotationInputController() = default;
+
+    struct HitElement
+    {
+        bool isValid() const { return ptr != nullptr; }
+    private:
+        friend class NotationInputController;
+        void* ptr = nullptr;
+    };
+
+    virtual HitElement hitElement(const QPointF& pos, float width) const = 0;
+
+};
+
 }
+
+#endif // MU_DOMAIN_INOTATIONINPUTCONTROLLER_H

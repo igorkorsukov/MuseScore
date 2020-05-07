@@ -23,7 +23,9 @@
 
 #include "log.h"
 
-using namespace mu::notation;
+using namespace mu::scene::notation;
+
+static constexpr int PREF_UI_CANVAS_MISC_SELECTIONPROXIMITY = 6;
 
 NotationPaintView::NotationPaintView()
     : QQuickPaintedItem()
@@ -35,8 +37,8 @@ NotationPaintView::NotationPaintView()
     double mag  = 0.267;//preferences.getDouble(PREF_SCORE_MAGNIFICATION) * (mscore->physicalDotsPerInch() / DPI);
     m_matrix = QTransform::fromScale(mag, mag);
 
-    m_inputController = new NotationInputController(this);
-    using controller = NotationInputController;
+    m_inputController = new NotationViewInputController(this);
+    using controller = NotationViewInputController;
     using view = NotationPaintView;
     connect(m_inputController, &controller::requiredMoveScene, this, &view::moveScene);
     connect(m_inputController, &controller::requiredScrollHorizontal, this, &view::scrollHorizontal);
@@ -53,7 +55,7 @@ void NotationPaintView::open()
         return;
     }
 
-    INotation::Params params;
+    domain::notation::INotation::Params params;
     params.pageSize.width = width();
     params.pageSize.height = height();
     bool ok = m_notation->load(filePath.toStdString(), params);
@@ -103,7 +105,7 @@ void NotationPaintView::zoomStep(qreal step, const QPoint &pos)
     zoom(mag, pos);
 }
 
-void NotationPaintView::zoom(qreal mag, const QPointF& pos)
+void NotationPaintView::zoom(qreal mag, const QPoint& pos)
 {
     //! TODO Zoom to point not completed
     mag = qBound(0.05, mag, 16.0);
@@ -128,6 +130,11 @@ void NotationPaintView::zoom(qreal mag, const QPointF& pos)
     m_matrix.translate(dx, dy);
 
     update();
+}
+
+void NotationPaintView::selectSingal(const QPoint& pos)
+{
+    //m_notation->select(pos, w);
 }
 
 void NotationPaintView::wheelEvent(QWheelEvent* ev)
@@ -170,3 +177,12 @@ QPoint NotationPaintView::toPhysical(const QPoint& p) const
     return m_matrix.map(p);
 }
 
+float NotationPaintView::hitWidth() const
+{
+    return PREF_UI_CANVAS_MISC_SELECTIONPROXIMITY * 0.5 / m_matrix.m11(); //(preferences.getInt(PREF_UI_CANVAS_MISC_SELECTIONPROXIMITY) * .5) / matrix().m11();
+}
+
+mu::domain::notation::INotationInputController* NotationPaintView::notationInputController() const
+{
+    return m_notation->inputController();
+}

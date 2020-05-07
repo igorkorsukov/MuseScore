@@ -16,15 +16,17 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 //=============================================================================
-#ifndef MU_NOTATIONSCENE_NOTATIONINPUTCONTROLLER_H
-#define MU_NOTATIONSCENE_NOTATIONINPUTCONTROLLER_H
+#ifndef MU_NOTATIONSCENE_NOTATIONVIEWINPUTCONTROLLER_H
+#define MU_NOTATIONSCENE_NOTATIONVIEWINPUTCONTROLLER_H
 
 #include <QObject>
 #include <QWheelEvent>
 
-namespace mu::notation {
+#include "domain/notation/inotationinputvontroller.h"
 
-class NotationInputController : public QObject
+namespace mu::scene::notation {
+
+class NotationViewInputController : public QObject
 {
     Q_OBJECT
 
@@ -36,9 +38,11 @@ public:
         virtual int viewWidth() const = 0;
         virtual int viewHeight() const = 0;
         virtual QPoint toLogical(const QPoint&p ) const = 0;
+        virtual float hitWidth() const = 0;
+        virtual domain::notation::INotationInputController* notationInputController() const = 0;
     };
 
-    NotationInputController(IView* view);
+    NotationViewInputController(IView* view);
 
     void wheelEvent(QWheelEvent* ev);
     void mousePressEvent(QMouseEvent* ev);
@@ -55,7 +59,10 @@ private:
 
     struct InteractData {
         QPoint beginPoint;
+        domain::notation::INotationInputController::HitElement element;
     };
+
+    domain::notation::INotationInputController* notationInputController() const;
 
     IView* m_view = nullptr;
     InteractData m_interactData;
@@ -63,4 +70,4 @@ private:
 
 }
 
-#endif // MU_NOTATIONSCENE_NOTATIONINPUTCONTROLLER_H
+#endif // MU_NOTATIONSCENE_NOTATIONVIEWINPUTCONTROLLER_H

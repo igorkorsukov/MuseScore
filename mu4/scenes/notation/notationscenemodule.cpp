@@ -20,7 +20,7 @@
 
 #include "view/notationpaintview.h"
 
-using namespace mu::notation;
+using namespace mu::scene::notation;
 
 static void notation_view_init_qrc()
 {

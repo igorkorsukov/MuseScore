@@ -16,21 +16,24 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 //=============================================================================
-#ifndef MU_NOTATION_NOTATIONCREATOR_H
-#define MU_NOTATION_NOTATIONCREATOR_H
+#ifndef MU_DOMAIN_INOTATIONCREATOR_H
+#define MU_DOMAIN_INOTATIONCREATOR_H
 
-#include "interfaces/inotationcreator.h"
+#include <memory>
+#include "inotation.h"
+#include "modularity/imoduleexport.h"
 
-namespace mu::notation {
+namespace mu::domain::notation {
 
-class NotationCreator : public INotationCreator
+class INotationCreator : MODULE_EXPORT_INTERFACE
 {
+    INTERFACE_ID(mu::domain::notation::INotationCreator)
+
 public:
-    NotationCreator() = default;
+    ~INotationCreator() = default;
 
-    std::shared_ptr<INotation> newNotation() override;
+    virtual std::shared_ptr<INotation> newNotation() = 0;
 };
-
 }
 
-#endif // MU_NOTATION_NOTATIONCREATOR_H
+#endif // MU_DOMAIN_INOTATIONCREATOR_H

@@ -16,23 +16,41 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 //=============================================================================
-#ifndef MU_DOMAIN_NOTATIONMODULE_H
-#define MU_DOMAIN_NOTATIONMODULE_H
+#ifndef MU_DOMAIN_NOTATIONINPUTCONTROLLER_H
+#define MU_DOMAIN_NOTATIONINPUTCONTROLLER_H
 
-#include "modularity/imodulesetup.h"
+#include "../inotationinputvontroller.h"
+
+#include "igetscore.h"
+
+namespace Ms {
+class MScore;
+class Element;
+class Page;
+}
 
 namespace mu::domain::notation {
 
-class NotationDomainModule : public framework::IModuleSetup
+class NotationInputController : public INotationInputController
 {
 public:
+    NotationInputController(IGetScore* getScore);
 
-    std::string moduleName() const;
+    // INotationInputController
+    HitElement hitElement(const QPointF& pos, float width) const override;
+    // ---
 
-    void registerExports() override;
-    void onInit() override;
+    Ms::Page* point2page(const QPointF &p) const;
+    QList<Ms::Element*> hitElements(const QPointF& p, float width) const;
+
+private:
+
+    Ms::MasterScore* score() const;
+
+    IGetScore* m_getScore = nullptr;
+
 };
 
 }
 
-#endif // MU_DOMAIN_NOTATIONMODULE_H
+#endif // MU_DOMAIN_NOTATIONINPUTCONTROLLER_H

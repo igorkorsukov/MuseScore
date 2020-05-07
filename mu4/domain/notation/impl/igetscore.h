@@ -16,23 +16,23 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 //=============================================================================
-#ifndef MU_DOMAIN_NOTATIONMODULE_H
-#define MU_DOMAIN_NOTATIONMODULE_H
+#ifndef MU_DOMAIN_IGETSCORE_H
+#define MU_DOMAIN_IGETSCORE_H
 
-#include "modularity/imodulesetup.h"
+namespace Ms {
+class MasterScore;
+}
 
 namespace mu::domain::notation {
 
-class NotationDomainModule : public framework::IModuleSetup
+class IGetScore
 {
 public:
+    virtual ~IGetScore() = default;
 
-    std::string moduleName() const;
-
-    void registerExports() override;
-    void onInit() override;
+    virtual Ms::MasterScore* masterScore() const = 0;
 };
 
 }
 
-#endif // MU_DOMAIN_NOTATIONMODULE_H
+#endif // MU_DOMAIN_IGETSCORE_H

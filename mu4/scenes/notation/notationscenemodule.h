@@ -21,7 +21,7 @@
 
 #include "modularity/imodulesetup.h"
 
-namespace mu::notation {
+namespace mu::scene::notation {
 
 class NotationSceneModule : public framework::IModuleSetup
 {

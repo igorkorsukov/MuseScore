@@ -16,23 +16,23 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 //=============================================================================
-#ifndef MU_DOMAIN_NOTATIONMODULE_H
-#define MU_DOMAIN_NOTATIONMODULE_H
+#ifndef MU_DOMAIN_SCOREHELPFUL_H
+#define MU_DOMAIN_SCOREHELPFUL_H
 
-#include "modularity/imodulesetup.h"
+namespace Ms {
+class Element;
+}
 
 namespace mu::domain::notation {
 
-class NotationDomainModule : public framework::IModuleSetup
+class ScoreHelpful
 {
 public:
+    ScoreHelpful();
 
-    std::string moduleName() const;
-
-    void registerExports() override;
-    void onInit() override;
+    static bool elementLower(const Ms::Element* e1, const Ms::Element* e2);
 };
 
 }
 
-#endif // MU_DOMAIN_NOTATIONMODULE_H
+#endif // MU_DOMAIN_SCOREHELPFUL_H

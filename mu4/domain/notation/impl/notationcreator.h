@@ -16,23 +16,21 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 //=============================================================================
-#ifndef MU_DOMAIN_NOTATIONMODULE_H
-#define MU_DOMAIN_NOTATIONMODULE_H
+#ifndef MU_DOMAIN_NOTATIONCREATOR_H
+#define MU_DOMAIN_NOTATIONCREATOR_H
 
-#include "modularity/imodulesetup.h"
+#include "../inotationcreator.h"
 
 namespace mu::domain::notation {
 
-class NotationDomainModule : public framework::IModuleSetup
+class NotationCreator : public INotationCreator
 {
 public:
+    NotationCreator() = default;
 
-    std::string moduleName() const;
-
-    void registerExports() override;
-    void onInit() override;
+    std::shared_ptr<INotation> newNotation() override;
 };
 
 }
 
-#endif // MU_DOMAIN_NOTATIONMODULE_H
+#endif // MU_DOMAIN_NOTATIONCREATOR_H

@@ -16,19 +16,23 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 //=============================================================================
-#ifndef MU_NOTATION_NOTATION_H
-#define MU_NOTATION_NOTATION_H
+#ifndef MU_DOMAIN_NOTATION_H
+#define MU_DOMAIN_NOTATION_H
 
-#include "interfaces/inotation.h"
+#include "../inotation.h"
+#include "igetscore.h"
+
+#include "notationinputcontroller.h"
 
 namespace Ms {
 class MScore;
-class MasterScore;
+class Element;
+class Page;
 }
 
-namespace mu::notation {
+namespace mu::domain::notation {
 
-class Notation : public INotation
+class Notation : public INotation, public IGetScore /*internal*/
 {
 public:
     Notation();
@@ -39,12 +43,22 @@ public:
     bool load(const std::string& path, const Params& params) override;
     void paint(QPainter* p, const QRect &r) override;
 
+    INotationInputController* inputController() const override;
+
+    void select(const QPointF& p, SelectType type) ;
+
+    // Internal
+    Ms::MasterScore* masterScore() const override;
+
 private:
+
+    Ms::MasterScore* score() const;
 
     Ms::MScore* m_scoreGlobal = nullptr;
     Ms::MasterScore* m_score = nullptr;
+    NotationInputController* m_inputController = nullptr;
 };
 
 }
 
-#endif // MU_NOTATION_NOTATION_H
+#endif // MU_DOMAIN_NOTATION_H

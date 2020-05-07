@@ -31,14 +31,8 @@ DockPage {
         width: 400
         color: notationPage.color
 
-        Rectangle {
-            color: notationToolBar.color
-
-            ToolButton {
-                anchors.verticalCenter: parent.verticalCenter
-                text: "Open"
-                onClicked: observer.call("view", "open")
-            }
+        NotationToolBar {
+            onClicked: observer.call("view", name)
         }
     }
 
