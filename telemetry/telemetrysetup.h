@@ -20,24 +20,23 @@
 #ifndef TELEMETRYSETUP_H
 #define TELEMETRYSETUP_H
 
-#include "interfaces/abstractmodulesetup.h"
+#include "framework/global/modularity/imodulesetup.h"
 
 //---------------------------------------------------------
 //   TelemetrySetup
 //---------------------------------------------------------
 
-class TelemetrySetup : public AbstractModuleSetup {
+class TelemetrySetup : public msf::IModuleSetup {
    public:
       TelemetrySetup();
 
-   protected:
-      void registerExports() override;
+      std::string moduleName() const override;
 
-      QString moduleName() const override;
+      void registerExports() override;
 
       void registerResources() override;
 
-      void registerQmlTypes() override;
+      void registerUiTypes() override;
       };
 
 #endif // TELEMETRYSETUP_H

@@ -2,7 +2,7 @@
 //  MuseScore
 //  Music Composition & Notation
 //
-//  Copyright (C) 2019 MuseScore BVBA and others
+//  Copyright (C) 2020 MuseScore BVBA and others
 //
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License version 2.
@@ -17,32 +17,26 @@
 //  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 //=============================================================================
 
-#ifndef MODULESSETUP_H
-#define MODULESSETUP_H
+#ifndef MSF_IUIENGINE_H
+#define MSF_IUIENGINE_H
 
-#include <QList>
+#include "framework/global/modularity/imoduleexport.h"
 
-#include "framework/global/modularity/imodulesetup.h"
+class QQmlEngine;
+namespace msf {
 
-//---------------------------------------------------------
-//   ModulesSetup
-//---------------------------------------------------------
+class IUiEngine : MODULE_EXPORT_INTERFACE
+{
+    INTERFACE_ID(msf::IUiEngine)
 
-class ModulesSetup {
-   public:
-      static ModulesSetup* instance() {
-            static ModulesSetup s;
-            return &s;
-            }
+public:
+    virtual ~IUiEngine() {}
 
-      void setup();
+    virtual QQmlEngine* qmlEngine() const = 0;
 
-   private:
-      Q_DISABLE_COPY(ModulesSetup)
+    virtual void clearComponentCache() = 0;
+};
 
-      ModulesSetup();
+}
 
-      QList<msf::IModuleSetup*> m_modulesSetupList;
-      };
-
-#endif // MODULESSETUP_H
+#endif // MSF_UIENGINEMODULE_H

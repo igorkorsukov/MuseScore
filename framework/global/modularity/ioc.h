@@ -2,7 +2,7 @@
 //  MuseScore
 //  Music Composition & Notation
 //
-//  Copyright (C) 2019 MuseScore BVBA and others
+//  Copyright (C) 2020 MuseScore BVBA and others
 //
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License version 2.
@@ -17,35 +17,18 @@
 //  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 //=============================================================================
 
-#ifndef IMODULESETUP_H
-#define IMODULESETUP_H
+#ifndef MSF_IOC_H
+#define MSF_IOC_H
 
-#include <QString>
-#include <QtQml/qqml.h>
+#include "modulesioc.h"
 
-//---------------------------------------------------------
-//   AbstractModuleSetup
-//---------------------------------------------------------
+namespace msf {
 
-class AbstractModuleSetup {
-   public:
-      void setup() {
-            registerExports();
-            registerResources();
-            registerQmlTypes();
-            onStartInit();
-            }
+inline ModulesIoC* ioc()
+{
+    return ModulesIoC::instance();
+}
 
-   protected:
-      virtual QString moduleName() const = 0;
+}
 
-      virtual void registerExports() {}
-
-      virtual void registerResources() {}
-
-      virtual void registerQmlTypes() {}
-
-      virtual void onStartInit() {}
-      };
-
-#endif // IMODULESETUP_H
+#endif // MSF_IOC_H

@@ -6498,8 +6498,6 @@ void MuseScore::cmd(QAction* a, const QString& cmd)
             useSourceQmlFiles = true;
             const QString newPrefix = QmlDockWidget::qmlSourcePrefix();
 
-            getQmlUiEngine()->clearComponentCache();
-
             for (QmlDockWidget* w : qmlWidgets) {
                   const QString urlString = w->source().toString().replace(oldPrefix, newPrefix);
                   w->setSource(QUrl(urlString));
@@ -8180,17 +8178,6 @@ bool MuseScore::exportPartsPdfsToJSON(const QString& inFilePath, const QString& 
 
       delete score;
       return res;
-      }
-
-//---------------------------------------------------------
-//   getQmlEngine
-//---------------------------------------------------------
-
-MsQmlEngine* MuseScore::getQmlUiEngine()
-      {
-      if (!_qmlUiEngine)
-            _qmlUiEngine = new MsQmlEngine(this);
-      return _qmlUiEngine;
       }
 
 //---------------------------------------------------------

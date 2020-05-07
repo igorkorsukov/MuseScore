@@ -45,7 +45,7 @@ include_directories(
       ${CMAKE_CURRENT_BINARY_DIR}
       ${PROJECT_SOURCE_DIR}
       ${PROJECT_SOURCE_DIR}/thirdparty
-      ${PROJECT_SOURCE_DIR}/global
+      ${PROJECT_SOURCE_DIR}/framework/global
       ${PROJECT_SOURCE_DIR}/importexport
       ${QTSINGLEAPPLICATION_INCLUDE_DIRS}
       )
@@ -251,7 +251,7 @@ add_library(mscoreapp STATIC
       extension.cpp extension.h
       tourhandler.cpp
       script/script.cpp script/scriptentry.cpp script/testscript.cpp script/recorderwidget.cpp
-      qml/msqmlengine.cpp qml/nativemenu.cpp qml/nativetooltip.cpp
+      qml/nativemenu.cpp qml/nativetooltip.cpp
       qmldockwidget.cpp
 
       ${CLOUD_SRC}

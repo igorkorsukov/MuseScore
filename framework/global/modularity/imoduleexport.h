@@ -2,7 +2,7 @@
 //  MuseScore
 //  Music Composition & Notation
 //
-//  Copyright (C) 2019 MuseScore BVBA and others
+//  Copyright (C) 2020 MuseScore BVBA and others
 //
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License version 2.
@@ -17,32 +17,35 @@
 //  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 //=============================================================================
 
-#ifndef MODULESSETUP_H
-#define MODULESSETUP_H
+#ifndef MSF_IMODULEEXPORT_H
+#define MSF_IMODULEEXPORT_H
 
-#include <QList>
+#include <memory>
 
-#include "framework/global/modularity/imodulesetup.h"
+#define INTERFACE_ID(cls)               \
+public:                                 \
+    static const char* interfaceId() {  \
+        static const char* id = #cls;   \
+        return id;                      \
+    }                                   \
 
-//---------------------------------------------------------
-//   ModulesSetup
-//---------------------------------------------------------
+namespace msf {
 
-class ModulesSetup {
-   public:
-      static ModulesSetup* instance() {
-            static ModulesSetup s;
-            return &s;
-            }
+class IModuleExportInterface
+{
+public:
+    virtual ~IModuleExportInterface() {}
 
-      void setup();
+};
 
-   private:
-      Q_DISABLE_COPY(ModulesSetup)
+struct IModuleExportCreator {
+    virtual ~IModuleExportCreator() {}
+    virtual std::shared_ptr<IModuleExportInterface> create() = 0;
+};
 
-      ModulesSetup();
+}
 
-      QList<msf::IModuleSetup*> m_modulesSetupList;
-      };
+#define MODULE_EXPORT_INTERFACE public msf::IModuleExportInterface
+#define MODULE_EXPORT_CREATOR public msf::IModuleExportCreator
 
-#endif // MODULESSETUP_H
+#endif // MSF_IMODULEEXPORT_H

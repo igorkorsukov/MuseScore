@@ -22,6 +22,8 @@
 
 #include "libmscore/mscore.h"
 
+#include "framework/ui/interfaces/iuiengine.h"
+
 namespace Ms {
 
 #ifndef NDEBUG
@@ -64,8 +66,8 @@ class MsQuickView : public QQuickView
 
    public:
       MsQuickView(const QUrl& source, QWindow* parent = nullptr);
-      MsQuickView(QQmlEngine* engine, QWindow* parent)
-         : QQuickView(engine, parent) { init(); }
+      MsQuickView(std::shared_ptr<msf::IUiEngine> engine, QWindow* parent)
+         : QQuickView(engine->qmlEngine(), parent) { init(); }
       MsQuickView(QWindow* parent = nullptr)
          : QQuickView(parent) { init(); }
 
@@ -147,7 +149,7 @@ class QmlDockWidget : public QDockWidget
 
       QQuickView* _view = nullptr;
       QmlStyle* qmlStyle = nullptr;
-      QQmlEngine* engine;
+      std::shared_ptr<msf::IUiEngine> _engine;
 
       QQuickView* getView();
       void setupStyle();
@@ -156,8 +158,8 @@ class QmlDockWidget : public QDockWidget
       QSize initialViewSize() const { return _view ? _view->initialSize() : QSize(); }
 
    public:
-      QmlDockWidget(QQmlEngine* e = nullptr, QWidget* parent = nullptr, Qt::WindowFlags flags = Qt::WindowFlags());
-      QmlDockWidget(QQmlEngine* e, const QString& title, QWidget* parent = nullptr, Qt::WindowFlags flags = Qt::WindowFlags());
+      QmlDockWidget(QWidget* parent = nullptr, Qt::WindowFlags flags = Qt::WindowFlags());
+      QmlDockWidget(const QString& title, QWidget* parent = nullptr, Qt::WindowFlags flags = Qt::WindowFlags());
 
       static QString qmlSourcePrefix();
       void setSource(const QUrl& url);

@@ -20,7 +20,7 @@
 #ifndef SERVICEINJECTOR_H
 #define SERVICEINJECTOR_H
 
-#include <servicesresolver.h>
+#include "framework/global/modularity/servicesresolver.h"
 
 #include <QSharedPointer>
 

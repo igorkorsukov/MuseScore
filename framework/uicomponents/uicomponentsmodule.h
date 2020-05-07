@@ -2,7 +2,7 @@
 //  MuseScore
 //  Music Composition & Notation
 //
-//  Copyright (C) 2019 Werner Schweer and others
+//  Copyright (C) 2020 MuseScore BVBA and others
 //
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License version 2.
@@ -17,30 +17,23 @@
 //  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 //=============================================================================
 
-#include "msqmlengine.h"
+#ifndef MSF_UICOMPONENTSMODULE_H
+#define MSF_UICOMPONENTSMODULE_H
 
-namespace Ms {
+#include "framework/global/modularity/imodulesetup.h"
 
-extern QString mscoreGlobalShare;
+namespace msf {
 
-//---------------------------------------------------------
-//   MsQmlEngine
-//---------------------------------------------------------
+class UiComponentsModule : public IModuleSetup
+{
+public:
 
-MsQmlEngine::MsQmlEngine(QObject* parent)
-   : QQmlEngine(parent)
-      {
-#ifdef Q_OS_WIN
-      QStringList importPaths;
-      QDir dir(QCoreApplication::applicationDirPath() + QString("/../qml"));
-      importPaths.append(dir.absolutePath());
-      setImportPathList(importPaths);
-#endif
-#ifdef Q_OS_MAC
-      QStringList importPaths;
-      QDir dir(mscoreGlobalShare + QString("/qml"));
-      importPaths.append(dir.absolutePath());
-      setImportPathList(importPaths);
-#endif
-      }
+    std::string moduleName() const override;
+
+    void registerResources() override;
+    void registerUiTypes() override;
+};
+
 }
+
+#endif // MSF_UICOMPONENTSMODULE_H

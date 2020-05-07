@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <file>qml/MuseScore/UiComponents/qmldir</file>
+        <file>qml/MuseScore/UiComponents/SampleRectangle.qml</file>
+    </qresource>
+</RCC>
