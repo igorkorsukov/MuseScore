@@ -45,7 +45,7 @@ public:
 
     INotationInputController* inputController() const override;
 
-    void select(const QPointF& p, SelectType type) ;
+    void select(const Elem& e, SelectType type) override;
 
     // Internal
     Ms::MasterScore* masterScore() const override;

@@ -23,9 +23,18 @@
 #include "libmscore/notedot.h"
 
 using namespace mu::domain::notation;
-using namespace Ms;
 
-bool ScoreHelpful::elementLower(const Element* e1, const Element* e2)
+Ms::Element* ScoreHelpful::toMsElement(mu::domain::notation::Elem e)
+{
+    return static_cast<Ms::Element* >(e.ptr);
+}
+
+Ms::SelectType ScoreHelpful::toMsSelectType(SelectType st)
+{
+    return static_cast<Ms::SelectType>(st);
+}
+
+bool ScoreHelpful::elementLower(const Ms::Element* e1, const Ms::Element* e2)
 {
     if (!e1->selectable())
         return false;
@@ -38,17 +47,17 @@ bool ScoreHelpful::elementLower(const Element* e1, const Element* e2)
     if (e1->z() == e2->z()) {
         // same stacking order, prefer non-hidden elements
         if (e1->type() == e2->type()) {
-            if (e1->type() == ElementType::NOTEDOT) {
-                const NoteDot* n1 = static_cast<const NoteDot*>(e1);
-                const NoteDot* n2 = static_cast<const NoteDot*>(e2);
+            if (e1->type() == Ms::ElementType::NOTEDOT) {
+                const Ms::NoteDot* n1 = static_cast<const Ms::NoteDot*>(e1);
+                const Ms::NoteDot* n2 = static_cast<const Ms::NoteDot*>(e2);
                 if (n1->note() && n1->note()->hidden())
                     return false;
                 else if (n2->note() && n2->note()->hidden())
                     return true;
             }
-            else if (e1->type() == ElementType::NOTE) {
-                const Note* n1 = static_cast<const Note*>(e1);
-                const Note* n2 = static_cast<const Note*>(e2);
+            else if (e1->type() == Ms::ElementType::NOTE) {
+                const Ms::Note* n1 = static_cast<const Ms::Note*>(e1);
+                const Ms::Note* n2 = static_cast<const Ms::Note*>(e2);
                 if (n1->hidden())
                     return false;
                 else if (n2->hidden())

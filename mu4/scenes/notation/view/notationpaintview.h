@@ -27,11 +27,10 @@
 #include "interfaces/iinteractive.h"
 #include "domain/notation/inotationcreator.h"
 
-#include "notationviewinputcontroller.h"
-
 namespace mu::scene::notation {
 
-class NotationPaintView : public QQuickPaintedItem, public NotationViewInputController::IView
+class NotationViewInputController;
+class NotationPaintView : public QQuickPaintedItem
 {
     Q_OBJECT
 
@@ -43,15 +42,10 @@ public:
 
     Q_INVOKABLE void open();
 
-public slots:
-    void moveScene(int dx, int dy);
-    void scrollVertical(int dy);
-    void scrollHorizontal(int dx);
-    void zoomStep(qreal step, const QPoint& pos);
-    void zoom(qreal mag, const QPoint& pos);
-    void selectSingal(const QPoint& pos);
-
 private:
+
+    friend class NotationViewInputController;
+
     // Draw
     void paint(QPainter *painter) override;
 
@@ -61,13 +55,18 @@ private:
     void mouseMoveEvent(QMouseEvent*) override;
     void mouseReleaseEvent(QMouseEvent*) override;
 
-    // controll IView
-    int viewWidth() const override;
-    int viewHeight() const override;
-    QPoint toLogical(const QPoint& p) const override;
+    QPoint toLogical(const QPoint& p) const;
     QPoint toPhysical(const QPoint& p) const;
     float hitWidth() const;
     domain::notation::INotationInputController* notationInputController() const;
+
+    void moveScene(int dx, int dy);
+    void scrollVertical(int dy);
+    void scrollHorizontal(int dx);
+    void zoomStep(qreal step, const QPoint& pos);
+    void zoom(qreal mag, const QPoint& pos);
+    void selectElement(domain::notation::Elem e, domain::notation::SelectType selectType);
+
     // ---
 
     std::shared_ptr<domain::notation::INotation> m_notation;

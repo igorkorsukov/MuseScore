@@ -28,6 +28,7 @@ set(MODULE_SRC
     ${CMAKE_CURRENT_LIST_DIR}/inotation.h
     ${CMAKE_CURRENT_LIST_DIR}/inotationinputvontroller.h
     ${CMAKE_CURRENT_LIST_DIR}/inotationcreator.h
+    ${CMAKE_CURRENT_LIST_DIR}/notationtypes.h
 
     ${CMAKE_CURRENT_LIST_DIR}/impl/notation.cpp
     ${CMAKE_CURRENT_LIST_DIR}/impl/notation.h

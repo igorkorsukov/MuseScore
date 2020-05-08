@@ -52,13 +52,8 @@ class INotation : MODULE_EXPORT_INTERFACE
     virtual void paint(QPainter* p, const QRect& r) = 0;
 
     // Input
-    enum class SelectType {
-        SINGLE, RANGE, ADD
-    };
-
     virtual INotationInputController* inputController() const = 0;
-
-    //virtual void select(const QPointF& p, SelectType type) = 0;
+    virtual void select(const Elem& e, SelectType type) = 0;
 };
 
 }

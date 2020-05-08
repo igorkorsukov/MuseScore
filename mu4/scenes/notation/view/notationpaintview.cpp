@@ -22,8 +22,10 @@
 #include <cmath>
 
 #include "log.h"
+#include "notationviewinputcontroller.h"
 
 using namespace mu::scene::notation;
+using namespace mu::domain::notation;
 
 static constexpr int PREF_UI_CANVAS_MISC_SELECTIONPROXIMITY = 6;
 
@@ -38,12 +40,6 @@ NotationPaintView::NotationPaintView()
     m_matrix = QTransform::fromScale(mag, mag);
 
     m_inputController = new NotationViewInputController(this);
-    using controller = NotationViewInputController;
-    using view = NotationPaintView;
-    connect(m_inputController, &controller::requiredMoveScene, this, &view::moveScene);
-    connect(m_inputController, &controller::requiredScrollHorizontal, this, &view::scrollHorizontal);
-    connect(m_inputController, &controller::requiredScrollVertical, this, &view::scrollVertical);
-    connect(m_inputController, &controller::requiredZoomStep, this, &view::zoomStep);
 }
 
 void NotationPaintView::open()
@@ -132,9 +128,10 @@ void NotationPaintView::zoom(qreal mag, const QPoint& pos)
     update();
 }
 
-void NotationPaintView::selectSingal(const QPoint& pos)
+void NotationPaintView::selectElement(Elem e, SelectType selectType)
 {
-    //m_notation->select(pos, w);
+    m_notation->select(e, selectType);
+    update();
 }
 
 void NotationPaintView::wheelEvent(QWheelEvent* ev)
@@ -155,16 +152,6 @@ void NotationPaintView::mouseMoveEvent(QMouseEvent* ev)
 void NotationPaintView::mouseReleaseEvent(QMouseEvent* ev)
 {
     m_inputController->mouseReleaseEvent(ev);
-}
-
-int NotationPaintView::viewWidth() const
-{
-    return width();
-}
-
-int NotationPaintView::viewHeight() const
-{
-    return height();
 }
 
 QPoint NotationPaintView::toLogical(const QPoint& p) const

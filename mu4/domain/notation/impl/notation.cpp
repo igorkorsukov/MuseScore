@@ -24,6 +24,8 @@
 #include "libmscore/score.h"
 #include "libmscore/page.h"
 
+#include "scorehelpful.h"
+
 //! HACK Temporary hack to link libmscore
 Q_LOGGING_CATEGORY(undoRedo, "undoRedo", QtCriticalMsg)
 
@@ -39,25 +41,24 @@ QString mscoreGlobalShare;
 
 
 using namespace mu::domain::notation;
-using namespace Ms;
 
 Notation::Notation()
 {
-    m_scoreGlobal = new MScore();
-    m_score = new MasterScore(m_scoreGlobal->baseStyle());
+    m_scoreGlobal = new Ms::MScore();
+    m_score = new Ms::MasterScore(m_scoreGlobal->baseStyle());
 
     m_inputController = new NotationInputController(this /*IGetScore*/);
 }
 
 void Notation::init()
 {
-    MScore::init();         // initialize libmscore
+    Ms::MScore::init();         // initialize libmscore
 }
 
 bool Notation::load(const std::string& path, const Params &params)
 {
-    Score::FileError rv = m_score->loadMsc(QString::fromStdString(path), true);
-    if (rv != Score::FileError::FILE_NO_ERROR) {
+    Ms::Score::FileError rv = m_score->loadMsc(QString::fromStdString(path), true);
+    if (rv != Ms::Score::FileError::FILE_NO_ERROR) {
         return false;
     }
 
@@ -113,9 +114,9 @@ void Notation::paint(QPainter* p, const QRect& r)
     }
 }
 
-void Notation::select(const QPointF& p, SelectType type)
+void Notation::select(const Elem& e, SelectType type)
 {
-
+    score()->select(ScoreHelpful::toMsElement(e), ScoreHelpful::toMsSelectType(type));
 }
 
 Ms::MasterScore* Notation::score() const

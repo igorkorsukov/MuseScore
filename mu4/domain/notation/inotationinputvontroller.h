@@ -20,6 +20,7 @@
 #define MU_DOMAIN_INOTATIONINPUTCONTROLLER_H
 
 #include <QPoint>
+#include "notationtypes.h"
 
 namespace mu::domain::notation {
 
@@ -28,15 +29,9 @@ class INotationInputController
 public:
     virtual ~INotationInputController() = default;
 
-    struct HitElement
-    {
-        bool isValid() const { return ptr != nullptr; }
-    private:
-        friend class NotationInputController;
-        void* ptr = nullptr;
-    };
 
-    virtual HitElement hitElement(const QPointF& pos, float width) const = 0;
+
+    virtual Elem hitElement(const QPointF& pos, float width) const = 0;
 
 };
 

@@ -37,7 +37,9 @@ public:
     NotationInputController(IGetScore* getScore);
 
     // INotationInputController
-    HitElement hitElement(const QPointF& pos, float width) const override;
+
+    Elem hitElement(const QPointF& pos, float width) const override;
+
     // ---
 
     Ms::Page* point2page(const QPointF &p) const;

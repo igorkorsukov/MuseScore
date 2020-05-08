@@ -16,40 +16,20 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 //=============================================================================
-#ifndef MU_NOTATIONSCENE_NOTATIONVIEWINPUTCONTROLLER_H
-#define MU_NOTATIONSCENE_NOTATIONVIEWINPUTCONTROLLER_H
+#ifndef MU_DOMAIN_NOTATIONTYPES_H
+#define MU_DOMAIN_NOTATIONTYPES_H
 
-#include <QWheelEvent>
+namespace mu::domain::notation {
 
-#include "domain/notation/inotationinputvontroller.h"
+struct Elem {
+    void* ptr = nullptr;
+    bool isValid() const { return ptr != nullptr; }
+};
 
-namespace mu::scene::notation {
-
-class NotationPaintView;
-class NotationViewInputController
-{
-
-public:
-    NotationViewInputController(NotationPaintView* view);
-
-    void wheelEvent(QWheelEvent* ev);
-    void mousePressEvent(QMouseEvent* ev);
-    void mouseMoveEvent(QMouseEvent* ev);
-    void mouseReleaseEvent(QMouseEvent* ev);
-
-private:
-
-    struct InteractData {
-        QPoint beginPoint;
-        domain::notation::Elem element;
-    };
-
-    domain::notation::INotationInputController* notationInputController() const;
-
-    NotationPaintView* m_view = nullptr;
-    InteractData m_interactData;
+enum class SelectType {
+    SINGLE, RANGE, ADD
 };
 
 }
 
-#endif // MU_NOTATIONSCENE_NOTATIONVIEWINPUTCONTROLLER_H
+#endif // MU_DOMAIN_NOTATIONTYPES_H

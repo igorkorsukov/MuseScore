@@ -19,6 +19,10 @@
 #ifndef MU_DOMAIN_SCOREHELPFUL_H
 #define MU_DOMAIN_SCOREHELPFUL_H
 
+#include "../notationtypes.h"
+
+#include "libmscore/mscore.h"
+
 namespace Ms {
 class Element;
 }
@@ -28,9 +32,11 @@ namespace mu::domain::notation {
 class ScoreHelpful
 {
 public:
-    ScoreHelpful();
+    static Ms::Element* toMsElement(Elem e);
+    static Ms::SelectType toMsSelectType(SelectType st);
 
     static bool elementLower(const Ms::Element* e1, const Ms::Element* e2);
+
 };
 
 }

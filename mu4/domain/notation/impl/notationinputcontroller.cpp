@@ -27,7 +27,6 @@
 #include "scorehelpful.h"
 
 using namespace mu::domain::notation;
-using namespace Ms;
 
 NotationInputController::NotationInputController(IGetScore* getScore)
     : m_getScore(getScore)
@@ -35,25 +34,25 @@ NotationInputController::NotationInputController(IGetScore* getScore)
 
 }
 
-INotationInputController::HitElement NotationInputController::hitElement(const QPointF& pos, float width) const
+Elem NotationInputController::hitElement(const QPointF& pos, float width) const
 {
-    QList<Element*> ll = hitElements(pos, width);
+    QList<Ms::Element*> ll = hitElements(pos, width);
     if (ll.isEmpty()) {
-        return HitElement();
+        return Elem();
     }
 
-    HitElement e;
+    Elem e;
     e.ptr = ll.at(0);
     return e;
 }
 
 Ms::Page* NotationInputController::point2page(const QPointF& p) const
 {
-    if (score()->layoutMode() == LayoutMode::LINE) {
+    if (score()->layoutMode() == Ms::LayoutMode::LINE) {
         return score()->pages().isEmpty() ? 0 : score()->pages().front();
     }
 
-    for (Page* page : score()->pages()) {
+    for (Ms::Page* page : score()->pages()) {
         if (page->bbox().translated(page->pos()).contains(p)) {
             return page;
         }
@@ -62,20 +61,20 @@ Ms::Page* NotationInputController::point2page(const QPointF& p) const
     return nullptr;
 }
 
-QList<Element*> NotationInputController::hitElements(const QPointF &p_in, float w) const
+QList<Ms::Element*> NotationInputController::hitElements(const QPointF &p_in, float w) const
 {
-    Page* page = point2page(p_in);
+    Ms::Page* page = point2page(p_in);
     if (!page) {
-        return QList<Element*>();
+        return QList<Ms::Element*>();
     }
 
-    QList<Element*> ll;
+    QList<Ms::Element*> ll;
 
     QPointF p = p_in - page->pos();
 
     QRectF r(p.x() - w, p.y() - w, 3.0 * w, 3.0 * w);
 
-    QList<Element*> el = page->items(r);
+    QList<Ms::Element*> el = page->items(r);
     //! TODO
     //    for (int i = 0; i < MAX_HEADERS; i++)
     //        if (score()->headerText(i) != nullptr)      // gives the ability to select the header
@@ -85,7 +84,7 @@ QList<Element*> NotationInputController::hitElements(const QPointF &p_in, float 
     //            el.push_back(score()->footerText(i));
     //! -------
 
-    for (Element* e : el) {
+    for (Ms::Element* e : el) {
         e->itemDiscovered = 0;
         if (!e->selectable() || e->isPage())
             continue;
@@ -98,7 +97,7 @@ QList<Element*> NotationInputController::hitElements(const QPointF &p_in, float 
         //
         // if no relevant element hit, look nearby
         //
-        for (Element* e : el) {
+        for (Ms::Element* e : el) {
             if (e->isPage() || !e->selectable())
                 continue;
             if (e->intersects(r))

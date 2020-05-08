@@ -19,13 +19,14 @@
 #include "notationviewinputcontroller.h"
 
 #include "log.h"
+#include "notationpaintview.h"
 
 using namespace mu::scene::notation;
 using namespace mu::domain::notation;
 
 static constexpr int PIXELSSTEPSFACTOR = 5;
 
-NotationViewInputController::NotationViewInputController(IView *view)
+NotationViewInputController::NotationViewInputController(NotationPaintView *view)
     : m_view(view)
 {
 
@@ -48,33 +49,47 @@ void NotationViewInputController::wheelEvent(QWheelEvent* ev)
 
     } else if (!stepsScrolled.isNull()) {
 
-        dx = (stepsScrolled.x() * qMax(2.0, m_view->viewWidth() / 10.0)) / 120;
-        dy = (stepsScrolled.y() * qMax(2.0, m_view->viewHeight() / 10.0)) / 120;
+        dx = (stepsScrolled.x() * qMax(2.0, m_view->width() / 10.0)) / 120;
+        dy = (stepsScrolled.y() * qMax(2.0, m_view->height() / 10.0)) / 120;
         steps = static_cast<qreal>(stepsScrolled.y()) / 120.0;
     }
 
     // Windows touch pad pinches also execute this
     if (ev->modifiers() & Qt::ControlModifier) {
 
-        emit requiredZoomStep(steps, m_view->toLogical(ev->pos()));
+        m_view->zoomStep(steps, m_view->toLogical(ev->pos()));
 
     } else if (ev->modifiers() & Qt::ShiftModifier && dx == 0) {
 
         dx = dy;
-        emit requiredScrollHorizontal(dx);
+        m_view->scrollHorizontal(dx);
 
     } else {
-        emit requiredScrollVertical(dy);
+        m_view->scrollVertical(dy);
     }
 }
 
 void NotationViewInputController::mousePressEvent(QMouseEvent* ev)
 {
     QPoint logicPos = m_view->toLogical(ev->pos());
+    Qt::KeyboardModifiers keyState = ev->modifiers();
 
     m_interactData.beginPoint = logicPos;
     m_interactData.element = notationInputController()->hitElement(logicPos, m_view->hitWidth());
     LOGI() << "hitElement valid: " << m_interactData.element.isValid();
+
+    if (m_interactData.element.isValid()) {
+
+        SelectType st = SelectType::SINGLE;
+        if (keyState == Qt::NoModifier)
+              st = SelectType::SINGLE;
+        else if (keyState & Qt::ShiftModifier)
+              st = SelectType::RANGE;
+        else if (keyState & Qt::ControlModifier)
+              st = SelectType::ADD;
+
+        m_view->selectElement(m_interactData.element, st);
+    }
 }
 
 void NotationViewInputController::mouseMoveEvent(QMouseEvent* ev)
@@ -89,7 +104,7 @@ void NotationViewInputController::mouseMoveEvent(QMouseEvent* ev)
     }
 
     if (!m_interactData.element.isValid()) {
-        emit requiredMoveScene(dx, dy);
+        m_view->moveScene(dx, dy);
         return;
     }
 }
