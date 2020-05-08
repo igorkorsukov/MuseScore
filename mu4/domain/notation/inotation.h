@@ -25,6 +25,7 @@
 #include "modularity/imoduleexport.h"
 
 #include "inotationinputvontroller.h"
+#include "notationtypes.h"
 
 class QPainter;
 namespace mu::domain::notation {
@@ -54,6 +55,9 @@ class INotation : MODULE_EXPORT_INTERFACE
     // Input
     virtual INotationInputController* inputController() const = 0;
     virtual void select(const Elem& e, SelectType type) = 0;
+
+    // Edit
+    virtual void cmd(const QString& cmd) = 0;
 };
 
 }

@@ -5,15 +5,13 @@ Rectangle {
 
     id: root
 
-
-    function open() {
-        view.open()
+    function cmd(name, args) {
+        console.info("cmd: " + name)
+        view.cmd(name);
     }
 
     NotationPaintView {
         id: view
         anchors.fill: parent
-        
-        
     }
 }

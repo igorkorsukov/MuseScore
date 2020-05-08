@@ -40,7 +40,10 @@ class NotationPaintView : public QQuickPaintedItem
 public:
     NotationPaintView();
 
-    Q_INVOKABLE void open();
+    Q_INVOKABLE void cmd(const QString& name);
+
+
+    void open();
 
 private:
 

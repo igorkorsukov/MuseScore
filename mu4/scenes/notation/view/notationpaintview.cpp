@@ -42,6 +42,22 @@ NotationPaintView::NotationPaintView()
     m_inputController = new NotationViewInputController(this);
 }
 
+void NotationPaintView::cmd(const QString& name)
+{
+    //! TODO Temporary solution for test
+    if ("open" == name) {
+        open();
+    } else {
+
+        if (m_notation) {
+            m_notation->cmd(name);
+        }
+    }
+
+    update();
+}
+
+//! TODO Temporary method for tests
 void NotationPaintView::open()
 {
     QString filePath = interactive()->selectOpeningFile("Score", "", "");

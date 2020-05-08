@@ -16,30 +16,11 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 //=============================================================================
-#ifndef MU_DOMAIN_SCOREHELPFUL_H
-#define MU_DOMAIN_SCOREHELPFUL_H
+#include "scorecallbacks.h"
 
-#include "../notationtypes.h"
+using namespace mu::domain::notation;
 
-#include "libmscore/mscore.h"
-#include "libmscore/score.h"
-
-namespace Ms {
-class Element;
-}
-
-namespace mu::domain::notation {
-
-class ScoreHelpful
+ScoreCallbacks::ScoreCallbacks()
 {
-public:
-    static Ms::Element* toMsElement(Elem e);
-    static Ms::SelectType toMsSelectType(SelectType st);
-
-    static bool elementLower(const Ms::Element* e1, const Ms::Element* e2);
-
-};
 
 }
-
-#endif // MU_DOMAIN_SCOREHELPFUL_H

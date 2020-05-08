@@ -48,6 +48,7 @@ Notation::Notation()
     m_score = new Ms::MasterScore(m_scoreGlobal->baseStyle());
 
     m_inputController = new NotationInputController(this /*IGetScore*/);
+    m_scoreCallbacks = new ScoreCallbacks();
 }
 
 void Notation::init()
@@ -117,6 +118,13 @@ void Notation::paint(QPainter* p, const QRect& r)
 void Notation::select(const Elem& e, SelectType type)
 {
     score()->select(ScoreHelpful::toMsElement(e), ScoreHelpful::toMsSelectType(type));
+}
+
+void Notation::cmd(const QString& cmd)
+{
+    Ms::EditData ed;
+    ed.view = m_scoreCallbacks;
+    score()->cmd(cmd, ed);
 }
 
 Ms::MasterScore* Notation::score() const

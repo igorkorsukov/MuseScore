@@ -39,6 +39,8 @@ set(MODULE_SRC
     ${CMAKE_CURRENT_LIST_DIR}/impl/igetscore.h
     ${CMAKE_CURRENT_LIST_DIR}/impl/scorehelpful.cpp
     ${CMAKE_CURRENT_LIST_DIR}/impl/scorehelpful.h
+    ${CMAKE_CURRENT_LIST_DIR}/impl/scorecallbacks.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/impl/scorecallbacks.h
     )
 
 set(MODULE_LINK

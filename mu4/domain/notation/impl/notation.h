@@ -23,6 +23,7 @@
 #include "igetscore.h"
 
 #include "notationinputcontroller.h"
+#include "scorecallbacks.h"
 
 namespace Ms {
 class MScore;
@@ -46,6 +47,7 @@ public:
     INotationInputController* inputController() const override;
 
     void select(const Elem& e, SelectType type) override;
+    void cmd(const QString& cmd) override;
 
     // Internal
     Ms::MasterScore* masterScore() const override;
@@ -57,6 +59,7 @@ private:
     Ms::MScore* m_scoreGlobal = nullptr;
     Ms::MasterScore* m_score = nullptr;
     NotationInputController* m_inputController = nullptr;
+    ScoreCallbacks* m_scoreCallbacks = nullptr;
 };
 
 }

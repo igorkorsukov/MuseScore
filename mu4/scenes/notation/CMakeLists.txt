@@ -23,6 +23,8 @@ set(MODULE_QRC
     ${CMAKE_CURRENT_LIST_DIR}/view/notation_view.qrc
     )
 
+set(MODULE_QML_IMPORT ${CMAKE_CURRENT_LIST_DIR}/view/qml)
+
 include(${CMAKE_CURRENT_LIST_DIR}/view/notationview.cmake)
 
 set(MODULE_SRC

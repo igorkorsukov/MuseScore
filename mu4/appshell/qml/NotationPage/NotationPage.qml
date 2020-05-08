@@ -18,8 +18,8 @@ DockPage {
             _callbacks[target] = callback;
         }
 
-        function call(target, method, args) {
-            _callbacks[target](method, args)
+        function call(target, cmd) {
+            _callbacks[target](cmd)
         }
     }
 
@@ -32,7 +32,7 @@ DockPage {
         color: notationPage.color
 
         NotationToolBar {
-            onClicked: observer.call("view", name)
+            onClicked: observer.call("view", cmd)
         }
     }
 
@@ -88,15 +88,8 @@ DockPage {
         NotationView {
             id: notationView
 
-            function onCall(method, args) {
-                console.info("[view] onCall: " + method + "(" + args + ")")
-                switch (method) {
-                case "open": notationView.open()
-                }
-            }
-
             Component.onCompleted: {
-                observer.register("view", onCall)
+                observer.register("view", notationView.cmd)
             }
         }
     }
