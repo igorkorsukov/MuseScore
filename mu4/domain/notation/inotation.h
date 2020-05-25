@@ -57,6 +57,7 @@ class INotation : MODULE_EXPORT_INTERFACE
     virtual void select(const Elem& e, SelectType type) = 0;
 
     // Edit
+    virtual void startNoteEntry() = 0;
     virtual void cmd(const QString& cmd) = 0;
 };
 

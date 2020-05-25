@@ -17,7 +17,7 @@ ToolBar {
 
         ToolButton {
             text: "N"
-            onClicked: root.clicked("noteinput")
+            onClicked: root.clicked("note-input")
         }
 
         ToolButton {

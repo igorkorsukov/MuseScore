@@ -120,6 +120,15 @@ void Notation::select(const Elem& e, SelectType type)
     score()->select(ScoreHelpful::toMsElement(e), ScoreHelpful::toMsSelectType(type));
 }
 
+void Notation::startNoteEntry()
+{
+    Ms::InputState& is = score()->inputState();
+    is.setSegment(0);
+    is.setAccidentalType(Ms::AccidentalType::NONE);
+    is.setRest(false);
+    is.setNoteEntryMode(true);
+}
+
 void Notation::cmd(const QString& cmd)
 {
     Ms::EditData ed;

@@ -47,6 +47,7 @@ public:
     INotationInputController* inputController() const override;
 
     void select(const Elem& e, SelectType type) override;
+    void startNoteEntry() override;
     void cmd(const QString& cmd) override;
 
     // Internal

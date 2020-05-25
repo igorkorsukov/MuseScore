@@ -47,6 +47,13 @@ void NotationPaintView::cmd(const QString& name)
     //! TODO Temporary solution for test
     if ("open" == name) {
         open();
+
+    } else if ("note-input" == name) {
+
+        if (m_notation) {
+            m_notation->startNoteEntry();
+        }
+
     } else {
 
         if (m_notation) {
