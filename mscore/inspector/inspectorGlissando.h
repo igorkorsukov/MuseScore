@@ -1,14 +1,14 @@
-//=============================================================================
-//  MuseScore
-//  Music Composition & Notation
+// =============================================================================
+// MuseScore
+// Music Composition & Notation
 //
-//  Copyright (C) 2013 Werner Schweer and others
+// Copyright (C) 2013 Werner Schweer and others
 //
-//  This program is free software; you can redistribute it and/or modify
-//  it under the terms of the GNU General Public License version 2
-//  as published by the Free Software Foundation and appearing in
-//  the file LICENSE.GPL
-//=============================================================================
+// This program is free software; you can redistribute it and/or modify
+// it under the terms of the GNU General Public License version 2
+// as published by the Free Software Foundation and appearing in
+// the file LICENSE.GPL
+// =============================================================================
 
 #ifndef __INSPECTOR_GLISSANDO_H__
 #define __INSPECTOR_GLISSANDO_H__
@@ -18,21 +18,19 @@
 #include "libmscore/property.h"
 
 namespace Ms {
+// ---------------------------------------------------------
+// InspectorGlissando
+// ---------------------------------------------------------
 
-//---------------------------------------------------------
-//   InspectorGlissando
-//---------------------------------------------------------
+class InspectorGlissando : public InspectorElementBase
+{
+    Q_OBJECT
 
-class InspectorGlissando : public InspectorElementBase {
-      Q_OBJECT
+    Ui::InspectorGlissando g;
 
-      Ui::InspectorGlissando g;
-
-   public:
-      InspectorGlissando(QWidget* parent);
-      virtual void setElement() override;
-      };
-
-
+public:
+    InspectorGlissando(QWidget* parent);
+    virtual void setElement() override;
+};
 } // namespace Ms
 #endif

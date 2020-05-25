@@ -1,14 +1,14 @@
-//=============================================================================
-//  MuseScore
-//  Music Composition & Notation
+// =============================================================================
+// MuseScore
+// Music Composition & Notation
 //
-//  Copyright (C) 2011-2016 Werner Schweer and others
+// Copyright (C) 2011-2016 Werner Schweer and others
 //
-//  This program is free software; you can redistribute it and/or modify
-//  it under the terms of the GNU General Public License version 2
-//  as published by the Free Software Foundation and appearing in
-//  the file LICENSE.GPL
-//=============================================================================
+// This program is free software; you can redistribute it and/or modify
+// it under the terms of the GNU General Public License version 2
+// as published by the Free Software Foundation and appearing in
+// the file LICENSE.GPL
+// =============================================================================
 
 #ifndef __INSPECTOR_H__
 #define __INSPECTOR_H__
@@ -51,7 +51,6 @@
 #include "ui_inspector_stem.h"
 
 namespace Ms {
-
 class Score;
 class Element;
 class Note;
@@ -60,423 +59,449 @@ class Segment;
 class Chord;
 class Clef;
 
-//---------------------------------------------------------
-//   InspectorElement
-//---------------------------------------------------------
-
-class InspectorElement : public InspectorElementBase {
-      Q_OBJECT
-
-   public:
-      InspectorElement(QWidget* parent);
-      };
-
-//---------------------------------------------------------
-//   InspectorBreak
-//---------------------------------------------------------
-
-class InspectorBreak : public InspectorBase {
-      Q_OBJECT
-      Ui::InspectorBreak b;
-
-   public:
-      InspectorBreak(QWidget* parent);
-      };
-
-//---------------------------------------------------------
-//   InspectorSectionBreak
-//---------------------------------------------------------
-
-class InspectorSectionBreak : public InspectorBase {
-      Q_OBJECT
-      Ui::InspectorSectionBreak scb;
-
-   public:
-      InspectorSectionBreak(QWidget* parent);
-      };
-
-//---------------------------------------------------------
-//   InspectorStaffTypeChange
-//---------------------------------------------------------
-
-class InspectorStaffTypeChange : public InspectorBase {
-      Q_OBJECT
-      Ui::InspectorStaffTypeChange sl;
-
-   public:
-      InspectorStaffTypeChange(QWidget* parent);
-      virtual void setElement() override;
-      };
-
-//---------------------------------------------------------
-//   InspectorVBox
-//---------------------------------------------------------
-
-class InspectorVBox : public InspectorBase {
-      Q_OBJECT
-      Ui::InspectorVBox vb;
-
-   public:
-      InspectorVBox(QWidget* parent);
-      };
-
-//---------------------------------------------------------
-//   InspectorTBox
-//---------------------------------------------------------
-
-class InspectorTBox : public InspectorBase {
-      Q_OBJECT
-      Ui::InspectorTBox tb;
-
-   public:
-      InspectorTBox(QWidget* parent);
-      };
-
-//---------------------------------------------------------
-//   InspectorHBox
-//---------------------------------------------------------
+// ---------------------------------------------------------
+// InspectorElement
+// ---------------------------------------------------------
+
+class InspectorElement : public InspectorElementBase
+{
+    Q_OBJECT
+
+public:
+    InspectorElement(QWidget* parent);
+};
+
+// ---------------------------------------------------------
+// InspectorBreak
+// ---------------------------------------------------------
+
+class InspectorBreak : public InspectorBase
+{
+    Q_OBJECT
+    Ui::InspectorBreak b;
+
+public:
+    InspectorBreak(QWidget* parent);
+};
+
+// ---------------------------------------------------------
+// InspectorSectionBreak
+// ---------------------------------------------------------
+
+class InspectorSectionBreak : public InspectorBase
+{
+    Q_OBJECT
+    Ui::InspectorSectionBreak scb;
+
+public:
+    InspectorSectionBreak(QWidget* parent);
+};
+
+// ---------------------------------------------------------
+// InspectorStaffTypeChange
+// ---------------------------------------------------------
+
+class InspectorStaffTypeChange : public InspectorBase
+{
+    Q_OBJECT
+    Ui::InspectorStaffTypeChange sl;
+
+public:
+    InspectorStaffTypeChange(QWidget* parent);
+    virtual void setElement() override;
+};
+
+// ---------------------------------------------------------
+// InspectorVBox
+// ---------------------------------------------------------
+
+class InspectorVBox : public InspectorBase
+{
+    Q_OBJECT
+    Ui::InspectorVBox vb;
+
+public:
+    InspectorVBox(QWidget* parent);
+};
+
+// ---------------------------------------------------------
+// InspectorTBox
+// ---------------------------------------------------------
+
+class InspectorTBox : public InspectorBase
+{
+    Q_OBJECT
+    Ui::InspectorTBox tb;
+
+public:
+    InspectorTBox(QWidget* parent);
+};
+
+// ---------------------------------------------------------
+// InspectorHBox
+// ---------------------------------------------------------
+
+class InspectorHBox : public InspectorBase
+{
+    Q_OBJECT
+    Ui::InspectorHBox hb;
+
+public:
+    InspectorHBox(QWidget* parent);
+};
+
+// ---------------------------------------------------------
+// InspectorArticulation
+// ---------------------------------------------------------
+
+class InspectorArticulation : public InspectorElementBase
+{
+    Q_OBJECT
+    Ui::InspectorArticulation ar;
+
+private slots:
+    void propertiesClicked();
+
+public:
+    InspectorArticulation(QWidget* parent);
+    virtual void setElement() override;
+};
+
+// ---------------------------------------------------------
+// InspectorFermata
+// ---------------------------------------------------------
+
+class InspectorFermata : public InspectorElementBase
+{
+    Q_OBJECT
+    Ui::InspectorFermata f;
+
+public:
+    InspectorFermata(QWidget* parent);
+    virtual void setElement() override;
+};
+
+// ---------------------------------------------------------
+// InspectorSpacer
+// ---------------------------------------------------------
+
+class InspectorSpacer : public InspectorBase
+{
+    Q_OBJECT
+    Ui::InspectorSpacer sp;
+
+public:
+    InspectorSpacer(QWidget* parent);
+};
+
+// ---------------------------------------------------------
+// InspectorRest
+// ---------------------------------------------------------
+
+class InspectorRest : public InspectorElementBase
+{
+    Q_OBJECT
+
+    Ui::InspectorSegment s;
+    Ui::InspectorRest r;
+
+    QPushButton* dot1;
+    QPushButton* dot2;
+    QPushButton* dot3;
+    QPushButton* dot4;
+    QPushButton* tuplet;
+
+    void dotClicked(int n);
+
+private slots:
+    void dot1Clicked();
+    void dot2Clicked();
+    void dot3Clicked();
+    void dot4Clicked();
+    void tupletClicked();
 
-class InspectorHBox : public InspectorBase {
-      Q_OBJECT
-      Ui::InspectorHBox hb;
+public:
+    InspectorRest(QWidget* parent);
+    virtual void setElement() override;
+};
+
+// ---------------------------------------------------------
+// InspectorMMRest
+// ---------------------------------------------------------
+
+class InspectorMMRest : public InspectorElementBase
+{
+    Q_OBJECT
+
+    Ui::InspectorMMRest m;
 
-   public:
-      InspectorHBox(QWidget* parent);
-      };
+public:
+    InspectorMMRest(QWidget* parent);
+};
 
-//---------------------------------------------------------
-//   InspectorArticulation
-//---------------------------------------------------------
+// ---------------------------------------------------------
+// InspectorClef
+// ---------------------------------------------------------
 
-class InspectorArticulation : public InspectorElementBase {
-      Q_OBJECT
-      Ui::InspectorArticulation ar;
+class InspectorClef : public InspectorElementBase
+{
+    Q_OBJECT
 
-   private slots:
-      void propertiesClicked();
+    Ui::InspectorSegment s;
+    Ui::InspectorClef c;
 
-   public:
-      InspectorArticulation(QWidget* parent);
-      virtual void setElement() override;
-      };
+public:
+    InspectorClef(QWidget* parent);
+// virtual void setElement() override;
+};
 
-//---------------------------------------------------------
-//   InspectorFermata
-//---------------------------------------------------------
+// ---------------------------------------------------------
+// InspectorStem
+// ---------------------------------------------------------
 
-class InspectorFermata : public InspectorElementBase {
-      Q_OBJECT
-      Ui::InspectorFermata f;
+class InspectorStem : public InspectorElementBase
+{
+    Q_OBJECT
 
-   public:
-      InspectorFermata(QWidget* parent);
-      virtual void setElement() override;
-      };
+    Ui::InspectorStem s;
 
-//---------------------------------------------------------
-//   InspectorSpacer
-//---------------------------------------------------------
+public:
+    InspectorStem(QWidget* parent);
+// virtual void setElement() override;
+};
 
-class InspectorSpacer : public InspectorBase {
-      Q_OBJECT
-      Ui::InspectorSpacer sp;
+// ---------------------------------------------------------
+// InspectorTimeSig
+// ---------------------------------------------------------
 
-   public:
-      InspectorSpacer(QWidget* parent);
-      };
+class InspectorTimeSig : public InspectorElementBase
+{
+    Q_OBJECT
 
-//---------------------------------------------------------
-//   InspectorRest
-//---------------------------------------------------------
+    Ui::InspectorSegment s;
+    Ui::InspectorTimeSig t;
 
-class InspectorRest : public InspectorElementBase {
-      Q_OBJECT
+private slots:
+    void propertiesClicked();
 
-      Ui::InspectorSegment s;
-      Ui::InspectorRest    r;
+public:
+    InspectorTimeSig(QWidget* parent);
+    virtual void setElement() override;
+};
 
-      QPushButton* dot1;
-      QPushButton* dot2;
-      QPushButton* dot3;
-      QPushButton* dot4;
-      QPushButton* tuplet;
+// ---------------------------------------------------------
+// InspectorKeySig
+// ---------------------------------------------------------
 
-      void dotClicked(int n);
+class InspectorKeySig : public InspectorElementBase
+{
+    Q_OBJECT
 
-   private slots:
-      void dot1Clicked();
-      void dot2Clicked();
-      void dot3Clicked();
-      void dot4Clicked();
-      void tupletClicked();
+    Ui::InspectorSegment s;
+    Ui::InspectorKeySig k;
 
-   public:
-      InspectorRest(QWidget* parent);
-      virtual void setElement() override;
-      };
+public:
+    InspectorKeySig(QWidget* parent);
+    virtual void setElement() override;
+};
 
-//---------------------------------------------------------
-//   InspectorMMRest
-//---------------------------------------------------------
+// ---------------------------------------------------------
+// InspectorTuplet
+// ---------------------------------------------------------
 
-class InspectorMMRest : public InspectorElementBase {
-      Q_OBJECT
+class InspectorTuplet : public InspectorElementBase
+{
+    Q_OBJECT
 
-      Ui::InspectorMMRest m;
+    Ui::InspectorTuplet t;
 
-   public:
-      InspectorMMRest(QWidget* parent);
-      };
+public:
+    InspectorTuplet(QWidget* parent);
+};
 
-//---------------------------------------------------------
-//   InspectorClef
-//---------------------------------------------------------
+// ---------------------------------------------------------
+// InspectorAccidental
+// ---------------------------------------------------------
 
-class InspectorClef : public InspectorElementBase {
-      Q_OBJECT
+class InspectorAccidental : public InspectorElementBase
+{
+    Q_OBJECT
 
-      Ui::InspectorSegment s;
-      Ui::InspectorClef    c;
+    Ui::InspectorAccidental a;
 
-   public:
-      InspectorClef(QWidget* parent);
-//      virtual void setElement() override;
-      };
+public:
+    InspectorAccidental(QWidget* parent);
+};
 
-//---------------------------------------------------------
-//   InspectorStem
-//---------------------------------------------------------
+// ---------------------------------------------------------
+// InspectorTremolo
+// ---------------------------------------------------------
 
-class InspectorStem : public InspectorElementBase {
-      Q_OBJECT
+class InspectorTremolo : public InspectorElementBase
+{
+    Q_OBJECT
 
-      Ui::InspectorStem s;
+    Ui::InspectorTremolo g;
 
-   public:
-      InspectorStem(QWidget* parent);
-//      virtual void setElement() override;
-      };
+public:
+    InspectorTremolo(QWidget* parent);
+    virtual void setElement() override;
+};
 
-//---------------------------------------------------------
-//   InspectorTimeSig
-//---------------------------------------------------------
+// ---------------------------------------------------------
+// InspectorTempoText
+// ---------------------------------------------------------
 
-class InspectorTimeSig : public InspectorElementBase {
-      Q_OBJECT
+class InspectorTempoText : public InspectorTextBase
+{
+    Q_OBJECT
 
-      Ui::InspectorSegment s;
-      Ui::InspectorTimeSig t;
+    Ui::InspectorTempoText tt;
 
-   private slots:
-      void propertiesClicked();
+public:
+    InspectorTempoText(QWidget* parent);
+    virtual void postInit() override;
+};
 
-   public:
-      InspectorTimeSig(QWidget* parent);
-      virtual void setElement() override;
-      };
+// ---------------------------------------------------------
+// InspectorLyric
+// ---------------------------------------------------------
 
-//---------------------------------------------------------
-//   InspectorKeySig
-//---------------------------------------------------------
+class InspectorLyric : public InspectorTextBase
+{
+    Q_OBJECT
 
-class InspectorKeySig : public InspectorElementBase {
-      Q_OBJECT
+    Ui::InspectorLyric l;
 
-      Ui::InspectorSegment s;
-      Ui::InspectorKeySig k;
+private slots:
 
-   public:
-      InspectorKeySig(QWidget* parent);
-      virtual void setElement() override;
-      };
+public:
+    InspectorLyric(QWidget* parent);
+};
 
-//---------------------------------------------------------
-//   InspectorTuplet
-//---------------------------------------------------------
+// ---------------------------------------------------------
+// InspectorStaffText
+// ---------------------------------------------------------
 
-class InspectorTuplet : public InspectorElementBase {
-      Q_OBJECT
+class InspectorStaffText : public InspectorTextBase
+{
+    Q_OBJECT
 
-      Ui::InspectorTuplet t;
+    Ui::InspectorStaffText s;
 
-   public:
-      InspectorTuplet(QWidget* parent);
-      };
+private slots:
+    void propertiesClicked();
 
-//---------------------------------------------------------
-//   InspectorAccidental
-//---------------------------------------------------------
+public:
+    InspectorStaffText(QWidget* parent);
+    virtual void setElement() override;
+};
 
-class InspectorAccidental : public InspectorElementBase {
-      Q_OBJECT
+// ---------------------------------------------------------
+// Inspector
+// ---------------------------------------------------------
 
-      Ui::InspectorAccidental a;
+class Inspector : public QDockWidget
+{
+    Q_OBJECT
 
-   public:
-      InspectorAccidental(QWidget* parent);
-      };
-
-//---------------------------------------------------------
-//   InspectorTremolo
-//---------------------------------------------------------
-
-class InspectorTremolo : public InspectorElementBase {
-      Q_OBJECT
-
-      Ui::InspectorTremolo g;
-
-   public:
-      InspectorTremolo(QWidget* parent);
-      virtual void setElement() override;
-      };
-
-//---------------------------------------------------------
-//   InspectorTempoText
-//---------------------------------------------------------
-
-class InspectorTempoText : public InspectorTextBase {
-      Q_OBJECT
-
-      Ui::InspectorTempoText tt;
-
-   public:
-      InspectorTempoText(QWidget* parent);
-      virtual void postInit() override;
-      };
-
-//---------------------------------------------------------
-//   InspectorLyric
-//---------------------------------------------------------
-
-class InspectorLyric : public InspectorTextBase {
-      Q_OBJECT
-
-      Ui::InspectorLyric l;
-
-   private slots:
-
-   public:
-      InspectorLyric(QWidget* parent);
-      };
-
-//---------------------------------------------------------
-//   InspectorStaffText
-//---------------------------------------------------------
-
-class InspectorStaffText : public InspectorTextBase {
-      Q_OBJECT
-
-      Ui::InspectorStaffText s;
-
-   private slots:
-      void propertiesClicked();
-
-   public:
-      InspectorStaffText(QWidget* parent);
-      virtual void setElement() override;
-      };
-
-//---------------------------------------------------------
-//   Inspector
-//---------------------------------------------------------
-
-class Inspector : public QDockWidget {
-      Q_OBJECT
-
-      QScrollArea* sa;
-      InspectorBase* ie;
-      Score* _score;
-      bool _inspectorEdit;    // set to true when an edit originates from
+    QScrollArea * sa;
+    InspectorBase* ie;
+    Score* _score;
+    bool _inspectorEdit;      // set to true when an edit originates from
                               // within the inspector itself
-      Element* oe;
-      bool oSameTypes;
+    Element* oe;
+    bool oSameTypes;
 
-   public slots:
-      void update();
+public slots:
+    void update();
 
-   protected:
-      virtual void changeEvent(QEvent *event);
-      void retranslate();
+protected:
+    virtual void changeEvent(QEvent* event);
+    void retranslate();
 
-   public:
-      Inspector(QWidget* parent = 0);
-      void update(Score* s);
+public:
+    Inspector(QWidget* parent = 0);
+    void update(Score* s);
 
-      Element* element() const;
-      const QList<Element*>* el() const;
-      void setInspectorEdit(bool val)     { _inspectorEdit = val;  }
+    Element* element() const;
+    const QList<Element*>* el() const;
+    void setInspectorEdit(bool val) { _inspectorEdit = val; }
 
-      friend class InspectorScriptEntry;
-      };
+    friend class InspectorScriptEntry;
+};
 
-//---------------------------------------------------------
-//   InspectorSlurTie
-//---------------------------------------------------------
+// ---------------------------------------------------------
+// InspectorSlurTie
+// ---------------------------------------------------------
 
-class InspectorSlurTie : public InspectorElementBase {
-      Q_OBJECT
+class InspectorSlurTie : public InspectorElementBase
+{
+    Q_OBJECT
 
-      Ui::InspectorSlur s;
+    Ui::InspectorSlur s;
 
-   public:
-      InspectorSlurTie(QWidget* parent);
-      };
+public:
+    InspectorSlurTie(QWidget* parent);
+};
 
-//---------------------------------------------------------
-//   InspectorCaesura
-//---------------------------------------------------------
+// ---------------------------------------------------------
+// InspectorCaesura
+// ---------------------------------------------------------
 
-class InspectorCaesura : public InspectorElementBase {
-      Q_OBJECT
+class InspectorCaesura : public InspectorElementBase
+{
+    Q_OBJECT
 
-      Ui::InspectorCaesura c;
+    Ui::InspectorCaesura c;
 
-   public:
-      InspectorCaesura(QWidget* parent);
-      };
+public:
+    InspectorCaesura(QWidget* parent);
+};
 
-//---------------------------------------------------------
-//   InspectorBracket
-//---------------------------------------------------------
+// ---------------------------------------------------------
+// InspectorBracket
+// ---------------------------------------------------------
 
-class InspectorBracket : public InspectorBase {
-      Q_OBJECT
+class InspectorBracket : public InspectorBase
+{
+    Q_OBJECT
 
-      Ui::InspectorBracket b;
+    Ui::InspectorBracket b;
 
-   public:
-      InspectorBracket(QWidget* parent);
-      };
+public:
+    InspectorBracket(QWidget* parent);
+};
 
-//---------------------------------------------------------
-//   InspectorIname
-//---------------------------------------------------------
+// ---------------------------------------------------------
+// InspectorIname
+// ---------------------------------------------------------
 
-class InspectorIname : public InspectorTextBase {
-      Q_OBJECT
+class InspectorIname : public InspectorTextBase
+{
+    Q_OBJECT
 
-      Ui::InspectorIname i;
+    Ui::InspectorIname i;
 
-   public:
-      InspectorIname(QWidget* parent);
-      };
+public:
+    InspectorIname(QWidget* parent);
+};
 
-//---------------------------------------------------------
-//   InspectorEmpty
-//---------------------------------------------------------
+// ---------------------------------------------------------
+// InspectorEmpty
+// ---------------------------------------------------------
 
-class InspectorEmpty : public InspectorBase {
-      Q_OBJECT
+class InspectorEmpty : public InspectorBase
+{
+    Q_OBJECT
 
-      Ui::InspectorEmpty e;
+    Ui::InspectorEmpty e;
 
-   public:
-      InspectorEmpty(QWidget* parent);
-      virtual QSize sizeHint() const override;
-      };
+public:
+    InspectorEmpty(QWidget* parent);
+    virtual QSize sizeHint() const override;
+};
 
 extern void populatePlacement(QComboBox*);
-
 } // namespace Ms
 #endif
-

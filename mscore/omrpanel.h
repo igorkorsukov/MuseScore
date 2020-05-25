@@ -1,14 +1,14 @@
-//=============================================================================
-//  MuseScore
-//  Music Composition & Notation
+// =============================================================================
+// MuseScore
+// Music Composition & Notation
 //
-//  Copyright (C) 2011 Werner Schweer and others
+// Copyright (C) 2011 Werner Schweer and others
 //
-//  This program is free software; you can redistribute it and/or modify
-//  it under the terms of the GNU General Public License version 2
-//  as published by the Free Software Foundation and appearing in
-//  the file LICENSE.GPL
-//=============================================================================
+// This program is free software; you can redistribute it and/or modify
+// it under the terms of the GNU General Public License version 2
+// as published by the Free Software Foundation and appearing in
+// the file LICENSE.GPL
+// =============================================================================
 
 #include "config.h"
 
@@ -20,43 +20,41 @@
 #include "ui_omrpanel.h"
 
 namespace Ms {
-
 class OmrView;
 
-//---------------------------------------------------------
-//   OmrPanel
-//---------------------------------------------------------
+// ---------------------------------------------------------
+// OmrPanel
+// ---------------------------------------------------------
 
-class OmrPanel : public QDockWidget {
-      Q_OBJECT
+class OmrPanel : public QDockWidget
+{
+    Q_OBJECT
 
-      Ui::OmrPanel op;
+    Ui::OmrPanel op;
 
-      OmrView* omrView;
+    OmrView* omrView;
 
-      virtual void closeEvent(QCloseEvent*);
-      void blockSignals(bool);
-      void enableGui(bool);
+    virtual void closeEvent(QCloseEvent*);
+    void blockSignals(bool);
+    void enableGui(bool);
 
-   private slots:
-      void showBarlinesToggled(bool);
-      void showLinesToggled(bool);
-      void showSlicesToggled(bool);
-      void showStavesToggled(bool);
-      void processClicked();
-      void spatiumChanged(double);
+private slots:
+    void showBarlinesToggled(bool);
+    void showLinesToggled(bool);
+    void showSlicesToggled(bool);
+    void showStavesToggled(bool);
+    void processClicked();
+    void spatiumChanged(double);
 
-   signals:
-      void omrPanelVisible(bool);
+signals:
+    void omrPanelVisible(bool);
 
-   public slots:
+public slots:
 
-   public:
-      OmrPanel(QWidget* parent = 0);
-      void setOmrView(OmrView*);
-   };
-
-
+public:
+    OmrPanel(QWidget* parent = 0);
+    void setOmrView(OmrView*);
+};
 }// namespace Ms
 #endif
 #endif

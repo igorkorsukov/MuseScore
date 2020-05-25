@@ -1,21 +1,21 @@
-//=============================================================================
-//  MuseScore
-//  Music Composition & Notation
+// =============================================================================
+// MuseScore
+// Music Composition & Notation
 //
-//  Copyright (C) 2019 MuseScore BVBA and others
+// Copyright (C) 2019 MuseScore BVBA and others
 //
-//  This program is free software; you can redistribute it and/or modify
-//  it under the terms of the GNU General Public License version 2.
+// This program is free software; you can redistribute it and/or modify
+// it under the terms of the GNU General Public License version 2.
 //
-//  This program is distributed in the hope that it will be useful,
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//  GNU General Public License for more details.
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
 //
-//  You should have received a copy of the GNU General Public License
-//  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
-//=============================================================================
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+// =============================================================================
 
 #ifndef ITELEMETRYSERVICE_H
 #define ITELEMETRYSERVICE_H
@@ -25,28 +25,26 @@
 #include <QVariantMap>
 #include "servicesresolver.h"
 
-//---------------------------------------------------------
-//   ITelemetryService
-//---------------------------------------------------------
+// ---------------------------------------------------------
+// ITelemetryService
+// ---------------------------------------------------------
 
-class ITelemetryService {
-   public:
-      INTERFACE_ID
+class ITelemetryService
+{
+public:
+    INTERFACE_ID
 
-      virtual ~ITelemetryService() = default;
+    virtual ~ITelemetryService() = default;
 
-      virtual void sendEvent(const QString &category,
-                             const QString &action,
-                             const QString &label = QString(),
-                             const QVariant &value = QVariant(),
-                             const QVariantMap &customValues = QVariantMap()) = 0;
+    virtual void sendEvent(const QString& category,const QString& action,
+                           const QString& label = QString(),
+                           const QVariant& value = QVariant(),const QVariantMap& customValues = QVariantMap()) = 0;
 
-      virtual void sendException(const QString &exceptionDescription,
-                                 bool exceptionFatal = true,
-                                 const QVariantMap &customValues = QVariantMap()) = 0;
+    virtual void sendException(const QString& exceptionDescription,bool exceptionFatal = true,
+                               const QVariantMap& customValues = QVariantMap()) = 0;
 
-      virtual void startSession() = 0;
-      virtual void endSession() = 0;
-      };
+    virtual void startSession() = 0;
+    virtual void endSession() = 0;
+};
 
 #endif // ITELEMETRYSERVICE_H

@@ -1,13 +1,12 @@
-
-//=============================================================================
-//  MuseScore
-//  Music Composition & Notation
+// =============================================================================
+// MuseScore
+// Music Composition & Notation
 //
-//  This program is free software; you can redistribute it and/or modify
-//  it under the terms of the GNU General Public License version 2
-//  as published by the Free Software Foundation and appearing in
-//  the file LICENCE.GPL
-//=============================================================================
+// This program is free software; you can redistribute it and/or modify
+// it under the terms of the GNU General Public License version 2
+// as published by the Free Software Foundation and appearing in
+// the file LICENCE.GPL
+// =============================================================================
 
 #include <QtTest/QtTest>
 
@@ -20,48 +19,46 @@
 
 using namespace Ms;
 
-//---------------------------------------------------------
-//   TestSfzIncludes
-//---------------------------------------------------------
+// ---------------------------------------------------------
+// TestSfzIncludes
+// ---------------------------------------------------------
 
 class TestSfzIncludes : public QObject, public MTest
-      {
-      Q_OBJECT
+{
+    Q_OBJECT
 
-   private slots:
-      void initTestCase();
-      void testincludes();
-      };
+private slots:
+    void initTestCase();
+    void testincludes();
+};
 
-//---------------------------------------------------------
-//   initTestCase
-//---------------------------------------------------------
+// ---------------------------------------------------------
+// initTestCase
+// ---------------------------------------------------------
 
 void TestSfzIncludes::initTestCase()
-      {
-      initMTest();
-      }
+{
+    initMTest();
+}
 
-//---------------------------------------------------------
-//   testincludes
-//---------------------------------------------------------
+// ---------------------------------------------------------
+// testincludes
+// ---------------------------------------------------------
 
 void TestSfzIncludes::testincludes()
-      {
-      Zerberus* synth = new Zerberus();
-      preferences.setPreference(PREF_APP_PATHS_MYSOUNDFONTS, root);
-      synth->loadInstrument("includeMain.sfz");
-      QCOMPARE(synth->instrument(0)->zones().size(), (size_t) 2);
-      QCOMPARE(synth->instrument(0)->zones().front()->keyLo, (char) 23);
-      QCOMPARE(synth->instrument(0)->zones().front()->keyHi, (char) 42);
-      QCOMPARE(synth->instrument(0)->zones().front()->keyBase, (char) 40);
-      QCOMPARE(synth->instrument(0)->zones().back()->keyLo, (char) 42);
-      QCOMPARE(synth->instrument(0)->zones().back()->keyHi, (char) 23);
-      QCOMPARE(synth->instrument(0)->zones().back()->keyBase, (char) 40);
-      }
+{
+    Zerberus* synth = new Zerberus();
+    preferences.setPreference(PREF_APP_PATHS_MYSOUNDFONTS, root);
+    synth->loadInstrument("includeMain.sfz");
+    QCOMPARE(synth->instrument(0)->zones().size(), (size_t)2);
+    QCOMPARE(synth->instrument(0)->zones().front()->keyLo, (char)23);
+    QCOMPARE(synth->instrument(0)->zones().front()->keyHi, (char)42);
+    QCOMPARE(synth->instrument(0)->zones().front()->keyBase, (char)40);
+    QCOMPARE(synth->instrument(0)->zones().back()->keyLo, (char)42);
+    QCOMPARE(synth->instrument(0)->zones().back()->keyHi, (char)23);
+    QCOMPARE(synth->instrument(0)->zones().back()->keyBase, (char)40);
+}
 
 QTEST_MAIN(TestSfzIncludes)
 
 #include "tst_sfzincludes.moc"
-
-

@@ -1,14 +1,14 @@
-//=============================================================================
-//  MuseScore
-//  Music Composition & Notation
+// =============================================================================
+// MuseScore
+// Music Composition & Notation
 //
-//  Copyright (C) 2012 Werner Schweer
+// Copyright (C) 2012 Werner Schweer
 //
-//  This program is free software; you can redistribute it and/or modify
-//  it under the terms of the GNU General Public License version 2
-//  as published by the Free Software Foundation and appearing in
-//  the file LICENCE.GPL
-//=============================================================================
+// This program is free software; you can redistribute it and/or modify
+// it under the terms of the GNU General Public License version 2
+// as published by the Free Software Foundation and appearing in
+// the file LICENCE.GPL
+// =============================================================================
 
 #include <QtTest/QtTest>
 #include "mtest/testutils.h"
@@ -18,60 +18,59 @@
 
 using namespace Ms;
 
-//---------------------------------------------------------
-//   TestCompat206
-//---------------------------------------------------------
+// ---------------------------------------------------------
+// TestCompat206
+// ---------------------------------------------------------
 
 class TestCompat206 : public QObject, public MTest
-      {
-      Q_OBJECT
+{
+    Q_OBJECT
 
-   private slots:
-      void initTestCase();
-      void compat(const QString&);
-      void accidentals()      { compat("accidentals");      }
-      void ambitus()          { compat("ambitus");          }
-      void articulations()    { compat("articulations");    }
-      void articulationsDouble() { compat("articulations-double"); }
-      void breath()           { compat("breath");           }
-      void clefs()            { compat("clefs");            }
-      void drumset()          { compat("drumset");          }
-      void markers()          { compat("markers");          }
-      void noteheads()        { compat("noteheads");        }
-//TODO::ws      void textstyles()       { compat("textstyles");       }
-      void tuplets()          { compat("tuplets");          }
-      void hairpin()          { compat("hairpin");          }
-      void brlines()          { compat("barlines");         }
-      void lidEmptyText()     { compat("lidemptytext");     }
-      void intrumentNameAlign() {compat("intrumentNameAlign"); }
-      void fermata()          { compat("fermata");          }
-      void frame_utf8()       { compat("frame_text2");      }
-      };
+private slots:
+    void initTestCase();
+    void compat(const QString&);
+    void accidentals() { compat("accidentals"); }
+    void ambitus() { compat("ambitus"); }
+    void articulations() { compat("articulations"); }
+    void articulationsDouble() { compat("articulations-double"); }
+    void breath() { compat("breath"); }
+    void clefs() { compat("clefs"); }
+    void drumset() { compat("drumset"); }
+    void markers() { compat("markers"); }
+    void noteheads() { compat("noteheads"); }
+// TODO::ws      void textstyles()       { compat("textstyles");       }
+    void tuplets() { compat("tuplets"); }
+    void hairpin() { compat("hairpin"); }
+    void brlines() { compat("barlines"); }
+    void lidEmptyText() { compat("lidemptytext"); }
+    void intrumentNameAlign() { compat("intrumentNameAlign"); }
+    void fermata() { compat("fermata"); }
+    void frame_utf8() { compat("frame_text2"); }
+};
 
-//---------------------------------------------------------
-//   initTestCase
-//---------------------------------------------------------
+// ---------------------------------------------------------
+// initTestCase
+// ---------------------------------------------------------
 
 void TestCompat206::initTestCase()
-      {
-      initMTest();
-      }
+{
+    initMTest();
+}
 
-//---------------------------------------------------------
-//   compat
-//---------------------------------------------------------
+// ---------------------------------------------------------
+// compat
+// ---------------------------------------------------------
 
 void TestCompat206::compat(const QString& file)
-      {
-      QString readFile(DIR   + file + ".mscx");
-      QString writeFile(file + "-test.mscx");
-      QString reference(DIR  + file + "-ref.mscx");
+{
+    QString readFile(DIR + file + ".mscx");
+    QString writeFile(file + "-test.mscx");
+    QString reference(DIR + file + "-ref.mscx");
 
-      MasterScore* score = readScore(readFile);
-      QVERIFY(score);
-      QVERIFY(saveCompareScore(score, writeFile, reference));
-      }
+    MasterScore* score = readScore(readFile);
+    QVERIFY(score);
+    QVERIFY(saveCompareScore(score, writeFile, reference));
+}
 
 QTEST_MAIN(TestCompat206)
 #include "tst_compat206.moc"
-

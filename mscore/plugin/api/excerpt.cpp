@@ -1,14 +1,14 @@
-//=============================================================================
-//  MuseScore
-//  Music Composition & Notation
+// =============================================================================
+// MuseScore
+// Music Composition & Notation
 //
-//  Copyright (C) 2019 Werner Schweer and others
+// Copyright (C) 2019 Werner Schweer and others
 //
-//  This program is free software; you can redistribute it and/or modify
-//  it under the terms of the GNU General Public License version 2
-//  as published by the Free Software Foundation and appearing in
-//  the file LICENCE.GPL
-//=============================================================================
+// This program is free software; you can redistribute it and/or modify
+// it under the terms of the GNU General Public License version 2
+// as published by the Free Software Foundation and appearing in
+// the file LICENCE.GPL
+// =============================================================================
 
 #include "excerpt.h"
 #include "score.h"
@@ -16,25 +16,23 @@
 
 namespace Ms {
 namespace PluginAPI {
-
-//---------------------------------------------------------
-//   Excerpt::partScore
-//---------------------------------------------------------
+// ---------------------------------------------------------
+// Excerpt::partScore
+// ---------------------------------------------------------
 
 Score* Excerpt::partScore()
-      {
-      return wrap<Score>(e->partScore(), Ownership::SCORE);
-      }
+{
+    return wrap<Score>(e->partScore(), Ownership::SCORE);
+}
 
-//---------------------------------------------------------
-//   wrap
+// ---------------------------------------------------------
+// wrap
 ///   \cond PLUGIN_API \private \endcond
-//---------------------------------------------------------
+// ---------------------------------------------------------
 
 Excerpt* excerptWrap(Ms::Excerpt* e)
-      {
-      return excerptWrap<Excerpt>(e);
-      }
-
+{
+    return excerptWrap<Excerpt>(e);
+}
 }
 }

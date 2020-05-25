@@ -1,21 +1,21 @@
-//=============================================================================
-//  MusE Score
-//  Linux Music Score Editor
+// =============================================================================
+// MusE Score
+// Linux Music Score Editor
 //
-//  Copyright (C) 2010 Werner Schweer and others
+// Copyright (C) 2010 Werner Schweer and others
 //
-//  This program is free software; you can redistribute it and/or modify
-//  it under the terms of the GNU General Public License version 2.
+// This program is free software; you can redistribute it and/or modify
+// it under the terms of the GNU General Public License version 2.
 //
-//  This program is distributed in the hope that it will be useful,
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//  GNU General Public License for more details.
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
 //
-//  You should have received a copy of the GNU General Public License
-//  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
-//=============================================================================
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+// =============================================================================
 
 #ifndef __BENDCANVAS_H__
 #define __BENDCANVAS_H__
@@ -23,19 +23,16 @@
 #include "gridcanvas.h"
 
 namespace Ms {
+// ---------------------------------------------------------
+// BendCanvas
+// ---------------------------------------------------------
 
-//---------------------------------------------------------
-//   BendCanvas
-//---------------------------------------------------------
+class BendCanvas : public GridCanvas
+{
+    Q_OBJECT
 
-class BendCanvas : public GridCanvas {
-      Q_OBJECT
-
-   public:
-      BendCanvas(QWidget* parent = nullptr);
-      };
-
-
+public:
+    BendCanvas(QWidget* parent = nullptr);
+};
 } // namespace Ms
 #endif
-

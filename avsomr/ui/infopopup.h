@@ -1,21 +1,21 @@
-//=============================================================================
-//  MuseScore
-//  Music Composition & Notation
+// =============================================================================
+// MuseScore
+// Music Composition & Notation
 //
-//  Copyright (C) 2020 MuseScore BVBA and others
+// Copyright (C) 2020 MuseScore BVBA and others
 //
-//  This program is free software; you can redistribute it and/or modify
-//  it under the terms of the GNU General Public License version 2.
+// This program is free software; you can redistribute it and/or modify
+// it under the terms of the GNU General Public License version 2.
 //
-//  This program is distributed in the hope that it will be useful,
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//  GNU General Public License for more details.
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
 //
-//  You should have received a copy of the GNU General Public License
-//  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
-//=============================================================================
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+// =============================================================================
 
 #ifndef AVS_INFOPOPUP_H
 #define AVS_INFOPOPUP_H
@@ -30,38 +30,36 @@ namespace Ms {
 class ScoreView;
 
 namespace Avs {
-
 class InfoPopup : public QFrame
-      {
-      Q_OBJECT
+{
+    Q_OBJECT
 
-   public:
-      InfoPopup();
+public:
+    InfoPopup();
 
-      void setRecognizedChecked(bool arg);
-      void setNotRecognizedChecked(bool arg);
+    void setRecognizedChecked(bool arg);
+    void setNotRecognizedChecked(bool arg);
 
-      void showOnView(ScoreView* view, const AvsOmr::Info& info);
+    void showOnView(ScoreView* view, const AvsOmr::Info& info);
 
-   signals:
-      void recognizedCheckedChanged(bool checked);
-      void notrecognizedCheckedChanged(bool checked);
+signals:
+    void recognizedCheckedChanged(bool checked);
+    void notrecognizedCheckedChanged(bool checked);
 
-   private slots:
-      void onViewChanged();
+private slots:
+    void onViewChanged();
 
-   private:
+private:
 
-      void mouseMoveEvent(QMouseEvent* event) override;
-      void mousePressEvent(QMouseEvent* event) override;
-      void mouseReleaseEvent(QMouseEvent* event) override;
+    void mouseMoveEvent(QMouseEvent* event) override;
+    void mousePressEvent(QMouseEvent* event) override;
+    void mouseReleaseEvent(QMouseEvent* event) override;
 
-      void updatePopup(ScoreView* view);
+    void updatePopup(ScoreView* view);
 
-      QCheckBox* _recognizedCheck{nullptr};
-      QCheckBox* _notrecognizedCheck{nullptr};
-      };
-
+    QCheckBox* _recognizedCheck{ nullptr };
+    QCheckBox* _notrecognizedCheck{ nullptr };
+};
 } // Avs
 } // Ms
 

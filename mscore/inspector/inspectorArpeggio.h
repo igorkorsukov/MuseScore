@@ -1,14 +1,14 @@
-//=============================================================================
-//  MuseScore
-//  Music Composition & Notation
+// =============================================================================
+// MuseScore
+// Music Composition & Notation
 //
-//  Copyright (C) 2013 Werner Schweer and others
+// Copyright (C) 2013 Werner Schweer and others
 //
-//  This program is free software; you can redistribute it and/or modify
-//  it under the terms of the GNU General Public License version 2
-//  as published by the Free Software Foundation and appearing in
-//  the file LICENSE.GPL
-//=============================================================================
+// This program is free software; you can redistribute it and/or modify
+// it under the terms of the GNU General Public License version 2
+// as published by the Free Software Foundation and appearing in
+// the file LICENSE.GPL
+// =============================================================================
 
 #ifndef __INSPECTOR_ARPEGGIO_H__
 #define __INSPECTOR_ARPEGGIO_H__
@@ -18,20 +18,18 @@
 #include "libmscore/property.h"
 
 namespace Ms {
+// ---------------------------------------------------------
+// InspectorArpeggio
+// ---------------------------------------------------------
 
-//---------------------------------------------------------
-//   InspectorArpeggio
-//---------------------------------------------------------
+class InspectorArpeggio : public InspectorElementBase
+{
+    Q_OBJECT
 
-class InspectorArpeggio : public InspectorElementBase {
-      Q_OBJECT
+    Ui::InspectorArpeggio g;
 
-      Ui::InspectorArpeggio g;
-
-   public:
-      InspectorArpeggio(QWidget* parent);
-      };
-
-
+public:
+    InspectorArpeggio(QWidget* parent);
+};
 } // namespace Ms
 #endif

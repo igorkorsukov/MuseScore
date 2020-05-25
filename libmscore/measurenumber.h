@@ -1,14 +1,14 @@
-//=============================================================================
-//  MuseScore
-//  Music Composition & Notation
+// =============================================================================
+// MuseScore
+// Music Composition & Notation
 //
-//  Copyright (C) 2014 Werner Schweer
+// Copyright (C) 2014 Werner Schweer
 //
-//  This program is free software; you can redistribute it and/or modify
-//  it under the terms of the GNU General Public License version 2
-//  as published by the Free Software Foundation and appearing in
-//  the file LICENCE.GPL
-//=============================================================================
+// This program is free software; you can redistribute it and/or modify
+// it under the terms of the GNU General Public License version 2
+// as published by the Free Software Foundation and appearing in
+// the file LICENCE.GPL
+// =============================================================================
 
 #ifndef __MEASURENUMBER_H__
 #define __MEASURENUMBER_H__
@@ -16,35 +16,32 @@
 #include "textbase.h"
 
 namespace Ms {
+// ---------------------------------------------------------
+// MeasureNumber
+// ---------------------------------------------------------
 
-//---------------------------------------------------------
-//   MeasureNumber
-//---------------------------------------------------------
+class MeasureNumber final : public TextBase
+{
+    M_PROPERTY(HPlacement, hPlacement, setHPlacement)    // Horizontal Placement
 
-class MeasureNumber final : public TextBase {
+public:
+    MeasureNumber(Score* s = nullptr);
+    MeasureNumber(const MeasureNumber& other);
 
-      M_PROPERTY (HPlacement, hPlacement, setHPlacement) // Horizontal Placement
+    virtual ElementType type() const override { return ElementType::MEASURE_NUMBER; }
+    virtual MeasureNumber* clone() const override { return new MeasureNumber(*this); }
 
-   public:
-      MeasureNumber(Score* s = nullptr);
-      MeasureNumber(const MeasureNumber& other);
+    virtual QVariant getProperty(Pid id) const override;
+    virtual bool setProperty(Pid id, const QVariant& val) override;
+    virtual QVariant propertyDefault(Pid id) const override;
 
-      virtual ElementType type() const override       { return ElementType::MEASURE_NUMBER; }
-      virtual MeasureNumber* clone() const override   { return new MeasureNumber(*this); }
+    virtual bool readProperties(XmlReader&) override;
 
-      virtual QVariant getProperty(Pid id) const override;
-      virtual bool setProperty(Pid id, const QVariant& val) override;
-      virtual QVariant propertyDefault(Pid id) const override;
+    virtual void layout() override;
+    Measure* measure() const { return toMeasure(parent()); }
 
-      virtual bool readProperties(XmlReader&) override;
-
-      virtual void layout() override;
-      Measure* measure() const { return toMeasure(parent()); }
-
-      virtual bool isEditable() const override { return false; } // The measure numbers' text should not be editable
-      };
-
+    virtual bool isEditable() const override { return false; }   // The measure numbers' text should not be editable
+};
 }     // namespace Ms
 
 #endif
-

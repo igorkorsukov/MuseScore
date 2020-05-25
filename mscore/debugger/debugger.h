@@ -1,21 +1,21 @@
-//=============================================================================
-//  MuseScore
-//  Linux Music Score Editor
+// =============================================================================
+// MuseScore
+// Linux Music Score Editor
 //
-//  Copyright (C) 2002-2016 Werner Schweer and others
+// Copyright (C) 2002-2016 Werner Schweer and others
 //
-//  This program is free software; you can redistribute it and/or modify
-//  it under the terms of the GNU General Public License version 2.
+// This program is free software; you can redistribute it and/or modify
+// it under the terms of the GNU General Public License version 2.
 //
-//  This program is distributed in the hope that it will be useful,
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//  GNU General Public License for more details.
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
 //
-//  You should have received a copy of the GNU General Public License
-//  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
-//=============================================================================
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+// =============================================================================
 
 #ifndef __DEBUGGER_H__
 #define __DEBUGGER_H__
@@ -63,7 +63,6 @@
 #include "abstractdialog.h"
 
 namespace Ms {
-
 class ShowElementBase;
 class Element;
 class Page;
@@ -74,735 +73,770 @@ class ElementItem;
 
 class ShowNoteWidget;
 
-//---------------------------------------------------------
-//   Debugger
-//---------------------------------------------------------
-
-class Debugger : public AbstractDialog, public Ui::DebuggerBase {
-      Q_OBJECT
-
-      QStack<Element*>backStack;
-      QStack<Element*>forwardStack;
-
-      ShowElementBase* elementViews[int(ElementType::MAXTYPE)];
-
-      bool searchElement(QTreeWidgetItem* pi, Element* el);
-      void updateElement(Element*);
-      virtual void showEvent(QShowEvent*);
-      void addMeasure(ElementItem* mi, Measure* measure);
-      void readSettings();
-
-   protected:
-      Score* cs;
-      Element* curElement;
-      virtual void retranslate() { retranslateUi(this); }
-
-   private slots:
-      void itemClicked(QTreeWidgetItem*, int);
-      void itemExpanded(QTreeWidgetItem*);
-      void layoutScore();
-      void backClicked();
-      void forwardClicked();
-      void selectElement();
-      void resetElement();
-      void layout();
-
-   public slots:
-      void setElement(Element*);
-      void reloadClicked();
-
-   public:
-      Debugger(QWidget* parent = 0);
-      void writeSettings();
-      void updateList(Score*);
-      };
-
-//---------------------------------------------------------
-//   MeasureListEditor
-//---------------------------------------------------------
-
-class MeasureListEditor : public QWidget {
-      Q_OBJECT
-
-   private slots:
-      // void itemChanged(QListViewItem*);
-
-   public:
-      MeasureListEditor();
-      };
-
-//---------------------------------------------------------
-//   ShowElementBase
-//---------------------------------------------------------
-
-class ShowElementBase : public QWidget {
-      Q_OBJECT
-
-      Ui::ElementBase eb;
-      Element* el;
-
-   private slots:
-      void parentClicked();
-      void linkClicked();
-      void link2Clicked();
-      void link3Clicked();
-      void offsetxChanged(double);
-      void offsetyChanged(double);
-      void selectedClicked(bool);
-      void visibleClicked(bool);
-
-   public slots:
-      void gotoElement(QListWidgetItem*);
-      void gotoElement(QTreeWidgetItem*);
-
-   protected:
-      QVBoxLayout* layout;
-
-   signals:
-      void elementChanged(Element*);
-
-   public:
-      ShowElementBase();
-      virtual void setElement(Element*);
-      Element* element() const { return el; }
-      QWidget* addWidget();
-      };
-
-//---------------------------------------------------------
-//   ShowPageWidget
-//---------------------------------------------------------
-
-class ShowPageWidget : public ShowElementBase {
-      Q_OBJECT
-
-      Ui::PageBase pb;
-
-   private slots:
-      void itemClicked(QListWidgetItem*);
-
-   public:
-      ShowPageWidget();
-      virtual void setElement(Element*);
-      };
-
-//---------------------------------------------------------
-//   MeasureView
-//---------------------------------------------------------
-
-class MeasureView : public ShowElementBase {
-      Q_OBJECT
-
-      Ui::MeasureBase mb;
-
-   private slots:
-      void elementClicked(QTreeWidgetItem* item);
-      void nextClicked();
-      void prevClicked();
-      void mmRestClicked();
-
-   public:
-      MeasureView();
-      virtual void setElement(Element*);
-      };
-
-//---------------------------------------------------------
-//   ChordDebug
-//---------------------------------------------------------
-
-class ChordDebug : public ShowElementBase {
-      Q_OBJECT
-      Ui::ChordRestBase crb;
-      Ui::ChordBase cb;
-
-   private slots:
-      void hookClicked();
-      void stemClicked();
-      void directionChanged(int);
-      void beamClicked();
-      void tupletClicked();
-      void upChanged(bool);
-      void beamModeChanged(int);
-      void stemSlashClicked();
-      void arpeggioClicked();
-      void tremoloClicked();
-//      void glissandoClicked();
-
-   public:
-      ChordDebug();
-      virtual void setElement(Element*);
-      };
-
-//---------------------------------------------------------
-//   SegmentView
-//---------------------------------------------------------
-
-class SegmentView : public ShowElementBase {
-      Q_OBJECT
-      Ui::SegmentBase sb;
-
-   public:
-      SegmentView();
-      virtual void setElement(Element*);
-      };
-
-//---------------------------------------------------------
-//   ShowNoteWidget
-//---------------------------------------------------------
-
-class ShowNoteWidget : public ShowElementBase {
-      Q_OBJECT
-
-      Ui::NoteBase nb;
-
-   private slots:
-      void tieForClicked();
-      void tieBackClicked();
-      void accidentalClicked();
-      void dot1Clicked();
-      void dot2Clicked();
-      void dot3Clicked();
-      void dot4Clicked();
-
-   signals:
-      void scoreChanged();
-
-   public:
-      ShowNoteWidget();
-      virtual void setElement(Element*);
-      };
-
-//---------------------------------------------------------
-//   RestView
-//---------------------------------------------------------
+// ---------------------------------------------------------
+// Debugger
+// ---------------------------------------------------------
+
+class Debugger : public AbstractDialog, public Ui::DebuggerBase
+{
+    Q_OBJECT
+
+    QStack<Element*> backStack;
+    QStack<Element*> forwardStack;
+
+    ShowElementBase* elementViews[int(ElementType::MAXTYPE)];
+
+    bool searchElement(QTreeWidgetItem* pi, Element* el);
+    void updateElement(Element*);
+    virtual void showEvent(QShowEvent*);
+    void addMeasure(ElementItem* mi, Measure* measure);
+    void readSettings();
+
+protected:
+    Score* cs;
+    Element* curElement;
+    virtual void retranslate() { retranslateUi(this); }
+
+private slots:
+    void itemClicked(QTreeWidgetItem*, int);
+    void itemExpanded(QTreeWidgetItem*);
+    void layoutScore();
+    void backClicked();
+    void forwardClicked();
+    void selectElement();
+    void resetElement();
+    void layout();
+
+public slots:
+    void setElement(Element*);
+    void reloadClicked();
+
+public:
+    Debugger(QWidget* parent = 0);
+    void writeSettings();
+    void updateList(Score*);
+};
+
+// ---------------------------------------------------------
+// MeasureListEditor
+// ---------------------------------------------------------
+
+class MeasureListEditor : public QWidget
+{
+    Q_OBJECT
+
+private slots:
+    // void itemChanged(QListViewItem*);
+
+public:
+    MeasureListEditor();
+};
+
+// ---------------------------------------------------------
+// ShowElementBase
+// ---------------------------------------------------------
+
+class ShowElementBase : public QWidget
+{
+    Q_OBJECT
+
+    Ui::ElementBase eb;
+    Element* el;
+
+private slots:
+    void parentClicked();
+    void linkClicked();
+    void link2Clicked();
+    void link3Clicked();
+    void offsetxChanged(double);
+    void offsetyChanged(double);
+    void selectedClicked(bool);
+    void visibleClicked(bool);
+
+public slots:
+    void gotoElement(QListWidgetItem*);
+    void gotoElement(QTreeWidgetItem*);
+
+protected:
+    QVBoxLayout* layout;
+
+signals:
+    void elementChanged(Element*);
+
+public:
+    ShowElementBase();
+    virtual void setElement(Element*);
+    Element* element() const { return el; }
+    QWidget* addWidget();
+};
+
+// ---------------------------------------------------------
+// ShowPageWidget
+// ---------------------------------------------------------
+
+class ShowPageWidget : public ShowElementBase
+{
+    Q_OBJECT
+
+    Ui::PageBase pb;
+
+private slots:
+    void itemClicked(QListWidgetItem*);
+
+public:
+    ShowPageWidget();
+    virtual void setElement(Element*);
+};
+
+// ---------------------------------------------------------
+// MeasureView
+// ---------------------------------------------------------
+
+class MeasureView : public ShowElementBase
+{
+    Q_OBJECT
+
+    Ui::MeasureBase mb;
+
+private slots:
+    void elementClicked(QTreeWidgetItem* item);
+    void nextClicked();
+    void prevClicked();
+    void mmRestClicked();
+
+public:
+    MeasureView();
+    virtual void setElement(Element*);
+};
+
+// ---------------------------------------------------------
+// ChordDebug
+// ---------------------------------------------------------
+
+class ChordDebug : public ShowElementBase
+{
+    Q_OBJECT
+    Ui::ChordRestBase crb;
+    Ui::ChordBase cb;
+
+private slots:
+    void hookClicked();
+    void stemClicked();
+    void directionChanged(int);
+    void beamClicked();
+    void tupletClicked();
+    void upChanged(bool);
+    void beamModeChanged(int);
+    void stemSlashClicked();
+    void arpeggioClicked();
+    void tremoloClicked();
+// void glissandoClicked();
+
+public:
+    ChordDebug();
+    virtual void setElement(Element*);
+};
+
+// ---------------------------------------------------------
+// SegmentView
+// ---------------------------------------------------------
+
+class SegmentView : public ShowElementBase
+{
+    Q_OBJECT
+    Ui::SegmentBase sb;
+
+public:
+    SegmentView();
+    virtual void setElement(Element*);
+};
+
+// ---------------------------------------------------------
+// ShowNoteWidget
+// ---------------------------------------------------------
+
+class ShowNoteWidget : public ShowElementBase
+{
+    Q_OBJECT
+
+    Ui::NoteBase nb;
+
+private slots:
+    void tieForClicked();
+    void tieBackClicked();
+    void accidentalClicked();
+    void dot1Clicked();
+    void dot2Clicked();
+    void dot3Clicked();
+    void dot4Clicked();
+
+signals:
+    void scoreChanged();
+
+public:
+    ShowNoteWidget();
+    virtual void setElement(Element*);
+};
+
+// ---------------------------------------------------------
+// RestView
+// ---------------------------------------------------------
+
+class RestView : public ShowElementBase
+{
+    Q_OBJECT
+
+    Ui::ChordRestBase crb;
+    Ui::Rest rb;
+
+private slots:
+    void dot1Clicked();
+    void dot2Clicked();
+    void dot3Clicked();
+    void dot4Clicked();
+    void tupletClicked();
+    void beamClicked();
+
+public:
+    RestView();
+    virtual void setElement(Element*);
+};
+
+// ---------------------------------------------------------
+// TextView
+// ---------------------------------------------------------
+
+class TextView : public ShowElementBase
+{
+    Q_OBJECT
+
+    Ui::TextBase tb;
+
+private slots:
+    void textChanged();
+
+signals:
+    void scoreChanged();
+
+public:
+    TextView();
+    virtual void setElement(Element*);
+};
+
+// ---------------------------------------------------------
+// HarmonyView
+// ---------------------------------------------------------
+
+class HarmonyView : public ShowElementBase
+{
+    Q_OBJECT
+
+    Ui::TextBase tb;
+    Ui::HarmonyBase hb;
+
+public:
+    HarmonyView();
+    virtual void setElement(Element*);
+private slots:
+    void on_leftParen_clicked(bool checked);
+    void on_rightParen_clicked(bool checked);
+};
+
+// ---------------------------------------------------------
+// SpannerView
+// ---------------------------------------------------------
+
+class SpannerView : public ShowElementBase
+{
+    Q_OBJECT
+
+    Ui::SpannerBase sp;
+
+private slots:
+    void startClicked();
+    void endClicked();
+
+public:
+    SpannerView();
+    virtual void setElement(Element*);
+};
+
+// ---------------------------------------------------------
+// HairpinView
+// ---------------------------------------------------------
+
+class HairpinView : public SpannerView
+{
+    Q_OBJECT
+
+    Ui::HairpinBase hp;
+    Ui::SLineBase sl;
+
+public:
+    HairpinView();
+    virtual void setElement(Element*);
+};
+
+// ---------------------------------------------------------
+// ElementView
+// ---------------------------------------------------------
+
+class ElementView : public ShowElementBase
+{
+    Q_OBJECT
+
+public:
+    ElementView();
+};
+
+// ---------------------------------------------------------
+// BarLineView
+// ---------------------------------------------------------
+
+class BarLineView : public ShowElementBase
+{
+    Q_OBJECT
+
+    Ui::BarLineBase bl;
+
+public:
+    BarLineView();
+    virtual void setElement(Element*);
+};
+
+// ---------------------------------------------------------
+// DynamicView
+// ---------------------------------------------------------
+
+class DynamicView : public ShowElementBase
+{
+    Q_OBJECT
+
+    Ui::TextBase tb;
+    Ui::DynamicBase bl;
+
+public:
+    DynamicView();
+    virtual void setElement(Element*);
+};
+
+// ---------------------------------------------------------
+// TupletView
+// ---------------------------------------------------------
+
+class TupletView : public ShowElementBase
+{
+    Q_OBJECT
+
+    Ui::TupletBase tb;
+
+signals:
+    void itemClicked(Element*);
+    void scoreChanged();
+
+private slots:
+    void numberClicked();
+    void tupletClicked();
+    void elementClicked(QTreeWidgetItem*);
+
+public:
+    TupletView();
+    virtual void setElement(Element*);
+};
+
+// ---------------------------------------------------------
+// DoubleLabel
+// ---------------------------------------------------------
+
+class DoubleLabel : public QLabel
+{
+    Q_OBJECT
+
+public:
+    DoubleLabel(QWidget* parent);
+    void setValue(double);
+    virtual QSize sizeHint() const;
+};
+
+// ---------------------------------------------------------
+// SlurTieView
+// ---------------------------------------------------------
+
+class SlurTieView : public SpannerView
+{
+    Q_OBJECT
+
+    Ui::SlurTieBase st;
+
+private slots:
+    void segmentClicked(QTreeWidgetItem* item);
+
+public:
+    SlurTieView();
+    virtual void setElement(Element*);
+};
+
+// ---------------------------------------------------------
+// TieView
+// ---------------------------------------------------------
+
+class TieView : public SlurTieView
+{
+    Q_OBJECT
+
+    Ui::TieBase tb;
+
+private slots:
+    void startClicked();
+    void endClicked();
+
+public:
+    TieView();
+    virtual void setElement(Element*);
+};
+
+// ---------------------------------------------------------
+// VoltaView
+// ---------------------------------------------------------
+
+class VoltaView : public ShowElementBase
+{
+    Q_OBJECT
+
+    Ui::TextLineBase tlb;
+    Ui::SLineBase lb;
+    Ui::SpannerBase sp;
+
+private slots:
+    void segmentClicked(QTreeWidgetItem* item);
+    void beginTextClicked();
+    void continueTextClicked();
+    void endTextClicked();
+    void startClicked();
+    void endClicked();
+
+public:
+    VoltaView();
+    virtual void setElement(Element*);
+};
+
+// ---------------------------------------------------------
+// VoltaSegmentView
+// ---------------------------------------------------------
+
+class VoltaSegmentView : public ShowElementBase
+{
+    Q_OBJECT
+
+    Ui::LineSegmentBase lb;
+
+private slots:
+    void lineClicked();
+
+public:
+    VoltaSegmentView();
+    virtual void setElement(Element*);
+};
+
+// ---------------------------------------------------------
+// TextLineView
+// ---------------------------------------------------------
+
+class TextLineView : public SpannerView
+{
+    Q_OBJECT
+
+    Ui::TextLineBase tlb;
+    Ui::SLineBase lb;
+
+private slots:
+    void beginTextClicked();
+    void continueTextClicked();
+    void endTextClicked();
+
+public:
+    TextLineView();
+    virtual void setElement(Element*);
+};
+
+// ---------------------------------------------------------
+// TextLineSegmentView
+// ---------------------------------------------------------
+
+class TextLineSegmentView : public ShowElementBase
+{
+    Q_OBJECT
+
+    Ui::LineSegmentBase lb;
+
+private slots:
+    void lineClicked();
+
+public:
+    TextLineSegmentView();
+    virtual void setElement(Element*);
+};
+
+// ---------------------------------------------------------
+// LineSegmentView
+// ---------------------------------------------------------
+
+class LineSegmentView : public ShowElementBase
+{
+    Q_OBJECT
+
+    Ui::LineSegmentBase lb;
+
+private slots:
+    void lineClicked();
+
+public:
+    LineSegmentView();
+    virtual void setElement(Element*);
+};
+
+// ---------------------------------------------------------
+// VoltaSegmentView
+// ---------------------------------------------------------
+
+class LyricsView : public ShowElementBase
+{
+    Q_OBJECT
+
+    Ui::LyricsBase lb;
+
+public:
+    LyricsView();
+    virtual void setElement(Element*);
+};
+
+// ---------------------------------------------------------
+// BeamView
+// ---------------------------------------------------------
+
+class BeamView : public ShowElementBase
+{
+    Q_OBJECT
+
+    Ui::BeamBase bb;
+
+private slots:
+    void elementClicked(QTreeWidgetItem*);
+
+public:
+    BeamView();
+    virtual void setElement(Element*);
+};
+
+// ---------------------------------------------------------
+// TremoloView
+// ---------------------------------------------------------
+
+class TremoloView : public ShowElementBase
+{
+    Q_OBJECT
+
+    Ui::TremoloBase tb;
+
+private slots:
+    void chord1Clicked();
+    void chord2Clicked();
 
-class RestView : public ShowElementBase {
-      Q_OBJECT
-
-      Ui::ChordRestBase crb;
-      Ui::Rest rb;
-
-   private slots:
-      void dot1Clicked();
-      void dot2Clicked();
-      void dot3Clicked();
-      void dot4Clicked();
-      void tupletClicked();
-      void beamClicked();
+public:
+    TremoloView();
+    virtual void setElement(Element*);
+};
+
+// ---------------------------------------------------------
+// OttavaView
+// ---------------------------------------------------------
+
+class OttavaView : public TextLineView
+{
+    Q_OBJECT
+
+// Ui::OttavaBase ob;
 
-   public:
-      RestView();
-      virtual void setElement(Element*);
-      };
+private slots:
+
+public:
+    OttavaView();
+    virtual void setElement(Element*);
+};
+
+// ---------------------------------------------------------
+// SlurSegmentView
+// ---------------------------------------------------------
+
+class SlurSegmentView : public ShowElementBase
+{
+    Q_OBJECT
 
-//---------------------------------------------------------
-//   TextView
-//---------------------------------------------------------
+    Ui::SlurSegment ss;
 
-class TextView : public ShowElementBase {
-      Q_OBJECT
+private slots:
+    void slurTieClicked();
 
-      Ui::TextBase tb;
+public:
+    SlurSegmentView();
+    virtual void setElement(Element*);
+};
 
-   private slots:
-      void textChanged();
+// ---------------------------------------------------------
+// TieSegmentView
+// ---------------------------------------------------------
 
-   signals:
-      void scoreChanged();
+class TieSegmentView : public ShowElementBase
+{
+    Q_OBJECT
 
-   public:
-      TextView();
-      virtual void setElement(Element*);
-      };
+    Ui::TieSegment ss;
 
-//---------------------------------------------------------
-//   HarmonyView
-//---------------------------------------------------------
+private slots:
+    void slurTieClicked();
 
-class HarmonyView : public ShowElementBase {
-      Q_OBJECT
+public:
+    TieSegmentView();
+    virtual void setElement(Element*);
+};
 
-      Ui::TextBase tb;
-      Ui::HarmonyBase hb;
+// ---------------------------------------------------------
+// AccidentalView
+// ---------------------------------------------------------
 
-   public:
-      HarmonyView();
-      virtual void setElement(Element*);
-   private slots:
-      void on_leftParen_clicked(bool checked);
-      void on_rightParen_clicked(bool checked);
-      };
+class AccidentalView : public ShowElementBase
+{
+    Q_OBJECT
 
-//---------------------------------------------------------
-//   SpannerView
-//---------------------------------------------------------
+    Ui::Accidental acc;
 
-class SpannerView : public ShowElementBase {
-      Q_OBJECT
+public:
+    AccidentalView();
+    virtual void setElement(Element*);
+};
 
-      Ui::SpannerBase sp;
+// ---------------------------------------------------------
+// ClefView
+// ---------------------------------------------------------
 
-   private slots:
-      void startClicked();
-      void endClicked();
+class ClefView : public ShowElementBase
+{
+    Q_OBJECT
 
-   public:
-      SpannerView();
-      virtual void setElement(Element*);
-      };
+    Ui::Clef clef;
 
-//---------------------------------------------------------
-//   HairpinView
-//---------------------------------------------------------
+public:
+    ClefView();
+    virtual void setElement(Element*);
+};
 
-class HairpinView : public SpannerView {
-      Q_OBJECT
+// ---------------------------------------------------------
+// ArticulationView
+// ---------------------------------------------------------
 
-      Ui::HairpinBase hp;
-      Ui::SLineBase sl;
+class ArticulationView : public ShowElementBase
+{
+    Q_OBJECT
 
-   public:
-      HairpinView();
-      virtual void setElement(Element*);
-      };
+    Ui::ArticulationBase articulation;
 
+public:
+    ArticulationView();
+    virtual void setElement(Element*);
+};
 
+// ---------------------------------------------------------
+// KeySigView
+// ---------------------------------------------------------
 
-//---------------------------------------------------------
-//   ElementView
-//---------------------------------------------------------
+class KeySigView : public ShowElementBase
+{
+    Q_OBJECT
 
-class ElementView : public ShowElementBase {
-      Q_OBJECT
+    Ui::KeySig keysig;
 
-   public:
-      ElementView();
-      };
+public:
+    KeySigView();
+    virtual void setElement(Element*);
+};
 
-//---------------------------------------------------------
-//   BarLineView
-//---------------------------------------------------------
+// ---------------------------------------------------------
+// StemView
+// ---------------------------------------------------------
 
-class BarLineView : public ShowElementBase {
-      Q_OBJECT
+class StemView : public ShowElementBase
+{
+    Q_OBJECT
 
-      Ui::BarLineBase bl;
+    Ui::StemBase stem;
 
-   public:
-      BarLineView();
-      virtual void setElement(Element*);
-      };
+public:
+    StemView();
+    virtual void setElement(Element*);
+};
 
-//---------------------------------------------------------
-//   DynamicView
-//---------------------------------------------------------
+// ---------------------------------------------------------
+// BoxView
+// ---------------------------------------------------------
 
-class DynamicView : public ShowElementBase {
-      Q_OBJECT
+class BoxView : public ShowElementBase
+{
+    Q_OBJECT
 
-      Ui::TextBase tb;
-      Ui::DynamicBase bl;
+    Ui::BoxBase box;
 
-   public:
-      DynamicView();
-      virtual void setElement(Element*);
-      };
+public:
+    BoxView();
+    virtual void setElement(Element*);
+};
 
-//---------------------------------------------------------
-//   TupletView
-//---------------------------------------------------------
+// ---------------------------------------------------------
+// SystemView
+// ---------------------------------------------------------
 
-class TupletView : public ShowElementBase {
-      Q_OBJECT
+class SystemView : public ShowElementBase
+{
+    Q_OBJECT
 
-      Ui::TupletBase tb;
+    Ui::SystemBase mb;
 
-   signals:
-      void itemClicked(Element*);
-      void scoreChanged();
+private slots:
+    void elementClicked(QTreeWidgetItem*);
+    void measureClicked(QListWidgetItem*);
 
-   private slots:
-      void numberClicked();
-      void tupletClicked();
-      void elementClicked(QTreeWidgetItem*);
+public:
+    SystemView();
+    virtual void setElement(Element*);
+};
 
-   public:
-      TupletView();
-      virtual void setElement(Element*);
-      };
+// ---------------------------------------------------------
+// TimeSigView
+// ---------------------------------------------------------
 
-//---------------------------------------------------------
-//   DoubleLabel
-//---------------------------------------------------------
+class TimeSigView : public ShowElementBase
+{
+    Q_OBJECT
 
-class DoubleLabel : public QLabel {
-      Q_OBJECT
+    Ui::TimeSig tb;
 
-   public:
-      DoubleLabel(QWidget* parent);
-      void setValue(double);
-      virtual QSize sizeHint() const;
-      };
+public:
+    TimeSigView();
+    virtual void setElement(Element*);
+};
 
-//---------------------------------------------------------
-//   SlurTieView
-//---------------------------------------------------------
+// ---------------------------------------------------------
+// BracketView
+// ---------------------------------------------------------
 
-class SlurTieView : public SpannerView {
-      Q_OBJECT
+class BracketView : public ShowElementBase
+{
+    Q_OBJECT
 
-      Ui::SlurTieBase st;
+    Ui::Bracket br;
 
-   private slots:
-      void segmentClicked(QTreeWidgetItem* item);
-
-   public:
-      SlurTieView();
-      virtual void setElement(Element*);
-      };
-
-//---------------------------------------------------------
-//   TieView
-//---------------------------------------------------------
-
-class TieView : public SlurTieView {
-      Q_OBJECT
-
-      Ui::TieBase tb;
-
-   private slots:
-      void startClicked();
-      void endClicked();
-
-   public:
-      TieView();
-      virtual void setElement(Element*);
-      };
-
-//---------------------------------------------------------
-//   VoltaView
-//---------------------------------------------------------
-
-class VoltaView : public ShowElementBase {
-      Q_OBJECT
-
-      Ui::TextLineBase tlb;
-      Ui::SLineBase lb;
-      Ui::SpannerBase sp;
-
-   private slots:
-      void segmentClicked(QTreeWidgetItem* item);
-      void beginTextClicked();
-      void continueTextClicked();
-      void endTextClicked();
-      void startClicked();
-      void endClicked();
-
-   public:
-      VoltaView();
-      virtual void setElement(Element*);
-      };
-
-//---------------------------------------------------------
-//   VoltaSegmentView
-//---------------------------------------------------------
-
-class VoltaSegmentView : public ShowElementBase {
-      Q_OBJECT
-
-      Ui::LineSegmentBase lb;
-
-   private slots:
-            void lineClicked();
-
-   public:
-      VoltaSegmentView();
-      virtual void setElement(Element*);
-      };
-
-//---------------------------------------------------------
-//   TextLineView
-//---------------------------------------------------------
-
-class TextLineView : public SpannerView {
-      Q_OBJECT
-
-      Ui::TextLineBase tlb;
-      Ui::SLineBase lb;
-
-   private slots:
-      void beginTextClicked();
-      void continueTextClicked();
-      void endTextClicked();
-
-   public:
-      TextLineView();
-      virtual void setElement(Element*);
-      };
-
-//---------------------------------------------------------
-//   TextLineSegmentView
-//---------------------------------------------------------
-
-class TextLineSegmentView : public ShowElementBase {
-      Q_OBJECT
-
-      Ui::LineSegmentBase lb;
-
-   private slots:
-      void lineClicked();
-
-   public:
-      TextLineSegmentView();
-      virtual void setElement(Element*);
-      };
-
-//---------------------------------------------------------
-//   LineSegmentView
-//---------------------------------------------------------
-
-class LineSegmentView : public ShowElementBase {
-      Q_OBJECT
-
-      Ui::LineSegmentBase lb;
-
-   private slots:
-      void lineClicked();
-
-   public:
-      LineSegmentView();
-      virtual void setElement(Element*);
-      };
-
-//---------------------------------------------------------
-//   VoltaSegmentView
-//---------------------------------------------------------
-
-class LyricsView : public ShowElementBase {
-      Q_OBJECT
-
-      Ui::LyricsBase lb;
-
-   public:
-      LyricsView();
-      virtual void setElement(Element*);
-      };
-
-//---------------------------------------------------------
-//   BeamView
-//---------------------------------------------------------
-
-class BeamView : public ShowElementBase {
-      Q_OBJECT
-
-      Ui::BeamBase bb;
-
-   private slots:
-      void elementClicked(QTreeWidgetItem*);
-
-   public:
-      BeamView();
-      virtual void setElement(Element*);
-      };
-
-//---------------------------------------------------------
-//   TremoloView
-//---------------------------------------------------------
-
-class TremoloView : public ShowElementBase {
-      Q_OBJECT
-
-      Ui::TremoloBase tb;
-
-   private slots:
-      void chord1Clicked();
-      void chord2Clicked();
-
-   public:
-      TremoloView();
-      virtual void setElement(Element*);
-      };
-
-//---------------------------------------------------------
-//   OttavaView
-//---------------------------------------------------------
-
-class OttavaView : public TextLineView {
-      Q_OBJECT
-
-//      Ui::OttavaBase ob;
-
-   private slots:
-
-   public:
-      OttavaView();
-      virtual void setElement(Element*);
-      };
-
-//---------------------------------------------------------
-//   SlurSegmentView
-//---------------------------------------------------------
-
-class SlurSegmentView : public ShowElementBase {
-      Q_OBJECT
-
-      Ui::SlurSegment ss;
-
-   private slots:
-      void slurTieClicked();
-
-   public:
-      SlurSegmentView();
-      virtual void setElement(Element*);
-      };
-
-//---------------------------------------------------------
-//   TieSegmentView
-//---------------------------------------------------------
-
-class TieSegmentView : public ShowElementBase {
-      Q_OBJECT
-
-      Ui::TieSegment ss;
-
-   private slots:
-      void slurTieClicked();
-
-   public:
-      TieSegmentView();
-      virtual void setElement(Element*);
-      };
-
-//---------------------------------------------------------
-//   AccidentalView
-//---------------------------------------------------------
-
-class AccidentalView : public ShowElementBase {
-      Q_OBJECT
-
-      Ui::Accidental acc;
-
-   public:
-      AccidentalView();
-      virtual void setElement(Element*);
-      };
-
-//---------------------------------------------------------
-//   ClefView
-//---------------------------------------------------------
-
-class ClefView : public ShowElementBase {
-      Q_OBJECT
-
-      Ui::Clef clef;
-
-   public:
-      ClefView();
-      virtual void setElement(Element*);
-      };
-
-//---------------------------------------------------------
-//   ArticulationView
-//---------------------------------------------------------
-
-class ArticulationView : public ShowElementBase {
-      Q_OBJECT
-
-      Ui::ArticulationBase articulation;
-
-   public:
-      ArticulationView();
-      virtual void setElement(Element*);
-      };
-
-//---------------------------------------------------------
-//   KeySigView
-//---------------------------------------------------------
-
-class KeySigView : public ShowElementBase {
-      Q_OBJECT
-
-      Ui::KeySig keysig;
-
-   public:
-      KeySigView();
-      virtual void setElement(Element*);
-      };
-
-//---------------------------------------------------------
-//   StemView
-//---------------------------------------------------------
-
-class StemView : public ShowElementBase {
-      Q_OBJECT
-
-      Ui::StemBase stem;
-
-   public:
-      StemView();
-      virtual void setElement(Element*);
-      };
-
-//---------------------------------------------------------
-//   BoxView
-//---------------------------------------------------------
-
-class BoxView : public ShowElementBase {
-      Q_OBJECT
-
-      Ui::BoxBase box;
-
-   public:
-      BoxView();
-      virtual void setElement(Element*);
-      };
-
-//---------------------------------------------------------
-//   SystemView
-//---------------------------------------------------------
-
-class SystemView : public ShowElementBase {
-      Q_OBJECT
-
-      Ui::SystemBase mb;
-
-   private slots:
-      void elementClicked(QTreeWidgetItem*);
-      void measureClicked(QListWidgetItem*);
-
-   public:
-      SystemView();
-      virtual void setElement(Element*);
-      };
-
-//---------------------------------------------------------
-//   TimeSigView
-//---------------------------------------------------------
-
-class TimeSigView : public ShowElementBase {
-      Q_OBJECT
-
-      Ui::TimeSig tb;
-
-   public:
-      TimeSigView();
-      virtual void setElement(Element*);
-      };
-
-//---------------------------------------------------------
-//   BracketView
-//---------------------------------------------------------
-
-class BracketView : public ShowElementBase {
-      Q_OBJECT
-
-      Ui::Bracket br;
-
-   public:
-      BracketView();
-      virtual void setElement(Element*);
-      };
-
-
+public:
+    BracketView();
+    virtual void setElement(Element*);
+};
 } // namespace Ms
 #endif
-

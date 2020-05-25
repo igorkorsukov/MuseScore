@@ -1,14 +1,14 @@
-//=============================================================================
-//  MuseScore
-//  Music Composition & Notation
+// =============================================================================
+// MuseScore
+// Music Composition & Notation
 //
-//  Copyright (C) 2012 Werner Schweer
+// Copyright (C) 2012 Werner Schweer
 //
-//  This program is free software; you can redistribute it and/or modify
-//  it under the terms of the GNU General Public License version 2
-//  as published by the Free Software Foundation and appearing in
-//  the file LICENCE.GPL
-//=============================================================================
+// This program is free software; you can redistribute it and/or modify
+// it under the terms of the GNU General Public License version 2
+// as published by the Free Software Foundation and appearing in
+// the file LICENCE.GPL
+// =============================================================================
 
 #include <QtTest/QtTest>
 
@@ -18,49 +18,48 @@
 
 using namespace Ms;
 
-//---------------------------------------------------------
-//   TestHairpin
-//---------------------------------------------------------
+// ---------------------------------------------------------
+// TestHairpin
+// ---------------------------------------------------------
 
 class TestHairpin : public QObject, public MTest
-      {
-      Q_OBJECT
+{
+    Q_OBJECT
 
-   private slots:
-      void initTestCase();
-      void hairpin();
-      };
+private slots:
+    void initTestCase();
+    void hairpin();
+};
 
-//---------------------------------------------------------
-//   initTestCase
-//---------------------------------------------------------
+// ---------------------------------------------------------
+// initTestCase
+// ---------------------------------------------------------
 
 void TestHairpin::initTestCase()
-      {
-      initMTest();
-      }
+{
+    initMTest();
+}
 
-//---------------------------------------------------------
-//   hairpin
-//---------------------------------------------------------
+// ---------------------------------------------------------
+// hairpin
+// ---------------------------------------------------------
 
 void TestHairpin::hairpin()
-      {
-      Hairpin* hp = new Hairpin(score);
+{
+    Hairpin* hp = new Hairpin(score);
 
-   // subtype
-      hp->setHairpinType(HairpinType::DECRESC_HAIRPIN);
-      Hairpin* hp2 = static_cast<Hairpin*>(writeReadElement(hp));
-      QCOMPARE(hp2->hairpinType(), HairpinType::DECRESC_HAIRPIN);
-      delete hp2;
+    // subtype
+    hp->setHairpinType(HairpinType::DECRESC_HAIRPIN);
+    Hairpin* hp2 = static_cast<Hairpin*>(writeReadElement(hp));
+    QCOMPARE(hp2->hairpinType(), HairpinType::DECRESC_HAIRPIN);
+    delete hp2;
 
-      hp->setHairpinType(HairpinType::CRESC_HAIRPIN);
-      hp2 = static_cast<Hairpin*>(writeReadElement(hp));
-      QCOMPARE(hp2->hairpinType(), HairpinType::CRESC_HAIRPIN);
-      delete hp2;
-      }
+    hp->setHairpinType(HairpinType::CRESC_HAIRPIN);
+    hp2 = static_cast<Hairpin*>(writeReadElement(hp));
+    QCOMPARE(hp2->hairpinType(), HairpinType::CRESC_HAIRPIN);
+    delete hp2;
+}
 
 QTEST_MAIN(TestHairpin)
 
 #include "tst_hairpin.moc"
-

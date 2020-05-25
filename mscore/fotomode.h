@@ -1,14 +1,14 @@
-//=============================================================================
-//  MuseScore
-//  Music Composition & Notation
+// =============================================================================
+// MuseScore
+// Music Composition & Notation
 //
-//  Copyright (C) 2017 Werner Schweer
+// Copyright (C) 2017 Werner Schweer
 //
-//  This program is free software; you can redistribute it and/or modify
-//  it under the terms of the GNU General Public License version 2
-//  as published by the Free Software Foundation and appearing in
-//  the file LICENCE.GPL
-//=============================================================================
+// This program is free software; you can redistribute it and/or modify
+// it under the terms of the GNU General Public License version 2
+// as published by the Free Software Foundation and appearing in
+// the file LICENCE.GPL
+// =============================================================================
 
 #ifndef __FOTOMODE_H__
 #define __FOTOMODE_H__
@@ -16,25 +16,21 @@
 #include "libmscore/lasso.h"
 
 namespace Ms {
+// ---------------------------------------------------------
+// FotoLasso
+// ---------------------------------------------------------
 
-//---------------------------------------------------------
-//   FotoLasso
-//---------------------------------------------------------
+class FotoLasso : public Lasso
+{
+public:
+    FotoLasso(Score* s) : Lasso(s) {}
+    virtual void startEdit(EditData&) override;
+    virtual void endEdit(EditData&) override;
+    virtual void drawEditMode(QPainter*, EditData&) override;
 
-class FotoLasso : public Lasso {
-   public:
-      FotoLasso(Score* s) : Lasso(s) {}
-      virtual void startEdit(EditData&) override;
-      virtual void endEdit(EditData&) override;
-      virtual void drawEditMode(QPainter*, EditData&) override;
-
-      Grip initialEditModeGrip() const override { return Grip(0); }
-      Grip defaultGrip() const override { return Grip(0); } // TODO
-      };
-
+    Grip initialEditModeGrip() const override { return Grip(0); }
+    Grip defaultGrip() const override { return Grip(0); }   // TODO
+};
 }
 
 #endif
-
-
-

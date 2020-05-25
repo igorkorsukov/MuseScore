@@ -1,21 +1,21 @@
-//=============================================================================
-//  MuseScore
-//  Music Composition & Notation
+// =============================================================================
+// MuseScore
+// Music Composition & Notation
 //
-//  Copyright (C) 2019 MuseScore BVBA and others
+// Copyright (C) 2019 MuseScore BVBA and others
 //
-//  This program is free software; you can redistribute it and/or modify
-//  it under the terms of the GNU General Public License version 2.
+// This program is free software; you can redistribute it and/or modify
+// it under the terms of the GNU General Public License version 2.
 //
-//  This program is distributed in the hope that it will be useful,
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//  GNU General Public License for more details.
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
 //
-//  You should have received a copy of the GNU General Public License
-//  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
-//=============================================================================
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+// =============================================================================
 
 #include "telemetrysetup.h"
 
@@ -26,48 +26,48 @@
 
 #include "models/telemetrypermissionmodel.h"
 
-//---------------------------------------------------------
-//   TelemetrySetup
-//---------------------------------------------------------
+// ---------------------------------------------------------
+// TelemetrySetup
+// ---------------------------------------------------------
 
 TelemetrySetup::TelemetrySetup()
-      {
-      }
+{
+}
 
-//---------------------------------------------------------
-//   registerExports
-//---------------------------------------------------------
+// ---------------------------------------------------------
+// registerExports
+// ---------------------------------------------------------
 
 void TelemetrySetup::registerExports()
-      {
-      ServicesResolver::registerService<ITelemetryService, TelemetryService>([]() -> TelemetryService* {
-            return new TelemetryService();
-            });
-      }
+{
+    ServicesResolver::registerService<ITelemetryService, TelemetryService>([]() -> TelemetryService* {
+        return new TelemetryService();
+    });
+}
 
-//---------------------------------------------------------
-//   moduleName
-//---------------------------------------------------------
+// ---------------------------------------------------------
+// moduleName
+// ---------------------------------------------------------
 
 QString TelemetrySetup::moduleName() const
-      {
-      return QStringLiteral("telemetry");
-      }
+{
+    return QStringLiteral("telemetry");
+}
 
-//---------------------------------------------------------
-//   registerResources
-//---------------------------------------------------------
+// ---------------------------------------------------------
+// registerResources
+// ---------------------------------------------------------
 
 void TelemetrySetup::registerResources()
-      {
-      Q_INIT_RESOURCE(telemetry_resources);
-      }
+{
+    Q_INIT_RESOURCE(telemetry_resources);
+}
 
-//---------------------------------------------------------
-//   registerQmlTypes
-//---------------------------------------------------------
+// ---------------------------------------------------------
+// registerQmlTypes
+// ---------------------------------------------------------
 
 void TelemetrySetup::registerQmlTypes()
-      {
-      qmlRegisterType<TelemetryPermissionModel>("MuseScore.Telemetry", 3, 3, "TelemetryPermissionModel");
-      }
+{
+    qmlRegisterType<TelemetryPermissionModel>("MuseScore.Telemetry", 3, 3, "TelemetryPermissionModel");
+}

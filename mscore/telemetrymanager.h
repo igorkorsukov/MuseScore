@@ -1,21 +1,21 @@
-//=============================================================================
-//  MuseScore
-//  Music Composition & Notation
+// =============================================================================
+// MuseScore
+// Music Composition & Notation
 //
-//  Copyright (C) 2020 MuseScore BVBA
+// Copyright (C) 2020 MuseScore BVBA
 //
-//  This program is free software; you can redistribute it and/or modify
-//  it under the terms of the GNU General Public License version 2.
+// This program is free software; you can redistribute it and/or modify
+// it under the terms of the GNU General Public License version 2.
 //
-//  This program is distributed in the hope that it will be useful,
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//  GNU General Public License for more details.
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
 //
-//  You should have received a copy of the GNU General Public License
-//  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
-//=============================================================================
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+// =============================================================================
 
 #ifndef __TELEMETRYMANAGER_H__
 #define __TELEMETRYMANAGER_H__
@@ -26,29 +26,29 @@
 #include "interfaces/itelemetryservice.h"
 
 namespace Ms {
+// ---------------------------------------------------------
+// TelemetryManager
+// ---------------------------------------------------------
 
-//---------------------------------------------------------
-//   TelemetryManager
-//---------------------------------------------------------
+class TelemetryManager : public ServiceInjector<ITelemetryService>
+{
+    INJECT(ITelemetryService, _telemetryService)
+    static std::unique_ptr<TelemetryManager> mgr;
 
-class TelemetryManager : public ServiceInjector<ITelemetryService> {
-      INJECT(ITelemetryService, _telemetryService)
-      static std::unique_ptr<TelemetryManager> mgr;
+    static TelemetryManager* instance()
+    {
+        if (!mgr) {
+            mgr.reset(new TelemetryManager());
+        }
+        return mgr.get();
+    }
 
-      static TelemetryManager* instance()
-            {
-            if (!mgr)
-                  mgr.reset(new TelemetryManager());
-            return mgr.get();
-            }
-
-   public:
-      static ITelemetryService* telemetryService()
-            {
-            return instance()->_telemetryService();
-            }
-      };
-
+public:
+    static ITelemetryService* telemetryService()
+    {
+        return instance()->_telemetryService();
+    }
+};
 } // namespace Ms
 
 #endif // BUILD_TELEMETRY_MODULE

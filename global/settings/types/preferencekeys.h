@@ -1,21 +1,21 @@
-//=============================================================================
-//  MuseScore
-//  Music Composition & Notation
+// =============================================================================
+// MuseScore
+// Music Composition & Notation
 //
-//  Copyright (C) 2019 MuseScore BVBA and others
+// Copyright (C) 2019 MuseScore BVBA and others
 //
-//  This program is free software; you can redistribute it and/or modify
-//  it under the terms of the GNU General Public License version 2.
+// This program is free software; you can redistribute it and/or modify
+// it under the terms of the GNU General Public License version 2.
 //
-//  This program is distributed in the hope that it will be useful,
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//  GNU General Public License for more details.
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
 //
-//  You should have received a copy of the GNU General Public License
-//  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
-//=============================================================================
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+// =============================================================================
 
 #ifndef PREFERENCEKEYS_H
 #define PREFERENCEKEYS_H
@@ -187,23 +187,23 @@
 #define PREF_PAN_MODIFIER_MAX                               "smoothPan/modifier/maxSpeed"
 #define PREF_PAN_CURSOR_POS                                 "smoothPan/cursor/position"
 #define PREF_PAN_CURSOR_VISIBLE                             "smoothPan/cursor/visible"
-//#define PREF_PAN_DISTANCE_LEFT                              "smoothPan/distance/left"
-//#define PREF_PAN_DISTANCE_LEFT1                             "smoothPan/distance/left1"
-//#define PREF_PAN_DISTANCE_LEFT2                             "smoothPan/distance/left2"
-//#define PREF_PAN_DISTANCE_LEFT3                             "smoothPan/distance/left3"
-//#define PREF_PAN_DISTANCE_RIGHT                             "smoothPan/distance/right"
-//#define PREF_PAN_DISTANCE_RIGHT1                            "smoothPan/distance/right1"
-//#define PREF_PAN_DISTANCE_RIGHT2                            "smoothPan/distance/right2"
-//#define PREF_PAN_DISTANCE_RIGHT3                            "smoothPan/distance/right3"
-//#define PREF_PAN_MODIFIER_LEFT1                             "smoothPan/modifier/left1"
-//#define PREF_PAN_MODIFIER_LEFT2                             "smoothPan/modifier/left2"
-//#define PREF_PAN_MODIFIER_LEFT3                             "smoothPan/modifier/left3"
-//#define PREF_PAN_MODIFIER_RIGHT1                            "smoothPan/modifier/right1"
-//#define PREF_PAN_MODIFIER_RIGHT2                            "smoothPan/modifier/right2"
-//#define PREF_PAN_MODIFIER_RIGHT3                            "smoothPan/modifier/right3"
-//#define PREF_PAN_WEIGHT_NORMAL                              "smoothPan/weight/normal"
-//#define PREF_PAN_WEIGHT_SMART                               "smoothPan/weight/smart"
-//#define PREF_PAN_WEIGHT_ADVANCED                            "smoothPan/weight/advanced"
-//#define PREF_PAN_SMART_TIMER_DURATION                       "smoothPan/smart/timer/duration"
+// #define PREF_PAN_DISTANCE_LEFT                              "smoothPan/distance/left"
+// #define PREF_PAN_DISTANCE_LEFT1                             "smoothPan/distance/left1"
+// #define PREF_PAN_DISTANCE_LEFT2                             "smoothPan/distance/left2"
+// #define PREF_PAN_DISTANCE_LEFT3                             "smoothPan/distance/left3"
+// #define PREF_PAN_DISTANCE_RIGHT                             "smoothPan/distance/right"
+// #define PREF_PAN_DISTANCE_RIGHT1                            "smoothPan/distance/right1"
+// #define PREF_PAN_DISTANCE_RIGHT2                            "smoothPan/distance/right2"
+// #define PREF_PAN_DISTANCE_RIGHT3                            "smoothPan/distance/right3"
+// #define PREF_PAN_MODIFIER_LEFT1                             "smoothPan/modifier/left1"
+// #define PREF_PAN_MODIFIER_LEFT2                             "smoothPan/modifier/left2"
+// #define PREF_PAN_MODIFIER_LEFT3                             "smoothPan/modifier/left3"
+// #define PREF_PAN_MODIFIER_RIGHT1                            "smoothPan/modifier/right1"
+// #define PREF_PAN_MODIFIER_RIGHT2                            "smoothPan/modifier/right2"
+// #define PREF_PAN_MODIFIER_RIGHT3                            "smoothPan/modifier/right3"
+// #define PREF_PAN_WEIGHT_NORMAL                              "smoothPan/weight/normal"
+// #define PREF_PAN_WEIGHT_SMART                               "smoothPan/weight/smart"
+// #define PREF_PAN_WEIGHT_ADVANCED                            "smoothPan/weight/advanced"
+// #define PREF_PAN_SMART_TIMER_DURATION                       "smoothPan/smart/timer/duration"
 
 #endif // PREFERENCEKEYS_H

@@ -1,21 +1,21 @@
-//=============================================================================
-//  MuseScore
-//  Music Composition & Notation
+// =============================================================================
+// MuseScore
+// Music Composition & Notation
 //
-//  Copyright (C) 2020 MuseScore BVBA and others
+// Copyright (C) 2020 MuseScore BVBA and others
 //
-//  This program is free software; you can redistribute it and/or modify
-//  it under the terms of the GNU General Public License version 2.
+// This program is free software; you can redistribute it and/or modify
+// it under the terms of the GNU General Public License version 2.
 //
-//  This program is distributed in the hope that it will be useful,
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//  GNU General Public License for more details.
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
 //
-//  You should have received a copy of the GNU General Public License
-//  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
-//=============================================================================
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+// =============================================================================
 
 #ifndef __PLUGIN_API_STYLE_H__
 #define __PLUGIN_API_STYLE_H__
@@ -23,13 +23,11 @@
 #include "libmscore/style.h"
 
 namespace Ms {
-
 class Score;
 
 namespace PluginAPI {
-
-//---------------------------------------------------------
-//   MStyle
+// ---------------------------------------------------------
+// MStyle
 ///   Provides an access to score style settings.
 ///   Style settings for a score can be obtained by
 ///   querying the \ref Score.style property.
@@ -42,28 +40,28 @@ namespace PluginAPI {
 ///   \endcode
 ///   \since MuseScore 3.5
 ///   \see \ref Sid
-//---------------------------------------------------------
+// ---------------------------------------------------------
 
-class MStyle : public QObject {
-      Q_OBJECT
+class MStyle : public QObject
+{
+    Q_OBJECT
 
-      Ms::MStyle* _style;
-      Ms::Score* _score;
+    Ms::MStyle* _style;
+    Ms::Score* _score;
 
-      static Sid keyToSid(const QString& key);
+    static Sid keyToSid(const QString& key);
 
-   public:
-      /// \cond MS_INTERNAL
-      MStyle(Ms::MStyle* style, Ms::Score* score)
-         : QObject(), _style(style), _score(score) {}
-      /// \endcond
+public:
+    /// \cond MS_INTERNAL
+    MStyle(Ms::MStyle* style, Ms::Score* score) :
+        QObject(), _style(style), _score(score) {}
+    /// \endcond
 
-      Q_INVOKABLE QVariant value(const QString& key) const;
-      Q_INVOKABLE void setValue(const QString& key, QVariant value);
-      };
+    Q_INVOKABLE QVariant value(const QString& key) const;
+    Q_INVOKABLE void setValue(const QString& key, QVariant value);
+};
 
 extern MStyle* wrap(Ms::MStyle*, Ms::Score*);
-
 } // namespace PluginAPI
 } // namespace Ms
 

@@ -1,14 +1,14 @@
-//=============================================================================
-//  MuseScore
-//  Music Composition & Notation
+// =============================================================================
+// MuseScore
+// Music Composition & Notation
 //
-//  Copyright (C) 2002-2011 Werner Schweer
+// Copyright (C) 2002-2011 Werner Schweer
 //
-//  This program is free software; you can redistribute it and/or modify
-//  it under the terms of the GNU General Public License version 2
-//  as published by the Free Software Foundation and appearing in
-//  the file LICENCE.GPL
-//=============================================================================
+// This program is free software; you can redistribute it and/or modify
+// it under the terms of the GNU General Public License version 2
+// as published by the Free Software Foundation and appearing in
+// the file LICENCE.GPL
+// =============================================================================
 
 #ifndef __OTTAVA_H__
 #define __OTTAVA_H__
@@ -17,119 +17,117 @@
 #include "property.h"
 
 namespace Ms {
-
-//---------------------------------------------------------
-//   OttavaE
-//---------------------------------------------------------
+// ---------------------------------------------------------
+// OttavaE
+// ---------------------------------------------------------
 
 struct OttavaE {
-      int offset;
-      unsigned start;
-      unsigned end;
-      };
+    int offset;
+    unsigned start;
+    unsigned end;
+};
 
-//---------------------------------------------------------
-//   OttavaType
-//---------------------------------------------------------
+// ---------------------------------------------------------
+// OttavaType
+// ---------------------------------------------------------
 
 enum class OttavaType : char {
-      OTTAVA_8VA,
-      OTTAVA_8VB,
-      OTTAVA_15MA,
-      OTTAVA_15MB,
-      OTTAVA_22MA,
-      OTTAVA_22MB
-      };
+    OTTAVA_8VA,
+    OTTAVA_8VB,
+    OTTAVA_15MA,
+    OTTAVA_15MB,
+    OTTAVA_22MA,
+    OTTAVA_22MB
+};
 
-//---------------------------------------------------------
-//   OttavaDefault
-//---------------------------------------------------------
+// ---------------------------------------------------------
+// OttavaDefault
+// ---------------------------------------------------------
 
 struct OttavaDefault {
-      OttavaType type;
-      int shift;
-      const char* name;
-      };
+    OttavaType type;
+    int shift;
+    const char* name;
+};
 
 // order is important, should be the same as OttavaType
 static const OttavaDefault ottavaDefault[] = {
-      { OttavaType::OTTAVA_8VA,  12,  "8va"   },
-      { OttavaType::OTTAVA_8VB,  -12, "8vb"   },
-      { OttavaType::OTTAVA_15MA, 24,  "15ma"  },
-      { OttavaType::OTTAVA_15MB, -24, "15mb"  },
-      { OttavaType::OTTAVA_22MA, 36,  "22ma"  },
-      { OttavaType::OTTAVA_22MB, -36, "22mb"  }
-      };
-
+    { OttavaType::OTTAVA_8VA,  12,  "8va" },
+    { OttavaType::OTTAVA_8VB,  -12, "8vb" },
+    { OttavaType::OTTAVA_15MA, 24,  "15ma" },
+    { OttavaType::OTTAVA_15MB, -24, "15mb" },
+    { OttavaType::OTTAVA_22MA, 36,  "22ma" },
+    { OttavaType::OTTAVA_22MB, -36, "22mb" }
+};
 
 class Ottava;
 
-//---------------------------------------------------------
-//   @@ OttavaSegment
-//---------------------------------------------------------
+// ---------------------------------------------------------
+// @@ OttavaSegment
+// ---------------------------------------------------------
 
-class OttavaSegment final : public TextLineBaseSegment {
-      void undoChangeProperty(Pid id, const QVariant&, PropertyFlags ps) override;
-      Sid getPropertyStyle(Pid) const override;
+class OttavaSegment final : public TextLineBaseSegment
+{
+    void undoChangeProperty(Pid id, const QVariant&, PropertyFlags ps) override;
+    Sid getPropertyStyle(Pid) const override;
 
-   public:
-      OttavaSegment(Spanner* sp, Score* s) : TextLineBaseSegment(sp, s, ElementFlag::MOVABLE | ElementFlag::ON_STAFF)  { }
+public:
+    OttavaSegment(Spanner* sp, Score* s) : TextLineBaseSegment(sp, s, ElementFlag::MOVABLE | ElementFlag::ON_STAFF) { }
 
-      ElementType type() const override     { return ElementType::OTTAVA_SEGMENT; }
-      OttavaSegment* clone() const override { return new OttavaSegment(*this); }
-      Ottava* ottava() const                { return (Ottava*)spanner(); }
-      void layout() override;
-      Element* propertyDelegate(Pid) override;
-      };
+    ElementType type() const override { return ElementType::OTTAVA_SEGMENT; }
+    OttavaSegment* clone() const override { return new OttavaSegment(*this); }
+    Ottava* ottava() const { return (Ottava*)spanner(); }
+    void layout() override;
+    Element* propertyDelegate(Pid) override;
+};
 
-//---------------------------------------------------------
-//   @@ Ottava
-//   @P ottavaType  enum (Ottava.OTTAVA_8VA, .OTTAVA_8VB, .OTTAVA_15MA, .OTTAVA_15MB, .OTTAVA_22MA, .OTTAVA_22MB)
-//---------------------------------------------------------
+// ---------------------------------------------------------
+// @@ Ottava
+// @P ottavaType  enum (Ottava.OTTAVA_8VA, .OTTAVA_8VB, .OTTAVA_15MA, .OTTAVA_15MB, .OTTAVA_22MA, .OTTAVA_22MB)
+// ---------------------------------------------------------
 
-class Ottava final : public TextLineBase {
-      OttavaType _ottavaType;
-      bool _numbersOnly;
+class Ottava final : public TextLineBase
+{
+    OttavaType _ottavaType;
+    bool _numbersOnly;
 
-      void updateStyledProperties();
-      Sid getPropertyStyle(Pid) const override;
-      void undoChangeProperty(Pid id, const QVariant&, PropertyFlags ps) override;
+    void updateStyledProperties();
+    Sid getPropertyStyle(Pid) const override;
+    void undoChangeProperty(Pid id, const QVariant&, PropertyFlags ps) override;
 
-   protected:
-      friend class OttavaSegment;
+protected:
+    friend class OttavaSegment;
 
-   public:
-      Ottava(Score* s);
-      Ottava(const Ottava&);
+public:
+    Ottava(Score* s);
+    Ottava(const Ottava&);
 
-      Ottava* clone() const override    { return new Ottava(*this); }
-      ElementType type() const override { return ElementType::OTTAVA; }
+    Ottava* clone() const override { return new Ottava(*this); }
+    ElementType type() const override { return ElementType::OTTAVA; }
 
-      void setOttavaType(OttavaType val);
-      OttavaType ottavaType() const             { return _ottavaType; }
+    void setOttavaType(OttavaType val);
+    OttavaType ottavaType() const { return _ottavaType; }
 
-      bool numbersOnly() const                  { return _numbersOnly; }
-      void setNumbersOnly(bool val);
+    bool numbersOnly() const { return _numbersOnly; }
+    void setNumbersOnly(bool val);
 
-      void setPlacement(Placement);
+    void setPlacement(Placement);
 
-      LineSegment* createLineSegment() override;
-      int pitchShift() const;
+    LineSegment* createLineSegment() override;
+    int pitchShift() const;
 
-      void write(XmlWriter& xml) const override;
-      void read(XmlReader& de) override;
-      bool readProperties(XmlReader& e) override;
+    void write(XmlWriter& xml) const override;
+    void read(XmlReader& de) override;
+    bool readProperties(XmlReader& e) override;
 
-      QVariant getProperty(Pid propertyId) const override;
-      bool setProperty(Pid propertyId, const QVariant&) override;
-      QVariant propertyDefault(Pid) const override;
-      Pid propertyId(const QStringRef& xmlName) const override;
+    QVariant getProperty(Pid propertyId) const override;
+    bool setProperty(Pid propertyId, const QVariant&) override;
+    QVariant propertyDefault(Pid) const override;
+    Pid propertyId(const QStringRef& xmlName) const override;
 
-      QString accessibleInfo() const override;
-      static const char* ottavaTypeName(OttavaType type);
-      };
-
+    QString accessibleInfo() const override;
+    static const char* ottavaTypeName(OttavaType type);
+};
 }     // namespace Ms
 
 #endif
-

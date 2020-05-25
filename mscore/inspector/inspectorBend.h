@@ -1,14 +1,14 @@
-//=============================================================================
-//  MuseScore
-//  Music Composition & Notation
+// =============================================================================
+// MuseScore
+// Music Composition & Notation
 //
-//  Copyright (C) 2010-2019 Werner Schweer and others
+// Copyright (C) 2010-2019 Werner Schweer and others
 //
-//  This program is free software; you can redistribute it and/or modify
-//  it under the terms of the GNU General Public License version 2
-//  as published by the Free Software Foundation and appearing in
-//  the file LICENSE.GPL
-//=============================================================================
+// This program is free software; you can redistribute it and/or modify
+// it under the terms of the GNU General Public License version 2
+// as published by the Free Software Foundation and appearing in
+// the file LICENSE.GPL
+// =============================================================================
 
 #ifndef __INSPECTOR_BEND_H__
 #define __INSPECTOR_BEND_H__
@@ -18,24 +18,23 @@
 #include "libmscore/pitchvalue.h"
 
 namespace Ms {
+// ---------------------------------------------------------
+// InspectorBend
+// ---------------------------------------------------------
 
-//---------------------------------------------------------
-//   InspectorBend
-//---------------------------------------------------------
+class InspectorBend : public InspectorElementBase
+{
+    Q_OBJECT
 
-class InspectorBend : public InspectorElementBase {
-      Q_OBJECT
+    Ui::InspectorBend g;
 
-      Ui::InspectorBend g;
+private slots:
+    void bendTypeChanged(int);
+    void updateBend();
 
-   private slots:
-      void bendTypeChanged(int);
-      void updateBend();
-
-   public:
-      InspectorBend(QWidget* parent);
-      virtual void setElement() override;
-      };
-
+public:
+    InspectorBend(QWidget* parent);
+    virtual void setElement() override;
+};
 } // namespace Ms
 #endif

@@ -1,14 +1,14 @@
-//=============================================================================
-//  MuseScore
-//  Music Composition & Notation
+// =============================================================================
+// MuseScore
+// Music Composition & Notation
 //
-//  Copyright (C) 2011 Werner Schweer and others
+// Copyright (C) 2011 Werner Schweer and others
 //
-//  This program is free software; you can redistribute it and/or modify
-//  it under the terms of the GNU General Public License version 2
-//  as published by the Free Software Foundation and appearing in
-//  the file LICENSE.GPL
-//=============================================================================
+// This program is free software; you can redistribute it and/or modify
+// it under the terms of the GNU General Public License version 2
+// as published by the Free Software Foundation and appearing in
+// the file LICENSE.GPL
+// =============================================================================
 
 #ifndef __INSPECTOR_LASSO_H__
 #define __INSPECTOR_LASSO_H__
@@ -18,21 +18,18 @@
 #include "libmscore/property.h"
 
 namespace Ms {
+// ---------------------------------------------------------
+// InspectorLasso
+// ---------------------------------------------------------
 
-//---------------------------------------------------------
-//   InspectorLasso
-//---------------------------------------------------------
+class InspectorLasso : public InspectorBase
+{
+    Q_OBJECT
 
-class InspectorLasso : public InspectorBase {
-      Q_OBJECT
+    Ui::InspectorLasso b;
 
-      Ui::InspectorLasso b;
-
-   public:
-      InspectorLasso(QWidget* parent);
-      };
-
-
+public:
+    InspectorLasso(QWidget* parent);
+};
 } // namespace Ms
 #endif
-

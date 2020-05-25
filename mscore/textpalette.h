@@ -1,21 +1,21 @@
-//=============================================================================
-//  MusE Score
-//  Linux Music Score Editor
+// =============================================================================
+// MusE Score
+// Linux Music Score Editor
 //
-//  Copyright (C) 2002-2010 Werner Schweer and others
+// Copyright (C) 2002-2010 Werner Schweer and others
 //
-//  This program is free software; you can redistribute it and/or modify
-//  it under the terms of the GNU General Public License version 2.
+// This program is free software; you can redistribute it and/or modify
+// it under the terms of the GNU General Public License version 2.
 //
-//  This program is distributed in the hope that it will be useful,
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//  GNU General Public License for more details.
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
 //
-//  You should have received a copy of the GNU General Public License
-//  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
-//=============================================================================
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+// =============================================================================
 
 #ifndef __TEXTPALETTE_H__
 #define __TEXTPALETTE_H__
@@ -23,41 +23,40 @@
 #include "ui_textpalette.h"
 
 namespace Ms {
-
 class TextBase;
 class Palette;
 
-//---------------------------------------------------------
-//   TextPalette
-//---------------------------------------------------------
+// ---------------------------------------------------------
+// TextPalette
+// ---------------------------------------------------------
 
-class TextPalette : public QWidget, public Ui::TextPaletteBase {
-      Q_OBJECT
+class TextPalette : public QWidget, public Ui::TextPaletteBase
+{
+    Q_OBJECT
 
-      TextBase* _textElement;
-      QFont _font;
-      Palette* pCommon;
-      Palette* pSmufl;
-      Palette* pUnicode;
+    TextBase * _textElement;
+    QFont _font;
+    Palette* pCommon;
+    Palette* pSmufl;
+    Palette* pUnicode;
 
-      QListWidget* lws;
-      QListWidget* lwu;
+    QListWidget* lws;
+    QListWidget* lwu;
 
-      virtual void hideEvent(QHideEvent*);
-      void closeEvent(QCloseEvent* ev);
-      void populateCommon();
+    virtual void hideEvent(QHideEvent*);
+    void closeEvent(QCloseEvent* ev);
+    void populateCommon();
 
-   private slots:
-      void populateSmufl();
-      void populateUnicode();
+private slots:
+    void populateSmufl();
+    void populateUnicode();
 
-   public:
-      TextPalette(QWidget* parent);
-      void setText(TextBase* te);
-      TextBase* text() { return _textElement; }
-      void setFont(const QFont& font);
-      };
+public:
+    TextPalette(QWidget* parent);
+    void setText(TextBase* te);
+    TextBase* text() { return _textElement; }
+    void setFont(const QFont& font);
+};
 }
 
 #endif
-

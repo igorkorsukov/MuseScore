@@ -1,21 +1,21 @@
-//=============================================================================
-//  MuseScore
-//  Linux Music Score Editor
+// =============================================================================
+// MuseScore
+// Linux Music Score Editor
 //
-//  Copyright (C) 2002-2016 Werner Schweer and others
+// Copyright (C) 2002-2016 Werner Schweer and others
 //
-//  This program is free software; you can redistribute it and/or modify
-//  it under the terms of the GNU General Public License version 2.
+// This program is free software; you can redistribute it and/or modify
+// it under the terms of the GNU General Public License version 2.
 //
-//  This program is distributed in the hope that it will be useful,
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//  GNU General Public License for more details.
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
 //
-//  You should have received a copy of the GNU General Public License
-//  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
-//=============================================================================
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+// =============================================================================
 
 #ifndef __MIXERTRACKCHANNEL_H__
 #define __MIXERTRACKCHANNEL_H__
@@ -27,57 +27,56 @@
 #include "libmscore/instrument.h"
 
 namespace Ms {
-
 class MidiMapping;
 class MixerTrackItem;
 
-//---------------------------------------------------------
-//   MixerTrack
-//---------------------------------------------------------
+// ---------------------------------------------------------
+// MixerTrack
+// ---------------------------------------------------------
 
 class MixerTrackChannel : public QWidget, public Ui::MixerTrackChannel, public ChannelListener, public MixerTrack
-      {
-      Q_OBJECT
+{
+    Q_OBJECT
 
-      MixerTrackItemPtr _mti;
+    MixerTrackItemPtr _mti;
 
-      bool _selected;
-      static const QString unselStyleLight;
-      static const QString selStyleLight;
-      static const QString unselStyleDark;
-      static const QString selStyleDark;
-      static const QString sliderStyle;
+    bool _selected;
+    static const QString unselStyleLight;
+    static const QString selStyleLight;
+    static const QString unselStyleDark;
+    static const QString selStyleDark;
+    static const QString sliderStyle;
 
-      MixerTrackGroup* _group;
+    MixerTrackGroup* _group;
 
-      void updateNameLabel();
+    void updateNameLabel();
 
 signals:
-      void selectedChanged(bool);
+    void selectedChanged(bool);
 
 public slots:
-      void updateSolo(bool);
-      void updateMute(bool);
-      void setSelected(bool) override;
-      void volumeChanged(double);
-      void panChanged(double);
-      void controlSelected();
-      void applyStyle();
+    void updateSolo(bool);
+    void updateMute(bool);
+    void setSelected(bool) override;
+    void volumeChanged(double);
+    void panChanged(double);
+    void controlSelected();
+    void applyStyle();
 
 protected:
-      void mouseReleaseEvent(QMouseEvent * event) override;
-      void propertyChanged(Channel::Prop property) override;
+    void mouseReleaseEvent(QMouseEvent* event) override;
+    void propertyChanged(Channel::Prop property) override;
 
 public:
-      explicit MixerTrackChannel(QWidget *parent, MixerTrackItemPtr trackItem);
+    explicit MixerTrackChannel(QWidget* parent, MixerTrackItemPtr trackItem);
 
-      bool selected() override { return _selected; }
-      QWidget* getWidget() override { return this; }
-      MixerTrackGroup* group() override { return _group; }
-      MixerTrackItemPtr mti() override { return _mti; }
-      void setGroup(MixerTrackGroup* group) { _group = group; }
-      void paintEvent(QPaintEvent* evt) override;
-      };
+    bool selected() override { return _selected; }
+    QWidget* getWidget() override { return this; }
+    MixerTrackGroup* group() override { return _group; }
+    MixerTrackItemPtr mti() override { return _mti; }
+    void setGroup(MixerTrackGroup* group) { _group = group; }
+    void paintEvent(QPaintEvent* evt) override;
+};
 }
 
 #endif // __MIXERTRACKCHANNEL_H__

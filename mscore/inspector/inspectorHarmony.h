@@ -1,14 +1,14 @@
-//=============================================================================
-//  MuseScore
-//  Music Composition & Notation
+// =============================================================================
+// MuseScore
+// Music Composition & Notation
 //
-//  Copyright (C) 2011 Werner Schweer and others
+// Copyright (C) 2011 Werner Schweer and others
 //
-//  This program is free software; you can redistribute it and/or modify
-//  it under the terms of the GNU General Public License version 2
-//  as published by the Free Software Foundation and appearing in
-//  the file LICENSE.GPL
-//=============================================================================
+// This program is free software; you can redistribute it and/or modify
+// it under the terms of the GNU General Public License version 2
+// as published by the Free Software Foundation and appearing in
+// the file LICENSE.GPL
+// =============================================================================
 
 #ifndef __INSPECTOR_HARMONY_H__
 #define __INSPECTOR_HARMONY_H__
@@ -18,21 +18,19 @@
 #include "libmscore/property.h"
 
 namespace Ms {
+// ---------------------------------------------------------
+// InspectorHarmony
+// ---------------------------------------------------------
 
-//---------------------------------------------------------
-//   InspectorHarmony
-//---------------------------------------------------------
+class InspectorHarmony : public InspectorTextBase
+{
+    Q_OBJECT
 
-class InspectorHarmony : public InspectorTextBase {
-      Q_OBJECT
+    Ui::InspectorHarmony h;
+    void valueChanged(int idx, bool b) override;
 
-      Ui::InspectorHarmony h;
-      void valueChanged(int idx, bool b) override;
-
-   public:
-      InspectorHarmony(QWidget* parent);
-      };
-
+public:
+    InspectorHarmony(QWidget* parent);
+};
 } // namespace Ms
 #endif
-

@@ -1,14 +1,14 @@
-//=============================================================================
-//  MuseScore
-//  Music Composition & Notation
+// =============================================================================
+// MuseScore
+// Music Composition & Notation
 //
-//  Copyright (C) 2011 Werner Schweer and others
+// Copyright (C) 2011 Werner Schweer and others
 //
-//  This program is free software; you can redistribute it and/or modify
-//  it under the terms of the GNU General Public License version 2
-//  as published by the Free Software Foundation and appearing in
-//  the file LICENSE.GPL
-//=============================================================================
+// This program is free software; you can redistribute it and/or modify
+// it under the terms of the GNU General Public License version 2
+// as published by the Free Software Foundation and appearing in
+// the file LICENSE.GPL
+// =============================================================================
 
 #ifndef __INSPECTOR_BEAM_H__
 #define __INSPECTOR_BEAM_H__
@@ -18,27 +18,24 @@
 #include "libmscore/property.h"
 
 namespace Ms {
+// ---------------------------------------------------------
+// InspectorBeam
+// ---------------------------------------------------------
 
-//---------------------------------------------------------
-//   InspectorBeam
-//---------------------------------------------------------
+class InspectorBeam : public InspectorElementBase
+{
+    Q_OBJECT
 
-class InspectorBeam : public InspectorElementBase {
-      Q_OBJECT
+    Ui::InspectorBeam b;
 
-      Ui::InspectorBeam b;
+protected slots:
+    virtual void valueChanged(int idx) override;
 
-   protected slots:
-      virtual void valueChanged(int idx) override;
+protected:
+    virtual void setValue(const InspectorItem&, QVariant val) override;
 
-   protected:
-      virtual void setValue(const InspectorItem&, QVariant val) override;
-
-   public:
-      InspectorBeam(QWidget* parent);
-      };
-
-
+public:
+    InspectorBeam(QWidget* parent);
+};
 } // namespace Ms
 #endif
-

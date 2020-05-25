@@ -1,14 +1,14 @@
-//=============================================================================
-//  MuseSynth
-//  Music Software Synthesizer
+// =============================================================================
+// MuseSynth
+// Music Software Synthesizer
 //
-//  Copyright (C) 2013 Werner Schweer
+// Copyright (C) 2013 Werner Schweer
 //
-//  This program is free software; you can redistribute it and/or modify
-//  it under the terms of the GNU General Public License version 2
-//  as published by the Free Software Foundation and appearing in
-//  the file LICENCE.GPL
-//=============================================================================
+// This program is free software; you can redistribute it and/or modify
+// it under the terms of the GNU General Public License version 2
+// as published by the Free Software Foundation and appearing in
+// the file LICENCE.GPL
+// =============================================================================
 
 #ifndef __ZITAGUI_H__
 #define __ZITAGUI_H__
@@ -16,46 +16,44 @@
 #include "effects/effectgui.h"
 
 namespace Ms {
-
 class ZitaReverb;
 
-//---------------------------------------------------------
-//   Rotary
-//---------------------------------------------------------
+// ---------------------------------------------------------
+// Rotary
+// ---------------------------------------------------------
 
 struct Rotary {
-      const char* id;
-      int x, y;
-      qreal value;
-      };
+    const char* id;
+    int x, y;
+    qreal value;
+};
 
-//---------------------------------------------------------
-//   gui
-//---------------------------------------------------------
+// ---------------------------------------------------------
+// gui
+// ---------------------------------------------------------
 
-class ZitaEffectGui : public EffectGui {
-      Q_OBJECT
+class ZitaEffectGui : public EffectGui
+{
+    Q_OBJECT
 
-      std::vector<QPixmap> pm;
-      std::vector<Rotary> rotary;
+    std::vector<QPixmap> pm;
+    std::vector<Rotary> rotary;
 
-      int mx { 0 };
-      int my { 0 };
-      int r { 0 };
-      qreal oval { 0.0 };
+    int mx { 0 };
+    int my { 0 };
+    int r { 0 };
+    qreal oval { 0.0 };
 
-      void paintEvent(QPaintEvent*);
-      void mousePressEvent(QMouseEvent*);
-      void mouseReleaseEvent(QMouseEvent*);
-      void mouseMoveEvent(QMouseEvent*);
+    void paintEvent(QPaintEvent*);
+    void mousePressEvent(QMouseEvent*);
+    void mouseReleaseEvent(QMouseEvent*);
+    void mouseMoveEvent(QMouseEvent*);
 
-      virtual void updateValues();
+    virtual void updateValues();
 
-   public:
-      ZitaEffectGui(ZitaReverb*, QWidget* parent = 0);
-      };
+public:
+    ZitaEffectGui(ZitaReverb*, QWidget* parent = 0);
+};
 }
 
 #endif
-
-
