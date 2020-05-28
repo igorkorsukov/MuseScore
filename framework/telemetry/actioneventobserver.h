@@ -2,7 +2,7 @@
 //  MuseScore
 //  Music Composition & Notation
 //
-//  Copyright (C) 2020 MuseScore BVBA
+//  Copyright (C) 2019 MuseScore BVBA and others
 //
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License version 2.
@@ -17,40 +17,47 @@
 //  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 //=============================================================================
 
-#ifndef __TELEMETRYMANAGER_H__
-#define __TELEMETRYMANAGER_H__
+#ifndef MENUBAR_H
+#define MENUBAR_H
 
-#ifdef BUILD_TELEMETRY_MODULE
+#include <QObject>
+#include <QAction>
+#include <QPair>
+
+#include "globals.h"
 
 #include "modularity/ioc.h"
 #include "interfaces/itelemetryservice.h"
 
-namespace Ms {
-
 //---------------------------------------------------------
-//   TelemetryManager
+//   ActionEventObserver
 //---------------------------------------------------------
 
-class TelemetryManager
+class ActionEventObserver : public QObject
 {
-      INJECT(mscore, ITelemetryService, _telemetryService)
-      static std::unique_ptr<TelemetryManager> mgr;
+      Q_OBJECT
 
-      static TelemetryManager* instance()
-            {
-            if (!mgr)
-                  mgr.reset(new TelemetryManager());
-            return mgr.get();
-            }
+      INJECT(telemetry, ITelemetryService, telemetryService)
 
    public:
-      static ITelemetryService* telemetryService()
+      static ActionEventObserver* instance()
             {
-            return instance()->_telemetryService().get();
+            static ActionEventObserver s;
+            return &s;
             }
+
+      bool eventFilter(QObject *watched, QEvent *event) override;
+
+   public slots:
+      void setScoreState(const Ms::ScoreState state);
+
+   private:
+      Q_DISABLE_COPY(ActionEventObserver)
+      
+      explicit ActionEventObserver(QObject* parent = nullptr);
+      QPair<QString, QString> extractActionData(QObject *watched);
+
+      Ms::ScoreState m_scoreState { Ms::STATE_INIT };
       };
 
-} // namespace Ms
-
-#endif // BUILD_TELEMETRY_MODULE
-#endif // __TELEMETRYMANAGER_H__
+#endif // MENUBAR_H

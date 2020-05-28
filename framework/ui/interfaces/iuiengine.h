@@ -30,10 +30,12 @@ class IUiEngine : MODULE_EXPORT_INTERFACE
     INTERFACE_ID(msf::IUiEngine)
 
 public:
+
     virtual ~IUiEngine() = default;
 
     virtual void updateTheme() = 0;
     virtual QQmlEngine* qmlEngine() const = 0;
+
     virtual void clearComponentCache() = 0;
 };
 

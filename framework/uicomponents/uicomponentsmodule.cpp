@@ -5,8 +5,6 @@
 
 using namespace msf;
 
-static const char* QML_MODULE = "MuseScore.UiComponents";
-
 static void uicomponents_init_qrc()
 {
     Q_INIT_RESOURCE(uicomponents);
@@ -24,5 +22,5 @@ void UiComponentsModule::registerResources()
 
 void UiComponentsModule::registerUiTypes()
 {
-    qmlRegisterType<msf::SampleObject>(QML_MODULE, 1, 0, "SampleObject");
+    qmlRegisterType<msf::SampleObject>("MuseScore.UiComponents", 1, 0, "SampleObject");
 }

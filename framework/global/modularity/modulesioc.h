@@ -149,7 +149,6 @@ private:
     };
 
     std::map<std::string, Service > m_map;
-
 };
 
 template<class T>
