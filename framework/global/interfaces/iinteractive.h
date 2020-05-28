@@ -2,7 +2,7 @@
 //  MuseScore
 //  Music Composition & Notation
 //
-//  Copyright (C) 2019 MuseScore BVBA and others
+//  Copyright (C) 2020 MuseScore BVBA and others
 //
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License version 2.
@@ -16,21 +16,25 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 //=============================================================================
+#ifndef MU_FRAMEWORK_IINTERACTIVE_H
+#define MU_FRAMEWORK_IINTERACTIVE_H
 
-#ifndef TELEMETRYSETUP_H
-#define TELEMETRYSETUP_H
+#include <QString>
 
-#include "framework/global/modularity/imodulesetup.h"
+#include "modularity/imoduleexport.h"
 
-class TelemetrySetup : public mu::framework::IModuleSetup
+namespace mu {
+namespace framework {
+class IInteractive : MODULE_EXPORT_INTERFACE
 {
+    INTERFACE_ID(IInteractive)
+
 public:
-    TelemetrySetup();
+    virtual ~IInteractive() = default;
 
-    std::string moduleName() const override;
-    void registerExports() override;
-    void registerResources() override;
-    void registerUiTypes() override;
+    virtual QString selectOpeningFile(const QString& title, const QString& dir, const QString& filter) = 0;
 };
+}
+}
 
-#endif // TELEMETRYSETUP_H
+#endif // MU_FRAMEWORK_IINTERACTIVE_H
