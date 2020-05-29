@@ -16,22 +16,25 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 //=============================================================================
+#include "notationdomainmodule.h"
 
-#ifndef MU_APPSHELL_APPSHELL_H
-#define MU_APPSHELL_APPSHELL_H
+#include "modularity/ioc.h"
+#include "notationcreator.h"
+#include "notation.h"
 
-#include <functional>
+using namespace mu::domain::notation;
 
-namespace mu::appshell {
-
-class AppShell
+std::string NotationDomainModule::moduleName() const
 {
-public:
-    AppShell();
-
-    int run(int argc, char** argv, std::function<void()> moduleSetup);
-};
-
+    return "notation";
 }
 
-#endif // MU_APPSHELL_APPSHELL_H
+void NotationDomainModule::registerExports()
+{
+    framework::ioc()->registerExport<INotationCreator>(moduleName(), new NotationCreator());
+}
+
+void NotationDomainModule::onInit()
+{
+    Notation::init();
+}

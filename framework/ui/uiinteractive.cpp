@@ -16,22 +16,13 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 //=============================================================================
+#include "uiinteractive.h"
 
-#ifndef MU_APPSHELL_APPSHELL_H
-#define MU_APPSHELL_APPSHELL_H
+#include <QFileDialog>
 
-#include <functional>
+using namespace mu::framework;
 
-namespace mu::appshell {
-
-class AppShell
+QString UiInteractive::selectOpeningFile(const QString& title, const QString& dir, const QString& filter)
 {
-public:
-    AppShell();
-
-    int run(int argc, char** argv, std::function<void()> moduleSetup);
-};
-
+    return QFileDialog::getOpenFileName(nullptr /*parent*/, title, dir, filter);
 }
-
-#endif // MU_APPSHELL_APPSHELL_H

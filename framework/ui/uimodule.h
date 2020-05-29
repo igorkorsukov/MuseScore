@@ -22,8 +22,8 @@
 
 #include "framework/global/modularity/imodulesetup.h"
 
-namespace mu {
-namespace framework {
+namespace mu::framework {
+
 class UiModule : public IModuleSetup
 {
 public:
@@ -33,7 +33,7 @@ public:
     void registerExports() override;
     void registerUiTypes() override;
 };
-}
+
 }
 
 #endif // MU_FRAMEWORK_UIMODULE_H

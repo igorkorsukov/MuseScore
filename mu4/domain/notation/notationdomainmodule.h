@@ -16,22 +16,25 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 //=============================================================================
+#ifndef MU_DOMAIN_NOTATIONMODULE_H
+#define MU_DOMAIN_NOTATIONMODULE_H
 
-#ifndef MU_APPSHELL_APPSHELL_H
-#define MU_APPSHELL_APPSHELL_H
+#include "modularity/imodulesetup.h"
 
-#include <functional>
-
-namespace mu::appshell {
-
-class AppShell
+namespace mu {
+namespace domain {
+namespace notation {
+class NotationDomainModule : public framework::IModuleSetup
 {
 public:
-    AppShell();
 
-    int run(int argc, char** argv, std::function<void()> moduleSetup);
+    std::string moduleName() const;
+
+    void registerExports() override;
+    void onInit() override;
 };
-
+}
+}
 }
 
-#endif // MU_APPSHELL_APPSHELL_H
+#endif // MU_DOMAIN_NOTATIONMODULE_H

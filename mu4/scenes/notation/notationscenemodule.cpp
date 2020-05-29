@@ -16,22 +16,44 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 //=============================================================================
+#include "notationscenemodule.h"
 
-#ifndef MU_APPSHELL_APPSHELL_H
-#define MU_APPSHELL_APPSHELL_H
+#include "view/notationpaintview.h"
 
-#include <functional>
+using namespace mu::scene::notation;
 
-namespace mu::appshell {
-
-class AppShell
+static void notation_view_init_qrc()
 {
-public:
-    AppShell();
+    Q_INIT_RESOURCE(notation_view);
+}
 
-    int run(int argc, char** argv, std::function<void()> moduleSetup);
-};
+NotationSceneModule::NotationSceneModule()
+{
 
 }
 
-#endif // MU_APPSHELL_APPSHELL_H
+std::string NotationSceneModule::moduleName() const
+{
+    return "notation_scene";
+}
+
+void NotationSceneModule::registerExports()
+{
+
+}
+
+void NotationSceneModule::resolveImports()
+{
+
+}
+
+void NotationSceneModule::registerResources()
+{
+    notation_view_init_qrc();
+}
+
+void NotationSceneModule::registerUiTypes()
+{
+    qmlRegisterType<NotationPaintView>("MuseScore.NotationScene", 1, 0, "NotationPaintView");
+}
+

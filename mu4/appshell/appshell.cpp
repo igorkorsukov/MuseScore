@@ -30,9 +30,10 @@ using namespace mu::appshell;
 
 AppShell::AppShell()
 {
+
 }
 
-int AppShell::run(int argc, char** argv)
+int AppShell::run(int argc, char **argv, std::function<void()> moduleSetup)
 {
     LOGI() << "start run";
 
@@ -41,16 +42,17 @@ int AppShell::run(int argc, char** argv)
 
     QApplication app(argc, argv);
 
+    moduleSetup();
+
     QQmlApplicationEngine* engine = new QQmlApplicationEngine();
     //! NOTE Move ownership to UiEngine
     framework::UiEngine::instance()->moveQQmlEngine(engine);
 
     const QUrl url(QStringLiteral("qrc:/qml/Main.qml"));
     QObject::connect(engine, &QQmlApplicationEngine::objectCreated,
-                     &app, [url](QObject* obj, const QUrl& objUrl) {
-        if (!obj && url == objUrl) {
+                     &app, [url](QObject *obj, const QUrl &objUrl) {
+        if (!obj && url == objUrl)
             QCoreApplication::exit(-1);
-        }
     }, Qt::QueuedConnection);
 
     engine->load(url);

@@ -16,22 +16,23 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 //=============================================================================
+#ifndef MU_FRAMEWORK_UIINTERACTIVE_H
+#define MU_FRAMEWORK_UIINTERACTIVE_H
 
-#ifndef MU_APPSHELL_APPSHELL_H
-#define MU_APPSHELL_APPSHELL_H
+#include "interfaces/iinteractive.h"
 
-#include <functional>
+namespace mu::framework {
 
-namespace mu::appshell {
-
-class AppShell
+class UiInteractive : public IInteractive
 {
 public:
-    AppShell();
 
-    int run(int argc, char** argv, std::function<void()> moduleSetup);
+    UiInteractive() = default;
+
+    QString selectOpeningFile(const QString& title, const QString& dir, const QString& filter) override;
+
 };
 
 }
 
-#endif // MU_APPSHELL_APPSHELL_H
+#endif // MU_FRAMEWORK_UIINTERACTIVE_H

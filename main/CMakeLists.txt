@@ -85,6 +85,8 @@ target_link_libraries(mscore
     appshell
     scores
     extensions
+    notation
+    notation_scene
 )
 
 

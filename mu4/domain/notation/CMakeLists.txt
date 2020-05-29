@@ -17,19 +17,28 @@
 #  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 #=============================================================================
 
-set(MODULE ui)
+set(MODULE notation)
+
+find_package(Qt5 COMPONENTS Svg REQUIRED)
 
 set(MODULE_SRC
-    ${CMAKE_CURRENT_LIST_DIR}/uimodule.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/uimodule.h
-    ${CMAKE_CURRENT_LIST_DIR}/interfaces/iuiengine.h
-    ${CMAKE_CURRENT_LIST_DIR}/uiengine.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/uiengine.h
-    ${CMAKE_CURRENT_LIST_DIR}/qmltheme.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/qmltheme.h
-    ${CMAKE_CURRENT_LIST_DIR}/iconcodes.h
-    ${CMAKE_CURRENT_LIST_DIR}/uiinteractive.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/uiinteractive.h
+    ${CMAKE_CURRENT_LIST_DIR}/notationdomainmodule.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/notationdomainmodule.h
+    ${CMAKE_CURRENT_LIST_DIR}/interfaces/inotation.h
+    ${CMAKE_CURRENT_LIST_DIR}/interfaces/inotationcreator.h
+    ${CMAKE_CURRENT_LIST_DIR}/notation.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/notation.h
+    ${CMAKE_CURRENT_LIST_DIR}/notationcreator.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/notationcreator.h
+    )
+
+set(MODULE_LINK
+    Qt5::Svg
+    freetype
+    qzip
+    z
+    libmscore
     )
 
 include(${PROJECT_SOURCE_DIR}/build/module.cmake)
+

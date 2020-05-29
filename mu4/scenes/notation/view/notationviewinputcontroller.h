@@ -16,22 +16,35 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 //=============================================================================
+#ifndef MU_NOTATIONSCENE_NOTATIONVIEWINPUTCONTROLLER_H
+#define MU_NOTATIONSCENE_NOTATIONVIEWINPUTCONTROLLER_H
 
-#ifndef MU_APPSHELL_APPSHELL_H
-#define MU_APPSHELL_APPSHELL_H
+#include <QWheelEvent>
 
-#include <functional>
-
-namespace mu::appshell {
-
-class AppShell
+namespace mu {
+namespace scene {
+namespace notation {
+class NotationPaintView;
+class NotationViewInputController
 {
 public:
-    AppShell();
+    NotationViewInputController(NotationPaintView* view);
 
-    int run(int argc, char** argv, std::function<void()> moduleSetup);
+    void wheelEvent(QWheelEvent* ev);
+    void mousePressEvent(QMouseEvent* ev);
+    void mouseMoveEvent(QMouseEvent* ev);
+    void mouseReleaseEvent(QMouseEvent* ev);
+
+private:
+
+    struct InteractData {
+        QPoint beginPoint;
+    };
+
+    NotationPaintView* m_view = nullptr;
+    InteractData m_interactData;
 };
-
 }
-
-#endif // MU_APPSHELL_APPSHELL_H
+}
+}
+#endif // MU_NOTATIONSCENE_NOTATIONVIEWINPUTCONTROLLER_H

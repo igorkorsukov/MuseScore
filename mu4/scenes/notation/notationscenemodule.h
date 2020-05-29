@@ -16,22 +16,29 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 //=============================================================================
+#ifndef MU_NOTATION_NOTATIONSCENEMODULE_H
+#define MU_NOTATION_NOTATIONSCENEMODULE_H
 
-#ifndef MU_APPSHELL_APPSHELL_H
-#define MU_APPSHELL_APPSHELL_H
+#include "modularity/imodulesetup.h"
 
-#include <functional>
+namespace mu::scene::notation {
 
-namespace mu::appshell {
-
-class AppShell
+class NotationSceneModule : public framework::IModuleSetup
 {
 public:
-    AppShell();
 
-    int run(int argc, char** argv, std::function<void()> moduleSetup);
+    NotationSceneModule();
+
+    std::string moduleName() const override;
+
+    void registerExports() override;
+    void resolveImports() override;
+
+    void registerResources() override;
+    void registerUiTypes() override;
+
 };
 
 }
 
-#endif // MU_APPSHELL_APPSHELL_H
+#endif // MU_NOTATION_NOTATIONSCENEMODULE_H
