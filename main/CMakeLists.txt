@@ -82,6 +82,7 @@ target_link_libraries(mscore
     global
     ui
     uicomponents
+    actions
     appshell
     scores
     extensions

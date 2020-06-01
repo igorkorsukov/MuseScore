@@ -27,14 +27,14 @@
 
 #ifdef BUILD_UI_MU4
 //! HACK Temporary hack to link libmscore
-Q_LOGGING_CATEGORY(undoRedo, "undoRedo", QtCriticalMsg)
+//Q_LOGGING_CATEGORY(undoRedo, "undoRedo", QtCriticalMsg)
 
-namespace Ms {
-QString revision;
-MasterSynthesizer* synti;
-QString dataPath;
-QString mscoreGlobalShare;
-}
+//namespace Ms {
+//QString revision;
+//MasterSynthesizer* synti;
+//QString dataPath;
+//QString mscoreGlobalShare;
+//}
 //! ---------
 #endif
 
@@ -58,20 +58,6 @@ bool Notation::load(const std::string& path, const Params& params)
     if (rv != Score::FileError::FILE_NO_ERROR) {
         return false;
     }
-
-//    Ms::MStyle& styleRef = m_score->style();
-//    styleRef.set(Ms::Sid::pageWidth, params.pageSize.width / Ms::DPI);
-// styleRef.set(Ms::Sid::pageHeight, params.pageSize.height / Ms::DPI);
-
-//    styleRef.set(Ms::Sid::pagePrintableWidth, (pageSize.pageWidth - pageSize.margingLeft
-//                                               - pageSize.margingRight) / Ms::DPI);
-//    styleRef.set(Ms::Sid::pageEvenLeftMargin, pageSize.margingLeft / Ms::DPI);
-//    styleRef.set(Ms::Sid::pageOddLeftMargin, pageSize.margingLeft / Ms::DPI);
-
-//    styleRef.set(Ms::Sid::pageEvenTopMargin, pageSize.margingTop / Ms::DPI);
-//    styleRef.set(Ms::Sid::pageOddTopMargin, pageSize.margingTop / Ms::DPI);
-//    styleRef.set(Ms::Sid::pageEvenBottomMargin, pageSize.margingBottom / Ms::DPI);
-//    styleRef.set(Ms::Sid::pageOddBottomMargin, pageSize.margingBottom / Ms::DPI);
 
     m_score->setUpdateAll();
     m_score->doLayout();

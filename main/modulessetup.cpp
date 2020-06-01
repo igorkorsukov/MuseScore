@@ -22,6 +22,7 @@
 
 #include "framework/ui/uimodule.h"
 #include "framework/uicomponents/uicomponentsmodule.h"
+#include "framework/actions/actionsmodule.h"
 #include "mu4/appshell/appshellmodule.h"
 #include "mu4/scores/scoresmodule.h"
 #include "mu4/extensions/extensionsmodule.h"
@@ -46,6 +47,7 @@ ModulesSetup::ModulesSetup()
 #ifdef BUILD_UI_MU4
         << new mu::framework::UiModule()
         << new mu::framework::UiComponentsModule()
+        << new mu::framework::ActionsModule()
         << new mu::appshell::AppShellModule()
         << new mu::scores::ScoresModule()
         << new mu::extensions::ExtensionsModule()

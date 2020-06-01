@@ -17,26 +17,11 @@
 #  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 #=============================================================================
 
-set(MODULE notation_scene)
-
-set(MODULE_QRC
-    ${CMAKE_CURRENT_LIST_DIR}/view/notation_view.qrc
-    )
-
-set(MODULE_QML_IMPORT ${CMAKE_CURRENT_LIST_DIR}/view/qml)
-
-include(${CMAKE_CURRENT_LIST_DIR}/view/notationview.cmake)
+set(MODULE actions)
 
 set(MODULE_SRC
-    ${NOTATIONVIEW_SRC}
-    ${CMAKE_CURRENT_LIST_DIR}/notationscenemodule.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/notationscenemodule.h
-    ${CMAKE_CURRENT_LIST_DIR}/toolbar/notationtoolbarmodel.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/toolbar/notationtoolbarmodel.h
+    ${CMAKE_CURRENT_LIST_DIR}/actionsmodule.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/actionsmodule.h
     )
 
 include(${PROJECT_SOURCE_DIR}/build/module.cmake)
-
-
-
-

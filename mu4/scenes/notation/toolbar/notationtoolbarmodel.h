@@ -16,42 +16,20 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 //=============================================================================
-#include "notationscenemodule.h"
+#ifndef MU_NOTATIONSCENE_NOTATIONTOOLBARMODEL_H
+#define MU_NOTATIONSCENE_NOTATIONTOOLBARMODEL_H
 
-#include "view/notationpaintview.h"
-#include "toolbar/notationtoolbarmodel.h"
+#include <QObject>
 
-using namespace mu::scene::notation;
-
-static void notation_view_init_qrc()
+class NotationToolBarModel : public QObject
 {
-    Q_INIT_RESOURCE(notation_view);
-}
+    Q_OBJECT
+public:
+    explicit NotationToolBarModel(QObject* parent = nullptr);
 
-NotationSceneModule::NotationSceneModule()
-{
-}
+    Q_INVOKABLE void click(const QString& action);
 
-std::string NotationSceneModule::moduleName() const
-{
-    return "notation_scene";
-}
+signals:
+};
 
-void NotationSceneModule::registerExports()
-{
-}
-
-void NotationSceneModule::resolveImports()
-{
-}
-
-void NotationSceneModule::registerResources()
-{
-    notation_view_init_qrc();
-}
-
-void NotationSceneModule::registerUiTypes()
-{
-    qmlRegisterType<NotationPaintView>("MuseScore.NotationScene", 1, 0, "NotationPaintView");
-    qmlRegisterType<NotationToolBarModel>("MuseScore.NotationScene", 1, 0, "NotationToolBarModel");
-}
+#endif // MU_NOTATIONSCENE_NOTATIONTOOLBARMODEL_H
