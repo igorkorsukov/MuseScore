@@ -26,6 +26,7 @@
 #include "modularity/ioc.h"
 #include "interfaces/iinteractive.h"
 #include "domain/notation/interfaces/inotationcreator.h"
+#include "actions/iactionsdispatcher.h"
 
 namespace mu {
 namespace scene {
@@ -37,13 +38,14 @@ class NotationPaintView : public QQuickPaintedItem
 
     INJECT(notation, framework::IInteractive, interactive)
     INJECT(notation, domain::notation::INotationCreator, notationCreator)
+    INJECT(notation, actions::IActionsDispatcher, dispatcher)
 
 public:
     NotationPaintView();
 
-    Q_INVOKABLE void cmd(const QString& name);
-
     void open();
+    void toggleNoteInput();
+    void padNote(const actions::ActionName& name);
 
 private:
 

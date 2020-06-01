@@ -16,14 +16,14 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 //=============================================================================
-#ifndef MU_FRAMEWORK_ACTIONSMODULE_H
-#define MU_FRAMEWORK_ACTIONSMODULE_H
+#ifndef MU_ACTIONS_ACTIONSMODULE_H
+#define MU_ACTIONS_ACTIONSMODULE_H
 
 #include "modularity/imodulesetup.h"
 
 namespace mu {
-namespace framework {
-class ActionsModule : public IModuleSetup
+namespace actions {
+class ActionsModule : public framework::IModuleSetup
 {
 public:
     ActionsModule();
@@ -35,4 +35,4 @@ public:
 }
 }
 
-#endif // MU_FRAMEWORK_ACTIONSMODULE_H
+#endif // MU_ACTIONS_ACTIONSMODULE_H

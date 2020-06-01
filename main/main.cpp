@@ -103,10 +103,10 @@ int main(int argc, char** argv)
 
 #endif
 
-//#ifdef BUILD_UI_MU4
-//    mu::appshell::AppShell app;
-//    return app.run(argcFinal, argvFinal, moduleSetup);
-//#else
+#ifdef BUILD_UI_MU4
+    mu::appshell::AppShell app;
+    return app.run(argcFinal, argvFinal, moduleSetup);
+#else
     return Ms::runApplication(argcFinal, argvFinal);
-//#endif
+#endif
 }

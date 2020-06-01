@@ -18,7 +18,10 @@
 //=============================================================================
 #include "actionsmodule.h"
 
-using namespace mu::framework;
+#include "modularity/ioc.h"
+#include "internal/actionsdispatcher.h"
+
+using namespace mu::actions;
 
 ActionsModule::ActionsModule()
 {
@@ -31,4 +34,5 @@ std::string ActionsModule::moduleName() const
 
 void ActionsModule::registerExports()
 {
+    framework::ioc()->registerExport<IActionsDispatcher>("actions", new ActionsDispatcher());
 }

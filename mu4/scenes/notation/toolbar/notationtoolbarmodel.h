@@ -20,10 +20,17 @@
 #define MU_NOTATIONSCENE_NOTATIONTOOLBARMODEL_H
 
 #include <QObject>
+#include "modularity/ioc.h"
+#include "actions/iactionsdispatcher.h"
 
+namespace mu {
+namespace scene {
+namespace notation {
 class NotationToolBarModel : public QObject
 {
     Q_OBJECT
+    INJECT(notation_scene, actions::IActionsDispatcher, dispatcher)
+
 public:
     explicit NotationToolBarModel(QObject* parent = nullptr);
 
@@ -31,5 +38,8 @@ public:
 
 signals:
 };
+}
+}
+}
 
 #endif // MU_NOTATIONSCENE_NOTATIONTOOLBARMODEL_H

@@ -18,11 +18,16 @@
 //=============================================================================
 #include "notationtoolbarmodel.h"
 
-NotationToolBarModel::NotationToolBarModel(QObject* parent) :
-    QObject(parent)
+#include "actions/action.h"
+
+using namespace mu::scene::notation;
+
+NotationToolBarModel::NotationToolBarModel(QObject* parent)
+    : QObject(parent)
 {
 }
 
 void NotationToolBarModel::click(const QString& action)
 {
+    dispatcher()->dispatch(actions::namefromQString(action));
 }

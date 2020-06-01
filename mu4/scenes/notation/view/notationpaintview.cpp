@@ -23,13 +23,14 @@
 
 #include "log.h"
 #include "notationviewinputcontroller.h"
+#include "actions/action.h"
 
 using namespace mu::scene::notation;
 
 static constexpr int PREF_UI_CANVAS_MISC_SELECTIONPROXIMITY = 6;
 
-NotationPaintView::NotationPaintView() :
-    QQuickPaintedItem()
+NotationPaintView::NotationPaintView()
+    : QQuickPaintedItem()
 {
     setFlag(ItemHasContents, true);
     setAcceptedMouseButtons(Qt::AllButtons);
@@ -39,14 +40,11 @@ NotationPaintView::NotationPaintView() :
     m_matrix = QTransform::fromScale(mag, mag);
 
     m_inputController = new NotationViewInputController(this);
-}
 
-void NotationPaintView::cmd(const QString& name)
-{
-    //! NOTE Temporary
-    if ("open" == name) {
-        open();
-    }
+    // actions
+    dispatcher()->reg("file-open", [this](const actions::ActionName&) { open(); });
+    dispatcher()->reg("note-input", [this](const actions::ActionName&) { toggleNoteInput(); });
+    dispatcher()->reg("pad-note-8", [this](const actions::ActionName& name) { padNote(name); });
 }
 
 //! NOTE Temporary method for tests
@@ -71,6 +69,16 @@ void NotationPaintView::open()
     }
 
     update();
+}
+
+void NotationPaintView::toggleNoteInput()
+{
+    LOGI() << "toggleNoteInput";
+}
+
+void NotationPaintView::padNote(const actions::ActionName& name)
+{
+    LOGI() << "padNote: " << name;
 }
 
 void NotationPaintView::paint(QPainter* p)

@@ -27,14 +27,14 @@
 
 #ifdef BUILD_UI_MU4
 //! HACK Temporary hack to link libmscore
-//Q_LOGGING_CATEGORY(undoRedo, "undoRedo", QtCriticalMsg)
+Q_LOGGING_CATEGORY(undoRedo, "undoRedo", QtCriticalMsg)
 
-//namespace Ms {
-//QString revision;
-//MasterSynthesizer* synti;
-//QString dataPath;
-//QString mscoreGlobalShare;
-//}
+namespace Ms {
+QString revision;
+MasterSynthesizer* synti;
+QString dataPath;
+QString mscoreGlobalShare;
+}
 //! ---------
 #endif
 

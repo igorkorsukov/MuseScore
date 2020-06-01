@@ -11,7 +11,17 @@ ToolBar {
 
         ToolButton {
             text: "Open"
-            onClicked: toolModel.click("open")
+            onClicked: toolModel.click("file-open")
+        }
+
+        ToolButton {
+            text: "N"
+            onClicked: toolModel.click("note-input")
+        }
+
+        ToolButton {
+            text: "8"
+            onClicked: toolModel.click("pad-note-8")
         }
     }
 

@@ -22,6 +22,12 @@ set(MODULE actions)
 set(MODULE_SRC
     ${CMAKE_CURRENT_LIST_DIR}/actionsmodule.cpp
     ${CMAKE_CURRENT_LIST_DIR}/actionsmodule.h
+    ${CMAKE_CURRENT_LIST_DIR}/iactionsdispatcher.h
+    ${CMAKE_CURRENT_LIST_DIR}/action.h
+    ${CMAKE_CURRENT_LIST_DIR}/actions.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/actions.h
+    ${CMAKE_CURRENT_LIST_DIR}/internal/actionsdispatcher.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/internal/actionsdispatcher.h
     )
 
 include(${PROJECT_SOURCE_DIR}/build/module.cmake)

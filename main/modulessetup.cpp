@@ -47,7 +47,7 @@ ModulesSetup::ModulesSetup()
 #ifdef BUILD_UI_MU4
         << new mu::framework::UiModule()
         << new mu::framework::UiComponentsModule()
-        << new mu::framework::ActionsModule()
+        << new mu::actions::ActionsModule()
         << new mu::appshell::AppShellModule()
         << new mu::scores::ScoresModule()
         << new mu::extensions::ExtensionsModule()
