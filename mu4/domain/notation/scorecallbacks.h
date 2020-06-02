@@ -16,45 +16,31 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 //=============================================================================
-#ifndef MU_DOMAIN_INOTATION_H
-#define MU_DOMAIN_INOTATION_H
+#ifndef MU_DOMAIN_SCORECALLBACKS_H
+#define MU_DOMAIN_SCORECALLBACKS_H
 
+#include <QRectF>
 #include <QRect>
-#include <string>
-
-#include "modularity/imoduleexport.h"
-#include "actions/action.h"
-
 class QPainter;
+
+#include "libmscore/mscoreview.h"
+#include "libmscore/musescoreCore.h"
+
 namespace mu {
 namespace domain {
 namespace notation {
-class INotation : MODULE_EXPORT_INTERFACE
+class ScoreCallbacks : public Ms::MuseScoreView, public Ms::MuseScoreCore
 {
-    INTERFACE_ID(mu::domain::notation::INotation)
-
 public:
-    ~INotation() = default;
+    ScoreCallbacks() = default;
 
-    struct PageSize {
-        int width = -1;
-        int height = -1;
-    };
-
-    struct Params {
-        PageSize pageSize;
-    };
-
-    virtual bool load(const std::string& path, const Params& params) = 0;
-    virtual void paint(QPainter* p, const QRect& r) = 0;
-
-    // Edit
-    virtual void startNoteEntry() = 0;
-    virtual void action(const actions::ActionName& name) = 0;
-    virtual void putNote(const QPointF& pos, bool replace, bool insert) = 0;
+    void dataChanged(const QRectF&) override;
+    void updateAll() override;
+    void drawBackground(QPainter*, const QRectF&) const override;
+    const QRect geometry() const override;
 };
 }
 }
 }
 
-#endif // MU_DOMAIN_INOTATION_H
+#endif // MU_DOMAIN_SCORECALLBACKS_H

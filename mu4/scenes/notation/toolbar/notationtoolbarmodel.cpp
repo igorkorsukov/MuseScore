@@ -18,13 +18,49 @@
 //=============================================================================
 #include "notationtoolbarmodel.h"
 
-#include "actions/action.h"
+#include "actions/actions.h"
 
 using namespace mu::scene::notation;
+using namespace mu::actions;
 
 NotationToolBarModel::NotationToolBarModel(QObject* parent)
-    : QObject(parent)
+    : QAbstractListModel(parent)
 {
+}
+
+void NotationToolBarModel::load()
+{
+    beginResetModel();
+
+    m_actions << action("file-open")
+              << action("note-input")
+              << action("pad-note-8");
+
+    endResetModel();
+}
+
+QVariant NotationToolBarModel::data(const QModelIndex& index, int role) const
+{
+    const Action& action = m_actions.at(index.row());
+    switch (role) {
+    case TitleRole: return QString::fromStdString(action.title);
+    case NameRole: return QString::fromStdString(action.name);
+    }
+    return QVariant();
+}
+
+int NotationToolBarModel::rowCount(const QModelIndex&) const
+{
+    return m_actions.count();
+}
+
+QHash<int,QByteArray> NotationToolBarModel::roleNames() const
+{
+    static const QHash<int, QByteArray> roles = {
+        { NameRole, "nameRole" },
+        { TitleRole, "titleRole" }
+    };
+    return roles;
 }
 
 void NotationToolBarModel::click(const QString& action)

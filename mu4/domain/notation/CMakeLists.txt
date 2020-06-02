@@ -30,6 +30,8 @@ set(MODULE_SRC
     ${CMAKE_CURRENT_LIST_DIR}/notation.h
     ${CMAKE_CURRENT_LIST_DIR}/notationcreator.cpp
     ${CMAKE_CURRENT_LIST_DIR}/notationcreator.h
+    ${CMAKE_CURRENT_LIST_DIR}/scorecallbacks.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/scorecallbacks.h
     )
 
 set(MODULE_LINK

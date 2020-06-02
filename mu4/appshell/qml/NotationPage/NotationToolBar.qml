@@ -9,23 +9,21 @@ ToolBar {
     RowLayout {
         anchors.fill: parent
 
-        ToolButton {
-            text: "Open"
-            onClicked: toolModel.click("file-open")
-        }
-
-        ToolButton {
-            text: "N"
-            onClicked: toolModel.click("note-input")
-        }
-
-        ToolButton {
-            text: "8"
-            onClicked: toolModel.click("pad-note-8")
+        Repeater {
+            anchors.fill: parent
+            model: toolModel
+            delegate: ToolButton {
+                text: titleRole
+                onClicked: toolModel.click(nameRole)
+            }
         }
     }
 
     NotationToolBarModel {
         id: toolModel
+    }
+
+    Component.onCompleted: {
+        toolModel.load()
     }
 }

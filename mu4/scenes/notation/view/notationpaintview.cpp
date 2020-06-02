@@ -71,14 +71,62 @@ void NotationPaintView::open()
     update();
 }
 
+void NotationPaintView::changeState(State st)
+{
+    if (st == m_state) {
+        return;
+    }
+
+    // old state
+    switch (m_state) {
+    case State::NORMAL: break;
+    case State::NOTE_ENTRY:
+        endNoteEntry();
+        break;
+    }
+
+    // new state
+    m_state = st;
+    switch (m_state) {
+    case State::NORMAL: break;
+    case State::NOTE_ENTRY:
+        startNoteEntry();
+        break;
+    }
+}
+
 void NotationPaintView::toggleNoteInput()
 {
     LOGI() << "toggleNoteInput";
+    IF_ASSERT_FAILED(m_notation) {
+        return;
+    }
+
+    if (state() == State::NOTE_ENTRY) {
+        changeState(State::NORMAL);
+    } else {
+        changeState(State::NOTE_ENTRY);
+    }
+}
+
+void NotationPaintView::startNoteEntry()
+{
+    LOGI() << "startNoteEntry";
+    m_notation->startNoteEntry();
+}
+
+void NotationPaintView::endNoteEntry()
+{
+    LOGI() << "endNoteEntry";
 }
 
 void NotationPaintView::padNote(const actions::ActionName& name)
 {
     LOGI() << "padNote: " << name;
+    IF_ASSERT_FAILED(m_notation) {
+        return;
+    }
+    m_notation->action(name);
 }
 
 void NotationPaintView::paint(QPainter* p)
@@ -175,4 +223,9 @@ QPoint NotationPaintView::toLogical(const QPoint& p) const
 QPoint NotationPaintView::toPhysical(const QPoint& p) const
 {
     return m_matrix.map(p);
+}
+
+NotationPaintView::State NotationPaintView::state() const
+{
+    return m_state;
 }

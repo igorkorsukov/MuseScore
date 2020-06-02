@@ -20,13 +20,14 @@
 #define MU_NOTATIONSCENE_NOTATIONTOOLBARMODEL_H
 
 #include <QObject>
+#include <QAbstractListModel>
 #include "modularity/ioc.h"
 #include "actions/iactionsdispatcher.h"
 
 namespace mu {
 namespace scene {
 namespace notation {
-class NotationToolBarModel : public QObject
+class NotationToolBarModel : public QAbstractListModel
 {
     Q_OBJECT
     INJECT(notation_scene, actions::IActionsDispatcher, dispatcher)
@@ -34,9 +35,22 @@ class NotationToolBarModel : public QObject
 public:
     explicit NotationToolBarModel(QObject* parent = nullptr);
 
+    int rowCount(const QModelIndex& parent = QModelIndex()) const override;
+    QVariant data(const QModelIndex& index, int role) const override;
+    QHash<int,QByteArray> roleNames() const override;
+
+    Q_INVOKABLE void load();
     Q_INVOKABLE void click(const QString& action);
 
 signals:
+
+private:
+    enum Roles {
+        NameRole = Qt::UserRole + 1,
+        TitleRole
+    };
+
+    QList<actions::Action> m_actions;
 };
 }
 }

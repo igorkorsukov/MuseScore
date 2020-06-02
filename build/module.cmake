@@ -28,6 +28,8 @@
 
 message(STATUS "Configuring " ${MODULE})
 
+set(CMAKE_CXX_STANDARD 17)
+
 set(LIBRARY_TYPE STATIC)
 
 set(_all_h_file "${PROJECT_BINARY_DIR}/all.h")

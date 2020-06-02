@@ -16,45 +16,23 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 //=============================================================================
-#ifndef MU_DOMAIN_INOTATION_H
-#define MU_DOMAIN_INOTATION_H
+#include "scorecallbacks.h"
 
-#include <QRect>
-#include <string>
+using namespace mu::domain::notation;
 
-#include "modularity/imoduleexport.h"
-#include "actions/action.h"
-
-class QPainter;
-namespace mu {
-namespace domain {
-namespace notation {
-class INotation : MODULE_EXPORT_INTERFACE
+void ScoreCallbacks::dataChanged(const QRectF&)
 {
-    INTERFACE_ID(mu::domain::notation::INotation)
-
-public:
-    ~INotation() = default;
-
-    struct PageSize {
-        int width = -1;
-        int height = -1;
-    };
-
-    struct Params {
-        PageSize pageSize;
-    };
-
-    virtual bool load(const std::string& path, const Params& params) = 0;
-    virtual void paint(QPainter* p, const QRect& r) = 0;
-
-    // Edit
-    virtual void startNoteEntry() = 0;
-    virtual void action(const actions::ActionName& name) = 0;
-    virtual void putNote(const QPointF& pos, bool replace, bool insert) = 0;
-};
-}
-}
 }
 
-#endif // MU_DOMAIN_INOTATION_H
+void ScoreCallbacks::updateAll()
+{
+}
+
+void ScoreCallbacks::drawBackground(QPainter*, const QRectF&) const
+{
+}
+
+const QRect ScoreCallbacks::geometry() const
+{
+    return QRect();
+}
