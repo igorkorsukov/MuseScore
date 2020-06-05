@@ -19,7 +19,9 @@
 #ifndef MU_DOMAIN_INOTATIONINPUTSTATE_H
 #define MU_DOMAIN_INOTATIONINPUTSTATE_H
 
-#include <functional>
+#include "async/notify.h"
+
+#include "libmscore/durationtype.h"
 
 namespace mu {
 namespace domain {
@@ -29,7 +31,11 @@ class INotationInputState
 public:
     ~INotationInputState() = default;
 
+    using DurationType = Ms::TDuration::DurationType;
+
+    virtual deto::async::Notify inputStateChanged() const = 0;
     virtual bool noteEntryMode() const = 0;
+    virtual DurationType duration() const = 0;
 };
 }
 }
