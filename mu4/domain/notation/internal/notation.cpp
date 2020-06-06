@@ -247,3 +247,8 @@ void Notation::paintShadowNote(QPainter* p)
 {
     m_shadowNote->draw(p);
 }
+
+void Notation::select(Element* e, SelectType type, int staffIdx)
+{
+    score()->select(e, type, staffIdx);
+}

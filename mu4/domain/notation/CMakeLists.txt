@@ -25,6 +25,8 @@ set(MODULE_SRC
     ${CMAKE_CURRENT_LIST_DIR}/inotation.h
     ${CMAKE_CURRENT_LIST_DIR}/inotationcreator.h
     ${CMAKE_CURRENT_LIST_DIR}/inotationinputstate.h
+    ${CMAKE_CURRENT_LIST_DIR}/inotationselection.h
+    ${CMAKE_CURRENT_LIST_DIR}/notationtypes.h
     ${CMAKE_CURRENT_LIST_DIR}/notationdomainmodule.cpp
     ${CMAKE_CURRENT_LIST_DIR}/notationdomainmodule.h
     ${CMAKE_CURRENT_LIST_DIR}/internal/notation.cpp
