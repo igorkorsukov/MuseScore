@@ -33,7 +33,7 @@ namespace mu {
 namespace scene {
 namespace notation {
 class NotationViewInputController;
-class NotationPaintView : public QQuickPaintedItem
+class NotationPaintView : public QQuickPaintedItem, public deto::async::Asyncable
 {
     Q_OBJECT
 
@@ -53,8 +53,7 @@ public:
     State state() const;
 
     void open();
-    void toggleNoteInput();
-    void padNote(const actions::ActionName& name);
+
     void putNote(const QPointF& pos, bool replace, bool insert);
     void showShadowNote(const QPointF& pos);
 
@@ -82,15 +81,14 @@ private:
     void zoom(qreal mag, const QPoint& pos);
     // ---
 
-    void changeState(State st);
-
-    void startNoteEntry();
-    void endNoteEntry();
+    void setState(State st);
+    void onInputStateChanged();
 
     std::shared_ptr<domain::notation::INotation> m_notation;
     QTransform m_matrix;
     NotationViewInputController* m_inputController = nullptr;
-    State m_state;
+    State m_state = State::NORMAL;
+    deto::async::Notify m_inputStateChanged;
 };
 }
 }

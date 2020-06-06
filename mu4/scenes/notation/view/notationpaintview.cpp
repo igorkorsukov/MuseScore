@@ -26,6 +26,7 @@
 #include "actions/action.h"
 
 using namespace mu::scene::notation;
+using namespace mu::domain::notation;
 
 static constexpr int PREF_UI_CANVAS_MISC_SELECTIONPROXIMITY = 6;
 
@@ -43,10 +44,6 @@ NotationPaintView::NotationPaintView()
 
     // actions
     dispatcher()->reg("file-open", [this](const actions::ActionName&) { open(); });
-    dispatcher()->reg("note-input", [this](const actions::ActionName&) { toggleNoteInput(); });
-    dispatcher()->reg("pad-note-8", [this](const actions::ActionName& name) { padNote(name); });
-    dispatcher()->reg("pad-note-4", [this](const actions::ActionName& name) { padNote(name); });
-    dispatcher()->reg("pad-note-16", [this](const actions::ActionName& name) { padNote(name); });
 }
 
 //! NOTE Temporary method for tests
@@ -62,7 +59,7 @@ void NotationPaintView::open()
         return;
     }
 
-    domain::notation::INotation::Params params;
+    INotation::Params params;
     params.pageSize.width = width();
     params.pageSize.height = height();
     bool ok = m_notation->load(filePath.toStdString(), params);
@@ -73,70 +70,31 @@ void NotationPaintView::open()
     //! NOTE At the moment, only one notation, in the future it will change.
     globalContext()->setNotation(m_notation);
 
+    onInputStateChanged();
+    m_inputStateChanged = m_notation->inputState()->inputStateChanged();
+    m_inputStateChanged.onNotify(this, [this]() {
+        onInputStateChanged();
+    });
+
     update();
 }
 
-void NotationPaintView::changeState(State st)
+void NotationPaintView::setState(State st)
 {
-    if (st == m_state) {
-        return;
-    }
-
-    // old state
-    switch (m_state) {
-    case State::NORMAL: break;
-    case State::NOTE_ENTRY:
-        endNoteEntry();
-        break;
-    }
-
-    // new state
     m_state = st;
-    switch (m_state) {
-    case State::NORMAL: break;
-    case State::NOTE_ENTRY:
-        startNoteEntry();
-        break;
-    }
 }
 
-void NotationPaintView::toggleNoteInput()
+void NotationPaintView::onInputStateChanged()
 {
-    LOGI() << "toggleNoteInput";
-    IF_ASSERT_FAILED(m_notation) {
-        return;
-    }
-
-    if (state() == State::NOTE_ENTRY) {
-        changeState(State::NORMAL);
+    INotationInputState* is = m_notation->inputState();
+    if (is->noteEntryMode()) {
+        setState(State::NOTE_ENTRY);
+        setAcceptHoverEvents(true);
     } else {
-        changeState(State::NOTE_ENTRY);
+        setState(State::NORMAL);
+        setAcceptHoverEvents(false);
+        update();
     }
-}
-
-void NotationPaintView::startNoteEntry()
-{
-    LOGI() << "startNoteEntry";
-    m_notation->startNoteEntry();
-    m_notation->padNote("pad-note-8");
-    setAcceptHoverEvents(true);
-}
-
-void NotationPaintView::endNoteEntry()
-{
-    LOGI() << "endNoteEntry";
-    m_notation->endNoteEntry();
-    setAcceptHoverEvents(false);
-    update();
-}
-
-void NotationPaintView::padNote(const actions::ActionName& name)
-{
-    LOGI() << "padNote: " << name;
-    IF_ASSERT_FAILED(m_notation) {
-        return;
-    }
-    m_notation->padNote(name);
 }
 
 void NotationPaintView::showShadowNote(const QPointF& pos)

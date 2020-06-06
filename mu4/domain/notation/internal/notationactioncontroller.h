@@ -16,9 +16,40 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 //=============================================================================
-#include "channel.h"
+#ifndef MU_DOMAIN_NOTATIONACTIONCONTROLLER_H
+#define MU_DOMAIN_NOTATIONACTIONCONTROLLER_H
 
-Channel::Channel()
+#include "modularity/ioc.h"
+#include "actions/iactionsdispatcher.h"
+#include "context/iglobalcontext.h"
+#include "../inotation.h"
+
+namespace mu {
+namespace domain {
+namespace notation {
+class NotationActionController
 {
+    INJECT(notation, actions::IActionsDispatcher, dispatcher)
+    INJECT(notation, context::IGlobalContext, globalContext)
 
+public:
+
+    static NotationActionController* instance()
+    {
+        static NotationActionController c;
+        return &c;
+    }
+
+private:
+    NotationActionController();
+
+    std::shared_ptr<INotation> currentNotation() const;
+
+    void toggleNoteInput();
+    void padNote(const actions::ActionName& name);
+};
 }
+}
+}
+
+#endif // MU_DOMAIN_NOTATIONACTIONCONTROLLER_H
