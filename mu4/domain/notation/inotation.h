@@ -9,7 +9,7 @@
 //
 //  This program is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  MERCHANTABILITY or FIT-0NESS FOR A PARTICULAR PURPOSE.  See the
 //  GNU General Public License for more details.
 //
 //  You should have received a copy of the GNU General Public License
@@ -25,6 +25,7 @@
 #include "modularity/imoduleexport.h"
 #include "actions/action.h"
 #include "inotationinputstate.h"
+#include "notationtypes.h"
 
 class QPainter;
 namespace mu {
@@ -60,6 +61,9 @@ public:
     virtual void showShadowNote(const QPointF& p) = 0;
     virtual void hideShadowNote() = 0;
     virtual void paintShadowNote(QPainter* p) = 0;
+
+    // Select
+    virtual void select(Element* e, SelectType type, int staffIdx = 0) = 0;
 };
 }
 }

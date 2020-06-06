@@ -16,26 +16,23 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 //=============================================================================
-#ifndef MU_DOMAIN_INOTATIONINPUTSTATE_H
-#define MU_DOMAIN_INOTATIONINPUTSTATE_H
+#ifndef MU_DOMAIN_NOTATIONTYPES_H
+#define MU_DOMAIN_NOTATIONTYPES_H
 
-#include "async/notify.h"
-#include "notationtypes.h"
+#include "libmscore/element.h"
+#include "libmscore/durationtype.h"
+#include "libmscore/mscore.h"
 
 namespace mu {
 namespace domain {
 namespace notation {
-class INotationInputState
-{
-public:
-    ~INotationInputState() = default;
 
-    virtual deto::async::Notify inputStateChanged() const = 0;
-    virtual bool noteEntryMode() const = 0;
-    virtual DurationType duration() const = 0;
-};
+    using Element = Ms::Element;
+    using DurationType = Ms::TDuration::DurationType;
+    using SelectType = Ms::SelectType;
+
 }
 }
 }
 
-#endif // MU_DOMAIN_INOTATIONINPUTSTATE_H
+#endif // MU_DOMAIN_NOTATIONTYPES_H
