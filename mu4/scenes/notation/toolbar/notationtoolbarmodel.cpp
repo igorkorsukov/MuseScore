@@ -77,7 +77,7 @@ void NotationToolBarModel::load()
     endResetModel();
 
     onNotationChanged();
-    m_notationChanged = globalContext()->notationChanged();
+    m_notationChanged = globalContext()->currentNotationChanged();
     m_notationChanged.onNotify(this, [this]() {
         onNotationChanged();
     });
@@ -99,7 +99,7 @@ NotationToolBarModel::ActionItem& NotationToolBarModel::item(const actions::Acti
 void NotationToolBarModel::onNotationChanged()
 {
     updateState();
-    std::shared_ptr<INotation> notation = globalContext()->notation();
+    std::shared_ptr<INotation> notation = globalContext()->currentNotation();
     if (notation) {
         m_inputStateChanged = notation->inputState()->inputStateChanged();
         m_inputStateChanged.onNotify(this, [this]() {
@@ -112,7 +112,7 @@ void NotationToolBarModel::onNotationChanged()
 
 void NotationToolBarModel::updateState()
 {
-    std::shared_ptr<INotation> notation = globalContext()->notation();
+    std::shared_ptr<INotation> notation = globalContext()->currentNotation();
     if (!notation) {
         for (ActionItem& item : m_items) {
             item.enabled = false;
@@ -129,9 +129,9 @@ void NotationToolBarModel::updateState()
             item("note-input").checked = true;
         }
 
-        item("pad-note-4").checked = is->duration() == INotationInputState::DurationType::V_QUARTER;
-        item("pad-note-8").checked = is->duration() == INotationInputState::DurationType::V_EIGHTH;
-        item("pad-note-16").checked = is->duration() == INotationInputState::DurationType::V_16TH;
+        item("pad-note-4").checked = is->duration() == DurationType::V_QUARTER;
+        item("pad-note-8").checked = is->duration() == DurationType::V_EIGHTH;
+        item("pad-note-16").checked = is->duration() == DurationType::V_16TH;
     }
 
     item("file-open").enabled = true;

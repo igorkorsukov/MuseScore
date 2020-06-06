@@ -68,7 +68,7 @@ void NotationPaintView::open()
     }
 
     //! NOTE At the moment, only one notation, in the future it will change.
-    globalContext()->setNotation(m_notation);
+    globalContext()->setCurrentNotation(m_notation);
 
     onInputStateChanged();
     m_inputStateChanged = m_notation->inputState()->inputStateChanged();

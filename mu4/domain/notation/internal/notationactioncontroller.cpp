@@ -30,7 +30,7 @@ NotationActionController::NotationActionController()
 
 std::shared_ptr<INotation> NotationActionController::currentNotation() const
 {
-    return globalContext()->notation();
+    return globalContext()->currentNotation();
 }
 
 void NotationActionController::toggleNoteInput()

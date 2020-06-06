@@ -29,9 +29,9 @@ class GlobalContext : public IGlobalContext
 public:
     GlobalContext() = default;
 
-    void setNotation(const std::shared_ptr<domain::notation::INotation>& notation) override;
-    std::shared_ptr<domain::notation::INotation> notation() const override;
-    deto::async::Notify notationChanged() const override;
+    void setCurrentNotation(const std::shared_ptr<domain::notation::INotation>& notation) override;
+    std::shared_ptr<domain::notation::INotation> currentNotation() const override;
+    deto::async::Notify currentNotationChanged() const override;
 
 private:
 

@@ -60,10 +60,13 @@ Notation::Notation()
     m_shadowNote->setVisible(false);
 
     m_inputState = new NotationInputState(m_score);
+    m_selection = new NotationSelection(m_score);
 }
 
 Notation::~Notation()
 {
+    delete m_inputState;
+    delete m_selection;
     delete m_shadowNote;
     delete m_scoreCallbacks;
     delete m_score;
@@ -246,6 +249,11 @@ void Notation::hideShadowNote()
 void Notation::paintShadowNote(QPainter* p)
 {
     m_shadowNote->draw(p);
+}
+
+INotationSelection* Notation::selection() const
+{
+    return m_selection;
 }
 
 void Notation::select(Element* e, SelectType type, int staffIdx)

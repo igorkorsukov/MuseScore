@@ -27,7 +27,7 @@ class INotationSelection
 public:
     virtual ~INotationSelection() = default;
 
-    virtual bool isNone() const;
+    virtual bool isNone() const = 0;
 };
 }
 }

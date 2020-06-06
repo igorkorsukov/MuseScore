@@ -23,6 +23,7 @@
 #include "actions/action.h"
 
 #include "notationinputstate.h"
+#include "notationselection.h"
 
 namespace Ms {
 class MScore;
@@ -57,6 +58,7 @@ public:
     void hideShadowNote() override;
     void paintShadowNote(QPainter* p) override;
 
+    INotationSelection* selection() const override;
     void select(Element* e, SelectType type, int staffIdx = 0) override;
 
 private:
@@ -68,6 +70,7 @@ private:
     ScoreCallbacks* m_scoreCallbacks = nullptr;
     Ms::ShadowNote* m_shadowNote = nullptr;
     NotationInputState* m_inputState = nullptr;
+    NotationSelection* m_selection = nullptr;
 };
 }
 }

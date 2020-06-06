@@ -16,34 +16,18 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 //=============================================================================
-#include "notationinputstate.h"
+#include "notationselection.h"
 
 #include "libmscore/score.h"
-#include "libmscore/input.h"
 
 using namespace mu::domain::notation;
 
-NotationInputState::NotationInputState(Ms::MasterScore* score)
+NotationSelection::NotationSelection(Ms::MasterScore* score)
     : m_score(score)
 {
 }
 
-deto::async::Notify NotationInputState::inputStateChanged() const
+bool NotationSelection::isNone() const
 {
-    return m_inputStateChanged;
-}
-
-void NotationInputState::notifyAboutISChanged()
-{
-    m_inputStateChanged.notify();
-}
-
-bool NotationInputState::noteEntryMode() const
-{
-    return m_score->inputState().noteEntryMode();
-}
-
-DurationType NotationInputState::duration() const
-{
-    return m_score->inputState().duration().type();
+    return m_score->selection().isNone();
 }

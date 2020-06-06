@@ -21,18 +21,18 @@
 using namespace mu::context;
 using namespace mu::domain::notation;
 
-void GlobalContext::setNotation(const std::shared_ptr<domain::notation::INotation>& notation)
+void GlobalContext::setCurrentNotation(const std::shared_ptr<domain::notation::INotation>& notation)
 {
     m_notation = notation;
     m_notationChanged.notify();
 }
 
-std::shared_ptr<INotation> GlobalContext::notation() const
+std::shared_ptr<INotation> GlobalContext::currentNotation() const
 {
     return m_notation;
 }
 
-deto::async::Notify GlobalContext::notationChanged() const
+deto::async::Notify GlobalContext::currentNotationChanged() const
 {
     return m_notationChanged;
 }

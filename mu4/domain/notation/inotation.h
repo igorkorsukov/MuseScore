@@ -25,6 +25,7 @@
 #include "modularity/imoduleexport.h"
 #include "actions/action.h"
 #include "inotationinputstate.h"
+#include "inotationselection.h"
 #include "notationtypes.h"
 
 class QPainter;
@@ -63,6 +64,7 @@ public:
     virtual void paintShadowNote(QPainter* p) = 0;
 
     // Select
+    virtual INotationSelection* selection() const = 0;
     virtual void select(Element* e, SelectType type, int staffIdx = 0) = 0;
 };
 }

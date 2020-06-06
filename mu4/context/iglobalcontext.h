@@ -33,9 +33,9 @@ class IGlobalContext : MODULE_EXPORT_INTERFACE
 public:
     ~IGlobalContext() = default;
 
-    virtual void setNotation(const std::shared_ptr<domain::notation::INotation>& notation) = 0;
-    virtual std::shared_ptr<domain::notation::INotation> notation() const = 0;
-    virtual deto::async::Notify notationChanged() const = 0;
+    virtual void setCurrentNotation(const std::shared_ptr<domain::notation::INotation>& notation) = 0;
+    virtual std::shared_ptr<domain::notation::INotation> currentNotation() const = 0;
+    virtual deto::async::Notify currentNotationChanged() const = 0;
 };
 }
 }

@@ -37,6 +37,8 @@ set(MODULE_SRC
     ${CMAKE_CURRENT_LIST_DIR}/internal/scorecallbacks.h
     ${CMAKE_CURRENT_LIST_DIR}/internal/notationinputstate.cpp
     ${CMAKE_CURRENT_LIST_DIR}/internal/notationinputstate.h
+    ${CMAKE_CURRENT_LIST_DIR}/internal/notationselection.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/internal/notationselection.h
     ${CMAKE_CURRENT_LIST_DIR}/internal/notationactioncontroller.cpp
     ${CMAKE_CURRENT_LIST_DIR}/internal/notationactioncontroller.h
     )
