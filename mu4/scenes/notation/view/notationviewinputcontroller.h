@@ -21,12 +21,16 @@
 
 #include <QWheelEvent>
 
+#include "modularity/ioc.h"
+#include "actions/iactionsdispatcher.h"
+
 namespace mu {
 namespace scene {
 namespace notation {
 class NotationPaintView;
 class NotationViewInputController
 {
+    INJECT(notation_scene, actions::IActionsDispatcher, dispatcher)
 public:
     NotationViewInputController(NotationPaintView* view);
 

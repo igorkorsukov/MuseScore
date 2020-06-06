@@ -28,7 +28,7 @@ namespace notation {
 class INotationInputState
 {
 public:
-    ~INotationInputState() = default;
+    virtual ~INotationInputState() = default;
 
     virtual deto::async::Notify inputStateChanged() const = 0;
     virtual bool noteEntryMode() const = 0;

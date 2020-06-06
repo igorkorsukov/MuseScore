@@ -45,6 +45,10 @@ static const std::vector<Action> _actions = {
     {
         "pad-note-16",
         QT_TRANSLATE_NOOP("action", "Note 16")
+    },
+    {
+        "put-note", // args: QPoint pos, bool replace, bool insert
+        QT_TRANSLATE_NOOP("action", "Put note")
     }
 };
 

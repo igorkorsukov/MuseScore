@@ -17,15 +17,19 @@
 //  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 //=============================================================================
 #include "notationactioncontroller.h"
+#include "log.h"
+#include <QPoint>
 
 using namespace mu::domain::notation;
+using namespace mu::actions;
 
 NotationActionController::NotationActionController()
 {
-    dispatcher()->reg("note-input", [this](const actions::ActionName&) { toggleNoteInput(); });
-    dispatcher()->reg("pad-note-8", [this](const actions::ActionName& name) { padNote(name); });
-    dispatcher()->reg("pad-note-4", [this](const actions::ActionName& name) { padNote(name); });
-    dispatcher()->reg("pad-note-16", [this](const actions::ActionName& name) { padNote(name); });
+    dispatcher()->reg("note-input", this, &NotationActionController::toggleNoteInput);
+    dispatcher()->reg("pad-note-8", this, &NotationActionController::padNote);
+    dispatcher()->reg("pad-note-4", this, &NotationActionController::padNote);
+    dispatcher()->reg("pad-note-16", this, &NotationActionController::padNote);
+    dispatcher()->reg("put-note", this, &NotationActionController::putNote);
 }
 
 std::shared_ptr<INotation> NotationActionController::currentNotation() const
@@ -56,4 +60,22 @@ void NotationActionController::padNote(const actions::ActionName& name)
     }
 
     notation->padNote(name);
+}
+
+void NotationActionController::putNote(const actions::ActionData& data)
+{
+    auto notation = currentNotation();
+    if (!notation) {
+        return;
+    }
+
+    IF_ASSERT_FAILED(data.count() > 2) {
+        return;
+    }
+
+    QPoint pos = data.arg<QPoint>(0);
+    bool replace = data.arg<bool>(1);
+    bool insert = data.arg<bool>(2);
+
+    notation->putNote(pos, replace, insert);
 }

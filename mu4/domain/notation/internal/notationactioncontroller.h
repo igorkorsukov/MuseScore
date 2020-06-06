@@ -47,6 +47,7 @@ private:
 
     void toggleNoteInput();
     void padNote(const actions::ActionName& name);
+    void putNote(const actions::ActionData& data);
 };
 }
 }

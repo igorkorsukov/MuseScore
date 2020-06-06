@@ -31,10 +31,35 @@ class IActionsDispatcher : MODULE_EXPORT_INTERFACE
 public:
     ~IActionsDispatcher() = default;
 
-    using ActionCall = std::function<void (const ActionName&)>;
-
     virtual void dispatch(const ActionName& a) = 0;
-    virtual void reg(const ActionName& action, const ActionCall& call) = 0;
+    virtual void dispatch(const ActionName& a, const ActionData& data) = 0;
+
+    virtual void reg(const ActionName& action, const ActionCallBack& call) = 0;
+    virtual void reg(const ActionName& action, const ActionCallBackWithData& call) = 0;
+
+    template<typename T>
+    void reg(const ActionName& action, T* caller, void (T::* func)(const ActionName& action))
+    {
+        reg(action, [caller, func](const ActionName& action) { (caller->*func)(action); });
+    }
+
+    template<typename T>
+    void reg(const ActionName& action, T* caller, void (T::* func)())
+    {
+        reg(action, [caller, func](const ActionName&) { (caller->*func)(); });
+    }
+
+    template<typename T>
+    void reg(const ActionName& action, T* caller, void (T::* func)(const ActionName& action, const ActionData& data))
+    {
+        reg(action,[caller, func](const ActionName& a, const ActionData& data) { (caller->*func)(a, data); });
+    }
+
+    template<typename T>
+    void reg(const ActionName& action, T* caller, void (T::* func)(const ActionData& data))
+    {
+        reg(action, [caller, func](const ActionName&, const ActionData& data) { (caller->*func)(data); });
+    }
 };
 }
 }

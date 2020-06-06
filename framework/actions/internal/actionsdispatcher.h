@@ -31,11 +31,18 @@ public:
     ActionsDispatcher();
 
     void dispatch(const ActionName& a) override;
-    void reg(const ActionName& action, const ActionCall& call) override;
+    void dispatch(const ActionName& action, const ActionData& data) override;
+
+    void reg(const ActionName& action, const ActionCallBack& call) override;
+
+    void reg(const ActionName& action, const ActionCallBackWithData& call) override;
 
 private:
 
-    std::map<ActionName, ActionCall> m_calls;
+    bool isRegistred(const ActionName& action) const;
+
+    std::map<ActionName, ActionCallBack> m_callbacks;
+    std::map<ActionName, ActionCallBackWithData> m_callbacksWithData;
 };
 }
 }

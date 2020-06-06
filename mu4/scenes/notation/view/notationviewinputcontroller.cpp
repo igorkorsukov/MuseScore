@@ -20,8 +20,10 @@
 
 #include "log.h"
 #include "notationpaintview.h"
+#include "domain/notation/notationactions.h"
 
 using namespace mu::scene::notation;
+using namespace mu::actions;
 
 static constexpr int PIXELSSTEPSFACTOR = 5;
 
@@ -69,7 +71,9 @@ void NotationViewInputController::mousePressEvent(QMouseEvent* ev)
     case NotationPaintView::State::NORMAL:
         break;
     case NotationPaintView::State::NOTE_ENTRY:
-        m_view->putNote(logicPos, ev->modifiers() & Qt::ShiftModifier, ev->modifiers() & Qt::ControlModifier);
+        bool replace = ev->modifiers() & Qt::ShiftModifier;
+        bool insert = ev->modifiers() & Qt::ControlModifier;
+        dispatcher()->dispatch("put-note", ActionData::make_arg3<QPoint, bool, bool>(logicPos, replace, insert));
         break;
     }
 }
