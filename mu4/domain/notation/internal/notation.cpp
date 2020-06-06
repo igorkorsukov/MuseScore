@@ -135,6 +135,8 @@ void Notation::startNoteEntry()
     is.setRest(false);
     is.setNoteEntryMode(true);
 
+    padNote(Pad::NOTE8);
+
     m_inputState->notifyAboutISChanged();
 }
 
@@ -154,11 +156,13 @@ void Notation::endNoteEntry()
     m_inputState->notifyAboutISChanged();
 }
 
-void Notation::padNote(const actions::ActionName& name)
+void Notation::padNote(const Pad& pad)
 {
     Ms::EditData ed;
     ed.view = m_scoreCallbacks;
-    score()->cmd(name, ed);
+    score()->startCmd();
+    score()->padToggle(pad, ed);
+    score()->endCmd();
     m_inputState->notifyAboutISChanged();
 }
 
@@ -167,6 +171,12 @@ void Notation::putNote(const QPointF& pos, bool replace, bool insert)
     score()->startCmd();
     score()->putNote(pos, replace, insert);
     score()->endCmd();
+    m_notationChanged.notify();
+}
+
+deto::async::Notify Notation::notationChanged() const
+{
+    return m_notationChanged;
 }
 
 Ms::MasterScore* Notation::score() const

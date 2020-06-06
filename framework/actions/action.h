@@ -109,9 +109,6 @@ public:
 private:
     std::vector<std::shared_ptr<IArg> > m_args;
 };
-
-using ActionCallBack = std::function<void (const ActionName&)>;
-using ActionCallBackWithData = std::function<void (const ActionName&, const ActionData& data)>;
 }
 }
 

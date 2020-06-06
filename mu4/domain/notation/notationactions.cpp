@@ -27,27 +27,27 @@ using namespace mu::actions;
 
 static const std::vector<Action> _actions = {
     {
-        "file-open",
+        "domain/notation/file-open",
         QT_TRANSLATE_NOOP("action", "Open...")
     },
     {
-        "note-input",
+        "domain/notation/note-input",
         QT_TRANSLATE_NOOP("action", "Note input")
     },
     {
-        "pad-note-4",
+        "domain/notation/pad-note-4",
         QT_TRANSLATE_NOOP("action", "Note 4")
     },
     {
-        "pad-note-8",
+        "domain/notation/pad-note-8",
         QT_TRANSLATE_NOOP("action", "Note 8")
     },
     {
-        "pad-note-16",
+        "domain/notation/pad-note-16",
         QT_TRANSLATE_NOOP("action", "Note 16")
     },
     {
-        "put-note", // args: QPoint pos, bool replace, bool insert
+        "domain/notation/put-note", // args: QPoint pos, bool replace, bool insert
         QT_TRANSLATE_NOOP("action", "Put note")
     }
 };

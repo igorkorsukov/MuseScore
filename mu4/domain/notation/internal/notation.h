@@ -50,8 +50,9 @@ public:
     INotationInputState* inputState() const override;
     void startNoteEntry() override;
     void endNoteEntry() override;
-    void padNote(const actions::ActionName& name) override;
+    void padNote(const Pad& pad) override;
     void putNote(const QPointF& pos, bool replace, bool insert) override;
+    deto::async::Notify notationChanged() const override;
 
     // shadow note
     void showShadowNote(const QPointF& p) override;
@@ -71,6 +72,7 @@ private:
     Ms::ShadowNote* m_shadowNote = nullptr;
     NotationInputState* m_inputState = nullptr;
     NotationSelection* m_selection = nullptr;
+    deto::async::Notify m_notationChanged;
 };
 }
 }

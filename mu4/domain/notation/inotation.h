@@ -24,6 +24,7 @@
 
 #include "modularity/imoduleexport.h"
 #include "actions/action.h"
+#include "async/notify.h"
 #include "inotationinputstate.h"
 #include "inotationselection.h"
 #include "notationtypes.h"
@@ -55,8 +56,9 @@ public:
     virtual INotationInputState* inputState() const = 0;
     virtual void startNoteEntry() = 0;
     virtual void endNoteEntry() = 0;
-    virtual void padNote(const actions::ActionName& name) = 0;
+    virtual void padNote(const Pad& pad) = 0;
     virtual void putNote(const QPointF& pos, bool replace, bool insert) = 0;
+    virtual deto::async::Notify notationChanged() const = 0;
 
     // shadow note
     virtual void showShadowNote(const QPointF& p) = 0;

@@ -46,7 +46,7 @@ private:
     std::shared_ptr<INotation> currentNotation() const;
 
     void toggleNoteInput();
-    void padNote(const actions::ActionName& name);
+    void padNote(const Pad& pad);
     void putNote(const actions::ActionData& data);
 };
 }

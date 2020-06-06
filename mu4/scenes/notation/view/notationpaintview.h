@@ -88,7 +88,6 @@ private:
     QTransform m_matrix;
     NotationViewInputController* m_inputController = nullptr;
     State m_state = State::NORMAL;
-    deto::async::Notify m_inputStateChanged;
 };
 }
 }

@@ -25,11 +25,11 @@ using namespace mu::actions;
 
 NotationActionController::NotationActionController()
 {
-    dispatcher()->reg("note-input", this, &NotationActionController::toggleNoteInput);
-    dispatcher()->reg("pad-note-8", this, &NotationActionController::padNote);
-    dispatcher()->reg("pad-note-4", this, &NotationActionController::padNote);
-    dispatcher()->reg("pad-note-16", this, &NotationActionController::padNote);
-    dispatcher()->reg("put-note", this, &NotationActionController::putNote);
+    dispatcher()->reg("domain/notation/note-input", this, &NotationActionController::toggleNoteInput);
+    dispatcher()->reg("domain/notation/pad-note-4", [this]() { padNote(Pad::NOTE4); });
+    dispatcher()->reg("domain/notation/pad-note-8", [this]() { padNote(Pad::NOTE8); });
+    dispatcher()->reg("domain/notation/pad-note-16", [this]() { padNote(Pad::NOTE16); });
+    dispatcher()->reg("domain/notation/put-note", this, &NotationActionController::putNote);
 }
 
 std::shared_ptr<INotation> NotationActionController::currentNotation() const
@@ -48,18 +48,17 @@ void NotationActionController::toggleNoteInput()
         notation->endNoteEntry();
     } else {
         notation->startNoteEntry();
-        notation->padNote("pad-note-8");
     }
 }
 
-void NotationActionController::padNote(const actions::ActionName& name)
+void NotationActionController::padNote(const Pad& pad)
 {
     auto notation = currentNotation();
     if (!notation) {
         return;
     }
 
-    notation->padNote(name);
+    notation->padNote(pad);
 }
 
 void NotationActionController::putNote(const actions::ActionData& data)

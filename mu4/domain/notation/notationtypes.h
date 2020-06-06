@@ -22,15 +22,15 @@
 #include "libmscore/element.h"
 #include "libmscore/durationtype.h"
 #include "libmscore/mscore.h"
+#include "libmscore/score.h"
 
 namespace mu {
 namespace domain {
 namespace notation {
-
-    using Element = Ms::Element;
-    using DurationType = Ms::TDuration::DurationType;
-    using SelectType = Ms::SelectType;
-
+using Element = Ms::Element;
+using DurationType = Ms::TDuration::DurationType;
+using SelectType = Ms::SelectType;
+using Pad = Ms::Pad;
 }
 }
 }

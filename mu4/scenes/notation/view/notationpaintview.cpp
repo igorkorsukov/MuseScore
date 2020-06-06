@@ -43,7 +43,7 @@ NotationPaintView::NotationPaintView()
     m_inputController = new NotationViewInputController(this);
 
     // actions
-    dispatcher()->reg("file-open", [this](const actions::ActionName&) { open(); });
+    dispatcher()->reg("domain/notation/file-open", [this](const actions::ActionName&) { open(); });
 }
 
 //! NOTE Temporary method for tests
@@ -71,9 +71,12 @@ void NotationPaintView::open()
     globalContext()->setCurrentNotation(m_notation);
 
     onInputStateChanged();
-    m_inputStateChanged = m_notation->inputState()->inputStateChanged();
-    m_inputStateChanged.onNotify(this, [this]() {
+    m_notation->inputState()->inputStateChanged().onNotify(this, [this]() {
         onInputStateChanged();
+    });
+
+    m_notation->notationChanged().onNotify(this, [this]() {
+        update();
     });
 
     update();
