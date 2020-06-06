@@ -19,7 +19,7 @@
 #include "notationtoolbarmodel.h"
 
 #include "log.h"
-#include "actions/actions.h"
+#include "domain/notation/notationactions.h"
 
 using namespace mu::scene::notation;
 using namespace mu::domain::notation;
@@ -68,11 +68,11 @@ void NotationToolBarModel::load()
 
     beginResetModel();
 
-    m_items << makeItem(action("file-open"))
-            << makeItem(action("note-input"))
-            << makeItem(action("pad-note-16"))
-            << makeItem(action("pad-note-8"))
-            << makeItem(action("pad-note-4"));
+    m_items << makeItem(NotationActions::action("file-open"))
+            << makeItem(NotationActions::action("note-input"))
+            << makeItem(NotationActions::action("pad-note-16"))
+            << makeItem(NotationActions::action("pad-note-8"))
+            << makeItem(NotationActions::action("pad-note-4"));
 
     endResetModel();
 

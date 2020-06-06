@@ -16,15 +16,46 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 //=============================================================================
-#ifndef MU_ACTIONS_ACTIONS_H
-#define MU_ACTIONS_ACTIONS_H
+#include "notationactions.h"
 
-#include "action.h"
+#include <vector>
 
-namespace mu {
-namespace actions {
-const Action& action(const ActionName& name);
+using namespace mu::domain::notation;
+using namespace mu::actions;
+
+//! NOTO Only actions processed by notation
+
+static const std::vector<Action> _actions = {
+    {
+        "file-open",
+        QT_TRANSLATE_NOOP("action", "Open...")
+    },
+    {
+        "note-input",
+        QT_TRANSLATE_NOOP("action", "Note input")
+    },
+    {
+        "pad-note-4",
+        QT_TRANSLATE_NOOP("action", "Note 4")
+    },
+    {
+        "pad-note-8",
+        QT_TRANSLATE_NOOP("action", "Note 8")
+    },
+    {
+        "pad-note-16",
+        QT_TRANSLATE_NOOP("action", "Note 16")
+    }
+};
+
+const Action& NotationActions::action(const ActionName& name)
+{
+    for (const Action& a : _actions) {
+        if (a.name == name) {
+            return a;
+        }
+    }
+
+    static Action null;
+    return null;
 }
-}
-
-#endif // MU_ACTIONS_ACTIONS_H
