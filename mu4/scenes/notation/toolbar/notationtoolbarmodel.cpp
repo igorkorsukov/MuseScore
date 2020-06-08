@@ -101,7 +101,7 @@ void NotationToolBarModel::onNotationChanged()
     updateState();
     std::shared_ptr<INotation> notation = globalContext()->currentNotation();
     if (notation) {
-        m_inputStateChanged = notation->inputState()->inputStateChanged();
+        m_inputStateChanged = notation->inputStateChanged();
         m_inputStateChanged.onNotify(this, [this]() {
             updateState();
         });

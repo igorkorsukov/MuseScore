@@ -36,9 +36,6 @@ class NotationSelection : public INotationSelection
 public:
     NotationSelection(IGetScore* getScore);
 
-    async::Notify selectionChanged() const override;
-    void notifyAboutChanged();
-
     bool isNone() const override;
     QRectF canvasBoundingRect() const override;
 
@@ -47,7 +44,6 @@ private:
     Ms::Score* score() const;
 
     IGetScore* m_getScore = nullptr;
-    async::Notify m_selectionChanged;
 };
 }
 }

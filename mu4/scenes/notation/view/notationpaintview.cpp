@@ -77,11 +77,11 @@ void NotationPaintView::open()
     });
 
     onInputStateChanged();
-    m_notation->inputState()->inputStateChanged().onNotify(this, [this]() {
+    m_notation->inputStateChanged().onNotify(this, [this]() {
         onInputStateChanged();
     });
 
-    m_notation->selection()->selectionChanged().onNotify(this, [this]() {
+    m_notation->selectionChanged().onNotify(this, [this]() {
         onSelectionChanged();
     });
 

@@ -211,7 +211,7 @@ void Notation::startNoteEntry()
         break;
     }
 
-    m_inputState->notifyAboutChanged();
+    m_inputStateChanged.notify();
 }
 
 void Notation::selectFirstTopLeftOrLast()
@@ -316,7 +316,7 @@ void Notation::endNoteEntry()
     }
 
     hideShadowNote();
-    m_inputState->notifyAboutChanged();
+    m_inputStateChanged.notify();
 }
 
 void Notation::padNote(const Pad& pad)
@@ -326,7 +326,7 @@ void Notation::padNote(const Pad& pad)
     score()->startCmd();
     score()->padToggle(pad, ed);
     score()->endCmd();
-    m_inputState->notifyAboutChanged();
+    m_inputStateChanged.notify();
 }
 
 void Notation::putNote(const QPointF& pos, bool replace, bool insert)
@@ -340,6 +340,16 @@ void Notation::putNote(const QPointF& pos, bool replace, bool insert)
 mu::async::Notify Notation::notationChanged() const
 {
     return m_notationChanged;
+}
+
+mu::async::Notify Notation::inputStateChanged() const
+{
+    return m_inputStateChanged;
+}
+
+mu::async::Notify Notation::selectionChanged() const
+{
+    return m_selectionChanged;
 }
 
 Ms::Score* Notation::score() const
@@ -432,7 +442,7 @@ INotationSelection* Notation::selection() const
 void Notation::select(Element* e, SelectType type, int staffIdx)
 {
     score()->select(e, type, staffIdx);
-    m_selection->notifyAboutChanged();
+    m_selectionChanged.notify();
 }
 
 INotationInputController* Notation::inputController() const

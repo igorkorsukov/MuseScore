@@ -30,7 +30,6 @@ class INotationInputState
 public:
     virtual ~INotationInputState() = default;
 
-    virtual async::Notify inputStateChanged() const = 0;
     virtual bool isNoteEnterMode() const = 0;
     virtual DurationType duration() const = 0;
 };

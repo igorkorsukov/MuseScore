@@ -33,16 +33,6 @@ Ms::Score* NotationInputState::score() const
     return m_getScore->score();
 }
 
-mu::async::Notify NotationInputState::inputStateChanged() const
-{
-    return m_inputStateChanged;
-}
-
-void NotationInputState::notifyAboutChanged()
-{
-    m_inputStateChanged.notify();
-}
-
 bool NotationInputState::isNoteEnterMode() const
 {
     return score()->inputState().noteEntryMode();

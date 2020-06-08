@@ -36,9 +36,6 @@ class NotationInputState : public INotationInputState
 public:
     NotationInputState(IGetScore* getScore);
 
-    async::Notify inputStateChanged() const override;
-    void notifyAboutChanged();
-
     bool isNoteEnterMode() const override;
     DurationType duration() const override;
 
@@ -47,7 +44,6 @@ private:
     Ms::Score* score() const;
 
     IGetScore* m_getScore = nullptr;
-    async::Notify m_inputStateChanged;
 };
 }
 }

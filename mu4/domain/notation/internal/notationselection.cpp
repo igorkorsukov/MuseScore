@@ -33,16 +33,6 @@ Ms::Score* NotationSelection::score() const
     return m_getScore->score();
 }
 
-mu::async::Notify NotationSelection::selectionChanged() const
-{
-    return m_selectionChanged;
-}
-
-void NotationSelection::notifyAboutChanged()
-{
-    m_selectionChanged.notify();
-}
-
 bool NotationSelection::isNone() const
 {
     return score()->selection().isNone();

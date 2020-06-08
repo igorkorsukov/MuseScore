@@ -56,7 +56,6 @@ public:
     void endNoteEntry() override;
     void padNote(const Pad& pad) override;
     void putNote(const QPointF& pos, bool replace, bool insert) override;
-    async::Notify notationChanged() const override;
 
     // shadow note
     void showShadowNote(const QPointF& p) override;
@@ -68,6 +67,12 @@ public:
 
     INotationInputController* inputController() const override;
 
+    // notify
+    async::Notify notationChanged() const override;
+    async::Notify inputStateChanged() const override;
+    async::Notify selectionChanged() const override;
+
+    // internal
     Ms::Score* score() const;
 
 private:
@@ -82,7 +87,10 @@ private:
     NotationInputState* m_inputState = nullptr;
     NotationSelection* m_selection = nullptr;
     NotationInputController* m_inputController = nullptr;
+
     async::Notify m_notationChanged;
+    async::Notify m_inputStateChanged;
+    async::Notify m_selectionChanged;
 };
 }
 }
