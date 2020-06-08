@@ -38,7 +38,7 @@ void NotationInputState::notifyAboutISChanged()
     m_inputStateChanged.notify();
 }
 
-bool NotationInputState::noteEntryMode() const
+bool NotationInputState::isNoteEnterMode() const
 {
     return m_score->inputState().noteEntryMode();
 }

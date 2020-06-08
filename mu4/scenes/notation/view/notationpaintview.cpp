@@ -82,33 +82,29 @@ void NotationPaintView::open()
     update();
 }
 
-void NotationPaintView::setState(State st)
-{
-    m_state = st;
-}
-
 void NotationPaintView::onInputStateChanged()
 {
     INotationInputState* is = m_notation->inputState();
-    if (is->noteEntryMode()) {
-        setState(State::NOTE_ENTRY);
+    if (is->isNoteEnterMode()) {
         setAcceptHoverEvents(true);
     } else {
-        setState(State::NORMAL);
         setAcceptHoverEvents(false);
         update();
     }
 }
 
+bool NotationPaintView::isNoteEnterMode() const
+{
+    if (!m_notation) {
+        return false;
+    }
+
+    return m_notation->inputState()->isNoteEnterMode();
+}
+
 void NotationPaintView::showShadowNote(const QPointF& pos)
 {
     m_notation->showShadowNote(pos);
-    update();
-}
-
-void NotationPaintView::putNote(const QPointF& pos, bool replace, bool insert)
-{
-    m_notation->putNote(pos, replace, insert);
     update();
 }
 
@@ -212,9 +208,4 @@ QPoint NotationPaintView::toLogical(const QPoint& p) const
 QPoint NotationPaintView::toPhysical(const QPoint& p) const
 {
     return m_matrix.map(p);
-}
-
-NotationPaintView::State NotationPaintView::state() const
-{
-    return m_state;
 }

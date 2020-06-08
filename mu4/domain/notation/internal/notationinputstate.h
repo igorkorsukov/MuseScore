@@ -37,7 +37,7 @@ public:
     deto::async::Notify inputStateChanged() const override;
     void notifyAboutISChanged();
 
-    bool noteEntryMode() const override;
+    bool isNoteEnterMode() const override;
     DurationType duration() const override;
 
 private:

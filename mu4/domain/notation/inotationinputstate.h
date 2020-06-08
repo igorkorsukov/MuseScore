@@ -31,7 +31,7 @@ public:
     virtual ~INotationInputState() = default;
 
     virtual deto::async::Notify inputStateChanged() const = 0;
-    virtual bool noteEntryMode() const = 0;
+    virtual bool isNoteEnterMode() const = 0;
     virtual DurationType duration() const = 0;
 };
 }

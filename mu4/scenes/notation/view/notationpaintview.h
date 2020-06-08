@@ -45,16 +45,9 @@ class NotationPaintView : public QQuickPaintedItem, public deto::async::Asyncabl
 public:
     NotationPaintView();
 
-    enum class State {
-        NORMAL = 0,
-        NOTE_ENTRY
-    };
-
-    State state() const;
-
     void open();
 
-    void putNote(const QPointF& pos, bool replace, bool insert);
+    bool isNoteEnterMode() const;
     void showShadowNote(const QPointF& pos);
 
 private:
@@ -81,13 +74,11 @@ private:
     void zoom(qreal mag, const QPoint& pos);
     // ---
 
-    void setState(State st);
     void onInputStateChanged();
 
     std::shared_ptr<domain::notation::INotation> m_notation;
     QTransform m_matrix;
     NotationViewInputController* m_inputController = nullptr;
-    State m_state = State::NORMAL;
 };
 }
 }

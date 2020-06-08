@@ -44,7 +44,7 @@ void NotationActionController::toggleNoteInput()
         return;
     }
 
-    if (notation->inputState()->noteEntryMode()) {
+    if (notation->inputState()->isNoteEnterMode()) {
         notation->endNoteEntry();
     } else {
         notation->startNoteEntry();

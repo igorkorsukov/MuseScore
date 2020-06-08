@@ -125,7 +125,7 @@ void NotationToolBarModel::updateState()
         }
 
         auto is = notation->inputState();
-        if (is->noteEntryMode()) {
+        if (is->isNoteEnterMode()) {
             item("domain/notation/note-input").checked = true;
         }
 
