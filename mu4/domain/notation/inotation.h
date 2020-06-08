@@ -40,16 +40,8 @@ class INotation : MODULE_EXPORT_INTERFACE
 public:
     ~INotation() = default;
 
-    struct PageSize {
-        int width = -1;
-        int height = -1;
-    };
-
-    struct Params {
-        PageSize pageSize;
-    };
-
-    virtual bool load(const std::string& path, const Params& params) = 0;
+    virtual bool load(const std::string& path) = 0;
+    virtual void setViewSize(const QSizeF& vs) = 0;
     virtual void paint(QPainter* p, const QRect& r) = 0;
 
     // Edit

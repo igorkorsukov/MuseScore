@@ -22,8 +22,10 @@
 #include <map>
 #include "../inotationinputstate.h"
 
+#include "igetscore.h"
+
 namespace Ms {
-class MasterScore;
+class Score;
 }
 
 namespace mu {
@@ -32,17 +34,19 @@ namespace notation {
 class NotationInputState : public INotationInputState
 {
 public:
-    NotationInputState(Ms::MasterScore* score);
+    NotationInputState(IGetScore* getScore);
 
     deto::async::Notify inputStateChanged() const override;
-    void notifyAboutISChanged();
+    void notifyAboutChanged();
 
     bool isNoteEnterMode() const override;
     DurationType duration() const override;
 
 private:
 
-    Ms::MasterScore* m_score = nullptr;
+    Ms::Score* score() const;
+
+    IGetScore* m_getScore = nullptr;
     deto::async::Notify m_inputStateChanged;
 };
 }

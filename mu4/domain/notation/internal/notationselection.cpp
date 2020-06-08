@@ -17,17 +17,62 @@
 //  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 //=============================================================================
 #include "notationselection.h"
+#include "log.h"
 
 #include "libmscore/score.h"
 
 using namespace mu::domain::notation;
 
-NotationSelection::NotationSelection(Ms::MasterScore* score)
-    : m_score(score)
+NotationSelection::NotationSelection(IGetScore* getScore)
+    : m_getScore(getScore)
 {
+}
+
+Ms::Score* NotationSelection::score() const
+{
+    return m_getScore->score();
+}
+
+deto::async::Notify NotationSelection::selectionChanged() const
+{
+    return m_selectionChanged;
+}
+
+void NotationSelection::notifyAboutChanged()
+{
+    m_selectionChanged.notify();
 }
 
 bool NotationSelection::isNone() const
 {
-    return m_score->selection().isNone();
+    return score()->selection().isNone();
+}
+
+QRectF NotationSelection::canvasBoundingRect() const
+{
+    if (isNone()) {
+        return QRectF();
+    }
+
+    Ms::Element* el = score()->selection().element();
+    if (el) {
+        return el->canvasBoundingRect();
+    }
+
+    QList<Ms::Element*> els = score()->selection().elements();
+    if (els.isEmpty()) {
+        LOGW() << "selection not none, but no elements";
+        return QRectF();
+    }
+
+    QRectF rect;
+    for (const Ms::Element* el: els) {
+        if (rect.isNull()) {
+            rect = el->canvasBoundingRect();
+        } else {
+            rect = rect.united(el->canvasBoundingRect());
+        }
+    }
+
+    return rect;
 }

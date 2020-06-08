@@ -20,9 +20,12 @@
 #define MU_DOMAIN_NOTATIONSELECTION_H
 
 #include "../inotationselection.h"
+#include "../notationtypes.h"
+
+#include "igetscore.h"
 
 namespace Ms {
-class MasterScore;
+class Score;
 }
 
 namespace mu {
@@ -31,13 +34,20 @@ namespace notation {
 class NotationSelection : public INotationSelection
 {
 public:
-    NotationSelection(Ms::MasterScore* score);
+    NotationSelection(IGetScore* getScore);
+
+    deto::async::Notify selectionChanged() const override;
+    void notifyAboutChanged();
 
     bool isNone() const override;
+    QRectF canvasBoundingRect() const override;
 
 private:
 
-    Ms::MasterScore* m_score = nullptr;
+    Ms::Score* score() const;
+
+    IGetScore* m_getScore = nullptr;
+    deto::async::Notify m_selectionChanged;
 };
 }
 }

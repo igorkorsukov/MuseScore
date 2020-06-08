@@ -31,6 +31,8 @@
 #include "libmscore/drumset.h"
 #include "libmscore/rest.h"
 #include "libmscore/slur.h"
+#include "libmscore/system.h"
+#include "libmscore/chord.h"
 
 #include "scorecallbacks.h"
 
@@ -59,8 +61,8 @@ Notation::Notation()
     m_shadowNote = new ShadowNote(m_score);
     m_shadowNote->setVisible(false);
 
-    m_inputState = new NotationInputState(m_score);
-    m_selection = new NotationSelection(m_score);
+    m_inputState = new NotationInputState(this);
+    m_selection = new NotationSelection(this);
 }
 
 Notation::~Notation()
@@ -77,7 +79,7 @@ void Notation::init()
     MScore::init();         // initialize libmscore
 }
 
-bool Notation::load(const std::string& path, const Params& params)
+bool Notation::load(const std::string& path)
 {
     Score::FileError rv = m_score->loadMsc(QString::fromStdString(path), true);
     if (rv != Score::FileError::FILE_NO_ERROR) {
@@ -88,6 +90,11 @@ bool Notation::load(const std::string& path, const Params& params)
     m_score->doLayout();
 
     return true;
+}
+
+void Notation::setViewSize(const QSizeF& vs)
+{
+    m_viewSize = vs;
 }
 
 void Notation::paint(QPainter* p, const QRect& r)
@@ -127,17 +134,183 @@ INotationInputState* Notation::inputState() const
     return m_inputState;
 }
 
+Ms::Page* Notation::point2page(const QPointF& p) const
+{
+    if (score()->layoutMode() == LayoutMode::LINE) {
+        return score()->pages().isEmpty() ? 0 : score()->pages().front();
+    }
+    foreach (Page* page, score()->pages()) {
+        if (page->bbox().translated(page->pos()).contains(p)) {
+            return page;
+        }
+    }
+    return nullptr;
+}
+
 void Notation::startNoteEntry()
 {
+    //! NOTE Coped from `void ScoreView::startNoteEntry()`
     Ms::InputState& is = score()->inputState();
     is.setSegment(0);
-    is.setAccidentalType(Ms::AccidentalType::NONE);
+
+    if (score()->selection().isNone()) {
+        selectFirstTopLeftOrLast();
+    }
+
+    //! TODO Find out what does and why.
+    Element* el = score()->selection().element();
+    if (!el) {
+        el = score()->selection().firstChordRest();
+    }
+
+    if (el == nullptr
+        || (el->type() != ElementType::CHORD && el->type() != ElementType::REST && el->type() != ElementType::NOTE)) {
+        // if no note/rest is selected, start with voice 0
+        int track = is.track() == -1 ? 0 : (is.track() / VOICES) * VOICES;
+        // try to find an appropriate measure to start in
+        Fraction tick = el ? el->tick() : Fraction(0,1);
+        el = score()->searchNote(tick, track);
+        if (!el) {
+            el = score()->searchNote(Fraction(0,1), track);
+        }
+    }
+
+    if (!el) {
+        return;
+    }
+
+    if (el->type() == ElementType::CHORD) {
+        Chord* c = static_cast<Chord*>(el);
+        Note* note = c->selectedNote();
+        if (note == 0) {
+            note = c->upNote();
+        }
+        el = note;
+    }
+    //! ---
+
+    TDuration d(is.duration());
+    if (!d.isValid() || d.isZero() || d.type() == TDuration::DurationType::V_MEASURE) {
+        is.setDuration(TDuration(TDuration::DurationType::V_QUARTER));
+    }
+    is.setAccidentalType(AccidentalType::NONE);
+
+    select(el, SelectType::SINGLE, 0);
+
     is.setRest(false);
     is.setNoteEntryMode(true);
 
-    padNote(Pad::NOTE8);
+    //! TODO Find out why.
+    score()->setUpdateAll();
+    score()->update();
+    //! ---
 
-    m_inputState->notifyAboutISChanged();
+    Staff* staff = score()->staff(is.track() / VOICES);
+    switch (staff->staffType(is.tick())->group()) {
+    case StaffGroup::STANDARD:
+        break;
+    case StaffGroup::TAB: {
+        int strg = 0;                           // assume topmost string as current string
+        // if entering note entry with a note selected and the note has a string
+        // set InputState::_string to note physical string
+        if (el->type() == ElementType::NOTE) {
+            strg = (static_cast<Note*>(el))->string();
+        }
+        is.setString(strg);
+        break;
+    }
+    case StaffGroup::PERCUSSION:
+        break;
+    }
+
+    m_inputState->notifyAboutChanged();
+}
+
+void Notation::selectFirstTopLeftOrLast()
+{
+    // choose page in current view (favor top left quadrant if possible)
+    // select first (top/left) chordrest of that page in current view
+    // or, CR at last selected position if that is in view
+    Page* p = nullptr;
+    QList<QPointF> points;
+    points.append(QPoint(m_viewSize.width() * 0.25, m_viewSize.height() * 0.25));
+    points.append(QPoint(0.0, 0.0));
+    points.append(QPoint(0.0, m_viewSize.height()));
+    points.append(QPoint(m_viewSize.width(), 0.0));
+    points.append(QPoint(m_viewSize.width(), m_viewSize.height()));
+    int i = 0;
+    while (!p && i < points.size()) {
+        p = point2page(points[i]);
+        i++;
+    }
+    if (p) {
+        ChordRest* topLeft = nullptr;
+        qreal tlY = 0.0;
+        Fraction tlTick = Fraction(0,1);
+        QRectF viewRect  = QRectF(0.0, 0.0, m_viewSize.width(), m_viewSize.height());
+        QRectF pageRect  = p->bbox().translated(p->x(), p->y());
+        QRectF intersect = viewRect & pageRect;
+        intersect.translate(-p->x(), -p->y());
+        QList<Element*> el = p->items(intersect);
+        ChordRest* lastSelected = score()->selection().currentCR();
+        for (Element* e : el) {
+            // loop through visible elements
+            // looking for the CR in voice 1 with earliest tick and highest staff position
+            // but stop we find the last selected CR
+            ElementType et = e->type();
+            if (et == ElementType::NOTE || et == ElementType::REST) {
+                if (e->voice()) {
+                    continue;
+                }
+                ChordRest* cr;
+                if (et == ElementType::NOTE) {
+                    cr = static_cast<ChordRest*>(e->parent());
+                    if (!cr) {
+                        continue;
+                    }
+                } else {
+                    cr = static_cast<ChordRest*>(e);
+                }
+                if (cr == lastSelected) {
+                    topLeft = cr;
+                    break;
+                }
+                // compare ticks rather than x position
+                // to make sure we favor earlier rather than later systems
+                // even though later system might have note farther to left
+                Fraction crTick = Fraction(0,1);
+                if (cr->segment()) {
+                    crTick = cr->segment()->tick();
+                } else {
+                    continue;
+                }
+                // compare staff Y position rather than note Y position
+                // to be sure we do not reject earliest note
+                // just because it is lower in pitch than subsequent notes
+                qreal crY = 0.0;
+                if (cr->measure() && cr->measure()->system()) {
+                    crY = cr->measure()->system()->staffYpage(cr->staffIdx());
+                } else {
+                    continue;
+                }
+                if (topLeft) {
+                    if (crTick <= tlTick && crY <= tlY) {
+                        topLeft = cr;
+                        tlTick = crTick;
+                        tlY = crY;
+                    }
+                } else {
+                    topLeft = cr;
+                    tlTick = crTick;
+                    tlY = crY;
+                }
+            }
+        }
+
+        if (topLeft) {
+            select(topLeft, SelectType::SINGLE);
+        }
+    }
 }
 
 void Notation::endNoteEntry()
@@ -153,7 +326,7 @@ void Notation::endNoteEntry()
     }
 
     hideShadowNote();
-    m_inputState->notifyAboutISChanged();
+    m_inputState->notifyAboutChanged();
 }
 
 void Notation::padNote(const Pad& pad)
@@ -163,7 +336,7 @@ void Notation::padNote(const Pad& pad)
     score()->startCmd();
     score()->padToggle(pad, ed);
     score()->endCmd();
-    m_inputState->notifyAboutISChanged();
+    m_inputState->notifyAboutChanged();
 }
 
 void Notation::putNote(const QPointF& pos, bool replace, bool insert)
@@ -179,7 +352,7 @@ deto::async::Notify Notation::notationChanged() const
     return m_notationChanged;
 }
 
-Ms::MasterScore* Notation::score() const
+Ms::Score* Notation::score() const
 {
     return m_score;
 }
@@ -269,4 +442,5 @@ INotationSelection* Notation::selection() const
 void Notation::select(Element* e, SelectType type, int staffIdx)
 {
     score()->select(e, type, staffIdx);
+    m_selection->notifyAboutChanged();
 }

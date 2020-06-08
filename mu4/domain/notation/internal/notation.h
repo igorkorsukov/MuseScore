@@ -22,6 +22,7 @@
 #include "../inotation.h"
 #include "actions/action.h"
 
+#include "igetscore.h"
 #include "notationinputstate.h"
 #include "notationselection.h"
 
@@ -29,13 +30,14 @@ namespace Ms {
 class MScore;
 class MasterScore;
 class ShadowNote;
+class Page;
 }
 
 namespace mu {
 namespace domain {
 namespace notation {
 class ScoreCallbacks;
-class Notation : public INotation
+class Notation : public INotation, public IGetScore
 {
 public:
     Notation();
@@ -44,7 +46,8 @@ public:
     //! NOTE Needed at the moment to initialize libmscore
     static void init();
 
-    bool load(const std::string& path, const Params& params) override;
+    bool load(const std::string& path) override;
+    void setViewSize(const QSizeF& vs) override;
     void paint(QPainter* p, const QRect& r) override;
 
     INotationInputState* inputState() const override;
@@ -62,10 +65,15 @@ public:
     INotationSelection* selection() const override;
     void select(Element* e, SelectType type, int staffIdx = 0) override;
 
+    Ms::Score* score() const;
+
 private:
 
-    Ms::MasterScore* score() const;
+    Ms::Page* point2page(const QPointF& p) const;
 
+    void selectFirstTopLeftOrLast();
+
+    QSizeF m_viewSize;
     Ms::MScore* m_scoreGlobal = nullptr;
     Ms::MasterScore* m_score = nullptr;
     ScoreCallbacks* m_scoreCallbacks = nullptr;

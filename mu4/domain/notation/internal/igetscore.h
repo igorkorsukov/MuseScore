@@ -16,39 +16,25 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 //=============================================================================
-#include "notationinputstate.h"
+#ifndef MU_DOMAIN_IGETSCORE_H
+#define MU_DOMAIN_IGETSCORE_H
 
-#include "libmscore/score.h"
-#include "libmscore/input.h"
-
-using namespace mu::domain::notation;
-
-NotationInputState::NotationInputState(IGetScore* getScore)
-    : m_getScore(getScore)
-{
+namespace Ms {
+class Score;
 }
 
-Ms::Score* NotationInputState::score() const
+namespace mu {
+namespace domain {
+namespace notation {
+class IGetScore
 {
-    return m_getScore->score();
+public:
+    virtual ~IGetScore() = default;
+
+    virtual Ms::Score* score() const = 0;
+};
+}
+}
 }
 
-deto::async::Notify NotationInputState::inputStateChanged() const
-{
-    return m_inputStateChanged;
-}
-
-void NotationInputState::notifyAboutChanged()
-{
-    m_inputStateChanged.notify();
-}
-
-bool NotationInputState::isNoteEnterMode() const
-{
-    return score()->inputState().noteEntryMode();
-}
-
-DurationType NotationInputState::duration() const
-{
-    return score()->inputState().duration().type();
-}
+#endif // MU_DOMAIN_IGETSCORE_H

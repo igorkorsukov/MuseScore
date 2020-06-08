@@ -50,6 +50,9 @@ public:
     bool isNoteEnterMode() const;
     void showShadowNote(const QPointF& pos);
 
+private slots:
+    void onViewSizeChanged();
+
 private:
 
     friend class NotationViewInputController;
@@ -74,7 +77,13 @@ private:
     void zoom(qreal mag, const QPoint& pos);
     // ---
 
+    qreal xoffset() const;
+    qreal yoffset() const;
+    void adjustPosition(const QRectF& logicRect);
+    void moveToPosition(const QPointF& logicPos);
+
     void onInputStateChanged();
+    void onSelectionChanged();
 
     std::shared_ptr<domain::notation::INotation> m_notation;
     QTransform m_matrix;
