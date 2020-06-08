@@ -24,11 +24,12 @@
 #include "modularity/ioc.h"
 #include "actions/iactionsdispatcher.h"
 #include "context/iglobalcontext.h"
+#include "async/asyncable.h"
 
 namespace mu {
 namespace scene {
 namespace notation {
-class NotationToolBarModel : public QAbstractListModel, public deto::async::Asyncable
+class NotationToolBarModel : public QAbstractListModel, public async::Asyncable
 {
     Q_OBJECT
     INJECT(notation_scene, actions::IActionsDispatcher, dispatcher)
@@ -65,8 +66,8 @@ private:
     ActionItem& item(const actions::ActionName& name);
     QList<ActionItem> m_items;
 
-    deto::async::Notify m_notationChanged;
-    deto::async::Notify m_inputStateChanged;
+    async::Notify m_notationChanged;
+    async::Notify m_inputStateChanged;
 };
 }
 }

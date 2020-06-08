@@ -347,7 +347,7 @@ void Notation::putNote(const QPointF& pos, bool replace, bool insert)
     m_notationChanged.notify();
 }
 
-deto::async::Notify Notation::notationChanged() const
+mu::async::Notify Notation::notationChanged() const
 {
     return m_notationChanged;
 }

@@ -31,12 +31,12 @@ public:
 
     void setCurrentNotation(const std::shared_ptr<domain::notation::INotation>& notation) override;
     std::shared_ptr<domain::notation::INotation> currentNotation() const override;
-    deto::async::Notify currentNotationChanged() const override;
+    async::Notify currentNotationChanged() const override;
 
 private:
 
     std::shared_ptr<domain::notation::INotation> m_notation;
-    deto::async::Notify m_notationChanged;
+    async::Notify m_notationChanged;
 };
 }
 }

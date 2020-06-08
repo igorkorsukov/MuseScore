@@ -50,7 +50,7 @@ public:
     virtual void endNoteEntry() = 0;
     virtual void padNote(const Pad& pad) = 0;
     virtual void putNote(const QPointF& pos, bool replace, bool insert) = 0;
-    virtual deto::async::Notify notationChanged() const = 0;
+    virtual async::Notify notationChanged() const = 0;
 
     // shadow note
     virtual void showShadowNote(const QPointF& p) = 0;

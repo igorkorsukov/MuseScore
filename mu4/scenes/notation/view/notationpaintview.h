@@ -28,12 +28,13 @@
 #include "domain/notation/inotationcreator.h"
 #include "actions/iactionsdispatcher.h"
 #include "context/iglobalcontext.h"
+#include "async/asyncable.h"
 
 namespace mu {
 namespace scene {
 namespace notation {
 class NotationViewInputController;
-class NotationPaintView : public QQuickPaintedItem, public deto::async::Asyncable
+class NotationPaintView : public QQuickPaintedItem, public async::Asyncable
 {
     Q_OBJECT
 

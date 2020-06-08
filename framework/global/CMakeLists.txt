@@ -20,7 +20,7 @@
 set(MODULE global)
 
 include(${CMAKE_CURRENT_LIST_DIR}/modularity/modularity.cmake)
-include(${PROJECT_SOURCE_DIR}/thirdparty/deto_async/async/async.cmake)
+include(${CMAKE_CURRENT_LIST_DIR}/async/async.cmake)
 
 set(MODULE_SRC
     ${MODULARITY_SRC}

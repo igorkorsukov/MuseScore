@@ -33,7 +33,7 @@ Ms::Score* NotationSelection::score() const
     return m_getScore->score();
 }
 
-deto::async::Notify NotationSelection::selectionChanged() const
+mu::async::Notify NotationSelection::selectionChanged() const
 {
     return m_selectionChanged;
 }

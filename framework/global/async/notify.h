@@ -16,26 +16,14 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 //=============================================================================
-#ifndef MU_DOMAIN_INOTATIONINPUTSTATE_H
-#define MU_DOMAIN_INOTATIONINPUTSTATE_H
+#ifndef MU_ASYNC_NOTIFY_H
+#define MU_ASYNC_NOTIFY_H
 
-#include "async/notify.h"
-#include "notationtypes.h"
-
+#include "thirdparty/deto_async/async/notify.h"
 namespace mu {
-namespace domain {
-namespace notation {
-class INotationInputState
-{
-public:
-    virtual ~INotationInputState() = default;
-
-    virtual async::Notify inputStateChanged() const = 0;
-    virtual bool isNoteEnterMode() const = 0;
-    virtual DurationType duration() const = 0;
-};
-}
+namespace async {
+using Notify = deto::async::Notify;
 }
 }
 
-#endif // MU_DOMAIN_INOTATIONINPUTSTATE_H
+#endif // MU_ASYNC_NOTIFY_H

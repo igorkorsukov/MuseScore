@@ -36,7 +36,7 @@ class NotationInputState : public INotationInputState
 public:
     NotationInputState(IGetScore* getScore);
 
-    deto::async::Notify inputStateChanged() const override;
+    async::Notify inputStateChanged() const override;
     void notifyAboutChanged();
 
     bool isNoteEnterMode() const override;
@@ -47,7 +47,7 @@ private:
     Ms::Score* score() const;
 
     IGetScore* m_getScore = nullptr;
-    deto::async::Notify m_inputStateChanged;
+    async::Notify m_inputStateChanged;
 };
 }
 }

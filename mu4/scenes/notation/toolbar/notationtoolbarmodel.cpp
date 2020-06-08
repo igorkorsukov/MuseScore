@@ -106,7 +106,8 @@ void NotationToolBarModel::onNotationChanged()
             updateState();
         });
     } else {
-        m_inputStateChanged = deto::async::Notify();
+        m_notationChanged.resetOnNotify(this);
+        m_inputStateChanged.resetOnNotify(this);
     }
 }
 

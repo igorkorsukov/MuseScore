@@ -33,7 +33,7 @@ Ms::Score* NotationInputState::score() const
     return m_getScore->score();
 }
 
-deto::async::Notify NotationInputState::inputStateChanged() const
+mu::async::Notify NotationInputState::inputStateChanged() const
 {
     return m_inputStateChanged;
 }

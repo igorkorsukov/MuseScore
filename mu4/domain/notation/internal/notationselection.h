@@ -36,7 +36,7 @@ class NotationSelection : public INotationSelection
 public:
     NotationSelection(IGetScore* getScore);
 
-    deto::async::Notify selectionChanged() const override;
+    async::Notify selectionChanged() const override;
     void notifyAboutChanged();
 
     bool isNone() const override;
@@ -47,7 +47,7 @@ private:
     Ms::Score* score() const;
 
     IGetScore* m_getScore = nullptr;
-    deto::async::Notify m_selectionChanged;
+    async::Notify m_selectionChanged;
 };
 }
 }

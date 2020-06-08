@@ -35,7 +35,7 @@ public:
 
     virtual void setCurrentNotation(const std::shared_ptr<domain::notation::INotation>& notation) = 0;
     virtual std::shared_ptr<domain::notation::INotation> currentNotation() const = 0;
-    virtual deto::async::Notify currentNotationChanged() const = 0;
+    virtual async::Notify currentNotationChanged() const = 0;
 };
 }
 }

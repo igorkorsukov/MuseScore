@@ -30,7 +30,7 @@ class INotationSelection
 public:
     virtual ~INotationSelection() = default;
 
-    virtual deto::async::Notify selectionChanged() const = 0;
+    virtual async::Notify selectionChanged() const = 0;
     virtual bool isNone() const = 0;
 
     virtual QRectF canvasBoundingRect() const = 0;
