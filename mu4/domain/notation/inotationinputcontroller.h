@@ -16,27 +16,24 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 //=============================================================================
-#ifndef MU_CONTEXT_IGLOBALCONTEXT_H
-#define MU_CONTEXT_IGLOBALCONTEXT_H
+#ifndef MU_DOMAIN_INOTATIONINPUTCONTROLLER_H
+#define MU_DOMAIN_INOTATIONINPUTCONTROLLER_H
 
-#include "modularity/imoduleexport.h"
-#include "domain/notation/inotation.h"
-#include "async/notify.h"
+#include <QPointF>
+#include "notationtypes.h"
 
 namespace mu {
-namespace context {
-class IGlobalContext : MODULE_EXPORT_INTERFACE
+namespace domain {
+namespace notation {
+class INotationInputController
 {
-    INTERFACE_ID(mu::context::IGlobalContext)
-
 public:
-    ~IGlobalContext() = default;
+    virtual ~INotationInputController() = default;
 
-    virtual void setCurrentNotation(const std::shared_ptr<domain::notation::INotation>& notation) = 0;
-    virtual std::shared_ptr<domain::notation::INotation> currentNotation() const = 0;
-    virtual async::Notify currentNotationChanged() const = 0;
+    virtual Element* hitElement(const QPointF& pos, float width) const = 0;
 };
 }
 }
+}
 
-#endif // MU_CONTEXT_IGLOBALCONTEXT_H
+#endif // MU_DOMAIN_INOTATIONINPUTCONTROLLER_H

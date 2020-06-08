@@ -23,9 +23,11 @@
 #include "domain/notation/notationactions.h"
 
 using namespace mu::scene::notation;
+using namespace mu::domain::notation;
 using namespace mu::actions;
 
 static constexpr int PIXELSSTEPSFACTOR = 5;
+static constexpr int PREF_UI_CANVAS_MISC_SELECTIONPROXIMITY = 6;
 
 NotationViewInputController::NotationViewInputController(NotationPaintView* view)
     : m_view(view)
@@ -65,18 +67,46 @@ void NotationViewInputController::wheelEvent(QWheelEvent* ev)
 void NotationViewInputController::mousePressEvent(QMouseEvent* ev)
 {
     QPoint logicPos = m_view->toLogical(ev->pos());
-    m_interactData.beginPoint = logicPos;
+    Qt::KeyboardModifiers keyState = ev->modifiers();
 
+    // note enter mode
     if (m_view->isNoteEnterMode()) {
         bool replace = ev->modifiers() & Qt::ShiftModifier;
         bool insert = ev->modifiers() & Qt::ControlModifier;
         dispatcher()->dispatch("domain/notation/put-note",
                                ActionData::make_arg3<QPoint, bool, bool>(logicPos, replace, insert));
+
+        return;
+    }
+
+    m_interactData.beginPoint = logicPos;
+    m_interactData.element = notationInputController()->hitElement(logicPos, hitWidth());
+
+    if (m_interactData.element) {
+        SelectType st = SelectType::SINGLE;
+        if (keyState == Qt::NoModifier) {
+            st = SelectType::SINGLE;
+        } else if (keyState & Qt::ShiftModifier) {
+            st = SelectType::RANGE;
+        } else if (keyState & Qt::ControlModifier) {
+            st = SelectType::ADD;
+        }
+
+        //! NOTE Maybe a better action?
+        m_view->notation()->select(m_interactData.element, st);
     }
 }
 
 void NotationViewInputController::mouseMoveEvent(QMouseEvent* ev)
 {
+    if (m_view->isNoteEnterMode()) {
+        return;
+    }
+
+    if (m_interactData.element) {
+        return;
+    }
+
     QPoint pos = m_view->toLogical(ev->pos());
     QPoint d = pos - m_interactData.beginPoint;
     int dx = d.x();
@@ -99,4 +129,18 @@ void NotationViewInputController::hoverMoveEvent(QHoverEvent* ev)
         QPoint pos = m_view->toLogical(ev->pos());
         m_view->showShadowNote(pos);
     }
+}
+
+INotationInputController* NotationViewInputController::notationInputController() const
+{
+    auto notation = m_view->notation();
+    if (!notation) {
+        return nullptr;
+    }
+    return notation->inputController();
+}
+
+float NotationViewInputController::hitWidth() const
+{
+    return PREF_UI_CANVAS_MISC_SELECTIONPROXIMITY * 0.5 / m_view->scale(); //(preferences.getInt(PREF_UI_CANVAS_MISC_SELECTIONPROXIMITY) * .5) / matrix().m11();
 }

@@ -25,6 +25,7 @@
 #include "igetscore.h"
 #include "notationinputstate.h"
 #include "notationselection.h"
+#include "notationinputcontroller.h"
 
 namespace Ms {
 class MScore;
@@ -65,11 +66,11 @@ public:
     INotationSelection* selection() const override;
     void select(Element* e, SelectType type, int staffIdx = 0) override;
 
+    INotationInputController* inputController() const override;
+
     Ms::Score* score() const;
 
 private:
-
-    Ms::Page* point2page(const QPointF& p) const;
 
     void selectFirstTopLeftOrLast();
 
@@ -80,6 +81,7 @@ private:
     Ms::ShadowNote* m_shadowNote = nullptr;
     NotationInputState* m_inputState = nullptr;
     NotationSelection* m_selection = nullptr;
+    NotationInputController* m_inputController = nullptr;
     async::Notify m_notationChanged;
 };
 }

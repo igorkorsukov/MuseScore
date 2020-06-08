@@ -63,6 +63,7 @@ Notation::Notation()
 
     m_inputState = new NotationInputState(this);
     m_selection = new NotationSelection(this);
+    m_inputController = new NotationInputController(this);
 }
 
 Notation::~Notation()
@@ -132,19 +133,6 @@ void Notation::paint(QPainter* p, const QRect& r)
 INotationInputState* Notation::inputState() const
 {
     return m_inputState;
-}
-
-Ms::Page* Notation::point2page(const QPointF& p) const
-{
-    if (score()->layoutMode() == LayoutMode::LINE) {
-        return score()->pages().isEmpty() ? 0 : score()->pages().front();
-    }
-    foreach (Page* page, score()->pages()) {
-        if (page->bbox().translated(page->pos()).contains(p)) {
-            return page;
-        }
-    }
-    return nullptr;
 }
 
 void Notation::startNoteEntry()
@@ -231,27 +219,29 @@ void Notation::selectFirstTopLeftOrLast()
     // choose page in current view (favor top left quadrant if possible)
     // select first (top/left) chordrest of that page in current view
     // or, CR at last selected position if that is in view
-    Page* p = nullptr;
+    Page* page = nullptr;
     QList<QPointF> points;
     points.append(QPoint(m_viewSize.width() * 0.25, m_viewSize.height() * 0.25));
     points.append(QPoint(0.0, 0.0));
     points.append(QPoint(0.0, m_viewSize.height()));
     points.append(QPoint(m_viewSize.width(), 0.0));
     points.append(QPoint(m_viewSize.width(), m_viewSize.height()));
-    int i = 0;
-    while (!p && i < points.size()) {
-        p = point2page(points[i]);
-        i++;
+    for (const QPointF& point : points) {
+        page = m_inputController->point2page(point);
+        if (page) {
+            break;
+        }
     }
-    if (p) {
+
+    if (page) {
         ChordRest* topLeft = nullptr;
         qreal tlY = 0.0;
         Fraction tlTick = Fraction(0,1);
         QRectF viewRect  = QRectF(0.0, 0.0, m_viewSize.width(), m_viewSize.height());
-        QRectF pageRect  = p->bbox().translated(p->x(), p->y());
+        QRectF pageRect  = page->bbox().translated(page->x(), page->y());
         QRectF intersect = viewRect & pageRect;
-        intersect.translate(-p->x(), -p->y());
-        QList<Element*> el = p->items(intersect);
+        intersect.translate(-page->x(), -page->y());
+        QList<Element*> el = page->items(intersect);
         ChordRest* lastSelected = score()->selection().currentCR();
         for (Element* e : el) {
             // loop through visible elements
@@ -443,4 +433,9 @@ void Notation::select(Element* e, SelectType type, int staffIdx)
 {
     score()->select(e, type, staffIdx);
     m_selection->notifyAboutChanged();
+}
+
+INotationInputController* Notation::inputController() const
+{
+    return m_inputController;
 }

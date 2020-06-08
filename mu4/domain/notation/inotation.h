@@ -27,6 +27,7 @@
 #include "async/notify.h"
 #include "inotationinputstate.h"
 #include "inotationselection.h"
+#include "inotationinputcontroller.h"
 #include "notationtypes.h"
 
 class QPainter;
@@ -60,6 +61,9 @@ public:
     // Select
     virtual INotationSelection* selection() const = 0;
     virtual void select(Element* e, SelectType type, int staffIdx = 0) = 0;
+
+    // Input (mouse)
+    virtual INotationInputController* inputController() const = 0;
 };
 }
 }

@@ -58,6 +58,8 @@ private:
 
     friend class NotationViewInputController;
 
+    std::shared_ptr<domain::notation::INotation> notation() const;
+
     // Draw
     void paint(QPainter* painter) override;
 
@@ -69,6 +71,7 @@ private:
     void hoverMoveEvent(QHoverEvent* event) override;
 
     QPoint toLogical(const QPoint& p) const;
+    QRect toLogical(const QRect& r) const;
     QPoint toPhysical(const QPoint& p) const;
 
     void moveScene(int dx, int dy);
@@ -80,8 +83,10 @@ private:
 
     qreal xoffset() const;
     qreal yoffset() const;
+    QRect viewport() const;
+
     void adjustPosition(const QRectF& logicRect);
-    void moveToPosition(const QPointF& logicPos);
+    void moveToPosition(const QPoint& logicPos);
 
     void onInputStateChanged();
     void onSelectionChanged();

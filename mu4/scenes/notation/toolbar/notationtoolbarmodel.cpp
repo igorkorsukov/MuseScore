@@ -128,11 +128,15 @@ void NotationToolBarModel::updateState()
         auto is = notation->inputState();
         if (is->isNoteEnterMode()) {
             item("domain/notation/note-input").checked = true;
-        }
 
-        item("domain/notation/pad-note-4").checked = is->duration() == DurationType::V_QUARTER;
-        item("domain/notation/pad-note-8").checked = is->duration() == DurationType::V_EIGHTH;
-        item("domain/notation/pad-note-16").checked = is->duration() == DurationType::V_16TH;
+            item("domain/notation/pad-note-4").checked = is->duration() == DurationType::V_QUARTER;
+            item("domain/notation/pad-note-8").checked = is->duration() == DurationType::V_EIGHTH;
+            item("domain/notation/pad-note-16").checked = is->duration() == DurationType::V_16TH;
+        } else {
+            for (ActionItem& item : m_items) {
+                item.checked = false;
+            }
+        }
     }
 
     item("domain/notation/file-open").enabled = true;

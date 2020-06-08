@@ -16,27 +16,35 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 //=============================================================================
-#ifndef MU_CONTEXT_IGLOBALCONTEXT_H
-#define MU_CONTEXT_IGLOBALCONTEXT_H
+#ifndef MU_DOMAIN_NOTATIONINPUTCONTROLLER_H
+#define MU_DOMAIN_NOTATIONINPUTCONTROLLER_H
 
-#include "modularity/imoduleexport.h"
-#include "domain/notation/inotation.h"
-#include "async/notify.h"
+#include "../inotationinputcontroller.h"
+#include "igetscore.h"
 
 namespace mu {
-namespace context {
-class IGlobalContext : MODULE_EXPORT_INTERFACE
+namespace domain {
+namespace notation {
+class NotationInputController : public INotationInputController
 {
-    INTERFACE_ID(mu::context::IGlobalContext)
-
 public:
-    ~IGlobalContext() = default;
+    NotationInputController(IGetScore* getScore);
 
-    virtual void setCurrentNotation(const std::shared_ptr<domain::notation::INotation>& notation) = 0;
-    virtual std::shared_ptr<domain::notation::INotation> currentNotation() const = 0;
-    virtual async::Notify currentNotationChanged() const = 0;
+    Element* hitElement(const QPointF& pos, float width) const override;
+
+    Ms::Page* point2page(const QPointF& p) const;
+
+private:
+
+    Ms::Score* score() const;
+    QList<Element*> hitElements(const QPointF& p_in, float w) const;
+
+    static bool elementIsLess(const Ms::Element* e1, const Ms::Element* e2);
+
+    IGetScore* m_getScore;
 };
 }
 }
+}
 
-#endif // MU_CONTEXT_IGLOBALCONTEXT_H
+#endif // MU_DOMAIN_NOTATIONINPUTCONTROLLER_H

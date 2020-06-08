@@ -119,6 +119,7 @@ void NotationPaintView::onSelectionChanged()
     }
 
     adjustPosition(selRect);
+    update();
 }
 
 bool NotationPaintView::isNoteEnterMode() const
@@ -161,21 +162,31 @@ qreal NotationPaintView::yoffset() const
     return m_matrix.dy();
 }
 
+QRect NotationPaintView::viewport() const
+{
+    return toLogical(QRect(0, 0, width(), height()));
+}
+
 void NotationPaintView::adjustPosition(const QRectF& logicRect)
 {
     //! TODO This is very simple adjustment of position.
     //! Need to port the logic from ScoreView::adjustCanvasPosition
-    QPointF posTL = logicRect.topLeft();
+    QPoint posTL = logicRect.topLeft().toPoint();
+
+    QRect viewRect = viewport();
+    if (viewRect.contains(posTL)) {
+        return;
+    }
+
     posTL.setX(posTL.x() - 300);
     posTL.setY(posTL.y() - 300);
     moveToPosition(posTL);
 }
 
-void NotationPaintView::moveToPosition(const QPointF& logicPos)
+void NotationPaintView::moveToPosition(const QPoint& logicPos)
 {
     QPoint viewTL = toLogical(QPoint(0, 0));
-    QPoint posTL = logicPos.toPoint();
-    moveScene(viewTL.x() - posTL.x(), viewTL.y() - posTL.y());
+    moveScene(viewTL.x() - logicPos.x(), viewTL.y() - logicPos.y());
 }
 
 void NotationPaintView::moveScene(int dx, int dy)
@@ -260,7 +271,17 @@ QPoint NotationPaintView::toLogical(const QPoint& p) const
     return m_matrix.inverted().map(p);
 }
 
+QRect NotationPaintView::toLogical(const QRect& r) const
+{
+    return m_matrix.inverted().mapRect(r);
+}
+
 QPoint NotationPaintView::toPhysical(const QPoint& p) const
 {
     return m_matrix.map(p);
+}
+
+std::shared_ptr<INotation> NotationPaintView::notation() const
+{
+    return m_notation;
 }
