@@ -34,6 +34,10 @@
 #include "platform/win/winaudiodriver.h"
 #endif
 
+#ifdef Q_OS_MACOS
+#include "platform/osx/osxaudiodriver.h"
+#endif
+
 using namespace mu::audio::engine;
 
 std::shared_ptr<AudioEngine> audioEngine = std::make_shared<AudioEngine>();
@@ -54,6 +58,10 @@ void AudioEngineModule::registerExports()
 
 #ifdef Q_OS_WIN
     framework::ioc()->registerExport<IAudioDriver>(moduleName(), new WinAudioDriver());
+#endif
+
+#ifdef Q_OS_MACOS
+    framework::ioc()->registerExport<IAudioDriver>(moduleName(), new OSXAudioDriver());
 #endif
 }
 

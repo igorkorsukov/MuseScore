@@ -33,8 +33,9 @@ elseif(PLATFORM_LINUX)
         ${CMAKE_CURRENT_LIST_DIR}/platform/lin/linuxaudiodriver.h
     )
 elseif(PLATFORM_OSX)
-    message(WARNING "Not implemented audio driver for OSX")
     set(DRIVER_SRC
+        ${CMAKE_CURRENT_LIST_DIR}/platform/osx/osxaudiodriver.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/platform/osx/osxaudiodriver.h
     )
 endif()
 
