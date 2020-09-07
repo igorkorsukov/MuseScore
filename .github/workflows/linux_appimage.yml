@@ -19,7 +19,7 @@ jobs:
          echo "::set-env name=commitmsg::${commitmsg}"
     - name: Build the AppImage
       run: |
-        sudo docker run -i -v "${PWD}:/MuseScore" "igorkorsukov/musescore:linux_appimage_latest" /MuseScore/build/docker/linux/build.sh
+        sudo docker run -i -v "${PWD}:/MuseScore" "igorkorsukov/musescore:linux_appimage_qt5150_x86-64_latest" /MuseScore/build/docker/linux/build.sh
     - name: Upload Linux AppImage artifact
       uses: actions/upload-artifact@v1
       with:
