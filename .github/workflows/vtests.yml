@@ -3,11 +3,11 @@ name: CI_vtests
 on:
   pull_request:
     branches:
-    - master
+    - master_off
     types: [opened, synchronize, reopened, labeled, unlabeled]
   push:
     branches:
-    - master
+    - master_off
 
 jobs:
   run_vtests:
