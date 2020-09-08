@@ -1,0 +1,27 @@
+name: CI_Windows
+
+on:
+  pull_request:
+    branches:
+    - master
+
+jobs:
+  windows_build:
+    runs-on: windows-2019
+    steps:
+    - name: Clone repository
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 3
+    - name: get commit message
+      run: |
+         set commitmsg="$(git log --format=%B -n 1 --skip 1 | head -1)"
+         echo "::set-env name=commitmsg::${commitmsg}"
+    - name: Build
+      run: |
+         docker run -i -v "Get-Location:C:\MuseScore" "igorkorsukov/musescore:windows_qt5151_x86-64_latest" C:\MuseScore\build\docker\windows\build.bat
+    - name: Upload artifact
+      uses: actions/upload-artifact@v1
+      with:
+        name: MuseScore_x86-64.7z
+        path: C:\MuseScore\MuseScore_x86-64.7z

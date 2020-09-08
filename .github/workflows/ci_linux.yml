@@ -1,12 +1,12 @@
-name: CI_Linux_AppImage
+name: CI_Linux
 
 on:
   pull_request:
     branches:
-    - master
+    - master_off
 
 jobs:
-  linux_appimage:
+  linux_build:
     runs-on: ubuntu-latest
     steps:
     - name: Clone repository
@@ -17,10 +17,10 @@ jobs:
       run: |
          export commitmsg="$(git log --format=%B -n 1 --skip 1 | head -1)"
          echo "::set-env name=commitmsg::${commitmsg}"
-    - name: Build the AppImage
+    - name: Build
       run: |
         sudo docker run -i -v "${PWD}:/MuseScore" "igorkorsukov/musescore:linux_appimage_qt5150_x86-64_latest" /MuseScore/build/docker/linux/build.sh
-    - name: Upload Linux AppImage artifact
+    - name: Upload artifact
       uses: actions/upload-artifact@v1
       with:
         name: MuseScore-x86_64.AppImage

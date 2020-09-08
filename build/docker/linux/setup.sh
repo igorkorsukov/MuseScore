@@ -203,5 +203,5 @@ apt-get clean autoclean
 apt-get autoremove --purge -y
 rm -rf /tmp/* /var/{cache,log,backups}/* /var/lib/apt/*
 
-echo "setup script done!!"
+echo "Setup script done"
 
