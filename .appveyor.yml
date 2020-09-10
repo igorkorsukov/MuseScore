@@ -37,34 +37,37 @@ matrix:
   fast_finish: true # stop all jobs if any job fails
   #allow_failures: # list jobs allowed to fail without stopping the rest
 
+# install:
+#   - cd %APPVEYOR_BUILD_FOLDER%
+#   - git submodule update --init --recursive
+#   - IF DEFINED ENCRYPT_SECRET_SSH (
+#     nuget install secure-file -ExcludeVersion &&
+#     secure-file\tools\secure-file -decrypt C:\MuseScore\build\appveyor\resources\osuosl_nighlies_rsa_nopp.enc -secret %ENCRYPT_SECRET_SSH%
+#     )
+#   - IF DEFINED ENCRYPT_SECRET_CERTIFICATE (
+#     nuget install secure-file -ExcludeVersion &&
+#     secure-file\tools\secure-file -decrypt C:\MuseScore\build\appveyor\resources\musescore.p12.enc -secret %ENCRYPT_SECRET_CERTIFICATE%
+#     )
 install:
-  - cd %APPVEYOR_BUILD_FOLDER%
-  - git submodule update --init --recursive
-  - IF DEFINED ENCRYPT_SECRET_SSH (
-    nuget install secure-file -ExcludeVersion &&
-    secure-file\tools\secure-file -decrypt C:\MuseScore\build\appveyor\resources\osuosl_nighlies_rsa_nopp.enc -secret %ENCRYPT_SECRET_SSH%
-    )
-  - IF DEFINED ENCRYPT_SECRET_CERTIFICATE (
-    nuget install secure-file -ExcludeVersion &&
-    secure-file\tools\secure-file -decrypt C:\MuseScore\build\appveyor\resources\musescore.p12.enc -secret %ENCRYPT_SECRET_CERTIFICATE%
-    )
+  - echo "install step"
 
 # scripts to run before build
 before_build:
-  - cmd: C:\MuseScore\build\appveyor\before_build.bat
+  - echo "before_build step"
+  #- cmd: C:\MuseScore\build\appveyor\before_build.bat
 
-build_script:
-  - cmd: C:\MuseScore\build\appveyor\build_script.bat
+# build_script:
+#   - cmd: C:\MuseScore\build\appveyor\build_script.bat
 
-after_build:
-  - cmd: C:\MuseScore\build\appveyor\after_build.bat
+# after_build:
+#   - cmd: C:\MuseScore\build\appveyor\after_build.bat
 
-on_success:
-  - ps: |
-        if ($env:APPVEYOR_PULL_REQUEST_NUMBER -eq $null -or ($env:APPVEYOR_PULL_REQUEST_NUMBER -ne $null -and $env:APPVEYOR_REPO_COMMIT_MESSAGE -like "*collect_artifacts*"))
-        {
-            Push-AppveyorArtifact $env:ARTIFACT_NAME -deploymentname musescore-binary
-            Push-AppveyorArtifact $env:DEBUG_SYMS_FILE -deploymentname musescore-dbg-info.sym
-            Push-AppveyorArtifact update_win_nightly.xml
-            Push-AppveyorArtifact appcast.xml
-        }
+# on_success:
+#   - ps: |
+#         if ($env:APPVEYOR_PULL_REQUEST_NUMBER -eq $null -or ($env:APPVEYOR_PULL_REQUEST_NUMBER -ne $null -and $env:APPVEYOR_REPO_COMMIT_MESSAGE -like "*collect_artifacts*"))
+#         {
+#             Push-AppveyorArtifact $env:ARTIFACT_NAME -deploymentname musescore-binary
+#             Push-AppveyorArtifact $env:DEBUG_SYMS_FILE -deploymentname musescore-dbg-info.sym
+#             Push-AppveyorArtifact update_win_nightly.xml
+#             Push-AppveyorArtifact appcast.xml
+#         }
