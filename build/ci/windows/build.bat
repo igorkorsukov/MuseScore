@@ -1,4 +1,7 @@
-XCOPY "C:\musescore_dependencies" ".\" /E /I /Y
+
+SET MU_DIR=%CD%
+
+XCOPY "C:\musescore_dependencies" %MU_DIR% /E /I /Y
 
 SET GENERATOR_NAME=Visual Studio 16 2019
 SET MSCORE_STABLE_BUILD="TRUE"
@@ -9,15 +12,12 @@ SET "JACK_DIR=C:\Program Files (x86)\Jack"
 SET PATH=%QT_DIR%\msvc2019_64\bin;%JACK_DIR%;%PATH% 
 
 
-REM CD C:\MuseScore
+CD %MU_DIR% 
 CALL msvc_build.bat revision 
-SET /p MSREVISION=<mscore\revision.h
-
 CALL msvc_build.bat relwithdebinfo 
 CALL msvc_build.bat installrelwithdebinfo
 
 ECHO "7z package"
-REM CD C:\MuseScore
 COPY mscore\revision.h msvc.install_x64\revision.h
 
 7z a MuseScore_x86-64.7z msvc.install_x64

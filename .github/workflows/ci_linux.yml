@@ -3,7 +3,7 @@ name: CI_Linux
 on:
   pull_request:
     branches:
-    - master_off
+    - master
 
 jobs:
   linux_build:
@@ -13,10 +13,6 @@ jobs:
       uses: actions/checkout@v2
       with:
         fetch-depth: 3
-    - name: get commit message
-      run: |
-         export commitmsg="$(git log --format=%B -n 1 --skip 1 | head -1)"
-         echo "::set-env name=commitmsg::${commitmsg}"
     - name: Build
       run: |
         sudo docker run -i -v "${PWD}:/MuseScore" "igorkorsukov/musescore:linux_appimage_qt5150_x86-64_latest" /MuseScore/build/docker/linux/build.sh

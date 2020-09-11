@@ -13,10 +13,6 @@ jobs:
       uses: actions/checkout@v2
       with:
         fetch-depth: 3
-    - name: get commit message
-      run: |
-         set commitmsg="$(git log --format=%B -n 1 --skip 1 | head -1)"
-         echo "::set-env name=commitmsg::${commitmsg}"
     - name: Setup environment
       run: |
          build\ci\windows\setup.bat
