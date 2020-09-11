@@ -6,8 +6,8 @@ on:
     - master
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
+  build_docker:
+    runs-on: ubuntu-18.04
     steps:
     - name: Clone repository
       uses: actions/checkout@v2
@@ -21,3 +21,21 @@ jobs:
       with:
         name: MuseScore-x86_64.AppImage
         path: ./build.release/MuseScore-x86_64.AppImage
+  build_raw:
+    runs-on: ubuntu-18.04
+    steps:
+    - name: Clone repository
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 3
+    - name: Setup environment
+      run: |
+        ./build/ci/linux/setup.sh
+    - name: Build
+      run: |
+          ./build/ci/linux/build.sh    
+    - name: Upload artifact
+      uses: actions/upload-artifact@v1
+      with:
+        name: MuseScore-x86_64.AppImage
+        path: ./build.release/MuseScore-x86_64.AppImage        
