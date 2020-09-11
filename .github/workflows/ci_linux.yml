@@ -6,21 +6,28 @@ on:
     - master
 
 jobs:
-  build_docker:
+  cancel_previous:
     runs-on: ubuntu-18.04
     steps:
-    - name: Clone repository
-      uses: actions/checkout@v2
+    - name: Cancel Previous Runs
+      uses: styfle/cancel-workflow-action@0.5.0
       with:
-        fetch-depth: 3
-    - name: Build
-      run: |
-        sudo docker run -i -v "${PWD}:/MuseScore" "igorkorsukov/musescore:linux_appimage_qt5150_x86-64_latest" /MuseScore/build/ci/linux/build.sh
-    - name: Upload artifact
-      uses: actions/upload-artifact@v1
-      with:
-        name: MuseScore-x86_64.AppImage
-        path: ./build.release/MuseScore-x86_64.AppImage
+        access_token: ${{ github.token }}
+  # build_docker:
+  #   runs-on: ubuntu-18.04
+  #   steps:
+  #   - name: Clone repository
+  #     uses: actions/checkout@v2
+  #     with:
+  #       fetch-depth: 3
+  #   - name: Build
+  #     run: |
+  #       sudo docker run -i -v "${PWD}:/MuseScore" "igorkorsukov/musescore:linux_appimage_qt5150_x86-64_latest" /MuseScore/build/ci/linux/build.sh
+  #   - name: Upload artifact
+  #     uses: actions/upload-artifact@v1
+  #     with:
+  #       name: MuseScore-x86_64.AppImage
+  #       path: ./build.release/MuseScore-x86_64.AppImage
   build_raw:
     runs-on: ubuntu-18.04
     steps:
@@ -30,10 +37,10 @@ jobs:
         fetch-depth: 3
     - name: Setup environment
       run: |
-        ./build/ci/linux/setup.sh
+        sudo bash ./build/ci/linux/setup.sh
     - name: Build
       run: |
-          ./build/ci/linux/build.sh    
+        bash ./build/ci/linux/build.sh    
     - name: Upload artifact
       uses: actions/upload-artifact@v1
       with:

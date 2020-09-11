@@ -8,10 +8,18 @@ cd "$(dirname "$(readlink -f "${0}")")/../../../.."
 ##########################################################################
 # SETUP ENVIRONMENT
 ##########################################################################
+echo "=== ENVIRONMENT === "
+
 ENV_FILE=./musescore_environment.sh
+cat ${ENV_FILE}
 . ${ENV_FILE}
 
-echo "=== ENVIRONMENT === "
+echo "===================="
+ls -all /home/runner/work/MuseScore/appimagetool
+whereis appimagetool
+echo "===================="
+
+echo " "
 ${CXX} --version 
 ${CC} --version
 echo " "
