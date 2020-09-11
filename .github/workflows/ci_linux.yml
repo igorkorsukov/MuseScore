@@ -23,6 +23,9 @@ jobs:
     - name: Build
       run: |
         sudo docker run -i -v "${PWD}:/MuseScore" "igorkorsukov/musescore:linux_appimage_qt5150_x86-64_latest" /MuseScore/build/ci/linux/build.sh
+    - name: Package 
+      run: |
+        sudo bash ./build/ci/linux/package.sh   
     - name: Upload artifact
       uses: actions/upload-artifact@v1
       with:
