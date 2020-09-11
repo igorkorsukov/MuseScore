@@ -2,6 +2,9 @@
 
 echo "Package MuseScore"
 
+# Go one-up from MuseScore root dir regardless of where script was run from:
+cd "$(dirname "$(readlink -f "${0}")")/../../../.."
+
 echo "=== ENVIRONMENT === "
 
 ENV_FILE=./musescore_environment.sh
@@ -45,7 +48,7 @@ mv "${appdir}/bin/findlib" "${appdir}/../findlib"
 # Colon-separated list of root directories containing QML files.
 # Needed for linuxdeploy-plugin-qt to scan for QML imports.
 # Qml files can be in different directories, the qmlimportscanner will go through everything recursively.
-export QML_SOURCES_PATHS=/MuseScore/
+export QML_SOURCES_PATHS=./
 
 linuxdeploy --appdir "${appdir}" # adds all shared library dependencies
 linuxdeploy-plugin-qt --appdir "${appdir}" # adds all Qt dependencies
