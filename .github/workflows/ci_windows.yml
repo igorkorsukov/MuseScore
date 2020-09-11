@@ -3,7 +3,7 @@ name: CI_Windows
 on:
   pull_request:
     branches:
-    - master_off
+    - master
 
 jobs:
   cancel_previous:
@@ -26,6 +26,9 @@ jobs:
     - name: Build
       run: |
         build\ci\windows\build.bat
+    - name: Package 
+      run: |
+        build\ci\windows\package.bat  
     - name: Upload artifact
       uses: actions/upload-artifact@v1
       with:

@@ -40,7 +40,10 @@ jobs:
         sudo bash ./build/ci/linux/setup.sh
     - name: Build
       run: |
-        bash ./build/ci/linux/build.sh    
+        bash ./build/ci/linux/build.sh  
+    - name: Package 
+      run: |
+        bash ./build/ci/linux/package.sh        
     - name: Upload artifact
       uses: actions/upload-artifact@v1
       with:
