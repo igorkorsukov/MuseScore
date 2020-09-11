@@ -6,7 +6,7 @@ on:
     - master
 
 jobs:
-  windows_build:
+  build:
     runs-on: windows-2019
     steps:
     - name: Clone repository
@@ -15,10 +15,10 @@ jobs:
         fetch-depth: 3
     - name: Setup environment
       run: |
-         build\ci\windows\setup.bat
+        build\ci\windows\setup.bat
     - name: Build
       run: |
-         build\ci\windows\build.bat
+        build\ci\windows\build.bat
     - name: Upload artifact
       uses: actions/upload-artifact@v1
       with:
