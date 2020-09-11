@@ -1,7 +1,7 @@
 ECHO "Setup Windows docker image for build MuseScore"
 
 :: Install tools
-choco install -y git.install
+REM choco install -y git.install
 choco install -y wget
 choco install -y 7zip.install
 REM choco install -y wixtoolset
@@ -29,7 +29,5 @@ SETX PATH=%JACK_DIR%;%PATH% /m
 
 CALL "wget.exe" -q --show-progress --no-check-certificate "https://s3.amazonaws.com/utils.musescore.org/dependencies.7z" -O  %TEMP_DIR%\dependencies.7z
 CALL "7z" x -y %TEMP_DIR%\dependencies.7z "-oC:\musescore_dependencies"
-
-rmdir /Q /S "C:\TEMP"
 
 ECHO "Setup script done"

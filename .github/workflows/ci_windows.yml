@@ -17,11 +17,14 @@ jobs:
       run: |
          set commitmsg="$(git log --format=%B -n 1 --skip 1 | head -1)"
          echo "::set-env name=commitmsg::${commitmsg}"
+    - name: Setup environment
+      run: |
+         build\ci\windows\setup.bat
     - name: Build
       run: |
-         docker run -i -v "Get-Location:C:\MuseScore" "igorkorsukov/musescore:windows_qt5151_x86-64_latest" C:\MuseScore\build\docker\windows\build.bat
+         build\ci\windows\build.bat
     - name: Upload artifact
       uses: actions/upload-artifact@v1
       with:
         name: MuseScore_x86-64.7z
-        path: C:\MuseScore\MuseScore_x86-64.7z
+        path: MuseScore_x86-64.7z
