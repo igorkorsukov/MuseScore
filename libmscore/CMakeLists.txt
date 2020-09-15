@@ -159,7 +159,7 @@ xcode_pch(libmscore all)
 vstudio_pch( libmscore )
 
 # MSVC does not depend on mops1 & mops2 for PCH
-#if (NOT MSVC)
-#   ADD_DEPENDENCIES(libmscore mops1)
-#   ADD_DEPENDENCIES(libmscore mops2)
-#endif (NOT MSVC)
+if (NOT MSVC)
+   ADD_DEPENDENCIES(libmscore mops1)
+   ADD_DEPENDENCIES(libmscore mops2)
+endif (NOT MSVC)

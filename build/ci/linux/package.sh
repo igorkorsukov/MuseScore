@@ -35,16 +35,6 @@ appdir="$(basename "${prefix}")" # directory that will become the AppImage
 # Prevent linuxdeploy setting RUNPATH in binaries that shouldn't have it
 mv "${appdir}/bin/findlib" "${appdir}/../findlib"
 
-# Remove Qt plugins for MySQL and PostgreSQL to prevent
-# linuxdeploy-plugin-qt from failing due to missing dependencies.
-# SQLite plugin alone should be enough for our AppImage.
-# rm -f ${QT_PATH}/plugins/sqldrivers/libqsql{mysql,psql}.so
-#qt_sql_drivers_path="${QT_PATH}/plugins/sqldrivers"
-#qt_sql_drivers_tmp="/tmp/qtsqldrivers"
-#mkdir -p "$qt_sql_drivers_tmp"
-#mv "${qt_sql_drivers_path}/libqsqlmysql.so" "${qt_sql_drivers_tmp}/libqsqlmysql.so"
-#mv "${qt_sql_drivers_path}/libqsqlpsql.so" "${qt_sql_drivers_tmp}/libqsqlpsql.so"
-
 # Colon-separated list of root directories containing QML files.
 # Needed for linuxdeploy-plugin-qt to scan for QML imports.
 # Qml files can be in different directories, the qmlimportscanner will go through everything recursively.
@@ -54,10 +44,6 @@ linuxdeploy --appdir "${appdir}" # adds all shared library dependencies
 linuxdeploy-plugin-qt --appdir "${appdir}" # adds all Qt dependencies
 
 unset QML_SOURCES_PATHS
-
-# In case this container is reused multiple times, return the moved libraries back
-#mv "${qt_sql_drivers_tmp}/libqsqlmysql.so" "${qt_sql_drivers_path}/libqsqlmysql.so"
-#mv "${qt_sql_drivers_tmp}/libqsqlpsql.so" "${qt_sql_drivers_path}/libqsqlpsql.so"
 
 # Put the non-RUNPATH binaries back
 mv "${appdir}/../findlib" "${appdir}/bin/findlib"

@@ -42,32 +42,17 @@ if (MSVC)
       set(_all_h_file "${PROJECT_SOURCE_DIR}/all.h")
 endif (MSVC)
 
-#if (Qt5Widgets_VERSION VERSION_GREATER_EQUAL "5.11.0")
-#      find_package(Qt5QuickCompiler)
-#      qtquick_compiler_add_resources(qrc_files ${PROJECT_SOURCE_DIR}/mtest/mtest.qrc
-#            ${PROJECT_SOURCE_DIR}/framework/fonts/fonts_Bravura.qrc
-#            ${PROJECT_SOURCE_DIR}/framework/fonts/fonts_Campania.qrc
-#            ${PROJECT_SOURCE_DIR}/framework/fonts/fonts_Free.qrc
-#            ${PROJECT_SOURCE_DIR}/framework/fonts/fonts_FreeSerif.qrc
-#            ${PROJECT_SOURCE_DIR}/framework/fonts/fonts_Gootville.qrc
-#            ${PROJECT_SOURCE_DIR}/framework/fonts/fonts_MScore.qrc
-#            ${PROJECT_SOURCE_DIR}/framework/fonts/fonts_MuseJazz.qrc
-#            ${PROJECT_SOURCE_DIR}/framework/fonts/fonts_Smufl.qrc
-#            ${PROJECT_SOURCE_DIR}/framework/fonts/fonts_Tabulature.qrc
-#      )
-#else (Qt5Widgets_VERSION VERSION_GREATER_EQUAL "5.11.0")
-      QT5_ADD_RESOURCES(qrc_files ${PROJECT_SOURCE_DIR}/mtest/mtest.qrc
-          ${PROJECT_SOURCE_DIR}/framework/fonts/fonts_Bravura.qrc
-          ${PROJECT_SOURCE_DIR}/framework/fonts/fonts_Campania.qrc
-          ${PROJECT_SOURCE_DIR}/framework/fonts/fonts_Free.qrc
-          ${PROJECT_SOURCE_DIR}/framework/fonts/fonts_FreeSerif.qrc
-          ${PROJECT_SOURCE_DIR}/framework/fonts/fonts_Gootville.qrc
-          ${PROJECT_SOURCE_DIR}/framework/fonts/fonts_MScore.qrc
-          ${PROJECT_SOURCE_DIR}/framework/fonts/fonts_MuseJazz.qrc
-          ${PROJECT_SOURCE_DIR}/framework/fonts/fonts_Smufl.qrc
-          ${PROJECT_SOURCE_DIR}/framework/fonts/fonts_Tabulature.qrc
-      )
-#endif (Qt5Widgets_VERSION VERSION_GREATER_EQUAL "5.11.0")
+QT5_ADD_RESOURCES(qrc_files ${PROJECT_SOURCE_DIR}/mtest/mtest.qrc
+      ${PROJECT_SOURCE_DIR}/framework/fonts/fonts_Bravura.qrc
+      ${PROJECT_SOURCE_DIR}/framework/fonts/fonts_Campania.qrc
+      ${PROJECT_SOURCE_DIR}/framework/fonts/fonts_Free.qrc
+      ${PROJECT_SOURCE_DIR}/framework/fonts/fonts_FreeSerif.qrc
+      ${PROJECT_SOURCE_DIR}/framework/fonts/fonts_Gootville.qrc
+      ${PROJECT_SOURCE_DIR}/framework/fonts/fonts_MScore.qrc
+      ${PROJECT_SOURCE_DIR}/framework/fonts/fonts_MuseJazz.qrc
+      ${PROJECT_SOURCE_DIR}/framework/fonts/fonts_Smufl.qrc
+      ${PROJECT_SOURCE_DIR}/framework/fonts/fonts_Tabulature.qrc
+)
 
 add_library (testResources STATIC
       ${qrc_files}
@@ -85,7 +70,6 @@ set (SOURCE_LIB
       testutils.cpp
       mtestglobals.cpp
 
-      #${qrc_files}
       ${BB_SRC}
       ${CAPELLA_SRC}
       ${MUSICXML_SRC}
@@ -130,7 +114,6 @@ endif (MSVC)
 add_library(testutils_mscoreapp STATIC
       testutils.cpp
       mscoreappresources.cpp
-      #${qrc_files}
       )
 
 if (MSVC)
