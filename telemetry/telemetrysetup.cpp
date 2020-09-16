@@ -26,12 +26,16 @@
 
 #include "models/telemetrypermissionmodel.h"
 
+#include "config.h"
+#include "log.h"
+
 //---------------------------------------------------------
 //   TelemetrySetup
 //---------------------------------------------------------
 
 TelemetrySetup::TelemetrySetup()
       {
+    LOGI() << "TELEMETRY_TRACK_ID: " << TELEMETRY_TRACK_ID;
       }
 
 //---------------------------------------------------------
