@@ -29,6 +29,7 @@
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QProcess>
+#include <QDebug>
 
 namespace Ms {
 

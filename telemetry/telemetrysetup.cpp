@@ -35,7 +35,6 @@
 
 TelemetrySetup::TelemetrySetup()
       {
-    LOGI() << "TELEMETRY_TRACK_ID: " << TELEMETRY_TRACK_ID;
       }
 
 //---------------------------------------------------------

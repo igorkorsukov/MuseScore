@@ -1,4 +1,0 @@
-#!/usr/bin/env bash
-
-TELEMETRY_TRACK_ID=$1
-echo "TELEMETRY_TRACK_ID: ${TELEMETRY_TRACK_ID}"
