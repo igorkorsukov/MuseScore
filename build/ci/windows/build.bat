@@ -1,19 +1,18 @@
 
-SET MU_DIR=%CD%
 
-XCOPY "C:\musescore_dependencies" %MU_DIR% /E /I /Y
+XCOPY "C:\musescore_dependencies" %CD% /E /I /Y
 
+SET BUILD_NUMBER=42
+SET TARGET_PROCESSOR_BITS=64
 SET GENERATOR_NAME=Visual Studio 16 2019
 SET MSCORE_STABLE_BUILD="TRUE"
 
 :: TODO We need define paths during image creation
-SET "QT_DIR=C:\Qt\5.15.1"
+SET "QT_DIR=C:\Qt\5.9.9"
 SET "JACK_DIR=C:\Program Files (x86)\Jack"
-SET PATH=%QT_DIR%\msvc2019_64\bin;%JACK_DIR%;%PATH% 
+SET PATH=%QT_DIR%\msvc2017_64\bin;%JACK_DIR%;%PATH% 
 
-
-CD %MU_DIR% 
 CALL msvc_build.bat revision 
-CALL msvc_build.bat relwithdebinfo 
+CALL msvc_build.bat relwithdebinfo %TARGET_PROCESSOR_BITS% %BUILD_NUMBER%
 CALL msvc_build.bat installrelwithdebinfo
 

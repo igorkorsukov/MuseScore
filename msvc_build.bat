@@ -73,6 +73,8 @@ IF NOT "%3"=="" (
    SET BUILD_AUTOUPDATE="ON"
    )
 
+ECHO "[bb] BUILD_NUMBER: %BUILD_NUMBER%"   
+
 IF "%BUILD_WIN_PORTABLE%"=="ON" (
     SET "INSTALL_FOLDER=MuseScorePortable\App\MuseScore"
     SET "BUILD_AUTOUPDATE=OFF"

@@ -3,16 +3,18 @@ name: CI_Windows
 on:
   pull_request:
     branches:
-    - master_off
+    - my/3.x
 
+env:
+  MU_BUILD_CONFIG: stable
 jobs:
   build:
     runs-on: windows-2019
     steps:
-    - name: Cancel Previous Runs
-      uses: styfle/cancel-workflow-action@0.5.0
-      with:
-        access_token: ${{ github.token }}
+    # - name: Cancel Previous Runs
+    #   uses: styfle/cancel-workflow-action@0.5.0
+    #   with:
+    #     access_token: ${{ github.token }}
     - name: Clone repository
       uses: actions/checkout@v2
       with:
@@ -24,10 +26,11 @@ jobs:
       run: |
         build\ci\windows\build.bat
     - name: Package 
-      run: |
-        build\ci\windows\package.bat  
+      run: |      
+        build\ci\windows\package.bat %MU_BUILD_CONFIG% ${{ secrets.WIN_SIGN_CERTIFICATE_ENCRYPT_SECRET }} ${{ secrets.WIN_SIGN_CERTIFICATE_PASSWORD }}
+      shell: cmd
     - name: Upload artifact
       uses: actions/upload-artifact@v1
       with:
-        name: MuseScore_x86-64.7z
-        path: MuseScore_x86-64.7z
+        name: MuseScore
+        path: artefacts\
