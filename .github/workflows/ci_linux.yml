@@ -21,11 +21,8 @@ jobs:
       run: |
         sudo bash ./build/ci/linux/setup.sh
     - name: Build
-      env: 
-        TELEMETRY_TRACK_ID: ${{ secrets.TELEMETRY_TRACK_ID }}
       run: |
-        export TELEMETRY_TRACK_ID=${{ secrets.TELEMETRY_TRACK_ID }}
-        sudo bash ./build/ci/linux/build.sh  
+        sudo bash ./build/ci/linux/build.sh ${{ secrets.TELEMETRY_TRACK_ID }}
     - name: Package 
       run: |
         sudo bash ./build/ci/linux/package.sh

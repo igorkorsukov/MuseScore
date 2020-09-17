@@ -9,8 +9,8 @@ cd "$(dirname "$(readlink -f "${0}")")/../../../.."
 # SETUP ENVIRONMENT
 ##########################################################################
 echo "=== ENVIRONMENT === "
-env
-echo "TELEMETRY_TRACK_ID: "${TELEMETRY_TRACK_ID}
+
+TELEMETRY_TRACK_ID=$1
 
 ENV_FILE=./musescore_environment.sh
 cat ${ENV_FILE}
@@ -32,6 +32,8 @@ echo " "
 linuxdeploy --list-plugins
 echo "===================="
 echo " "
+env
+echo " "
 
 
 ##########################################################################
@@ -41,6 +43,6 @@ echo " "
 cd MuseScore
 #rm -rf ./build.*
 make revision
-make "$@" portable
+make "TELEMETRY_TRACK_ID=${TELEMETRY_TRACK_ID}" portable
 cd ..
 
