@@ -24,7 +24,7 @@ jobs:
         build\ci\windows\setup.bat
     - name: Build
       run: |
-        build\ci\windows\build.bat
+        build\ci\windows\build.bat ${{ secrets.TELEMETRY_TRACK_ID }}
     - name: Package 
       run: |      
         build\ci\windows\package.bat %MU_BUILD_CONFIG% ${{ secrets.WIN_SIGN_CERTIFICATE_ENCRYPT_SECRET }} ${{ secrets.WIN_SIGN_CERTIFICATE_PASSWORD }}
