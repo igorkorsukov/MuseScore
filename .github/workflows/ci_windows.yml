@@ -19,12 +19,15 @@ jobs:
       uses: actions/checkout@v2
       with:
         fetch-depth: 3
+    - name: Fetch submodules
+      run: |
+        git submodule update --init --recursive
     - name: Setup environment
       run: |
         build\ci\windows\setup.bat
     - name: Build
       run: |
-        build\ci\windows\build.bat ${{ secrets.TELEMETRY_TRACK_ID }}
+        build\ci\windows\build.bat ${{ secrets.TELEMETRY_TRACK_ID }} ${{ secrets.CRASH_LOG_SERVER_URL }}
     - name: Package 
       run: |      
         build\ci\windows\package.bat %MU_BUILD_CONFIG% ${{ secrets.WIN_SIGN_CERTIFICATE_ENCRYPT_SECRET }} ${{ secrets.WIN_SIGN_CERTIFICATE_PASSWORD }}
