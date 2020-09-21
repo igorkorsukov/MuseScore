@@ -31,8 +31,6 @@ jobs:
     - name: Package 
       run: |      
         build\ci\windows\test\package.bat %MU_BUILD_CONFIG% ${{ secrets.WIN_SIGN_CERTIFICATE_ENCRYPT_SECRET }} ${{ secrets.WIN_SIGN_CERTIFICATE_PASSWORD }}
-        echo "[wf] after pack ARTIFACT_NAME: %ARTIFACT_NAME%"
-        echo "::set-env name=MU_ARTIFACT_NAME::%ARTIFACT_NAME%"
       shell: cmd
     # - name: Upload artifact on GitHub
     #   uses: actions/upload-artifact@v1
@@ -41,6 +39,5 @@ jobs:
     #     path: artefacts\
     - name: Publish package
       run: |
-        echo "[wf] befor pub ARTIFACT_NAME: %MU_ARTIFACT_NAME%"
-        build\ci\windows\publish.bat %MU_ARTIFACT_NAME% ${{ secrets.OSUOSL_SSH_ENCRYPT_SECRET }} 
+        build\ci\windows\publish.bat ${{ secrets.OSUOSL_SSH_ENCRYPT_SECRET }} 
       shell: cmd   
