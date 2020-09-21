@@ -12,16 +12,14 @@ IF [%1]==[] (
 
 IF [%2]==[] (
     ECHO "Try get artifact name from %ARTIFACTS_DIR%\artifact_name.env"
-    
-    type %ARTIFACTS_DIR%/artifact_name.env
 
-    SET /p ARTIFACT_NAME=<%ARTIFACTS_DIR%/artifact_name.env
-    ECHO "[publish] ARTIFACT_NAME: %ARTIFACT_NAME%" 
-    SET ARTIFACT_PATH=%ARTIFACTS_DIR%\%ARTIFACT_NAME%
+    type %ARTIFACTS_DIR%\artifact_name.env
+
+    SET /p ARTIFACT_NAME=<%ARTIFACTS_DIR%\artifact_name.env
 )
 
-IF %ARTIFACT_PATH% == "" (
-    ECHO "Not set artifact path"
+IF "%ARTIFACT_NAME%" == "" (
+    ECHO "Not set artifact name"
     EXIT 1
 )
 
@@ -36,7 +34,17 @@ where /q secure-file
 IF ERRORLEVEL 1 ( choco install -y choco install -y --ignore-checksums secure-file )
 secure-file -decrypt build\ci\tools\osuosl\osuosl_nighlies_rsa_nopp.enc -secret %OSUOSL_SSH_ENCRYPT_SECRET%
 
-SET SSH_IDENTITY=build\ci\tools\osuosl\osuosl_nighlies_rsa_nopp
+CD %ARTIFACTS_DIR%
+
+SET SSH_IDENTITY=..\build\ci\tools\osuosl\osuosl_nighlies_rsa_nopp
+icacls %SSH_IDENTITY% /inheritance:r
+icacls %SSH_IDENTITY%y /grant:r "%username%":"(R)"
+
+IF NOT EXIST %ARTIFACT_NAME% (
+    ECHO "Not exists artifact, name: %ARTIFACT_NAME%"
+    EXIT 1
+)
 
 scp -oStrictHostKeyChecking=no -C -i %SSH_IDENTITY% %ARTIFACT_NAME% musescore-nightlies@ftp-osl.osuosl.org:~/ftp/windows/
 
+CD ..
