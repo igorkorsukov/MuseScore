@@ -3,7 +3,7 @@ name: CI_Linux
 on:
   pull_request:
     branches:
-    - my/3.x_off
+    - my/3.x
 
 jobs:
   build:
@@ -30,4 +30,7 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: MuseScore-x86_64.AppImage
-        path: ./build.release/MuseScore-*******x86_64.AppImage
+        path: ./artifacts/
+    - name: Publish package
+      run: |
+        sudo bash ./build/ci/linux/publish.sh ${{ secrets.OSUOSL_SSH_ENCRYPT_SECRET }} 

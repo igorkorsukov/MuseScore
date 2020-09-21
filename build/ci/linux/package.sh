@@ -215,5 +215,12 @@ while [[ "$(dirname "${parent_dir}")" != "${parent_dir}" ]]; do
   parent_dir="$(dirname "$parent_dir")"
 done
 
-ls -lh "${created_files[@]}"
+
+ARTIFACTS_DIR=../build.artifacts
+ARTIFACT_NAME=${appimage}
+
+mv ${ARTIFACT_NAME} ${ARTIFACTS_DIR}/${ARTIFACT_NAME}
+echo ${ARTIFACT_NAME} > ${ARTIFACTS_DIR}/artifact_name.env
+
+ls -lh ${ARTIFACTS_DIR}
 echo "Package has finished!" 
