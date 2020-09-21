@@ -32,8 +32,11 @@ jobs:
       run: |      
         build\ci\windows\package.bat %MU_BUILD_CONFIG% ${{ secrets.WIN_SIGN_CERTIFICATE_ENCRYPT_SECRET }} ${{ secrets.WIN_SIGN_CERTIFICATE_PASSWORD }}
       shell: cmd
-    - name: Upload artifact
+    - name: Upload artifact on GitHub
       uses: actions/upload-artifact@v1
       with:
         name: MuseScore
         path: artefacts\
+    - name: Publish package
+      run: |
+        build\ci\windows\publish.bat   

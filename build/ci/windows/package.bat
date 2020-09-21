@@ -6,6 +6,7 @@ SET INSTALL_DIR=msvc.install_x64
 SET ARTEFACTS_DIR=artefacts
 SET TARGET_PROCESSOR_BITS=64
 SET TARGET_PROCESSOR_ARCH=x86_64
+SET PUBLISH_SERVER_URL=https://ftp.osuosl.org/pub/musescore-nightlies/windows/
 
 :: For MSI
 SET SIGN_CERTIFICATE_ENCRYPT_SECRET=%2
@@ -13,6 +14,9 @@ SET SIGN_CERTIFICATE_PASSWORD=%3
 SET SIGNTOOL="C:\Program Files (x86)\Windows Kits\10\bin\x64\signtool.exe"
 SET UUIDGEN="C:\Program Files (x86)\Windows Kits\10\bin\x64\uuidgen.exe"
 SET WIX_DIR=%WIX%
+
+
+MKDIR %ARTEFACTS_DIR%
 
 :: Setup package type
 IF %BUILD_CONFIG% == stable ( 
@@ -53,7 +57,8 @@ goto END_SUCCESS
 :PACK_MSI
 
 :: sign dlls and exe files
-choco install -y --ignore-checksums secure-file
+where /q secure-file
+IF ERRORLEVEL 1 ( choco install -y choco install -y --ignore-checksums secure-file )
 secure-file -decrypt build\ci\windows\resources\musescore.p12.enc -secret %SIGN_CERTIFICATE_ENCRYPT_SECRET%
 
 for /f "delims=" %%f in ('dir /a-d /b /s "%INSTALL_DIR%\*.dll" "%INSTALL_DIR%\*.exe"') do (
@@ -98,17 +103,15 @@ MKDIR %ARTEFACTS_DIR%
 XCOPY %FILEPATH% %ARTEFACTS_DIR% /Y /Q
 SET ARTIFACT_NAME=%FILENAME%
 
-REN @echo off
-REM WinSparkle staff. Generate appcast.xml
-REM ------------------------------------------
-REM bash build\appveyor\winsparkle_appcast_generator.sh "%ARTEFACTS_DIR%\%ARTIFACT_NAME%" "https://ftp.osuosl.org/pub/musescore-nightlies/windows/%ARTIFACT_NAME%" "%MUSESCORE_VERSION%" "%MSREVISION%"
-REM ------------------------------------------
-REN @echo on
-REN type C:\MuseScore\appcast.xml
+GOTO GEN_APPCAST
 
-REM SET /p MSCORE_RELEASE_CHANNEL=<MSCORE_RELEASE_CHANNEL.xml
+:GEN_APPCAST
+:: WinSparkle staff. Generate appcast.xml
+bash build\ci\tools\sparkle\winsparkle_appcast_generator.sh "%ARTEFACTS_DIR%\%ARTIFACT_NAME%" "%PUBLISH_SERVER_URL%/%ARTIFACT_NAME%" "%MUSESCORE_VERSION%" "%MSREVISION%"
+type appcast.xml
+XCOPY appcast.xml %ARTEFACTS_DIR% /Y /Q
 
-ECHO "Finished msi packing"
+GOTO END_SUCCESS
 
 :END_SUCCESS
 exit 0
