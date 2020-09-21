@@ -22,21 +22,22 @@ jobs:
     - name: Fetch submodules
       run: |
         git submodule update --init --recursive
-    - name: Setup environment
-      run: |
-        build\ci\windows\setup.bat
-    - name: Build
-      run: |
-        build\ci\windows\build.bat ${{ secrets.TELEMETRY_TRACK_ID }} ${{ secrets.CRASH_LOG_SERVER_URL }}
+    # - name: Setup environment
+    #   run: |
+    #     build\ci\windows\setup.bat
+    # - name: Build
+    #   run: |
+    #     build\ci\windows\build.bat ${{ secrets.TELEMETRY_TRACK_ID }} ${{ secrets.CRASH_LOG_SERVER_URL }}
     - name: Package 
       run: |      
-        build\ci\windows\package.bat %MU_BUILD_CONFIG% ${{ secrets.WIN_SIGN_CERTIFICATE_ENCRYPT_SECRET }} ${{ secrets.WIN_SIGN_CERTIFICATE_PASSWORD }}
+        build\ci\windows\test\package.bat %MU_BUILD_CONFIG% ${{ secrets.WIN_SIGN_CERTIFICATE_ENCRYPT_SECRET }} ${{ secrets.WIN_SIGN_CERTIFICATE_PASSWORD }}
       shell: cmd
-    - name: Upload artifact on GitHub
-      uses: actions/upload-artifact@v1
-      with:
-        name: MuseScore
-        path: artefacts\
+    # - name: Upload artifact on GitHub
+    #   uses: actions/upload-artifact@v1
+    #   with:
+    #     name: MuseScore
+    #     path: artefacts\
     - name: Publish package
       run: |
-        build\ci\windows\publish.bat   
+        build\ci\windows\publish.bat ${{ secrets.OSUOSL_SSH_ENCRYPT_SECRET }} 
+      shell: cmd   

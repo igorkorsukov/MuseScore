@@ -1,5 +1,12 @@
 echo "Start dummy package"
 
-SET PACKAGE_TYPE=%1
+SET ARTIFACTS_DIR=artifacts
+MKDIR %ARTIFACTS_DIR%
 
-echo "PACKAGE_TYPE: %PACKAGE_TYPE%"
+SET ARTIFACT_NAME=ftp_test2.txt
+ECHO "test" > %ARTIFACTS_DIR%/%ARTIFACT_NAME%
+ECHO %ARTIFACT_NAME% > %ARTIFACTS_DIR%/artifact_name.env
+
+
+
+

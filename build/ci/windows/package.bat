@@ -77,8 +77,6 @@ sed -i 's/00000000-0000-0000-0000-000000000000/%PACKAGE_UUID%/' build/Packaging.
 SET PATH=%WIX_DIR%;%PATH% 
 CALL msvc_build.bat package %TARGET_PROCESSOR_BITS%
 
-ECHO "--------------"
-
 :: find the MSI file without the hardcoded version
 for /r %%i in (%BUILD_DIR%\*.msi) do (
   SET "FILEPATH=%%i"
