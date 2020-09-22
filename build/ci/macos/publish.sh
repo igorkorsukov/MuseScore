@@ -6,7 +6,6 @@ ARTIFACTS_DIR=build.artifacts
 
 OSUOSL_SSH_ENCRYPT_SECRET=$1
 ARTIFACT_NAME=$2
-ARCH=x86_64
 
 if [ -z "$1" ]
   then
@@ -33,6 +32,4 @@ echo "[publish] ARTIFACT_NAME: ${ARTIFACT_NAME}"
 SSH_KEY=build/ci/tools/osuosl/osuosl_nighlies_rsa
 chmod 600 ${SSH_KEY}
 
-scp -oStrictHostKeyChecking=no -C -i ${SSH_KEY} ${ARTIFACTS_DIR}/${ARTIFACT_NAME} musescore-nightlies@ftp-osl.osuosl.org:~/ftp/linux/${ARCH}
-
-
+scp -oStrictHostKeyChecking=no -C -i ${SSH_KEY} ${ARTIFACTS_DIR}/${ARTIFACT_NAME} musescore-nightlies@ftp-osl.osuosl.org:~/ftp/macosx

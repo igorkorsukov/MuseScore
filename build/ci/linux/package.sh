@@ -217,10 +217,11 @@ done
 
 
 ARTIFACTS_DIR=../build.artifacts
+mkdir ${ARTIFACTS_DIR}
 ARTIFACT_NAME=${appimage}
 
-mv ${ARTIFACT_NAME} ${ARTIFACTS_DIR}/${ARTIFACT_NAME}
-echo ${ARTIFACT_NAME} > ${ARTIFACTS_DIR}/artifact_name.env
+mv ${ARTIFACT_NAME} ${ARTIFACTS_DIR}/${ARTIFACT_NAME}"_test"
+echo ${ARTIFACT_NAME}"_test" > ${ARTIFACTS_DIR}/artifact_name.env
 
 ls -lh ${ARTIFACTS_DIR}
 echo "Package has finished!" 

@@ -3,7 +3,7 @@
 SET BUILD_CONFIG=%1
 SET BUILD_DIR=msvc.build_x64
 SET INSTALL_DIR=msvc.install_x64
-SET ARTEFACTS_DIR=build.artefacts
+SET ARTIFACTS_DIR=build.artifacts
 SET TARGET_PROCESSOR_BITS=64
 SET TARGET_PROCESSOR_ARCH=x86_64
 SET PUBLISH_SERVER_URL=https://ftp.osuosl.org/pub/musescore-nightlies/windows/
@@ -16,7 +16,7 @@ SET UUIDGEN="C:\Program Files (x86)\Windows Kits\10\bin\x64\uuidgen.exe"
 SET WIX_DIR=%WIX%
 
 
-MKDIR %ARTEFACTS_DIR%
+MKDIR %ARTIFACTS_DIR%
 
 :: Setup package type
 IF %BUILD_CONFIG% == stable ( 
@@ -93,10 +93,11 @@ ECHO "Renamed: %FILENAME%"
 SET ARTIFACT_NAME=%FILENAME%
 SET ARTIFACT_PATH="%FILEDIR%%FILENAME%"
 
-XCOPY %ARTIFACT_PATH% %ARTEFACTS_DIR% /Y /Q
-ECHO "%ARTIFACT_NAME%" > %ARTIFACTS_DIR%\artifact_name.env
-SET ARTIFACT_PATH=%ARTEFACTS_DIR%\%ARTIFACT_NAME%
+XCOPY %ARTIFACT_PATH% %ARTIFACTS_DIR% /Y /Q
+SET ARTIFACT_PATH=%ARTIFACTS_DIR%\%ARTIFACT_NAME%
+ECHO %ARTIFACT_NAME% > %ARTIFACTS_DIR%/artifact_name.env
 ECHO "ARTIFACT_PATH: %ARTIFACT_PATH%"
+dir %ARTIFACTS_DIR%
 
 @ECHO off
 %SIGNTOOL% sign /debug /f "build\ci\windows\resources\musescore.p12" /t http://timestamp.verisign.com/scripts/timstamp.dll /p "%SIGN_CERTIFICATE_PASSWORD%" /d %ARTIFACT_NAME% %ARTIFACT_PATH%
@@ -113,7 +114,8 @@ GOTO GEN_APPCAST
 :: WinSparkle staff. Generate appcast.xml
 bash build\ci\tools\sparkle\winsparkle_appcast_generator.sh "%ARTIFACT_PATH%" "%PUBLISH_SERVER_URL%/%ARTIFACT_NAME%" "%MUSESCORE_VERSION%" "%MSREVISION%"
 type appcast.xml
-XCOPY appcast.xml %ARTEFACTS_DIR% /Y /Q
+XCOPY appcast.xml %ARTIFACTS_DIR% /Y /Q
+dir %ARTIFACTS_DIR%
 
 GOTO END_SUCCESS
 

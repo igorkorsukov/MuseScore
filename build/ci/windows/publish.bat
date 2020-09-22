@@ -1,6 +1,6 @@
 ECHO "Publish package"
 
-SET ARTIFACTS_DIR=build.artifacts
+SET ARTIFACTS_DIR="build.artifacts"
 
 SET OSUOSL_SSH_ENCRYPT_SECRET=%1
 SET ARTIFACT_NAME=%2
@@ -20,14 +20,9 @@ IF %ARTIFACT_NAME% == "" (
     EXIT 1
 )
 
-ECHO "[publish] ARTIFACT_PATH: %ARTIFACT_PATH%"
+ECHO "[publish] ARTIFACT_NAME: %ARTIFACT_NAME%"
 
-IF NOT EXIST %ARTIFACT_PATH% (
-    ECHO "Not exists artifact, path: %ARTIFACT_PATH%"
-    EXIT 1
-)
-
-7z e build\ci\tools\osuosl\osuosl_nighlies_rsa.enc -p$%OSUOSL_SSH_ENCRYPT_SECRET%
+7z x -y build\ci\tools\osuosl\osuosl_nighlies_rsa.enc -obuild\ci\tools\osuosl\ -p%OSUOSL_SSH_ENCRYPT_SECRET%
 
 CD %ARTIFACTS_DIR%
 
@@ -36,7 +31,7 @@ IF NOT EXIST %ARTIFACT_NAME% (
     EXIT 1
 )
 
-SET SSH_KEY=..\build\ci\tools\osuosl\osuosl_nighlies_rsa_nopp
+SET SSH_KEY=..\build\ci\tools\osuosl\osuosl_nighlies_rsa
 
 Icacls %SSH_KEY%
 Icacls %SSH_KEY% /Inheritance:r

@@ -3,7 +3,7 @@ name: CI_Windows
 on:
   pull_request:
     branches:
-    - my/3.x
+    - my/3.x_off
 
 env:
   MU_BUILD_CONFIG: stable
@@ -32,12 +32,12 @@ jobs:
       run: |      
         build\ci\windows\package.bat %MU_BUILD_CONFIG% ${{ secrets.WIN_SIGN_CERTIFICATE_ENCRYPT_SECRET }} ${{ secrets.WIN_SIGN_CERTIFICATE_PASSWORD }}
       shell: cmd
-    - name: Upload artifact on GitHub
-      uses: actions/upload-artifact@v1
-      with:
-        name: MuseScore
-        path: build.artefacts\
     - name: Publish package
       run: |
         build\ci\windows\publish.bat ${{ secrets.OSUOSL_SSH_ENCRYPT_SECRET }} 
-      shell: cmd   
+      shell: cmd
+    - name: Upload artifacts on GitHub
+      uses: actions/upload-artifact@v2
+      with:
+        name: MuseScore
+        path: build.artifacts\   
