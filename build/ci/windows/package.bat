@@ -88,28 +88,38 @@ ECHO "Package: %FILEPATH%"
 SET "FILEBASE=%FILEBASE%-%TARGET_PROCESSOR_ARCH%"
 SET "FILENAME=%FILEBASE%_mytest%FILEEXT%"
 RENAME "%FILEPATH%" "%FILENAME%"
-SET "FILEPATH=%FILEDIR%%FILENAME%"
 ECHO "Renamed: %FILENAME%"
-ECHO "Location: %FILEPATH%"
-@ECHO off
-%SIGNTOOL% sign /debug /f "build\ci\windows\resources\musescore.p12" /t http://timestamp.verisign.com/scripts/timstamp.dll /p "%SIGN_CERTIFICATE_PASSWORD%" /d %FILENAME% %FILEPATH%
-:: verify signature
-%SIGNTOOL% verify /pa %FILEPATH%
 
-:: prepare upload
 SET ARTIFACT_NAME=%FILENAME%
-XCOPY %ARTIFACT_NAME% %ARTEFACTS_DIR% /Y /Q
-ECHO "%ARTIFACT_NAME%" > %ARTIFACTS_DIR%/artifact_name.env
+SET ARTIFACT_PATH="%FILEDIR%%FILENAME%"
+
+XCOPY %ARTIFACT_PATH% %ARTEFACTS_DIR% /Y /Q
+ECHO "%ARTIFACT_NAME%" > %ARTIFACTS_DIR%\artifact_name.env
+SET ARTIFACT_PATH=%ARTEFACTS_DIR%\%ARTIFACT_NAME%
+ECHO "ARTIFACT_PATH: %ARTIFACT_PATH%"
+
+@ECHO off
+%SIGNTOOL% sign /debug /f "build\ci\windows\resources\musescore.p12" /t http://timestamp.verisign.com/scripts/timstamp.dll /p "%SIGN_CERTIFICATE_PASSWORD%" /d %ARTIFACT_NAME% %ARTIFACT_PATH%
+:: verify signature
+%SIGNTOOL% verify /pa %ARTIFACT_PATH%
 
 GOTO GEN_APPCAST
 
+:: ============================
+:: GEN_APPCAST
+:: ============================
+
 :GEN_APPCAST
 :: WinSparkle staff. Generate appcast.xml
-bash build\ci\tools\sparkle\winsparkle_appcast_generator.sh "%ARTEFACTS_DIR%\%ARTIFACT_NAME%" "%PUBLISH_SERVER_URL%/%ARTIFACT_NAME%" "%MUSESCORE_VERSION%" "%MSREVISION%"
+bash build\ci\tools\sparkle\winsparkle_appcast_generator.sh "%ARTIFACT_PATH%" "%PUBLISH_SERVER_URL%/%ARTIFACT_NAME%" "%MUSESCORE_VERSION%" "%MSREVISION%"
 type appcast.xml
 XCOPY appcast.xml %ARTEFACTS_DIR% /Y /Q
 
 GOTO END_SUCCESS
+
+:: ============================
+:: END
+:: ============================
 
 :END_SUCCESS
 exit 0
