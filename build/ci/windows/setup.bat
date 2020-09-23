@@ -39,6 +39,9 @@ CALL "7z" x -y %TEMP_DIR%\dependencies.7z "-oC:\musescore_dependencies"
 CALL "wget.exe" --no-check-certificate "https://s3.amazonaws.com/utils.musescore.org/dump_syms.7z" -O %TEMP_DIR%\dump_syms.7z
 CALL "7z" x -y %TEMP_DIR%\dump_syms.7z "-oC:\breakpad_tools"
 
+xcopy msdia140.dll %systemroot%\system32
+regsvr32 %systemroot%\system32\msdia140.dll
+
 :: Clean
 RMDIR /Q /S "C:\TEMP"
 

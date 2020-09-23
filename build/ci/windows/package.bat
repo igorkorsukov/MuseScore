@@ -98,7 +98,7 @@ SET ARTIFACT_NAME=MuseScore-%BUILD_VERSION%-%TARGET_PROCESSOR_ARCH%.msi
 COPY %FILEPATH% %ARTIFACTS_DIR%\%ARTIFACT_NAME% /Y 
 SET ARTIFACT_PATH=%ARTIFACTS_DIR%\%ARTIFACT_NAME%
 
-%SIGNTOOL% sign /debug /f "build\ci\windows\resources\musescore.p12" /t http://timestamp.verisign.com/scripts/timstamp.dll /p "%SIGN_CERTIFICATE_PASSWORD%" /d %ARTIFACT_NAME% %ARTIFACT_PATH%
+%SIGNTOOL% sign /debug /f "build\ci\windows\resources\musescore.p12" /t http://timestamp.verisign.com/scripts/timstamp.dll /p %SIGN_CERTIFICATE_PASSWORD% /d %ARTIFACT_NAME% %ARTIFACT_PATH%
 :: verify signature
 %SIGNTOOL% verify /pa %ARTIFACT_PATH%
 
@@ -113,10 +113,8 @@ bash ./build/ci/tools/sparkle_appcast_gen.sh -p windows -u %PUBLISH_URL%
 
 SET DEBUG_SYMS_FILE=musescore_win%TARGET_PROCESSOR_BITS%.sym
 REM Add one of the directories containing msdia140.dll (x86 version), for dump_syms.exe
-SET PATH=%PATH%;"C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\DIA SDK\bin"
-@echo on
+::SET PATH="C:\Program Files (x86)\Microsoft Visual Studio 14.0\DIA SDK\bin";%PATH%
 C:\breakpad_tools\dump_syms.exe %BUILD_DIR%\main\RelWithDebInfo\MuseScore3.pdb > %DEBUG_SYMS_FILE%
-@echo off
 COPY %DEBUG_SYMS_FILE% %ARTIFACTS_DIR%\%DEBUG_SYMS_FILE% /Y 
 
 GOTO END_SUCCESS
