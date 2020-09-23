@@ -17,25 +17,25 @@ jobs:
       uses: actions/checkout@v2
       with:
         fetch-depth: 3
-    - name: Fetch submodules
-      run: |
-        git submodule update --init --recursive
-    - name: Setup environment
-      run: |
-        build\ci\windows\setup.bat
-    - name: Build
-      run: |
-        build\ci\windows\build.bat -n ${{ github.run_id }} --telemetry ${{ secrets.TELEMETRY_TRACK_ID }} --crashurl ${{ secrets.CRASH_LOG_SERVER_URL }}
+    # - name: Fetch submodules
+    #   run: |
+    #     git submodule update --init --recursive
+    # - name: Setup environment
+    #   run: |
+    #     build\ci\windows\setup.bat
+    # - name: Build
+    #   run: |
+    #     build\ci\windows\build.bat -n ${{ github.run_id }} --telemetry ${{ secrets.TELEMETRY_TRACK_ID }} --crashurl ${{ secrets.CRASH_LOG_SERVER_URL }}
     - name: Package 
       run: |      
-        build\ci\windows\package.bat --signsecret ${{ secrets.WIN_SIGN_CERTIFICATE_ENCRYPT_SECRET }} --signpass ${{ secrets.WIN_SIGN_CERTIFICATE_PASSWORD }}
+        build\ci\windows\test\package.bat --signsecret ${{ secrets.WIN_SIGN_CERTIFICATE_ENCRYPT_SECRET }} --signpass ${{ secrets.WIN_SIGN_CERTIFICATE_PASSWORD }}
       shell: cmd
-    - name: Publish package
-      run: |
-        build\ci\windows\publish.bat --secret ${{ secrets.OSUOSL_SSH_ENCRYPT_SECRET }} 
-      shell: cmd
-    - name: Upload artifacts on GitHub
-      uses: actions/upload-artifact@v2
-      with:
-        name: MuseScore_${{ github.run_id }}
-        path: build.artifacts\   
+    # - name: Publish package
+    #   run: |
+    #     build\ci\windows\publish.bat --secret ${{ secrets.OSUOSL_SSH_ENCRYPT_SECRET }} 
+    #   shell: cmd
+    # - name: Upload artifacts on GitHub
+    #   uses: actions/upload-artifact@v2
+    #   with:
+    #     name: MuseScore_${{ github.run_id }}
+    #     path: build.artifacts\   

@@ -3,7 +3,7 @@ name: CI_MacOS
 on:
   pull_request:
     branches:
-    - my/3.x
+    - my/3.x_off
 
 env:
     DEVELOPER_DIR: /Applications/Xcode_10.3.app/Contents/Developer

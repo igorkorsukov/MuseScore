@@ -72,7 +72,7 @@ secure-file -decrypt build\ci\windows\resources\musescore.p12.enc -secret %SIGN_
 
 for /f "delims=" %%f in ('dir /a-d /b /s "%INSTALL_DIR%\*.dll" "%INSTALL_DIR%\*.exe"') do (
     ECHO "Signing %%f"
-    %SIGNTOOL% sign /f "build\ci\windows\resources\musescore.p12" /t http://timestamp.verisign.com/scripts/timstamp.dll /p "%SIGN_CERTIFICATE_PASSWORD%" "%%f"
+    %SIGNTOOL% sign /f "build\ci\windows\resources\musescore.p12" /t http://timestamp.verisign.com/scripts/timstamp.dll /p %SIGN_CERTIFICATE_PASSWORD% "%%f"
 )
 
 :: generate unique GUID
@@ -113,7 +113,7 @@ bash ./build/ci/tools/sparkle_appcast_gen.sh -p windows -u %PUBLISH_URL%
 
 SET DEBUG_SYMS_FILE=musescore_win%TARGET_PROCESSOR_BITS%.sym
 REM Add one of the directories containing msdia140.dll (x86 version), for dump_syms.exe
-SET PATH=%PATH%;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\DIA SDK\bin
+SET PATH=%PATH%;"C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\DIA SDK\bin"
 @echo on
 C:\breakpad_tools\dump_syms.exe %BUILD_DIR%\main\RelWithDebInfo\MuseScore3.pdb > %DEBUG_SYMS_FILE%
 @echo off
