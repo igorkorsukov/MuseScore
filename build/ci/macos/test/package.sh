@@ -19,3 +19,5 @@ ls ${ARTIFACTS_DIR}
 
 echo "--cat ${ARTIFACTS_DIR}/artifact_name.env:"
 cat ${ARTIFACTS_DIR}/artifact_name.env
+
+bash ./build/ci/tools/make_release_channel_env.sh

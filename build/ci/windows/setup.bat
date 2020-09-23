@@ -35,6 +35,10 @@ SET PATH=%JACK_DIR%;%PATH%
 CALL "wget.exe" -q --show-progress --no-check-certificate "https://s3.amazonaws.com/utils.musescore.org/dependencies.7z" -O  %TEMP_DIR%\dependencies.7z
 CALL "7z" x -y %TEMP_DIR%\dependencies.7z "-oC:\musescore_dependencies"
 
+:: breakpad_tools
+CALL "wget.exe" --no-check-certificate "https://s3.amazonaws.com/utils.musescore.org/dump_syms.7z" -O %TEMP_DIR%\dump_syms.7z
+CALL "7z" x -y %TEMP_DIR%\dump_syms.7z "-oC:\breakpad_tools"
+
 :: Clean
 RMDIR /Q /S "C:\TEMP"
 

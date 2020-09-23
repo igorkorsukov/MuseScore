@@ -1,11 +1,21 @@
+ECHO "MuseScore build"
 
+SET BUILD_NUMBER=""
+SET TELEMETRY_TRACK_ID=""
+SET CRASH_LOG_SERVER_URL=""
+
+:GETOPTS
+IF /I "%1" == "-n" SET BUILD_NUMBER=%2 & SHIFT
+IF /I "%1" == "--telemetry" SET TELEMETRY_TRACK_ID=%2 & SHIFT
+IF /I "%1" == "--crashurl" SET CRASH_LOG_SERVER_URL=%2 & SHIFT
+SHIFT
+IF NOT "%1" == "" GOTO GETOPTS
+
+IF %BUILD_NUMBER% == "" ( ECHO "error: not set BUILD_NUMBER" & EXIT /b 1)
 
 XCOPY "C:\musescore_dependencies" %CD% /E /I /Y
 
-SET TELEMETRY_TRACK_ID=%1
-SET CRASH_LOG_SERVER_URL=%2
 
-SET BUILD_NUMBER=42
 SET TARGET_PROCESSOR_BITS=64
 SET GENERATOR_NAME=Visual Studio 16 2019
 SET MSCORE_STABLE_BUILD="TRUE"
@@ -19,3 +29,9 @@ CALL msvc_build.bat revision
 CALL msvc_build.bat relwithdebinfo %TARGET_PROCESSOR_BITS% %BUILD_NUMBER%
 CALL msvc_build.bat installrelwithdebinfo
 
+mkdir build.artifacts
+mkdir build.artifacts\env
+
+bash ./build/ci/tools/make_release_channel_env.sh 
+bash ./build/ci/tools/make_version_env.sh %BUILD_NUMBER%
+bash ./build/ci/tools/make_revision_env.sh

@@ -2,25 +2,24 @@ ECHO "Publish package"
 
 SET ARTIFACTS_DIR="build.artifacts"
 
-SET OSUOSL_SSH_ENCRYPT_SECRET=%1
-SET ARTIFACT_NAME=%2
+SET OSUOSL_SSH_ENCRYPT_SECRET=""
+SET ARTIFACT_NAME=""
 
-IF [%1]==[] (
-    ECHO "Not set ssh encrypt secret"
-    EXIT 1
-)
+:GETOPTS
+IF /I "%1" == "--secret" SET OSUOSL_SSH_ENCRYPT_SECRET=%2 & SHIFT
+IF /I "%1" == "-a" SET ARTIFACT_NAME=%2 & SHIFT
+SHIFT
+IF NOT "%1" == "" GOTO GETOPTS
 
-IF [%2]==[] (
-    ECHO "Try get artifact name from %ARTIFACTS_DIR%\artifact_name.env"
-    SET /p ARTIFACT_NAME=<%ARTIFACTS_DIR%\artifact_name.env
-)
 
-IF %ARTIFACT_NAME% == "" (
-    ECHO "Not set artifact name"
-    EXIT 1
-)
+: Try get from env
+IF %ARTIFACT_NAME% == "" ( SET /p ARTIFACT_NAME=<%ARTIFACTS_DIR%\env\artifact_name.env)
 
-ECHO "[publish] ARTIFACT_NAME: %ARTIFACT_NAME%"
+: Check args
+IF %OSUOSL_SSH_ENCRYPT_SECRET% == "" ( ECHO "error: not set OSUOSL_SSH_ENCRYPT_SECRET" & EXIT /b 1 )
+IF %ARTIFACT_NAME% == "" ( ECHO "error: not set ARTIFACT_NAME" & EXIT /b 1 )
+
+ECHO "ARTIFACT_NAME: %ARTIFACT_NAME%"
 
 7z x -y build\ci\tools\osuosl\osuosl_nighlies_rsa.enc -obuild\ci\tools\osuosl\ -p%OSUOSL_SSH_ENCRYPT_SECRET%
 
@@ -28,7 +27,7 @@ CD %ARTIFACTS_DIR%
 
 IF NOT EXIST %ARTIFACT_NAME% (
     ECHO "Not exists artifact, name: %ARTIFACT_NAME%"
-    EXIT 1
+    EXIT /b 1
 )
 
 SET SSH_KEY=..\build\ci\tools\osuosl\osuosl_nighlies_rsa

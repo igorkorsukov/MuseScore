@@ -2,32 +2,25 @@
 
 echo "Package MuseScore"
 
-# Go one-up from MuseScore root dir regardless of where script was run from:
-cd "$(dirname "$(readlink -f "${0}")")/../../../.."
+ARTIFACTS_DIR="build.artifacts"
 
 echo "=== ENVIRONMENT === "
 
-ENV_FILE=./musescore_environment.sh
+ENV_FILE=./../musescore_environment.sh
 cat ${ENV_FILE}
 . ${ENV_FILE}
 
-echo "===================="
-ls -all /home/runner/work/MuseScore/appimagetool
-whereis appimagetool
-echo "===================="
 echo " "
 appimagetool --version
 echo " "
 linuxdeploy --list-plugins
 echo "===================="
-echo " "
 
 
 ##########################################################################
 # BUNDLE DEPENDENCIES INTO APPDIR
 ##########################################################################
 
-cd MuseScore
 prefix="$(cat build.release/PREFIX.txt)" # MuseScore was installed here
 cd "$(dirname "${prefix}")"
 appdir="$(basename "${prefix}")" # directory that will become the AppImage
@@ -216,12 +209,15 @@ while [[ "$(dirname "${parent_dir}")" != "${parent_dir}" ]]; do
 done
 
 
-ARTIFACTS_DIR=../build.artifacts
-mkdir ${ARTIFACTS_DIR}
-ARTIFACT_NAME=${appimage}
+ARTIFACTS_DIR=build.artifacts
 
-mv ${ARTIFACT_NAME} ${ARTIFACTS_DIR}/${ARTIFACT_NAME}"_test"
-echo ${ARTIFACT_NAME}"_test" > ${ARTIFACTS_DIR}/artifact_name.env
+BUILD_VERSION=$(cat ../$ARTIFACTS_DIR/env/build_version.env)
+ARTIFACT_NAME=MuseScore-${BUILD_VERSION}-x86_64.AppImage
 
-ls -lh ${ARTIFACTS_DIR}
+mv ${appimage} ../${ARTIFACTS_DIR}/${ARTIFACT_NAME}
+
+cd ..
+
+bash ./build/ci/tools/make_artifact_name_env.sh $ARTIFACT_NAME
+
 echo "Package has finished!" 
