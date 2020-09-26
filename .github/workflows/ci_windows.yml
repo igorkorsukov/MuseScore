@@ -1,10 +1,19 @@
 name: CI_Windows
 
 on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: 'Mode of build'
+        required: false
+        default: 'devel'
   pull_request:
     branches:
     - 3.x
     - my/3.x
+  push:
+    branches:
+    - 'mu3/ci/**' 
 
 jobs:
   build_x64:
