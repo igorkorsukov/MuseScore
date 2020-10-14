@@ -14,21 +14,27 @@ while [[ "$#" -gt 0 ]]; do
     shift
 done
 
-if [ -z "$ARTIFACT_NAME" ]; then ARTIFACT_NAME="$(cat $ARTIFACTS_DIR/env/artifact_name.env)"; fi
+#if [ -z "$ARTIFACT_NAME" ]; then ARTIFACT_NAME="$(cat $ARTIFACTS_DIR/env/artifact_name.env)"; fi
 
-if [ -z "$ARTIFACT_NAME" ]; then echo "error: not set ARTIFACT_NAME"; exit 1; fi
-if [ -z "$OSUOSL_SSH_ENCRYPT_SECRET" ]; then echo "error: not set OSUOSL_SSH_ENCRYPT_SECRET"; exit 1; fi
+#if [ -z "$ARTIFACT_NAME" ]; then echo "error: not set ARTIFACT_NAME"; exit 1; fi
+#if [ -z "$OSUOSL_SSH_ENCRYPT_SECRET" ]; then echo "error: not set OSUOSL_SSH_ENCRYPT_SECRET"; exit 1; fi
 
-echo "ARTIFACT_NAME: $ARTIFACT_NAME"
+#echo "ARTIFACT_NAME: $ARTIFACT_NAME"
 
 7z x -y build/ci/tools/osuosl/osuosl_nighlies_rsa.enc -obuild/ci/tools/osuosl/ -p$OSUOSL_SSH_ENCRYPT_SECRET
 
 SSH_KEY=build/ci/tools/osuosl/osuosl_nighlies_rsa
 chmod 600 $SSH_KEY
 
-echo "Copy ${ARTIFACTS_DIR}/${ARTIFACT_NAME} to ftp/linux/$ARCH"
-scp -oStrictHostKeyChecking=no -C -i $SSH_KEY $ARTIFACTS_DIR/$ARTIFACT_NAME musescore-nightlies@ftp-osl.osuosl.org:~/ftp/linux/$ARCH
+#echo "Copy ${ARTIFACTS_DIR}/${ARTIFACT_NAME} to ftp/linux/$ARCH"
+#scp -oStrictHostKeyChecking=no -C -i $SSH_KEY $ARTIFACTS_DIR/$ARTIFACT_NAME musescore-nightlies@ftp-osl.osuosl.org:~/ftp/linux/$ARCH
 
 # Delete old files
 echo "Delete old MuseScoreNightly files"
-ssh -i $SSH_KEY musescore-nightlies@ftp-osl.osuosl.org "cd ~/ftp/linux/$ARCH; ls MuseScoreNightly* -t | tail -n +41 | xargs rm -f"
+ssh -o StrictHostKeyChecking=no -i $SSH_KEY musescore-nightlies@ftp-osl.osuosl.org "cd ~/ftp; ls"
+
+scp -oStrictHostKeyChecking=no -C -i $SSH_KEY build/ci/tools/osuosl/index.html musescore-nightlies@ftp-osl.osuosl.org:~/ftp/
+
+ssh -o StrictHostKeyChecking=no -i $SSH_KEY musescore-nightlies@ftp-osl.osuosl.org "cd ~/ftp; ls"
+
+ssh -o StrictHostKeyChecking=no -i $SSH_KEY musescore-nightlies@ftp-osl.osuosl.org "~/trigger-musescore-nightlies" 
