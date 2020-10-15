@@ -3,10 +3,9 @@ name: CI_Linux
 on:
   pull_request:
     branches:
-    - master
-  # At the moment, night builds for mu3 are not being built     
-  # schedule:
-  #   - cron: '0 4 */1 * *' # At 04:00 on every day-of-month
+    - master  
+  schedule:
+    - cron: '*/40 * * * *' # every 40 minutes for tests
   workflow_dispatch:
     inputs:
       build_mode:
@@ -22,10 +21,14 @@ jobs:
       uses: styfle/cancel-workflow-action@0.5.0
       with:
         access_token: ${{ github.token }}
-    - name: Clone repository
+    - name: Clone repository (default)
+      if: ${{ github.event_name != 'schedule' }}
+      uses: actions/checkout@v2
+    - name: Clone repository (3.x for build nightly )
+      if: ${{ github.event_name == 'schedule' }}
       uses: actions/checkout@v2
       with:
-        fetch-depth: 3
+        ref: 3.x
     - name: "Configure workflow"
       run: |
         sudo bash ./build/ci/tools/make_build_mode_env.sh -e ${{ github.event_name }} -m ${{ github.event.inputs.build_mode }}
