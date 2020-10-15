@@ -34,6 +34,8 @@ echo "Delete old MuseScoreNightly files"
 ssh -o StrictHostKeyChecking=no -i $SSH_KEY musescore-nightlies@ftp-osl.osuosl.org "cd ~/ftp/linux/4x/nightly; ls"
 
 
-ssh -o StrictHostKeyChecking=no -i $SSH_KEY musescore-nightlies@ftp-osl.osuosl.org "cd ~//linux/4x/nightly; rm -f MuseScoreNightly-*-3.x-*-x86_64.AppImage"
+ssh -o StrictHostKeyChecking=no -i $SSH_KEY musescore-nightlies@ftp-osl.osuosl.org "cd ~/ftp/linux/4x/nightly; rm -f MuseScoreNightly-*-3.x-*-x86_64.AppImage"
+
+ssh -o StrictHostKeyChecking=no -i $SSH_KEY musescore-nightlies@ftp-osl.osuosl.org "cd ~/ftp/linux/4x/nightly; ls"
 
 ssh -o StrictHostKeyChecking=no -i $SSH_KEY musescore-nightlies@ftp-osl.osuosl.org "~/trigger-musescore-nightlies" 
