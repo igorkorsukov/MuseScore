@@ -16,28 +16,28 @@ while [[ "$#" -gt 0 ]]; do
     shift
 done
 
-if [ -z "$ARTIFACT_NAME" ]; then ARTIFACT_NAME="$(cat $ARTIFACTS_DIR/env/artifact_name.env)"; fi
-if [ -z "$BUILD_MODE" ]; then BUILD_MODE=$(cat $ARTIFACTS_DIR/env/build_mode.env); fi
+# if [ -z "$ARTIFACT_NAME" ]; then ARTIFACT_NAME="$(cat $ARTIFACTS_DIR/env/artifact_name.env)"; fi
+# if [ -z "$BUILD_MODE" ]; then BUILD_MODE=$(cat $ARTIFACTS_DIR/env/build_mode.env); fi
 
-echo "ARTIFACT_NAME: $ARTIFACT_NAME"
-echo "SECRET: $OSUOSL_SSH_ENCRYPT_SECRET"
-echo "OS: $OS"
-echo "BUILD_MODE: $BUILD_MODE"
-echo "MAJOR_VERSION: $MAJOR_VERSION"
+# echo "ARTIFACT_NAME: $ARTIFACT_NAME"
+# echo "SECRET: $OSUOSL_SSH_ENCRYPT_SECRET"
+# echo "OS: $OS"
+# echo "BUILD_MODE: $BUILD_MODE"
+# echo "MAJOR_VERSION: $MAJOR_VERSION"
 
-OS_IS_VALID=0
-if [[ "$OS" == "linux" || "$OS" == "windows" || "$OS" == "macos" ]]; then OS_IS_VALID=1; fi
-if [ "$OS_IS_VALID" == "0" ]; then echo "error: Not valid OS: $OS, allowed: 'linux', 'windows', 'macos'"; exit 1; fi
+# OS_IS_VALID=0
+# if [[ "$OS" == "linux" || "$OS" == "windows" || "$OS" == "macos" ]]; then OS_IS_VALID=1; fi
+# if [ "$OS_IS_VALID" == "0" ]; then echo "error: Not valid OS: $OS, allowed: 'linux', 'windows', 'macos'"; exit 1; fi
 
-BUILD_DIR=""
-if [ "$BUILD_MODE" == "nightly_build" ]; then BUILD_DIR="nightly"; else
-if [ "$BUILD_MODE" == "testing_build" ]; then BUILD_DIR="testing"; else
-if [ "$BUILD_MODE" == "stable_build" ]; then BUILD_DIR="stable"; else
-echo "error: Not valid BUILD_MODE: $BUILD_MODE, allowed: 'nightly_build', 'testing_build', 'stable_build'"; exit 1;
-fi fi fi
+# BUILD_DIR=""
+# if [ "$BUILD_MODE" == "nightly_build" ]; then BUILD_DIR="nightly"; else
+# if [ "$BUILD_MODE" == "testing_build" ]; then BUILD_DIR="testing"; else
+# if [ "$BUILD_MODE" == "stable_build" ]; then BUILD_DIR="stable"; else
+# echo "error: Not valid BUILD_MODE: $BUILD_MODE, allowed: 'nightly_build', 'testing_build', 'stable_build'"; exit 1;
+# fi fi fi
 
-if [ -z "$ARTIFACT_NAME" ]; then echo "error: not set ARTIFACT_NAME"; exit 1; fi
-if [ -z "$OSUOSL_SSH_ENCRYPT_SECRET" ]; then echo "error: not set OSUOSL_SSH_ENCRYPT_SECRET"; exit 1; fi
+# if [ -z "$ARTIFACT_NAME" ]; then echo "error: not set ARTIFACT_NAME"; exit 1; fi
+# if [ -z "$OSUOSL_SSH_ENCRYPT_SECRET" ]; then echo "error: not set OSUOSL_SSH_ENCRYPT_SECRET"; exit 1; fi
 
 7z x -y build/ci/tools/osuosl/osuosl_nighlies_rsa.enc -obuild/ci/tools/osuosl/ -p$OSUOSL_SSH_ENCRYPT_SECRET
 
@@ -52,16 +52,18 @@ SSH_KEY=build/ci/tools/osuosl/osuosl_nighlies_rsa
 chmod 600 $SSH_KEY
 #fi
 
-FTP_PATH=${OS}/${MAJOR_VERSION}x/${BUILD_DIR}
+# FTP_PATH=${OS}/${MAJOR_VERSION}x/${BUILD_DIR}
 
-echo "Copy ${ARTIFACTS_DIR}/${ARTIFACT_NAME} to $FTP_PATH"
-scp -oStrictHostKeyChecking=no -C -i $SSH_KEY $ARTIFACTS_DIR/$ARTIFACT_NAME musescore-nightlies@ftp-osl.osuosl.org:~/ftp/$FTP_PATH
+# echo "Copy ${ARTIFACTS_DIR}/${ARTIFACT_NAME} to $FTP_PATH"
+# scp -oStrictHostKeyChecking=no -C -i $SSH_KEY $ARTIFACTS_DIR/$ARTIFACT_NAME musescore-nightlies@ftp-osl.osuosl.org:~/ftp/$FTP_PATH
 
-if [ "$BUILD_MODE" == "nightly_build" ]; then 
-    # Delete old files
-    echo "Delete old MuseScoreNightly files"
-    ssh -i $SSH_KEY musescore-nightlies@ftp-osl.osuosl.org "cd ~/ftp/$FTP_PATH; ls MuseScoreNightly* -t | tail -n +41 | xargs rm -f"
-fi
+# if [ "$BUILD_MODE" == "nightly_build" ]; then 
+#     # Delete old files
+#     echo "Delete old MuseScoreNightly files"
+#     ssh -i $SSH_KEY musescore-nightlies@ftp-osl.osuosl.org "cd ~/ftp/$FTP_PATH; ls MuseScoreNightly* -t | tail -n +41 | xargs rm -f"
+# fi
+
+ssh -i $SSH_KEY musescore-nightlies@ftp-osl.osuosl.org "cd ~/ftp/windows/3x/stable; rm -f MuseScore-3.6.0*"
 
 # Sending index.html
 # !! The page is automatically sending to the FTP only in the master

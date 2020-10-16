@@ -3,7 +3,7 @@ name: CI_Windows
 on:
   pull_request:
     branches:
-    - 3.x
+    - 3.x_off
     - my/3.x_off
   schedule:
     - cron: '0 4 */1 * *' # At 04:00 on every day-of-month
