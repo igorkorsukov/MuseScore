@@ -31,6 +31,7 @@ chmod 600 $SSH_KEY
 
 # Delete old files
 echo "Delete old MuseScoreNightly files"
+<<<<<<< HEAD
 ssh -o StrictHostKeyChecking=no -i $SSH_KEY musescore-nightlies@ftp-osl.osuosl.org "cd ~/ftp; ls"
 
 scp -oStrictHostKeyChecking=no -C -i $SSH_KEY build/ci/tools/osuosl/index.html musescore-nightlies@ftp-osl.osuosl.org:~/ftp/
@@ -38,3 +39,13 @@ scp -oStrictHostKeyChecking=no -C -i $SSH_KEY build/ci/tools/osuosl/index.html m
 ssh -o StrictHostKeyChecking=no -i $SSH_KEY musescore-nightlies@ftp-osl.osuosl.org "cd ~/ftp; ls"
 
 ssh -o StrictHostKeyChecking=no -i $SSH_KEY musescore-nightlies@ftp-osl.osuosl.org "~/trigger-musescore-nightlies" 
+=======
+ssh -o StrictHostKeyChecking=no -i $SSH_KEY musescore-nightlies@ftp-osl.osuosl.org "cd ~/ftp/linux/4x/nightly; ls"
+
+
+ssh -o StrictHostKeyChecking=no -i $SSH_KEY musescore-nightlies@ftp-osl.osuosl.org "cd ~/ftp/linux/4x/nightly; rm -f 	MuseScoreNightly-*-mu4_ci_turnon_nightly2-*-x86_64.AppImage"
+
+ssh -o StrictHostKeyChecking=no -i $SSH_KEY musescore-nightlies@ftp-osl.osuosl.org "cd ~/ftp/linux/4x/nightly; ls"
+
+ssh -o StrictHostKeyChecking=no -i $SSH_KEY musescore-nightlies@ftp-osl.osuosl.org "~/trigger-musescore-nightlies"    
+>>>>>>> 85dc0d6640609c4c2d069bf2162b2d0e9586683e

@@ -6,7 +6,7 @@ on:
     - 3.x
     - my/3.x_off
   schedule:
-    - cron: '0 4 * * *'  
+    - cron: '0 4 */1 * *' # At 04:00 on every day-of-month
   workflow_dispatch:
     inputs:
       build_mode:
@@ -53,14 +53,14 @@ jobs:
     - name: Build
       shell: cmd
       run: |
-        IF ${{ secrets.TELEMETRY_TRACK_ID != 0 }} == true ( SET T_ID=${{ secrets.TELEMETRY_TRACK_ID }} ) ELSE ( SET T_ID="" )
-        IF ${{ secrets.CRASH_LOG_SERVER_URL != 0 }} == true ( SET C_URL=${{ secrets.CRASH_LOG_SERVER_URL }} ) ELSE ( SET C_URL="" )
+        IF ${{ secrets.TELEMETRY_TRACK_ID != 0 }} == true ( SET T_ID=${{ secrets.TELEMETRY_TRACK_ID }} ) ELSE ( SET T_ID="''" )
+        IF ${{ secrets.CRASH_LOG_SERVER_URL != 0 }} == true ( SET C_URL=${{ secrets.CRASH_LOG_SERVER_URL }} ) ELSE ( SET C_URL="''" )
         build\ci\windows\build.bat -n ${{ github.run_id }} --telemetry %T_ID% --crashurl %C_URL%
     - name: Package 
       shell: cmd
       run: |
-        IF ${{ secrets.WIN_SIGN_CERTIFICATE_ENCRYPT_SECRET != 0 }} == true ( SET S_S=${{ secrets.WIN_SIGN_CERTIFICATE_ENCRYPT_SECRET }} ) ELSE ( SET S_S="" )
-        IF ${{ secrets.WIN_SIGN_CERTIFICATE_PASSWORD != 0 }} == true ( SET S_P=${{ secrets.WIN_SIGN_CERTIFICATE_PASSWORD }} ) ELSE ( SET S_P="" )
+        IF ${{ secrets.WIN_SIGN_CERTIFICATE_ENCRYPT_SECRET != 0 }} == true ( SET S_S=${{ secrets.WIN_SIGN_CERTIFICATE_ENCRYPT_SECRET }} ) ELSE ( SET S_S="''" )
+        IF ${{ secrets.WIN_SIGN_CERTIFICATE_PASSWORD != 0 }} == true ( SET S_P=${{ secrets.WIN_SIGN_CERTIFICATE_PASSWORD }} ) ELSE ( SET S_P="''" )
         IF ${{ env.BUILD_MODE }} == stable_build ( SET GUID=${{ secrets.WIN_MSI_STABLE_GUID }} ) ELSE ( SET GUID=${{ secrets.WIN_MSI_TESTING_GUID }} )
         build\ci\windows\package.bat --signsecret %S_S% --signpass %S_P% --guid %GUID%
     - name: Checksum 
@@ -68,9 +68,9 @@ jobs:
         bash ./build/ci/tools/checksum.sh     
     - name: Publish package
       if: env.DO_PUBLISH == 'true'
-      shell: cmd
+      shell: bash
       run: |
-        build\ci\windows\publish.bat --secret ${{ secrets.OSUOSL_SSH_ENCRYPT_SECRET }} 
+        bash ./build/ci/tools/osuosl/publish.sh -s ${{ secrets.OSUOSL_SSH_ENCRYPT_SECRET }} --os windows -v 3
     - name: Upload artifacts on GitHub
       if: ${{ always() }}
       uses: actions/upload-artifact@v2
@@ -105,10 +105,6 @@ jobs:
         echo "DO_BUILD=$DO_BUILD" >> $GITHUB_ENV
         echo "DO_BUILD: $DO_BUILD"
 
-        # Publish disabled for build x32
-        DO_PUBLISH='false'
-        echo "DO_PUBLISH=$DO_PUBLISH" >> $GITHUB_ENV
-        echo "DO_PUBLISH: $DO_PUBLISH"
     - name: Setup environment
       if: env.DO_BUILD == 'true'
       run: |
@@ -117,26 +113,21 @@ jobs:
       if: env.DO_BUILD == 'true'
       shell: cmd
       run: |
-        IF ${{ secrets.TELEMETRY_TRACK_ID != 0 }} == true ( SET T_ID=${{ secrets.TELEMETRY_TRACK_ID }} ) ELSE ( SET T_ID="" )
-        IF ${{ secrets.CRASH_LOG_SERVER_URL != 0 }} == true ( SET C_URL=${{ secrets.CRASH_LOG_SERVER_URL }} ) ELSE ( SET C_URL="" )
+        IF ${{ secrets.TELEMETRY_TRACK_ID != 0 }} == true ( SET T_ID=${{ secrets.TELEMETRY_TRACK_ID }} ) ELSE ( SET T_ID="''" )
+        IF ${{ secrets.CRASH_LOG_SERVER_URL != 0 }} == true ( SET C_URL=${{ secrets.CRASH_LOG_SERVER_URL }} ) ELSE ( SET C_URL="''" )
         build\ci\windows\build.bat -b 32 -n ${{ github.run_id }} --telemetry %T_ID% --crashurl %C_URL%
     - name: Package 
       if: env.DO_BUILD == 'true'
       shell: cmd
       run: |
-        IF ${{ secrets.WIN_SIGN_CERTIFICATE_ENCRYPT_SECRET != 0 }} == true ( SET S_S=${{ secrets.WIN_SIGN_CERTIFICATE_ENCRYPT_SECRET }} ) ELSE ( SET S_S="" )
-        IF ${{ secrets.WIN_SIGN_CERTIFICATE_PASSWORD != 0 }} == true ( SET S_P=${{ secrets.WIN_SIGN_CERTIFICATE_PASSWORD }} ) ELSE ( SET S_P="" )
+        IF ${{ secrets.WIN_SIGN_CERTIFICATE_ENCRYPT_SECRET != 0 }} == true ( SET S_S=${{ secrets.WIN_SIGN_CERTIFICATE_ENCRYPT_SECRET }} ) ELSE ( SET S_S="''" )
+        IF ${{ secrets.WIN_SIGN_CERTIFICATE_PASSWORD != 0 }} == true ( SET S_P=${{ secrets.WIN_SIGN_CERTIFICATE_PASSWORD }} ) ELSE ( SET S_P="''" )
         IF ${{ env.BUILD_MODE }} == stable_build ( SET GUID=${{ secrets.WIN_MSI_STABLE_GUID }} ) ELSE ( SET GUID=${{ secrets.WIN_MSI_TESTING_GUID }} )
         build\ci\windows\package.bat -b 32 --signsecret %S_S% --signpass %S_P% --guid %GUID%
     - name: Checksum 
       if: env.DO_BUILD == 'true'
       run: |
         bash ./build/ci/tools/checksum.sh         
-    - name: Publish package
-      if: env.DO_PUBLISH == 'true'
-      shell: cmd
-      run: |
-        build\ci\windows\publish.bat --secret ${{ secrets.OSUOSL_SSH_ENCRYPT_SECRET }} 
     - name: Upload artifacts on GitHub
       if: ${{ always() }}
       uses: actions/upload-artifact@v2
@@ -169,12 +160,7 @@ jobs:
           DO_BUILD='true'  
         fi
         echo "DO_BUILD=$DO_BUILD" >> $GITHUB_ENV
-        echo "DO_BUILD: $DO_BUILD"
-
-        # Publish disabled for build x32
-        DO_PUBLISH='false'
-        echo "DO_PUBLISH=$DO_PUBLISH" >> $GITHUB_ENV
-        echo "DO_PUBLISH: $DO_PUBLISH"    
+        echo "DO_BUILD: $DO_BUILD"   
     - name: Setup environment
       if: env.DO_BUILD == 'true'
       run: |
@@ -183,8 +169,8 @@ jobs:
       if: env.DO_BUILD == 'true'
       shell: cmd
       run: |
-        IF ${{ secrets.TELEMETRY_TRACK_ID != 0 }} == true ( SET T_ID=${{ secrets.TELEMETRY_TRACK_ID }} ) ELSE ( SET T_ID="" )
-        IF ${{ secrets.CRASH_LOG_SERVER_URL != 0 }} == true ( SET C_URL=${{ secrets.CRASH_LOG_SERVER_URL }} ) ELSE ( SET C_URL="" )
+        IF ${{ secrets.TELEMETRY_TRACK_ID != 0 }} == true ( SET T_ID=${{ secrets.TELEMETRY_TRACK_ID }} ) ELSE ( SET T_ID="''" )
+        IF ${{ secrets.CRASH_LOG_SERVER_URL != 0 }} == true ( SET C_URL=${{ secrets.CRASH_LOG_SERVER_URL }} ) ELSE ( SET C_URL="''" )
         build\ci\windows\build.bat -b 32 --portable ON -n ${{ github.run_id }} --telemetry %T_ID% --crashurl %C_URL%
     - name: Package 
       if: env.DO_BUILD == 'true'
@@ -195,10 +181,6 @@ jobs:
       if: env.DO_BUILD == 'true'
       run: |
         bash ./build/ci/tools/checksum.sh     
-    - name: Publish package
-      if: env.DO_PUBLISH == 'true'
-      run: |
-        build\ci\windows\publish.bat --secret ${{ secrets.OSUOSL_SSH_ENCRYPT_SECRET }} 
       shell: cmd
     - name: Upload artifacts on GitHub
       if: env.DO_BUILD == 'true'

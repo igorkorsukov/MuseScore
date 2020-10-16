@@ -6,7 +6,7 @@ on:
     - 3.x
     - my/3.x
   schedule:
-    - cron: '0 4 * * *'  
+    - cron:  '0 4 */1 * *' # At 04:00 on every day-of-month
   workflow_dispatch:
     inputs:
       build_mode:
@@ -68,4 +68,4 @@ jobs:
 #      uses: actions/upload-artifact@v2
 #      with:
 #        name: MuseScore_${{ github.run_id }}
-#        path: ./build.artifacts/
+#        path: ./build.artifacts/ 
