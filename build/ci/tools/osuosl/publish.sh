@@ -72,7 +72,10 @@ echo "== 2 =="
 ssh -oStrictHostKeyChecking=no -i $SSH_KEY musescore-nightlies@ftp-osl.osuosl.org "cd $FTP_PATH; ls"
 
 echo "== 3 =="
-ssh -oStrictHostKeyChecking=no -i $SSH_KEY musescore-nightlies@ftp-osl.osuosl.org "cd $FTP_PATH; mv MuseScore-3.5.0~git*-x86_64.msi ../testing	"
+ssh -oStrictHostKeyChecking=no -i $SSH_KEY musescore-nightlies@ftp-osl.osuosl.org "cd $FTP_PATH; rm -f MuseScore-3.5.2.311015065-x86_64.msi"
+ssh -oStrictHostKeyChecking=no -i $SSH_KEY musescore-nightlies@ftp-osl.osuosl.org "cd $FTP_PATH; rm -f MuseScore-3.5.2.310568139-x86_64.msi"
+ssh -oStrictHostKeyChecking=no -i $SSH_KEY musescore-nightlies@ftp-osl.osuosl.org "cd $FTP_PATH; rm -f MuseScore-3.5.1.293615790-x86_64.msi"
+ssh -oStrictHostKeyChecking=no -i $SSH_KEY musescore-nightlies@ftp-osl.osuosl.org "cd $FTP_PATH; rm -f MuseScore-3.5.1.291292197-x86_64.msi"
 
 echo "== 4 =="
 ssh -oStrictHostKeyChecking=no -i $SSH_KEY musescore-nightlies@ftp-osl.osuosl.org "cd $FTP_PATH; ls"
