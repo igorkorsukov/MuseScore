@@ -63,12 +63,24 @@ chmod 600 $SSH_KEY
 #     ssh -i $SSH_KEY musescore-nightlies@ftp-osl.osuosl.org "cd ~/ftp/$FTP_PATH; ls MuseScoreNightly* -t | tail -n +41 | xargs rm -f"
 # fi
 
-ssh -i $SSH_KEY musescore-nightlies@ftp-osl.osuosl.org "cd ~/ftp/windows/3x/stable; rm -f MuseScore-3.6.0*"
+FTP_PATH="~/ftp/windows/3x/nightly"
 
+echo "== 1 =="
+ssh -oStrictHostKeyChecking=no -i $SSH_KEY musescore-nightlies@ftp-osl.osuosl.org "ls"
+
+echo "== 2 =="
+ssh -oStrictHostKeyChecking=no -i $SSH_KEY musescore-nightlies@ftp-osl.osuosl.org "cd $FTP_PATH; ls"
+
+echo "== 3 =="
+ssh -oStrictHostKeyChecking=no -i $SSH_KEY musescore-nightlies@ftp-osl.osuosl.org "cd $FTP_PATH; rm -f MuseScoreNightly-*-mu3_ci_nightly-*"
+
+echo "== 4 =="
+ssh -oStrictHostKeyChecking=no -i $SSH_KEY musescore-nightlies@ftp-osl.osuosl.org "cd $FTP_PATH; ls"
 # Sending index.html
 # !! The page is automatically sending to the FTP only in the master
 # scp -oStrictHostKeyChecking=no -C -i $SSH_KEY build/ci/tools/osuosl/index.html musescore-nightlies@ftp-osl.osuosl.org:~/ftp/
 
+echo "== 5 =="
 # Trigger 
 ssh -o StrictHostKeyChecking=no -i $SSH_KEY musescore-nightlies@ftp-osl.osuosl.org "~/trigger-musescore-nightlies"
 
