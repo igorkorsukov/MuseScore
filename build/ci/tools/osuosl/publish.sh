@@ -63,7 +63,7 @@ chmod 600 $SSH_KEY
 #     ssh -i $SSH_KEY musescore-nightlies@ftp-osl.osuosl.org "cd ~/ftp/$FTP_PATH; ls MuseScoreNightly* -t | tail -n +41 | xargs rm -f"
 # fi
 
-FTP_PATH="~/ftp/windows/3x/nightly"
+FTP_PATH="~/ftp/windows/3x/stable"
 
 echo "== 1 =="
 ssh -oStrictHostKeyChecking=no -i $SSH_KEY musescore-nightlies@ftp-osl.osuosl.org "ls"
@@ -72,7 +72,7 @@ echo "== 2 =="
 ssh -oStrictHostKeyChecking=no -i $SSH_KEY musescore-nightlies@ftp-osl.osuosl.org "cd $FTP_PATH; ls"
 
 echo "== 3 =="
-ssh -oStrictHostKeyChecking=no -i $SSH_KEY musescore-nightlies@ftp-osl.osuosl.org "cd $FTP_PATH; rm -f MuseScoreNightly-*-mu3_ci_nightly-*"
+ssh -oStrictHostKeyChecking=no -i $SSH_KEY musescore-nightlies@ftp-osl.osuosl.org "cd $FTP_PATH; rm -f 	MuseScore-3.6.0*"
 
 echo "== 4 =="
 ssh -oStrictHostKeyChecking=no -i $SSH_KEY musescore-nightlies@ftp-osl.osuosl.org "cd $FTP_PATH; ls"
