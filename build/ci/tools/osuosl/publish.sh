@@ -63,7 +63,7 @@ chmod 600 $SSH_KEY
 #     ssh -i $SSH_KEY musescore-nightlies@ftp-osl.osuosl.org "cd ~/ftp/$FTP_PATH; ls MuseScoreNightly* -t | tail -n +41 | xargs rm -f"
 # fi
 
-FTP_PATH="~/ftp/windows/3x/stable"
+FTP_PATH="~/ftp/linux/3x/stable"
 
 echo "== 1 =="
 ssh -oStrictHostKeyChecking=no -i $SSH_KEY musescore-nightlies@ftp-osl.osuosl.org "ls"
@@ -72,10 +72,10 @@ echo "== 2 =="
 ssh -oStrictHostKeyChecking=no -i $SSH_KEY musescore-nightlies@ftp-osl.osuosl.org "cd $FTP_PATH; ls"
 
 echo "== 3 =="
-ssh -oStrictHostKeyChecking=no -i $SSH_KEY musescore-nightlies@ftp-osl.osuosl.org "cd $FTP_PATH; rm -f MuseScore-3.5.2.311015065-x86_64.msi"
-ssh -oStrictHostKeyChecking=no -i $SSH_KEY musescore-nightlies@ftp-osl.osuosl.org "cd $FTP_PATH; rm -f MuseScore-3.5.2.310568139-x86_64.msi"
-ssh -oStrictHostKeyChecking=no -i $SSH_KEY musescore-nightlies@ftp-osl.osuosl.org "cd $FTP_PATH; rm -f MuseScore-3.5.1.293615790-x86_64.msi"
-ssh -oStrictHostKeyChecking=no -i $SSH_KEY musescore-nightlies@ftp-osl.osuosl.org "cd $FTP_PATH; rm -f MuseScore-3.5.1.291292197-x86_64.msi"
+ssh -oStrictHostKeyChecking=no -i $SSH_KEY musescore-nightlies@ftp-osl.osuosl.org "cd $FTP_PATH; rm -f MuseScore-3.6.0*"
+ssh -oStrictHostKeyChecking=no -i $SSH_KEY musescore-nightlies@ftp-osl.osuosl.org "cd $FTP_PATH; rm -f MuseScore-3.5.2.310567889-x86_64.AppImage"
+ssh -oStrictHostKeyChecking=no -i $SSH_KEY musescore-nightlies@ftp-osl.osuosl.org "cd $FTP_PATH; rm -f MuseScore-3.5.1.293033708-x86_64.AppImage"
+ssh -oStrictHostKeyChecking=no -i $SSH_KEY musescore-nightlies@ftp-osl.osuosl.org "cd $FTP_PATH; rm -f MuseScore-3.5.1.291144363-x86_64.AppImage"
 
 echo "== 4 =="
 ssh -oStrictHostKeyChecking=no -i $SSH_KEY musescore-nightlies@ftp-osl.osuosl.org "cd $FTP_PATH; ls"
