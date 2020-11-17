@@ -19,53 +19,36 @@
 
 #include "telemetrysetup.h"
 
-#include <QtQml/qqml.h>
+#include <QQmlEngine>
 
 #include "modularity/ioc.h"
 
-#include "interfaces/itelemetryservice.h"
-#include "services/telemetryservice.h"
+#include "itelemetryservice.h"
+#include "internal/telemetryservice.h"
+#include "view/telemetrypermissionmodel.h"
 
-#include "models/telemetrypermissionmodel.h"
+using namespace mu::telemetry;
 
-//---------------------------------------------------------
-//   TelemetrySetup
-//---------------------------------------------------------
-
-TelemetrySetup::TelemetrySetup()
+static void telemetry_init_qrc()
 {
+    Q_INIT_RESOURCE(telemetry);
 }
 
-//---------------------------------------------------------
-//   registerExports
-//---------------------------------------------------------
-
-void TelemetrySetup::registerExports()
-{
-    mu::framework::ioc()->registerExport<ITelemetryService>("telemetry", new TelemetryService());
-}
-
-//---------------------------------------------------------
-//   moduleName
-//---------------------------------------------------------
 
 std::string TelemetrySetup::moduleName() const
 {
     return "telemetry";
 }
 
-//---------------------------------------------------------
-//   registerResources
-//---------------------------------------------------------
-
 void TelemetrySetup::registerResources()
 {
-    Q_INIT_RESOURCE(telemetry_resources);
+    telemetry_init_qrc();
 }
 
-//---------------------------------------------------------
-//   registerQmlTypes
-//---------------------------------------------------------
+void TelemetrySetup::registerExports()
+{
+    mu::framework::ioc()->registerExport<ITelemetryService>("telemetry", new TelemetryService());
+}
 
 void TelemetrySetup::registerUiTypes()
 {

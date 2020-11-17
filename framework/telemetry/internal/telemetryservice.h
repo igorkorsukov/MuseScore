@@ -17,28 +17,32 @@
 //  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 //=============================================================================
 
-#ifndef TELEMETRYPERMISSIONDIALOG_H
-#define TELEMETRYPERMISSIONDIALOG_H
+#ifndef MU_TELEMETRY_TELEMETRYSERVICE_H
+#define MU_TELEMETRY_TELEMETRYSERVICE_H
 
-#include <QQuickView>
-#include <QQmlEngine>
-#include <QWidget>
+#include "itelemetryservice.h"
 
-//---------------------------------------------------------
-//   TelemetryPermissionDialog
-//---------------------------------------------------------
+#include <QSettings>
 
-class TelemetryPermissionDialog : public QQuickView
+namespace mu::telemetry {
+
+class TelemetryService : public ITelemetryService
 {
-    Q_OBJECT
-
-    void focusInEvent(QFocusEvent*) override;
-
 public:
-    explicit TelemetryPermissionDialog(QQmlEngine* engine);
+    TelemetryService() = default;
 
-signals:
-    void closeRequested();
+    void sendEvent(const QString& category, const QString& action, const QString& label, const QVariant& value,
+                   const QVariantMap& customValues) override;
+    void sendException(const QString& exceptionDescription, bool exceptionFatal,const QVariantMap& customValues) override;
+    void startSession() override;
+    void endSession() override;
+
+private:
+    bool isTelemetryAllowed() const;
+
+    QSettings m_settings;
 };
 
-#endif // TELEMETRYPERMISSIONDIALOG_H
+}
+
+#endif // MU_TELEMETRY_TELEMETRYSERVICE_H

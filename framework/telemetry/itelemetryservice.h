@@ -17,8 +17,8 @@
 //  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 //=============================================================================
 
-#ifndef ITELEMETRYSERVICE_H
-#define ITELEMETRYSERVICE_H
+#ifndef MU_TELEMETRY_ITELEMETRYSERVICE_H
+#define MU_TELEMETRY_ITELEMETRYSERVICE_H
 
 #include <QString>
 #include <QVariant>
@@ -48,4 +48,4 @@ public:
     virtual void endSession() = 0;
 };
 
-#endif // ITELEMETRYSERVICE_H
+#endif // MU_TELEMETRY_ITELEMETRYSERVICE_H
