@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+# This is script for generate dump symbols.
+# Used on CI and can be used locally 
+
 DUMSYMS_BIN=$(which dump_syms)
 BUILD_DIR=""
 SYMBOLS_DIR="../../build.symbols"
