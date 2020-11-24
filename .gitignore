@@ -16,6 +16,7 @@ win64install
 build.xcode
 applebuild
 build.artifacts
+build.symbols
 MuseScorePortable
 /*.config
 /*.creator

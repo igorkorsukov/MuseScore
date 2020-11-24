@@ -1,0 +1,478 @@
+Operating system: Linux
+                  5.4.0 -52-generic #57~18.04.1-Ubuntu SMP Thu Oct 15 14:04:49 UTC 2020 x86_64
+CPU: amd64
+     family 6 model 94 stepping 3
+     8 CPUs
+
+GPU: UNKNOWN
+
+Crash reason:  SIGSEGV /SEGV_MAPERR
+Crash address: 0x0
+Process uptime: 1 seconds
+
+Thread 0 (crashed)
+ 0  mscore!mu::telemetry::TelemetrySetup::onInit()::{lambda()#1}::operator()() const + 0x14
+    rax = 0x0000000000000000   rdx = 0x000055d527c15010
+    rcx = 0x0000000000000002   rbx = 0x00007ffcc47db7c8
+    rsi = 0x000055d527c15020   rdi = 0x00007ffcc47db688
+    rbp = 0x00007ffcc47db640   rsp = 0x00007ffcc47db640
+     r8 = 0x0000000000000000    r9 = 0x0000000000000000
+    r10 = 0x0000000000000000   r11 = 0x0000000000000000
+    r12 = 0x000055d523dc15a0   r13 = 0x00007ffcc47dbcc0
+    r14 = 0x0000000000000000   r15 = 0x0000000000000000
+    rip = 0x000055d523e417fa
+    Found by: given as instruction pointer in context
+ 1  mscore!mu::telemetry::TelemetrySetup::onInit() [telemetrysetup.cpp : 95 + 0xf]
+    rbx = 0x00007ffcc47db7c8   rbp = 0x00007ffcc47db970
+    rsp = 0x00007ffcc47db650   r12 = 0x000055d523dc15a0
+    r13 = 0x00007ffcc47dbcc0   r14 = 0x0000000000000000
+    r15 = 0x0000000000000000   rip = 0x000055d523e420aa
+    Found by: call frame info
+ 2  mscore!ModulesSetup::setup() [modulessetup.cpp : 139 + 0x17]
+    rbx = 0x0000000000000000   rbp = 0x00007ffcc47dba30
+    rsp = 0x00007ffcc47db980   r12 = 0x000055d523dc15a0
+    r13 = 0x00007ffcc47dbcc0   r14 = 0x0000000000000000
+    r15 = 0x0000000000000000   rip = 0x000055d523dc4fb9
+    Found by: call frame info
+ 3  mscore!main::{lambda()#1}::operator()() const + 0x19
+    rbx = 0x0000000000000000   rbp = 0x00007ffcc47dba50
+    rsp = 0x00007ffcc47dba40   r12 = 0x000055d523dc15a0
+    r13 = 0x00007ffcc47dbcc0   r14 = 0x0000000000000000
+    r15 = 0x0000000000000000   rip = 0x000055d523dc190b
+    Found by: call frame info
+ 4  mscore!std::_Function_handler<void(), main(int, char**)::<lambda()> >::_M_invoke [std_function.h : 316 + 0x14]
+    rbx = 0x0000000000000000   rbp = 0x00007ffcc47dba70
+    rsp = 0x00007ffcc47dba60   r12 = 0x000055d523dc15a0
+    r13 = 0x00007ffcc47dbcc0   r14 = 0x0000000000000000
+    r15 = 0x0000000000000000   rip = 0x000055d523dc1b4a
+    Found by: call frame info
+ 5  mscore!std::function<void ()>::operator()() const [std_function.h : 706 + 0x11]
+    rbx = 0x0000000000000000   rbp = 0x00007ffcc47dba90
+    rsp = 0x00007ffcc47dba80   r12 = 0x000055d523dc15a0
+    r13 = 0x00007ffcc47dbcc0   r14 = 0x0000000000000000
+    r15 = 0x0000000000000000   rip = 0x000055d523ddb934
+    Found by: call frame info
+ 6  mscore!mu::appshell::AppShell::run(int, char**, std::function<void ()>) [appshell.cpp : 61 + 0xf]
+    rbx = 0x0000000000000000   rbp = 0x00007ffcc47dbb60
+    rsp = 0x00007ffcc47dbaa0   r12 = 0x000055d523dc15a0
+    r13 = 0x00007ffcc47dbcc0   r14 = 0x0000000000000000
+    r15 = 0x0000000000000000   rip = 0x000055d523e50f75
+    Found by: call frame info
+ 7  mscore!main [main.cpp : 91 + 0x2c]
+    rbx = 0x0000000000000000   rbp = 0x00007ffcc47dbbe0
+    rsp = 0x00007ffcc47dbb70   r12 = 0x000055d523dc15a0
+    r13 = 0x00007ffcc47dbcc0   r14 = 0x0000000000000000
+    r15 = 0x0000000000000000   rip = 0x000055d523dc199d
+    Found by: call frame info
+ 8  libc.so.6 + 0x21bf7
+    rbx = 0x0000000000000000   rbp = 0x000055d524accad0
+    rsp = 0x00007ffcc47dbbf0   r12 = 0x000055d523dc15a0
+    r13 = 0x00007ffcc47dbcc0   r14 = 0x0000000000000000
+    r15 = 0x0000000000000000   rip = 0x00007f09a78dabf7
+    Found by: call frame info
+ 9  mscore!main::{lambda()#1}::operator()() const + 0x1c
+    rsp = 0x00007ffcc47dbc10   rip = 0x000055d523dc190e
+    Found by: stack scanning
+10  mscore!_init + 0x7bc8
+    rsp = 0x00007ffcc47dbc28   rip = 0x000055d523dc15a0
+    Found by: stack scanning
+11  ld-linux-x86-64.so.2 + 0x108f3
+    rsp = 0x00007ffcc47dbc70   rip = 0x00007f09acb678f3
+    Found by: stack scanning
+12  libasound.so.2 + 0x2ff370
+    rsp = 0x00007ffcc47dbc78   rip = 0x00007f09ac524370
+    Found by: stack scanning
+13  libpthread.so.0 + 0x219bb0
+    rsp = 0x00007ffcc47dbc80   rip = 0x00007f09ac745bb0
+    Found by: stack scanning
+14  mscore!_init + 0x7bc8
+    rsp = 0x00007ffcc47dbca0   rip = 0x000055d523dc15a0
+    Found by: stack scanning
+15  mscore!_start + 0x2a
+    rsp = 0x00007ffcc47dbcb0   rip = 0x000055d523dc15ca
+    Found by: stack scanning
+16  0x7ffcc47dbcb8
+    rsp = 0x00007ffcc47dbcb8   rip = 0x00007ffcc47dbcb8
+    Found by: call frame info
+
+Thread 1
+ 0  libc.so.6 + 0x114cb9
+    rax = 0xfffffffffffffdfc   rdx = 0x00000000ffffffff
+    rcx = 0x00007f09a79cdcb9   rbx = 0x00007f099c19bc88
+    rsi = 0x0000000000000001   rdi = 0x00007f099c19bc88
+    rbp = 0x0000000000000001   rsp = 0x00007f099c19bc40
+     r8 = 0x0000000000000000    r9 = 0x00007ffcc47db430
+    r10 = 0x0000000000000000   r11 = 0x0000000000000293
+    r12 = 0x00000000ffffffff   r13 = 0x0000000000000000
+    r14 = 0x000055d527cb69c8   r15 = 0x0000000000000000
+    rip = 0x00007f09a79cdcb9
+    Found by: given as instruction pointer in context
+ 1  libxcb.so.1 + 0xb747
+    rsp = 0x00007f099c19bc70   rip = 0x00007f09a26de747
+    Found by: stack scanning
+ 2  libglib-2.0.so.0 + 0x3a23b
+    rsp = 0x00007f099c19bca0   rip = 0x00007f09a40fb23b
+    Found by: stack scanning
+ 3  libQt5Core.so.5 + 0x2d4549
+    rsp = 0x00007f099c19bcc0   rip = 0x00007f09a88bd549
+    Found by: stack scanning
+ 4  libQt5Core.so.5 + 0x2d2aa5
+    rsp = 0x00007f099c19bcf0   rip = 0x00007f09a88bbaa5
+    Found by: stack scanning
+ 5  libQt5Core.so.5 + 0x3d5370
+    rsp = 0x00007f099c19bd18   rip = 0x00007f09a89be370
+    Found by: stack scanning
+ 6  libxcb.so.1 + 0xd36a
+    rsp = 0x00007f099c19bd70   rip = 0x00007f09a26e036a
+    Found by: stack scanning
+ 7  libQt5XcbQpa.so.5 + 0x356540
+    rsp = 0x00007f099c19bd90   rip = 0x00007f09a01e4540
+    Found by: stack scanning
+ 8  libQt5XcbQpa.so.5 + 0x64690
+    rsp = 0x00007f099c19bda0   rip = 0x00007f099fef2690
+    Found by: stack scanning
+ 9  libQt5Core.so.5 + 0xb3845
+    rsp = 0x00007f099c19bde0   rip = 0x00007f09a869c845
+    Found by: stack scanning
+10  libQt5Core.so.5 + 0x3d4900
+    rsp = 0x00007f099c19bde8   rip = 0x00007f09a89bd900
+    Found by: stack scanning
+11  libpthread.so.0 + 0x76db
+    rsp = 0x00007f099c19be40   rip = 0x00007f09ac5336db
+    Found by: stack scanning
+12  libc.so.6 + 0x12171f
+    rsp = 0x00007f099c19bf00   rip = 0x00007f09a79da71f
+    Found by: stack scanning
+
+Thread 2
+ 0  libc.so.6 + 0x114cb9
+    rax = 0xfffffffffffffdfc   rdx = 0x00000000ffffffff
+    rcx = 0x00007f09a79cdcb9   rbx = 0x000055d527d6e4d0
+    rsi = 0x0000000000000002   rdi = 0x000055d527d6e4d0
+    rbp = 0x0000000000000002   rsp = 0x00007f0990154d70
+     r8 = 0x0000000000000000    r9 = 0x000055d527d55928
+    r10 = 0x000055d527d04ee0   r11 = 0x0000000000000293
+    r12 = 0x00000000ffffffff   r13 = 0x00000000ffffffff
+    r14 = 0x00007f09a411cf50   r15 = 0x0000000000000002
+    rip = 0x00007f09a79cdcb9
+    Found by: given as instruction pointer in context
+ 1  libglib-2.0.so.0 + 0x4c5c9
+    rsp = 0x00007f0990154da0   rip = 0x00007f09a410d5c9
+    Found by: stack scanning
+ 2  libglib-2.0.so.0 + 0x4c6dc
+    rsp = 0x00007f0990154e00   rip = 0x00007f09a410d6dc
+    Found by: stack scanning
+ 3  libglib-2.0.so.0 + 0x315958
+    rsp = 0x00007f0990154e10   rip = 0x00007f09a43d6958
+    Found by: stack scanning
+ 4  libglib-2.0.so.0 + 0x4c721
+    rsp = 0x00007f0990154e20   rip = 0x00007f09a410d721
+    Found by: stack scanning
+ 5  libglib-2.0.so.0 + 0x74175
+    rsp = 0x00007f0990154e30   rip = 0x00007f09a4135175
+    Found by: stack scanning
+ 6  libpthread.so.0 + 0x76db
+    rsp = 0x00007f0990154e40   rip = 0x00007f09ac5336db
+    Found by: stack scanning
+ 7  libc.so.6 + 0x12171f
+    rsp = 0x00007f0990154f00   rip = 0x00007f09a79da71f
+    Found by: stack scanning
+
+Thread 3
+ 0  libc.so.6 + 0x114cb9
+    rax = 0xfffffffffffffdfc   rdx = 0x00000000ffffffff
+    rcx = 0x00007f09a79cdcb9   rbx = 0x000055d527d5f9b0
+    rsi = 0x0000000000000002   rdi = 0x000055d527d5f9b0
+    rbp = 0x0000000000000002   rsp = 0x00007f098f953d60
+     r8 = 0x0000000000000000    r9 = 0x000055d527d5eca8
+    r10 = 0x000055d527d58ec0   r11 = 0x0000000000000293
+    r12 = 0x00000000ffffffff   r13 = 0x00000000ffffffff
+    r14 = 0x00007f09a411cf50   r15 = 0x0000000000000002
+    rip = 0x00007f09a79cdcb9
+    Found by: given as instruction pointer in context
+ 1  libglib-2.0.so.0 + 0x4c5c9
+    rsp = 0x00007f098f953d90   rip = 0x00007f09a410d5c9
+    Found by: stack scanning
+ 2  libglib-2.0.so.0 + 0x4c962
+    rsp = 0x00007f098f953df0   rip = 0x00007f09a410d962
+    Found by: stack scanning
+ 3  libgio-2.0.so.0 + 0xcf276
+    rsp = 0x00007f098f953e20   rip = 0x00007f099a039276
+    Found by: stack scanning
+ 4  libglib-2.0.so.0 + 0x74175
+    rsp = 0x00007f098f953e30   rip = 0x00007f09a4135175
+    Found by: stack scanning
+ 5  libpthread.so.0 + 0x76db
+    rsp = 0x00007f098f953e40   rip = 0x00007f09ac5336db
+    Found by: stack scanning
+ 6  libc.so.6 + 0x12171f
+    rsp = 0x00007f098f953f00   rip = 0x00007f09a79da71f
+    Found by: stack scanning
+
+Thread 4
+ 0  libc.so.6 + 0x114cb9
+    rax = 0xfffffffffffffdfc   rdx = 0x00000000000028e5
+    rcx = 0x00007f09a79cdcb9   rbx = 0x00007f0984002910
+    rsi = 0x0000000000000001   rdi = 0x00007f0984002910
+    rbp = 0x0000000000000001   rsp = 0x00007f098e4ddc30
+     r8 = 0x0000000000000000    r9 = 0x00007f0984000c68
+    r10 = 0x000055d527e6b6a0   r11 = 0x0000000000000293
+    r12 = 0x00000000000028e5   r13 = 0x00000000000028e5
+    r14 = 0x00007f09a411cf50   r15 = 0x0000000000000001
+    rip = 0x00007f09a79cdcb9
+    Found by: given as instruction pointer in context
+ 1  libglib-2.0.so.0 + 0x4c5c9
+    rsp = 0x00007f098e4ddc60   rip = 0x00007f09a410d5c9
+    Found by: stack scanning
+ 2  libglib-2.0.so.0 + 0x4c6dc
+    rsp = 0x00007f098e4ddcc0   rip = 0x00007f09a410d6dc
+    Found by: stack scanning
+ 3  libQt5Core.so.5 + 0x2f7aac
+    rsp = 0x00007f098e4ddce0   rip = 0x00007f09a88e0aac
+    Found by: stack scanning
+ 4  libQt5Core.so.5 + 0x29aafa
+    rsp = 0x00007f098e4ddd20   rip = 0x00007f09a8883afa
+    Found by: stack scanning
+ 5  libQt5Core.so.5 + 0x29a619
+    rsp = 0x00007f098e4ddd60   rip = 0x00007f09a8883619
+    Found by: stack scanning
+ 6  libQt5Core.so.5 + 0xb2554
+    rsp = 0x00007f098e4ddda0   rip = 0x00007f09a869b554
+    Found by: stack scanning
+ 7  libQt5Core.so.5 + 0x7ee208
+    rsp = 0x00007f098e4ddda8   rip = 0x00007f09a8dd7208
+    Found by: stack scanning
+ 8  libQt5Core.so.5 + 0xb3845
+    rsp = 0x00007f098e4ddde0   rip = 0x00007f09a869c845
+    Found by: stack scanning
+ 9  libQt5Network.so.5 + 0x157f00
+    rsp = 0x00007f098e4ddde8   rip = 0x00007f09aa31ef00
+    Found by: stack scanning
+10  libQt5Network.so.5 + 0x157f00
+    rsp = 0x00007f098e4dddf8   rip = 0x00007f09aa31ef00
+    Found by: stack scanning
+11  libpthread.so.0 + 0x76db
+    rsp = 0x00007f098e4dde40   rip = 0x00007f09ac5336db
+    Found by: stack scanning
+12  libc.so.6 + 0x12171f
+    rsp = 0x00007f098e4ddf00   rip = 0x00007f09a79da71f
+    Found by: stack scanning
+
+Thread 5
+ 0  libc.so.6 + 0x114cb9
+    rax = 0xfffffffffffffdfc   rdx = 0x00000000ffffffff
+    rcx = 0x00007f09a79cdcb9   rbx = 0x00007f09780024d0
+    rsi = 0x0000000000000002   rdi = 0x00007f09780024d0
+    rbp = 0x0000000000000002   rsp = 0x00007f098daa8c00
+     r8 = 0x0000000000000000    r9 = 0x00007f0978005010
+    r10 = 0x000055d527e6cd40   r11 = 0x0000000000000293
+    r12 = 0x00000000ffffffff   r13 = 0x00000000ffffffff
+    r14 = 0x00007f09a411cf50   r15 = 0x0000000000000002
+    rip = 0x00007f09a79cdcb9
+    Found by: given as instruction pointer in context
+ 1  libglib-2.0.so.0 + 0x4c5c9
+    rsp = 0x00007f098daa8c30   rip = 0x00007f09a410d5c9
+    Found by: stack scanning
+ 2  libglib-2.0.so.0 + 0x4c6dc
+    rsp = 0x00007f098daa8c90   rip = 0x00007f09a410d6dc
+    Found by: stack scanning
+ 3  libQt5Core.so.5 + 0x2f7aac
+    rsp = 0x00007f098daa8cb0   rip = 0x00007f09a88e0aac
+    Found by: stack scanning
+ 4  libQt5Core.so.5 + 0x29aafa
+    rsp = 0x00007f098daa8cf0   rip = 0x00007f09a8883afa
+    Found by: stack scanning
+ 5  libQt5DBus.so.5 + 0x28ada0
+    rsp = 0x00007f098daa8d10   rip = 0x00007f099f993da0
+    Found by: stack scanning
+ 6  libQt5Core.so.5 + 0x29a619
+    rsp = 0x00007f098daa8d30   rip = 0x00007f09a8883619
+    Found by: stack scanning
+ 7  libQt5DBus.so.5 + 0x28ada0
+    rsp = 0x00007f098daa8d50   rip = 0x00007f099f993da0
+    Found by: stack scanning
+ 8  libQt5DBus.so.5 + 0x28ada0
+    rsp = 0x00007f098daa8d58   rip = 0x00007f099f993da0
+    Found by: stack scanning
+ 9  libQt5Core.so.5 + 0xb2554
+    rsp = 0x00007f098daa8d70   rip = 0x00007f09a869b554
+    Found by: stack scanning
+10  libQt5Core.so.5 + 0x7ee208
+    rsp = 0x00007f098daa8d78   rip = 0x00007f09a8dd7208
+    Found by: stack scanning
+11  libQt5DBus.so.5 + 0x28ada0
+    rsp = 0x00007f098daa8d88   rip = 0x00007f099f993da0
+    Found by: stack scanning
+12  libQt5DBus.so.5 + 0x28ada0
+    rsp = 0x00007f098daa8d98   rip = 0x00007f099f993da0
+    Found by: stack scanning
+13  libQt5DBus.so.5 + 0x28ada0
+    rsp = 0x00007f098daa8da0   rip = 0x00007f099f993da0
+    Found by: stack scanning
+14  libQt5DBus.so.5 + 0x15fd5
+    rsp = 0x00007f098daa8db0   rip = 0x00007f099f71efd5
+    Found by: stack scanning
+15  libQt5DBus.so.5 + 0x28ada0
+    rsp = 0x00007f098daa8dc0   rip = 0x00007f099f993da0
+    Found by: stack scanning
+16  libQt5Core.so.5 + 0xb3845
+    rsp = 0x00007f098daa8de0   rip = 0x00007f09a869c845
+    Found by: stack scanning
+17  libQt5Core.so.5 + 0x3d4900
+    rsp = 0x00007f098daa8de8   rip = 0x00007f09a89bd900
+    Found by: stack scanning
+18  libQt5DBus.so.5 + 0x28ada0
+    rsp = 0x00007f098daa8e30   rip = 0x00007f099f993da0
+    Found by: stack scanning
+19  libpthread.so.0 + 0x76db
+    rsp = 0x00007f098daa8e40   rip = 0x00007f09ac5336db
+    Found by: stack scanning
+20  libQt5DBus.so.5 + 0x28ada0
+    rsp = 0x00007f098daa8e78   rip = 0x00007f099f993da0
+    Found by: stack scanning
+21  libQt5DBus.so.5 + 0x28ada0
+    rsp = 0x00007f098daa8ef8   rip = 0x00007f099f993da0
+    Found by: stack scanning
+22  libc.so.6 + 0x12171f
+    rsp = 0x00007f098daa8f00   rip = 0x00007f09a79da71f
+    Found by: stack scanning
+
+Loaded modules:
+0x55d523c80000 - 0x55d5263c38a7  mscore  0.0.0.0  (main)
+0x7f098ce5f000 - 0x7f098d0977af  libqnmbearer.so  0.0.0.0
+0x7f098d098000 - 0x7f098d2a83e7  libqgenericbearer.so  0.0.0.0
+0x7f098daaa000 - 0x7f098dcdd7cf  libqconnmanbearer.so  0.0.0.0
+0x7f098e4df000 - 0x7f098e6e41ff  libcomposeplatforminputcontextplugin.so  0.0.0.0
+0x7f098e6e5000 - 0x7f098e906917  libibusplatforminputcontextplugin.so  0.0.0.0
+0x7f098e907000 - 0x7f098eb0b00f  libcanberra-gtk3.so.0  0.0.0.0
+0x7f098eb0c000 - 0x7f098ed120af  libcanberra-gtk3-module.so  0.0.0.0
+0x7f098ed13000 - 0x7f098ef4631f  libgvfsdbus.so  0.0.0.0
+0x7f098ef47000 - 0x7f098f1535d7  libdconfsettings.so  0.0.0.0
+0x7f0990156000 - 0x7f09903922b7  libgvfscommon.so  0.0.0.0
+0x7f0990393000 - 0x7f09905af18f  libgioremote-volume-monitor.so  0.0.0.0
+0x7f09905b0000 - 0x7f09907b91af  libltdl.so.7  0.0.0.0
+0x7f09907ba000 - 0x7f09909cf04f  libtdb.so.1  0.0.0.0
+0x7f09909d0000 - 0x7f0990bd71b7  libvorbisfile.so.3  0.0.0.0
+0x7f0990bd8000 - 0x7f0990ee04d7  libsqlite3.so.0  0.0.0.0
+0x7f0990ee1000 - 0x7f09910f203f  libcanberra.so.0  0.0.0.0
+0x7f09910f3000 - 0x7f0991352bb7  libzeitgeist-2.0.so.0  0.0.0.0
+0x7f0991353000 - 0x7f09915e077f  libgranite.so.5  0.0.0.0
+0x7f09915e1000 - 0x7f09918a581f  libgee-0.8.so.2  0.0.0.0
+0x7f09918a6000 - 0x7f0991b25817  libpantheon-files-core.so.4  0.0.0.0
+0x7f0991b26000 - 0x7f0991d52307  libpantheon-files-widgets.so.4  0.0.0.0
+0x7f0991d53000 - 0x7f0991f5b027  libpantheon-filechooser-module.so  0.0.0.0
+0x7f0991f5c000 - 0x7f099216217f  libuuid.so.1  0.0.0.0
+0x7f0992163000 - 0x7f099238f0b7  libgraphite2.so.3  0.0.0.0
+0x7f0992390000 - 0x7f099259600f  libdatrie.so.1  0.0.0.0
+0x7f0992597000 - 0x7f09927e3cff  libblkid.so.1  0.0.0.0
+0x7f09927e4000 - 0x7f0992a8142f  libharfbuzz.so.0  0.0.0.0
+0x7f0992a82000 - 0x7f0992cb1397  libatspi.so.0  0.0.0.0
+0x7f0992cb2000 - 0x7f0992eb9607  libffi.so.6  0.0.0.0
+0x7f0992eba000 - 0x7f099315e147  libpixman-1.so.0  0.0.0.0
+0x7f099315f000 - 0x7f099336788f  libthai.so.0  0.0.0.0
+0x7f0993368000 - 0x7f09935bbc5f  libmount.so.1  0.0.0.0
+0x7f09935bc000 - 0x7f09937e38cf  libselinux.so.1  0.0.0.0
+0x7f09937e4000 - 0x7f09939f24a7  libwayland-client.so.0  0.0.0.0
+0x7f09939f3000 - 0x7f0993bf4037  libwayland-egl.so.1  0.0.0.0
+0x7f0993bf5000 - 0x7f0993dfc1ef  libwayland-cursor.so.0  0.0.0.0
+0x7f0993dfd000 - 0x7f0993fff0a7  libXdamage.so.1  0.0.0.0
+0x7f0998005000 - 0x7f0998207097  libXcomposite.so.1  0.0.0.0
+0x7f0998208000 - 0x7f0998412187  libXrandr.so.2  0.0.0.0
+0x7f0998413000 - 0x7f0998615127  libXinerama.so.1  0.0.0.0
+0x7f0998616000 - 0x7f099882b14f  libpangoft2-1.0.so.0  0.0.0.0
+0x7f099882c000 - 0x7f0998b2cc77  libepoxy.so.0  0.0.0.0
+0x7f0998b2d000 - 0x7f0998d5d2cf  libatk-bridge-2.0.so.0  0.0.0.0
+0x7f0998d5e000 - 0x7f0998f6d287  libXi.so.6  0.0.0.0
+0x7f0998f6e000 - 0x7f0999171077  libgmodule-2.0.so.0  0.0.0.0
+0x7f0999172000 - 0x7f09993c5b67  libgobject-2.0.so.0  0.0.0.0
+0x7f09993c6000 - 0x7f09996e29af  libcairo.so.2  0.0.0.0
+0x7f09996e3000 - 0x7f099992f28f  libpango-1.0.so.0  0.0.0.0
+0x7f0999930000 - 0x7f0999b3815f  libcairo-gobject.so.2  0.0.0.0
+0x7f0999b39000 - 0x7f0999d5c6af  libgdk_pixbuf-2.0.so.0  0.0.0.0
+0x7f0999d5d000 - 0x7f0999f690b7  libpangocairo-1.0.so.0  0.0.0.0
+0x7f0999f6a000 - 0x7f099a308277  libgio-2.0.so.0  0.0.0.0  (WARNING: No symbols, libgio-2.0.so.0, 703F3C6856DFFD035944D4E525D498CF0)
+0x7f099a309000 - 0x7f099a52e497  libatk-1.0.so.0  0.0.0.0
+0x7f099a52f000 - 0x7f099a82456f  libgdk-3.so.0  0.0.0.0
+0x7f099a825000 - 0x7f099b12c3df  libgtk-3.so.0  0.0.0.0
+0x7f099b12d000 - 0x7f099b3813bf  libqgtk3.so  0.0.0.0
+0x7f099b382000 - 0x7f099b587107  libXfixes.so.3  0.0.0.0
+0x7f099b588000 - 0x7f099b791267  libXrender.so.1  0.0.0.0
+0x7f099b792000 - 0x7f099b99b1c7  libXcursor.so.1  0.0.0.0
+0x7f099c19d000 - 0x7f099c3b10e7  libgpg-error.so.0  0.0.0.0
+0x7f099c3b2000 - 0x7f099c6cd007  libgcrypt.so.20  0.0.0.0
+0x7f099c6ce000 - 0x7f099c8e905f  liblz4.so.1  0.0.0.0
+0x7f099c8ea000 - 0x7f099cb0f107  liblzma.so.5  0.0.0.0
+0x7f099cb10000 - 0x7f099cd93247  libsystemd.so.0  0.0.0.0
+0x7f099cd94000 - 0x7f099cf99107  libxcb-util.so.1  0.0.0.0
+0x7f099cf9a000 - 0x7f099d1e62cf  libdbus-1.so.3  0.0.0.0
+0x7f099d1e7000 - 0x7f099d41800f  libpng16.so.16  0.0.0.0
+0x7f099d419000 - 0x7f099d64a09f  libexpat.so.1  0.0.0.0
+0x7f099d64b000 - 0x7f099d889177  libxkbcommon.so.0  0.0.0.0
+0x7f099d88a000 - 0x7f099da912f7  libxkbcommon-x11.so.0  0.0.0.0
+0x7f099da92000 - 0x7f099dca3a97  libXext.so.6  0.0.0.0
+0x7f099dca4000 - 0x7f099debf077  libxcb-xkb.so.1  0.0.0.0
+0x7f099dec0000 - 0x7f099e0c2057  libxcb-xinerama.so.0  0.0.0.0
+0x7f099e0c3000 - 0x7f099e2ca057  libxcb-xfixes.so.0  0.0.0.0
+0x7f099e2cb000 - 0x7f099e4d1077  libxcb-sync.so.1  0.0.0.0
+0x7f099e4d2000 - 0x7f099e6d5057  libxcb-shape.so.0  0.0.0.0
+0x7f099e6d6000 - 0x7f099e8e2077  libxcb-render.so.0  0.0.0.0
+0x7f099e8e3000 - 0x7f099eae6197  libxcb-render-util.so.0  0.0.0.0
+0x7f099eae7000 - 0x7f099ecf6067  libxcb-randr.so.0  0.0.0.0
+0x7f099ecf7000 - 0x7f099eef9077  libxcb-keysyms.so.1  0.0.0.0
+0x7f099eefa000 - 0x7f099f0fc067  libxcb-shm.so.0  0.0.0.0
+0x7f099f0fd000 - 0x7f099f3010e7  libxcb-image.so.0  0.0.0.0
+0x7f099f302000 - 0x7f099f506087  libxcb-icccm.so.4  0.0.0.0
+0x7f099f507000 - 0x7f099f708027  libX11-xcb.so.1  0.0.0.0
+0x7f099f709000 - 0x7f099f994397  libQt5DBus.so.5  0.0.0.0  (WARNING: No symbols, libQt5DBus.so.5, 0CCF382383D2C0FD7E5C0F7AED035CF90)
+0x7f099f995000 - 0x7f099fc481f7  libfreetype.so.6  0.0.0.0
+0x7f099fc49000 - 0x7f099fe8d807  libfontconfig.so.1  0.0.0.0
+0x7f099fe8e000 - 0x7f09a01e54ef  libQt5XcbQpa.so.5  0.0.0.0  (WARNING: No symbols, libQt5XcbQpa.so.5, B97ED141F8E2A5C37632853B3E41F9E50)
+0x7f09a01e6000 - 0x7f09a03e80d7  libqxcb.so  0.0.0.0
+0x7f09a20b4000 - 0x7f09a22c804f  libbsd.so.0  0.0.0.0
+0x7f09a22c9000 - 0x7f09a24ce07f  libXdmcp.so.6  0.0.0.0
+0x7f09a24cf000 - 0x7f09a26d2107  libXau.so.6  0.0.0.0
+0x7f09a26d3000 - 0x7f09a28fa2a7  libxcb.so.1  0.0.0.0  (WARNING: No symbols, libxcb.so.1, 02AC493DA84CE3F76F5296A7D0D7F0830)
+0x7f09a28fb000 - 0x7f09a2b14a7f  libresolv.so.2  0.0.0.0
+0x7f09a2b15000 - 0x7f09a2d1800f  libkeyutils.so.1  0.0.0.0
+0x7f09a2d19000 - 0x7f09a3050d37  libX11.so.6  0.0.0.0
+0x7f09a3051000 - 0x7f09a32c2107  libpcre.so.3  0.0.0.0
+0x7f09a32c3000 - 0x7f09a34cd3c7  libkrb5support.so.0  0.0.0.0
+0x7f09a34ce000 - 0x7f09a36d10a7  libcom_err.so.2  0.0.0.0
+0x7f09a36d2000 - 0x7f09a3903077  libk5crypto.so.3  0.0.0.0
+0x7f09a3904000 - 0x7f09a3bd9cdf  libkrb5.so.3  0.0.0.0
+0x7f09a3bda000 - 0x7f09a3e8f44f  libGLdispatch.so.0  0.0.0.0
+0x7f09a3e90000 - 0x7f09a40c065f  libGLX.so.0  0.0.0.0
+0x7f09a40c1000 - 0x7f09a43d7187  libglib-2.0.so.0  0.0.0.0  (WARNING: No symbols, libglib-2.0.so.0, 0326346809B8E7E3E0959E02B4FDE2EF0)
+0x7f09a43d8000 - 0x7f09a45d900f  libgthread-2.0.so.0  0.0.0.0
+0x7f09a45da000 - 0x7f09a5fbcfff  libicudata.so.56  0.0.0.0
+0x7f09a5fbd000 - 0x7f09a6374cbf  libicuuc.so.56  0.0.0.0
+0x7f09a6375000 - 0x7f09a680d14f  libicui18n.so.56  0.0.0.0
+0x7f09a680e000 - 0x7f09a6a5833f  libgssapi_krb5.so.2  0.0.0.0
+0x7f09a6a59000 - 0x7f09a6ce48ef  libGL.so.1  0.0.0.0
+0x7f09a6ce5000 - 0x7f09a6f64e77  libQt5QmlModels.so.5  0.0.0.0
+0x7f09a6f65000 - 0x7f09a720d08f  libvorbisenc.so.2  0.0.0.0
+0x7f09a720e000 - 0x7f09a7438137  libvorbis.so.0  0.0.0.0
+0x7f09a7439000 - 0x7f09a764100f  libogg.so.0  0.0.0.0
+0x7f09a7642000 - 0x7f09a78b8047  libFLAC.so.8  0.0.0.0
+0x7f09a78b9000 - 0x7f09a7ca9adf  libc.so.6  0.0.0.0  (WARNING: No symbols, libc.so.6, 08D26DCCAFD3C54B05F599A90EF8AF520)
+0x7f09a7caa000 - 0x7f09a7ec142f  libgcc_s.so.1  0.0.0.0
+0x7f09a7ec2000 - 0x7f09a825f157  libm.so.6  0.0.0.0
+0x7f09a8260000 - 0x7f09a85e803f  libstdc++.so.6  0.0.0.0
+0x7f09a85e9000 - 0x7f09a8ddef27  libQt5Core.so.5  0.0.0.0  (WARNING: No symbols, libQt5Core.so.5, 96F9F852B2E2EDCD00B955ACFFE0A0D20)
+0x7f09a8ddf000 - 0x7f09a970fd47  libQt5Gui.so.5  0.0.0.0
+0x7f09a9710000 - 0x7f09a9f71e8f  libQt5Widgets.so.5  0.0.0.0
+0x7f09a9f72000 - 0x7f09aa1c6e5f  libQt5Svg.so.5  0.0.0.0
+0x7f09aa1c7000 - 0x7f09aa57363f  libQt5Network.so.5  0.0.0.0  (WARNING: No symbols, libQt5Network.so.5, 1CEE647F60D64DA5DC6785F9B5CDF2750)
+0x7f09aa574000 - 0x7f09aab4c28f  libQt5XmlPatterns.so.5  0.0.0.0
+0x7f09aab4d000 - 0x7f09aad8a4b7  libQt5Xml.so.5  0.0.0.0
+0x7f09aad8b000 - 0x7f09ab407c2f  libQt5Qml.so.5  0.0.0.0
+0x7f09ab408000 - 0x7f09abb3c007  libQt5Quick.so.5  0.0.0.0
+0x7f09abb3d000 - 0x7f09abd8efff  libQt5Test.so.5  0.0.0.0
+0x7f09abd8f000 - 0x7f09abfab0af  libz.so.1  0.0.0.0
+0x7f09abfac000 - 0x7f09ac224e5f  libsndfile.so.1  0.0.0.0
+0x7f09ac225000 - 0x7f09ac52b3a7  libasound.so.2  0.0.0.0  (WARNING: No symbols, libasound.so.2, 50F9E80081C33CD605B426FC77A47A370)
+0x7f09ac52c000 - 0x7f09ac74a47f  libpthread.so.0  0.0.0.0  (WARNING: No symbols, libpthread.so.0, 09B313AEDEB7C21CB1CBC7605FC174DA0)
+0x7f09ac74b000 - 0x7f09ac94e10f  libdl.so.2  0.0.0.0
+0x7f09ac94f000 - 0x7f09acb56bdf  librt.so.1  0.0.0.0
+0x7f09acb57000 - 0x7f09acd8216f  ld-linux-x86-64.so.2  0.0.0.0  (WARNING: No symbols, ld-linux-x86-64.so.2, E672570A9F59B6661B7851DB8EB10D250)
+0x7ffcc47fe000 - 0x7ffcc47feab0  linux-vdso.so.1  0.0.0.0
