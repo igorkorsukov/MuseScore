@@ -49,12 +49,14 @@ if (NOT ${MODULE_QML_IMPORT} STREQUAL "")
     set(QML_IMPORT_PATH "${QML_IMPORT_PATH};${MODULE_QML_IMPORT}" CACHE STRING "QtCreator extra import paths for QML modules" FORCE)
 endif()
 
-add_library(${MODULE} ${LIBRARY_TYPE}
+add_library(${MODULE} ${LIBRARY_TYPE})
+
+target_sources(${MODULE} PRIVATE
     ${_all_h_file}
     ${ui_headers}
     ${RCC_SOURCES}
     ${MODULE_SRC}
-)
+    )
 
 target_include_directories(${MODULE} PUBLIC
     ${PROJECT_BINARY_DIR}
