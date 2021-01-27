@@ -23,23 +23,21 @@
 #include "measurenumberbase.h"
 
 namespace Ms {
-
 //---------------------------------------------------------
 //   MeasureNumber
 //---------------------------------------------------------
 
-class MeasureNumber : public MeasureNumberBase {
+class MeasureNumber : public MeasureNumberBase
+{
+public:
+    MeasureNumber(Score* = nullptr, Tid tid = Tid::MEASURE_NUMBER);
+    MeasureNumber(const MeasureNumber& other);
 
-   public:
-      MeasureNumber(Score* = nullptr, Tid tid = Tid::MEASURE_NUMBER);
-      MeasureNumber(const MeasureNumber& other);
+    virtual ElementType type() const override { return ElementType::MEASURE_NUMBER; }
+    virtual MeasureNumber* clone() const override { return new MeasureNumber(*this); }
 
-      virtual ElementType type() const override       { return ElementType::MEASURE_NUMBER; }
-      virtual MeasureNumber* clone() const override   { return new MeasureNumber(*this); }
-
-      virtual QVariant propertyDefault(Pid id) const override;
-      };
-
+    virtual QVariant propertyDefault(Pid id) const override;
+};
 }     // namespace Ms
 
 #endif

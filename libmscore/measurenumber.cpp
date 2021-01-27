@@ -22,54 +22,53 @@
 #include "measure.h"
 
 namespace Ms {
-
 //---------------------------------------------------------
 //   measureNumberStyle
 //---------------------------------------------------------
 
 static const ElementStyle measureNumberStyle {
-      { Sid::measureNumberVPlacement, Pid::PLACEMENT },
-      { Sid::measureNumberHPlacement, Pid::HPLACEMENT },
-      };
+    { Sid::measureNumberVPlacement, Pid::PLACEMENT },
+    { Sid::measureNumberHPlacement, Pid::HPLACEMENT },
+};
 
 //---------------------------------------------------------
 //   MeasureNumber
 //---------------------------------------------------------
 
 MeasureNumber::MeasureNumber(Score* s, Tid tid)
-      : MeasureNumberBase(s, tid)
-      {
-      initElementStyle(&measureNumberStyle);
+    : MeasureNumberBase(s, tid)
+{
+    initElementStyle(&measureNumberStyle);
 
-      setHPlacement(score()->styleV(Sid::measureNumberHPlacement).value<HPlacement>());
-      }
+    setHPlacement(score()->styleV(Sid::measureNumberHPlacement).value<HPlacement>());
+}
 
 //---------------------------------------------------------
 //   MeasureNumber
 //     Copy constructor
 //---------------------------------------------------------
 
-MeasureNumber::MeasureNumber(const MeasureNumber& other): MeasureNumberBase(other)
-      {
-      initElementStyle(&measureNumberStyle);
-      }
+MeasureNumber::MeasureNumber(const MeasureNumber& other)
+    : MeasureNumberBase(other)
+{
+    initElementStyle(&measureNumberStyle);
+}
 
 //---------------------------------------------------------
 //   propertyDefault
 //---------------------------------------------------------
 
 QVariant MeasureNumber::propertyDefault(Pid id) const
-      {
-      switch(id) {
-            case Pid::SUB_STYLE:
-                  return int(Tid::MEASURE_NUMBER);
-            case Pid::PLACEMENT:
-                  return score()->styleV(Sid::measureNumberVPlacement);
-            case Pid::HPLACEMENT:
-                  return score()->styleV(Sid::measureNumberHPlacement);
-            default:
-                  return MeasureNumberBase::propertyDefault(id);
-            }
-      }
-
+{
+    switch (id) {
+    case Pid::SUB_STYLE:
+        return int(Tid::MEASURE_NUMBER);
+    case Pid::PLACEMENT:
+        return score()->styleV(Sid::measureNumberVPlacement);
+    case Pid::HPLACEMENT:
+        return score()->styleV(Sid::measureNumberHPlacement);
+    default:
+        return MeasureNumberBase::propertyDefault(id);
+    }
+}
 } // namespace MS

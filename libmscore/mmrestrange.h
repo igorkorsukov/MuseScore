@@ -24,32 +24,30 @@
 #include "property.h"
 
 namespace Ms {
-
 //---------------------------------------------------------
 //   MMRestRange
 //---------------------------------------------------------
 
-class MMRestRange : public MeasureNumberBase {
+class MMRestRange : public MeasureNumberBase
+{
+    /// Bracketing: [18-24], (18-24) or 18-24
+    M_PROPERTY(MMRestRangeBracketType, bracketType, setBracketType)
 
-      /// Bracketing: [18-24], (18-24) or 18-24
-      M_PROPERTY (MMRestRangeBracketType, bracketType, setBracketType)
+public:
+    MMRestRange(Score* s = nullptr);
+    MMRestRange(const MMRestRange& other);
 
-   public:
-      MMRestRange(Score* s = nullptr);
-      MMRestRange(const MMRestRange& other);
+    virtual ElementType type()   const override { return ElementType::MMREST_RANGE; }
+    virtual MMRestRange* clone() const override { return new MMRestRange(*this); }
 
-      virtual ElementType type()   const override   { return ElementType::MMREST_RANGE; }
-      virtual MMRestRange* clone() const override   { return new MMRestRange(*this); }
+    virtual QVariant getProperty(Pid id) const override;
+    virtual bool setProperty(Pid id, const QVariant& val) override;
+    virtual QVariant propertyDefault(Pid id) const override;
 
-      virtual QVariant getProperty(Pid id) const override;
-      virtual bool setProperty(Pid id, const QVariant& val) override;
-      virtual QVariant propertyDefault(Pid id) const override;
+    virtual bool readProperties(XmlReader&) override;
 
-      virtual bool readProperties(XmlReader&) override;
-
-      virtual void setXmlText(const QString&) override;
-      };
-
+    virtual void setXmlText(const QString&) override;
+};
 } // namespace Ms
 
 #endif
