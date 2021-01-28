@@ -23,33 +23,31 @@
 #include "textbase.h"
 
 namespace Ms {
-
 //---------------------------------------------------------
 //   MeasureNumberBase
 ///   The basic element making measure numbers.
 ///   Reimplemented by MMRestRange
 //---------------------------------------------------------
 
-class MeasureNumberBase : public TextBase {
+class MeasureNumberBase : public TextBase
+{
+    M_PROPERTY(HPlacement, hPlacement, setHPlacement)    // Horizontal Placement
 
-      M_PROPERTY (HPlacement, hPlacement, setHPlacement) // Horizontal Placement
+public:
+    MeasureNumberBase(Score* = nullptr, Tid = Tid::DEFAULT);
+    MeasureNumberBase(const MeasureNumberBase& other);
 
-   public:
-      MeasureNumberBase(Score* = nullptr, Tid = Tid::DEFAULT);
-      MeasureNumberBase(const MeasureNumberBase& other);
+    virtual QVariant getProperty(Pid id) const override;
+    virtual bool setProperty(Pid id, const QVariant& val) override;
+    virtual QVariant propertyDefault(Pid id) const override;
 
-      virtual QVariant getProperty(Pid id) const override;
-      virtual bool setProperty(Pid id, const QVariant& val) override;
-      virtual QVariant propertyDefault(Pid id) const override;
+    virtual bool readProperties(XmlReader&) override;
 
-      virtual bool readProperties(XmlReader&) override;
+    virtual void layout() override;
+    Measure* measure() const { return toMeasure(parent()); }
 
-      virtual void layout() override;
-      Measure* measure() const { return toMeasure(parent()); }
-
-      virtual bool isEditable() const override { return false; } // The measure numbers' text should not be editable
-      };
-
+    virtual bool isEditable() const override { return false; }   // The measure numbers' text should not be editable
+};
 }     // namespace Ms
 
 #endif

@@ -13,21 +13,17 @@
 #include "ossia.h"
 
 namespace Ms {
-
 //---------------------------------------------------------
 //   Ossia
 //---------------------------------------------------------
 
 Ossia::Ossia(Score* score)
-   : Element(score)
-      {
-      }
-
-Ossia::Ossia(const Ossia& ossia)
-   : Element(ossia)
-      {
-      }
-
-
+    : Element(score)
+{
 }
 
+Ossia::Ossia(const Ossia& ossia)
+    : Element(ossia)
+{
+}
+}

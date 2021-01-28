@@ -22,81 +22,78 @@
 #include "measure.h"
 
 namespace Ms {
-
 //---------------------------------------------------------
 //   mmRestRangeStyle
 //---------------------------------------------------------
 
 static const ElementStyle mmRestRangeStyle {
-      { Sid::mmRestRangeBracketType, Pid::MMREST_RANGE_BRACKET_TYPE },
-      { Sid::mmRestRangeVPlacement,  Pid::PLACEMENT },
-      { Sid::mmRestRangeHPlacement,  Pid::HPLACEMENT }
-      };
+    { Sid::mmRestRangeBracketType, Pid::MMREST_RANGE_BRACKET_TYPE },
+    { Sid::mmRestRangeVPlacement,  Pid::PLACEMENT },
+    { Sid::mmRestRangeHPlacement,  Pid::HPLACEMENT }
+};
 
-
-MMRestRange::MMRestRange(Score* s) : MeasureNumberBase(s, Tid::MMREST_RANGE)
-      {
-      initElementStyle(&mmRestRangeStyle);
-      }
+MMRestRange::MMRestRange(Score* s)
+    : MeasureNumberBase(s, Tid::MMREST_RANGE)
+{
+    initElementStyle(&mmRestRangeStyle);
+}
 
 //---------------------------------------------------------
 //   MMRestRange
 ///   Copy constructor
 //---------------------------------------------------------
 
-MMRestRange::MMRestRange(const MMRestRange& other) : MeasureNumberBase(other)
-      {
-      initElementStyle(&mmRestRangeStyle);
-      }
-
+MMRestRange::MMRestRange(const MMRestRange& other)
+    : MeasureNumberBase(other)
+{
+    initElementStyle(&mmRestRangeStyle);
+}
 
 QVariant MMRestRange::getProperty(Pid id) const
-      {
-      switch (id) {
-            case Pid::MMREST_RANGE_BRACKET_TYPE:
-                  return int(bracketType());
-            default:
-                  return MeasureNumberBase::getProperty(id);
-            }
-      }
-
+{
+    switch (id) {
+    case Pid::MMREST_RANGE_BRACKET_TYPE:
+        return int(bracketType());
+    default:
+        return MeasureNumberBase::getProperty(id);
+    }
+}
 
 bool MMRestRange::setProperty(Pid id, const QVariant& val)
-      {
-      switch (id) {
-            case Pid::MMREST_RANGE_BRACKET_TYPE:
-                  setBracketType(MMRestRangeBracketType(val.toInt()));
-                  setLayoutInvalid();
-                  triggerLayout();
-                  return true;
-            default:
-                  return MeasureNumberBase::setProperty(id, val);
-            }
-      }
-
+{
+    switch (id) {
+    case Pid::MMREST_RANGE_BRACKET_TYPE:
+        setBracketType(MMRestRangeBracketType(val.toInt()));
+        setLayoutInvalid();
+        triggerLayout();
+        return true;
+    default:
+        return MeasureNumberBase::setProperty(id, val);
+    }
+}
 
 QVariant MMRestRange::propertyDefault(Pid id) const
-      {
-      switch(id) {
-            case Pid::SUB_STYLE:
-                  return int(Tid::MMREST_RANGE);
-            case Pid::PLACEMENT:
-                  return score()->styleV(Sid::mmRestRangeVPlacement);
-            case Pid::HPLACEMENT:
-                  return score()->styleV(Sid::mmRestRangeHPlacement);
-            default:
-                  return MeasureNumberBase::propertyDefault(id);
-            }
-      }
-
+{
+    switch (id) {
+    case Pid::SUB_STYLE:
+        return int(Tid::MMREST_RANGE);
+    case Pid::PLACEMENT:
+        return score()->styleV(Sid::mmRestRangeVPlacement);
+    case Pid::HPLACEMENT:
+        return score()->styleV(Sid::mmRestRangeHPlacement);
+    default:
+        return MeasureNumberBase::propertyDefault(id);
+    }
+}
 
 bool MMRestRange::readProperties(XmlReader& xml)
-      {
-      if (readProperty(xml.name(), xml, Pid::MMREST_RANGE_BRACKET_TYPE))
-            return true;
-      else
-            return MeasureNumberBase::readProperties(xml);
-      }
+{
+    if (readProperty(xml.name(), xml, Pid::MMREST_RANGE_BRACKET_TYPE)) {
+        return true;
+    } else {
+        return MeasureNumberBase::readProperties(xml);
+    }
+}
 
 //---------------------------------------------------------
 //   setXmlText
@@ -104,19 +101,18 @@ bool MMRestRange::readProperties(XmlReader& xml)
 //---------------------------------------------------------
 
 void MMRestRange::setXmlText(const QString& s)
-      {
-      switch (bracketType()) {
-            case MMRestRangeBracketType::BRACKETS:
-                  TextBase::setXmlText("[" + s + "]");
-                  break;
-            case MMRestRangeBracketType::PARENTHESES:
-                  TextBase::setXmlText("(" + s + ")");
-                  break;
-            case MMRestRangeBracketType::NONE:
-            default:
-                  TextBase::setXmlText(s);
-                  break;
-            }
-      }
-
+{
+    switch (bracketType()) {
+    case MMRestRangeBracketType::BRACKETS:
+        TextBase::setXmlText("[" + s + "]");
+        break;
+    case MMRestRangeBracketType::PARENTHESES:
+        TextBase::setXmlText("(" + s + ")");
+        break;
+    case MMRestRangeBracketType::NONE:
+    default:
+        TextBase::setXmlText(s);
+        break;
+    }
+}
 } // namespace MS

@@ -16,60 +16,57 @@
 #include "textlinebase.h"
 
 namespace Ms {
-
 class Note;
 
 //---------------------------------------------------------
 //   @@ TextLineSegment
 //---------------------------------------------------------
 
-class TextLineSegment final : public TextLineBaseSegment {
+class TextLineSegment final : public TextLineBaseSegment
+{
+    Sid getTextLinePos(bool above) const;
+    Sid getPropertyStyle(Pid) const override;
 
-      Sid getTextLinePos(bool above) const;
-      Sid getPropertyStyle(Pid) const override;
+public:
+    TextLineSegment(Spanner* sp, Score* s, bool system=false);
 
-   public:
-      TextLineSegment(Spanner* sp, Score* s, bool system=false);
+    ElementType type() const override { return ElementType::TEXTLINE_SEGMENT; }
+    TextLineSegment* clone() const override { return new TextLineSegment(*this); }
 
-      ElementType type() const override       { return ElementType::TEXTLINE_SEGMENT; }
-      TextLineSegment* clone() const override { return new TextLineSegment(*this); }
+    virtual Element* propertyDelegate(Pid) override;
 
-      virtual Element* propertyDelegate(Pid) override;
-
-      TextLine* textLine() const              { return toTextLine(spanner()); }
-      void layout() override;
-      };
+    TextLine* textLine() const { return toTextLine(spanner()); }
+    void layout() override;
+};
 
 //---------------------------------------------------------
 //   @@ TextLine
 //---------------------------------------------------------
 
-class TextLine final : public TextLineBase {
+class TextLine final : public TextLineBase
+{
+    Sid getTextLinePos(bool above) const;
+    Sid getPropertyStyle(Pid) const override;
 
-      Sid getTextLinePos(bool above) const;
-      Sid getPropertyStyle(Pid) const override;
+public:
+    TextLine(Score* s, bool system=false);
+    TextLine(const TextLine&);
+    ~TextLine() {}
 
-   public:
-      TextLine(Score* s, bool system=false);
-      TextLine(const TextLine&);
-      ~TextLine() {}
+    virtual void undoChangeProperty(Pid id, const QVariant&, PropertyFlags ps) override;
+    virtual SpannerSegment* layoutSystem(System*) override;
 
-      virtual void undoChangeProperty(Pid id, const QVariant&, PropertyFlags ps) override;
-      virtual SpannerSegment* layoutSystem(System*) override;
+    TextLine* clone() const override { return new TextLine(*this); }
+    ElementType type() const override { return ElementType::TEXTLINE; }
 
-      TextLine* clone() const override   { return new TextLine(*this); }
-      ElementType type() const override  { return ElementType::TEXTLINE; }
+    void write(XmlWriter&) const override;
+    void read(XmlReader&) override;
 
-      void write(XmlWriter&) const override;
-      void read(XmlReader&) override;
+    void initStyle();
 
-      void initStyle();
-
-      LineSegment* createLineSegment() override;
-      QVariant propertyDefault(Pid) const override;
-      bool setProperty(Pid propertyId, const QVariant&) override;
-      };
-
+    LineSegment* createLineSegment() override;
+    QVariant propertyDefault(Pid) const override;
+    bool setProperty(Pid propertyId, const QVariant&) override;
+};
 }     // namespace Ms
 #endif
-
