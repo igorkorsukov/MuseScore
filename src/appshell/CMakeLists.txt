@@ -148,7 +148,7 @@ if (NOT OS_IS_MAC)
 
     # we use QKeyMapper to fix https://github.com/musescore/MuseScore/issues/10181
     set(MODULE_INCLUDE
-        ${Qt5Gui_PRIVATE_INCLUDE_DIRS}
+        ${Qt6Gui_PRIVATE_INCLUDE_DIRS}
     )
 endif(NOT OS_IS_MAC)
 

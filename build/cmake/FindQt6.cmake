@@ -11,6 +11,7 @@ set(CMAKE_AUTORCC ON)
 set(_components
     Core
     Gui
+    Widgets
     Network
     NetworkAuth
     Qml
@@ -19,42 +20,32 @@ set(_components
     QuickTemplates2
     QuickWidgets
     Xml
-    XmlPatterns
+#    XmlPatterns
     Svg
-    Widgets
     PrintSupport
     OpenGL
     LinguistTools
-  )
+)
 
 if (NOT OS_IS_WASM)
     set(_components
-      ${_components}
-      Concurrent
+        ${_components}
+        Concurrent
     )
 endif()
 
-if (WIN32)
-    set(_components
-      ${_components}
-      WinExtras
-      )
-endif(WIN32)
-
 if (OS_IS_LIN)
     set(_components
-      ${_components}
-      DBus
-      )
+        ${_components}
+        DBus
+    )
 endif()
 
-find_package(Qt5Core ${QT_MIN_VERSION} REQUIRED)
-
 foreach(_component ${_components})
-  find_package(Qt5${_component})
-  list(APPEND QT_LIBRARIES ${Qt5${_component}_LIBRARIES})
-  list(APPEND QT_INCLUDES ${Qt5${_component}_INCLUDE_DIRS})
-  add_definitions(${Qt5${_component}_DEFINITIONS})
+    find_package(Qt6${_component} REQUIRED)
+    list(APPEND QT_LIBRARIES ${Qt6${_component}_LIBRARIES})
+    list(APPEND QT_INCLUDES ${Qt6${_component}_INCLUDE_DIRS})
+    add_definitions(${Qt6${_component}_DEFINITIONS})
 endforeach()
 
 include_directories(${QT_INCLUDES})
@@ -76,13 +67,14 @@ set(_qmake_vars
     QT_INSTALL_QML
     QT_INSTALL_TESTS
     QT_INSTALL_TRANSLATIONS
-    )
+)
 foreach(_var ${_qmake_vars})
     execute_process(COMMAND ${QT_QMAKE_EXECUTABLE} "-query" ${_var}
         RESULT_VARIABLE _return_val
         OUTPUT_VARIABLE _out
         OUTPUT_STRIP_TRAILING_WHITESPACE
-        )
+    )
+
     if(_return_val EQUAL 0)
         set(${_var} "${_out}")
     endif(_return_val EQUAL 0)

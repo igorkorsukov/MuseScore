@@ -49,16 +49,16 @@ if (NOT PROJECT_ROOT_DIR)
 endif()
 
 if (MODULE_QRC AND NOT NO_QT_SUPPORT)
-    qt5_add_resources(RCC_SOURCES ${MODULE_QRC})
+    qt_add_resources(RCC_SOURCES ${MODULE_QRC})
 endif()
 
 if (MODULE_BIG_QRC AND NOT NO_QT_SUPPORT)
-    qt5_add_big_resources(RCC_BIG_SOURCES ${MODULE_BIG_QRC})
+    qt_add_big_resources(RCC_BIG_SOURCES ${MODULE_BIG_QRC})
 endif()
 
 if (MODULE_UI)
-    find_package(Qt5Widgets)
-    QT5_WRAP_UI(ui_headers ${MODULE_UI} )
+    find_package(Qt6Widgets)
+    QT6_WRAP_UI(ui_headers ${MODULE_UI} )
 endif()
 
 if (NOT ${MODULE_QML_IMPORT} STREQUAL "")
