@@ -132,9 +132,7 @@ GOTO END_SUCCESS
 ECHO "Start msi packing..."
 :: sign dlls and exe files
 IF %DO_SIGN% == ON (
-    where /q secure-file
-    IF ERRORLEVEL 1 ( choco install -y choco install -y --ignore-checksums secure-file )
-    secure-file -decrypt build\ci\windows\resources\musescore.p12.enc -secret %SIGN_CERTIFICATE_ENCRYPT_SECRET%
+    7z x -y build\ci\windows\resources\musescore.p12.enc -obuild\ci\windows\resources\ -p${SIGN_CERTIFICATE_ENCRYPT_SECRET}
 
     for /f "delims=" %%f in ('dir /a-d /b /s "%INSTALL_DIR%\*.dll" "%INSTALL_DIR%\*.exe"') do (
         ECHO "Signing %%f"
