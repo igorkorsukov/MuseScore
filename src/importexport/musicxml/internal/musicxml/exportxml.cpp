@@ -7752,7 +7752,7 @@ void ExportMusicXml::writeMeasure(const Measure* const m,
             _xml.tag("staves", static_cast<int>(staves));
         }
         if (instrMap.size() > 1) {
-            _xml.tag("instruments", instrMap.size());
+            _xml.tag("instruments", static_cast<int>(instrMap.size()));
         }
     }
 
