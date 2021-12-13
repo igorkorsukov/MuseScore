@@ -304,7 +304,7 @@ void FretCanvas::hoverMoveEvent(QHoverEvent* ev)
 {
     int string;
     int fret;
-    getPosition(ev->pos(), &string, &fret);
+    getPosition(ev->position(), &string, &fret);
     if (m_cstring != string || m_cfret != fret) {
         m_cfret = fret;
         m_cstring = string;
