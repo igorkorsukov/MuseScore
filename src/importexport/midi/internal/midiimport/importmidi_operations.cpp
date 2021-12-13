@@ -37,9 +37,10 @@ static int readBoolFromXml(QXmlStreamReader& xml)
     xml.readNext();
 
     if (xml.tokenType() == QXmlStreamReader::Characters) {
-        if (xml.text() == "true") {
+        const QString text = xml.text().toString();
+        if (text == "true") {
             value = 1;
-        } else if (xml.text() == "false") {
+        } else if (text == "false") {
             value = 0;
         } else {
             LOGD() << "Load MIDI import operations from file: unknown" << name << "value";
@@ -73,11 +74,14 @@ static void setOperationsFromFile(const QString& fileName, Opers& opers)
         if (token != QXmlStreamReader::StartElement) {          // like <elem>
             continue;
         }
-        if (xml.name() == "MidiOptions") {
+
+        const QString tag = xml.name().toString();
+
+        if (tag == "MidiOptions") {
             continue;
         }
 
-        if (xml.name() == "QuantValue") {
+        if (tag == "QuantValue") {
             xml.readNext();
             if (xml.tokenType() == QXmlStreamReader::Characters) {
                 bool ok = false;
@@ -118,7 +122,7 @@ static void setOperationsFromFile(const QString& fileName, Opers& opers)
                     }
                 }
             }
-        } else if (xml.name() == "VoiceCount") {
+        } else if (tag == "VoiceCount") {
             xml.readNext();
             if (xml.tokenType() == QXmlStreamReader::Characters) {
                 bool ok = false;
@@ -144,77 +148,77 @@ static void setOperationsFromFile(const QString& fileName, Opers& opers)
                     }
                 }
             }
-        } else if (xml.name() == "Duplets") {
+        } else if (tag == "Duplets") {
             const int value = readBoolFromXml(xml);
             if (value >= 0) {
                 opers.search2plets.setDefaultValue(value, false);
             }
-        } else if (xml.name() == "Triplets") {
+        } else if (tag == "Triplets") {
             const int value = readBoolFromXml(xml);
             if (value >= 0) {
                 opers.search3plets.setDefaultValue(value, false);
             }
-        } else if (xml.name() == "Quadruplets") {
+        } else if (tag == "Quadruplets") {
             const int value = readBoolFromXml(xml);
             if (value >= 0) {
                 opers.search4plets.setDefaultValue(value, false);
             }
-        } else if (xml.name() == "Quintuplets") {
+        } else if (tag == "Quintuplets") {
             const int value = readBoolFromXml(xml);
             if (value >= 0) {
                 opers.search5plets.setDefaultValue(value, false);
             }
-        } else if (xml.name() == "Septuplets") {
+        } else if (tag == "Septuplets") {
             const int value = readBoolFromXml(xml);
             if (value >= 0) {
                 opers.search7plets.setDefaultValue(value, false);
             }
-        } else if (xml.name() == "Nonuplets") {
+        } else if (tag == "Nonuplets") {
             const int value = readBoolFromXml(xml);
             if (value >= 0) {
                 opers.search9plets.setDefaultValue(value, false);
             }
-        } else if (xml.name() == "HumanPerformance") {
+        } else if (tag == "HumanPerformance") {
             const int value = readBoolFromXml(xml);
             if (value >= 0) {
                 opers.isHumanPerformance.setDefaultValue(value, false);
             }
-        } else if (xml.name() == "MeasureCount2xLess") {
+        } else if (tag == "MeasureCount2xLess") {
             const int value = readBoolFromXml(xml);
             if (value >= 0) {
                 opers.measureCount2xLess.setDefaultValue(value, false);
             }
-        } else if (xml.name() == "SplitStaff") {
+        } else if (tag == "SplitStaff") {
             const int value = readBoolFromXml(xml);
             if (value >= 0) {
                 opers.doStaffSplit.setDefaultValue(value, false);
             }
-        } else if (xml.name() == "ClefChanges") {
+        } else if (tag == "ClefChanges") {
             const int value = readBoolFromXml(xml);
             if (value >= 0) {
                 opers.changeClef.setDefaultValue(value, false);
             }
-        } else if (xml.name() == "SimplifyDurations") {
+        } else if (tag == "SimplifyDurations") {
             const int value = readBoolFromXml(xml);
             if (value >= 0) {
                 opers.simplifyDurations.setDefaultValue(value, false);
             }
-        } else if (xml.name() == "ShowStaccato") {
+        } else if (tag == "ShowStaccato") {
             const int value = readBoolFromXml(xml);
             if (value >= 0) {
                 opers.showStaccato.setDefaultValue(value, false);
             }
-        } else if (xml.name() == "DottedNotes") {
+        } else if (tag == "DottedNotes") {
             const int value = readBoolFromXml(xml);
             if (value >= 0) {
                 opers.useDots.setDefaultValue(value, false);
             }
-        } else if (xml.name() == "RecognizePickupBar") {
+        } else if (tag == "RecognizePickupBar") {
             const int value = readBoolFromXml(xml);
             if (value >= 0) {
                 opers.searchPickupMeasure.setDefaultValue(value, false);
             }
-        } else if (xml.name() == "Swing") {
+        } else if (tag == "Swing") {
             xml.readNext();
             if (xml.tokenType() == QXmlStreamReader::Characters) {
                 bool ok = false;
