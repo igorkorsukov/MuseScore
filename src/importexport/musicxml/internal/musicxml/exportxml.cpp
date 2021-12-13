@@ -8216,7 +8216,7 @@ void ExportMusicXml::harmony(Harmony const* const h, FretDiagram const* const fd
                         && !kindText.isEmpty() && kindText[0].isDigit()) {
                         // hack to correct text for suspended chords whose kind text has degree information baked in
                         // (required by some other applications)
-                        int tagDegree = tag.midRef(3).toInt();
+                        int tagDegree = tag.mid(3).toInt();
                         QString kindTextExtension;
                         for (int i = 0; i < kindText.length() && kindText[i].isDigit(); ++i) {
                             kindTextExtension[i] = kindText[i];
