@@ -248,7 +248,7 @@ void DrumsetPalette::mouseMoveEvent(QMouseEvent* event)
     m_drumPalette->handleEvent(event);
 }
 
-void DrumsetPalette::enterEvent(QEvent* event)
+void DrumsetPalette::enterEvent(QEnterEvent* event)
 {
     m_drumPalette->handleEvent(event);
 }
