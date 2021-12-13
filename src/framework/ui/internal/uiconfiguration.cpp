@@ -395,8 +395,7 @@ ThemeList UiConfiguration::themes() const
 
 QStringList UiConfiguration::possibleFontFamilies() const
 {
-    QFontDatabase db;
-    QStringList allFonts = db.families();
+    QStringList allFonts = QFontDatabase::families();
     QStringList smuflFonts
         = { "Bravura", "Campania", "Edwin", "Finale Broadway", "Finale Maestro", "Gootville", "Leland", "MScore", "MuseJazz", "Petaluma" };
     for (const QString& font : smuflFonts) {
@@ -614,8 +613,7 @@ std::string UiConfiguration::defaultFontFamily() const
 
 #ifdef Q_OS_WIN
     static const QString defaultWinFamily = "Segoe UI";
-    QFontDatabase fontDatabase;
-    if (fontDatabase.hasFamily(defaultWinFamily)) {
+    if (QFontDatabase::hasFamily(defaultWinFamily)) {
         family = defaultWinFamily.toStdString();
     }
 #endif
