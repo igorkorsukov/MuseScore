@@ -118,7 +118,7 @@ void UpdateScenario::doCheckForUpdate(bool manual)
         showReleaseInfo(info);
     });
 
-    QtConcurrent::run(this, &UpdateScenario::th_heckForUpdate);
+    UNUSED(QtConcurrent::run(&UpdateScenario::th_heckForUpdate, this));
 }
 
 void UpdateScenario::th_heckForUpdate()

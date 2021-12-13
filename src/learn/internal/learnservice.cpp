@@ -72,8 +72,8 @@ void LearnService::refreshPlaylists()
         m_advancedPlaylistChannel.send(m_advancedPlaylist);
     };
 
-    QtConcurrent::run(this, &LearnService::th_requestPlaylist, configuration()->startedPlaylistUrl(), startedPlaylistCallBack);
-    QtConcurrent::run(this, &LearnService::th_requestPlaylist, configuration()->advancedPlaylistUrl(), advancedPlaylistCallBack);
+    UNUSED(QtConcurrent::run(&LearnService::th_requestPlaylist, this, configuration()->startedPlaylistUrl(), startedPlaylistCallBack));
+    UNUSED(QtConcurrent::run(&LearnService::th_requestPlaylist, this, configuration()->advancedPlaylistUrl(), advancedPlaylistCallBack));
 }
 
 Playlist LearnService::startedPlaylist() const
