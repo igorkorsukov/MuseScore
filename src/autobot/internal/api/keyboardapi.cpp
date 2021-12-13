@@ -38,17 +38,17 @@ KeyboardApi::KeyboardApi(IApiEngine* e)
 void KeyboardApi::key(const QString& key)
 {
     LOGD() << key;
-    int code = QKeySequence::fromString(key.toUpper())[0];
+    QKeyCombination combination = QKeySequence::fromString(key.toUpper())[0];
 
     QWindow* w = qApp->focusWindow();
     if (!w) {
         w = mainWindow()->qWindow();
     }
 
-    QKeyEvent pressEvent(QEvent::KeyPress, code, Qt::NoModifier, key);
+    QKeyEvent pressEvent(QEvent::KeyPress, combination.toCombined(), Qt::NoModifier, key);
     qApp->sendEvent(w, &pressEvent);
 
-    QKeyEvent* releaseEvent = new QKeyEvent(QEvent::KeyRelease, code, Qt::NoModifier, key);
+    QKeyEvent* releaseEvent = new QKeyEvent(QEvent::KeyRelease, combination.toCombined(), Qt::NoModifier, key);
     qApp->postEvent(w, releaseEvent);
 }
 
