@@ -46,11 +46,11 @@ public:
 
 private:
     bool eventFilter(QObject* watched, QEvent* event) override;
-    bool nativeEventFilter(const QByteArray& eventType, void* message, long* result) override;
+    bool nativeEventFilter(const QByteArray& eventType, void* message, qintptr* result) override;
 
-    bool removeWindowFrame(MSG* message, long* result);
-    bool calculateWindowSize(MSG* msg, long* result);
-    bool processMouseMove(MSG* message, long* result) const;
+    bool removeWindowFrame(MSG *message, qintptr *result);
+    bool calculateWindowSize(MSG *msg, qintptr *result);
+    bool processMouseMove(MSG *message, qintptr *result) const;
     bool processMouseRightClick(MSG* message) const;
 
     void updateContextMenuState(MSG* message) const;

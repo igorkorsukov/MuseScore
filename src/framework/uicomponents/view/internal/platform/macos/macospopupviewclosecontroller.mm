@@ -42,7 +42,7 @@ void MacOSPopupViewCloseController::doUpdateEventFilters()
     PopupViewCloseController::doUpdateEventFilters();
 }
 
-bool MacOSPopupViewCloseController::nativeEventFilter(const QByteArray& eventType, void* message, long*)
+bool MacOSPopupViewCloseController::nativeEventFilter(const QByteArray& eventType, void* message, qintptr*)
 {
     if (eventType != "mac_generic_NSEvent") {
         return false;
