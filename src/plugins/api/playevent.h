@@ -24,7 +24,8 @@
 #define __PLUGIN_API_PLAYEVENT_H__
 
 #include <QQmlEngine>
-#include "qmllistproperty.h"
+#include <QQmlListProperty>
+
 #include "engraving/dom/noteevent.h"
 
 namespace mu::plugins::api {
@@ -114,11 +115,11 @@ inline PlayEvent* playEventWrap(mu::engraving::NoteEvent* t, Note* parent)
 //   Based on QmlListAccess in excerpt.h
 //---------------------------------------------------------
 
-class QmlPlayEventsListAccess : public QmlListProperty<PlayEvent>
+class QmlPlayEventsListAccess : public QQmlListProperty<PlayEvent>
 {
 public:
     QmlPlayEventsListAccess(QObject* obj, engraving::NoteEventList& container)
-        : QmlListProperty<PlayEvent>(obj, &container, &append, &count, &at, &clear) {}
+        : QQmlListProperty<PlayEvent>(obj, &container, &append, &count, &at, &clear) {}
 
     static qsizetype count(QQmlListProperty<PlayEvent>* l) { return static_cast<engraving::NoteEventList*>(l->data)->size(); }
     static PlayEvent* at(QQmlListProperty<PlayEvent>* l, qsizetype i)

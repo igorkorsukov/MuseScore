@@ -23,8 +23,9 @@
 #ifndef __PLUGIN_API_PART_H__
 #define __PLUGIN_API_PART_H__
 
+#include <QQmlListProperty>
+
 #include "scoreelement.h"
-#include "qmllistproperty.h"
 #include "engraving/dom/part.h"
 
 namespace mu::plugins::api {
@@ -36,7 +37,7 @@ class Part;
 ///   \cond PLUGIN_API \private \endcond
 //---------------------------------------------------------
 
-class InstrumentListProperty : public QmlListProperty<Instrument>
+class InstrumentListProperty : public QQmlListProperty<Instrument>
 {
 public:
     InstrumentListProperty(Part* p);
