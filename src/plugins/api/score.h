@@ -33,6 +33,8 @@
 #include "context/iglobalcontext.h"
 #include "engraving/compat/midi/compatmidirender.h"
 
+Q_MOC_INCLUDE("plugins/api/selection.h")
+
 namespace mu::engraving {
 class InstrumentTemplate;
 }

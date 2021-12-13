@@ -38,6 +38,8 @@
 #include "idockwindow.h"
 #include "internal/dockbase.h"
 
+Q_MOC_INCLUDE(< QQuickWindow >)
+
 namespace KDDockWidgets {
 class MainWindowBase;
 class LayoutSaver;

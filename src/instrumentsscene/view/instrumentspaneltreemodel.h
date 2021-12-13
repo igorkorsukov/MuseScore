@@ -35,6 +35,8 @@
 #include "shortcuts/ishortcutsregister.h"
 #include "iinteractive.h"
 
+Q_MOC_INCLUDE("uicomponents/view/itemmultiselectionmodel.h")
+
 namespace mu::uicomponents {
 class ItemMultiSelectionModel;
 }

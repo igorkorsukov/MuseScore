@@ -28,6 +28,9 @@
 #include "engraving/dom/input.h"
 #include "engraving/dom/types.h"
 
+Q_MOC_INCLUDE("plugins/api/elements.h")
+Q_MOC_INCLUDE("plugins/api/score.h")
+
 namespace mu::engraving {
 class EngravingItem;
 class InputState;

@@ -38,6 +38,8 @@
 #include "popupwindow/ipopupwindow.h"
 #include "internal/popupviewclosecontroller.h"
 
+Q_MOC_INCLUDE(< QWindow >)
+
 class QQuickCloseEvent;
 
 namespace mu::uicomponents {
