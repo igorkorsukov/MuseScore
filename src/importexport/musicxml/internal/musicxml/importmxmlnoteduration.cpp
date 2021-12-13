@@ -214,8 +214,8 @@ void mxmlNoteDuration::duration(QXmlStreamReader& e)
 
 bool mxmlNoteDuration::readProperties(QXmlStreamReader& e)
 {
-    const QStringRef& tag(e.name());
-    //LOGD("tag %s", qPrintable(tag.toString()));
+    const QString tag = e.name().toString();
+    //LOGD("tag %s", qPrintable(tag));
     if (tag == "dot") {
         _dots++;
         e.skipCurrentElement();  // skip but don't log
@@ -248,7 +248,7 @@ void mxmlNoteDuration::timeModification(QXmlStreamReader& e)
     QString strNormal;
 
     while (e.readNextStartElement()) {
-        const QStringRef& tag(e.name());
+        const QString tag = e.name().toString();
         if (tag == "actual-notes") {
             strActual = e.readElementText();
         } else if (tag == "normal-notes") {

@@ -735,7 +735,7 @@ static QString text2syms(const QString& t)
             in.remove(0, maxMatch);
         } else {
             // not found, move one char from res to in
-            res += in.leftRef(1);
+            res += in.left(1);
             in.remove(0, 1);
         }
     }
@@ -1695,7 +1695,7 @@ Err MusicXMLParserPass2::parse()
 {
     bool found = false;
     while (_e.readNextStartElement()) {
-        if (_e.name() == "score-partwise") {
+        if (_e.name().toString() == "score-partwise") {
             found = true;
             scorePartwise();
         } else {
@@ -1771,9 +1771,11 @@ static void addBarlineToMeasure(Measure* measure, const Fraction tick, std::uniq
 void MusicXMLParserPass2::scorePartwise()
 {
     while (_e.readNextStartElement()) {
-        if (_e.name() == "part") {
+        const QString tag = _e.name().toString();
+
+        if (tag == "part") {
             part();
-        } else if (_e.name() == "part-list") {
+        } else if (tag == "part-list") {
             partList();
         } else {
             skipLogCurrElem();
@@ -1805,7 +1807,7 @@ void MusicXMLParserPass2::scorePartwise()
 void MusicXMLParserPass2::partList()
 {
     while (_e.readNextStartElement()) {
-        if (_e.name() == "score-part") {
+        if (_e.name().toString() == "score-part") {
             scorePart();
         } else {
             skipLogCurrElem();
@@ -1823,11 +1825,13 @@ void MusicXMLParserPass2::partList()
 void MusicXMLParserPass2::scorePart()
 {
     while (_e.readNextStartElement()) {
-        if (_e.name() == "midi-instrument") {
+        const QString tag = _e.name().toString();
+
+        if (tag == "midi-instrument") {
             _e.skipCurrentElement();        // skip but don't log
-        } else if (_e.name() == "score-instrument") {
+        } else if (tag == "score-instrument") {
             _e.skipCurrentElement();        // skip but don't log
-        } else if (_e.name() == "part-name") {
+        } else if (tag == "part-name") {
             _e.skipCurrentElement();        // skip but don't log
         } else {
             skipLogCurrElem();
@@ -1906,7 +1910,7 @@ void MusicXMLParserPass2::part()
     int nr = 0; // current measure sequence number (always increments by one for each measure)
     _measureNumber = 0; // written measure number (doesn't always increment by 1)
     while (_e.readNextStartElement()) {
-        if (_e.name() == "measure") {
+        if (_e.name().toString() == "measure") {
             Fraction t = _pass1.getMeasureStart(nr);
             if (t.isValid()) {
                 measure(id, t);
@@ -2261,7 +2265,7 @@ void MusicXMLParserPass2::measure(const QString& partId, const Fraction time)
         return;
     }
 
-    if (_e.attributes().value("implicit") == "yes") {
+    if (_e.attributes().value("implicit").toString() == "yes") {
         // Implicit measure: expect measure number to be unchanged.
         measure->setIrregular(true);
     } else {
@@ -2311,19 +2315,21 @@ void MusicXMLParserPass2::measure(const QString& partId, const Fraction time)
     QMap<Note*, int> alterMap;
 
     while (_e.readNextStartElement()) {
-        if (_e.name() == "attributes") {
+        const QString tag = _e.name().toString();
+
+        if (tag == "attributes") {
             attributes(partId, measure, time + mTime);
-        } else if (_e.name() == "direction") {
+        } else if (tag == "direction") {
             MusicXMLParserDirection dir(_e, _score, _pass1, *this, _logger);
             dir.direction(partId, measure, time + mTime, _spanners, delayedDirections);
-        } else if (_e.name() == "figured-bass") {
+        } else if (tag == "figured-bass") {
             FiguredBass* fb = figuredBass();
             if (fb) {
                 fbl.append(fb);
             }
-        } else if (_e.name() == "harmony") {
+        } else if (tag == "harmony") {
             harmony(partId, measure, time + mTime);
-        } else if (_e.name() == "note") {
+        } else if (tag == "note") {
             Fraction missingPrev;
             Fraction dura;
             Fraction missingCurr;
@@ -2352,7 +2358,7 @@ void MusicXMLParserPass2::measure(const QString& partId, const Fraction time)
                 mTime += missingCurr;
             }
             //LOGD("added note %p chord %p gac %d", n, n ? n->chord() : 0, gac);
-        } else if (_e.name() == "forward") {
+        } else if (tag == "forward") {
             Fraction dura;
             forward(dura);
             if (dura.isValid()) {
@@ -2361,7 +2367,7 @@ void MusicXMLParserPass2::measure(const QString& partId, const Fraction time)
                     mDura = mTime;
                 }
             }
-        } else if (_e.name() == "backup") {
+        } else if (tag == "backup") {
             Fraction dura;
             backup(dura);
             if (dura.isValid()) {
@@ -2378,7 +2384,7 @@ void MusicXMLParserPass2::measure(const QString& partId, const Fraction time)
                     mTime.set(0, 1);
                 }
             }
-        } else if (_e.name() == "sound") {
+        } else if (tag == "sound") {
             QString tempo = _e.attributes().value("tempo").toString();
 
             if (!tempo.isEmpty()) {
@@ -2402,9 +2408,9 @@ void MusicXMLParserPass2::measure(const QString& partId, const Fraction time)
                 }
             }
             _e.skipCurrentElement();
-        } else if (_e.name() == "barline") {
+        } else if (tag == "barline") {
             barline(partId, measure, time + mTime);
-        } else if (_e.name() == "print") {
+        } else if (tag == "print") {
             _e.skipCurrentElement();
         } else {
             skipLogCurrElem();
@@ -2533,19 +2539,21 @@ void MusicXMLParserPass2::setMeasureRepeats(const staff_idx_t scoreRelStaff, Mea
 void MusicXMLParserPass2::attributes(const QString& partId, Measure* measure, const Fraction& tick)
 {
     while (_e.readNextStartElement()) {
-        if (_e.name() == "clef") {
+        const QString tag = _e.name().toString();
+
+        if (tag == "clef") {
             clef(partId, measure, tick);
-        } else if (_e.name() == "divisions") {
+        } else if (tag == "divisions") {
             divisions();
-        } else if (_e.name() == "key") {
+        } else if (tag == "key") {
             key(partId, measure, tick);
-        } else if (_e.name() == "measure-style") {
+        } else if (tag == "measure-style") {
             measureStyle(measure);
-        } else if (_e.name() == "staff-details") {
+        } else if (tag == "staff-details") {
             staffDetails(partId, measure);
-        } else if (_e.name() == "time") {
+        } else if (tag == "time") {
             time(partId, measure, tick);
-        } else if (_e.name() == "transpose") {
+        } else if (tag == "transpose") {
             _e.skipCurrentElement();        // skip but don't log
         } else {
             skipLogCurrElem();
@@ -2627,7 +2635,9 @@ void MusicXMLParserPass2::staffDetails(const QString& partId, Measure* measure)
 
     int staffLines = 0;
     while (_e.readNextStartElement()) {
-        if (_e.name() == "staff-lines") {
+        const QString tag = _e.name().toString();
+
+        if (tag == "staff-lines") {
             // save staff lines for later
             staffLines = _e.readElementText().toInt();
             // for a TAB staff also resize the string table and init with zeroes
@@ -2638,7 +2648,7 @@ void MusicXMLParserPass2::staffDetails(const QString& partId, Measure* measure)
                     _logger->logError(QString("illegal staff-lines %1").arg(staffLines), &_e);
                 }
             }
-        } else if (_e.name() == "staff-tuning") {
+        } else if (tag == "staff-tuning") {
             staffTuning(t);
         } else {
             skipLogCurrElem();
@@ -2690,11 +2700,13 @@ void MusicXMLParserPass2::staffTuning(StringData* t)
     int alter  = 0;
     int octave = 0;
     while (_e.readNextStartElement()) {
-        if (_e.name() == "tuning-alter") {
+        const QString tag = _e.name().toString();
+
+        if (tag == "tuning-alter") {
             alter = _e.readElementText().toInt();
-        } else if (_e.name() == "tuning-octave") {
+        } else if (tag == "tuning-octave") {
             octave = _e.readElementText().toInt();
-        } else if (_e.name() == "tuning-step") {
+        } else if (tag == "tuning-step") {
             QString strStep = _e.readElementText();
             int pos = QString("CDEFGAB").indexOf(strStep);
             if (strStep.size() == 1 && pos >= 0 && pos < 7) {
@@ -2731,7 +2743,7 @@ void MusicXMLParserPass2::staffTuning(StringData* t)
 
 void MusicXMLParserPass2::measureStyle(Measure* measure)
 {
-    QStringRef staffNumberString = _e.attributes().value("number");
+    QStringView staffNumberString = _e.attributes().value("number");
 
     // by default, apply to all staves in part
     int startStaff = 0;
@@ -2748,7 +2760,9 @@ void MusicXMLParserPass2::measureStyle(Measure* measure)
     }
 
     while (_e.readNextStartElement()) {
-        if (_e.name() == "multiple-rest") {
+        const QString tag = _e.name().toString();
+
+        if (tag == "multiple-rest") {
             int multipleRest = _e.readElementText().toInt();
             if (multipleRest > 1) {
                 _multiMeasureRestCount = multipleRest;
@@ -2757,7 +2771,7 @@ void MusicXMLParserPass2::measureStyle(Measure* measure)
             } else {
                 _logger->logError(QString("multiple-rest %1 not supported").arg(multipleRest), &_e);
             }
-        } else if (_e.name() == "measure-repeat") {
+        } else if (tag == "measure-repeat") {
             QString startStop = _e.attributes().value("type").toString();
             // note: possible "slashes" attribute is either redundant with numMeasures or not supported by MuseScore, so ignored either way
             if (startStop == "start") {
@@ -2773,7 +2787,7 @@ void MusicXMLParserPass2::measureStyle(Measure* measure)
                 }
                 _e.skipCurrentElement(); // since not reading any text inside stop tag, we are done with this element
             }
-        } else if (_e.name() == "slash") {
+        } else if (tag == "slash") {
             QString type = _e.attributes().value("type").toString();
             QString stems = _e.attributes().value("use-stems").toString();
             _measureStyleSlash = type == "start" ? (stems == "yes" ? MusicXmlSlash::RHYTHM : MusicXmlSlash::SLASH) : MusicXmlSlash::NONE;
@@ -2838,14 +2852,16 @@ void MusicXMLParserDirection::direction(const QString& partId,
     // (currently NOT supported by MS, at least not for spanners when <direction> children)
 
     while (_e.readNextStartElement()) {
-        if (_e.name() == "direction-type") {
+        const QString tag = _e.name().toString();
+
+        if (tag == "direction-type") {
             directionType(starts, stops);
-        } else if (_e.name() == "offset") {
+        } else if (tag == "offset") {
             _offset = _pass1.calcTicks(_e.readElementText().toInt(), _pass2.divs(), &_e);
             preventNegativeTick(tick, _offset, _logger);
-        } else if (_e.name() == "sound") {
+        } else if (tag == "sound") {
             sound();
-        } else if (_e.name() == "staff") {
+        } else if (tag == "staff") {
             QString strStaff = _e.readElementText();
             staff_idx_t staff = _pass1.getMusicXmlPart(partId).staffNumberToIndex(strStaff.toInt());
             track += staff * VOICES;
@@ -3091,34 +3107,37 @@ void MusicXMLParserDirection::directionType(QList<MusicXmlSpannerDesc>& starts,
                 n--;          // make zero-based
             }
         }
+
         QString type = _e.attributes().value("type").toString();
-        if (_e.name() == "metronome") {
+        const QString tag = _e.name().toString();
+
+        if (tag == "metronome") {
             _metroText = metronome(_tpoMetro);
-        } else if (_e.name() == "words") {
+        } else if (tag == "words") {
             _enclosure      = _e.attributes().value("enclosure").toString();
             _wordsText += xmlpass2::nextPartOfFormattedString(_e);
-        } else if (_e.name() == "rehearsal") {
+        } else if (tag == "rehearsal") {
             _enclosure      = _e.attributes().value("enclosure").toString();
             if (_enclosure == "") {
                 _enclosure = "square";          // note different default
             }
             _rehearsalText += xmlpass2::nextPartOfFormattedString(_e);
-        } else if (_e.name() == "pedal") {
+        } else if (tag == "pedal") {
             pedal(type, n, starts, stops);
-        } else if (_e.name() == "octave-shift") {
+        } else if (tag == "octave-shift") {
             octaveShift(type, n, starts, stops);
-        } else if (_e.name() == "dynamics") {
+        } else if (tag == "dynamics") {
             dynamics();
-        } else if (_e.name() == "bracket") {
+        } else if (tag == "bracket") {
             bracket(type, n, starts, stops);
-        } else if (_e.name() == "dashes") {
+        } else if (tag == "dashes") {
             dashes(type, n, starts, stops);
-        } else if (_e.name() == "wedge") {
+        } else if (tag == "wedge") {
             wedge(type, n, starts, stops);
-        } else if (_e.name() == "coda") {
+        } else if (tag == "coda") {
             _wordsText += "<sym>coda</sym>";
             _e.skipCurrentElement();
-        } else if (_e.name() == "segno") {
+        } else if (tag == "segno") {
             _wordsText += "<sym>segno</sym>";
             _e.skipCurrentElement();
         } else {
@@ -3160,7 +3179,7 @@ void MusicXMLParserDirection::sound()
 void MusicXMLParserDirection::dynamics()
 {
     while (_e.readNextStartElement()) {
-        if (_e.name() == "other-dynamics") {
+        if (_e.name().toString() == "other-dynamics") {
             _dynamicsList.push_back(_e.readElementText());
         } else {
             _dynamicsList.push_back(_e.name().toString());
@@ -3371,8 +3390,8 @@ void MusicXMLParserDirection::handleNmiCmi(Measure* measure, const track_idx_t t
 void MusicXMLParserDirection::bracket(const QString& type, const int number,
                                       QList<MusicXmlSpannerDesc>& starts, QList<MusicXmlSpannerDesc>& stops)
 {
-    QStringRef lineEnd = _e.attributes().value("line-end");
-    QStringRef lineType = _e.attributes().value("line-type");
+    const QString lineEnd = _e.attributes().value("line-end").toString();
+    const QString lineType = _e.attributes().value("line-type").toString();
     const bool isWavy = lineType == "wavy";
     const ElementType elementType = isWavy ? ElementType::TRILL : ElementType::TEXTLINE;
     const auto& spdesc = _pass2.getSpanner({ elementType, number });
@@ -3414,7 +3433,7 @@ void MusicXMLParserDirection::bracket(const QString& type, const int number,
             } else if (lineType == "dotted") {
                 textLine->setLineStyle(LineType::DOTTED);
             } else if (lineType != "wavy") {
-                _logger->logError(QString("unsupported line-type: %1").arg(lineType.toString()), &_e);
+                _logger->logError(QString("unsupported line-type: %1").arg(lineType), &_e);
             }
             const QColor color { _e.attributes().value("color").toString() };
             if (color.isValid()) {
@@ -3546,7 +3565,7 @@ void MusicXMLParserDirection::pedal(const QString& type, const int /* number */,
                                     QList<MusicXmlSpannerDesc>& stops)
 {
     const int number { 0 };
-    QStringRef line = _e.attributes().value("line");
+    QString line = _e.attributes().value("line").toString();
     QString sign = _e.attributes().value("sign").toString();
     const QColor color { _e.attributes().value("color").toString() };
 
@@ -3656,7 +3675,7 @@ void MusicXMLParserDirection::pedal(const QString& type, const int /* number */,
 void MusicXMLParserDirection::wedge(const QString& type, const int number,
                                     QList<MusicXmlSpannerDesc>& starts, QList<MusicXmlSpannerDesc>& stops)
 {
-    QStringRef niente = _e.attributes().value("niente");
+    QString niente = _e.attributes().value("niente").toString();
     const auto& spdesc = _pass2.getSpanner({ ElementType::HAIRPIN, number });
     if (type == "crescendo" || type == "diminuendo") {
         auto h = spdesc._isStopped ? toHairpin(spdesc._sp) : Factory::createHairpin(_score->dummy()->segment());
@@ -3762,7 +3781,7 @@ QString MusicXMLParserDirection::metronome(double& r)
     r = 0;
     QString tempoText;
     QString perMinute;
-    bool parenth = _e.attributes().value("parentheses") == "yes";
+    bool parenth = _e.attributes().value("parentheses").toString() == "yes";
 
     if (parenth) {
         tempoText += "(";
@@ -3772,12 +3791,14 @@ QString MusicXMLParserDirection::metronome(double& r)
     TDuration dur2;
 
     while (_e.readNextStartElement()) {
-        if (_e.name() == "metronome-note" || _e.name() == "metronome-relation") {
+        const QString tag = _e.name().toString();
+
+        if (tag == "metronome-note" || tag == "metronome-relation") {
             skipLogCurrElem();
             continue;
         }
         QString txt = _e.readElementText();
-        if (_e.name() == "beat-unit") {
+        if (tag == "beat-unit") {
             // set first dur that is still invalid
             QByteArray ba = txt.toLatin1();
             if (!dur1.isValid()) {
@@ -3785,13 +3806,13 @@ QString MusicXMLParserDirection::metronome(double& r)
             } else if (!dur2.isValid()) {
                 dur2.setType(TConv::fromXml(ba.constData(), DurationType::V_INVALID));
             }
-        } else if (_e.name() == "beat-unit-dot") {
+        } else if (tag == "beat-unit-dot") {
             if (dur2.isValid()) {
                 dur2.setDots(1);
             } else if (dur1.isValid()) {
                 dur1.setDots(1);
             }
-        } else if (_e.name() == "per-minute") {
+        } else if (tag == "per-minute") {
             perMinute = txt;
         } else {
             skipLogCurrElem();
@@ -3922,16 +3943,18 @@ void MusicXMLParserPass2::barline(const QString& partId, Measure* measure, const
     bool printEnding = true;
 
     while (_e.readNextStartElement()) {
-        if (_e.name() == "bar-style") {
+        const QString tag = _e.name().toString();
+
+        if (tag == "bar-style") {
             barlineColor = _e.attributes().value("color").toString();
             barStyle = _e.readElementText();
-        } else if (_e.name() == "ending") {
+        } else if (tag == "ending") {
             endingNumber = _e.attributes().value("number").toString();
             endingType   = _e.attributes().value("type").toString();
             endingColor = _e.attributes().value("color").toString();
             printEnding = _e.attributes().value("print-object").toString() != "no";
             endingText = _e.readElementText();
-        } else if (_e.name() == "fermata") {
+        } else if (tag == "fermata") {
             const QColor fermataColor = _e.attributes().value("color").toString();
             const QString fermataType = _e.attributes().value("type").toString();
             const auto segment = measure->getSegment(SegmentType::EndBarLine, tick);
@@ -3946,7 +3969,7 @@ void MusicXMLParserPass2::barline(const QString& partId, Measure* measure, const
             if (fermataType == "inverted") {
                 fermata->setPlacement(PlacementV::BELOW);
             }
-        } else if (_e.name() == "repeat") {
+        } else if (tag == "repeat") {
             repeat = _e.attributes().value("direction").toString();
             count = _e.attributes().value("times").toString();
             if (count.isEmpty()) {
@@ -4205,7 +4228,7 @@ void MusicXMLParserPass2::key(const QString& partId, Measure* measure, const Fra
             keyno = 0;
         }
     }
-    const bool printObject = _e.attributes().value("print-object") != "no";
+    const bool printObject = _e.attributes().value("print-object").toString() != "no";
     const QColor keyColor { _e.attributes().value("color").toString() };
 
     // for custom keys, a single altered tone is described by
@@ -4219,7 +4242,9 @@ void MusicXMLParserPass2::key(const QString& partId, Measure* measure, const Fra
     QString smufl;
 
     while (_e.readNextStartElement()) {
-        if (_e.name() == "fifths") {
+        const QString tag = _e.name().toString();
+
+        if (tag == "fifths") {
             Key tKey = Key(_e.readElementText().toInt());
             Key cKey = tKey;
             Interval v = _pass1.getPart(partId)->instrument()->transpose();
@@ -4233,7 +4258,7 @@ void MusicXMLParserPass2::key(const QString& partId, Measure* measure, const Fra
             }
             key.setConcertKey(cKey);
             key.setKey(tKey);
-        } else if (_e.name() == "mode") {
+        } else if (tag == "mode") {
             QString m = _e.readElementText();
             if (m == "none") {
                 key.setCustom(true);
@@ -4259,14 +4284,14 @@ void MusicXMLParserPass2::key(const QString& partId, Measure* measure, const Fra
             } else {
                 _logger->logError(QString("Unsupported mode '%1'").arg(m), &_e);
             }
-        } else if (_e.name() == "cancel") {
+        } else if (tag == "cancel") {
             skipLogCurrElem();        // TODO ??
-        } else if (_e.name() == "key-step") {
+        } else if (tag == "key-step") {
             flushAlteredTone(key, keyStep, keyAlter, keyAccidental, smufl);
             keyStep = _e.readElementText();
-        } else if (_e.name() == "key-alter") {
+        } else if (tag == "key-alter") {
             keyAlter = _e.readElementText();
-        } else if (_e.name() == "key-accidental") {
+        } else if (tag == "key-accidental") {
             smufl = _e.attributes().value("smufl").toString();
             keyAccidental = _e.readElementText();
         } else {
@@ -4305,16 +4330,18 @@ void MusicXMLParserPass2::clef(const QString& partId, Measure* measure, const Fr
     int line = -1;
 
     const QString strClefno = _e.attributes().value("number").toString();
-    const bool afterBarline = _e.attributes().value("after-barline") == "yes";
-    const bool printObject = _e.attributes().value("print-object") != "no";
+    const bool afterBarline = _e.attributes().value("after-barline").toString() == "yes";
+    const bool printObject = _e.attributes().value("print-object").toString() != "no";
     const QColor clefColor { _e.attributes().value("color").toString() };
 
     while (_e.readNextStartElement()) {
-        if (_e.name() == "sign") {
+        const QString tag = _e.name().toString();
+
+        if (tag == "sign") {
             c = _e.readElementText();
-        } else if (_e.name() == "line") {
+        } else if (tag == "line") {
             line = _e.readElementText().toInt();
-        } else if (_e.name() == "clef-octave-change") {
+        } else if (tag == "clef-octave-change") {
             i = _e.readElementText().toInt();
             if (i && !(c == "F" || c == "G" || c == "C")) {
                 LOGD("clef-octave-change only implemented for F and G key");          // TODO
@@ -4497,13 +4524,15 @@ void MusicXMLParserPass2::time(const QString& partId, Measure* measure, const Fr
     QString beats;
     QString beatType;
     QString timeSymbol = _e.attributes().value("symbol").toString();
-    bool printObject = _e.attributes().value("print-object") != "no";
+    bool printObject = _e.attributes().value("print-object").toString() != "no";
     const QColor timeColor { _e.attributes().value("color").toString() };
 
     while (_e.readNextStartElement()) {
-        if (_e.name() == "beats") {
+        const QString tag = _e.name().toString();
+
+        if (tag == "beats") {
             beats = _e.readElementText();
-        } else if (_e.name() == "beat-type") {
+        } else if (tag == "beat-type") {
             beatType = _e.readElementText();
         } else {
             skipLogCurrElem();
@@ -5033,7 +5062,7 @@ Note* MusicXMLParserPass2::note(const QString& partId,
                                 MxmlTupletStates& tupletStates,
                                 Tuplets& tuplets)
 {
-    if (_e.attributes().value("print-spacing") == "no") {
+    if (_e.attributes().value("print-spacing").toString() == "no") {
         notePrintSpacingNo(dura);
         return 0;
     }
@@ -5055,7 +5084,7 @@ Note* MusicXMLParserPass2::note(const QString& partId,
     QString noteheadFilled;
     int velocity = round(_e.attributes().value("dynamics").toDouble() * 0.9);
     bool graceSlash = false;
-    bool printObject = _e.attributes().value("print-object") != "no";
+    bool printObject = _e.attributes().value("print-object").toString() != "no";
     BeamMode bm;
     QMap<int, QString> beamTypes;
     QString instrumentId;
@@ -5067,26 +5096,28 @@ Note* MusicXMLParserPass2::note(const QString& partId,
     mxmlNotePitch mnp { _logger };
 
     while (_e.readNextStartElement()) {
+        const QString tag = _e.name().toString();
+
         if (mnp.readProperties(_e, _score)) {
             // element handled
         } else if (mnd.readProperties(_e)) {
             // element handled
-        } else if (_e.name() == "beam") {
+        } else if (tag == "beam") {
             beam(beamTypes);
-        } else if (_e.name() == "chord") {
+        } else if (tag == "chord") {
             chord = true;
             _e.skipCurrentElement();  // skip but don't log
-        } else if (_e.name() == "cue") {
+        } else if (tag == "cue") {
             cue = true;
             _e.skipCurrentElement();  // skip but don't log
-        } else if (_e.name() == "grace") {
+        } else if (tag == "grace") {
             grace = true;
-            graceSlash = _e.attributes().value("slash") == "yes";
+            graceSlash = _e.attributes().value("slash").toString() == "yes";
             _e.skipCurrentElement();  // skip but don't log
-        } else if (_e.name() == "instrument") {
+        } else if (tag == "instrument") {
             instrumentId = _e.attributes().value("id").toString();
             _e.skipCurrentElement();  // skip but don't log
-        } else if (_e.name() == "lyric") {
+        } else if (tag == "lyric") {
             // lyrics on grace notes not (yet) supported by MuseScore
             if (!grace) {
                 lyric.parse();
@@ -5094,21 +5125,21 @@ Note* MusicXMLParserPass2::note(const QString& partId,
                 _logger->logDebugInfo("ignoring lyrics on grace notes", &_e);
                 skipLogCurrElem();
             }
-        } else if (_e.name() == "notations") {
+        } else if (tag == "notations") {
             notations.parse();
             addError(notations.errors());
-        } else if (_e.name() == "notehead") {
+        } else if (tag == "notehead") {
             noteheadColor.setNamedColor(_e.attributes().value("color").toString());
-            noteheadParentheses = _e.attributes().value("parentheses") == "yes";
+            noteheadParentheses = _e.attributes().value("parentheses").toString() == "yes";
             noteheadFilled = _e.attributes().value("filled").toString();
             auto noteheadValue = _e.readElementText();
             if (noteheadValue != "none") {
                 headGroup = convertNotehead(noteheadValue);
             }
-        } else if (_e.name() == "rest") {
+        } else if (tag == "rest") {
             rest = true;
             mnp.displayStepOctave(_e);
-        } else if (_e.name() == "staff") {
+        } else if (tag == "staff") {
             auto ok = false;
             auto strStaff = _e.readElementText();
             staff = _pass1.getMusicXmlPart(partId).staffNumberToIndex(strStaff.toInt(&ok));
@@ -5116,15 +5147,15 @@ Note* MusicXMLParserPass2::note(const QString& partId,
                 // error already reported in pass 1
                 staff = -1;
             }
-        } else if (_e.name() == "stem") {
+        } else if (tag == "stem") {
             stem(stemDir, noStem);
-        } else if (_e.name() == "tie") {
+        } else if (tag == "tie") {
             tieType = _e.attributes().value("type").toString();
             _e.skipCurrentElement();
-        } else if (_e.name() == "type") {
-            isSmall = _e.attributes().value("size") == "cue" || _e.attributes().value("size") == "grace-cue";
+        } else if (tag == "type") {
+            isSmall = _e.attributes().value("size").toString() == "cue" || _e.attributes().value("size").toString() == "grace-cue";
             type = _e.readElementText();
-        } else if (_e.name() == "voice") {
+        } else if (tag == "voice") {
             voice = _e.readElementText();
         } else {
             skipLogCurrElem();
@@ -5375,7 +5406,7 @@ Note* MusicXMLParserPass2::note(const QString& partId,
         if (note && !note->tieFor() && !tieType.isEmpty()) {
             Notation notation { "tied" };
             const QString type2 { "type" };
-            notation.addAttribute(&type2, &tieType);
+            notation.addAttribute(type2, tieType);
             addTie(notation, _score, note, cr->track(), _tie, _logger, &_e);
         }
     }
@@ -5475,12 +5506,14 @@ void MusicXMLParserPass2::notePrintSpacingNo(Fraction& dura)
     bool grace = false;
 
     while (_e.readNextStartElement()) {
-        if (_e.name() == "chord") {
+        const QString tag = _e.name().toString();
+
+        if (tag == "chord") {
             chord = true;
             _e.skipCurrentElement();  // skip but don't log
-        } else if (_e.name() == "duration") {
+        } else if (tag == "duration") {
             duration(dura);
-        } else if (_e.name() == "grace") {
+        } else if (tag == "grace") {
             grace = true;
             _e.skipCurrentElement();  // skip but don't log
         } else {
@@ -5558,8 +5591,10 @@ FiguredBassItem* MusicXMLParserPass2::figure(const int idx, const bool paren, Fi
 
     // read the figure
     while (_e.readNextStartElement()) {
-        if (_e.name() == "extend") {
-            QStringRef type = _e.attributes().value("type");
+        const QString tag = _e.name().toString();
+
+        if (tag == "extend") {
+            QString type = _e.attributes().value("type").toString();
             if (type == "start") {
                 fgi->setContLine(FiguredBassItem::ContLine::EXTENDED);
             } else if (type == "continue") {
@@ -5568,7 +5603,7 @@ FiguredBassItem* MusicXMLParserPass2::figure(const int idx, const bool paren, Fi
                 fgi->setContLine(FiguredBassItem::ContLine::SIMPLE);
             }
             _e.skipCurrentElement();
-        } else if (_e.name() == "figure-number") {
+        } else if (tag == "figure-number") {
             const QColor color { _e.attributes().value("color").toString() };
             QString val = _e.readElementText();
             int iVal = val.toInt();
@@ -5580,9 +5615,9 @@ FiguredBassItem* MusicXMLParserPass2::figure(const int idx, const bool paren, Fi
             } else {
                 _logger->logError(QString("incorrect figure-number '%1'").arg(val), &_e);
             }
-        } else if (_e.name() == "prefix") {
+        } else if (tag == "prefix") {
             fgi->setPrefix(MusicXML2Modifier(_e.readElementText()));
-        } else if (_e.name() == "suffix") {
+        } else if (tag == "suffix") {
             fgi->setSuffix(MusicXML2Modifier(_e.readElementText()));
         } else {
             skipLogCurrElem();
@@ -5631,8 +5666,8 @@ FiguredBass* MusicXMLParserPass2::figuredBass()
 {
     FiguredBass* fb = Factory::createFiguredBass(_score->dummy()->segment());
 
-    const bool parentheses = _e.attributes().value("parentheses") == "yes";
-    const bool printObject = _e.attributes().value("print-object") != "no";
+    const bool parentheses = _e.attributes().value("parentheses").toString() == "yes";
+    const bool printObject = _e.attributes().value("print-object").toString() != "no";
     const QString placement = _e.attributes().value("placement").toString();
     const QColor color { _e.attributes().value("color").toString() };
 
@@ -5644,13 +5679,15 @@ FiguredBass* MusicXMLParserPass2::figuredBass()
     QString normalizedText;
     int idx = 0;
     while (_e.readNextStartElement()) {
-        if (_e.name() == "duration") {
+        const QString tag = _e.name().toString();
+
+        if (tag == "duration") {
             Fraction dura;
             duration(dura);
             if (dura.isValid() && dura > Fraction(0, 1)) {
                 fb->setTicks(dura);
             }
-        } else if (_e.name() == "figure") {
+        } else if (tag == "figure") {
             FiguredBassItem* pItem = figure(idx++, parentheses, fb);
             pItem->setTrack(0 /* TODO fb->track() */);
             pItem->setParent(fb);
@@ -5703,7 +5740,9 @@ FretDiagram* MusicXMLParserPass2::frame()
     std::map<int, int> bEnds;
 
     while (_e.readNextStartElement()) {
-        if (_e.name() == "first-fret") {
+        const QString tag = _e.name().toString();
+
+        if (tag == "first-fret") {
             bool ok {};
             int val = _e.readElementText().toInt(&ok);
             if (ok && val > 0) {
@@ -5711,7 +5750,7 @@ FretDiagram* MusicXMLParserPass2::frame()
             } else {
                 _logger->logError(QString("FretDiagram::readMusicXML: illegal first-fret %1").arg(val), &_e);
             }
-        } else if (_e.name() == "frame-frets") {
+        } else if (tag == "frame-frets") {
             int val = _e.readElementText().toInt();
             if (val > 0) {
                 fd->setProperty(Pid::FRET_FRETS, val);
@@ -5719,17 +5758,19 @@ FretDiagram* MusicXMLParserPass2::frame()
             } else {
                 _logger->logError(QString("FretDiagram::readMusicXML: illegal frame-fret %1").arg(val), &_e);
             }
-        } else if (_e.name() == "frame-note") {
+        } else if (tag == "frame-note") {
             int fret   = -1;
             int string = -1;
             int actualString = -1;
             while (_e.readNextStartElement()) {
-                if (_e.name() == "fret") {
+                const QString t = _e.name().toString();
+
+                if (t == "fret") {
                     fret = _e.readElementText().toInt();
-                } else if (_e.name() == "string") {
+                } else if (t == "string") {
                     string = _e.readElementText().toInt();
                     actualString = fd->strings() - string;
-                } else if (_e.name() == "barre") {
+                } else if (t == "barre") {
                     // Keep barres to be added later
                     QString t = _e.attributes().value("type").toString();
                     if (t == "start") {
@@ -5758,7 +5799,7 @@ FretDiagram* MusicXMLParserPass2::frame()
             } else {
                 _logger->logError(QString("FretDiagram::readMusicXML: illegal frame-note string %1").arg(string), &_e);
             }
-        } else if (_e.name() == "frame-strings") {
+        } else if (tag == "frame-strings") {
             int val = _e.readElementText().toInt();
             if (val > 0) {
                 fd->setStrings(val);
@@ -5803,7 +5844,7 @@ void MusicXMLParserPass2::harmony(const QString& partId, Measure* measure, const
 {
     track_idx_t track = _pass1.trackForPart(partId);
 
-    bool printObject = _e.attributes().value("print-object") != "no";
+    bool printObject = _e.attributes().value("print-object").toString() != "no";
 
     QString kind, kindText, functionText, symbols, parens;
     std::list<HDegree> degreeList;
@@ -5812,12 +5853,16 @@ void MusicXMLParserPass2::harmony(const QString& partId, Measure* measure, const
     Harmony* ha = Factory::createHarmony(_score->dummy()->segment());
     Fraction offset;
     while (_e.readNextStartElement()) {
-        if (_e.name() == "root") {
+        const QString tag = _e.name().toString();
+
+        if (tag == "root") {
             QString step;
             int alter = 0;
             bool invalidRoot = false;
             while (_e.readNextStartElement()) {
-                if (_e.name() == "root-step") {
+                const QString t = _e.name().toString();
+
+                if (t == "root-step") {
                     // attributes: print-style
                     step = _e.readElementText();
                     if (_e.attributes().hasAttribute("text")) {
@@ -5825,7 +5870,7 @@ void MusicXMLParserPass2::harmony(const QString& partId, Measure* measure, const
                             invalidRoot = true;
                         }
                     }
-                } else if (_e.name() == "root-alter") {
+                } else if (t == "root-alter") {
                     // attributes: print-object, print-style
                     //             location (left-right)
                     alter = _e.readElementText().toInt();
@@ -5838,14 +5883,14 @@ void MusicXMLParserPass2::harmony(const QString& partId, Measure* measure, const
             } else {
                 ha->setRootTpc(step2tpc(step, AccidentalVal(alter)));
             }
-        } else if (_e.name() == "function") {
+        } else if (tag == "function") {
             // attributes: print-style
             ha->setRootTpc(Tpc::TPC_INVALID);
             ha->setBaseTpc(Tpc::TPC_INVALID);
             functionText = _e.readElementText();
             // TODO: parse to decide between ROMAN and NASHVILLE
             ha->setHarmonyType(HarmonyType::ROMAN);
-        } else if (_e.name() == "kind") {
+        } else if (tag == "kind") {
             // attributes: use-symbols  yes-no
             //             text, stack-degrees, parentheses-degree, bracket-degrees,
             //             print-style, halign, valign
@@ -5856,17 +5901,19 @@ void MusicXMLParserPass2::harmony(const QString& partId, Measure* measure, const
             if (kind == "none") {
                 ha->setRootTpc(Tpc::TPC_INVALID);
             }
-        } else if (_e.name() == "inversion") {
+        } else if (tag == "inversion") {
             // attributes: print-style
             skipLogCurrElem();
-        } else if (_e.name() == "bass") {
+        } else if (tag == "bass") {
             QString step;
             int alter = 0;
             while (_e.readNextStartElement()) {
-                if (_e.name() == "bass-step") {
+                const QString t = _e.name().toString();
+
+                if (t == "bass-step") {
                     // attributes: print-style
                     step = _e.readElementText();
-                } else if (_e.name() == "bass-alter") {
+                } else if (t == "bass-alter") {
                     // attributes: print-object, print-style
                     //             location (left-right)
                     alter = _e.readElementText().toInt();
@@ -5875,16 +5922,18 @@ void MusicXMLParserPass2::harmony(const QString& partId, Measure* measure, const
                 }
             }
             ha->setBaseTpc(step2tpc(step, AccidentalVal(alter)));
-        } else if (_e.name() == "degree") {
+        } else if (tag == "degree") {
             int degreeValue = 0;
             int degreeAlter = 0;
             QString degreeType = "";
             while (_e.readNextStartElement()) {
-                if (_e.name() == "degree-value") {
+                const QString t = _e.name().toString();
+
+                if (t == "degree-value") {
                     degreeValue = _e.readElementText().toInt();
-                } else if (_e.name() == "degree-alter") {
+                } else if (t == "degree-alter") {
                     degreeAlter = _e.readElementText().toInt();
-                } else if (_e.name() == "degree-type") {
+                } else if (t == "degree-type") {
                     degreeType = _e.readElementText();
                 } else {
                     skipLogCurrElem();
@@ -5904,14 +5953,14 @@ void MusicXMLParserPass2::harmony(const QString& partId, Measure* measure, const
                     degreeList.push_back(HDegree(degreeValue, degreeAlter, HDegreeType::SUBTRACT));
                 }
             }
-        } else if (_e.name() == "frame") {
+        } else if (tag == "frame") {
             fd = frame();
-        } else if (_e.name() == "level") {
+        } else if (tag == "level") {
             skipLogCurrElem();
-        } else if (_e.name() == "offset") {
+        } else if (tag == "offset") {
             offset = _pass1.calcTicks(_e.readElementText().toInt(), _divs, &_e);
             preventNegativeTick(sTime, offset, _logger);
-        } else if (_e.name() == "staff") {
+        } else if (tag == "staff") {
             size_t nstaves = _pass1.getPart(partId)->nstaves();
             QString strStaff = _e.readElementText();
             int staff = _pass1.getMusicXmlPart(partId).staffNumberToIndex(strStaff.toInt());
@@ -5983,11 +6032,13 @@ void MusicXMLParserPass2::beam(QMap<int, QString>& beamTypes)
 void MusicXMLParserPass2::forward(Fraction& dura)
 {
     while (_e.readNextStartElement()) {
-        if (_e.name() == "duration") {
+        const QString tag = _e.name().toString();
+
+        if (tag == "duration") {
             duration(dura);
-        } else if (_e.name() == "staff") {
+        } else if (tag == "staff") {
             _e.skipCurrentElement();        // skip but don't log
-        } else if (_e.name() == "voice") {
+        } else if (tag == "voice") {
             _e.skipCurrentElement();        // skip but don't log
         } else {
             skipLogCurrElem();
@@ -6006,7 +6057,9 @@ void MusicXMLParserPass2::forward(Fraction& dura)
 void MusicXMLParserPass2::backup(Fraction& dura)
 {
     while (_e.readNextStartElement()) {
-        if (_e.name() == "duration") {
+        const QString tag = _e.name().toString();
+
+        if (tag == "duration") {
             duration(dura);
         } else {
             skipLogCurrElem();
@@ -6055,7 +6108,9 @@ void MusicXMLParserLyric::parse()
     QString formattedText;
 
     while (_e.readNextStartElement()) {
-        if (_e.name() == "elision") {
+        const QString tag = _e.name().toString();
+
+        if (tag == "elision") {
             // TODO verify elision handling
             /*
              QString text = _e.readElementText();
@@ -6064,11 +6119,11 @@ void MusicXMLParserLyric::parse()
              else
              */
             formattedText += xmlpass2::nextPartOfFormattedString(_e);
-        } else if (_e.name() == "extend") {
+        } else if (tag == "extend") {
             hasExtend = true;
             extendType = _e.attributes().value("type").toString();
             _e.skipCurrentElement();  // skip but don't log
-        } else if (_e.name() == "syllabic") {
+        } else if (tag == "syllabic") {
             auto syll = _e.readElementText();
             if (syll == "single") {
                 lyric->setSyllabic(LyricsSyllabic::SINGLE);
@@ -6081,7 +6136,7 @@ void MusicXMLParserLyric::parse()
             } else {
                 LOGD("unknown syllabic %s", qPrintable(syll));                      // TODO
             }
-        } else if (_e.name() == "text") {
+        } else if (tag == "text") {
             formattedText += xmlpass2::nextPartOfFormattedString(_e);
         } else {
             skipLogCurrElem();
@@ -6280,7 +6335,7 @@ void MusicXMLParserNotations::dynamics()
     _dynamicsPlacement = _e.attributes().value("placement").toString();
 
     while (_e.readNextStartElement()) {
-        if (_e.name() == "other-dynamics") {
+        if (_e.name().toString() == "other-dynamics") {
             _dynamicsList.push_back(_e.readElementText());
         } else {
             _dynamicsList.push_back(_e.name().toString());
@@ -6303,20 +6358,22 @@ void MusicXMLParserNotations::dynamics()
 void MusicXMLParserNotations::articulations()
 {
     while (_e.readNextStartElement()) {
+        const QString tag = _e.name().toString();
+
         SymId id { SymId::noSym };
-        if (convertArticulationToSymId(_e.name().toString(), id)) {
-            if (_e.name() == "detached-legato") {
+        if (convertArticulationToSymId(tag, id)) {
+            if (tag == "detached-legato") {
                 _notations.push_back(Notation::notationWithAttributes("tenuto",
                                                                       _e.attributes(), "articulations", SymId::articTenutoAbove));
                 _notations.push_back(Notation::notationWithAttributes("staccato",
                                                                       _e.attributes(), "articulations", SymId::articStaccatoAbove));
             } else {
-                Notation artic = Notation::notationWithAttributes(_e.name().toString(),
+                Notation artic = Notation::notationWithAttributes(tag,
                                                                   _e.attributes(), "articulations", id);
                 _notations.push_back(artic);
             }
             _e.skipCurrentElement();  // skip but don't log
-        } else if (_e.name() == "breath-mark") {
+        } else if (tag == "breath-mark") {
             auto value = _e.readElementText();
             if (value == "tick") {
                 _breath = SymId::breathMarkTick;
@@ -6328,16 +6385,16 @@ void MusicXMLParserNotations::articulations()
                 // Use comma as the default symbol
                 _breath = SymId::breathMarkComma;
             }
-        } else if (_e.name() == "caesura") {
+        } else if (tag == "caesura") {
             _breath = SymId::caesura;
             _e.skipCurrentElement();  // skip but don't log
-        } else if (_e.name() == "doit"
-                   || _e.name() == "falloff"
-                   || _e.name() == "plop"
-                   || _e.name() == "scoop") {
+        } else if (tag == "doit"
+                   || tag == "falloff"
+                   || tag == "plop"
+                   || tag == "scoop") {
             Notation artic = Notation::notationWithAttributes("chord-line",
                                                               _e.attributes(), "articulations");
-            artic.setSubType(_e.name().toString());
+            artic.setSubType(tag);
             _notations.push_back(artic);
             _e.skipCurrentElement();  // skip but don't log
         } else {
@@ -6360,15 +6417,16 @@ void MusicXMLParserNotations::ornaments()
     // <trill-mark placement="above"/>
     while (_e.readNextStartElement()) {
         SymId id { SymId::noSym };
-        if (convertArticulationToSymId(_e.name().toString(), id)) {
-            Notation notation = Notation::notationWithAttributes(_e.name().toString(),
-                                                                 _e.attributes(), "articulations", id);
+        const QString tag = _e.name().toString();
+
+        if (convertArticulationToSymId(tag, id)) {
+            Notation notation = Notation::notationWithAttributes(tag, _e.attributes(), "articulations", id);
             _notations.push_back(notation);
             _e.skipCurrentElement();  // skip but don't log
-        } else if (_e.name() == "trill-mark") {
+        } else if (tag == "trill-mark") {
             trillMark = true;
             _e.skipCurrentElement();  // skip but don't log
-        } else if (_e.name() == "wavy-line") {
+        } else if (tag == "wavy-line") {
             auto wavyLineTypeWasStart = (_wavyLineType == "start");
             _wavyLineType = _e.attributes().value("type").toString();
             _wavyLineNo   = _e.attributes().value("number").toString().toInt();
@@ -6386,15 +6444,14 @@ void MusicXMLParserNotations::ornaments()
                 _wavyLineType = "startstop";
             }
             _e.skipCurrentElement();  // skip but don't log
-        } else if (_e.name() == "tremolo") {
+        } else if (tag == "tremolo") {
             _tremoloType = _e.attributes().value("type").toString();
             _tremoloNr = _e.readElementText().toInt();
-        } else if (_e.name() == "inverted-mordent"
-                   || _e.name() == "mordent") {
+        } else if (tag == "inverted-mordent"
+                   || tag == "mordent") {
             mordentNormalOrInverted();
-        } else if (_e.name() == "other-ornament") {
-            Notation notation = Notation::notationWithAttributes(_e.name().toString(),
-                                                                 _e.attributes(), "ornaments");
+        } else if (tag == "other-ornament") {
+            Notation notation = Notation::notationWithAttributes(tag, _e.attributes(), "ornaments");
             _notations.push_back(notation);
             _e.skipCurrentElement();  // skip but don't log
         } else {
@@ -6422,17 +6479,17 @@ void MusicXMLParserNotations::technical()
 {
     while (_e.readNextStartElement()) {
         SymId id { SymId::noSym };
-        if (convertArticulationToSymId(_e.name().toString(), id)) {
-            Notation notation = Notation::notationWithAttributes(_e.name().toString(),
-                                                                 _e.attributes(), "technical", id);
+        const QString tag = _e.name().toString();
+
+        if (convertArticulationToSymId(tag, id)) {
+            Notation notation = Notation::notationWithAttributes(tag, _e.attributes(), "technical", id);
             _notations.push_back(notation);
             _e.skipCurrentElement();  // skip but don't log
-        } else if (_e.name() == "fingering" || _e.name() == "fret" || _e.name() == "pluck" || _e.name() == "string") {
-            Notation notation = Notation::notationWithAttributes(_e.name().toString(),
-                                                                 _e.attributes(), "technical");
+        } else if (tag == "fingering" || tag == "fret" || tag == "pluck" || tag == "string") {
+            Notation notation = Notation::notationWithAttributes(tag, _e.attributes(), "technical");
             notation.setText(_e.readElementText());
             _notations.push_back(notation);
-        } else if (_e.name() == "harmonic") {
+        } else if (tag == "harmonic") {
             harmonic();
         } else {
             skipLogCurrElem();
@@ -6821,18 +6878,18 @@ Notation Notation::notationWithAttributes(const QString& name, const QXmlStreamA
 //   addAttribute
 //---------------------------------------------------------
 
-void Notation::addAttribute(const QStringRef name, const QStringRef value)
+void Notation::addAttribute(const QString& name, const QString& value)
 {
-    _attributes.emplace(name.toString(), value.toString());
+    _attributes.emplace(name, value);
 }
 
 //---------------------------------------------------------
 //   addAttribute
 //---------------------------------------------------------
 
-void Notation::addAttribute(const QString& name, const QString& value)
+void Notation::addAttribute(const QStringView name, const QStringView value)
 {
-    _attributes.emplace(name, value);
+    _attributes.emplace(name.toString(), value.toString());
 }
 
 //---------------------------------------------------------
@@ -6915,34 +6972,36 @@ void MusicXMLParserNotations::skipLogCurrElem()
 void MusicXMLParserNotations::parse()
 {
     while (_e.readNextStartElement()) {
-        if (_e.name() == "arpeggiate") {
+        const QString tag = _e.name().toString();
+
+        if (tag == "arpeggiate") {
             _arpeggioType = _e.attributes().value("direction").toString();
             if (_arpeggioType == "") {
                 _arpeggioType = "none";
             }
             _e.skipCurrentElement();  // skip but don't log
-        } else if (_e.name() == "articulations") {
+        } else if (tag == "articulations") {
             articulations();
-        } else if (_e.name() == "dynamics") {
+        } else if (tag == "dynamics") {
             dynamics();
-        } else if (_e.name() == "fermata") {
+        } else if (tag == "fermata") {
             fermata();
-        } else if (_e.name() == "glissando") {
+        } else if (tag == "glissando") {
             glissandoSlide();
-        } else if (_e.name() == "non-arpeggiate") {
+        } else if (tag == "non-arpeggiate") {
             _arpeggioType = "non-arpeggiate";
             _e.skipCurrentElement();  // skip but don't log
-        } else if (_e.name() == "ornaments") {
+        } else if (tag == "ornaments") {
             ornaments();
-        } else if (_e.name() == "slur") {
+        } else if (tag == "slur") {
             slur();
-        } else if (_e.name() == "slide") {
+        } else if (tag == "slide") {
             glissandoSlide();
-        } else if (_e.name() == "technical") {
+        } else if (tag == "technical") {
             technical();
-        } else if (_e.name() == "tied") {
+        } else if (tag == "tied") {
             tied();
-        } else if (_e.name() == "tuplet") {
+        } else if (tag == "tuplet") {
             tuplet();
         } else {
             skipLogCurrElem();
