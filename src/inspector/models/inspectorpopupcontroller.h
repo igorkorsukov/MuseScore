@@ -28,11 +28,14 @@
 #include "modularity/ioc.h"
 #include "ui/imainwindow.h"
 
+Q_MOC_INCLUDE(< QQuickItem >)
+Q_MOC_INCLUDE("uicomponents/view/popupview.h")
+
+class QQuickItem;
+
 namespace mu::uicomponents {
 class PopupView;
 }
-
-class QQuickItem;
 
 namespace mu::inspector {
 class InspectorPopupController : public QObject
