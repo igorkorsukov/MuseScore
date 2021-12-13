@@ -334,7 +334,7 @@ Progress LanguagesService::update(const QString& languageCode)
         m_updateOperationsHash.remove(effectiveLanguageCode);
     });
 
-    QtConcurrent::run(this, &LanguagesService::th_update, effectiveLanguageCode, progress);
+    UNUSED(QtConcurrent::run(&LanguagesService::th_update, this, effectiveLanguageCode, progress));
 
     return progress;
 }
