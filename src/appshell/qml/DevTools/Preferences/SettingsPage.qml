@@ -19,10 +19,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-import QtQuick 2.15
-import QtQuick.Controls 2.15
-import QtQuick.Dialogs 1.3
-import QtQuick.Layouts 1.15
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
 
 import MuseScore.Ui 1.0
 import MuseScore.UiComponents 1.0
@@ -180,22 +179,16 @@ ColumnLayout {
 
     Component {
         id: colorComp
-        Rectangle {
-            id: colorControl
+
+        ColorPicker {
             property var val
             signal changed(var newVal)
+
             anchors.fill: parent
             color: val
 
-            ColorDialog {
-                id: colorDialog
-                title: "Please choose a color"
-                onAccepted: colorControl.changed(colorDialog.color)
-            }
-
-            MouseArea {
-                anchors.fill: parent
-                onClicked: colorDialog.open()
+            onNewColorSelected: function(newColor) {
+                changed(newColor)
             }
         }
     }
