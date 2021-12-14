@@ -26,6 +26,8 @@ set(_components
     OpenGL
     LinguistTools
 
+    Core5Compat
+
     # Note: only used in ExampleView class.
     # When that class is removed, don't forget to remove this dependency.
     StateMachine
