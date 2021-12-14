@@ -35,7 +35,6 @@ class TopLevelDialog : public QDialog
 
 public:
     explicit TopLevelDialog(QWidget* parent = nullptr);
-    TopLevelDialog(const TopLevelDialog& dialog);
 
 protected:
     bool event(QEvent* e) override;

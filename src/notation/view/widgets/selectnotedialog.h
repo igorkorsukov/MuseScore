@@ -33,10 +33,6 @@ class Note;
 }
 
 namespace mu::notation {
-//---------------------------------------------------------
-//   SelectNoteDialog
-//---------------------------------------------------------
-
 class SelectNoteDialog : public QDialog, Ui::SelectNoteDialog
 {
     Q_OBJECT
@@ -44,9 +40,6 @@ class SelectNoteDialog : public QDialog, Ui::SelectNoteDialog
 
 public:
     SelectNoteDialog(QWidget* parent = nullptr);
-    SelectNoteDialog(const SelectNoteDialog& other);
-
-    static int metaTypeId();
 
     bool doReplace() const;
     bool doAdd() const;
@@ -71,7 +64,5 @@ private:
     const mu::engraving::Note* m_note = nullptr;
 };
 }
-
-Q_DECLARE_METATYPE(mu::notation::SelectNoteDialog)
 
 #endif // MU_NOTATION_SELECTNOTEDIALOG_H

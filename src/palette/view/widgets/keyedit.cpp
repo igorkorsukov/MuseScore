@@ -368,11 +368,6 @@ KeyEditor::KeyEditor(QWidget* parent)
     setFocus();
 }
 
-KeyEditor::KeyEditor(const KeyEditor& widget)
-    : KeyEditor(widget.parentWidget())
-{
-}
-
 //---------------------------------------------------------
 //   addClicked
 //---------------------------------------------------------

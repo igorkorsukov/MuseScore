@@ -564,7 +564,8 @@ RetVal<InteractiveProvider::OpenData> InteractiveProvider::openWidgetDialog(cons
     static int count(0);
     QString objectId = QString("%1_%2").arg(widgetMetaTypeId).arg(++count);
 
-    void* widgetClassPtr = QMetaType::create(widgetMetaTypeId);
+    QMetaType metaType = QMetaType(widgetMetaTypeId);
+    void* widgetClassPtr = metaType.create();
     QDialog* dialog = static_cast<QDialog*>(widgetClassPtr);
 
     if (!dialog) {

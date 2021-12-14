@@ -90,11 +90,6 @@ TimeDialog::TimeDialog(QWidget* parent)
     setFocus();
 }
 
-TimeDialog::TimeDialog(const TimeDialog& dialog)
-    : TimeDialog(dialog.parentWidget())
-{
-}
-
 bool TimeDialog::dirty() const
 {
     return _dirty;

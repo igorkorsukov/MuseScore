@@ -40,10 +40,7 @@ class StaffTextPropertiesDialog : public QDialog, public Ui::StaffTextProperties
 
 public:
     StaffTextPropertiesDialog(QWidget* parent = nullptr);
-    StaffTextPropertiesDialog(const StaffTextPropertiesDialog& other);
     ~StaffTextPropertiesDialog() override;
-
-    static int static_metaTypeId();
 
 private slots:
     void saveValues();
@@ -58,7 +55,5 @@ private:
     engraving::StaffTextBase* m_staffText = nullptr;
 };
 }
-
-Q_DECLARE_METATYPE(mu::notation::StaffTextPropertiesDialog)
 
 #endif // MU_NOTATION_STAFFTEXTPROPERTIESDIALOG_H

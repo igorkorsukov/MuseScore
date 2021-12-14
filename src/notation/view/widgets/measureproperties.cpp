@@ -79,11 +79,6 @@ MeasurePropertiesDialog::MeasurePropertiesDialog(QWidget* parent)
     qApp->installEventFilter(this);
 }
 
-MeasurePropertiesDialog::MeasurePropertiesDialog(const MeasurePropertiesDialog& dialog)
-    : MeasurePropertiesDialog(dialog.parentWidget())
-{
-}
-
 void MeasurePropertiesDialog::initMeasure()
 {
     if (!m_notation) {

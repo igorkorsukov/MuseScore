@@ -72,20 +72,6 @@ EditStringData::EditStringData(QWidget* parent, const std::vector<instrString>& 
     qApp->installEventFilter(this);
 }
 
-EditStringData::EditStringData(const EditStringData& other)
-    : QDialog(other.parentWidget())
-{
-}
-
-EditStringData::~EditStringData()
-{
-}
-
-int EditStringData::metaTypeId()
-{
-    return QMetaType::type("EditStringData");
-}
-
 std::vector<instrString> EditStringData::strings() const
 {
     return _strings;

@@ -53,11 +53,6 @@ BreaksDialog::BreaksDialog(QWidget* parent)
     intervalLabel2->setText(part2);
 }
 
-BreaksDialog::BreaksDialog(const BreaksDialog& dialog)
-    : BreaksDialog(dialog.parentWidget())
-{
-}
-
 //---------------------------------------------------------
 //   accept
 //---------------------------------------------------------

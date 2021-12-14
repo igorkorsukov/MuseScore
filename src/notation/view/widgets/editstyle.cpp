@@ -1152,11 +1152,6 @@ EditStyle::EditStyle(QWidget* parent)
     WidgetStateStore::restoreGeometry(this);
 }
 
-EditStyle::EditStyle(const EditStyle& other)
-    : QDialog(other.parentWidget())
-{
-}
-
 //---------------------------------------------------------
 //   showEvent
 //---------------------------------------------------------
