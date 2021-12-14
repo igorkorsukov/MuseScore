@@ -206,7 +206,7 @@ StyledPopupView {
                     model: masterPalette.paletteModel
                 }
 
-                Palette {
+                PaletteGridView {
                     id: masterPalette
                     height: Math.max(
                                 cellSize.height,
@@ -217,7 +217,7 @@ StyledPopupView {
                                 )
                     width: parent.contentWidth
 
-                    ScrollBar.vertical: ScrollBar { enabled: masterPalette.height < masterPalette.implicitHeight }
+                    ScrollBar.vertical: StyledScrollBar {}
 
                     // TODO: change settings to "hidden" model?
                     cellSize: root.cellSize
@@ -274,7 +274,7 @@ StyledPopupView {
                     model: customPalette.paletteModel
                 }
 
-                Palette {
+                PaletteGridView {
                     id: customPalette
                     visible: !empty
                     width: parent.contentWidth
