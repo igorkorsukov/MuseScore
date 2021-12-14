@@ -100,16 +100,6 @@ SelectNoteDialog::SelectNoteDialog(QWidget* parent)
     setFocus();
 }
 
-SelectNoteDialog::SelectNoteDialog(const SelectNoteDialog& other)
-    : QDialog(other.parentWidget())
-{
-}
-
-int SelectNoteDialog::metaTypeId()
-{
-    return QMetaType::type("SelectNoteDialog");
-}
-
 FilterNotesOptions SelectNoteDialog::noteOptions() const
 {
     FilterNotesOptions options;

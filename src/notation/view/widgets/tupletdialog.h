@@ -28,11 +28,6 @@
 #include "context/iglobalcontext.h"
 #include "actions/iactionsdispatcher.h"
 
-#include "engraving/dom/durationelement.h"
-
-//---------------------------------------------------------
-//   TupletDialog
-//---------------------------------------------------------
 namespace mu::notation {
 class TupletDialog : public QDialog, Ui::TupletDialog
 {
@@ -45,7 +40,6 @@ class TupletDialog : public QDialog, Ui::TupletDialog
 
 public:
     TupletDialog(QWidget* parent = nullptr);
-    TupletDialog(const TupletDialog&);
 
     void defaultToStyleSettings();
 
@@ -61,7 +55,5 @@ private slots:
     void bboxClicked(QAbstractButton* button);
 };
 }
-
-Q_DECLARE_METATYPE(mu::notation::TupletDialog)
 
 #endif // MU_NOTATION_TUPLETDIALOG_H

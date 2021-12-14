@@ -282,16 +282,6 @@ EditDrumsetDialog::EditDrumsetDialog(QWidget* parent)
     setFocus();
 }
 
-EditDrumsetDialog::EditDrumsetDialog(const EditDrumsetDialog& other)
-    : QDialog(other.parentWidget())
-{
-}
-
-int EditDrumsetDialog::static_metaTypeId()
-{
-    return QMetaType::type(EDIT_DRUMSET_DIALOG_NAME.toStdString().c_str());
-}
-
 //---------------------------------------------------------
 //   customGboxToggled
 //---------------------------------------------------------

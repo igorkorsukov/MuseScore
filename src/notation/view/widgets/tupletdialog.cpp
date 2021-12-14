@@ -52,11 +52,6 @@ TupletDialog::TupletDialog(QWidget* parent)
     setFocus();
 }
 
-TupletDialog::TupletDialog(const TupletDialog& other)
-    : QDialog(other.parentWidget())
-{
-}
-
 //---------------------------------------------------------
 //   defaultToStyleSettings
 //---------------------------------------------------------

@@ -41,7 +41,6 @@ class PageSettings : public QDialog, private Ui::PageSettingsBase
 
 public:
     explicit PageSettings(QWidget* parent = 0);
-    PageSettings(const PageSettings&);
 
 public slots:
     void accept();

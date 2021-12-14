@@ -96,11 +96,6 @@ PageSettings::PageSettings(QWidget* parent)
             this, &PageSettings::pageOffsetChanged);
 }
 
-PageSettings::PageSettings(const PageSettings& other)
-    : QDialog(other.parentWidget())
-{
-}
-
 void PageSettings::showEvent(QShowEvent* event)
 {
     globalContext()->currentNotation()->undoStack()->prepareChanges();

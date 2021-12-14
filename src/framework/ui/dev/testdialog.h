@@ -36,13 +36,10 @@ class TestDialog : public QDialog
     Q_PROPERTY(QString title READ title WRITE setTitle NOTIFY titleChanged)
 
 public:
-    TestDialog(const TestDialog& dialog);
     explicit TestDialog(QWidget* parent = nullptr);
     ~TestDialog() override;
 
     QString title() const;
-
-    static int static_metaTypeId();
 
 public slots:
     void setTitle(QString title);

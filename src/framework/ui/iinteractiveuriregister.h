@@ -22,6 +22,8 @@
 #ifndef MU_UI_IINTERACTIVEURIREGISTER_H
 #define MU_UI_IINTERACTIVEURIREGISTER_H
 
+#include <type_traits>
+
 #include "modularity/imoduleinterface.h"
 #include "types/uri.h"
 #include "uitypes.h"
@@ -43,9 +45,11 @@ public:
         registerUri(uri, ContainerMeta(ContainerType::Type::QmlDialog, qmlPath));
     }
 
-    void registerWidgetUri(const Uri& uri, int widgetMetaTypeId)
+    template<typename T>
+    void registerWidgetUri(const Uri& uri)
     {
-        registerUri(uri, ContainerMeta(ContainerType::Type::QWidgetDialog, widgetMetaTypeId));
+        static_assert(std::is_base_of<QWidget, T>::value, "T must derive from QWidget");
+        registerUri(uri, ContainerMeta(ContainerType::Type::QWidgetDialog, qRegisterMetaType<T>()));
     }
 };
 }
