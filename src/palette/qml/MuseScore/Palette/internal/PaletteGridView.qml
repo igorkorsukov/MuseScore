@@ -20,13 +20,11 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.15
-import QtQuick.Controls 2.15
-import QtQml.Models 2.2
+import QtQuick
 
-import MuseScore.Palette 1.0
-import MuseScore.UiComponents 1.0
-import MuseScore.Ui 1.0
+import MuseScore.Palette
+import MuseScore.UiComponents
+import MuseScore.Ui
 
 import "utils.js" as PaletteUtils
 
@@ -484,7 +482,7 @@ StyledGridView {
             property bool internalDrag: false
             property bool dragCopy: false
 
-            isSelected: (paletteView.selectionModel && paletteView.selectionModel.hasSelection) ? paletteView.isSelected(modelIndex) : false // hasSelection is to trigger property bindings if selection changes, see https://doc.qt.io/qt-5/qml-qtqml-models-itemselectionmodel.html#hasSelection-prop
+            isSelected: paletteView.selectionModel?.hasSelection ? paletteView.isSelected(modelIndex) : false // hasSelection is to trigger property bindings if selection changes, see https://doc.qt.io/qt-5/qml-qtqml-models-itemselectionmodel.html#hasSelection-prop
 
             width: paletteView.cellWidth
             height: paletteView.cellHeight

@@ -20,13 +20,13 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.15
-import QtQuick.Controls 2.1
-import QtQml.Models 2.2
+import QtQuick
+import QtQuick.Controls
+import QtQml.Models
 
-import MuseScore.Palette 1.0
-import MuseScore.Ui 1.0
-import MuseScore.UiComponents 1.0
+import MuseScore.Palette
+import MuseScore.Ui
+import MuseScore.UiComponents
 
 import "utils.js" as Utils
 
