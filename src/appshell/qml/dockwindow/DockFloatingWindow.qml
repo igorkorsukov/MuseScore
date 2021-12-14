@@ -19,12 +19,11 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
+import QtQuick
+import Qt5Compat.GraphicalEffects
 
-import QtQuick 2.15
-import QtGraphicalEffects 1.15
-
-import MuseScore.Ui 1.0
-import MuseScore.UiComponents 1.0
+import MuseScore.Ui
+import MuseScore.UiComponents
 
 Item {
     id: root
