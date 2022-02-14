@@ -1,12 +1,29 @@
 #!/usr/bin/env bash
-
+# SPDX-License-Identifier: GPL-3.0-only
+# MuseScore-CLA-applies
+#
+# MuseScore
+# Music Composition & Notation
+#
+# Copyright (C) 2021 MuseScore BVBA and others
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License version 3 as
+# published by the Free Software Foundation.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
 echo "Package MuseScore"
 trap 'echo Package failed; exit 1' ERR
 
 df -h .
 
-source ./../musescore_environment.sh
-
+BUILD_TOOLS=$HOME/build_tools
 ARTIFACTS_DIR=build.artifacts
 BUILD_MODE=""
 BUILD_DIR=build.release
@@ -20,6 +37,8 @@ while [[ "$#" -gt 0 ]]; do
     esac
     shift
 done
+
+source $BUILD_TOOLS/environment.sh
 
 if [ -z "$BUILD_MODE" ]; then BUILD_MODE=$(cat $ARTIFACTS_DIR/env/build_mode.env); fi
 if [ -z "$BUILD_VERSION" ]; then BUILD_VERSION=$(cat $ARTIFACTS_DIR/env/build_version.env); fi
