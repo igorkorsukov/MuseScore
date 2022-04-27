@@ -330,12 +330,15 @@ if (OS_IS_WIN)
     install(FILES
             ${PROJECT_SOURCE_DIR}/build/qt.conf
             ${QtInstallLibraries}
-            ${QT_INSTALL_BINS}/libEGL.dll
-            ${QT_INSTALL_BINS}/libGLESv2.dll
             ${QT_INSTALL_BINS}/opengl32sw.dll
             ${QT_INSTALL_BINS}/d3dcompiler_47.dll
             ${QT_INSTALL_BINS}/Qt6QmlModels.dll
             ${QT_INSTALL_BINS}/Qt6QmlWorkerScript.dll
+            ${QT_INSTALL_BINS}/Qt6QuickControls2Impl.dll
+            ${QT_INSTALL_BINS}/Qt6QuickDialogs2.dll
+            ${QT_INSTALL_BINS}/Qt6QuickDialogs2QuickImpl.dll
+            ${QT_INSTALL_BINS}/Qt6QuickDialogs2Utils.dll
+            ${QT_INSTALL_BINS}/Qt6QuickLayouts.dll
             DESTINATION bin)
 
     install(FILES
@@ -345,9 +348,7 @@ if (OS_IS_WIN)
     install(FILES
             ${QT_INSTALL_PLUGINS}/imageformats/qjpeg.dll
             ${QT_INSTALL_PLUGINS}/imageformats/qsvg.dll
-            ${QT_INSTALL_PLUGINS}/imageformats/qtiff.dll
             DESTINATION bin/imageformats)
-
 
     install(FILES
             ${QT_INSTALL_PLUGINS}/platforms/qwindows.dll
@@ -355,8 +356,8 @@ if (OS_IS_WIN)
             DESTINATION bin/platforms)
 
     install(FILES
-            ${QT_INSTALL_PLUGINS}/printsupport/windowsprintersupport.dll
-            DESTINATION bin/printsupport)
+            ${QT_INSTALL_PLUGINS}/tls/qopensslbackend.dll
+            DESTINATION bin/tls)
 
     install(DIRECTORY
             ${QT_INSTALL_QML}
