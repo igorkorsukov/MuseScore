@@ -23,6 +23,9 @@
 #define MU_SHORTCUTS_SHORTCUTSREGISTER_H
 
 #include "../ishortcutsregister.h"
+
+#include <unordered_map>
+
 #include "modularity/ioc.h"
 #include "ishortcutsconfiguration.h"
 #include "ui/iuiactionsregister.h"
@@ -88,19 +91,12 @@ private:
 
     ShortcutList m_shortcuts;
     ShortcutList m_defaultShortcuts;
-    QHash<std::string, ShortcutList> m_additionalShortcutsHash;
+    std::unordered_map<std::string, ShortcutList> m_additionalShortcutsMap;
     async::Notification m_shortcutsChanged;
 
     bool m_isActive = true;
     async::Notification m_activeChanged;
 };
-}
-
-namespace std {
-inline uint qHash(const std::string& key, uint seed = 0)
-{
-    return ::qHash(QByteArray::fromRawData(key.data(), static_cast<int>(key.length())), seed);
-}
 }
 
 #endif // MU_SHORTCUTS_SHORTCUTSREGISTER_H
