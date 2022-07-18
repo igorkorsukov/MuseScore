@@ -11,5 +11,7 @@
         <file>examples/steps/NewScore.js</file>
         <file>qml/MuseScore/Autobot/TestCaseRunPanel.qml</file>
         <file>qml/MuseScore/Autobot/AutobotSelectFileDialog.qml</file>
+        <file>qml/MuseScore/Autobot/PerfTestsDialog.qml</file>
+        <file>qml/MuseScore/Autobot/PerfTestsPanel.qml</file>
     </qresource>
 </RCC>

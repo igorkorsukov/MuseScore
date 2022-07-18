@@ -31,6 +31,7 @@
 #include "internal/autobotconfiguration.h"
 #include "view/autobotscriptsmodel.h"
 #include "view/testcaserunmodel.h"
+#include "view/autobotperftestsmodel.h"
 
 #include "draw/painter.h"
 #include "internal/draw/abpaintprovider.h"
@@ -81,6 +82,7 @@ void AutobotModule::resolveImports()
         ir->registerQmlUri(Uri("musescore://autobot/batchtests"), "MuseScore/Autobot/BatchTestsDialog.qml");
         ir->registerQmlUri(Uri("musescore://autobot/scripts"), "MuseScore/Autobot/ScriptsDialog.qml");
         ir->registerQmlUri(Uri("musescore://autobot/selectfile"), "MuseScore/Autobot/AutobotSelectFileDialog.qml");
+        ir->registerQmlUri(Uri("musescore://autobot/perftests"), "MuseScore/Autobot/PerfTestsDialog.qml");
     }
 
     auto ar = modularity::ioc()->resolve<ui::IUiActionsRegister>(moduleName());
@@ -106,6 +108,7 @@ void AutobotModule::registerUiTypes()
 {
     qmlRegisterType<AutobotScriptsModel>("MuseScore.Autobot", 1, 0, "AutobotScriptsModel");
     qmlRegisterType<TestCaseRunModel>("MuseScore.Autobot", 1, 0, "TestCaseRunModel");
+    qmlRegisterType<AutobotPerfTestsModel>("MuseScore.Autobot", 1, 0, "AutobotPerfTestsModel");
 }
 
 void AutobotModule::onInit(const framework::IApplication::RunMode&)

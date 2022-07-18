@@ -367,6 +367,7 @@ MenuItem* AppMenuModel::makeDiagnosticMenu()
 
     MenuItemList autobotItems {
         makeMenuItem("autobot-show-scripts"),
+        makeMenuItem("autobot-show-perftests"),
     };
 
     MenuItemList items {

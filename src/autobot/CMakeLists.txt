@@ -90,6 +90,8 @@ set(MODULE_SRC
     ${CMAKE_CURRENT_LIST_DIR}/view/autobotscriptsmodel.h
     ${CMAKE_CURRENT_LIST_DIR}/view/testcaserunmodel.cpp
     ${CMAKE_CURRENT_LIST_DIR}/view/testcaserunmodel.h
+    ${CMAKE_CURRENT_LIST_DIR}/view/autobotperftestsmodel.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/view/autobotperftestsmodel.h
     )
 
 include(${PROJECT_SOURCE_DIR}/build/module.cmake)
