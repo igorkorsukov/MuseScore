@@ -35,6 +35,8 @@ void DrawDataPaint::paint(Painter* painter, const DrawDataPtr& data, const Color
                 st.brush.setColor(overlay);
             }
 
+            st.transform.scale(0.8, 0.8);
+
             provider->setPen(st.pen);
             provider->setBrush(st.brush);
             provider->setFont(st.font);

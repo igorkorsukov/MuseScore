@@ -196,3 +196,34 @@ TEST_F(Diagnostics_DrawDataTests, DrawDiff)
     const DrawData::Data& ddd = ddo.datas.at(0);
     EXPECT_EQ(ddd.polygons.size(), 1);
 }
+
+TEST_F(Diagnostics_DrawDataTests, ScoreDrawDiff)
+{
+    DrawDataPtr data1;
+    {
+        DrawDataGenerator g;
+        data1 = g.genDrawData(VTEST_SCORES + "/accidental-1.mscx");
+    }
+
+    DrawDataPtr data2;
+    {
+        DrawDataGenerator g;
+        data2 = g.genDrawData(VTEST_SCORES + "/accidental-2.mscx");
+        DrawDataRW::writeData("sdd_data2.json", data2);
+    }
+
+    // compare
+
+    Diff diff = DrawDataComp::compare(data1, data2);
+
+    DrawDataRW::writeData("sdd_data1.json", data1);
+    saveAsPng("sdd_data1.png", data1);
+
+    DrawDataRW::writeData("sdd_data2.json", data2);
+    saveAsPng("sdd_data2.png", data2);
+
+    saveAsPng("sdd_added.png", diff.dataAdded);
+    saveAsPng("sdd_removed.png", diff.dataRemoved);
+
+    saveDiff("sdd_diff.png", data1, diff.dataAdded);
+}
