@@ -120,7 +120,7 @@ Err importMusicXMLfromBuffer(Score* score, const QString& /*name*/, QIODevice* d
     if (!(pass1_errors.isEmpty() && pass2_errors.isEmpty())) {
         if (!MScore::noGui) {
             const QString text = qtrc("iex_musicxml", "%n error(s) found, import may be incomplete.",
-                                      nullptr, pass1_errors.count() + pass2_errors.count());
+                                      nullptr, pass1_errors.size() + pass2_errors.size());
             if (musicXMLImportErrorDialog(text, pass1.errors() + pass2.errors()) != QMessageBox::Yes) {
                 res = Err::UserAbort;
             }
