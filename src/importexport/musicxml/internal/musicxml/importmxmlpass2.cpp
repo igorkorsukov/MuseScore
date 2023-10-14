@@ -7106,7 +7106,7 @@ void MusicXMLParserNotations::addToScore(ChordRest* const cr, Note* const note, 
     // more than one dynamic ???
     // LVIFIX: check import/export of <other-dynamics>unknown_text</...>
     // TODO remove duplicate code (see MusicXml::direction)
-    for (const auto& d : qAsConst(_dynamicsList)) {
+    for (const auto& d : std::as_const(_dynamicsList)) {
         auto dynamic = Factory::createDynamic(_score->dummy()->segment());
         dynamic->setDynamicType(d);
         addElemOffset(dynamic, cr->track(), _dynamicsPlacement, cr->measure(), Fraction::fromTicks(tick));

@@ -5438,7 +5438,7 @@ void ExportMusicXml::dynamic(Dynamic const* const dyn, staff_idx_t staff)
         // or other characters and write the runs.
         QString text;
         bool inDynamicsSym = false;
-        for (const auto& ch : qAsConst(dynText)) {
+        for (const auto& ch : std::as_const(dynText)) {
             const auto it = map.find(ch.unicode());
             if (it != map.end()) {
                 // found a SMUFL single letter dynamics glyph
@@ -6558,7 +6558,7 @@ void ExportMusicXml::identification(XmlWriter& xml, Score const* const score)
     QStringList creators;
     // the creator types commonly found in MusicXML
     creators << "arranger" << "composer" << "lyricist" << "poet" << "translator";
-    for (const QString& type : qAsConst(creators)) {
+    for (const QString& type : std::as_const(creators)) {
         QString creator = score->metaTag(type);
         if (!creator.isEmpty()) {
             xml.tag("creator", { { "type", type } }, creator);
@@ -8208,7 +8208,7 @@ void ExportMusicXml::harmony(Harmony const* const h, FretDiagram const* const fd
 
             StringList l = h->xmlDegrees();
             if (!l.empty()) {
-                for (const String& _tag : qAsConst(l)) {
+                for (const String& _tag : std::as_const(l)) {
                     QString tag = _tag.toQString();
                     QString degreeText;
                     if (h->xmlKind().startsWith(u"suspended")
