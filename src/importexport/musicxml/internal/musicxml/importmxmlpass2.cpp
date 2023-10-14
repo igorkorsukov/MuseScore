@@ -5129,7 +5129,7 @@ Note* MusicXMLParserPass2::note(const QString& partId,
             notations.parse();
             addError(notations.errors());
         } else if (tag == "notehead") {
-            noteheadColor.setNamedColor(_e.attributes().value("color").toString());
+            noteheadColor = QColor::fromString(_e.attributes().value("color"));
             noteheadParentheses = _e.attributes().value("parentheses").toString() == "yes";
             noteheadFilled = _e.attributes().value("filled").toString();
             auto noteheadValue = _e.readElementText();
