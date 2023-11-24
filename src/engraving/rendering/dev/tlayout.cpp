@@ -23,7 +23,7 @@
 #include "tlayout.h"
 
 #include "global/realfn.h"
-#include "global/number.h"
+#include "global/types/number_t.h"
 #include "draw/fontmetrics.h"
 
 #include "iengravingconfiguration.h"
