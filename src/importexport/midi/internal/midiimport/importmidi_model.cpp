@@ -999,7 +999,7 @@ QVariant TracksModel::data(const QModelIndex& index, int role) const
         if (trackIndex == -1) {                 // all tracks
             if (_columns[index.column()]->isEditable(-1)) {
                 QVariant value = _columns[index.column()]->value(0);
-                if (value.type() == QVariant::String) {
+                if (value.typeId() == QMetaType::QString) {
                     value = QVariant();
                     if (!_columns[index.column()]->isForAllTracksOnly()) {
                         for (int i = 0; i < _trackCount; ++i) {
@@ -1027,7 +1027,7 @@ QVariant TracksModel::data(const QModelIndex& index, int role) const
         } else if (editableSingleTrack(trackIndex, index.column())
                    && _columns[index.column()]->isVisible(trackIndex)) {
             QVariant value = _columns[index.column()]->value(trackIndex);
-            if (value.type() == QVariant::String) {
+            if (value.typeId() == QMetaType::QString) {
                 return value.toString();
             }
         }
@@ -1045,7 +1045,7 @@ QVariant TracksModel::data(const QModelIndex& index, int role) const
     case Qt::CheckStateRole:
         if (trackIndex == -1) {
             QVariant value = _columns[index.column()]->value(0);
-            if (value.type() == QVariant::Bool) {
+            if (value.typeId() == QMetaType::Bool) {
                 value = QVariant();
                 if (!_columns[index.column()]->isForAllTracksOnly()) {
                     for (int i = 0; i < _trackCount; ++i) {
@@ -1072,7 +1072,7 @@ QVariant TracksModel::data(const QModelIndex& index, int role) const
         } else if (editableSingleTrack(trackIndex, index.column())
                    && _columns[index.column()]->isVisible(trackIndex)) {
             QVariant value = _columns[index.column()]->value(trackIndex);
-            if (value.type() == QVariant::Bool) {
+            if (value.typeId() == QMetaType::Bool) {
                 return (value.toBool()) ? Qt::Checked : Qt::Unchecked;
             }
         }
@@ -1083,7 +1083,7 @@ QVariant TracksModel::data(const QModelIndex& index, int role) const
     case Qt::ToolTipRole:
         if (trackIndex != -1 && _columns[index.column()]->isVisible(trackIndex)) {
             QVariant value = _columns[index.column()]->value(trackIndex);
-            if (value.type() == QVariant::String
+            if (value.typeId() == QMetaType::QString
                 && _columns[index.column()]->valueList(trackIndex).empty()) {
                 MidiOperations::Data& opers = midiImportOperations;
                 MidiOperations::CurrentMidiFileSetter setCurrentMidiFile(opers, _midiFile);
@@ -1107,14 +1107,14 @@ Qt::ItemFlags TracksModel::editableFlags(int row, int col) const
     const int trackIndex = trackIndexFromRow(row);
 
     if (_columns[col]->isVisible(trackIndex)) {
-        if (_columns[col]->value(0).type() == QVariant::Bool) {
+        if (_columns[col]->value(0).typeId() == QMetaType::Bool) {
             flags |= Qt::ItemIsUserCheckable;
         } else if (_columns[col]->isEditable(trackIndex)) {
             if (trackIndex == -1) {
                 flags |= Qt::ItemIsEditable;
             } else if (editableSingleTrack(trackIndex, col)) {
                 QVariant value = _columns[col]->value(0);
-                if (value.type() != QVariant::Bool) {             // not checkboxes
+                if (value.typeId() != QMetaType::Bool) { // not checkboxes
                     flags |= Qt::ItemIsEditable;
                 }
             }

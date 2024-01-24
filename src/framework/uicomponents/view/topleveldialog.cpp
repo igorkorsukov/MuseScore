@@ -60,11 +60,6 @@ TopLevelDialog::TopLevelDialog(QWidget* parent)
 #endif
 }
 
-TopLevelDialog::TopLevelDialog(const TopLevelDialog& dialog)
-    : QDialog(dialog.parentWidget())
-{
-}
-
 bool TopLevelDialog::event(QEvent* e)
 {
 #ifndef Q_OS_MAC

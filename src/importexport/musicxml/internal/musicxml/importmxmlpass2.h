@@ -156,7 +156,7 @@ public:
     Notation(const QString& name, const QString& parent = "",
              const SymId& symId = SymId::noSym) { _name = name; _parent = parent; _symId = symId; }
     void addAttribute(const QString& name, const QString& value);
-    void addAttribute(const QStringRef name, const QStringRef value);
+    void addAttribute(const QStringView name, const QStringView value);
     QString attribute(const QString& name) const;
     std::map<QString, QString> attributes() const { return _attributes; }
     QString name() const { return _name; }

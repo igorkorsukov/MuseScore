@@ -27,8 +27,8 @@
 #include <QBuffer>
 #include <QDomDocument>
 #include <QMessageBox>
-#include <QXmlSchema>
-#include <QXmlSchemaValidator>
+//#include <QXmlSchema>
+//#include <QXmlSchemaValidator>
 
 #include "importmxml.h"
 #include "musicxmlsupport.h"
@@ -71,38 +71,38 @@ static_assert(int(DurationType::V_BREVE) == int(DurationType::V_LONG) + 1
 //    return false on error
 //---------------------------------------------------------
 
-static bool initMusicXmlSchema(QXmlSchema& schema)
-{
-    // read the MusicXML schema from the application resources
-    QFile schemaFile(":/schema/musicxml.xsd");
-    if (!schemaFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        LOGE("initMusicXmlSchema() could not open resource musicxml.xsd");
-        return false;
-    }
+//static bool initMusicXmlSchema(QXmlSchema& schema)
+//{
+//    // read the MusicXML schema from the application resources
+//    QFile schemaFile(":/schema/musicxml.xsd");
+//    if (!schemaFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
+//        LOGE("initMusicXmlSchema() could not open resource musicxml.xsd");
+//        return false;
+//    }
 
-    // copy the schema into a QByteArray and fixup xs:imports,
-    // using a path to the application resources instead of to www.musicxml.org
-    // to prevent downloading from the net
-    QByteArray schemaBa;
-    QTextStream schemaStream(&schemaFile);
-    while (!schemaStream.atEnd()) {
-        QString line = schemaStream.readLine();
-        if (line.contains("xs:import")) {
-            line.replace("http://www.musicxml.org/xsd", "qrc:///schema");
-        }
-        schemaBa += line.toUtf8();
-        schemaBa += "\n";
-    }
+//    // copy the schema into a QByteArray and fixup xs:imports,
+//    // using a path to the application resources instead of to www.musicxml.org
+//    // to prevent downloading from the net
+//    QByteArray schemaBa;
+//    QTextStream schemaStream(&schemaFile);
+//    while (!schemaStream.atEnd()) {
+//        QString line = schemaStream.readLine();
+//        if (line.contains("xs:import")) {
+//            line.replace("http://www.musicxml.org/xsd", "qrc:///schema");
+//        }
+//        schemaBa += line.toUtf8();
+//        schemaBa += "\n";
+//    }
 
-    // load and validate the schema
-    schema.load(schemaBa);
-    if (!schema.isValid()) {
-        LOGE("initMusicXmlSchema() internal error: MusicXML schema is invalid");
-        return false;
-    }
+//    // load and validate the schema
+//    schema.load(schemaBa);
+//    if (!schema.isValid()) {
+//        LOGE("initMusicXmlSchema() internal error: MusicXML schema is invalid");
+//        return false;
+//    }
 
-    return true;
-}
+//    return true;
+//}
 
 //---------------------------------------------------------
 //   musicXMLValidationErrorDialog
@@ -191,31 +191,33 @@ static bool extractRootfile(QFile* qf, QByteArray& data)
 
 static Err doValidate(const QString& name, QIODevice* dev)
 {
+    NOT_IMPLEMENTED;
+
     //QElapsedTimer t;
     //t.start();
 
     // initialize the schema
-    ValidatorMessageHandler messageHandler;
-    QXmlSchema schema;
-    schema.setMessageHandler(&messageHandler);
-    if (!initMusicXmlSchema(schema)) {
-        return Err::FileBadFormat;      // appropriate error message has been printed by initMusicXmlSchema
-    }
-    // validate the data
-    QXmlSchemaValidator validator(schema);
-    bool valid = validator.validate(dev, QUrl::fromLocalFile(name));
-    //LOGD("Validation time elapsed: %d ms", t.elapsed());
+//    ValidatorMessageHandler messageHandler;
+//    QXmlSchema schema;
+//    schema.setMessageHandler(&messageHandler);
+//    if (!initMusicXmlSchema(schema)) {
+//        return Err::FileBadFormat;      // appropriate error message has been printed by initMusicXmlSchema
+//    }
+//    // validate the data
+//    QXmlSchemaValidator validator(schema);
+//    bool valid = validator.validate(dev, QUrl::fromLocalFile(name));
+//    //LOGD("Validation time elapsed: %d ms", t.elapsed());
 
-    if (!valid) {
-        LOGD("importMusicXml() file '%s' is not a valid MusicXML file", qPrintable(name));
-        QString strErr = qtrc("iex_musicxml", "File “%1” is not a valid MusicXML file.").arg(name);
-        if (MScore::noGui) {
-            return Err::NoError;         // might as well try anyhow in converter mode
-        }
-        if (musicXMLValidationErrorDialog(strErr, messageHandler.getErrors()) != QMessageBox::Yes) {
-            return Err::UserAbort;
-        }
-    }
+//    if (!valid) {
+//        LOGD("importMusicXml() file '%s' is not a valid MusicXML file", qPrintable(name));
+//        QString strErr = qtrc("iex_musicxml", "File “%1” is not a valid MusicXML file.").arg(name);
+//        if (MScore::noGui) {
+//            return Err::NoError;         // might as well try anyhow in converter mode
+//        }
+//        if (musicXMLValidationErrorDialog(strErr, messageHandler.getErrors()) != QMessageBox::Yes) {
+//            return Err::UserAbort;
+//        }
+//    }
 
     return Err::NoError;
 }

@@ -106,12 +106,12 @@ private:
         get(list)->append(t);
     }
 
-    static int s_count(QQmlListProperty<T>* list)
+    static qsizetype s_count(QQmlListProperty<T>* list)
     {
         return get(list)->count();
     }
 
-    static T* s_at(QQmlListProperty<T>* list, int index)
+    static T* s_at(QQmlListProperty<T>* list, qsizetype index)
     {
         return get(list)->at(index);
     }

@@ -31,10 +31,6 @@
 #include "notationtypes.h"
 
 namespace mu::notation {
-//---------------------------------------------------------
-//   TransposeDialog
-//---------------------------------------------------------
-
 class TransposeDialog : public QDialog, Ui::TransposeDialogBase
 {
     Q_OBJECT
@@ -43,7 +39,6 @@ class TransposeDialog : public QDialog, Ui::TransposeDialogBase
 
 public:
     TransposeDialog(QWidget* parent = 0);
-    TransposeDialog(const TransposeDialog& dialog);
 
 private slots:
     void transposeByKeyToggled(bool);
@@ -75,7 +70,5 @@ private:
     bool m_allSelected = false;
 };
 }
-
-Q_DECLARE_METATYPE(mu::notation::TransposeDialog)
 
 #endif // MU_NOTATION_TRANSPOSEDIALOG_H

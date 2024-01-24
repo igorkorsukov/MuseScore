@@ -285,8 +285,8 @@ if (NOT CC_IS_EMSCRIPTEN)
 else()
     target_link_libraries(mscore PRIVATE ${QT_LIBRARIES})
 
-    find_package(Qt5QmlImportScanner REQUIRED)
-    qt5_import_qml_plugins(mscore PATH_TO_SCAN ${CMAKE_SOURCE_DIR})
+    find_package(Qt6QmlImportScanner REQUIRED)
+    qt6_import_qml_plugins(mscore PATH_TO_SCAN ${CMAKE_SOURCE_DIR})
 endif()
 
 
@@ -330,12 +330,15 @@ if (OS_IS_WIN)
     install(FILES
             ${PROJECT_SOURCE_DIR}/build/qt.conf
             ${QtInstallLibraries}
-            ${QT_INSTALL_BINS}/libEGL.dll
-            ${QT_INSTALL_BINS}/libGLESv2.dll
             ${QT_INSTALL_BINS}/opengl32sw.dll
             ${QT_INSTALL_BINS}/d3dcompiler_47.dll
-            ${QT_INSTALL_BINS}/Qt5QmlModels.dll
-            ${QT_INSTALL_BINS}/Qt5QmlWorkerScript.dll
+            ${QT_INSTALL_BINS}/Qt6QmlModels.dll
+            ${QT_INSTALL_BINS}/Qt6QmlWorkerScript.dll
+            ${QT_INSTALL_BINS}/Qt6QuickControls2Impl.dll
+            ${QT_INSTALL_BINS}/Qt6QuickDialogs2.dll
+            ${QT_INSTALL_BINS}/Qt6QuickDialogs2QuickImpl.dll
+            ${QT_INSTALL_BINS}/Qt6QuickDialogs2Utils.dll
+            ${QT_INSTALL_BINS}/Qt6QuickLayouts.dll
             DESTINATION bin)
 
     install(FILES
@@ -345,9 +348,7 @@ if (OS_IS_WIN)
     install(FILES
             ${QT_INSTALL_PLUGINS}/imageformats/qjpeg.dll
             ${QT_INSTALL_PLUGINS}/imageformats/qsvg.dll
-            ${QT_INSTALL_PLUGINS}/imageformats/qtiff.dll
             DESTINATION bin/imageformats)
-
 
     install(FILES
             ${QT_INSTALL_PLUGINS}/platforms/qwindows.dll
@@ -355,8 +356,8 @@ if (OS_IS_WIN)
             DESTINATION bin/platforms)
 
     install(FILES
-            ${QT_INSTALL_PLUGINS}/printsupport/windowsprintersupport.dll
-            DESTINATION bin/printsupport)
+            ${QT_INSTALL_PLUGINS}/tls/qopensslbackend.dll
+            DESTINATION bin/tls)
 
     install(DIRECTORY
             ${QT_INSTALL_QML}
@@ -469,9 +470,9 @@ elseif(OS_IS_WASM)
 
     function(copy_html_js_launch_files target)
         set(APPNAME ${target})
-        configure_file("${_qt5Core_install_prefix}/plugins/platforms/wasm_shell.html" "public_html/${target}.qt.html")
-        configure_file("${_qt5Core_install_prefix}/plugins/platforms/qtloader.js" public_html/qtloader.js COPYONLY)
-        configure_file("${_qt5Core_install_prefix}/plugins/platforms/qtlogo.svg" public_html/qtlogo.svg COPYONLY)
+        configure_file("${_qt6Core_install_prefix}/plugins/platforms/wasm_shell.html" "public_html/${target}.qt.html")
+        configure_file("${_qt6Core_install_prefix}/plugins/platforms/qtloader.js" public_html/qtloader.js COPYONLY)
+        configure_file("${_qt6Core_install_prefix}/plugins/platforms/qtlogo.svg" public_html/qtlogo.svg COPYONLY)
     endfunction()
 
     copy_html_js_launch_files(mscore)

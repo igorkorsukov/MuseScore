@@ -245,12 +245,12 @@ using InspectorSectionType = AbstractInspectorModel::InspectorSectionType;
 using InspectorModelTypeSet = QSet<InspectorModelType>;
 using InspectorSectionTypeSet = QSet<InspectorSectionType>;
 
-inline uint qHash(InspectorSectionType key)
+inline size_t qHash(InspectorSectionType key)
 {
     return ::qHash(QString::number(static_cast<int>(key)));
 }
 
-inline uint qHash(InspectorModelType key)
+inline size_t qHash(InspectorModelType key)
 {
     return ::qHash(QString::number(static_cast<int>(key)));
 }

@@ -47,9 +47,6 @@ class SpecialCharactersDialog : public mu::uicomponents::TopLevelDialog, public 
 
 public:
     SpecialCharactersDialog(QWidget* parent = nullptr);
-    SpecialCharactersDialog(const SpecialCharactersDialog& other);
-
-    static int static_metaTypeId();
 
 private slots:
     void populateSmufl();
@@ -69,7 +66,5 @@ private:
     QListWidget* m_lwu = nullptr;
 };
 }
-
-Q_DECLARE_METATYPE(mu::palette::SpecialCharactersDialog)
 
 #endif // MU_PALETTE_SPECIALCHARACTERSDIALOG_H

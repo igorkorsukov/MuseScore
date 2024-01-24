@@ -37,7 +37,7 @@ public:
     ~MacOSPopupViewCloseController() override = default;
 
 private:
-    bool nativeEventFilter(const QByteArray& eventType, void* message, long* result) override;
+    bool nativeEventFilter(const QByteArray& eventType, void* message, qintptr* result) override;
 
     void doUpdateEventFilters() override;
 };

@@ -26,6 +26,8 @@
 
 #include "log.h"
 
+#include <QMetaType>
+
 using namespace mu;
 
 static const std::string VAL_TRUE("true");
@@ -304,15 +306,15 @@ Val Val::fromQVariant(const QVariant& var)
         return Val();
     }
 
-    switch (var.type()) {
-    case QVariant::Bool: return Val(var.toBool());
-    case QVariant::Int: return Val(var.toInt());
-    case QVariant::UInt: return Val(var.toInt());
-    case QVariant::LongLong: return Val(static_cast<int64_t>(var.toLongLong()));
-    case QVariant::ULongLong: return Val(static_cast<int64_t>(var.toLongLong()));
-    case QVariant::Double: return Val(var.toDouble());
-    case QVariant::String: return Val(var.toString().toStdString());
-    case QVariant::List: {
+    switch (var.typeId()) {
+    case QMetaType::Bool: return Val(var.toBool());
+    case QMetaType::Int: return Val(var.toInt());
+    case QMetaType::UInt: return Val(var.toInt());
+    case QMetaType::LongLong: return Val(static_cast<int64_t>(var.toLongLong()));
+    case QMetaType::ULongLong: return Val(static_cast<int64_t>(var.toLongLong()));
+    case QMetaType::Double: return Val(var.toDouble());
+    case QMetaType::QString: return Val(var.toString().toStdString());
+    case QMetaType::QVariantList: {
         ValList l;
         QVariantList vl = var.toList();
         for (const QVariant& v : vl) {
@@ -320,7 +322,7 @@ Val Val::fromQVariant(const QVariant& var)
         }
         return Val(l);
     }
-    case QVariant::Map: {
+    case QMetaType::QVariantMap: {
         ValMap m;
         QVariantMap vm = var.toMap();
         QVariantMap::const_iterator i = vm.constBegin();
@@ -330,7 +332,7 @@ Val Val::fromQVariant(const QVariant& var)
         }
         return Val(m);
     }
-    case QVariant::Color: return Val(var.value<QColor>());
+    case QMetaType::QColor: return Val(var.value<QColor>());
     default: {
         LOGE() << "Not supported type: " << var.typeName();
         //UNREACHABLE;

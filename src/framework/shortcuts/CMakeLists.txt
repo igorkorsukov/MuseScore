@@ -68,7 +68,7 @@ if (OS_IS_MAC)
     )
 
     set(MODULE_INCLUDE
-        ${Qt5Gui_PRIVATE_INCLUDE_DIRS}
+        ${Qt6Gui_PRIVATE_INCLUDE_DIRS}
         ${CARBON_LIBRARY}
     )
 endif(OS_IS_MAC)

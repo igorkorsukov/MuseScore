@@ -497,20 +497,10 @@ SpecialCharactersDialog::SpecialCharactersDialog(QWidget* parent)
     WidgetStateStore::restoreGeometry(this);
 }
 
-SpecialCharactersDialog::SpecialCharactersDialog(const SpecialCharactersDialog& other)
-    : TopLevelDialog(other.parentWidget())
-{
-}
-
 void SpecialCharactersDialog::hideEvent(QHideEvent* event)
 {
     WidgetStateStore::saveGeometry(this);
     QDialog::hideEvent(event);
-}
-
-int SpecialCharactersDialog::static_metaTypeId()
-{
-    return QMetaType::type(SPECIAL_CHARACTERS_DIALOG_NAME.toStdString().c_str());
 }
 
 //---------------------------------------------------------
@@ -672,7 +662,7 @@ void SpecialCharactersDialog::populateCommon()
         std::shared_ptr<FSymbol> fs = std::make_shared<FSymbol>(gpaletteScore->dummy());
         fs->setCode(id);
         fs->setFont(m_font);
-        m_pCommon->appendElement(fs, QString(id));
+        m_pCommon->appendElement(fs, QChar(id));
     }
 
     for (SymId id : commonScoreSymbols) {
@@ -685,7 +675,7 @@ void SpecialCharactersDialog::populateCommon()
         std::shared_ptr<FSymbol> fs = std::make_shared<FSymbol>(gpaletteScore->dummy());
         fs->setCode(id);
         fs->setFont(m_font);
-        m_pCommon->appendElement(fs, QString(id));
+        m_pCommon->appendElement(fs, QChar(id));
     }
 }
 

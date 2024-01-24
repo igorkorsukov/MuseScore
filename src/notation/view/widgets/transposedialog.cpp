@@ -63,11 +63,6 @@ TransposeDialog::TransposeDialog(QWidget* parent)
     setFocus();
 }
 
-TransposeDialog::TransposeDialog(const TransposeDialog& dialog)
-    : TransposeDialog(dialog.parentWidget())
-{
-}
-
 //---------------------------------------------------------
 //   TransposeDialog slots
 //---------------------------------------------------------

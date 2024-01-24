@@ -254,7 +254,7 @@ Promise<QPixmap> RecentFilesController::thumbnail(const io::path_t& filePath) co
             return reject(int(Ret::Code::UnknownError), "Invalid file specified");
         }
 
-        QtConcurrent::run([this, filePath, resolve, reject]() {
+        UNUSED(QtConcurrent::run([this, filePath, resolve, reject]() {
             std::lock_guard lock(m_thumbnailCacheMutex);
 
             DateTime lastModified = fileSystem()->lastModified(filePath);
@@ -275,7 +275,7 @@ Promise<QPixmap> RecentFilesController::thumbnail(const io::path_t& filePath) co
                 m_thumbnailCache[filePath] = CachedThumbnail { rv.val.thumbnail, lastModified };
                 (void)resolve(rv.val.thumbnail);
             }
-        });
+        }));
 
         return Promise<QPixmap>::Result::unchecked();
     }, Promise<QPixmap>::AsynchronyType::ProvidedByBody);
@@ -283,7 +283,7 @@ Promise<QPixmap> RecentFilesController::thumbnail(const io::path_t& filePath) co
 
 void RecentFilesController::cleanUpThumbnailCache(const RecentFilesList& files)
 {
-    QtConcurrent::run([this, files] {
+    UNUSED(QtConcurrent::run([this, files] {
         std::lock_guard lock(m_thumbnailCacheMutex);
 
         if (files.empty()) {
@@ -300,5 +300,5 @@ void RecentFilesController::cleanUpThumbnailCache(const RecentFilesList& files)
 
             m_thumbnailCache = cleanedCache;
         }
-    });
+    }));
 }

@@ -46,7 +46,6 @@ class TimeDialog : public QWidget, Ui::TimeDialogBase
 
 public:
     TimeDialog(QWidget* parent = 0);
-    TimeDialog(const TimeDialog& dialog);
 
     bool dirty() const;
     bool showTimePalette() const;
