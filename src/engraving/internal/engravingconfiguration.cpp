@@ -118,7 +118,7 @@ static bool defaultPageSizeIsLetter()
     }
 #ifndef NO_QT_SUPPORT
     // try locale
-    switch (QLocale::system().country()) {
+    switch (QLocale::system().territory()) {
     case QLocale::UnitedStates:
     case QLocale::Canada:
     case QLocale::Mexico:
