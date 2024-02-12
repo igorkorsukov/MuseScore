@@ -21,14 +21,14 @@
  */
 #include "importmidi_inner.h"
 
-#include <QTextCodec>
-
 #include "importmidi_operations.h"
 #include "importmidi_chord.h"
 #include "../midishared/midifile.h"
 
 #include "engraving/dom/durationtype.h"
 #include "engraving/dom/sig.h"
+
+#include "log.h"
 
 namespace mu::iex::midi {
 MTrack::MTrack()
@@ -261,12 +261,13 @@ QString convertToCharset(const std::string& text)
 {
     // charset for the current MIDI file
     QString charset = midiImportOperations.data()->charset;
-    auto* codec = QTextCodec::codecForName(charset.toLatin1());
-    if (codec) {
-        return codec->toUnicode(text.c_str());
-    } else {
-        return QString::fromUtf8(text.data(), int(text.size()));
-    }
+    NOT_IMPLEMENTED;
+    // auto* codec = QTextCodec::codecForName(charset.toLatin1());
+    // if (codec) {
+    // return codec->toUnicode(text.c_str());
+    // } else {
+    return QString::fromUtf8(text.data(), int(text.size()));
+    // }
 }
 
 QString defaultCharset()
