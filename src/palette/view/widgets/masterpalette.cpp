@@ -159,11 +159,6 @@ MasterPalette::MasterPalette(QWidget* parent)
     WidgetStateStore::restoreGeometry(this);
 }
 
-int MasterPalette::static_metaTypeId()
-{
-    return qRegisterMetaType<MasterPalette>("MasterPalette");
-}
-
 //---------------------------------------------------------
 //   retranslate
 //---------------------------------------------------------

@@ -79,30 +79,28 @@ void EditShortcutModel::clearNewSequence()
     emit newSequenceChanged();
 }
 
-void EditShortcutModel::inputKey(int key, Qt::KeyboardModifiers modifiers)
+void EditShortcutModel::inputKey(Qt::Key key, Qt::KeyboardModifiers modifiers)
 {
-    std::pair<int, Qt::KeyboardModifiers> correctedKeyInput = correctKeyInput(key, modifiers);
-    int newKey = correctedKeyInput.first;
-    int newModifiers = correctedKeyInput.second;
+    std::tie(key, modifiers) = correctKeyInput(key, modifiers);
 
-    if (needIgnoreKey(newKey)) {
+    if (needIgnoreKey(key)) {
         return;
     }
 
-    newKey += newModifiers;
-
     // remove shift-modifier for keys that don't need it: letters and special keys
-    if ((newKey & Qt::ShiftModifier) && ((key < 0x41) || (key > 0x5a) || (key >= 0x01000000))) {
-        newKey -= Qt::ShiftModifier;
+    if ((modifiers & Qt::ShiftModifier) && ((key < Qt::Key_A) || (key > Qt::Key_Z) || (key >= Qt::Key_Escape))) {
+        modifiers &= ~Qt::ShiftModifier;
     }
 
+    QKeyCombination combination(modifiers, key);
+
     for (int i = 0; i < m_newSequence.count(); i++) {
-        if (m_newSequence[i] == key) {
+        if (m_newSequence[i] == combination) {
             return;
         }
     }
 
-    QKeySequence newSequence = QKeySequence(newKey);
+    QKeySequence newSequence = QKeySequence(combination);
     if (m_newSequence == newSequence) {
         return;
     }

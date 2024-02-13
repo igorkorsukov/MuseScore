@@ -38,6 +38,8 @@
 #include "popupwindow/ipopupwindow.h"
 #include "internal/popupviewclosecontroller.h"
 
+Q_MOC_INCLUDE(< QWindow >)
+
 class QQuickCloseEvent;
 
 namespace mu::uicomponents {
@@ -221,7 +223,7 @@ protected:
     void doFocusOut();
     void windowMoveEvent();
 
-    bool isMouseWithinBoundaries(const QPoint& mousePos) const;
+    bool isMouseWithinBoundaries(const QPointF& mousePos) const;
 
     QWindow* qWindow() const;
     virtual void onHidden();

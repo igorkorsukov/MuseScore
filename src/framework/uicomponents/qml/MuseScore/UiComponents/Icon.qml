@@ -19,8 +19,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-import QtQuick 2.1
-import QtGraphicalEffects 1.0
+import QtQuick
+import Qt5Compat.GraphicalEffects
 
 Item {
     id: root
@@ -38,7 +38,7 @@ Item {
 
         anchors.centerIn: parent
 
-        height: pixelSize
+        height: root.pixelSize
         width: implicitWidth
 
         fillMode: Image.PreserveAspectFit

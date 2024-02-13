@@ -31,7 +31,7 @@ namespace mu::plugins::api {
 //---------------------------------------------------------
 
 InstrumentListProperty::InstrumentListProperty(Part* p)
-    : QmlListProperty<Instrument>(p, p, &count, &at) {}
+    : QQmlListProperty<Instrument>(p, p, &count, &at) {}
 
 //---------------------------------------------------------
 //   InstrumentListProperty::count

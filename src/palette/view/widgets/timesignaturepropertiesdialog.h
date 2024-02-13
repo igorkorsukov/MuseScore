@@ -34,10 +34,6 @@ class TimeSig;
 }
 
 namespace mu::palette {
-//---------------------------------------------------------
-//   TimeSigProperties
-//---------------------------------------------------------
-
 class TimeSignaturePropertiesDialog : public QDialog, public Ui::TimeSigProperties
 {
     Q_OBJECT
@@ -47,10 +43,7 @@ class TimeSignaturePropertiesDialog : public QDialog, public Ui::TimeSigProperti
 
 public:
     TimeSignaturePropertiesDialog(QWidget* parent = nullptr);
-    TimeSignaturePropertiesDialog(const TimeSignaturePropertiesDialog& other);
     ~TimeSignaturePropertiesDialog() override;
-
-    static int static_metaTypeId();
 
 private slots:
     void accept() override;
@@ -64,7 +57,5 @@ private:
     engraving::TimeSig* m_editedTimeSig = nullptr;
 };
 }
-
-Q_DECLARE_METATYPE(mu::palette::TimeSignaturePropertiesDialog)
 
 #endif // MU_PALETTE_TIMESIGNATUREPROPERTIESDIALOG_H

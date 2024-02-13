@@ -249,7 +249,7 @@ void KeyCanvas::dragMoveEvent(QDragMoveEvent* event)
 {
     if (dragElement) {
         event->acceptProposedAction();
-        PointF pos = PointF::fromQPointF(imatrix.map(QPointF(event->pos())));
+        PointF pos = PointF::fromQPointF(imatrix.map(event->position()));
         dragElement->setPos(pos);
         update();
     }
@@ -366,11 +366,6 @@ KeyEditor::KeyEditor(QWidget* parent)
 
     //! NOTE: It is necessary for the correct start of navigation in the dialog
     setFocus();
-}
-
-KeyEditor::KeyEditor(const KeyEditor& widget)
-    : KeyEditor(widget.parentWidget())
-{
 }
 
 //---------------------------------------------------------

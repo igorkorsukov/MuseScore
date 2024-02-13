@@ -44,7 +44,6 @@ class KeyEditor : public QWidget, Ui::KeyEdit
 
 public:
     KeyEditor(QWidget* parent = 0);
-    KeyEditor(const KeyEditor& widget);
 
     bool dirty() const { return m_dirty; }
     void save();

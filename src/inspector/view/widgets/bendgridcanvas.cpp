@@ -420,7 +420,7 @@ void BendGridCanvas::hoverMoveEvent(QHoverEvent* event)
     auto oldPointIndex = m_hoverPointIndex;
 
     QRectF frameRect = this->frameRect();
-    QPointF coord = this->frameCoord(frameRect, event->pos().x(), event->pos().y());
+    QPointF coord = this->frameCoord(frameRect, event->position().x(), event->position().y());
     CurvePoint point = this->point(frameRect, coord.x(), coord.y());
 
     m_hoverPointIndex = this->pointIndex(point);
@@ -518,7 +518,7 @@ qreal BendGridCanvas::rowHeight(const QRectF& frameRect) const
     return frameRect.height() / (m_rows - 1);
 }
 
-QPointF BendGridCanvas::frameCoord(const QRectF& frameRect, int x, int y) const
+QPointF BendGridCanvas::frameCoord(const QRectF& frameRect, double x, double y) const
 {
     // restrict to clickable area
     if (x > frameRect.right()) {

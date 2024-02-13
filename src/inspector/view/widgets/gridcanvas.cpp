@@ -243,11 +243,11 @@ void GridCanvas::mousePressEvent(QMouseEvent* ev)
     const qreal rowHeight = qreal(height()) / m_rows;
 
     // Half a column/row of margin around
-    const int x = ev->x() - columnWidth * .5;
-    const int y = ev->y() - rowHeight * .5;
+    const qreal x = ev->position().x() - columnWidth * .5;
+    const qreal y = ev->position().y() - rowHeight * .5;
 
-    int column = round(qreal(x) / columnWidth);
-    int row = round(qreal(y) / rowHeight);
+    int column = round(x / columnWidth);
+    int row = round(y / rowHeight);
 
     // restrict to clickable area
     if (column >= m_columns) {

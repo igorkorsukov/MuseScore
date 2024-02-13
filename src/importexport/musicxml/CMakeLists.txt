@@ -44,6 +44,7 @@ else()
         ${CMAKE_CURRENT_LIST_DIR}/internal/mxlwriter.cpp
         ${CMAKE_CURRENT_LIST_DIR}/internal/mxlwriter.h
         )
+    set(MODULE_DEF ${MODULE_DEF} -DMUSICXML_NO_VALIDATION)
 endif()
 
 set(MODULE_LINK

@@ -21,8 +21,6 @@
  */
 #include "importpreferencesmodel.h"
 
-#include <QTextCodec>
-
 #include "engraving/types/constants.h"
 
 #include "translation.h"
@@ -40,7 +38,9 @@ void ImportPreferencesModel::load()
 
 QVariantList ImportPreferencesModel::charsets() const
 {
-    QList<QByteArray> charsets = QTextCodec::availableCodecs();
+    NOT_IMPLEMENTED;
+    QList<QByteArray> charsets;
+    // QList<QByteArray> charsets = QTextCodec::availableCodecs();
     std::sort(charsets.begin(), charsets.end());
 
     QVariantList result;

@@ -28,6 +28,8 @@
 #include "abstractnavigation.h"
 #include "navigationcontrol.h"
 
+Q_MOC_INCLUDE("ui/view/navigationsection.h")
+
 namespace mu::ui {
 class NavigationSection;
 class NavigationPanel : public AbstractNavigation, public INavigationPanel

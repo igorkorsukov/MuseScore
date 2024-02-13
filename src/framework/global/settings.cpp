@@ -118,10 +118,10 @@ static Val compat_QVariantToVal(const QVariant& var)
         return Val();
     }
 
-    switch (var.type()) {
-    case QVariant::ByteArray: return Val(var.toByteArray().toStdString());
-    case QVariant::DateTime: return Val(var.toDateTime().toString(Qt::ISODate));
-    case QVariant::StringList: {
+    switch (var.typeId()) {
+    case QMetaType::QByteArray: return Val(var.toByteArray().toStdString());
+    case QMetaType::QDateTime: return Val(var.toDateTime().toString(Qt::ISODate));
+    case QMetaType::QStringList: {
         QStringList sl = var.toStringList();
         ValList vl;
         for (const QString& s : sl) {
@@ -215,7 +215,7 @@ QString Settings::dataPath() const
 #ifdef WIN_PORTABLE
     return QDir::cleanPath(QString("%1/../../../Data/settings").arg(QCoreApplication::applicationDirPath()));
 #else
-    return QStandardPaths::writableLocation(QStandardPaths::DataLocation);
+    return QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
 #endif
 }
 

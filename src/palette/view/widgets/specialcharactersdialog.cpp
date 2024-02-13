@@ -497,20 +497,10 @@ SpecialCharactersDialog::SpecialCharactersDialog(QWidget* parent)
     WidgetStateStore::restoreGeometry(this);
 }
 
-SpecialCharactersDialog::SpecialCharactersDialog(const SpecialCharactersDialog& other)
-    : TopLevelDialog(other.parentWidget())
-{
-}
-
 void SpecialCharactersDialog::hideEvent(QHideEvent* event)
 {
     WidgetStateStore::saveGeometry(this);
     QDialog::hideEvent(event);
-}
-
-int SpecialCharactersDialog::static_metaTypeId()
-{
-    return QMetaType::type(SPECIAL_CHARACTERS_DIALOG_NAME.toStdString().c_str());
 }
 
 //---------------------------------------------------------

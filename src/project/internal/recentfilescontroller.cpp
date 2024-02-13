@@ -273,7 +273,7 @@ Promise<QPixmap> RecentFilesController::thumbnail(const io::path_t& filePath) co
                 m_thumbnailCache[filePath] = CachedThumbnail { rv.val.thumbnail, lastModified };
                 (void)resolve(rv.val.thumbnail);
             }
-        });
+        }));
 
         return Promise<QPixmap>::Result::unchecked();
     }, Promise<QPixmap>::AsynchronyType::ProvidedByBody);
@@ -298,5 +298,5 @@ void RecentFilesController::cleanUpThumbnailCache(const RecentFilesList& files)
 
             m_thumbnailCache = cleanedCache;
         }
-    });
+    }));
 }

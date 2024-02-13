@@ -19,12 +19,11 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
+import QtQuick
+import Qt5Compat.GraphicalEffects
 
-import QtQuick 2.15
-import QtGraphicalEffects 1.15
-
-import MuseScore.Ui 1.0
-import MuseScore.UiComponents 1.0
+import MuseScore.Ui
+import MuseScore.UiComponents
 
 Item {
     id: root
@@ -41,24 +40,31 @@ Item {
     anchors.margins: 8 // Needed for the shadow, please sync with DOCK_WINDOW_SHADOW in docktypes.h
 
     StyledDropShadow {
-        anchors.fill: background
-        source: background
-        radius: 8
+        anchors.fill: backgroundContainer
+        source: backgroundContainer
+        radius: root.anchors.margins
     }
 
-    Rectangle {
-        id: background
+    Item {
+        id: backgroundContainer
         anchors.fill: parent
+        anchors.margins: -root.anchors.margins
 
-        color: ui.theme.backgroundPrimaryColor
-        border.color: ui.theme.strokeColor
-        border.width: 1
-        radius: 3
+        Rectangle {
+            id: background
+            anchors.fill: parent
+            anchors.margins: root.anchors.margins
+
+            color: ui.theme.backgroundPrimaryColor
+            border.color: ui.theme.strokeColor
+            border.width: 1
+            radius: 3
+        }
     }
 
     Item {
         id: dropArea
-        anchors.fill: background
+        anchors.fill: parent
         anchors.margins: background.border.width
 
         // Clip content to our beautiful rounded rect

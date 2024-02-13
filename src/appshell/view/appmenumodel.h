@@ -24,6 +24,8 @@
 
 #include <memory>
 
+Q_MOC_INCLUDE(< QWindow >)
+
 #include "uicomponents/view/abstractmenumodel.h"
 
 #include "actions/actionable.h"

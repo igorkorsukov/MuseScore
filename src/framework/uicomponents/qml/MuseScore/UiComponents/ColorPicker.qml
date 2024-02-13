@@ -19,10 +19,10 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-import QtQuick 2.15
+import QtQuick
 
-import MuseScore.Ui 1.0
-import MuseScore.UiComponents 1.0
+import MuseScore.Ui
+import MuseScore.UiComponents
 
 import "Utils.js" as Utils
 
@@ -107,4 +107,3 @@ Rectangle {
         }
     ]
 }
-

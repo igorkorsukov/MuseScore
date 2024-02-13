@@ -23,8 +23,8 @@
 #ifndef __PLUGIN_API_INSTRUMENT_H__
 #define __PLUGIN_API_INSTRUMENT_H__
 
-#include "log.h"
-#include "qmllistproperty.h"
+#include <QQmlListProperty>
+
 #include "scoreelement.h"
 #include "engraving/dom/instrument.h"
 
@@ -207,7 +207,7 @@ public:
 ///   \cond PLUGIN_API \private \endcond
 //---------------------------------------------------------
 
-class ChannelListProperty : public QmlListProperty<Channel>
+class ChannelListProperty : public QQmlListProperty<Channel>
 {
 public:
     ChannelListProperty(Instrument* i);

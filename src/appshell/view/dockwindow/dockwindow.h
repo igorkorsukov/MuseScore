@@ -38,6 +38,8 @@
 #include "idockwindow.h"
 #include "internal/dockbase.h"
 
+Q_MOC_INCLUDE(< QQuickWindow >)
+
 namespace KDDockWidgets {
 class MainWindowBase;
 class LayoutSaver;
@@ -105,7 +107,7 @@ private:
     bool doLoadPage(const QString& uri, const QVariantMap& params = {});
 
     void componentComplete() override;
-    void geometryChanged(const QRectF& newGeometry, const QRectF& oldGeometry) override;
+    void geometryChange(const QRectF& newGeometry, const QRectF& oldGeometry) override;
 
     void loadPageContent(const DockPageView* page);
     void loadToolBars(const DockPageView* page);

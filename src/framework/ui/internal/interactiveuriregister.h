@@ -37,7 +37,7 @@ private:
 }
 
 namespace mu {
-inline uint qHash(const Uri& uri)
+inline size_t qHash(const Uri& uri)
 {
     return qHash(QString::fromStdString(uri.toString()));
 }

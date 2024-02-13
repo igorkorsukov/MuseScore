@@ -79,7 +79,7 @@ inline bool containsId(const IDList& list, const ID& id)
 }
 
 #ifndef NO_QT_SUPPORT
-inline uint qHash(const ID& id)
+inline size_t qHash(const ID& id)
 {
     return ::qHash(id.toUint64());
 }

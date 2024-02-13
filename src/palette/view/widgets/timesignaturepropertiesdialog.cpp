@@ -158,11 +158,6 @@ TimeSignaturePropertiesDialog::TimeSignaturePropertiesDialog(QWidget* parent)
     WidgetStateStore::restoreGeometry(this);
 }
 
-TimeSignaturePropertiesDialog::TimeSignaturePropertiesDialog(const TimeSignaturePropertiesDialog& other)
-    : QDialog(other.parentWidget())
-{
-}
-
 TimeSignaturePropertiesDialog::~TimeSignaturePropertiesDialog()
 {
     delete m_editedTimeSig;
@@ -172,11 +167,6 @@ void TimeSignaturePropertiesDialog::hideEvent(QHideEvent* event)
 {
     WidgetStateStore::saveGeometry(this);
     QDialog::hideEvent(event);
-}
-
-int TimeSignaturePropertiesDialog::static_metaTypeId()
-{
-    return QMetaType::type(TIME_SIGNATURE_PROPERTIES_DIALOG_NAME.toStdString().c_str());
 }
 
 //---------------------------------------------------------
