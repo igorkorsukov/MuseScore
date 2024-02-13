@@ -53,11 +53,11 @@ using namespace mu::engraving;
 //   musicalAttribute
 //---------------------------------------------------------
 
-void MuseData::musicalAttribute(QString s, Part* part)
+void MuseData::musicalAttribute(QStringView s, Part* part)
 {
-    QStringList al = s.mid(2).split(" ", Qt::SkipEmptyParts);
-    foreach (QString item, al) {
-        if (item.startsWith("K:")) {
+    QList<QStringView> al = s.mid(2).split(u' ', Qt::SkipEmptyParts);
+    foreach (QStringView item, al) {
+        if (item.startsWith(u"K:")) {
             Key key = Key(item.mid(2).toInt());
             KeySigEvent ke;
             Interval v = part->instrument(curTick)->transpose();
@@ -69,10 +69,10 @@ void MuseData::musicalAttribute(QString s, Part* part)
             for (Staff* staff : part->staves()) {
                 staff->setKey(curTick, ke);
             }
-        } else if (item.startsWith("Q:")) {
+        } else if (item.startsWith(u"Q:")) {
             _division = item.mid(2).toInt();
-        } else if (item.startsWith("T:")) {
-            QStringList tl = item.mid(2).split("/");
+        } else if (item.startsWith(u"T:")) {
+            QList<QStringView> tl = item.mid(2).split(u'/');
             if (tl.size() != 2) {
                 LOGD() << "bad time sig: " << item;
                 continue;
@@ -88,7 +88,7 @@ void MuseData::musicalAttribute(QString s, Part* part)
                 ts->setSig(Fraction(z, n));
                 seg->add(ts);
             }
-        } else if (item.startsWith("X:")) {
+        } else if (item.startsWith(u"X:")) {
         } else if (item[0] == 'C') {
             int staffIdx = 1;
             int col = 2;
@@ -164,7 +164,7 @@ void MuseData::musicalAttribute(QString s, Part* part)
 //   readChord
 //---------------------------------------------------------
 
-void MuseData::readChord(Part*, const QString& s)
+void MuseData::readChord(Part*, QStringView s)
 {
     //                       a  b   c  d  e  f  g
     static int table[7]  = { 9, 11, 0, 2, 4, 5, 7 };
@@ -241,7 +241,7 @@ void MuseData::closeSlur(int idx, const Fraction& tick, Staff* staff, int voc)
 //   readNote
 //---------------------------------------------------------
 
-void MuseData::readNote(Part* part, const QString& s)
+void MuseData::readNote(Part* part, QStringView s)
 {
     //                       a  b   c  d  e  f  g
     static int table[7]  = { 9, 11, 0, 2, 4, 5, 7 };
@@ -353,7 +353,7 @@ void MuseData::readNote(Part* part, const QString& s)
     chord->add(note);
 
     QString dynamics;
-    QString an = s.mid(31, 11);
+    QStringView an = s.mid(31, 11);
     for (int i = 0; i < an.size(); ++i) {
         if (an[i] == '(') {
             openSlur(0, tick, staff, voice);
@@ -435,14 +435,13 @@ void MuseData::readNote(Part* part, const QString& s)
         seg->add(dyn);
     }
 
-    QString txt = s.mid(43, 36);
+    QStringView txt = s.mid(43, 36);
     if (!txt.isEmpty()) {
-        QStringList sl = txt.split("|");
+        QList<QStringView> sl = txt.split(u'|');
         int no = 0;
-        for (QString w : sl) {
-            w = diacritical(w);
+        for (const QStringView w : sl) {
             Lyrics* l = Factory::createLyrics(chord);
-            l->setPlainText(w);
+            l->setPlainText(diacritical(w));
             l->setNo(no++);
             l->setTrack(gstaff * VOICES);
             chord->add(l);
@@ -455,7 +454,7 @@ void MuseData::readNote(Part* part, const QString& s)
 // TODO: not complete
 //---------------------------------------------------------
 
-QString MuseData::diacritical(QString s)
+QString MuseData::diacritical(QStringView s)
 {
     struct TAB {
         const char* a;
@@ -472,17 +471,19 @@ QString MuseData::diacritical(QString s)
         { "\\o3", "ö" },
         { "\\u3", "ü" },
     };
+
+    QString result = s.toString();
     for (unsigned int i = 0; i < sizeof(tab) / sizeof(*tab); ++i) {
-        s = s.replace(tab[i].a, QString::fromUtf8(tab[i].b));
+        result = result.replace(tab[i].a, QString::fromUtf8(tab[i].b));
     }
-    return s;
+    return result;
 }
 
 //---------------------------------------------------------
 //   readRest
 //---------------------------------------------------------
 
-void MuseData::readRest(Part* part, const QString& s)
+void MuseData::readRest(Part* part, QStringView s)
 {
     Fraction ticks = Fraction::fromTicks((s.mid(5, 3).toInt() * Constants::DIVISION + _division / 2) / _division);
 
@@ -526,11 +527,11 @@ void MuseData::readRest(Part* part, const QString& s)
 //   readBackup
 //---------------------------------------------------------
 
-void MuseData::readBackup(const QString& s)
+void MuseData::readBackup(QStringView s)
 {
     Fraction ticks = Fraction::fromTicks((s.mid(5, 3).toInt() * Constants::DIVISION + _division / 2) / _division);
     if (s[0] == 'b') {
-        curTick  -= ticks;
+        curTick -= ticks;
     } else {
         curTick += ticks;
     }
@@ -572,7 +573,7 @@ Measure* MuseData::createMeasure()
 //   readPart
 //---------------------------------------------------------
 
-void MuseData::readPart(QStringList sl, Part* part)
+void MuseData::readPart(const QStringList& sl, Part* part)
 {
     int line = 10;
     QString s;
@@ -648,7 +649,7 @@ int MuseData::countStaves(const QStringList& sl)
 {
     int staves = 1;
     for (int i = 10; i < sl.size(); ++i) {
-        QString s = sl[i];
+        QStringView s { sl[i] };
         char c = s[0].toLatin1();
         switch (c) {
         case 'A':
@@ -734,7 +735,7 @@ bool MuseData::read(const QString& name)
             continue;
         }
         if (s[0] == 'a') {
-            part.back().append(s.mid(1));
+            part.back().append(QStringView(s).mid(1));
             continue;
         }
         part.append(s);

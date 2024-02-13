@@ -28,6 +28,12 @@
 #include <QPainterPath>
 #include <QTextStream>
 
+#ifdef MU_QT5_COMPAT
+#include <QTextCodec>
+#else
+#include <QStringConverter>
+#endif
+
 #include "svggenerator.h"
 #include "types/bytearray.h"
 #include "engraving/dom/engravingitem.h"
@@ -1075,7 +1081,12 @@ bool SvgPaintEngine::end()
 
     // Point the stream at the real output device (the .svg file)
     d->stream->setDevice(d->outputDevice);
+
+#ifdef MU_QT5_COMPAT
+    d->stream->setCodec(QTextCodec::codecForName("UTF-8"));
+#else
     d->stream->setEncoding(QStringConverter::Utf8);
+#endif
 
     // Stream our strings out to the device, in order
     stream() << d->header;
