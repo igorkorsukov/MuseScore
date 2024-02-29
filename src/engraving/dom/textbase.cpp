@@ -2642,8 +2642,11 @@ bool TextBase::validateText(String& s)
         s = d;
         return true;
     }
-    LOGD("xml error at line %lld column %lld: %s", xml.lineNumber(), xml.columnNumber(), muPrintable(xml.errorString()));
-    LOGD("text: |%s|", muPrintable(ss));
+    LOGE() << "xml error at line: " << xml.lineNumber()
+           << ", column: " << xml.columnNumber()
+           << ", error: " << xml.errorString();
+
+    LOGD() << "text: |" << ss << "|";
     return false;
 }
 

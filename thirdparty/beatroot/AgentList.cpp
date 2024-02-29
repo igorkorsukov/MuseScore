@@ -72,10 +72,9 @@ void AgentList::removeDuplicates()
                         }
                   }
             }
-      int removed = 0;
+
       for (iterator itr = begin(); itr != end(); ) {
             if ((*itr)->phaseScore < 0.0) {
-                  ++removed;
                   delete *itr;
                   list.erase(itr);
                   }

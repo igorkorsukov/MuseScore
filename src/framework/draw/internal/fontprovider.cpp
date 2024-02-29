@@ -117,14 +117,14 @@ mu::RectF FontProvider::tightBoundingRect(const mu::draw::Font& f, const mu::Str
 }
 
 // Score symbols
-mu::RectF FontProvider::symBBox(const mu::draw::Font& f, char32_t ucs4, double DPI_F) const
+mu::RectF FontProvider::symBBox(const mu::draw::Font& f, char32_t ucs4, double DPI_F_) const
 {
-    UNUSED(DPI_F);
+    UNUSED(DPI_F_);
     return fontsEngine()->symBBox(f, ucs4);
 }
 
-double FontProvider::symAdvance(const mu::draw::Font& f, char32_t ucs4, double DPI_F) const
+double FontProvider::symAdvance(const mu::draw::Font& f, char32_t ucs4, double DPI_F_) const
 {
-    UNUSED(DPI_F);
+    UNUSED(DPI_F_);
     return fontsEngine()->symAdvance(f, ucs4);
 }
