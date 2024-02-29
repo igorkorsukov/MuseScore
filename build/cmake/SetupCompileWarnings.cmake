@@ -57,6 +57,8 @@ function(target_no_warning TARGET WNAME)
     elseif(WNAME STREQUAL "-Wno-attributes")
     elseif(WNAME STREQUAL "-Wno-restrict")
         unset(CLANG_Warning)
+    elseif(WNAME STREQUAL "-Wno-misleading-indentation")
+    elseif(WNAME STREQUAL "-Wno-array-parameter")
     elseif(WNAME STREQUAL "-w")
         set(MSVC_Warning /W0)
 
