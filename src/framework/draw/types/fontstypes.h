@@ -28,6 +28,7 @@
 #include "global/stringutils.h"
 #include "font.h"
 #include "geometry.h"
+#include "painterpath.h"
 
 namespace mu::draw {
 using glyph_idx_t = uint32_t;
@@ -136,9 +137,31 @@ struct Sdf {
     size_t hash = 0;
 };
 
-struct GlyphImage {
+struct GlyphSdf {
     mu::RectF rect;
     Sdf sdf;
+
+    bool isNull() const { return rect.isNull(); }
+};
+
+struct Image {
+    mu::ByteArray data;
+    uint32_t width = 0;
+    uint32_t height = 0;
+};
+
+struct GlyphImage {
+    Image image;
+    mu::RectF rect;
+
+    bool isNull() const { return rect.isNull(); }
+};
+
+struct GlyphPath {
+    mu::RectF rect;
+    mu::PointF pos;
+    double scale = 0;
+    PainterPath path;
 
     bool isNull() const { return rect.isNull(); }
 };

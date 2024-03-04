@@ -50,6 +50,8 @@ public:
     f26dot6_t glyphAdvance(glyph_idx_t idx) const override;
 
     const msdfgen::Shape& glyphShape(glyph_idx_t idx) const override;
+    const Image glyphImage(glyph_idx_t idx) const override;
+    const PainterPath& glyphPath(glyph_idx_t idx) const override;
 
 private:
     IFontFace* m_origin = nullptr;

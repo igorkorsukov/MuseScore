@@ -64,7 +64,9 @@ public:
     double symAdvance(const mu::draw::Font& f, char32_t ucs4) const override;
 
     // For draw
-    std::vector<GlyphImage> render(const mu::draw::Font& f, const std::u32string& text) const override;
+    std::vector<GlyphSdf> renderToSdf(const mu::draw::Font& f, const std::u32string& text) const override;
+    std::vector<GlyphImage> renderToImage(const mu::draw::Font& f, const std::u32string& text) const override;
+    std::vector<GlyphPath> renderToPaths(const mu::draw::Font& f, const std::u32string& text) const override;
 
     // For dev
     using FontFaceFactory = std::function<IFontFace* (const mu::io::path_t&)>;

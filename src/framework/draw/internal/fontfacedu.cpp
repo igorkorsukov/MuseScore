@@ -29,6 +29,7 @@ struct DummyGlyph {
     FBBox symBbox;
     f26dot6_t symAdvance = 0;
     msdfgen::Shape shape;
+    PainterPath path;
 };
 
 static const DummyGlyph& dummyGlyph()
@@ -182,4 +183,20 @@ const msdfgen::Shape& FontFaceDU::glyphShape(glyph_idx_t idx) const
         return dummyGlyph().shape;
     }
     return m_origin->glyphShape(idx);
+}
+
+const Image FontFaceDU::glyphImage(glyph_idx_t idx) const
+{
+    if (idx == 0) {
+        return Image();
+    }
+    return m_origin->glyphImage(idx);
+}
+
+const PainterPath& FontFaceDU::glyphPath(glyph_idx_t idx) const
+{
+    if (idx == 0) {
+        return dummyGlyph().path;
+    }
+    return m_origin->glyphPath(idx);
 }

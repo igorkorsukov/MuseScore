@@ -24,6 +24,9 @@
 
 #include "../ipaintprovider.h"
 
+#include "modularity/ioc.h"
+#include "draw/internal/ifontsengine.h"
+
 class QPainter;
 class QImage;
 
@@ -31,6 +34,8 @@ namespace mu::draw {
 class DrawObjectsLogger;
 class QPainterProvider : public IPaintProvider
 {
+    Inject<IFontsEngine> fontsEngine;
+
 public:
     QPainterProvider(QPainter* painter, bool ownsPainter = false);
     ~QPainterProvider();

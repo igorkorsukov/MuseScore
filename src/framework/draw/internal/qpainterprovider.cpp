@@ -232,9 +232,63 @@ void QPainterProvider::drawPolygon(const PointF* points, size_t pointCount, Poly
 
 void QPainterProvider::drawText(const PointF& point, const String& text)
 {
-    QPointF p = point.toQPointF();
-    QString t = text.toQString();
-    m_painter->drawText(p, t);
+    // {
+    //     QPointF p = point.toQPointF();
+    //     QString txt = text.toQString();
+    //     QString t = txt.toUpper();
+    //     m_painter->drawText(p, txt);
+    // }
+    // return;
+
+    {
+        // m_painter->save();
+        // m_painter->translate(point.toQPointF());
+
+        // m_painter->setBrush(QBrush(Qt::black));
+
+        // bool setScale = false;
+
+        // std::vector<GlyphPath> paths = fontsEngine()->renderToPaths(m_font, text.toStdU32String());
+        // for (const GlyphPath& gp : paths) {
+        //     if (!setScale) {
+        //         m_painter->scale(1 / gp.scale, 1 / gp.scale);
+        //         setScale = true;
+        //     }
+        //     m_painter->translate(gp.pos.toQPointF());
+        //     drawPath(gp.path);
+        //     m_painter->translate(-gp.pos.toQPointF());
+        // }
+
+        // m_painter->restore();
+    }
+
+    {
+        m_painter->save();
+        m_painter->translate(point.toQPointF());
+
+        m_painter->setBrush(QBrush(Qt::black));
+
+        bool setScale = false;
+
+        String txt = u"he";
+        Font fnt = Font(u"Edwin", Font::Type::Text);
+
+        std::vector<GlyphImage> images = fontsEngine()->renderToImage(fnt, txt.toStdU32String());
+        for (const GlyphImage& gp : images) {
+            QImage im = QImage(gp.image.data.constData(),
+                               gp.image.width, gp.image.height,
+                               gp.image.width * 4,
+                               QImage::Format_RGB32);
+
+            static int count = 1;
+
+            im.save(QString("im_%1.png").arg(count++), "PNG");
+
+            m_painter->drawImage(QPointF(), im);
+        }
+
+        m_painter->restore();
+    }
 }
 
 void QPainterProvider::drawText(const RectF& rect, int flags, const String& text)

@@ -352,7 +352,7 @@ double FontsEngine::symAdvance(const mu::draw::Font& f, char32_t ucs4) const
     return from_f26d6(advance) * rf->pixelScale();
 }
 
-static void generateSdf(GlyphImage& out, glyph_idx_t glyphIdx, const IFontFace* face)
+static void generateSdf(GlyphSdf& out, glyph_idx_t glyphIdx, const IFontFace* face)
 {
     struct Bounds
     {
@@ -417,7 +417,73 @@ static void generateSdf(GlyphImage& out, glyph_idx_t glyphIdx, const IFontFace* 
     out.rect.setHeight(height);
 }
 
-std::vector<GlyphImage> FontsEngine::render(const mu::draw::Font& f, const std::u32string& text) const
+std::vector<GlyphSdf> FontsEngine::renderToSdf(const mu::draw::Font& f, const std::u32string& text) const
+{
+    //! NOTE for rendering, all fonts, including symbols fonts, are processed as text
+    RequireFace* rf = fontFace(f);
+    IF_ASSERT_FAILED(rf && rf->face) {
+        return std::vector<GlyphSdf>();
+    }
+
+    static const std::set<glyph_idx_t> NOT_RENDER_GLYPHS = {
+        3 // space
+    };
+
+    std::vector<GlyphSdf> images;
+
+    int pixelSize = rf->requireKey.pixelSize;
+    double pixelScale = rf->pixelScale();
+    double glyphTop = 0;
+
+    std::vector<TextBlock> lines = splitTextByLines(text);
+    for (const TextBlock& l : lines) {
+        double glyphLeft = 0;
+
+        std::vector<TextBlock> fontFaceBlocks = splitTextByFontFaces(rf, l);
+        for (const TextBlock& ffBlock : fontFaceBlocks) {
+            const IFontFace* fontFace = nullptr;
+            if (rf->face->glyphIndex(*ffBlock.text) != 0) {
+                fontFace = rf->face;
+            } else {
+                fontFace = findSubtitutionFont(*ffBlock.text, rf->subtitutionFaces);
+            }
+            if (!fontFace) {
+                continue;
+            }
+
+            std::vector<GlyphPos> glyphs = fontFace->glyphs(ffBlock.text, ffBlock.lenght);
+
+            for (const GlyphPos& g : glyphs) {
+                if (NOT_RENDER_GLYPHS.find(g.idx) == NOT_RENDER_GLYPHS.end()) {
+                    GlyphSdf image;// = m_renderCache.load(fontFace->key(), g.idx);
+                    if (image.isNull()) {
+                        generateSdf(image, g.idx, fontFace);
+                        //m_renderCache.store(fontFace->key(), g.idx, image);
+                    }
+
+                    image.rect = scaleRect(image.rect, pixelScale);
+                    image.rect.translate(glyphLeft, glyphTop);
+
+                    images.push_back(std::move(image));
+                }
+
+                glyphLeft += from_f26d6(g.x_advance) * pixelScale;
+            }
+        }
+
+        glyphTop += (pixelSize * TEXT_LINE_SCALE);
+    }
+
+    return images;
+}
+
+static void generateImage(GlyphImage& out, glyph_idx_t glyphIdx, const IFontFace* face)
+{
+    out.image = face->glyphImage(glyphIdx);
+    out.rect.setRect(0, 0, out.image.width, out.image.height);
+}
+
+std::vector<GlyphImage> FontsEngine::renderToImage(const mu::draw::Font& f, const std::u32string& text) const
 {
     //! NOTE for rendering, all fonts, including symbols fonts, are processed as text
     RequireFace* rf = fontFace(f);
@@ -457,7 +523,7 @@ std::vector<GlyphImage> FontsEngine::render(const mu::draw::Font& f, const std::
                 if (NOT_RENDER_GLYPHS.find(g.idx) == NOT_RENDER_GLYPHS.end()) {
                     GlyphImage image;// = m_renderCache.load(fontFace->key(), g.idx);
                     if (image.isNull()) {
-                        generateSdf(image, g.idx, fontFace);
+                        generateImage(image, g.idx, fontFace);
                         //m_renderCache.store(fontFace->key(), g.idx, image);
                     }
 
@@ -475,6 +541,165 @@ std::vector<GlyphImage> FontsEngine::render(const mu::draw::Font& f, const std::
     }
 
     return images;
+}
+
+static void shapeToPath(const msdfgen::Shape& shape, PainterPath& out)
+{
+    auto point = [](const msdfgen::Point2& p) {
+        return mu::PointF(p.x, p.y);
+    };
+
+    out.setFillRule(PainterPath::FillRule::WindingFill);
+
+    for (const msdfgen::Contour& c : shape.contours) {
+        for (const msdfgen::EdgeSegment& e : c.edges) {
+            switch (e.actualType) {
+            case msdfgen::EdgeSegment::ActualType::Undefined:
+                break;
+            case msdfgen::EdgeSegment::ActualType::Cubic: {
+                const msdfgen::Point2* p = e.segments.cubic.p;
+                //out.moveTo(point(p[0]));
+                out.cubicTo(point(p[1]), point(p[2]), point(p[3]));
+            } break;
+            case msdfgen::EdgeSegment::ActualType::Linear: {
+                const msdfgen::Point2* p = e.segments.linear.p;
+                //out.moveTo(point(p[0]));
+                out.lineTo(point(p[1]));
+            } break;
+            case msdfgen::EdgeSegment::ActualType::Quadratic: {
+                const msdfgen::Point2* p = e.segments.quadratic.p;
+                //out.moveTo(point(p[0]));
+                out.quadTo(point(p[1]), point(p[2]));
+            } break;
+            }
+        }
+    }
+
+    //out.closeSubpath();
+}
+
+static void generatePath(GlyphPath& out, glyph_idx_t glyphIdx, const IFontFace* face)
+{
+    struct Bounds
+    {
+        double l, b, r, t;
+    };
+    Bounds bounds = { 1e240, 1e240, -1e240, -1e240 };
+
+    msdfgen::Shape shape = face->glyphShape(glyphIdx);
+    if (shape.contours.empty()) {
+        //! NOTE Maybe not printable, like ' '
+        return;
+    }
+
+    shape.bounds(bounds.l, bounds.b, bounds.r, bounds.t);
+
+    uint32_t pxRange = std::min(SDF_WIDTH, SDF_HEIGHT) >> 3;
+
+    std::pair<double, double> sdfScale;
+    msdfgen::Vector2 translate;
+    double scale = 0.0;
+    msdfgen::Vector2 frame(SDF_WIDTH, SDF_HEIGHT);
+    frame -= 2 * pxRange;
+    assert(frame.x >= 0 && frame.y >= 0 && bounds.l < bounds.r && bounds.b < bounds.t);
+    msdfgen::Vector2 dims(bounds.r - bounds.l, bounds.t - bounds.b);
+    if (dims.x * frame.y < dims.y * frame.x) { // fit restricted by height
+        translate = { -bounds.l, -bounds.b };
+        scale = frame.y / dims.y;
+        sdfScale = { (frame.x - dims.x * scale) / (dims.x * scale), 0.0f };
+    } else { // fit restricted by width
+        translate = { -bounds.l, -bounds.b };
+        scale = frame.x / dims.x;
+        sdfScale = { 0.0, (frame.y - dims.y * scale) / (dims.y * scale) };
+    }
+
+    double boundsWidth = bounds.r - bounds.l;
+    double boundsHeight = bounds.t - bounds.b;
+    double widthWhitespace = boundsWidth * sdfScale.first;
+    double heightWhitespace = boundsHeight * sdfScale.second;
+    double pxRangeScaled = pxRange / scale;
+
+    double left = bounds.l - pxRangeScaled;
+    double top = -bounds.t - heightWhitespace - pxRangeScaled;
+    double width = boundsWidth + widthWhitespace + pxRangeScaled * 2;
+    double height = boundsHeight + heightWhitespace + pxRangeScaled * 2;
+
+    double range = pxRange / scale;
+    translate += range;
+
+    shape.mergeContours();
+
+    shapeToPath(shape, out.path);
+
+    out.rect.setTop(top);
+    out.rect.setLeft(left);
+    out.rect.setWidth(width);
+    out.rect.setHeight(height);
+}
+
+std::vector<GlyphPath> FontsEngine::renderToPaths(const mu::draw::Font& f, const std::u32string& text) const
+{
+    //! NOTE for rendering, all fonts, including symbols fonts, are processed as text
+    RequireFace* rf = fontFace(f);
+    IF_ASSERT_FAILED(rf && rf->face) {
+        return std::vector<GlyphPath>();
+    }
+
+    static const std::set<glyph_idx_t> NOT_RENDER_GLYPHS = {
+        3 // space
+    };
+
+    std::vector<GlyphPath> paths;
+
+    int pixelSize = rf->requireKey.pixelSize;
+    double pixelScale = rf->pixelScale();
+    double glyphTop = 0;
+
+    std::vector<TextBlock> lines = splitTextByLines(text);
+    for (const TextBlock& l : lines) {
+        double glyphLeft = 0;
+
+        std::vector<TextBlock> fontFaceBlocks = splitTextByFontFaces(rf, l);
+        for (const TextBlock& ffBlock : fontFaceBlocks) {
+            const IFontFace* fontFace = nullptr;
+            if (rf->face->glyphIndex(*ffBlock.text) != 0) {
+                fontFace = rf->face;
+            } else {
+                fontFace = findSubtitutionFont(*ffBlock.text, rf->subtitutionFaces);
+            }
+            if (!fontFace) {
+                continue;
+            }
+
+            std::vector<GlyphPos> glyphs = fontFace->glyphs(ffBlock.text, ffBlock.lenght);
+
+            for (const GlyphPos& g : glyphs) {
+                if (NOT_RENDER_GLYPHS.find(g.idx) == NOT_RENDER_GLYPHS.end()) {
+                    GlyphPath path;// = m_renderCache.load(fontFace->key(), g.idx);
+                    if (path.isNull()) {
+                        path.path = fontFace->glyphPath(g.idx);
+
+                        //generatePath(path, g.idx, fontFace);
+                        //m_renderCache.store(fontFace->key(), g.idx, image);
+                    }
+
+                    path.rect = scaleRect(path.rect, pixelScale);
+                    path.rect.translate(glyphLeft, glyphTop);
+
+                    path.pos = mu::PointF(glyphLeft, glyphTop);
+                    path.scale = pixelScale;
+
+                    paths.push_back(std::move(path));
+                }
+
+                glyphLeft += from_f26d6(g.x_advance) * pixelScale;
+            }
+        }
+
+        glyphTop += (pixelSize * TEXT_LINE_SCALE);
+    }
+
+    return paths;
 }
 
 void FontsEngine::setFontFaceFactory(const FontFaceFactory& f)

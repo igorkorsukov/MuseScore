@@ -25,9 +25,9 @@
 #include <string>
 
 #include "global/modularity/imoduleinterface.h"
-#include "types/font.h"
-#include "types/geometry.h"
-#include "types/fontstypes.h"
+#include "../types/font.h"
+#include "../types/geometry.h"
+#include "../types/fontstypes.h"
 
 namespace mu::draw {
 class IFontsEngine : public mu::modularity::IModuleExportInterface
@@ -56,7 +56,9 @@ public:
     virtual double symAdvance(const mu::draw::Font& f, char32_t ucs4) const = 0;
 
     // Draw
-    virtual std::vector<GlyphImage> render(const mu::draw::Font& f, const std::u32string& text) const = 0;
+    virtual std::vector<GlyphSdf> renderToSdf(const mu::draw::Font& f, const std::u32string& text) const = 0;
+    virtual std::vector<GlyphImage> renderToImage(const mu::draw::Font& f, const std::u32string& text) const = 0;
+    virtual std::vector<GlyphPath> renderToPaths(const mu::draw::Font& f, const std::u32string& text) const = 0;
 };
 }
 

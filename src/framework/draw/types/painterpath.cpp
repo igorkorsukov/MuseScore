@@ -77,6 +77,32 @@ void PainterPath::lineTo(const PointF& p)
     m_convex = m_elements.size() == 3 || (m_elements.size() == 4 && isClosed());
 }
 
+void PainterPath::quadTo(const PointF& c, const PointF& e)
+{
+    if (!hasValidCoords(c) || !hasValidCoords(e)) {
+#ifdef MUE_ENABLE_DRAW_TRACE
+        LOGW() << "PainterPath::quadTo: Adding point with invalid coordinates, ignoring call";
+#endif
+        return;
+    }
+
+    ensureData();
+
+    assert(!m_elements.empty());
+    const PainterPath::Element& elm = m_elements.at(elementCount() - 1);
+    PointF prev(elm.x, elm.y);
+
+    // Abort on empty curve as a stroker cannot handle this and the
+    // curve is irrelevant anyway.
+    if (prev == c && c == e) {
+        return;
+    }
+
+    PointF c1((prev.x() + 2 * c.x()) / 3, (prev.y() + 2 * c.y()) / 3);
+    PointF c2((e.x() + 2 * c.x()) / 3, (e.y() + 2 * c.y()) / 3);
+    cubicTo(c1, c2, e);
+}
+
 void PainterPath::cubicTo(const PointF& ctrlPt1, const PointF& ctrlPt2, const PointF& endPt)
 {
     if (!hasValidCoords(ctrlPt1) || !hasValidCoords(ctrlPt2) || !hasValidCoords(endPt)) {

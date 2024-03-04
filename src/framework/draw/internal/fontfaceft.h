@@ -54,6 +54,8 @@ public:
     f26dot6_t glyphAdvance(glyph_idx_t idx) const override;
 
     const msdfgen::Shape& glyphShape(glyph_idx_t idx) const override;
+    const Image glyphImage(glyph_idx_t idx) const override;
+    const PainterPath& glyphPath(glyph_idx_t idx) const override;
 
 private:
 
@@ -63,7 +65,8 @@ private:
     FaceKey m_key;
     bool m_isSymbolMode = false;
     FData* m_data = nullptr;
-    mutable std::unordered_map<glyph_idx_t, msdfgen::Shape> m_cache;
+    mutable std::unordered_map<glyph_idx_t, msdfgen::Shape> m_shapeCache;
+    mutable std::unordered_map<glyph_idx_t, PainterPath> m_pathCache;
 };
 }
 

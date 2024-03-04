@@ -84,6 +84,8 @@ public:
     void lineTo(const PointF& p);
     inline void lineTo(double x, double y) { lineTo(PointF(x, y)); }
 
+    void quadTo(const PointF& ctrlPt1, const PointF& endPt);
+
     void cubicTo(const PointF& ctrlPt1, const PointF& ctrlPt2, const PointF& endPt);
 
     inline void cubicTo(double ctrlPt1x, double ctrlPt1y, double ctrlPt2x, double ctrlPt2y, double endPtx, double endPty)

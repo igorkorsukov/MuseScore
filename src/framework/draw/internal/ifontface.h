@@ -26,6 +26,7 @@
 
 #include "global/io/path.h"
 #include "types/fontstypes.h"
+#include "types/painterpath.h"
 
 namespace mu::draw {
 using f26dot6_t = long;         // A signed 26.6 fixed-point type used for vectorial pixel coordinates.
@@ -65,6 +66,8 @@ public:
     virtual f26dot6_t glyphAdvance(glyph_idx_t idx) const = 0;
 
     virtual const msdfgen::Shape& glyphShape(glyph_idx_t idx) const = 0;
+    virtual const mu::draw::Image glyphImage(glyph_idx_t idx) const = 0;
+    virtual const PainterPath& glyphPath(glyph_idx_t idx) const = 0;
 };
 }
 

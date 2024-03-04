@@ -29,6 +29,7 @@
 #include FT_GLYPH_H
 #include FT_BBOX_H
 #include FT_TRUETYPE_TABLES_H
+#include FT_OUTLINE_H
 #include <hb-ft.h>
 
 #include <ext/import-font.h>
@@ -314,8 +315,8 @@ const msdfgen::Shape& FontFaceFT::glyphShape(glyph_idx_t idx) const
         return null;
     }
 
-    auto it = m_cache.find(idx);
-    if (it != m_cache.end()) {
+    auto it = m_shapeCache.find(idx);
+    if (it != m_shapeCache.end()) {
         return it->second;
     }
 
@@ -329,7 +330,112 @@ const msdfgen::Shape& FontFaceFT::glyphShape(glyph_idx_t idx) const
     v.second.normalize();
     v.second.inverseYAxis = true;
 
-    return m_cache.insert(std::move(v)).first->second;
+    return m_shapeCache.insert(std::move(v)).first->second;
+}
+
+const Image FontFaceFT::glyphImage(glyph_idx_t idx) const
+{
+    if (FT_Load_Glyph(m_data->face, idx, FT_LOAD_DEFAULT) != 0) {
+        return mu::draw::Image();
+    }
+
+    if (FT_Render_Glyph(m_data->face->glyph, FT_RENDER_MODE_NORMAL) != 0) {
+        return mu::draw::Image();
+    }
+
+    FT_GlyphSlot glyph = m_data->face->glyph;
+    FT_Bitmap bitmap = glyph->bitmap;
+
+    mu::draw::Image im;
+    im.height = bitmap.rows;
+    im.width = bitmap.width;
+    im.data = ByteArray(bitmap.buffer, bitmap.rows * bitmap.pitch);
+
+    return im;
+}
+
+struct FtContext {
+    PainterPath* path = nullptr;
+};
+
+static mu::PointF ftPoint(const FT_Vector& vector)
+{
+    return mu::PointF(vector.x / 64., vector.y / 64. * -1);
+}
+
+static int ftMoveTo(const FT_Vector* to, void* user)
+{
+    FtContext* ctx = reinterpret_cast<FtContext*>(user);
+    ctx->path->moveTo(ftPoint(*to));
+    return 0;
+}
+
+static int ftLineTo(const FT_Vector* to, void* user)
+{
+    FtContext* ctx = reinterpret_cast<FtContext*>(user);
+    ctx->path->lineTo(ftPoint(*to));
+    return 0;
+}
+
+static int ftConicTo(const FT_Vector* control, const FT_Vector* to, void* user)
+{
+    FtContext* ctx = reinterpret_cast<FtContext*>(user);
+    ctx->path->quadTo(ftPoint(*control), ftPoint(*to));
+    return 0;
+}
+
+static int ftCubicTo(const FT_Vector* control1, const FT_Vector* control2, const FT_Vector* to, void* user)
+{
+    FtContext* ctx = reinterpret_cast<FtContext*>(user);
+    ctx->path->cubicTo(ftPoint(*control1), ftPoint(*control2), ftPoint(*to));
+    return 0;
+}
+
+static void fillGlyphPath(PainterPath& out, FT_GlyphSlot glyph)
+{
+    if (!glyph) {
+        return;
+    }
+
+    FtContext ctx;
+    ctx.path = &out;
+    FT_Outline_Funcs ftFunctions;
+    ftFunctions.move_to = &ftMoveTo;
+    ftFunctions.line_to = &ftLineTo;
+    ftFunctions.conic_to = &ftConicTo;
+    ftFunctions.cubic_to = &ftCubicTo;
+    ftFunctions.shift = 0;
+    ftFunctions.delta = 0;
+    FT_Error error = FT_Outline_Decompose(&glyph->outline, &ftFunctions, &ctx);
+    if (error) {
+        return;
+    }
+    return;
+}
+
+const PainterPath& FontFaceFT::glyphPath(glyph_idx_t idx) const
+{
+    static const PainterPath null;
+
+    FT_UInt index = static_cast<FT_UInt>(idx);
+    if (index == 0) {
+        return null;
+    }
+
+    auto it = m_pathCache.find(idx);
+    if (it != m_pathCache.end()) {
+        return it->second;
+    }
+
+    if (FT_Load_Glyph(m_data->face, index, FT_LOAD_DEFAULT) != 0) {
+        return null;
+    }
+
+    std::pair<glyph_idx_t, PainterPath> v;
+    v.first = idx;
+    fillGlyphPath(v.second, m_data->face->glyph);
+
+    return m_pathCache.insert(std::move(v)).first->second;
 }
 
 f26dot6_t FontFaceFT::leading() const
