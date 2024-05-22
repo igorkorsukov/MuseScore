@@ -2199,7 +2199,7 @@ void TWrite::write(const Note* item, XmlWriter& xml, WriteContext& ctx)
     writeItems(item->el(), xml, ctx);
     bool write_dots = false;
     for (NoteDot* dot : item->dots()) {
-        if (!dot->offset().isNull() || !dot->visible() || dot->color() != engravingConfiguration()->defaultColor()
+        if (!dot->offset().isNull() || !dot->visible() || dot->color() != ctx.configuration()->defaultColor()
             || dot->visible() != item->visible()) {
             write_dots = true;
             break;
@@ -2431,7 +2431,7 @@ void TWrite::write(const Rest* item, XmlWriter& xml, WriteContext& ctx)
     writeItems(item->el(), xml, ctx);
     bool write_dots = false;
     for (NoteDot* dot : item->dotList()) {
-        if (!dot->offset().isNull() || !dot->visible() || dot->color() != engravingConfiguration()->defaultColor()
+        if (!dot->offset().isNull() || !dot->visible() || dot->color() != ctx.configuration()->defaultColor()
             || dot->visible() != item->visible()) {
             write_dots = true;
             break;
@@ -2490,7 +2490,7 @@ void TWrite::writeProperties(const SlurTie* item, XmlWriter& xml, WriteContext& 
 void TWrite::writeSlur(const SlurTieSegment* seg, XmlWriter& xml, WriteContext& ctx, int no)
 {
     if (seg->visible() && seg->autoplace()
-        && (seg->color() == engravingConfiguration()->defaultColor())
+        && (seg->color() == ctx.configuration()->defaultColor())
         && seg->offset().isNull()
         && seg->ups(Grip::START).off.isNull()
         && seg->ups(Grip::BEZIER1).off.isNull()
@@ -2682,7 +2682,7 @@ void TWrite::writeProperties(const StaffTextBase* item, XmlWriter& xml, WriteCon
     writeProperties(static_cast<const TextBase*>(item), xml, ctx, true);
 }
 
-void TWrite::write(const StaffType* item, XmlWriter& xml, WriteContext&)
+void TWrite::write(const StaffType* item, XmlWriter& xml, WriteContext& ctx)
 {
     xml.startElement("StaffType", { { "group", TConv::toXml(item->group()) } });
     if (!item->xmlName().isEmpty()) {
@@ -2722,7 +2722,7 @@ void TWrite::write(const StaffType* item, XmlWriter& xml, WriteContext&)
     if (item->invisible()) {
         xml.tag("invisible", item->invisible());
     }
-    if (item->color() != engravingConfiguration()->defaultColor()) {
+    if (item->color() != ctx.configuration()->defaultColor()) {
         xml.tagProperty(Pid::COLOR, item->color());
     }
     if (item->group() == StaffGroup::STANDARD) {

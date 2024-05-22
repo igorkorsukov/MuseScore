@@ -429,6 +429,14 @@ struct StaffConfig
     ClefTypeList clefTypeList;
     engraving::StaffType staffType;
 
+    StaffConfig(const engraving::Color& defaultColor)
+        : staffType(defaultColor) {}
+
+    void setStaffTypeColor(const engraving::Color& val)
+    {
+        staffType.setColor(val);
+    }
+
     bool operator==(const StaffConfig& conf) const
     {
         bool equal = visible == conf.visible;

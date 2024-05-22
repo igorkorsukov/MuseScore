@@ -28,14 +28,15 @@ using namespace mu::notation;
 using namespace muse::ui;
 
 FontStyleSelect::FontStyleSelect(QWidget* parent)
-    : QWidget(parent)
+    : QWidget(parent), muse::Injectable(muse::iocCtxForQWidget(this))
 {
     setupUi(this);
 
-    WidgetUtils::setWidgetIcon(bold, IconCode::Code::TEXT_BOLD);
-    WidgetUtils::setWidgetIcon(italic, IconCode::Code::TEXT_ITALIC);
-    WidgetUtils::setWidgetIcon(underline, IconCode::Code::TEXT_UNDERLINE);
-    WidgetUtils::setWidgetIcon(strike, IconCode::Code::TEXT_STRIKE);
+    WidgetUtils utils(iocContext());
+    utils.setWidgetIcon(bold, IconCode::Code::TEXT_BOLD);
+    utils.setWidgetIcon(italic, IconCode::Code::TEXT_ITALIC);
+    utils.setWidgetIcon(underline, IconCode::Code::TEXT_UNDERLINE);
+    utils.setWidgetIcon(strike, IconCode::Code::TEXT_STRIKE);
 
     connect(bold, &QPushButton::toggled, this, &FontStyleSelect::_fontStyleChanged);
     connect(italic, &QPushButton::toggled, this, &FontStyleSelect::_fontStyleChanged);

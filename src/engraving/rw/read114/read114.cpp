@@ -2624,7 +2624,7 @@ static void readPart(Part* part, XmlReader& e, ReadContext& ctx)
         const AsciiStringView tag(e.name());
         if (tag == "Staff") {
             Staff* staff = Factory::createStaff(part);
-            staff->setStaffType(Fraction(0, 1), StaffType());       // will reset later if needed
+            staff->setStaffType(Fraction(0, 1), StaffType(ctx.score()->configuration()->defaultColor()));       // will reset later if needed
             ctx.appendStaff(staff);
             readStaff(staff, e, ctx);
         } else if (tag == "Instrument") {

@@ -354,14 +354,15 @@ struct MeasurePrintContext final
 typedef std::unordered_map<const ChordRest*, const Trill*> TrillHash;
 typedef std::map<const Instrument*, int> MxmlInstrumentMap;
 
-class ExportMusicXml
+class ExportMusicXml : public muse::Injectable
 {
 public:
-    INJECT_STATIC(mu::iex::musicxml::IMusicXmlConfiguration, configuration)
-    INJECT_STATIC(muse::IApplication, application)
+    static inline muse::GlobalInject<mu::iex::musicxml::IMusicXmlConfiguration> configuration;
+    muse::Inject<muse::IApplication> application  = { this };
 
 public:
     ExportMusicXml(Score* s)
+        : muse::Injectable(s->iocContext())
     {
         m_score = s;
         m_tick = { 0, 1 };
@@ -437,7 +438,7 @@ private:
 
     static String elementPosition(const ExportMusicXml* const expMxml, const EngravingItem* const elm);
     static String positioningAttributesForTboxText(const PointF position, float spatium);
-    static void identification(XmlWriter& xml, Score const* const score);
+    void identification(XmlWriter& xml, Score const* const score);
 
     Score* m_score = nullptr;
     XmlWriter m_xml;
@@ -1593,7 +1594,7 @@ void ExportMusicXml::credits(XmlWriter& xml)
         const double tm = getTenthsFromInches(_score->styleD(Sid::pageOddTopMargin));
         LOGD("page h=%g w=%g lm=%g rm=%g tm=%g bm=%g", h, w, lm, rm, tm, bm);
         */
-        TextFragment f(XmlWriter::xmlString(rights));
+        TextFragment f(XmlWriter::xmlString(rights), m_score->iocContext());
         f.changeFormat(FormatId::FontFamily, style.styleSt(Sid::footerFontFace));
         f.changeFormat(FormatId::FontSize, style.styleD(Sid::footerFontSize));
         std::list<TextFragment> list;
@@ -4740,8 +4741,8 @@ static bool findMetronome(const std::list<TextFragment>& list,
                           bool& hasParen,      // parenthesis
                           String& metroLeft,  // left part of metronome
                           String& metroRight, // right part of metronome
-                          std::list<TextFragment>& wordsRight // words right of metronome
-                          )
+                          std::list<TextFragment>& wordsRight, // words right of metronome
+                          const muse::modularity::ContextPtr& iocCtx)
 {
     String words = MScoreTextToMXML::toPlainTextPlusSymbols(list);
     //LOGD("findMetronome('%s')", muPrintable(words));
@@ -4823,7 +4824,7 @@ static bool findMetronome(const std::list<TextFragment>& list,
             metroPos = corrPos;
 
             std::list<TextFragment> mid;       // not used
-            MScoreTextToMXML::split(list, metroPos, metroLen, wordsLeft, mid, wordsRight);
+            MScoreTextToMXML::split(list, metroPos, metroLen, wordsLeft, mid, wordsRight, iocCtx);
             return true;
         }
     }
@@ -4848,7 +4849,8 @@ static void beatUnit(XmlWriter& xml, const TDuration dur)
 //   wordsMetronome
 //---------------------------------------------------------
 
-static void wordsMetronome(XmlWriter& xml, const MStyle& s, TextBase const* const text, const int offset)
+static void wordsMetronome(XmlWriter& xml, const MStyle& s, TextBase const* const text, const int offset,
+                           const muse::modularity::ContextPtr& iocCtx)
 {
     const std::list<TextFragment> list = text->fragmentList();
     std::list<TextFragment> wordsLeft;          // words left of metronome
@@ -4861,7 +4863,7 @@ static void wordsMetronome(XmlWriter& xml, const MStyle& s, TextBase const* cons
     const String mtf = s.styleSt(Sid::MusicalTextFont);
     const CharFormat defFmt = formatForWords(s);
 
-    if (findMetronome(list, wordsLeft, hasParen, metroLeft, metroRight, wordsRight)) {
+    if (findMetronome(list, wordsLeft, hasParen, metroLeft, metroRight, wordsRight, iocCtx)) {
         if (wordsLeft.size() > 0) {
             xml.startElement("direction-type");
             String attr = ExportMusicXml::positioningAttributes(text);
@@ -4938,7 +4940,7 @@ void ExportMusicXml::tempoText(TempoText const* const text, staff_idx_t staff)
     */
     m_attr.doAttr(m_xml, false);
     m_xml.startElement("direction", { { "placement", (text->placement() == PlacementV::BELOW) ? "below" : "above" } });
-    wordsMetronome(m_xml, m_score->style(), text, offset);
+    wordsMetronome(m_xml, m_score->style(), text, offset, iocContext());
 
     if (staff) {
         m_xml.tag("staff", static_cast<int>(staff));
@@ -4975,7 +4977,7 @@ void ExportMusicXml::words(TextBase const* const text, staff_idx_t staff)
     }
 
     directionTag(m_xml, m_attr, text);
-    wordsMetronome(m_xml, m_score->style(), text, offset);
+    wordsMetronome(m_xml, m_score->style(), text, offset, iocContext());
 
     directionETag(m_xml, staff);
 }
@@ -4995,7 +4997,7 @@ void ExportMusicXml::systemText(StaffTextBase const* const text, staff_idx_t sta
     }
 
     directionTag(m_xml, m_attr, text);
-    wordsMetronome(m_xml, m_score->style(), text, offset);
+    wordsMetronome(m_xml, m_score->style(), text, offset, iocContext());
 
     if (text->swing()) {
         m_xml.startElement("sound");

@@ -238,7 +238,7 @@ double Dynamic::customTextOffset() const
     referenceDynamic.setXmlText(referenceString);
     renderer()->layoutItem(toTextBase(&referenceDynamic));
 
-    TextFragment referenceFragment;
+    TextFragment referenceFragment(score()->iocContext());
     if (!referenceDynamic.ldata()->blocks.empty()) {
         TextBlock referenceBlock = referenceDynamic.ldata()->blocks.front();
         if (!referenceBlock.fragments().empty()) {

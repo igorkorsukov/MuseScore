@@ -38,7 +38,7 @@ public:
     static String toPlainText(const String& text);
     static String toPlainTextPlusSymbols(const std::list<TextFragment>& list);
     static bool split(const std::list<TextFragment>& in, const int pos, const int len, std::list<TextFragment>& left,
-                      std::list<TextFragment>& mid, std::list<TextFragment>& right);
+                      std::list<TextFragment>& mid, std::list<TextFragment>& right, const muse::modularity::ContextPtr& iocCtx);
     void writeTextFragments(const std::list<TextFragment>& fr, XmlWriter& xml);
 
 private:

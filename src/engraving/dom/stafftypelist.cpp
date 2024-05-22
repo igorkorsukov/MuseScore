@@ -32,7 +32,7 @@ namespace mu::engraving {
 const StaffType& StaffTypeList::staffType(const Fraction& tick) const
 {
     if (tick.negative()) {
-        static const StaffType st;
+        static const StaffType st(m_firstStaffType.color());
         return st;
     }
 
@@ -100,7 +100,7 @@ bool StaffTypeList::removeStaffType(const Fraction& tick)
 {
     assert(!tick.negative());
     if (tick.isZero()) {
-        m_firstStaffType = StaffType();
+        m_firstStaffType = StaffType(m_firstStaffType.color());
         return true;
     }
 

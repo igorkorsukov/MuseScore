@@ -212,19 +212,25 @@ private:
 //    contains a styled text
 //---------------------------------------------------------
 
-class TextFragment
+class TextFragment : public muse::Injectable
 {
-    INJECT_STATIC(IEngravingFontsProvider, engravingFonts)
+public:
+    muse::Inject<IEngravingFontsProvider> engravingFonts = { this };
+
 public:
     mutable CharFormat format;
     PointF pos;                    // y is relative to TextBlock->y()
     mutable String text;
 
+    TextFragment(const muse::modularity::ContextPtr& iocCtx);
+    TextFragment(const String& s, const muse::modularity::ContextPtr& iocCtx);
+    TextFragment(TextCursor*, const String&, const muse::modularity::ContextPtr& iocCtx);
+    TextFragment(const TextFragment& f);
+
+    TextFragment& operator =(const TextFragment& f);
+
     bool operator ==(const TextFragment& f) const;
 
-    TextFragment();
-    TextFragment(const String& s);
-    TextFragment(TextCursor*, const String&);
     TextFragment split(int column);
     void draw(muse::draw::Painter*, const TextBase*) const;
     muse::draw::Font font(const TextBase*) const;
@@ -237,10 +243,12 @@ public:
 //    represents a block of formatted text
 //---------------------------------------------------------
 
-class TextBlock
+class TextBlock : public muse::Injectable
 {
 public:
-    TextBlock() {}
+    TextBlock(const muse::modularity::ContextPtr& iocCtx)
+        : muse::Injectable(iocCtx) {}
+
     bool operator ==(const TextBlock& x) const { return m_fragments == x.m_fragments; }
     bool operator !=(const TextBlock& x) const { return m_fragments != x.m_fragments; }
     void draw(muse::draw::Painter*, const TextBase*) const;
@@ -287,8 +295,6 @@ private:
 class TextBase : public EngravingItem
 {
     OBJECT_ALLOCATOR(engraving, TextBase)
-
-    INJECT(IEngravingFontsProvider, engravingFonts)
 
     M_PROPERTY2(bool, isTextLinkedToMaster, setTextLinkedToMaster, true)
 

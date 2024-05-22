@@ -30,7 +30,7 @@ using namespace mu::notation;
 using namespace muse::ui;
 
 AlignSelect::AlignSelect(QWidget* parent)
-    : QWidget(parent)
+    : QWidget(parent), muse::Injectable(muse::iocCtxForQWidget(this))
 {
     setupUi(this);
 
@@ -45,13 +45,14 @@ AlignSelect::AlignSelect(QWidget* parent)
     g2->addButton(alignBaseline);
     g2->addButton(alignBottom);
 
-    WidgetUtils::setWidgetIcon(alignLeft, IconCode::Code::TEXT_ALIGN_LEFT);
-    WidgetUtils::setWidgetIcon(alignRight, IconCode::Code::TEXT_ALIGN_RIGHT);
-    WidgetUtils::setWidgetIcon(alignHCenter, IconCode::Code::TEXT_ALIGN_CENTER);
-    WidgetUtils::setWidgetIcon(alignVCenter, IconCode::Code::TEXT_ALIGN_MIDDLE);
-    WidgetUtils::setWidgetIcon(alignTop, IconCode::Code::TEXT_ALIGN_TOP);
-    WidgetUtils::setWidgetIcon(alignBaseline, IconCode::Code::TEXT_ALIGN_BASELINE);
-    WidgetUtils::setWidgetIcon(alignBottom, IconCode::Code::TEXT_ALIGN_BOTTOM);
+    WidgetUtils utils(iocContext());
+    utils.setWidgetIcon(alignLeft, IconCode::Code::TEXT_ALIGN_LEFT);
+    utils.setWidgetIcon(alignRight, IconCode::Code::TEXT_ALIGN_RIGHT);
+    utils.setWidgetIcon(alignHCenter, IconCode::Code::TEXT_ALIGN_CENTER);
+    utils.setWidgetIcon(alignVCenter, IconCode::Code::TEXT_ALIGN_MIDDLE);
+    utils.setWidgetIcon(alignTop, IconCode::Code::TEXT_ALIGN_TOP);
+    utils.setWidgetIcon(alignBaseline, IconCode::Code::TEXT_ALIGN_BASELINE);
+    utils.setWidgetIcon(alignBottom, IconCode::Code::TEXT_ALIGN_BOTTOM);
 
     connect(g1, &QButtonGroup::buttonToggled, this, &AlignSelect::_alignChanged);
     connect(g2, &QButtonGroup::buttonToggled, this, &AlignSelect::_alignChanged);

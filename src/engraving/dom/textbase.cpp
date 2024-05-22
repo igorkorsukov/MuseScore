@@ -302,7 +302,7 @@ const TextBlock& TextCursor::curLine() const
 {
     const TextBase::LayoutData* ldata = m_text->ldata();
     IF_ASSERT_FAILED(ldata) {
-        static TextBlock dummy;
+        static TextBlock dummy(m_text->score()->iocContext());
         return dummy;
     }
 
@@ -741,19 +741,36 @@ int TextCursor::position(int row, int column) const
 //   TextFragment
 //---------------------------------------------------------
 
-TextFragment::TextFragment()
+TextFragment::TextFragment(const muse::modularity::ContextPtr& iocCtx)
+    : muse::Injectable(iocCtx)
 {
 }
 
-TextFragment::TextFragment(const String& s)
+TextFragment::TextFragment(const String& s, const muse::modularity::ContextPtr& iocCtx)
+    : TextFragment(iocCtx)
 {
     text = s;
 }
 
-TextFragment::TextFragment(TextCursor* cursor, const String& s)
+TextFragment::TextFragment(TextCursor* cursor, const String& s, const muse::modularity::ContextPtr& iocCtx)
+    : TextFragment(s, iocCtx)
 {
     format = *cursor->format();
-    text = s;
+}
+
+TextFragment::TextFragment(const TextFragment& f)
+    : muse::Injectable(f.iocContext())
+{
+    text = f.text;
+    format = f.format;
+}
+
+TextFragment& TextFragment::operator =(const TextFragment& f)
+{
+    text = f.text;
+    format = f.format;
+    pos = f.pos;
+    return *this;
 }
 
 //---------------------------------------------------------
@@ -764,7 +781,7 @@ TextFragment TextFragment::split(int column)
 {
     size_t idx = 0;
     int col = 0;
-    TextFragment f;
+    TextFragment f(iocContext());
     f.format = format;
 
     for (size_t i = 0; i < text.size(); ++i) {
@@ -1253,10 +1270,10 @@ void TextBlock::insert(TextCursor* cursor, const String& s)
     if (i != m_fragments.end()) {
         if (!(i->format == *cursor->format())) {
             if (rcol == 0) {
-                m_fragments.insert(i, TextFragment(cursor, s));
+                m_fragments.insert(i, TextFragment(cursor, s, iocContext()));
             } else {
                 TextFragment f2 = i->split(rcol);
-                i = m_fragments.insert(std::next(i), TextFragment(cursor, s));
+                i = m_fragments.insert(std::next(i), TextFragment(cursor, s, iocContext()));
                 m_fragments.insert(std::next(i), f2);
             }
         } else {
@@ -1266,7 +1283,7 @@ void TextBlock::insert(TextCursor* cursor, const String& s)
         if (!m_fragments.empty() && m_fragments.back().format == *cursor->format()) {
             m_fragments.back().text.append(s);
         } else {
-            m_fragments.push_back(TextFragment(cursor, s));
+            m_fragments.push_back(TextFragment(cursor, s, iocContext()));
         }
     }
 }
@@ -1282,7 +1299,7 @@ void TextBlock::insert(TextCursor* cursor, const String& s)
 void TextBlock::insertEmptyFragmentIfNeeded(TextCursor* cursor)
 {
     if (m_fragments.size() == 0 || m_fragments.front().text.isEmpty()) {
-        m_fragments.insert(m_fragments.begin(), TextFragment(cursor, u""));
+        m_fragments.insert(m_fragments.begin(), TextFragment(cursor, u"", iocContext()));
     }
 }
 
@@ -1550,7 +1567,7 @@ void TextFragment::changeFormat(FormatId id, const FormatValue& data)
 
 TextBlock TextBlock::split(int column, TextCursor* cursor)
 {
-    TextBlock tl;
+    TextBlock tl(iocContext());
 
     int col = 0;
     for (auto it = m_fragments.begin(); it != m_fragments.end(); ++it) {
@@ -1559,7 +1576,7 @@ TextBlock TextBlock::split(int column, TextCursor* cursor)
             if (col == column) {
                 if (idx) {
                     if (idx < it->text.size()) {
-                        TextFragment tf(it->text.mid(idx));
+                        TextFragment tf(it->text.mid(idx), iocContext());
                         tf.format = it->format;
                         tl.m_fragments.push_back(tf);
                         it->text = it->text.left(idx);
@@ -1583,7 +1600,7 @@ TextBlock TextBlock::split(int column, TextCursor* cursor)
         }
     }
 
-    TextFragment tf(u"");
+    TextFragment tf(u"", iocContext());
     if (m_fragments.size() > 0) {
         tf.format = m_fragments.back().format;
     } else if (m_fragments.size() == 0) {
@@ -1733,7 +1750,7 @@ Color TextBase::textColor() const
 void TextBase::insert(TextCursor* cursor, char32_t code, LayoutData* ldata) const
 {
     if (cursor->row() >= ldata->blocks.size()) {
-        ldata->blocks.push_back(TextBlock());
+        ldata->blocks.push_back(TextBlock(iocContext()));
     }
     if (code == '\t') {
         code = ' ';
@@ -1805,7 +1822,7 @@ void TextBase::createBlocks(LayoutData* ldata) const
                 token.clear();
             } else if (c == '\n') {
                 if (ldata->rows() <= cursor.row()) {
-                    ldata->blocks.push_back(TextBlock());
+                    ldata->blocks.push_back(TextBlock(iocContext()));
                 }
 
                 if (cursor.row() < ldata->rows()) {
@@ -1819,7 +1836,7 @@ void TextBase::createBlocks(LayoutData* ldata) const
                 cursor.setRow(cursor.row() + 1);
                 cursor.setColumn(0);
                 if (ldata->rows() <= cursor.row()) {
-                    ldata->blocks.push_back(TextBlock());
+                    ldata->blocks.push_back(TextBlock(iocContext()));
                 }
 
                 if (cursor.row() < ldata->rows()) {
@@ -1854,7 +1871,8 @@ void TextBase::createBlocks(LayoutData* ldata) const
                         CharFormat fmt = *cursor.format(); // save format
 
                         //char32_t code = score()->scoreFont()->symCode(id);
-                        char32_t code = id == SymId::space ? static_cast<char32_t>(' ') : engravingFonts()->fallbackFont()->symCode(id);
+                        char32_t code = id
+                                        == SymId::space ? static_cast<char32_t>(' ') : score()->engravingFonts()->fallbackFont()->symCode(id);
                         cursor.format()->setFontFamily(u"ScoreText");
                         insert(&cursor, code, ldata);
                         cursor.setFormat(fmt); // restore format
@@ -1885,7 +1903,7 @@ void TextBase::createBlocks(LayoutData* ldata) const
         }
     }
     if (ldata->blocks.empty()) {
-        ldata->blocks.push_back(TextBlock());
+        ldata->blocks.push_back(TextBlock(iocContext()));
     }
     ldata->layoutInvalid = false;
 }
@@ -2317,7 +2335,7 @@ void TextBase::computeHighResShape(const FontMetrics& fontMetrics)
         for (const TextFragment& fragment : block.fragments()) {
             x += fragment.pos.x();
             size_t textSize = fragment.text.size();
-            for (int i = 0; i < textSize; ++i) {
+            for (size_t i = 0; i < textSize; ++i) {
                 Char character = fragment.text.at(i);
                 RectF characterBoundingRect = fontMetrics.tightBoundingRect(fragment.text.at(i));
                 characterBoundingRect.translate(x, 0.0);

@@ -3380,7 +3380,7 @@ void TLayout::layoutHarmony(const Harmony* item, Harmony::LayoutData* ldata, con
     }
 
     if (ldata->blocks.empty()) {
-        ldata->blocks.push_back(TextBlock());
+        ldata->blocks.push_back(TextBlock(item->iocContext()));
     }
 
     auto calculateBoundingRect = [](const Harmony* item, Harmony::LayoutData* ldata, const LayoutContext& ctx) -> PointF

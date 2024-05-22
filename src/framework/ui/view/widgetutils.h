@@ -33,13 +33,16 @@ class QToolButton;
 class QWidget;
 
 namespace muse::ui {
-class WidgetUtils
+class WidgetUtils : public muse::Injectable
 {
-    INJECT_STATIC(IUiConfiguration, uiConfiguration)
+    muse::Inject<IUiConfiguration> uiConfiguration = { this };
 
 public:
+    WidgetUtils(const muse::modularity::ContextPtr& iocCtx)
+        : muse::Injectable(iocCtx) {}
+
     template<class W>
-    static inline std::enable_if_t<std::is_base_of_v<QWidget, W>, void>
+    inline std::enable_if_t<std::is_base_of_v<QWidget, W>, void>
     setWidgetIcon(W* widget, IconCode::Code iconCode)
     {
         QChar icon = iconCodeToChar(iconCode);

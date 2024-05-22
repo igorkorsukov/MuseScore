@@ -63,7 +63,8 @@ mu::engraving::NoteHeadScheme noteHeadSchemes[] = {
 //---------------------------------------------------------
 
 EditStaffType::EditStaffType(QWidget* parent)
-    : QDialog(parent), muse::Injectable(muse::iocCtxForQWidget(this))
+    : QDialog(parent), muse::Injectable(muse::iocCtxForQWidget(this)),
+    staffType(engravingConfiguration()->defaultColor())
 {
     setObjectName("EditStaffType");
     setWindowFlags(this->windowFlags() & ~Qt::WindowContextHelpButtonHint);

@@ -45,7 +45,7 @@ using namespace muse::ui;
 static const int ITEM_ACCESSIBLE_TITLE_ROLE = Qt::UserRole + 1;
 
 MeasurePropertiesDialog::MeasurePropertiesDialog(QWidget* parent)
-    : QDialog(parent)
+    : QDialog(parent), muse::Injectable(muse::iocCtxForQWidget(this))
 {
     setObjectName("MeasureProperties");
     setupUi(this);
@@ -68,8 +68,9 @@ MeasurePropertiesDialog::MeasurePropertiesDialog(QWidget* parent)
         horizontalLayout_2->insertWidget(0, nextButton);
     }
 
-    WidgetUtils::setWidgetIcon(previousButton, IconCode::Code::ARROW_LEFT);
-    WidgetUtils::setWidgetIcon(nextButton, IconCode::Code::ARROW_RIGHT);
+    WidgetUtils utils(iocContext());
+    utils.setWidgetIcon(previousButton, IconCode::Code::ARROW_LEFT);
+    utils.setWidgetIcon(nextButton, IconCode::Code::ARROW_RIGHT);
 
     WidgetStateStore::restoreGeometry(this);
 

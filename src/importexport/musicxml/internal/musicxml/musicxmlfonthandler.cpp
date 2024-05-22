@@ -119,7 +119,8 @@ static int plainTextPlusSymbolsListSize(const std::list<TextFragment>& list)
  */
 
 bool MScoreTextToMXML::split(const std::list<TextFragment>& in, const int pos, const int len,
-                             std::list<TextFragment>& left, std::list<TextFragment>& mid, std::list<TextFragment>& right)
+                             std::list<TextFragment>& left, std::list<TextFragment>& mid, std::list<TextFragment>& right,
+                             const muse::modularity::ContextPtr& iocCtx)
 {
     //LOGD("MScoreTextToMXML::split in size %d pos %d len %d", plainTextPlusSymbolsListSize(in), pos, len);
     //LOGD("-> in");
@@ -136,7 +137,7 @@ bool MScoreTextToMXML::split(const std::list<TextFragment>& in, const int pos, c
 
     // set pos to begin of first fragment
     std::list<TextFragment>::const_iterator fragmentNr = in.begin();
-    TextFragment fragment;
+    TextFragment fragment(iocCtx);
     if (fragmentNr != in.end()) {
         fragment = *fragmentNr;
     }

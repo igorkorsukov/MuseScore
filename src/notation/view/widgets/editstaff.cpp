@@ -55,7 +55,7 @@ static const QChar GO_DOWN_ICON = iconCodeToChar(IconCode::Code::ARROW_DOWN);
 static const QChar EDIT_ICON = iconCodeToChar(IconCode::Code::EDIT);
 
 EditStaff::EditStaff(QWidget* parent)
-    : QDialog(parent)
+    : QDialog(parent), muse::Injectable(muse::iocCtxForQWidget(this))
 {
     setObjectName("EditStaff");
     setupUi(this);
@@ -93,12 +93,13 @@ EditStaff::EditStaff(QWidget* parent)
     connect(lines, &QSpinBox::valueChanged, this, &EditStaff::numOfLinesChanged);
     connect(lineDistance, &QDoubleSpinBox::valueChanged, this, &EditStaff::lineDistanceChanged);
 
-    WidgetUtils::setWidgetIcon(nextButton, IconCode::Code::ARROW_DOWN);
-    WidgetUtils::setWidgetIcon(previousButton, IconCode::Code::ARROW_UP);
-    WidgetUtils::setWidgetIcon(minPitchASelect, IconCode::Code::EDIT);
-    WidgetUtils::setWidgetIcon(maxPitchASelect, IconCode::Code::EDIT);
-    WidgetUtils::setWidgetIcon(minPitchPSelect, IconCode::Code::EDIT);
-    WidgetUtils::setWidgetIcon(maxPitchPSelect, IconCode::Code::EDIT);
+    WidgetUtils utils(iocContext());
+    utils.setWidgetIcon(nextButton, IconCode::Code::ARROW_DOWN);
+    utils.setWidgetIcon(previousButton, IconCode::Code::ARROW_UP);
+    utils.setWidgetIcon(minPitchASelect, IconCode::Code::EDIT);
+    utils.setWidgetIcon(maxPitchASelect, IconCode::Code::EDIT);
+    utils.setWidgetIcon(minPitchPSelect, IconCode::Code::EDIT);
+    utils.setWidgetIcon(maxPitchPSelect, IconCode::Code::EDIT);
 
     WidgetStateStore::restoreGeometry(this);
 
@@ -497,7 +498,7 @@ Instrument EditStaff::instrument() const
 
 void EditStaff::applyStaffProperties()
 {
-    StaffConfig config;
+    StaffConfig config(engravingConfiguration()->defaultColor());
     config.visible = m_orgStaff->visible();
 
     config.userDistance = spinExtraDistance->value() * m_orgStaff->style().spatium();

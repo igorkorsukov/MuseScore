@@ -3719,7 +3719,7 @@ void TRead::read(StaffTypeChange* c, XmlReader& e, ReadContext& ctx)
     while (e.readNextStartElement()) {
         const AsciiStringView tag(e.name());
         if (tag == "StaffType") {
-            StaffType* st = new StaffType();
+            StaffType* st = new StaffType(ctx.score()->configuration()->defaultColor());
             TRead::read(st, e, ctx);
             // Measure::add() will replace this with a pointer to a copy in the staff
             c->setStaffType(st, true);
@@ -3742,7 +3742,7 @@ bool TRead::readProperties(Staff* s, XmlReader& e, ReadContext& ctx)
 {
     const AsciiStringView tag(e.name());
     if (tag == "StaffType") {
-        StaffType st;
+        StaffType st(ctx.score()->configuration()->defaultColor());
         TRead::read(&st, e, ctx);
         s->setStaffType(Fraction(0, 1), st);
     } else if (tag == "defaultClef") {           // sets both default transposing and concert clef

@@ -35,7 +35,8 @@ namespace mu::engraving {
 class StaffTypeList
 {
 public:
-    StaffTypeList() {}
+    StaffTypeList(const Color& defaultColor)
+        : m_firstStaffType(defaultColor) {}
     StaffType& staffType(const Fraction&);
     const StaffType& staffType(const Fraction& f) const;
     StaffType* setStaffType(const Fraction&, const StaffType&);

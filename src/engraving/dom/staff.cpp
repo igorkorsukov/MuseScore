@@ -64,7 +64,7 @@ namespace mu::engraving {
 //---------------------------------------------------------
 
 Staff::Staff(Part* parent)
-    : EngravingItem(ElementType::STAFF, parent)
+    : EngravingItem(ElementType::STAFF, parent), m_staffTypeList(configuration()->defaultColor())
 {
     m_color = configuration()->defaultColor();
     initFromStaffType(0);
@@ -75,7 +75,7 @@ Staff::Staff(Part* parent)
 //---------------------------------------------------------
 
 Staff::Staff(const Staff& staff)
-    : EngravingItem(staff)
+    : EngravingItem(staff), m_staffTypeList(configuration()->defaultColor())
 {
     init(&staff);
     m_part = staff.m_part;
