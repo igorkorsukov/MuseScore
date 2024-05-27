@@ -33,9 +33,6 @@
 #include <QUrl>
 #include <QUrlQuery>
 
-#include "modularity/ioc.h"
-#include "icloudconfiguration.h"
-
 #include "translation.h"
 
 #include "log.h"
@@ -44,8 +41,6 @@ using namespace muse::cloud;
 
 class OAuthHttpServerReplyHandler::Impl
 {
-    INJECT(ICloudConfiguration, configuration)
-
 public:
     explicit Impl(OAuthHttpServerReplyHandler* p);
     ~Impl();

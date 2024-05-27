@@ -31,11 +31,14 @@
 #include "imusesamplerinfo.h"
 
 namespace muse::musesampler {
-class MuseSamplerResolver : public muse::audio::synth::ISynthResolver::IResolver, public IMuseSamplerInfo
+class MuseSamplerResolver : public muse::audio::synth::ISynthResolver::IResolver, public IMuseSamplerInfo, public muse::Injectable
 {
-    INJECT(IMuseSamplerConfiguration, configuration)
+    muse::Inject<IMuseSamplerConfiguration> configuration = { this };
 
 public:
+    MuseSamplerResolver(const muse::modularity::ContextPtr& iocCtx)
+        : muse::Injectable(iocCtx) {}
+
     void init();
 
     muse::audio::synth::ISynthesizerPtr resolveSynth(const muse::audio::TrackId trackId,

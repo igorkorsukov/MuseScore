@@ -33,13 +33,13 @@
 #include "../iaudioconfiguration.h"
 
 namespace muse::audio::synth {
-class AbstractSynthesizer : public ISynthesizer, public async::Asyncable
+class AbstractSynthesizer : public ISynthesizer, public muse::Injectable, public async::Asyncable
 {
 public:
-    static inline Inject<IAudioConfiguration> config;
+    Inject<IAudioConfiguration> config = { this };
 
 public:
-    AbstractSynthesizer(const audio::AudioInputParams& params);
+    AbstractSynthesizer(const audio::AudioInputParams& params, const muse::modularity::ContextPtr& iocCtx);
     virtual ~AbstractSynthesizer() = default;
 
     const audio::AudioInputParams& params() const override;

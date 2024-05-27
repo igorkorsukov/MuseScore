@@ -31,13 +31,14 @@
 
 namespace muse::diagnostics {
 class AbstractKeyNavDevItem;
-class DiagnosticNavigationModel : public QObject, public muse::async::Asyncable
+class DiagnosticNavigationModel : public QObject, public muse::Injectable, public muse::async::Asyncable
 {
     Q_OBJECT
 
     Q_PROPERTY(QVariantList sections READ sections NOTIFY sectionsChanged)
 
-    INJECT(muse::ui::INavigationController, navigationController)
+    muse::Inject<muse::ui::INavigationController> navigationController = { this };
+
 public:
     explicit DiagnosticNavigationModel(QObject* parent = nullptr);
 
