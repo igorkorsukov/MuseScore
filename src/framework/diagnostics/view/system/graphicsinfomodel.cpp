@@ -28,6 +28,7 @@
 using namespace muse::diagnostics;
 
 GraphicsInfoModel::GraphicsInfoModel()
+    : Injectable(muse::iocCtxForQmlObject(this))
 {
 }
 

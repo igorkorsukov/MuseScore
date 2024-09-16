@@ -35,7 +35,7 @@ class DialogView : public PopupView
 {
     Q_OBJECT
 
-    Inject<IApplication> application;
+    Inject<IApplication> application = { this };
 
 public:
     explicit DialogView(QQuickItem* parent = nullptr);
