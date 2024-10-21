@@ -52,3 +52,35 @@ async::Promise<Ret> WinInteractiveHelper::openApp(const Uri& uri)
         return Promise<Ret>::Result::unchecked();
     });
 }
+
+async::Promise<Ret> WinInteractiveHelper::canOpenApp(const Uri& uri)
+{
+    return Promise<Ret>([&uri](auto resolve, auto reject) {
+        using namespace winrt::Windows;
+        using namespace winrt::Windows::System;
+
+        std::string sUri = uri.toString();
+        std::wstring wsUri = std::wstring(sUri.begin(), sUri.end());
+
+        Foundation::Uri wUri(wsUri.c_str());
+
+        auto asyncOperation = Launcher::QueryUriSupportAsync(wUri, LaunchQuerySupportType::Uri);
+        asyncOperation.Completed([=](Foundation::IAsyncOperation<LaunchQuerySupportStatus> const& op,
+                                     Foundation::AsyncStatus const asyncStatus) {
+            if (asyncStatus == Foundation::AsyncStatus::Error) {
+                Ret ret = make_ret(Ret::Code::InternalError);
+                (void)reject(ret.code(), ret.text());
+            } else {
+                LaunchQuerySupportStatus status = op.get();
+                if (status != LaunchQuerySupportStatus::Available) {
+                    Ret ret = make_ret(Ret::Code::InternalError);
+                    (void)reject(ret.code(), ret.text());
+                } else {
+                    (void)resolve(make_ok());
+                }
+            }
+        });
+
+        return Promise<Ret>::Result::unchecked();
+    });
+}

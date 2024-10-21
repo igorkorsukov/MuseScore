@@ -34,6 +34,7 @@ class WinInteractiveHelper : public async::Asyncable
 {
 public:
     static async::Promise<Ret> openApp(const Uri& uri);
+    static async::Promise<Ret> canOpenApp(const Uri& uri);
 };
 }
 

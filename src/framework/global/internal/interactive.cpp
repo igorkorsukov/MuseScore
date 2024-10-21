@@ -347,9 +347,21 @@ Ret Interactive::canOpenApp(const Uri& uri) const
 #ifdef Q_OS_MACOS
     return MacOSInteractiveHelper::canOpenApp(uri);
 #else
-    NOT_IMPLEMENTED;
-    UNUSED(uri);
-    return false;
+    Ret ret;
+    QEventLoop loop;
+    async::Promise<Ret> promise = WinInteractiveHelper::canOpenApp(uri);
+    promise.onResolve(this, [&ret, &loop](const Ret& r) {
+        ret = r;
+        loop.quit();
+    });
+
+    promise.onReject(this, [&ret, &loop](const int errCode, const std::string& errText) {
+        ret = muse::make_ret(errCode, errText);
+        loop.quit();
+    });
+
+    loop.exec();
+    return ret;
 #endif
 }
 
