@@ -110,6 +110,10 @@
 // Modules
 #include "appshell/appshellmodule.h"
 
+#ifdef MUE_BUILD_ACTIONINTERPRETER_MODULE
+#include "actioninterpreter/actioninterpretermodule.h"
+#endif
+
 #ifdef MUSE_MODULE_AUTOBOT
 #include "autobot/autobotmodule.h"
 #endif
@@ -258,6 +262,10 @@ std::shared_ptr<muse::IApplication> AppFactory::newGuiApp(const CmdOptions& opti
     app->addModule(new muse::vst::VSTModule());
 
 // modules
+#ifdef MUE_BUILD_ACTIONINTERPRETER_MODULE
+    app->addModule(new mu::ai::ActionInterpreterModule());
+#endif
+
 #ifdef MUE_BUILD_APPSHELL_MODULE
     app->addModule(new mu::appshell::AppShellModule());
 #endif
