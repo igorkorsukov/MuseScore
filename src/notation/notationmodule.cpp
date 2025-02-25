@@ -29,6 +29,7 @@
 #include "project/inotationwritersregister.h"
 
 #include "internal/notationactioncontroller.h"
+#include "internal/notationaiquerycontroller.h"
 #include "internal/notationconfiguration.h"
 #include "internal/midiinputoutputcontroller.h"
 #include "internal/notationuiactions.h"
@@ -119,6 +120,7 @@ void NotationModule::registerExports()
     m_configuration = std::make_shared<NotationConfiguration>();
     m_actionController = std::make_shared<NotationActionController>();
     m_notationUiActions = std::make_shared<NotationUiActions>(m_actionController);
+    m_aiqueryController = std::make_shared<NotationAIQueryController>();
     m_midiInputOutputController = std::make_shared<MidiInputOutputController>();
     m_instrumentsRepository = std::make_shared<InstrumentsRepository>();
 
@@ -240,6 +242,7 @@ void NotationModule::onInit(const IApplication::RunMode& mode)
     m_instrumentsRepository->init();
     m_actionController->init();
     m_notationUiActions->init();
+    m_aiqueryController->init();
 
     if (mode == IApplication::RunMode::GuiApp) {
         m_midiInputOutputController->init();

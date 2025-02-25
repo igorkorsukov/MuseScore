@@ -5,7 +5,7 @@
  * MuseScore Studio
  * Music Composition & Notation
  *
- * Copyright (C) 2021 MuseScore Limited
+ * Copyright (C) 2025 MuseScore Limited
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3 as
@@ -19,21 +19,25 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-#include "actioninterpretermodule.h"
+#pragma once
 
-#include "modularity/ioc.h"
+#include "actioninterpreter/aiqueryable.h"
+#include "global/modularity/ioc.h"
+#include "actioninterpreter/iaiquerydispatcher.h"
 
-#include "internal/aiquerydispatcher.h"
-
-using namespace muse::modularity;
-using namespace muse::ai;
-
-std::string ActionInterpreterModule::moduleName() const
+namespace mu::notation {
+class NotationAIQueryController : public muse::ai::AIQueryable
 {
-    return "actioninterpreter";
-}
+    muse::Inject<muse::ai::IAIQueryDispatcher> dispatcher;
+public:
+    NotationAIQueryController() = default;
 
-void ActionInterpreterModule::registerExports()
-{
-    ioc()->registerExport<IAIQueryDispatcher>(moduleName(), new AIQueryDispatcher());
+    void init();
+
+private:
+
+    void reg(const std::string& q, void (NotationAIQueryController::*)(const muse::ai::AIQuery& q));
+
+    void addNote(const muse::ai::AIQuery& q);
+};
 }

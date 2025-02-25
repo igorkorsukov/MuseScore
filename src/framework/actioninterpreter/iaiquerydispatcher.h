@@ -36,9 +36,15 @@ public:
 
     using QueryCallBack = std::function<void (const AIQuery&)>;
 
-    virtual void reg(AIQueryable* client, const AIQuery& q, const QueryCallBack& call) = 0;
-    virtual void unReg(AIQueryable* client) = 0;
-
     virtual void dispatch(const AIQuery& q) = 0;
+
+    virtual void unReg(AIQueryable* client) = 0;
+    virtual void reg(AIQueryable* client, const AIQuery& q, const QueryCallBack& call) = 0;
+
+    template<typename T>
+    void reg(AIQueryable* client, const AIQuery& q, T* caller, void (T::* func)(const AIQuery& q))
+    {
+        reg(client, q, [caller, func](const AIQuery& q) { (caller->*func)(q); });
+    }
 };
 }
