@@ -23,10 +23,17 @@
 # Usually use from command line.
 
 declare_module(actioninterpreter)
+set(MODULE_ALIAS muse::actioninterpreter)
 
 set(MODULE_SRC
     ${CMAKE_CURRENT_LIST_DIR}/actioninterpretermodule.cpp
     ${CMAKE_CURRENT_LIST_DIR}/actioninterpretermodule.h
+    ${CMAKE_CURRENT_LIST_DIR}/aitypes.h
+    ${CMAKE_CURRENT_LIST_DIR}/aiqueryable.h
+    ${CMAKE_CURRENT_LIST_DIR}/iaiquerydispatcher.h
+
+    ${CMAKE_CURRENT_LIST_DIR}/internal/aiquerydispatcher.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/internal/aiquerydispatcher.h
     )
 
 setup_module()

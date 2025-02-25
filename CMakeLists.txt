@@ -60,7 +60,6 @@ set(MUSESCORE_REVISION "" CACHE STRING "Build revision")
 include(${MUSE_FRAMEWORK_SRC_PATH}/cmake/MuseDeclareOptions.cmake)
 
 # Modules (alphabetical order please)
-option(MUE_BUILD_ACTIONINTERPRETER_MODULE "Build action interpreter module" OFF)
 option(MUE_BUILD_APPSHELL_MODULE "Build appshell module" ON)
 option(MUE_BUILD_BRAILLE_MODULE "Build braille module" ON)
 option(MUE_BUILD_BRAILLE_TESTS "Build braille tests" ON)

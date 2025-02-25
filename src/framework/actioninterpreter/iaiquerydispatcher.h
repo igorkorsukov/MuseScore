@@ -21,14 +21,24 @@
  */
 #pragma once
 
-#include "modularity/imodulesetup.h"
+#include "global/modularity/imoduleinterface.h"
 
-namespace mu::ai {
-class ActionInterpreterModule : public muse::modularity::IModuleSetup
+#include "aitypes.h"
+
+namespace muse::ai {
+class AIQueryable;
+class IAIQueryDispatcher : MODULE_EXPORT_INTERFACE
 {
+    INTERFACE_ID(IAIQueryDispatcher)
 public:
 
-    std::string moduleName() const override;
-    void registerExports() override;
+    virtual ~IAIQueryDispatcher() = default;
+
+    using QueryCallBack = std::function<void (const AIQuery&)>;
+
+    virtual void reg(AIQueryable* client, const AIQuery& q, const QueryCallBack& call) = 0;
+    virtual void unReg(AIQueryable* client) = 0;
+
+    virtual void dispatch(const AIQuery& q) = 0;
 };
 }

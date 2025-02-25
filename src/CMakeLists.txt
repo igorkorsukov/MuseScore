@@ -25,11 +25,6 @@ add_subdirectory(framework)
 add_subdirectory(app)
 
 # Modules
-
-if (MUE_BUILD_ACTIONINTERPRETER_MODULE)
-    add_subdirectory(actioninterpreter)
-endif()
-
 if (MUE_BUILD_APPSHELL_MODULE)
     add_subdirectory(appshell)
 endif()

@@ -13,6 +13,10 @@
 
 #include "framework/actions/actionsmodule.h"
 
+#ifdef MUSE_MODULE_ACTIONINTERPRETER
+#include "framework/actioninterpreter/actioninterpretermodule.h"
+#endif
+
 #ifdef MUSE_MODULE_AUDIO
 #include "framework/audio/audiomodule.h"
 #else
@@ -21,6 +25,10 @@
 
 #ifdef MUSE_MODULE_AUDIOPLUGINS
 #include "framework/audioplugins/audiopluginsmodule.h"
+#endif
+
+#ifdef MUSE_MODULE_AUTOBOT
+#include "framework/autobot/autobotmodule.h"
 #endif
 
 #ifdef MUSE_MODULE_CLOUD
@@ -109,14 +117,6 @@
 
 // Modules
 #include "appshell/appshellmodule.h"
-
-#ifdef MUE_BUILD_ACTIONINTERPRETER_MODULE
-#include "actioninterpreter/actioninterpretermodule.h"
-#endif
-
-#ifdef MUSE_MODULE_AUTOBOT
-#include "autobot/autobotmodule.h"
-#endif
 
 #ifdef MUE_BUILD_BRAILLE_MODULE
 #include "braille/braillemodule.h"
@@ -229,6 +229,9 @@ std::shared_ptr<muse::IApplication> AppFactory::newGuiApp(const CmdOptions& opti
     // framework
     app->addModule(new muse::accessibility::AccessibilityModule());
     app->addModule(new muse::actions::ActionsModule());
+#ifdef MUSE_MODULE_ACTIONINTERPRETER
+    app->addModule(new muse::ai::ActionInterpreterModule());
+#endif
     app->addModule(new muse::audio::AudioModule());
 #ifdef MUSE_MODULE_AUDIOPLUGINS
     app->addModule(new muse::audioplugins::AudioPluginsModule());
@@ -262,10 +265,6 @@ std::shared_ptr<muse::IApplication> AppFactory::newGuiApp(const CmdOptions& opti
     app->addModule(new muse::vst::VSTModule());
 
 // modules
-#ifdef MUE_BUILD_ACTIONINTERPRETER_MODULE
-    app->addModule(new mu::ai::ActionInterpreterModule());
-#endif
-
 #ifdef MUE_BUILD_APPSHELL_MODULE
     app->addModule(new mu::appshell::AppShellModule());
 #endif
