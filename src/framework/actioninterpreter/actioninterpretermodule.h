@@ -21,14 +21,22 @@
  */
 #pragma once
 
+#include <memory>
+
 #include "modularity/imodulesetup.h"
 
 namespace muse::ai {
+class DevNetListener;
 class ActionInterpreterModule : public muse::modularity::IModuleSetup
 {
 public:
 
     std::string moduleName() const override;
     void registerExports() override;
+    void onInit(const IApplication::RunMode& mode) override;
+
+private:
+
+    std::shared_ptr<DevNetListener> m_devNetListener;
 };
 }

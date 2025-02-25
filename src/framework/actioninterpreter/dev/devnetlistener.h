@@ -21,26 +21,24 @@
  */
 #pragma once
 
-#include "actioninterpreter/aiqueryable.h"
 #include "global/modularity/ioc.h"
-#include "actioninterpreter/iaiquerydispatcher.h"
-#include "actions/iactionsdispatcher.h"
+#include "../iaiquerydispatcher.h"
 
-namespace mu::notation {
-class NotationAIQueryController : public muse::ai::AIQueryable
+class QTcpServer;
+
+namespace muse::ai {
+class DevNetListener
 {
-    muse::Inject<muse::ai::IAIQueryDispatcher> queryDispatcher;
-    muse::Inject<muse::actions::IActionsDispatcher> actionsDispatcher;
+    muse::Inject<IAIQueryDispatcher> dispatcher;
 
 public:
-    NotationAIQueryController() = default;
+    DevNetListener();
+    ~DevNetListener();
 
-    void init();
+    void listen(int port = 1222);
 
 private:
 
-    void reg(const std::string& q, void (NotationAIQueryController::*)(const muse::ai::AIQuery& q));
-
-    void addNote(const muse::ai::AIQuery& q);
+    QTcpServer* m_server = nullptr;
 };
 }

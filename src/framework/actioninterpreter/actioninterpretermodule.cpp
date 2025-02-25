@@ -25,6 +25,8 @@
 
 #include "internal/aiquerydispatcher.h"
 
+#include "dev/devnetlistener.h"
+
 using namespace muse::modularity;
 using namespace muse::ai;
 
@@ -35,5 +37,12 @@ std::string ActionInterpreterModule::moduleName() const
 
 void ActionInterpreterModule::registerExports()
 {
+    m_devNetListener = std::make_shared<DevNetListener>();
+
     ioc()->registerExport<IAIQueryDispatcher>(moduleName(), new AIQueryDispatcher());
+}
+
+void ActionInterpreterModule::onInit(const IApplication::RunMode&)
+{
+    m_devNetListener->listen();
 }

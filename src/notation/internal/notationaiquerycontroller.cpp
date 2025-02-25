@@ -35,10 +35,15 @@ void NotationAIQueryController::init()
 
 void NotationAIQueryController::reg(const std::string& q, void (NotationAIQueryController::* handler)(const muse::ai::AIQuery& q))
 {
-    dispatcher()->reg(this, AIQuery(q), this, handler);
+    queryDispatcher()->reg(this, AIQuery(q), this, handler);
 }
 
 void NotationAIQueryController::addNote(const muse::ai::AIQuery& q)
 {
     LOGDA() << q.toString();
+
+    std::string note = q.param("note").toString();
+
+    actionsDispatcher()->dispatch("note-input-by-note-name");
+    actionsDispatcher()->dispatch("note-" + note);
 }
