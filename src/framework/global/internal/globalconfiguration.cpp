@@ -27,6 +27,7 @@
 #include <QCoreApplication>
 
 #include "settings.h"
+#include "io/dir.h"
 
 #include "muse_framework_config.h"
 
@@ -137,6 +138,17 @@ io::path_t GlobalConfiguration::downloadsPath() const
 io::path_t GlobalConfiguration::genericDataPath() const
 {
     static io::path_t p = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation);
+    return p;
+}
+
+io::path_t GlobalConfiguration::tempPath() const
+{
+    static io::path_t p;
+    if (p.empty()) {
+        p = QStandardPaths::writableLocation(QStandardPaths::TempLocation) + "/org.muse";
+        io::Dir::mkpath(p);
+    }
+
     return p;
 }
 

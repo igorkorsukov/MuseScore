@@ -40,6 +40,8 @@ set(MODULE_SRC
     ${CMAKE_CURRENT_LIST_DIR}/internal/aiuiactions.h
     ${CMAKE_CURRENT_LIST_DIR}/internal/aiactioncontroller.cpp
     ${CMAKE_CURRENT_LIST_DIR}/internal/aiactioncontroller.h
+    ${CMAKE_CURRENT_LIST_DIR}/internal/soxrecorder.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/internal/soxrecorder.h
 
     ${CMAKE_CURRENT_LIST_DIR}/view/aidiagnosticviewmodel.cpp
     ${CMAKE_CURRENT_LIST_DIR}/view/aidiagnosticviewmodel.h

@@ -23,12 +23,46 @@
 
 #include <QObject>
 
+#include "global/modularity/ioc.h"
+#include "global/iglobalconfiguration.h"
+
+#include "../internal/soxrecorder.h"
+
 namespace muse::ai {
 class AiDiagnosticViewModel : public QObject
 {
     Q_OBJECT
 
+    Q_PROPERTY(bool isRecording READ isRecording NOTIFY isRecordingChanged FINAL)
+
+    Q_PROPERTY(QString status READ status NOTIFY statusChanged FINAL)
+
+    Inject<IGlobalConfiguration> globalConfiguration;
+
 public:
     AiDiagnosticViewModel(QObject* parent = nullptr);
+
+    bool isRecording() const;
+
+    Q_INVOKABLE void toogleRecord();
+
+    QString status() const;
+
+signals:
+    void isRecordingChanged();
+
+    void statusChanged();
+
+private:
+
+    void setStatus(const QString& newStatus);
+    void setIsRecording(bool newIsRecording);
+
+    void processWavFile(const io::path_t& wavFile);
+
+    bool m_isRecording = false;
+    io::path_t m_commandWavFile;
+    SoxRecorder m_recorder;
+    QString m_status;
 };
 }

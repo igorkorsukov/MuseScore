@@ -32,4 +32,41 @@ Rectangle {
     objectName: "DiagnosticAiPanel"
     color: ui.theme.backgroundPrimaryColor
 
+    AiDiagnosticViewModel {
+        id: aimodel
+    }
+
+
+    Item {
+        id: topPanel
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.top: parent.top
+        anchors.topMargin: 40
+        height: 40
+
+        FlatToggleButton {
+            anchors.centerIn: parent
+            icon: IconCode.STAR
+            implicitHeight: 60
+            implicitWidth: 60
+            checked: aimodel.isRecording
+            onToggled: aimodel.toogleRecord()
+        }
+    }
+
+    Item {
+        id: statusPanel
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.bottom: parent.bottom
+        height: 40
+
+        StyledTextLabel {
+            anchors.fill: parent
+            verticalAlignment: Text.AlignVCenter
+            horizontalAlignment: Text.AlignLeft
+            text: aimodel.status
+        }
+    }
 }

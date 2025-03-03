@@ -1,11 +1,11 @@
 /*
  * SPDX-License-Identifier: GPL-3.0-only
- * MuseScore-CLA-applies
+ * MuseScore-Studio-CLA-applies
  *
- * MuseScore
+ * MuseScore Studio
  * Music Composition & Notation
  *
- * Copyright (C) 2024 MuseScore BVBA and others
+ * Copyright (C) 2025 MuseScore Limited
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3 as
@@ -19,25 +19,24 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-import QtQuick 2.15
-import Muse.Ui 1.0
-import Muse.UiComponents 1.0
+#pragma once
 
-StyledDialogView {
-    id: root
+#include <memory>
 
-    title: "Diagnostic: Actions"
+#include "global/io/path.h"
 
-    contentHeight: 800
-    contentWidth: 600
-    resizable: true
+class QProcess;
+namespace muse::ai {
+class SoxRecorder
+{
+public:
+    SoxRecorder();
 
-    //! NOTE It is necessary that it can be determined that this is an object for diagnostics
-    contentItem.objectName: panel.objectName
+    void record(const io::path_t& filePath);
+    void stop();
 
-    AiDiagnosticPanel {
-        id: panel
-        anchors.fill: parent
-        anchors.margins: 16
-    }
+private:
+
+    std::shared_ptr<QProcess> m_process;
+};
 }

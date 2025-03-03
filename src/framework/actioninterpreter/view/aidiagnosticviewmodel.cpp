@@ -26,4 +26,52 @@ using namespace muse::ai;
 AiDiagnosticViewModel::AiDiagnosticViewModel(QObject* parent)
     : QObject(parent)
 {
+    m_commandWavFile = globalConfiguration()->tempPath() + "/aicommand.wav";
+}
+
+void AiDiagnosticViewModel::toogleRecord()
+{
+    if (m_isRecording) {
+        m_recorder.stop();
+        setStatus("stop recording.");
+        processWavFile(m_commandWavFile);
+    } else {
+        setStatus("start recording...");
+        m_recorder.record(m_commandWavFile);
+    }
+
+    setIsRecording(!m_isRecording);
+}
+
+void AiDiagnosticViewModel::processWavFile(const io::path_t& wavFile)
+{
+    setStatus("start processing...");
+}
+
+bool AiDiagnosticViewModel::isRecording() const
+{
+    return m_isRecording;
+}
+
+void AiDiagnosticViewModel::setIsRecording(bool newIsRecording)
+{
+    if (m_isRecording == newIsRecording) {
+        return;
+    }
+    m_isRecording = newIsRecording;
+    emit isRecordingChanged();
+}
+
+QString AiDiagnosticViewModel::status() const
+{
+    return m_status;
+}
+
+void AiDiagnosticViewModel::setStatus(const QString& newStatus)
+{
+    if (m_status == newStatus) {
+        return;
+    }
+    m_status = newStatus;
+    emit statusChanged();
 }
