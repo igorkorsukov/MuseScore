@@ -19,29 +19,11 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-#pragma once
+#include "aidiagnosticviewmodel.h"
 
-#include <memory>
+using namespace muse::ai;
 
-#include "modularity/imodulesetup.h"
-
-namespace muse::ai {
-class AiActionController;
-class DevNetListener;
-class ActionInterpreterModule : public muse::modularity::IModuleSetup
+AiDiagnosticViewModel::AiDiagnosticViewModel(QObject* parent)
+    : QObject(parent)
 {
-public:
-
-    std::string moduleName() const override;
-    void registerExports() override;
-    void resolveImports() override;
-    void registerResources() override;
-    void registerUiTypes() override;
-    void onInit(const IApplication::RunMode& mode) override;
-
-private:
-
-    std::shared_ptr<AiActionController> m_actionController;
-    std::shared_ptr<DevNetListener> m_devNetListener;
-};
 }

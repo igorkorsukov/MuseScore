@@ -21,27 +21,14 @@
  */
 #pragma once
 
-#include <memory>
-
-#include "modularity/imodulesetup.h"
+#include <QObject>
 
 namespace muse::ai {
-class AiActionController;
-class DevNetListener;
-class ActionInterpreterModule : public muse::modularity::IModuleSetup
+class AiDiagnosticViewModel : public QObject
 {
+    Q_OBJECT
+
 public:
-
-    std::string moduleName() const override;
-    void registerExports() override;
-    void resolveImports() override;
-    void registerResources() override;
-    void registerUiTypes() override;
-    void onInit(const IApplication::RunMode& mode) override;
-
-private:
-
-    std::shared_ptr<AiActionController> m_actionController;
-    std::shared_ptr<DevNetListener> m_devNetListener;
+    AiDiagnosticViewModel(QObject* parent = nullptr);
 };
 }

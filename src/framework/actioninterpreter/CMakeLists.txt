@@ -25,6 +25,8 @@
 declare_module(actioninterpreter)
 set(MODULE_ALIAS muse::actioninterpreter)
 
+set(MODULE_QRC ai.qrc)
+
 set(MODULE_SRC
     ${CMAKE_CURRENT_LIST_DIR}/actioninterpretermodule.cpp
     ${CMAKE_CURRENT_LIST_DIR}/actioninterpretermodule.h
@@ -34,6 +36,13 @@ set(MODULE_SRC
 
     ${CMAKE_CURRENT_LIST_DIR}/internal/aiquerydispatcher.cpp
     ${CMAKE_CURRENT_LIST_DIR}/internal/aiquerydispatcher.h
+    ${CMAKE_CURRENT_LIST_DIR}/internal/aiuiactions.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/internal/aiuiactions.h
+    ${CMAKE_CURRENT_LIST_DIR}/internal/aiactioncontroller.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/internal/aiactioncontroller.h
+
+    ${CMAKE_CURRENT_LIST_DIR}/view/aidiagnosticviewmodel.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/view/aidiagnosticviewmodel.h
 
     ${CMAKE_CURRENT_LIST_DIR}/dev/devnetlistener.cpp
     ${CMAKE_CURRENT_LIST_DIR}/dev/devnetlistener.h

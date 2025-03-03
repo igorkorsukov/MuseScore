@@ -22,13 +22,24 @@
 #include "actioninterpretermodule.h"
 
 #include "modularity/ioc.h"
+#include "ui/iinteractiveuriregister.h"
+#include "ui/iuiactionsregister.h"
 
 #include "internal/aiquerydispatcher.h"
+#include "internal/aiuiactions.h"
+#include "internal/aiactioncontroller.h"
+
+#include "view/aidiagnosticviewmodel.h"
 
 #include "dev/devnetlistener.h"
 
 using namespace muse::modularity;
 using namespace muse::ai;
+
+static void ai_init_qrc()
+{
+    Q_INIT_RESOURCE(ai);
+}
 
 std::string ActionInterpreterModule::moduleName() const
 {
@@ -37,12 +48,37 @@ std::string ActionInterpreterModule::moduleName() const
 
 void ActionInterpreterModule::registerExports()
 {
+    m_actionController = std::make_shared<AiActionController>();
     m_devNetListener = std::make_shared<DevNetListener>();
 
     ioc()->registerExport<IAIQueryDispatcher>(moduleName(), new AIQueryDispatcher());
 }
 
+void ActionInterpreterModule::resolveImports()
+{
+    auto ir = ioc()->resolve<muse::ui::IInteractiveUriRegister>(moduleName());
+    if (ir) {
+        ir->registerQmlUri(Uri("muse://actioninterpreter/diagnostic"), "Muse/Ai/AiDiagnosticDialog.qml");
+    }
+
+    auto ar = ioc()->resolve<muse::ui::IUiActionsRegister>(moduleName());
+    if (ar) {
+        ar->reg(std::make_shared<AiUiActions>());
+    }
+}
+
+void ActionInterpreterModule::registerResources()
+{
+    ai_init_qrc();
+}
+
+void ActionInterpreterModule::registerUiTypes()
+{
+    qmlRegisterType<AiDiagnosticViewModel>("Muse.Ai", 1, 0, "AiDiagnosticViewModel");
+}
+
 void ActionInterpreterModule::onInit(const IApplication::RunMode&)
 {
+    m_actionController->init();
     m_devNetListener->listen();
 }

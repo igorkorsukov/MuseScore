@@ -21,27 +21,21 @@
  */
 #pragma once
 
-#include <memory>
+#include "actions/actionable.h"
 
-#include "modularity/imodulesetup.h"
+#include "global/modularity/ioc.h"
+#include "actions/iactionsdispatcher.h"
+#include "global/iinteractive.h"
 
 namespace muse::ai {
-class AiActionController;
-class DevNetListener;
-class ActionInterpreterModule : public muse::modularity::IModuleSetup
+class AiActionController : public actions::Actionable
 {
+    Inject<actions::IActionsDispatcher> dispatcher;
+    Inject<IInteractive> interactive;
+
 public:
+    AiActionController() = default;
 
-    std::string moduleName() const override;
-    void registerExports() override;
-    void resolveImports() override;
-    void registerResources() override;
-    void registerUiTypes() override;
-    void onInit(const IApplication::RunMode& mode) override;
-
-private:
-
-    std::shared_ptr<AiActionController> m_actionController;
-    std::shared_ptr<DevNetListener> m_devNetListener;
+    void init();
 };
 }

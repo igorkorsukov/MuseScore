@@ -19,29 +19,14 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-#pragma once
+#include "aiactioncontroller.h"
 
-#include <memory>
+using namespace muse::ai;
+using namespace muse::actions;
 
-#include "modularity/imodulesetup.h"
-
-namespace muse::ai {
-class AiActionController;
-class DevNetListener;
-class ActionInterpreterModule : public muse::modularity::IModuleSetup
+void AiActionController::init()
 {
-public:
-
-    std::string moduleName() const override;
-    void registerExports() override;
-    void resolveImports() override;
-    void registerResources() override;
-    void registerUiTypes() override;
-    void onInit(const IApplication::RunMode& mode) override;
-
-private:
-
-    std::shared_ptr<AiActionController> m_actionController;
-    std::shared_ptr<DevNetListener> m_devNetListener;
-};
+    dispatcher()->reg(this, ActionQuery("action://actioninterpreter/diagnostic"), [this](const ActionQuery&) {
+        interactive()->open("muse://actioninterpreter/diagnostic");
+    });
 }

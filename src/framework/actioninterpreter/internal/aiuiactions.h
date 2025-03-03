@@ -21,27 +21,22 @@
  */
 #pragma once
 
-#include <memory>
-
-#include "modularity/imodulesetup.h"
+#include "ui/iuiactionsmodule.h"
 
 namespace muse::ai {
-class AiActionController;
-class DevNetListener;
-class ActionInterpreterModule : public muse::modularity::IModuleSetup
+class AiUiActions : public muse::ui::IUiActionsModule
 {
 public:
+    AiUiActions() = default;
 
-    std::string moduleName() const override;
-    void registerExports() override;
-    void resolveImports() override;
-    void registerResources() override;
-    void registerUiTypes() override;
-    void onInit(const IApplication::RunMode& mode) override;
+    const muse::ui::UiActionList& actionsList() const override;
+    bool actionEnabled(const muse::ui::UiAction& act) const override;
+    muse::async::Channel<muse::actions::ActionCodeList> actionEnabledChanged() const override;
+
+    bool actionChecked(const muse::ui::UiAction& act) const override;
+    muse::async::Channel<muse::actions::ActionCodeList> actionCheckedChanged() const override;
 
 private:
-
-    std::shared_ptr<AiActionController> m_actionController;
-    std::shared_ptr<DevNetListener> m_devNetListener;
+    static const muse::ui::UiActionList m_actions;
 };
 }
