@@ -31,10 +31,16 @@ AiDiagnosticViewModel::AiDiagnosticViewModel(QObject* parent)
 
 void AiDiagnosticViewModel::toogleRecord()
 {
+    if (m_isProcessing) {
+        return;
+    }
+
     if (m_isRecording) {
         m_recorder.stop();
         setStatus("stop recording.");
+        m_isProcessing = true;
         processWavFile(m_commandWavFile);
+        m_isProcessing = false;
     } else {
         setStatus("start recording...");
         m_recorder.record(m_commandWavFile);
@@ -46,6 +52,12 @@ void AiDiagnosticViewModel::toogleRecord()
 void AiDiagnosticViewModel::processWavFile(const io::path_t& wavFile)
 {
     setStatus("start processing...");
+    RecognizerClient::Result res = m_client.send(wavFile);
+    setStatus("finish processing.");
+    if (!res.transcribe.empty()) {
+        m_textList.append(QString::fromStdString(res.transcribe));
+        emit textListChanged();
+    }
 }
 
 bool AiDiagnosticViewModel::isRecording() const
@@ -74,4 +86,9 @@ void AiDiagnosticViewModel::setStatus(const QString& newStatus)
     }
     m_status = newStatus;
     emit statusChanged();
+}
+
+QStringList AiDiagnosticViewModel::textList() const
+{
+    return m_textList;
 }

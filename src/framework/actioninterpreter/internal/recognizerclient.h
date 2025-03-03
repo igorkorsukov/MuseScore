@@ -19,32 +19,35 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-#include "soxrecorder.h"
+#pragma once
 
-#include <QProcess>
+#include "global/io/path.h"
+#include "global/modularity/ioc.h"
+#include "network/inetworkmanagercreator.h"
 
-using namespace muse::ai;
-
-SoxRecorder::SoxRecorder()
+namespace muse::ai {
+class RecognizerClient
 {
-    m_process = std::make_shared<QProcess>();
-}
+    Inject<network::INetworkManagerCreator> networkCreator;
 
-void SoxRecorder::record(const io::path_t& filePath)
-{
-    QStringList args = {
-        "-d",
-        "-r", "16000",
-        "-b", "16",
-        "--endian", "little",
-        "-c 1",
-        filePath.toQString()
+public:
+    RecognizerClient() = default;
+
+    struct Config {
+        std::string endPoint = "http://localhost:2212";
     };
-    m_process->start("sox", args);
-}
 
-void SoxRecorder::stop()
-{
-    m_process->terminate();
-    m_process->waitForFinished();
+    void setConfig(const Config& c);
+
+    struct Result {
+        std::string transcribe;
+    };
+
+    Result send(const io::path_t& wavFile);
+
+private:
+
+    Config m_config;
+    network::INetworkManagerPtr m_network;
+};
 }

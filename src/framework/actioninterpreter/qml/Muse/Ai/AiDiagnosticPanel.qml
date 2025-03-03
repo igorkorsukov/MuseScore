@@ -43,7 +43,7 @@ Rectangle {
         anchors.right: parent.right
         anchors.top: parent.top
         anchors.topMargin: 40
-        height: 40
+        height: 60
 
         FlatToggleButton {
             anchors.centerIn: parent
@@ -52,6 +52,27 @@ Rectangle {
             implicitWidth: 60
             checked: aimodel.isRecording
             onToggled: aimodel.toogleRecord()
+        }
+    }
+
+    Item {
+        id: textPanel
+        anchors.top: topPanel.bottom
+        anchors.topMargin: 20
+        anchors.left: parent.left
+        anchors.right: parent.right
+        height: (root.height - topPanel.height - statusPanel.height) / 2
+
+        StyledListView {
+            anchors.fill: parent
+            model: aimodel.textList
+            delegate: StyledTextLabel {
+                anchors.left: parent.left
+                anchors.right: parent.right
+                height: 16
+                horizontalAlignment: Text.AlignLeft
+                text: modelData
+            }
         }
     }
 

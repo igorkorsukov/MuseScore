@@ -27,6 +27,7 @@
 #include "global/iglobalconfiguration.h"
 
 #include "../internal/soxrecorder.h"
+#include "../internal/recognizerclient.h"
 
 namespace muse::ai {
 class AiDiagnosticViewModel : public QObject
@@ -34,6 +35,7 @@ class AiDiagnosticViewModel : public QObject
     Q_OBJECT
 
     Q_PROPERTY(bool isRecording READ isRecording NOTIFY isRecordingChanged FINAL)
+    Q_PROPERTY(QStringList textList READ textList NOTIFY textListChanged FINAL)
 
     Q_PROPERTY(QString status READ status NOTIFY statusChanged FINAL)
 
@@ -48,10 +50,13 @@ public:
 
     QString status() const;
 
+    QStringList textList() const;
+
 signals:
     void isRecordingChanged();
-
     void statusChanged();
+
+    void textListChanged();
 
 private:
 
@@ -61,8 +66,11 @@ private:
     void processWavFile(const io::path_t& wavFile);
 
     bool m_isRecording = false;
+    bool m_isProcessing = false;
     io::path_t m_commandWavFile;
     SoxRecorder m_recorder;
+    RecognizerClient m_client;
     QString m_status;
+    QStringList m_textList;
 };
 }
