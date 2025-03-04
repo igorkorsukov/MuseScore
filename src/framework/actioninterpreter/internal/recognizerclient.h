@@ -40,7 +40,8 @@ public:
     void setConfig(const Config& c);
 
     struct Result {
-        std::string transcribe;
+        std::string responce;
+        std::string action;
     };
 
     Result send(const io::path_t& wavFile);

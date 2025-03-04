@@ -25,6 +25,7 @@
 
 #include "global/modularity/ioc.h"
 #include "global/iglobalconfiguration.h"
+#include "../iaiquerydispatcher.h"
 
 #include "../internal/soxrecorder.h"
 #include "../internal/recognizerclient.h"
@@ -35,28 +36,26 @@ class AiDiagnosticViewModel : public QObject
     Q_OBJECT
 
     Q_PROPERTY(bool isRecording READ isRecording NOTIFY isRecordingChanged FINAL)
-    Q_PROPERTY(QStringList textList READ textList NOTIFY textListChanged FINAL)
+    Q_PROPERTY(QStringList resultList READ resultList NOTIFY resultListChanged FINAL)
 
     Q_PROPERTY(QString status READ status NOTIFY statusChanged FINAL)
 
     Inject<IGlobalConfiguration> globalConfiguration;
+    Inject<IAIQueryDispatcher> queryDispatcher;
 
 public:
     AiDiagnosticViewModel(QObject* parent = nullptr);
 
     bool isRecording() const;
+    QString status() const;
+    QStringList resultList() const;
 
     Q_INVOKABLE void toogleRecord();
-
-    QString status() const;
-
-    QStringList textList() const;
 
 signals:
     void isRecordingChanged();
     void statusChanged();
-
-    void textListChanged();
+    void resultListChanged();
 
 private:
 
@@ -71,6 +70,6 @@ private:
     SoxRecorder m_recorder;
     RecognizerClient m_client;
     QString m_status;
-    QStringList m_textList;
+    QStringList m_resultList;
 };
 }

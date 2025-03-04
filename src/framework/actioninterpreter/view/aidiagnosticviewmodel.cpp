@@ -54,9 +54,12 @@ void AiDiagnosticViewModel::processWavFile(const io::path_t& wavFile)
     setStatus("start processing...");
     RecognizerClient::Result res = m_client.send(wavFile);
     setStatus("finish processing.");
-    if (!res.transcribe.empty()) {
-        m_textList.append(QString::fromStdString(res.transcribe));
-        emit textListChanged();
+
+    if (!res.responce.empty()) {
+        m_resultList.append(QString::fromStdString(res.responce));
+        emit resultListChanged();
+
+        queryDispatcher()->dispatch(AIQuery(res.action));
     }
 }
 
@@ -88,7 +91,7 @@ void AiDiagnosticViewModel::setStatus(const QString& newStatus)
     emit statusChanged();
 }
 
-QStringList AiDiagnosticViewModel::textList() const
+QStringList AiDiagnosticViewModel::resultList() const
 {
-    return m_textList;
+    return m_resultList;
 }

@@ -41,6 +41,7 @@ private:
 
     void reg(const std::string& q, void (NotationAIQueryController::*)(const muse::ai::AIQuery& q));
 
+    void moveCursor(const muse::ai::AIQuery& q);
     void addNote(const muse::ai::AIQuery& q);
 };
 }

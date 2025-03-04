@@ -37,43 +37,60 @@ RecognizerClient::Result RecognizerClient::send(const io::path_t& wavFile)
         m_network = networkCreator()->makeNetworkManager();
     }
 
-    ByteArray fileData;
-    Ret ret = io::File::readFile(wavFile, fileData);
-    if (!ret) {
-        LOGE() << "failed read err: " << ret.toString() << ", file: " << wavFile;
-        return Result();
+    std::string fileBase64;
+
+    // read file
+    {
+        ByteArray fileData;
+        Ret ret = io::File::readFile(wavFile, fileData);
+        if (!ret) {
+            LOGE() << "failed read err: " << ret.toString() << ", file: " << wavFile;
+            return Result();
+        }
+
+        LOGDA() << "wav size: " << fileData.size();
+
+        QByteArray base64 = fileData.toQByteArrayNoCopy().toBase64();
+        fileBase64 = std::string(base64.constData(), base64.size());
     }
 
-    LOGDA() << "wav size: " << fileData.size();
+    // pack request
+    ByteArray request;
+    {
+        JsonObject obj;
+        obj["reqID"] = ++s_lastReqId;
+        obj["wavFile"] = fileBase64;
 
-    QByteArray fileBase64 = fileData.toQByteArrayNoCopy().toBase64();
-    std::string fileStr(fileBase64.constData(), fileBase64.size());
-    LOGDA() << "fileStr: " << fileStr.size();
+        request = JsonDocument(obj).toJson();
+    }
 
-    io::File::writeFile(wavFile + ".txt", ByteArray::fromQByteArrayNoCopy(fileBase64));
+    // send to asr
+    QByteArray responce;
+    {
+        QUrl url = QUrl(QString::fromStdString(m_config.endPoint) + "/asr");
+        QByteArray qreq = request.toQByteArrayNoCopy();
+        QBuffer reqBuf(&qreq);
+        OutgoingDevice out(&reqBuf);
 
-    JsonObject obj;
-    obj["reqID"] = ++s_lastReqId;
-    obj["wavFile"] = fileStr;
+        QBuffer resBuf(&responce);
 
-    ByteArray json = JsonDocument(obj).toJson();
-    QByteArray ba = json.toQByteArrayNoCopy();
+        RequestHeaders headers;
+        headers.rawHeaders["Content-Type"] = "application/json";
 
-    QUrl url = QUrl(QString::fromStdString(m_config.endPoint) + "/asr");
-    QBuffer buf(&ba);
-    OutgoingDevice device(&buf);
+        m_network->post(url, &out, &resBuf, headers);
 
-    QByteArray resData;
-    QBuffer resBuf(&resData);
+        LOGDA() << responce.constData();
+    }
 
-    m_network->post(url, &device, &resBuf);
-
-    LOGDA() << resData.constData();
-
-    JsonObject resObj = JsonDocument::fromJson(ByteArray::fromQByteArrayNoCopy(resData)).rootObject();
-
+    // result
     Result result;
-    result.transcribe = resObj.value("transcribe").toStdString();
+    {
+        result.responce = std::string(responce.constData(), responce.size());
+
+        ByteArray json = ByteArray::fromQByteArrayNoCopy(responce);
+        JsonObject obj = JsonDocument::fromJson(json).rootObject();
+        result.action = obj.value("action").toStdString();
+    }
 
     return result;
 }

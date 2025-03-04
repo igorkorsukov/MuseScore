@@ -2,7 +2,8 @@ import http from "http";
 import os from 'node:os';
 import fs from 'node:fs';
 
-import {transcribe} from "./asr.js"
+import {asr} from "./asr.js"
+import {llm} from "./llm.js"
 
 const TMP_DIR = os.tmpdir() + "/org.muse/aiserver"
 const ASR_TMP_FILE = TMP_DIR + "/asrfile.wav"
@@ -33,23 +34,21 @@ server.listen(2212);
 async function onAsrRequest(pack, res)
 {
     console.log("reqID: ", pack.reqID);
-    console.log("wavStr: " + pack.wavFile.length)
-    fs.writeFileSync(ASR_TMP_FILE+".txt", pack.wavFile)
-    let wavFile = Buffer.from(pack.wavFile, 'base64')
-    console.log("wavFile: " + wavFile.length)
-    fs.writeFileSync(ASR_TMP_FILE, wavFile)
 
-    console.time("asr");
-
-    let text = await transcribe(ASR_TMP_FILE)
-    console.log(text);
-
-    let ret = {
-        transcribe: text
+    // save wav file
+    {
+        let wavFile = Buffer.from(pack.wavFile, 'base64')
+        console.log("wavFile: " + wavFile.length)
+        fs.writeFileSync(ASR_TMP_FILE, wavFile)
     }
 
-    res.end(JSON.stringify(ret))
+    // asr
+    let text = await asr.transcribe(ASR_TMP_FILE)
 
-    console.timeEnd("asr");
+    // llm
+    let cmd = await llm.interpret(text)
+    console.log(cmd);
 
+    // responce
+    res.end(JSON.stringify(cmd))
 }

@@ -59,13 +59,15 @@ Rectangle {
         id: textPanel
         anchors.top: topPanel.bottom
         anchors.topMargin: 20
+        anchors.bottom: statusPanel.top
+        anchors.bottomMargin: 20
         anchors.left: parent.left
         anchors.right: parent.right
-        height: (root.height - topPanel.height - statusPanel.height) / 2
+
 
         StyledListView {
             anchors.fill: parent
-            model: aimodel.textList
+            model: aimodel.resultList
             delegate: StyledTextLabel {
                 anchors.left: parent.left
                 anchors.right: parent.right

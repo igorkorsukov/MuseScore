@@ -27,6 +27,6 @@ using namespace muse::actions;
 void AiActionController::init()
 {
     dispatcher()->reg(this, ActionQuery("action://actioninterpreter/diagnostic"), [this](const ActionQuery&) {
-        interactive()->open("muse://actioninterpreter/diagnostic");
+        interactive()->open("muse://actioninterpreter/diagnostic?floating=true&modal=false");
     });
 }
