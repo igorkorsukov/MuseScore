@@ -40,8 +40,12 @@ public:
 private:
 
     void reg(const std::string& q, void (NotationAIQueryController::*)(const muse::ai::AIQuery& q));
+    void reg(const std::string& q, void (NotationAIQueryController::*)());
 
     void moveCursor(const muse::ai::AIQuery& q);
+    void nextElement();
+    void prevElement();
+
     void addNote(const muse::ai::AIQuery& q);
 };
 }

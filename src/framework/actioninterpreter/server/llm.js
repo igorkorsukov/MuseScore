@@ -20,7 +20,9 @@ const command = z.object({
 
 const model = new ChatOllama({
     model: "llama3.1:8b",
-    temperature: 0.1
+    temperature: 0,
+    numGpu: 16
+    //keepAlive: 0
   });
 
 const structuredLlm = model.withStructuredOutput(command);  
@@ -55,13 +57,13 @@ async function llm_invoke(text) {
 function muse_action(cmd) {
 
     switch(cmd.command) {
-        case "next_element": return "ai://notation/next_element"
+        case "next_element": return "ai://next_element"
     }
 
     // default
-    let act = "ai://" + cmd.command
+    let act = "ai://" + cmd.command.toLowerCase()
     if (cmd.args.length > 0) {
-        act += "?" + cmd.args
+        act += "?" + cmd.args.toLowerCase()
     }
  
     return act;

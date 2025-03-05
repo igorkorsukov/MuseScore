@@ -25,7 +25,7 @@ if [ ! -f "$BIN_DIR/whisper-cli" ]; then
 
     if [ ! -f "$WHISPER_SRC_DIR/build/bin/whisper-cli" ]; then
         echo "=== Build Whisper ==="
-        cmake -S $WHISPER_SRC_DIR -B $WHISPER_SRC_DIR/build
+        cmake -S $WHISPER_SRC_DIR -B $WHISPER_SRC_DIR/build -DGGML_CUDA=1
         cmake --build $WHISPER_SRC_DIR/build --config Release
     fi
 

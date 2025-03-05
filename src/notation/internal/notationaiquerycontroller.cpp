@@ -31,9 +31,19 @@ void NotationAIQueryController::init()
     using Controller = NotationAIQueryController;
 
     reg("ai://move_cursor", &Controller::moveCursor);
+    reg("ai://next_element", &Controller::nextElement);
+    reg("ai://prev_element", &Controller::prevElement);
+
+
+    reg("ai://add_note", &Controller::addNote);
 }
 
 void NotationAIQueryController::reg(const std::string& q, void (NotationAIQueryController::* handler)(const muse::ai::AIQuery& q))
+{
+    queryDispatcher()->reg(this, AIQuery(q), this, handler);
+}
+
+void NotationAIQueryController::reg(const std::string& q, void (NotationAIQueryController::* handler)())
 {
     queryDispatcher()->reg(this, AIQuery(q), this, handler);
 }
@@ -42,12 +52,22 @@ void NotationAIQueryController::moveCursor(const muse::ai::AIQuery& q)
 {
     std::string direction = q.param("direction").toString();
     if (direction == "right") {
-        actionsDispatcher()->dispatch("next-element");
+        nextElement();
     } else if (direction == "left") {
-        actionsDispatcher()->dispatch("prev-element");
+        prevElement();
     } else {
         LOGW() << "unknown: " << q.toString();
     }
+}
+
+void NotationAIQueryController::nextElement()
+{
+    actionsDispatcher()->dispatch("next-element");
+}
+
+void NotationAIQueryController::prevElement()
+{
+    actionsDispatcher()->dispatch("prev-element");
 }
 
 void NotationAIQueryController::addNote(const muse::ai::AIQuery& q)
