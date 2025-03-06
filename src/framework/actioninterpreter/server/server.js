@@ -2,8 +2,10 @@ import http from "http";
 import os from 'node:os';
 import fs from 'node:fs';
 
-import {asr} from "./asr.js"
+import {asr as asr_cli} from "./asr-cli.js";
+import {asr as asr_server} from "./asr-server.js";
 import {llm} from "./llm.js"
+import { exit } from "node:process";
 
 const TMP_DIR = os.tmpdir() + "/org.muse/aiserver"
 const ASR_TMP_FILE = TMP_DIR + "/asrfile.wav"
@@ -43,10 +45,13 @@ async function onAsrRequest(pack, res)
     }
 
     // asr
-    let text = await asr.transcribe(ASR_TMP_FILE)
+    // let text1 = await asr_cli.transcribe(ASR_TMP_FILE)
+    // console.log("asr-cli:", text1);
+    let text2 = await asr_server.transcribe(ASR_TMP_FILE)
+    //console.log("asr-server:", text2);
 
     // llm
-    let cmd = await llm.interpret(text)
+    let cmd = await llm.interpret(text2)
     console.log(cmd);
 
     // responce

@@ -88,8 +88,11 @@ RecognizerClient::Result RecognizerClient::send(const io::path_t& wavFile)
         result.responce = std::string(responce.constData(), responce.size());
 
         ByteArray json = ByteArray::fromQByteArrayNoCopy(responce);
-        JsonObject obj = JsonDocument::fromJson(json).rootObject();
-        result.action = obj.value("action").toStdString();
+        JsonDocument doc = JsonDocument::fromJson(json);
+        if (doc.isObject()) {
+            JsonObject obj = doc.rootObject();
+            result.action = obj.value("action", "").toStdString();
+        }
     }
 
     return result;

@@ -1,5 +1,4 @@
 
-import { ChatMistralAI } from "@langchain/mistralai";
 import { ChatOllama } from "@langchain/ollama";
 import { HumanMessage, SystemMessage } from "@langchain/core/messages";
 import { z } from "zod";
@@ -8,11 +7,6 @@ const command = z.object({
     command: z.string().describe("The command without spaces"),
     args: z.string().describe("Arguments of command in the format: arg1=val1&arg2=val2")
 });
-
-// const model = new ChatMistralAI({
-//   model: "mistral-large-latest",
-//   temperature: 0.1
-// });
 
 // deepseek-r1:8b
 // llama3.2:3b
@@ -35,6 +29,8 @@ const sysMsg = new SystemMessage("First translate into English, if not English. 
     Add a note a to the bar 2 -> command: add_note, args: note=a&bar=2 \
     Play -> command: play, args: '' \
     Move cursor to right -> command: move_cursor, args: direction=right \
+    Next element -> command: next_element, args: '' \
+    Previous element -> command: prev_element, args: '' \
     Output only the command")
 
 
@@ -54,16 +50,35 @@ async function llm_invoke(text) {
     return ret
 }   
 
+function parse_args(args) {
+    let ret = {}
+    const pairs = args.split('&');
+    pairs.forEach(pair => {
+        const kv = pair.split('=')
+        if (kv.length == 2) {
+            ret[kv[0]] = kv[1]
+        } else {
+            console.log("bad arg:", pair)
+        }
+    });
+
+    return ret;
+}
+
 function muse_action(cmd) {
+
+    const command = cmd.command.toLowerCase()
+    const args = cmd.args.toLowerCase()
 
     switch(cmd.command) {
         case "next_element": return "ai://next_element"
+        case "prev_element": return "ai://prev_element"
     }
 
     // default
-    let act = "ai://" + cmd.command.toLowerCase()
-    if (cmd.args.length > 0) {
-        act += "?" + cmd.args.toLowerCase()
+    let act = "ai://" + command
+    if (args.length > 0) {
+        act += "?" + args
     }
  
     return act;

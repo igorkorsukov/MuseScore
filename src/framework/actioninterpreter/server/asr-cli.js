@@ -14,9 +14,9 @@ export var asr = {
         // bin/whisper-cli -l en --no-prints --no-timestamps -m bin/ggml-medium.bin -f /tmp/org.muse/aiserver/asrfile.wav
 
         return new Promise(function(resolve, reject) {
-            console.time("asr");
+            console.time("asr-cli");
             exec(cmd, (error, stdout, stderr) => {
-                console.timeEnd("asr");
+                console.timeEnd("asr-cli");
                 console.log(stderr.trim())
                 if (error) {
                     reject(error);
