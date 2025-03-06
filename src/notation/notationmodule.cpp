@@ -98,6 +98,8 @@
 
 #include "diagnostics/idiagnosticspathsregister.h"
 
+#include "muse_framework_config.h"
+
 using namespace mu::notation;
 using namespace muse;
 using namespace muse::modularity;
@@ -120,9 +122,12 @@ void NotationModule::registerExports()
     m_configuration = std::make_shared<NotationConfiguration>();
     m_actionController = std::make_shared<NotationActionController>();
     m_notationUiActions = std::make_shared<NotationUiActions>(m_actionController);
-    m_aiqueryController = std::make_shared<NotationAIQueryController>();
     m_midiInputOutputController = std::make_shared<MidiInputOutputController>();
     m_instrumentsRepository = std::make_shared<InstrumentsRepository>();
+
+#ifdef MUSE_MODULE_ACTIONINTERPRETER
+    m_aiqueryController = std::make_shared<NotationAIQueryController>();
+#endif
 
     ioc()->registerExport<INotationConfiguration>(moduleName(), m_configuration);
     ioc()->registerExport<INotationCreator>(moduleName(), new NotationCreator());
@@ -242,7 +247,10 @@ void NotationModule::onInit(const IApplication::RunMode& mode)
     m_instrumentsRepository->init();
     m_actionController->init();
     m_notationUiActions->init();
+
+#ifdef MUSE_MODULE_ACTIONINTERPRETER
     m_aiqueryController->init();
+#endif
 
     if (mode == IApplication::RunMode::GuiApp) {
         m_midiInputOutputController->init();
