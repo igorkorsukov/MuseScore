@@ -19,13 +19,13 @@ function sleep(ms) {
 
 var run_server = async function() {
 
-  console.log("starting asr server...")
+  console.log("asr server starting...")
 
   server = spawn(WHISPER_SERVER, ['--no-timestamps', '-l', 'auto', '-m', MODEL, '--port', '22121'], {
     detached: false
   });
 
-  await sleep(1000)
+  await sleep(5000)
 
   console.log("asr server started!")
 }

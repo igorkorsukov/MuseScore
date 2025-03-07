@@ -29,6 +29,7 @@
 namespace mu::project {
 class ProjectConfiguration;
 class ProjectActionsController;
+class ProjectAIQueryController;
 class RecentFilesController;
 class ProjectAutoSaver;
 class ProjectModule : public muse::modularity::IModuleSetup
@@ -45,6 +46,7 @@ public:
 private:
     std::shared_ptr<ProjectConfiguration> m_configuration;
     std::shared_ptr<ProjectActionsController> m_actionsController;
+    std::shared_ptr<ProjectAIQueryController> m_aiqueryController;
     std::shared_ptr<RecentFilesController> m_recentFilesController;
     std::shared_ptr<ProjectAutoSaver> m_projectAutoSaver;
 };

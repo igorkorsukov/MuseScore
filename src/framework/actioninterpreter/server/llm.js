@@ -22,16 +22,25 @@ const model = new ChatOllama({
 const structuredLlm = model.withStructuredOutput(command);  
 
 const sysMsg = new SystemMessage("First translate into English, if not English. \
+    Context is musical notation. \
     Express the expression as a command with arguments. \
     All names are in lower case. \
+    Output only the command. \
     Example: \
+    Open the latest project -> command: open_project, args: name=last \
+    Move cursor to right -> command: move_cursor, args: direction=right \
+    Move cursor to left -> command: move_cursor, args: direction=left \
+    First bar -> -> command: move_cursor, args: direction=first_bar \
+    Next bar -> -> command: move_cursor, args: direction=next_bar \
+    Previous bar -> -> command: move_cursor, args: direction=prev_bar \
+    Next element -> command: move_cursor, args: direction=next_element \
+    Previous element -> command: move_cursor, args: direction=prev_element \
     Add a note c -> command: add_note, args: note=c \
     Add a note a to the bar 2 -> command: add_note, args: note=a&bar=2 \
+    Pitch up -> command: change_pitch, args: direction=up \
+    Pitch down -> command: change_pitch, args: direction=down \
     Play -> command: play, args: '' \
-    Move cursor to right -> command: move_cursor, args: direction=right \
-    Next element -> command: next_element, args: '' \
-    Previous element -> command: prev_element, args: '' \
-    Output only the command")
+    ")
 
 
 async function llm_invoke(text) {
@@ -69,10 +78,14 @@ function muse_action(cmd) {
 
     const command = cmd.command.toLowerCase()
     const args = cmd.args.toLowerCase()
+    const aobj = parse_args(args)
 
     switch(cmd.command) {
-        case "next_element": return "ai://next_element"
-        case "prev_element": return "ai://prev_element"
+        case "move_cursor": {
+            let direction = aobj["direction"]
+            direction = direction.replace("bar", "measure")
+            return "ai://move_cursor?direction=" + direction
+        }
     }
 
     // default

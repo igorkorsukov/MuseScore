@@ -25,25 +25,25 @@
 #include "global/modularity/ioc.h"
 #include "actioninterpreter/iaiquerydispatcher.h"
 #include "actions/iactionsdispatcher.h"
+#include "../irecentfilescontroller.h"
 
-namespace mu::notation {
-class NotationAIQueryController : public muse::ai::AIQueryable
+namespace mu::project {
+class ProjectAIQueryController : public muse::ai::AIQueryable
 {
     muse::Inject<muse::ai::IAIQueryDispatcher> queryDispatcher;
     muse::Inject<muse::actions::IActionsDispatcher> actionsDispatcher;
+    muse::Inject<IRecentFilesController> recentFilesController;
 
 public:
-    NotationAIQueryController() = default;
+    ProjectAIQueryController() = default;
 
     void init();
 
 private:
 
-    void reg(const std::string& q, void (NotationAIQueryController::*)(const muse::ai::AIQuery& q));
-    void reg(const std::string& q, void (NotationAIQueryController::*)());
+    void reg(const std::string& q, void (ProjectAIQueryController::*)(const muse::ai::AIQuery& q));
+    void reg(const std::string& q, void (ProjectAIQueryController::*)());
 
-    void moveCursor(const muse::ai::AIQuery& q);
-    void changePitch(const muse::ai::AIQuery& q);
-    void addNote(const muse::ai::AIQuery& q);
+    void openProject(const muse::ai::AIQuery& q);
 };
 }

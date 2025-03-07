@@ -31,10 +31,7 @@ void NotationAIQueryController::init()
     using Controller = NotationAIQueryController;
 
     reg("ai://move_cursor", &Controller::moveCursor);
-    reg("ai://next_element", &Controller::nextElement);
-    reg("ai://prev_element", &Controller::prevElement);
-
-
+    reg("ai://change_pitch", &Controller::changePitch);
     reg("ai://add_note", &Controller::addNote);
 }
 
@@ -50,24 +47,47 @@ void NotationAIQueryController::reg(const std::string& q, void (NotationAIQueryC
 
 void NotationAIQueryController::moveCursor(const muse::ai::AIQuery& q)
 {
+    const static std::map<std::string, std::vector<std::string> > map = {
+        { "right", { "next-element" } },
+        { "left", { "prev-element" } },
+
+        { "first_element", { "first-element" } },
+        { "next_element", { "next-element" } },
+        { "prev_element", { "prev-element" } },
+
+        { "first_measure", { "first-element", "notation-move-right" } },
+        { "next_measure", { "notation-move-right-quickly" } },
+        { "prev_measure", { "notation-move-left-quickly" } },
+    };
+
     std::string direction = q.param("direction").toString();
-    if (direction == "right") {
-        nextElement();
-    } else if (direction == "left") {
-        prevElement();
-    } else {
-        LOGW() << "unknown: " << q.toString();
+    auto it = map.find(direction);
+    if (it == map.end()) {
+        LOGW() << "unknown direction: " << q.toString();
+        return;
+    }
+
+    const std::vector<std::string>& acts = it->second;
+    for (const std::string& act : acts) {
+        actionsDispatcher()->dispatch(act);
     }
 }
 
-void NotationAIQueryController::nextElement()
+void NotationAIQueryController::changePitch(const muse::ai::AIQuery& q)
 {
-    actionsDispatcher()->dispatch("next-element");
-}
+    const static std::map<std::string, std::string> map = {
+        { "up", "pitch-up" },
+        { "down", "pitch-down" },
+    };
 
-void NotationAIQueryController::prevElement()
-{
-    actionsDispatcher()->dispatch("prev-element");
+    std::string direction = q.param("direction").toString();
+    auto it = map.find(direction);
+    if (it == map.end()) {
+        LOGW() << "unknown direction: " << q.toString();
+        return;
+    }
+
+    actionsDispatcher()->dispatch(it->second);
 }
 
 void NotationAIQueryController::addNote(const muse::ai::AIQuery& q)
