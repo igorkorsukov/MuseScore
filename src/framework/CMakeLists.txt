@@ -27,6 +27,10 @@ if (MUSE_MODULE_ACCESSIBILITY)
     add_subdirectory(accessibility)
 endif()
 
+if (MUSE_MODULE_ACTIONINTERPRETER)
+    add_subdirectory(actioninterpreter)
+endif()
+
 if (MUSE_MODULE_ACTIONS)
     add_subdirectory(actions)
 endif()
@@ -126,6 +130,3 @@ endif()
 
 # Stubs
 add_subdirectory(stubs)
-
-
-

@@ -49,10 +49,11 @@ public:
 
     io::path_t homePath() const override;
     io::path_t downloadsPath() const override;
+    io::path_t genericDataPath() const override;
+    io::path_t tempPath() const override;
 
     bool useFactorySettings() const override;
     bool enableExperimental() const override;
-    io::path_t genericDataPath() const override;
 
     bool devModeEnabled() const override;
     void setDevModeEnabled(bool enabled) override;

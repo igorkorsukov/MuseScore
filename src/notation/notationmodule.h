@@ -29,6 +29,7 @@
 namespace mu::notation {
 class NotationConfiguration;
 class NotationActionController;
+class NotationAIQueryController;
 class NotationUiActions;
 class MidiInputOutputController;
 class InstrumentsRepository;
@@ -46,6 +47,7 @@ public:
 private:
     std::shared_ptr<NotationConfiguration> m_configuration;
     std::shared_ptr<NotationActionController> m_actionController;
+    std::shared_ptr<NotationAIQueryController> m_aiqueryController;
     std::shared_ptr<NotationUiActions> m_notationUiActions;
     std::shared_ptr<MidiInputOutputController> m_midiInputOutputController;
     std::shared_ptr<InstrumentsRepository> m_instrumentsRepository;

@@ -228,6 +228,7 @@ void GlobalModule::onPreInit(const IApplication::RunMode& mode)
         pr->reg("userAppDataPath", m_configuration->userAppDataPath());
         pr->reg("userBackupPath", m_configuration->userBackupPath());
         pr->reg("userDataPath", m_configuration->userDataPath());
+        pr->reg("tempPath", m_configuration->tempPath());
         pr->reg("log file", logFilePath);
         pr->reg("settings file", settings()->filePath());
     }

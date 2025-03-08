@@ -143,6 +143,13 @@ set(MODULE_SRC
     ${CMAKE_CURRENT_LIST_DIR}/view/audiogenerationsettingsmodel.h
     )
 
+if (MUSE_MODULE_ACTIONINTERPRETER)
+    set(MODULE_SRC ${MODULE_SRC}
+        ${CMAKE_CURRENT_LIST_DIR}/internal/projectaiquerycontroller.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/internal/projectaiquerycontroller.h
+    )
+endif()
+
 set(MODULE_LINK
     muse::uicomponents
     notation
