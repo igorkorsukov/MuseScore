@@ -45,5 +45,8 @@ private:
     void reg(const std::string& q, void (ProjectAIQueryController::*)());
 
     void openProject(const muse::ai::AIQuery& q);
+    void closeProject();
+    void saveProject();
+    void saveAndCloseProject();
 };
 }

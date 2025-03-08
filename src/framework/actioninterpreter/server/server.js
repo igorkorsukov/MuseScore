@@ -31,6 +31,8 @@ const server =  http.createServer(function(req, res) {
     }
 });
 
+asr_server.run_server()
+
 server.listen(2212);
 
 async function onAsrRequest(pack, res)

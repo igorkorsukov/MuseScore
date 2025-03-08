@@ -15,7 +15,7 @@ const command = z.object({
 const model = new ChatOllama({
     model: "llama3.1:8b",
     temperature: 0,
-    numGpu: 16
+    numGpu: 20
     //keepAlive: 0
   });
 
@@ -60,6 +60,9 @@ async function llm_invoke(text) {
 }   
 
 function parse_args(args) {
+    if (args === '') {
+        return {};
+    }
     let ret = {}
     const pairs = args.split('&');
     pairs.forEach(pair => {
@@ -85,7 +88,14 @@ function muse_action(cmd) {
             let direction = aobj["direction"]
             direction = direction.replace("bar", "measure")
             return "ai://move_cursor?direction=" + direction
-        }
+        } 
+        case "add_note": {
+            let note = aobj["note"]
+            if (note === 'i') {
+                note = 'e'
+            }
+            return "ai://add_note?note="+note
+        } 
     }
 
     // default

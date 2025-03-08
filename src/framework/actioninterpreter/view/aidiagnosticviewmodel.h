@@ -45,6 +45,7 @@ class AiDiagnosticViewModel : public QObject
 
 public:
     AiDiagnosticViewModel(QObject* parent = nullptr);
+    ~AiDiagnosticViewModel();
 
     bool isRecording() const;
     QString status() const;

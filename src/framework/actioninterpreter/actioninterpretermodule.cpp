@@ -58,7 +58,7 @@ void ActionInterpreterModule::resolveImports()
 {
     auto ir = ioc()->resolve<muse::ui::IInteractiveUriRegister>(moduleName());
     if (ir) {
-        ir->registerQmlUri(Uri("muse://actioninterpreter/diagnostic"), "Muse/Ai/AiDiagnosticDialog.qml");
+        ir->registerQmlUri(Uri("muse://diagnostics/actioninterpreter"), "Muse/Ai/AiDiagnosticDialog.qml");
     }
 
     auto ar = ioc()->resolve<muse::ui::IUiActionsRegister>(moduleName());

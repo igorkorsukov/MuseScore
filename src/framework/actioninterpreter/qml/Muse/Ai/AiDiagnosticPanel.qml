@@ -36,7 +36,6 @@ Rectangle {
         id: aimodel
     }
 
-
     Item {
         id: topPanel
         anchors.left: parent.left

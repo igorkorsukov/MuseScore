@@ -31,6 +31,9 @@ void ProjectAIQueryController::init()
     using Controller = ProjectAIQueryController;
 
     reg("ai://open_project", &Controller::openProject);
+    reg("ai://close_project", &Controller::closeProject);
+    reg("ai://save_project", &Controller::saveProject);
+    reg("ai://save_and_close_project", &Controller::saveAndCloseProject);
 }
 
 void ProjectAIQueryController::reg(const std::string& q, void (ProjectAIQueryController::* handler)(const muse::ai::AIQuery& q))
@@ -54,9 +57,25 @@ void ProjectAIQueryController::openProject(const muse::ai::AIQuery& q)
         return;
     }
 
-    if (name == "last") {
+    if (name == "last" || name == "current") {
         const RecentFile& last = recentScores.at(0);
         ActionData args =  ActionData::make_arg2<QUrl, QString>(QUrl::fromLocalFile(last.path.toQString()), last.displayNameOverride);
         actionsDispatcher()->dispatch("file-open", args);
     }
+}
+
+void ProjectAIQueryController::closeProject()
+{
+    actionsDispatcher()->dispatch("file-close");
+}
+
+void ProjectAIQueryController::saveProject()
+{
+    actionsDispatcher()->dispatch("file-save");
+}
+
+void ProjectAIQueryController::saveAndCloseProject()
+{
+    saveProject();
+    closeProject();
 }

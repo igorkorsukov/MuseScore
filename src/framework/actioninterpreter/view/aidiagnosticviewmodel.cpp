@@ -29,6 +29,11 @@ AiDiagnosticViewModel::AiDiagnosticViewModel(QObject* parent)
     m_commandWavFile = globalConfiguration()->tempPath() + "/aicommand.wav";
 }
 
+AiDiagnosticViewModel::~AiDiagnosticViewModel()
+{
+
+}
+
 void AiDiagnosticViewModel::toogleRecord()
 {
     if (m_isProcessing) {

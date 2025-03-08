@@ -4,7 +4,7 @@ import fs from 'node:fs';
 import { spawn } from 'child_process';
 
 const WHISPER_SERVER= "bin/whisper-server"
-const MODEL = "bin/ggml-medium.bin"
+const MODEL = "bin/ggml-large-v3-turbo.bin"
 
 const END_POINT="http://127.0.0.1:22121/inference"
 
@@ -17,26 +17,20 @@ function sleep(ms) {
   });
 }
 
-var run_server = async function() {
-
-  console.log("asr server starting...")
-
-  server = spawn(WHISPER_SERVER, ['--no-timestamps', '-l', 'auto', '-m', MODEL, '--port', '22121'], {
-    detached: false
-  });
-
-  await sleep(5000)
-
-  console.log("asr server started!")
-}
-
 export var asr = {
 
-    transcribe: async function(wavFile) {
+    run_server: async function() {
 
-        if (!server) {
-          await run_server()
-        }
+      console.log("asr server starting...")
+    
+      server = spawn(WHISPER_SERVER, ['--no-timestamps', '-l', 'auto', '-m', MODEL, '--port', '22121'], {
+        detached: false
+      });
+    
+      console.log("asr server started!")
+    },
+
+    transcribe: async function(wavFile) {
 
         return new Promise(function(resolve, reject) {
             console.time("asr-server");
