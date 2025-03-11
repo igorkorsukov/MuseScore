@@ -26,11 +26,11 @@ using namespace muse::actions;
 
 void AiActionController::init()
 {
-    dispatcher()->reg(this, ActionQuery("action://diagnostic/ai/voicecontrol"), [this](const ActionQuery&) {
-        interactive()->open("muse://diagnostic/ai/voicecontrol?floating=true&modal=false");
+    dispatcher()->reg(this, ActionQuery("action://diagnostics/ai/voicecontrol"), [this](const ActionQuery&) {
+        interactive()->open("muse://diagnostics/ai/voicecontrol?floating=true&modal=false");
     });
 
-    dispatcher()->reg(this, ActionQuery("action://diagnostic/ai/cases"), [this](const ActionQuery&) {
-        interactive()->open("muse://diagnostic/ai/cases?floating=true&modal=false");
+    dispatcher()->reg(this, ActionQuery("action://diagnostics/ai/cases"), [this](const ActionQuery&) {
+        interactive()->open("muse://diagnostics/ai/cases?floating=true&modal=false");
     });
 }

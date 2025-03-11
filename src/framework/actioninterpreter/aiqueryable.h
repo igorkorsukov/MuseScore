@@ -34,13 +34,13 @@ public:
         }
     }
 
-    inline void setDispatcher(IAIQueryDispatcher* dispatcher)
+    inline void setDispatcher(IAiQueryDispatcher* dispatcher)
     {
         m_dispatcher = dispatcher;
     }
 
 private:
 
-    IAIQueryDispatcher* m_dispatcher = nullptr;
+    IAiQueryDispatcher* m_dispatcher = nullptr;
 };
 }

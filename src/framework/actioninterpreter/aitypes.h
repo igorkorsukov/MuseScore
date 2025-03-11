@@ -24,5 +24,5 @@
 #include "global/types/uri.h"
 
 namespace muse::ai {
-using AIQuery = UriQuery;
+using AiQuery = UriQuery;
 }

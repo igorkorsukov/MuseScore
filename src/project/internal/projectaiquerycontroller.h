@@ -30,7 +30,7 @@
 namespace mu::project {
 class ProjectAIQueryController : public muse::ai::AIQueryable
 {
-    muse::Inject<muse::ai::IAIQueryDispatcher> queryDispatcher;
+    muse::Inject<muse::ai::IAiQueryDispatcher> queryDispatcher;
     muse::Inject<muse::actions::IActionsDispatcher> actionsDispatcher;
     muse::Inject<IRecentFilesController> recentFilesController;
 
@@ -41,10 +41,10 @@ public:
 
 private:
 
-    void reg(const std::string& q, void (ProjectAIQueryController::*)(const muse::ai::AIQuery& q));
+    void reg(const std::string& q, void (ProjectAIQueryController::*)(const muse::ai::AiQuery& q));
     void reg(const std::string& q, void (ProjectAIQueryController::*)());
 
-    void openProject(const muse::ai::AIQuery& q);
+    void openProject(const muse::ai::AiQuery& q);
     void closeProject();
     void saveProject();
     void saveAndCloseProject();

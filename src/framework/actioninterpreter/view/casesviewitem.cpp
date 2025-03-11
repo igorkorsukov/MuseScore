@@ -19,26 +19,36 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-#pragma once
+#include "casesviewitem.h"
 
-#include "global/modularity/ioc.h"
-#include "../iaiquerydispatcher.h"
+using namespace muse::ai;
 
-class QTcpServer;
-
-namespace muse::ai {
-class DevNetListener
+CasesViewItem::CasesViewItem(QObject* parent)
+    : QObject(parent)
 {
-    muse::Inject<IAiQueryDispatcher> dispatcher;
+}
 
-public:
-    DevNetListener();
-    ~DevNetListener();
+void CasesViewItem::setCase(const AiCase& c)
+{
+    m_case = c;
+    emit caseChanged();
+}
 
-    void listen(int port = 1222);
+const AiCase& CasesViewItem::aicase() const
+{
+    return m_case;
+}
 
-private:
+QString CasesViewItem::text() const
+{
+    return QString::fromStdString(m_case.text);
+}
 
-    QTcpServer* m_server = nullptr;
-};
+QString CasesViewItem::actions() const
+{
+    QString str;
+    for (const AiQuery& q : m_case.actions) {
+        str += QString::fromStdString(q.toString()) + "\n";
+    }
+    return str;
 }

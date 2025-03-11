@@ -41,7 +41,7 @@ class VoiceControlViewModel : public QObject
     Q_PROPERTY(QString status READ status NOTIFY statusChanged FINAL)
 
     Inject<IGlobalConfiguration> globalConfiguration;
-    Inject<IAIQueryDispatcher> queryDispatcher;
+    Inject<IAiQueryDispatcher> queryDispatcher;
 
 public:
     VoiceControlViewModel(QObject* parent = nullptr);

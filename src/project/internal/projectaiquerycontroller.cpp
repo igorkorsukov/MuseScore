@@ -36,17 +36,17 @@ void ProjectAIQueryController::init()
     reg("ai://save_and_close_project", &Controller::saveAndCloseProject);
 }
 
-void ProjectAIQueryController::reg(const std::string& q, void (ProjectAIQueryController::* handler)(const muse::ai::AIQuery& q))
+void ProjectAIQueryController::reg(const std::string& q, void (ProjectAIQueryController::* handler)(const muse::ai::AiQuery& q))
 {
-    queryDispatcher()->reg(this, AIQuery(q), this, handler);
+    queryDispatcher()->reg(this, AiQuery(q), this, handler);
 }
 
 void ProjectAIQueryController::reg(const std::string& q, void (ProjectAIQueryController::* handler)())
 {
-    queryDispatcher()->reg(this, AIQuery(q), this, handler);
+    queryDispatcher()->reg(this, AiQuery(q), this, handler);
 }
 
-void ProjectAIQueryController::openProject(const muse::ai::AIQuery& q)
+void ProjectAIQueryController::openProject(const muse::ai::AiQuery& q)
 {
     const std::string name = q.param("name", Val("last")).toString();
 

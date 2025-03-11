@@ -21,29 +21,42 @@
  */
 #pragma once
 
-#include "actioninterpreter/aiqueryable.h"
-#include "global/modularity/ioc.h"
-#include "actioninterpreter/iaiquerydispatcher.h"
-#include "actions/iactionsdispatcher.h"
+#include "iaicasesservice.h"
+#include "global/async/asyncable.h"
 
-namespace mu::notation {
-class NotationAIQueryController : public muse::ai::AIQueryable
+#include "global/modularity/ioc.h"
+#include "../iaiconfiguration.h"
+#include "../iaiquerydispatcher.h"
+
+namespace muse::ai {
+class AiCasesService : public IAiCasesService, public async::Asyncable
 {
-    muse::Inject<muse::ai::IAiQueryDispatcher> queryDispatcher;
-    muse::Inject<muse::actions::IActionsDispatcher> actionsDispatcher;
+    Inject<IAiConfiguration> configuration;
+    Inject<IAiQueryDispatcher> dispatcher;
 
 public:
-    NotationAIQueryController() = default;
+    AiCasesService() = default;
 
-    void init();
+    AiCases cases() const override;
+    muse::async::Channel<AiCase> caseAdded() const override;
+    muse::async::Channel<AiCase> caseChanged() const override;
+
+    void addNewCase() override;
+    void updateCase(const AiCase& c) override;
+
+    void runCase(const AiCase& c) override;
 
 private:
 
-    void reg(const std::string& q, void (NotationAIQueryController::*)(const muse::ai::AiQuery& q));
-    void reg(const std::string& q, void (NotationAIQueryController::*)());
+    void load();
+    void save();
 
-    void moveCursor(const muse::ai::AiQuery& q);
-    void changePitch(const muse::ai::AiQuery& q);
-    void addNote(const muse::ai::AiQuery& q);
+    void nextAction();
+
+    mutable AiCases m_cases;
+    muse::async::Channel<AiCase> m_caseAdded;
+    muse::async::Channel<AiCase> m_caseChanged;
+
+    AiCase m_currentCase;
 };
 }

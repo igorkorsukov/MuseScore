@@ -65,7 +65,7 @@ void DevNetListener::listen(int port)
 
         std::string str = String::fromUtf8(data.constData()).toStdString();
 
-        AIQuery q(str);
+        AiQuery q(str);
         if (!q.isValid() || q.uri().scheme() != "ai") {
             LOGE() << "bad query: " << str;
             return;

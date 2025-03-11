@@ -35,17 +35,17 @@ void NotationAIQueryController::init()
     reg("ai://add_note", &Controller::addNote);
 }
 
-void NotationAIQueryController::reg(const std::string& q, void (NotationAIQueryController::* handler)(const muse::ai::AIQuery& q))
+void NotationAIQueryController::reg(const std::string& q, void (NotationAIQueryController::* handler)(const muse::ai::AiQuery& q))
 {
-    queryDispatcher()->reg(this, AIQuery(q), this, handler);
+    queryDispatcher()->reg(this, AiQuery(q), this, handler);
 }
 
 void NotationAIQueryController::reg(const std::string& q, void (NotationAIQueryController::* handler)())
 {
-    queryDispatcher()->reg(this, AIQuery(q), this, handler);
+    queryDispatcher()->reg(this, AiQuery(q), this, handler);
 }
 
-void NotationAIQueryController::moveCursor(const muse::ai::AIQuery& q)
+void NotationAIQueryController::moveCursor(const muse::ai::AiQuery& q)
 {
     const static std::map<std::string, std::vector<std::string> > map = {
         { "right", { "next-element" } },
@@ -73,7 +73,7 @@ void NotationAIQueryController::moveCursor(const muse::ai::AIQuery& q)
     }
 }
 
-void NotationAIQueryController::changePitch(const muse::ai::AIQuery& q)
+void NotationAIQueryController::changePitch(const muse::ai::AiQuery& q)
 {
     const static std::map<std::string, std::string> map = {
         { "up", "pitch-up" },
@@ -90,7 +90,7 @@ void NotationAIQueryController::changePitch(const muse::ai::AIQuery& q)
     actionsDispatcher()->dispatch(it->second);
 }
 
-void NotationAIQueryController::addNote(const muse::ai::AIQuery& q)
+void NotationAIQueryController::addNote(const muse::ai::AiQuery& q)
 {
     LOGDA() << q.toString();
 

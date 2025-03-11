@@ -27,30 +27,30 @@
 
 namespace muse::ai {
 class AIQueryable;
-class IAIQueryDispatcher : MODULE_EXPORT_INTERFACE
+class IAiQueryDispatcher : MODULE_EXPORT_INTERFACE
 {
     INTERFACE_ID(IAIQueryDispatcher)
 public:
 
-    virtual ~IAIQueryDispatcher() = default;
+    virtual ~IAiQueryDispatcher() = default;
 
-    using QueryCallBack = std::function<void (const AIQuery&)>;
+    using QueryCallBack = std::function<void (const AiQuery&)>;
 
-    virtual void dispatch(const AIQuery& q) = 0;
+    virtual void dispatch(const AiQuery& q) = 0;
 
     virtual void unReg(AIQueryable* client) = 0;
-    virtual void reg(AIQueryable* client, const AIQuery& q, const QueryCallBack& call) = 0;
+    virtual void reg(AIQueryable* client, const AiQuery& q, const QueryCallBack& call) = 0;
 
     template<typename T>
-    void reg(AIQueryable* client, const AIQuery& q, T* caller, void (T::* func)(const AIQuery& q))
+    void reg(AIQueryable* client, const AiQuery& q, T* caller, void (T::* func)(const AiQuery& q))
     {
-        reg(client, q, [caller, func](const AIQuery& q) { (caller->*func)(q); });
+        reg(client, q, [caller, func](const AiQuery& q) { (caller->*func)(q); });
     }
 
     template<typename T>
-    void reg(AIQueryable* client, const AIQuery& q, T* caller, void (T::* func)())
+    void reg(AIQueryable* client, const AiQuery& q, T* caller, void (T::* func)())
     {
-        reg(client, q, [caller, func](const AIQuery&) { (caller->*func)(); });
+        reg(client, q, [caller, func](const AiQuery&) { (caller->*func)(); });
     }
 };
 }

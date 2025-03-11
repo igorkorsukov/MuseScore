@@ -21,29 +21,30 @@
  */
 #pragma once
 
-#include "actioninterpreter/aiqueryable.h"
-#include "global/modularity/ioc.h"
-#include "actioninterpreter/iaiquerydispatcher.h"
-#include "actions/iactionsdispatcher.h"
+#include <QObject>
+#include "../internal/iaicasesservice.h"
 
-namespace mu::notation {
-class NotationAIQueryController : public muse::ai::AIQueryable
+namespace muse::ai {
+class CasesViewItem : public QObject
 {
-    muse::Inject<muse::ai::IAiQueryDispatcher> queryDispatcher;
-    muse::Inject<muse::actions::IActionsDispatcher> actionsDispatcher;
+    Q_OBJECT
+    Q_PROPERTY(QString text READ text NOTIFY caseChanged FINAL)
+    Q_PROPERTY(QString actions READ actions NOTIFY caseChanged FINAL)
 
 public:
-    NotationAIQueryController() = default;
 
-    void init();
+    explicit CasesViewItem(QObject* parent = nullptr);
+
+    void setCase(const AiCase& c);
+    const AiCase& aicase() const;
+
+    QString text() const;
+    QString actions() const;
+
+signals:
+    void caseChanged();
 
 private:
-
-    void reg(const std::string& q, void (NotationAIQueryController::*)(const muse::ai::AiQuery& q));
-    void reg(const std::string& q, void (NotationAIQueryController::*)());
-
-    void moveCursor(const muse::ai::AiQuery& q);
-    void changePitch(const muse::ai::AiQuery& q);
-    void addNote(const muse::ai::AiQuery& q);
+    AiCase m_case;
 };
 }

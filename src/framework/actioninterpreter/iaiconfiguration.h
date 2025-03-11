@@ -21,29 +21,17 @@
  */
 #pragma once
 
-#include "actioninterpreter/aiqueryable.h"
-#include "global/modularity/ioc.h"
-#include "actioninterpreter/iaiquerydispatcher.h"
-#include "actions/iactionsdispatcher.h"
+#include "global/modularity/imoduleinterface.h"
+#include "global/io/path.h"
 
-namespace mu::notation {
-class NotationAIQueryController : public muse::ai::AIQueryable
+namespace muse::ai {
+class IAiConfiguration : MODULE_EXPORT_INTERFACE
 {
-    muse::Inject<muse::ai::IAiQueryDispatcher> queryDispatcher;
-    muse::Inject<muse::actions::IActionsDispatcher> actionsDispatcher;
-
+    INTERFACE_ID(IAiConfiguration)
 public:
-    NotationAIQueryController() = default;
 
-    void init();
+    virtual ~IAiConfiguration() = default;
 
-private:
-
-    void reg(const std::string& q, void (NotationAIQueryController::*)(const muse::ai::AiQuery& q));
-    void reg(const std::string& q, void (NotationAIQueryController::*)());
-
-    void moveCursor(const muse::ai::AiQuery& q);
-    void changePitch(const muse::ai::AiQuery& q);
-    void addNote(const muse::ai::AiQuery& q);
+    virtual io::path_t casesFilePath() const = 0;
 };
 }

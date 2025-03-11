@@ -21,29 +21,39 @@
  */
 #pragma once
 
-#include "actioninterpreter/aiqueryable.h"
-#include "global/modularity/ioc.h"
-#include "actioninterpreter/iaiquerydispatcher.h"
-#include "actions/iactionsdispatcher.h"
+#include <string>
+#include <vector>
 
-namespace mu::notation {
-class NotationAIQueryController : public muse::ai::AIQueryable
+#include "modularity/imoduleinterface.h"
+
+#include "global/async/channel.h"
+
+#include "aitypes.h"
+
+namespace muse::ai {
+struct AiCase {
+    std::string uuid;
+    std::string text;
+    std::vector<AiQuery> actions;
+};
+
+using AiCases = std::vector<AiCase>;
+
+class IAiCasesService : MODULE_EXPORT_INTERFACE
 {
-    muse::Inject<muse::ai::IAiQueryDispatcher> queryDispatcher;
-    muse::Inject<muse::actions::IActionsDispatcher> actionsDispatcher;
-
+    INTERFACE_ID(IAiCasesService)
 public:
-    NotationAIQueryController() = default;
 
-    void init();
+    virtual ~IAiCasesService() = default;
 
-private:
+    virtual AiCases cases() const = 0;
 
-    void reg(const std::string& q, void (NotationAIQueryController::*)(const muse::ai::AiQuery& q));
-    void reg(const std::string& q, void (NotationAIQueryController::*)());
+    virtual void addNewCase() = 0;
+    virtual muse::async::Channel<AiCase> caseAdded() const = 0;
 
-    void moveCursor(const muse::ai::AiQuery& q);
-    void changePitch(const muse::ai::AiQuery& q);
-    void addNote(const muse::ai::AiQuery& q);
+    virtual void updateCase(const AiCase& c) = 0;
+    virtual muse::async::Channel<AiCase> caseChanged() const = 0;
+
+    virtual void runCase(const AiCase& c) = 0;
 };
 }

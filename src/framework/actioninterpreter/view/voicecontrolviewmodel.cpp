@@ -63,7 +63,7 @@ void VoiceControlViewModel::processWavFile(const io::path_t& wavFile)
         m_resultList.append(QString::fromStdString(res.responce));
         emit resultListChanged();
 
-        queryDispatcher()->dispatch(AIQuery(res.action));
+        queryDispatcher()->dispatch(AiQuery(res.action));
     }
 }
 

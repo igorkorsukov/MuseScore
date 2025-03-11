@@ -26,15 +26,15 @@
 #include "../iaiquerydispatcher.h"
 
 namespace muse::ai {
-class AIQueryDispatcher : public IAIQueryDispatcher
+class AiQueryDispatcher : public IAiQueryDispatcher
 {
 public:
-    AIQueryDispatcher() = default;
+    AiQueryDispatcher() = default;
 
-    void reg(AIQueryable* client, const AIQuery& q, const QueryCallBack& call) override;
+    void reg(AIQueryable* client, const AiQuery& q, const QueryCallBack& call) override;
     void unReg(AIQueryable* client) override;
 
-    void dispatch(const AIQuery& q) override;
+    void dispatch(const AiQuery& q) override;
 
 private:
 

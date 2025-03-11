@@ -27,7 +27,7 @@
 
 using namespace muse::ai;
 
-void AIQueryDispatcher::reg(AIQueryable* client, const AIQuery& q, const QueryCallBack& call)
+void AiQueryDispatcher::reg(AIQueryable* client, const AiQuery& q, const QueryCallBack& call)
 {
     std::string qs = q.toString();
     auto it = m_clients.find(qs);
@@ -39,14 +39,14 @@ void AIQueryDispatcher::reg(AIQueryable* client, const AIQuery& q, const QueryCa
     m_clients.insert({ qs, { client, call } });
 }
 
-void AIQueryDispatcher::unReg(AIQueryable* client)
+void AiQueryDispatcher::unReg(AIQueryable* client)
 {
     muse::remove_if(m_clients, [client](const auto& p) {
         return p.second.client == client;
     });
 }
 
-void AIQueryDispatcher::dispatch(const AIQuery& q)
+void AiQueryDispatcher::dispatch(const AiQuery& q)
 {
     // try full
     auto it = m_clients.find(q.toString());

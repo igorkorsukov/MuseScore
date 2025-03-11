@@ -27,6 +27,7 @@
 #include <QTimer>
 
 #include "async/asyncable.h"
+#include "global/types/uri.h"
 
 #include "modularity/ioc.h"
 #include "ui/inavigationcontroller.h"
