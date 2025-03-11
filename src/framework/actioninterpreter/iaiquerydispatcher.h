@@ -27,12 +27,12 @@
 
 namespace muse::ai {
 class AIQueryable;
-class IAIQueryDispatcher : MODULE_EXPORT_INTERFACE
+class IAiQueryDispatcher : MODULE_EXPORT_INTERFACE
 {
     INTERFACE_ID(IAIQueryDispatcher)
 public:
 
-    virtual ~IAIQueryDispatcher() = default;
+    virtual ~IAiQueryDispatcher() = default;
 
     using QueryCallBack = std::function<void (const AIQuery&)>;
 

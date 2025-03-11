@@ -29,7 +29,7 @@
 namespace mu::notation {
 class NotationAIQueryController : public muse::ai::AIQueryable
 {
-    muse::Inject<muse::ai::IAIQueryDispatcher> queryDispatcher;
+    muse::Inject<muse::ai::IAiQueryDispatcher> queryDispatcher;
     muse::Inject<muse::actions::IActionsDispatcher> actionsDispatcher;
 
 public:

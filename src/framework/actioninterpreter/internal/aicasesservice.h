@@ -21,24 +21,31 @@
  */
 #pragma once
 
-#include "global/modularity/ioc.h"
-#include "../iaiquerydispatcher.h"
+#include "iaicasesservice.h"
 
-class QTcpServer;
+#include "global/modularity/ioc.h"
+#include "../iaiconfiguration.h"
 
 namespace muse::ai {
-class DevNetListener
+class AiCasesService : public IAiCasesService
 {
-    muse::Inject<IAiQueryDispatcher> dispatcher;
+    Inject<IAiConfiguration> configuration;
 
 public:
-    DevNetListener();
-    ~DevNetListener();
+    AiCasesService() = default;
 
-    void listen(int port = 1222);
+    AiCases cases() const override;
+    muse::async::Channel<AiCase> caseAdded() const override;
+
+    void addNewCase() override;
+    void updateCase(const AiCase& c) override;
 
 private:
 
-    QTcpServer* m_server = nullptr;
+    void load();
+    void save();
+
+    mutable AiCases m_cases;
+    muse::async::Channel<AiCase> m_caseAdded;
 };
 }

@@ -25,11 +25,14 @@
 #include "ui/iinteractiveuriregister.h"
 #include "ui/iuiactionsregister.h"
 
+#include "internal/aiconfiguration.h"
 #include "internal/aiquerydispatcher.h"
 #include "internal/aiuiactions.h"
 #include "internal/aiactioncontroller.h"
+#include "internal/aicasesservice.h"
 
 #include "view/voicecontrolviewmodel.h"
+#include "view/casesviewmodel.h"
 
 #include "dev/devnetlistener.h"
 
@@ -51,7 +54,9 @@ void ActionInterpreterModule::registerExports()
     m_actionController = std::make_shared<AiActionController>();
     m_devNetListener = std::make_shared<DevNetListener>();
 
-    ioc()->registerExport<IAIQueryDispatcher>(moduleName(), new AIQueryDispatcher());
+    ioc()->registerExport<IAiConfiguration>(moduleName(), new AiConfiguration());
+    ioc()->registerExport<IAiQueryDispatcher>(moduleName(), new AiQueryDispatcher());
+    ioc()->registerExport<IAiCasesService>(moduleName(), new AiCasesService());
 }
 
 void ActionInterpreterModule::resolveImports()
@@ -76,6 +81,7 @@ void ActionInterpreterModule::registerResources()
 void ActionInterpreterModule::registerUiTypes()
 {
     qmlRegisterType<VoiceControlViewModel>("Muse.Ai", 1, 0, "VoiceControlViewModel");
+    qmlRegisterType<CasesViewModel>("Muse.Ai", 1, 0, "CasesViewModel");
 }
 
 void ActionInterpreterModule::onInit(const IApplication::RunMode&)

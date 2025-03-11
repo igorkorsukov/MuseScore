@@ -30,7 +30,7 @@
 namespace mu::project {
 class ProjectAIQueryController : public muse::ai::AIQueryable
 {
-    muse::Inject<muse::ai::IAIQueryDispatcher> queryDispatcher;
+    muse::Inject<muse::ai::IAiQueryDispatcher> queryDispatcher;
     muse::Inject<muse::actions::IActionsDispatcher> actionsDispatcher;
     muse::Inject<IRecentFilesController> recentFilesController;
 

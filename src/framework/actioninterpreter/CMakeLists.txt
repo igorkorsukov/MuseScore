@@ -33,7 +33,10 @@ set(MODULE_SRC
     ${CMAKE_CURRENT_LIST_DIR}/aitypes.h
     ${CMAKE_CURRENT_LIST_DIR}/aiqueryable.h
     ${CMAKE_CURRENT_LIST_DIR}/iaiquerydispatcher.h
+    ${CMAKE_CURRENT_LIST_DIR}/iaiconfiguration.h
 
+    ${CMAKE_CURRENT_LIST_DIR}/internal/aiconfiguration.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/internal/aiconfiguration.h
     ${CMAKE_CURRENT_LIST_DIR}/internal/aiquerydispatcher.cpp
     ${CMAKE_CURRENT_LIST_DIR}/internal/aiquerydispatcher.h
     ${CMAKE_CURRENT_LIST_DIR}/internal/aiuiactions.cpp
@@ -44,9 +47,16 @@ set(MODULE_SRC
     ${CMAKE_CURRENT_LIST_DIR}/internal/soxrecorder.h
     ${CMAKE_CURRENT_LIST_DIR}/internal/recognizerclient.cpp
     ${CMAKE_CURRENT_LIST_DIR}/internal/recognizerclient.h
+    ${CMAKE_CURRENT_LIST_DIR}/internal/iaicasesservice.h
+    ${CMAKE_CURRENT_LIST_DIR}/internal/aicasesservice.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/internal/aicasesservice.h
 
     ${CMAKE_CURRENT_LIST_DIR}/view/voicecontrolviewmodel.cpp
     ${CMAKE_CURRENT_LIST_DIR}/view/voicecontrolviewmodel.h
+    ${CMAKE_CURRENT_LIST_DIR}/view/casesviewmodel.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/view/casesviewmodel.h
+    ${CMAKE_CURRENT_LIST_DIR}/view/casesviewitem.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/view/casesviewitem.h
 
     ${CMAKE_CURRENT_LIST_DIR}/dev/devnetlistener.cpp
     ${CMAKE_CURRENT_LIST_DIR}/dev/devnetlistener.h

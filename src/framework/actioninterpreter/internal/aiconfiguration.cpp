@@ -19,26 +19,12 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-#pragma once
+#include "aiconfiguration.h"
 
-#include "global/modularity/ioc.h"
-#include "../iaiquerydispatcher.h"
+using namespace muse;
+using namespace muse::ai;
 
-class QTcpServer;
-
-namespace muse::ai {
-class DevNetListener
+io::path_t AiConfiguration::casesFilePath() const
 {
-    muse::Inject<IAiQueryDispatcher> dispatcher;
-
-public:
-    DevNetListener();
-    ~DevNetListener();
-
-    void listen(int port = 1222);
-
-private:
-
-    QTcpServer* m_server = nullptr;
-};
+    return globalConfiguration()->userDataPath() + "/ai_cases.json";
 }

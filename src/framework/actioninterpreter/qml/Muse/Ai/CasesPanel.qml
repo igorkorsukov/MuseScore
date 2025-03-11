@@ -32,5 +32,78 @@ Rectangle {
     objectName: "DiagnosticCasesPanel"
     color: ui.theme.backgroundPrimaryColor
 
+    CasesViewModel {
+        id: cmodel
+    }
 
+    Component.onCompleted: {
+        cmodel.init()
+    }
+
+    Item {
+        id: leftPanel
+        anchors.left: parent.left
+        anchors.top: parent.top
+        anchors.bottom: parent.bottom
+        width: 200
+
+        FlatButton {
+            id: addBtn
+            anchors.left: parent.left
+            anchors.top: parent.top
+            icon: IconCode.PLUS
+            onClicked: cmodel.addNewCase()
+        }
+
+        StyledListView {
+            anchors.top: addBtn.bottom
+            anchors.bottom: parent.bottom
+            anchors.left: parent.left
+            anchors.right: parent.right
+
+            model: cmodel.cases
+
+            delegate: ListItemBlank {
+                property var item: modelData
+                StyledTextLabel {
+                    anchors.fill: parent
+                    horizontalAlignment: Text.AlignLeft
+                    text: item.name
+                }
+
+                onClicked: cmodel.selectCase(model.index)
+            }
+        }
+    }
+
+    Item {
+        id: mainPanel
+        anchors.top: parent.top
+        anchors.bottom: parent.bottom
+        anchors.left: leftPanel.right
+        anchors.right: parent.right
+        anchors.margins: 16
+
+        TextInputField {
+            anchors.left: parent.left
+            anchors.right: parent.right
+            currentText: cmodel.currentCase.name
+            onTextChanged: (text) => { cmodel.currentCase.name = text }
+        }
+
+        Item {
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.bottom: parent.bottom
+            height: 40
+
+            FlatButton {
+                id: saveBtn
+                anchors.right: parent.right
+                anchors.verticalCenter: parent.verticalCenter
+                icon: IconCode.SAVE
+                onClicked: cmodel.saveCurrent()
+            }
+        }
+    }
 }

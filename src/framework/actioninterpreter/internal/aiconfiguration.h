@@ -21,24 +21,19 @@
  */
 #pragma once
 
-#include "global/modularity/ioc.h"
-#include "../iaiquerydispatcher.h"
+#include "../iaiconfiguration.h"
 
-class QTcpServer;
+#include "global/modularity/ioc.h"
+#include "global/iglobalconfiguration.h"
 
 namespace muse::ai {
-class DevNetListener
+class AiConfiguration : public IAiConfiguration
 {
-    muse::Inject<IAiQueryDispatcher> dispatcher;
+    Inject<IGlobalConfiguration> globalConfiguration;
 
 public:
-    DevNetListener();
-    ~DevNetListener();
+    AiConfiguration() = default;
 
-    void listen(int port = 1222);
-
-private:
-
-    QTcpServer* m_server = nullptr;
+    io::path_t casesFilePath() const override;
 };
 }

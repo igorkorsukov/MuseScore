@@ -31,6 +31,8 @@
 #include <QString>
 #endif
 
+#include "global/logstream.h"
+
 namespace muse {
 class Ret
 {
@@ -166,6 +168,12 @@ inline bool check_ret(const Ret& r, Ret::Code c)
 {
     return r.code() == int(c);
 }
+}
+
+inline muse::logger::Stream& operator<<(muse::logger::Stream& s, const muse::Ret& r)
+{
+    s << r.toString();
+    return s;
 }
 
 #endif // MUSE_GLOBAL_RET_H

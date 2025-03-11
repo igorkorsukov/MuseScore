@@ -21,24 +21,35 @@
  */
 #pragma once
 
-#include "global/modularity/ioc.h"
-#include "../iaiquerydispatcher.h"
-
-class QTcpServer;
+#include <QObject>
 
 namespace muse::ai {
-class DevNetListener
+class CasesViewItem : public QObject
 {
-    muse::Inject<IAiQueryDispatcher> dispatcher;
+    Q_OBJECT
+    Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged FINAL)
+    Q_PROPERTY(QString text READ text WRITE setText NOTIFY textChanged FINAL)
+    Q_PROPERTY(QStringList actions READ actions WRITE setActions NOTIFY actionsChanged FINAL)
 
 public:
-    DevNetListener();
-    ~DevNetListener();
 
-    void listen(int port = 1222);
+    explicit CasesViewItem(QObject* parent = nullptr);
+
+    QString name() const;
+    void setName(const QString& newName);
+    QString text() const;
+    void setText(const QString& newText);
+    QStringList actions() const;
+    void setActions(const QStringList& newActions);
+
+signals:
+    void nameChanged();
+    void textChanged();
+    void actionsChanged();
 
 private:
-
-    QTcpServer* m_server = nullptr;
+    QString m_name;
+    QString m_text;
+    QStringList m_actions;
 };
 }
