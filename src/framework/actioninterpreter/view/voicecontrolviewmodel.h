@@ -31,7 +31,7 @@
 #include "../internal/recognizerclient.h"
 
 namespace muse::ai {
-class AiDiagnosticViewModel : public QObject
+class VoiceControlViewModel : public QObject
 {
     Q_OBJECT
 
@@ -44,8 +44,8 @@ class AiDiagnosticViewModel : public QObject
     Inject<IAIQueryDispatcher> queryDispatcher;
 
 public:
-    AiDiagnosticViewModel(QObject* parent = nullptr);
-    ~AiDiagnosticViewModel();
+    VoiceControlViewModel(QObject* parent = nullptr);
+    ~VoiceControlViewModel();
 
     bool isRecording() const;
     QString status() const;

@@ -1,3 +1,5 @@
 module Muse.Ai
 AiDiagnosticDialog 1.0 AiDiagnosticDialog.qml
 AiDiagnosticPanel 1.0 AiDiagnosticPanel.qml
+CasesDialog 1.0 CasesDialog.qml
+CasesPanel 1.0 CasesPanel.qml

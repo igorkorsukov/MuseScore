@@ -26,7 +26,7 @@ import Muse.UiComponents 1.0
 StyledDialogView {
     id: root
 
-    title: "Diagnostic: Actions"
+    title: "Diagnostic: Voice control"
 
     contentHeight: 800
     contentWidth: 600
@@ -35,7 +35,7 @@ StyledDialogView {
     //! NOTE It is necessary that it can be determined that this is an object for diagnostics
     contentItem.objectName: panel.objectName
 
-    AiDiagnosticPanel {
+    VoiceControlPanel {
         id: panel
         anchors.fill: parent
         anchors.margins: 16

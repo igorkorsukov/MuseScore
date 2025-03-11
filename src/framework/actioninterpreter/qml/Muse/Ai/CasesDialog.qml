@@ -1,11 +1,11 @@
 /*
  * SPDX-License-Identifier: GPL-3.0-only
- * MuseScore-Studio-CLA-applies
+ * MuseScore-CLA-applies
  *
- * MuseScore Studio
+ * MuseScore
  * Music Composition & Notation
  *
- * Copyright (C) 2025 MuseScore Limited
+ * Copyright (C) 2024 MuseScore BVBA and others
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3 as
@@ -19,18 +19,25 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-#include "aiactioncontroller.h"
+import QtQuick 2.15
+import Muse.Ui 1.0
+import Muse.UiComponents 1.0
 
-using namespace muse::ai;
-using namespace muse::actions;
+StyledDialogView {
+    id: root
 
-void AiActionController::init()
-{
-    dispatcher()->reg(this, ActionQuery("action://diagnostic/ai/voicecontrol"), [this](const ActionQuery&) {
-        interactive()->open("muse://diagnostic/ai/voicecontrol?floating=true&modal=false");
-    });
+    title: "Diagnostic: AI Cases"
 
-    dispatcher()->reg(this, ActionQuery("action://diagnostic/ai/cases"), [this](const ActionQuery&) {
-        interactive()->open("muse://diagnostic/ai/cases?floating=true&modal=false");
-    });
+    contentHeight: 800
+    contentWidth: 600
+    resizable: true
+
+    //! NOTE It is necessary that it can be determined that this is an object for diagnostics
+    contentItem.objectName: panel.objectName
+
+    CasesPanel {
+        id: panel
+        anchors.fill: parent
+        anchors.margins: 16
+    }
 }

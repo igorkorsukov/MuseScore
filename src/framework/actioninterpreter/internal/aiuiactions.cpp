@@ -31,10 +31,15 @@ using namespace muse::actions;
 using namespace muse::ai;
 
 const UiActionList AiUiActions::m_actions = {
-    UiAction("action://actioninterpreter/diagnostic",
+    UiAction("action://diagnostic/ai/voicecontrol",
              muse::ui::UiCtxAny,
              muse::shortcuts::CTX_ANY,
-             TranslatableString("ai", "Show ai diagnostic")
+             TranslatableString("ai", "Show ai voice control")
+             ),
+    UiAction("action://diagnostic/ai/cases",
+             muse::ui::UiCtxAny,
+             muse::shortcuts::CTX_ANY,
+             TranslatableString("ai", "Show ai cases")
              )
 };
 

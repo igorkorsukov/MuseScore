@@ -1,7 +1,9 @@
 <RCC>
     <qresource prefix="/">
         <file>qml/Muse/Ai/qmldir</file>
-        <file>qml/Muse/Ai/AiDiagnosticDialog.qml</file>
-        <file>qml/Muse/Ai/AiDiagnosticPanel.qml</file>
+        <file>qml/Muse/Ai/VoiceControlDialog.qml</file>
+        <file>qml/Muse/Ai/VoiceControlPanel.qml</file>
+        <file>qml/Muse/Ai/CasesDialog.qml</file>
+        <file>qml/Muse/Ai/CasesPanel.qml</file>
     </qresource>
 </RCC>

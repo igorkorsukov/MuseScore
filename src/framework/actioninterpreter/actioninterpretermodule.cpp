@@ -29,7 +29,7 @@
 #include "internal/aiuiactions.h"
 #include "internal/aiactioncontroller.h"
 
-#include "view/aidiagnosticviewmodel.h"
+#include "view/voicecontrolviewmodel.h"
 
 #include "dev/devnetlistener.h"
 
@@ -58,7 +58,8 @@ void ActionInterpreterModule::resolveImports()
 {
     auto ir = ioc()->resolve<muse::ui::IInteractiveUriRegister>(moduleName());
     if (ir) {
-        ir->registerQmlUri(Uri("muse://diagnostics/actioninterpreter"), "Muse/Ai/AiDiagnosticDialog.qml");
+        ir->registerQmlUri(Uri("muse://diagnostic/ai/voicecontrol"), "Muse/Ai/VoiceControlDialog.qml");
+        ir->registerQmlUri(Uri("muse://diagnostic/ai/cases"), "Muse/Ai/CasesDialog.qml");
     }
 
     auto ar = ioc()->resolve<muse::ui::IUiActionsRegister>(moduleName());
@@ -74,7 +75,7 @@ void ActionInterpreterModule::registerResources()
 
 void ActionInterpreterModule::registerUiTypes()
 {
-    qmlRegisterType<AiDiagnosticViewModel>("Muse.Ai", 1, 0, "AiDiagnosticViewModel");
+    qmlRegisterType<VoiceControlViewModel>("Muse.Ai", 1, 0, "VoiceControlViewModel");
 }
 
 void ActionInterpreterModule::onInit(const IApplication::RunMode&)

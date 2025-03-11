@@ -19,22 +19,21 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-#include "aidiagnosticviewmodel.h"
+#include "voicecontrolviewmodel.h"
 
 using namespace muse::ai;
 
-AiDiagnosticViewModel::AiDiagnosticViewModel(QObject* parent)
+VoiceControlViewModel::VoiceControlViewModel(QObject* parent)
     : QObject(parent)
 {
     m_commandWavFile = globalConfiguration()->tempPath() + "/aicommand.wav";
 }
 
-AiDiagnosticViewModel::~AiDiagnosticViewModel()
+VoiceControlViewModel::~VoiceControlViewModel()
 {
-
 }
 
-void AiDiagnosticViewModel::toogleRecord()
+void VoiceControlViewModel::toogleRecord()
 {
     if (m_isProcessing) {
         return;
@@ -54,7 +53,7 @@ void AiDiagnosticViewModel::toogleRecord()
     setIsRecording(!m_isRecording);
 }
 
-void AiDiagnosticViewModel::processWavFile(const io::path_t& wavFile)
+void VoiceControlViewModel::processWavFile(const io::path_t& wavFile)
 {
     setStatus("start processing...");
     RecognizerClient::Result res = m_client.send(wavFile);
@@ -68,12 +67,12 @@ void AiDiagnosticViewModel::processWavFile(const io::path_t& wavFile)
     }
 }
 
-bool AiDiagnosticViewModel::isRecording() const
+bool VoiceControlViewModel::isRecording() const
 {
     return m_isRecording;
 }
 
-void AiDiagnosticViewModel::setIsRecording(bool newIsRecording)
+void VoiceControlViewModel::setIsRecording(bool newIsRecording)
 {
     if (m_isRecording == newIsRecording) {
         return;
@@ -82,12 +81,12 @@ void AiDiagnosticViewModel::setIsRecording(bool newIsRecording)
     emit isRecordingChanged();
 }
 
-QString AiDiagnosticViewModel::status() const
+QString VoiceControlViewModel::status() const
 {
     return m_status;
 }
 
-void AiDiagnosticViewModel::setStatus(const QString& newStatus)
+void VoiceControlViewModel::setStatus(const QString& newStatus)
 {
     if (m_status == newStatus) {
         return;
@@ -96,7 +95,7 @@ void AiDiagnosticViewModel::setStatus(const QString& newStatus)
     emit statusChanged();
 }
 
-QStringList AiDiagnosticViewModel::resultList() const
+QStringList VoiceControlViewModel::resultList() const
 {
     return m_resultList;
 }

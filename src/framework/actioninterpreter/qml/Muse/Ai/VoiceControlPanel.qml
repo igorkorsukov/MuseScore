@@ -29,10 +29,10 @@ Rectangle {
 
     id: root
 
-    objectName: "DiagnosticAiPanel"
+    objectName: "DiagnosticVoiceControlPanel"
     color: ui.theme.backgroundPrimaryColor
 
-    AiDiagnosticViewModel {
+    VoiceControlViewModel {
         id: aimodel
     }
 

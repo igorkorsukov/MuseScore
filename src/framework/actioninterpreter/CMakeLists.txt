@@ -45,8 +45,8 @@ set(MODULE_SRC
     ${CMAKE_CURRENT_LIST_DIR}/internal/recognizerclient.cpp
     ${CMAKE_CURRENT_LIST_DIR}/internal/recognizerclient.h
 
-    ${CMAKE_CURRENT_LIST_DIR}/view/aidiagnosticviewmodel.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/view/aidiagnosticviewmodel.h
+    ${CMAKE_CURRENT_LIST_DIR}/view/voicecontrolviewmodel.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/view/voicecontrolviewmodel.h
 
     ${CMAKE_CURRENT_LIST_DIR}/dev/devnetlistener.cpp
     ${CMAKE_CURRENT_LIST_DIR}/dev/devnetlistener.h
