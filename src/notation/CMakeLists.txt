@@ -216,6 +216,13 @@ set(MODULE_SRC
     ${STYLEDIALOG_SRC}
     )
 
+if (MUSE_MODULE_ACTIONINTERPRETER)
+    set(MODULE_SRC ${MODULE_SRC}
+        ${CMAKE_CURRENT_LIST_DIR}/internal/notationaiquerycontroller.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/internal/notationaiquerycontroller.h
+    )
+endif()
+
 set(MODULE_UI
     ${WIDGETS_UI}
     )

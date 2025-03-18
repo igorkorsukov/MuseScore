@@ -35,6 +35,7 @@
 #include "internal/templatesrepository.h"
 #include "internal/projectmigrator.h"
 #include "internal/projectautosaver.h"
+#include "internal/projectaiquerycontroller.h"
 
 #include "internal/notationreadersregister.h"
 #include "internal/notationwritersregister.h"
@@ -67,6 +68,8 @@
 #include "extensions/iextensionsexecpointsregister.h"
 #include "projectextensionpoints.h"
 
+#include "muse_framework_config.h"
+
 using namespace mu::project;
 using namespace muse;
 using namespace muse::modularity;
@@ -93,6 +96,10 @@ void ProjectModule::registerExports()
     m_recentFilesController = std::make_shared<WindowsRecentFilesController>();
 #else
     m_recentFilesController = std::make_shared<RecentFilesController>();
+#endif
+
+#ifdef MUSE_MODULE_ACTIONINTERPRETER
+    m_aiqueryController = std::make_shared<ProjectAIQueryController>();
 #endif
 
     ioc()->registerExport<IProjectConfiguration>(moduleName(), m_configuration);
@@ -192,4 +199,8 @@ void ProjectModule::onInit(const IApplication::RunMode& mode)
     m_actionsController->init();
     m_recentFilesController->init();
     m_projectAutoSaver->init();
+
+#ifdef MUSE_MODULE_ACTIONINTERPRETER
+    m_aiqueryController->init();
+#endif
 }
