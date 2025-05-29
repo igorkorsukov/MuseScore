@@ -114,7 +114,13 @@
 #endif
 
 // Modules
+#ifdef MUE_BUILD_APPSHELL_MODULE
 #include "appshell/appshellmodule.h"
+#endif
+
+#ifdef MUE_BUILD_PREFERENCES_MODULE
+#include "preferences/preferencesmodule.h"
+#endif
 
 #ifdef MUSE_MODULE_AUTOBOT
 #include "autobot/autobotmodule.h"
@@ -268,6 +274,10 @@ std::shared_ptr<muse::IApplication> AppFactory::newGuiApp(const CmdOptions& opti
     app->addModule(new mu::appshell::AppShellModule());
 #endif
 
+#ifdef MUE_BUILD_PREFERENCES_MODULE
+    app->addModule(new mu::preferences::PreferencesModule());
+#endif
+
 #ifdef MUSE_MODULE_AUTOBOT
     app->addModule(new muse::autobot::AutobotModule());
 #endif
@@ -343,10 +353,7 @@ std::shared_ptr<muse::IApplication> AppFactory::newConsoleApp(const CmdOptions& 
     //! For other modules, the order is (an should be) unimportant.
     app->addModule(new muse::diagnostics::DiagnosticsModule());
 
-    //! TODO Some modules can be removed
-
     // framework
-    app->addModule(new muse::accessibility::AccessibilityModule());
     app->addModule(new muse::actions::ActionsModule());
     app->addModule(new muse::audio::AudioModule());
 #ifdef MUSE_MODULE_AUDIOPLUGINS
@@ -371,28 +378,15 @@ std::shared_ptr<muse::IApplication> AppFactory::newConsoleApp(const CmdOptions& 
 #endif
 
     app->addModule(new muse::network::NetworkModule());
-    app->addModule(new muse::shortcuts::ShortcutsModule());
-#ifdef MUSE_MODULE_UI
-    app->addModule(new muse::ui::UiModule());
-    app->addModule(new muse::uicomponents::UiComponentsModule());
-    app->addModule(new muse::dock::DockModule());
-#endif
-    app->addModule(new muse::tours::ToursModule());
     app->addModule(new muse::vst::VSTModule());
 
 // modules
-#ifdef MUE_BUILD_APPSHELL_MODULE
-    app->addModule(new mu::appshell::AppShellModule());
-#endif
-
 #ifdef MUSE_MODULE_AUTOBOT
     app->addModule(new muse::autobot::AutobotModule());
 #endif
 
     app->addModule(new mu::braille::BrailleModule());
-
     app->addModule(new muse::cloud::CloudModule());
-    app->addModule(new mu::commonscene::CommonSceneModule());
     app->addModule(new mu::context::ContextModule());
 
 #ifdef MUE_BUILD_CONVERTER_MODULE
@@ -422,13 +416,7 @@ std::shared_ptr<muse::IApplication> AppFactory::newConsoleApp(const CmdOptions& 
 #endif
 #endif
 
-    app->addModule(new mu::inspector::InspectorModule());
-    app->addModule(new mu::instrumentsscene::InstrumentsSceneModule());
     app->addModule(new muse::languages::LanguagesModule());
-    app->addModule(new muse::learn::LearnModule());
-    app->addModule(new muse::mi::MultiInstancesModule());
-    app->addModule(new mu::notation::NotationModule());
-    app->addModule(new mu::palette::PaletteModule());
     app->addModule(new mu::playback::PlaybackModule());
     app->addModule(new muse::extensions::ExtensionsModule());
 
@@ -436,12 +424,6 @@ std::shared_ptr<muse::IApplication> AppFactory::newConsoleApp(const CmdOptions& 
     app->addModule(new mu::print::PrintModule());
 #endif
     app->addModule(new mu::project::ProjectModule());
-    app->addModule(new muse::update::UpdateModule());
-    app->addModule(new muse::workspace::WorkspaceModule());
-
-// #ifdef Q_OS_WASM
-//     app->addModule(new mu::wasmtest::WasmTestModule());
-// #endif
 
     return app;
 }

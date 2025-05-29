@@ -149,6 +149,7 @@ add_to_link_if_enabled(${MUSE_MODULE_UI} muse::uicomponents)
 add_to_link_if_enabled(${MUSE_MODULE_UI} muse::dockwindow)
 
 add_to_link_if_enabled(${MUE_BUILD_APPSHELL_MODULE} appshell)
+add_to_link_if_enabled(${MUE_BUILD_PREFERENCES_MODULE} preferences)
 add_to_link_if_enabled(${MUE_BUILD_CONVERTER_MODULE} converter)
 add_to_link_if_enabled(${MUE_BUILD_PRINT_MODULE} print)
 

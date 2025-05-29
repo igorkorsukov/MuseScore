@@ -29,6 +29,10 @@ if (MUE_BUILD_APPSHELL_MODULE)
     add_subdirectory(appshell)
 endif()
 
+if (MUE_BUILD_PREFERENCES_MODULE)
+    add_subdirectory(preferences)
+endif()
+
 if (MUE_BUILD_BRAILLE_MODULE)
     add_subdirectory(braille)
 endif()
