@@ -28,11 +28,14 @@ BUILD_TOOLS=$HOME/build_tools
 ENV_FILE=$BUILD_TOOLS/environment.sh
 PACKARCH="x86_64" # x86_64, armv7l, aarch64
 COMPILER="gcc" # gcc, clang
+CONFIGURATION="app" # app, app-web
+EMSDK_VERSION="3.1.70" # for Qt 6.9
 
 while [[ "$#" -gt 0 ]]; do
     case $1 in
         --arch) PACKARCH="$2"; shift ;;
         --compiler) COMPILER="$2"; shift ;;
+        --configuration) CONFIGURATION="$2"; shift ;;
         *) echo "Unknown parameter passed: $1"; exit 1 ;;
     esac
     shift
@@ -200,6 +203,18 @@ case "$PACKARCH" in
 esac
 echo "ninja version"
 ninja --version
+
+if [[ "$CONFIGURATION" == "app-web" ]]; then
+  git clone https://github.com/emscripten-core/emsdk.git $BUILD_TOOLS/emsdk
+  origin_dir=$(pwd)
+  cd $BUILD_TOOLS/emsdk
+  git pull
+  ./emsdk install $EMSDK_VERSION
+  ./emsdk activate $EMSDK_VERSION
+  echo "source $BUILD_TOOLS/emsdk/emsdk_env.sh" >> ${ENV_FILE}
+  echo export CMAKE_TOOLCHAIN_FILE=${BUILD_TOOLS}/emsdk/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake
+  cd $origin_dir
+fi
 
 ##########################################################################
 # POST INSTALL

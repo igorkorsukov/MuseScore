@@ -28,12 +28,14 @@ ARTIFACTS_DIR=build.artifacts
 BUILD_MODE=""
 BUILD_DIR=build.release
 INSTALL_DIR="$(cat $BUILD_DIR/PREFIX.txt)" # MuseScore was installed here
+CONFIGURATION="app" # app, app-web
 
 while [[ "$#" -gt 0 ]]; do
     case $1 in
         --build_mode) BUILD_MODE="$2"; shift ;;
         -v|--version) BUILD_VERSION="$2"; shift ;;
         --arch) PACKARCH="$2"; shift ;;
+        --configuration) CONFIGURATION="$2"; shift ;;
         *) echo "Unknown parameter passed: $1"; exit 1 ;;
     esac
     shift
@@ -53,11 +55,14 @@ if [ "$BUILD_MODE" == "nightly" ]; then PACKTYPE=appimage; fi
 if [ "$BUILD_MODE" == "testing" ]; then PACKTYPE=appimage; fi
 if [ "$BUILD_MODE" == "stable" ]; then PACKTYPE=appimage; fi
 
+if [ "$CONFIGURATION" == "app-web" ]; then PACKTYPE=webdir; fi
+
 MAJOR_VERSION="${BUILD_VERSION%%.*}"
 
 if [ -z "$PACKARCH" ]; then PACKARCH="x86_64"; fi
 
 echo "BUILD_MODE: $BUILD_MODE"
+echo "CONFIGURATION: $CONFIGURATION"
 echo "BUILD_VERSION: $BUILD_VERSION"
 echo "MAJOR_VERSION: $MAJOR_VERSION"
 echo "PACKTYPE: $PACKTYPE"
@@ -98,6 +103,10 @@ if [ "$PACKTYPE" == "appimage" ]; then
         # zsync file contains data for automatic delta updates
         mv "${INSTALL_DIR}/../${ARTIFACT_NAME}.AppImage.zsync" "${ARTIFACTS_DIR}/"
     fi
+fi
+
+if [ "$PACKTYPE" == "webdir" ]; then
+    cp -r $BUILD_DIR/public_html $ARTIFACTS_DIR/public_html
 fi
 
 df -h .
