@@ -149,38 +149,10 @@ void GuiApp::perform()
     QQuickWindow::setDefaultAlphaBuffer(true);
 
     //! NOTE Adjust GS Api
-    //! We can hide this algorithm in GSApiProvider,
-    //! but it is intentionally left here to illustrate what is happening.
-    {
-        GraphicsApiProvider* gApiProvider = new GraphicsApiProvider(BaseApplication::appVersion());
-
-        GraphicsApi required = gApiProvider->requiredGraphicsApi();
-        if (required != GraphicsApi::Default) {
-            LOGI() << "Setting required graphics api: " << GraphicsApiProvider::apiName(required);
-            GraphicsApiProvider::setGraphicsApi(required);
-        }
-
-        LOGI() << "Using graphics api: " << GraphicsApiProvider::graphicsApiName();
-
-        if (GraphicsApiProvider::graphicsApi() == GraphicsApi::Software) {
-            gApiProvider->destroy();
-        } else {
-            LOGI() << "Detecting problems with graphics api";
-            gApiProvider->listen([this, gApiProvider, required](bool res) {
-                if (res) {
-                    LOGI() << "No problems detected with graphics api";
-                    gApiProvider->setGraphicsApiStatus(required, GraphicsApiProvider::Status::Checked);
-                } else {
-                    GraphicsApi next = gApiProvider->switchToNextGraphicsApi(required);
-                    LOGE() << "Detected problems with graphics api; switching from " << GraphicsApiProvider::apiName(required)
-                           << " to " << GraphicsApiProvider::apiName(next);
-
-                    this->restart();
-                }
-                gApiProvider->destroy();
-            });
-        }
-    }
+    //! If the API is switched, we need to restart
+    GraphicsApiProvider::adjustGraphicsApi(BaseApplication::appVersion(), [this]() {
+        this->restart();
+    });
 
     QQmlApplicationEngine* engine = ioc()->resolve<muse::ui::IUiEngine>("app")->qmlAppEngine();
 

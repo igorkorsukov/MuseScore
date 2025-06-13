@@ -143,6 +143,46 @@ GraphicsApiProvider::~GraphicsApiProvider()
     delete m_logDest;
 }
 
+void GraphicsApiProvider::adjustGraphicsApi(const Version& appVersion, const OnApiSwitched& f)
+{
+    //! NOTE The GraphicsApiProvider object will delete itself when it finishes working.
+    GraphicsApiProvider* p = new GraphicsApiProvider(appVersion);
+    p->doAdjustGraphicsApi(f);
+}
+
+void GraphicsApiProvider::doAdjustGraphicsApi(const OnApiSwitched& onSwitched)
+{
+    GraphicsApi required = requiredGraphicsApi();
+    if (required != GraphicsApi::Default) {
+        LOGI() << "Setting required graphics api: " << GraphicsApiProvider::apiName(required);
+        GraphicsApiProvider::setGraphicsApi(required);
+    }
+
+    LOGI() << "Using graphics api: " << GraphicsApiProvider::graphicsApiName();
+    LOGI() << "Platform name: " << QGuiApplication::platformName();
+
+    if (GraphicsApiProvider::graphicsApi() == GraphicsApi::Software) {
+        this->destroy();
+    } else {
+        LOGI() << "Detecting problems with graphics api";
+        this->listen([this, required, onSwitched](bool res) {
+            if (res) {
+                LOGI() << "No problems detected with graphics api";
+                setGraphicsApiStatus(required, GraphicsApiProvider::Status::Checked);
+            } else {
+                GraphicsApi next = switchToNextGraphicsApi(required);
+                LOGE() << "Detected problems with graphics api; switching from " << GraphicsApiProvider::apiName(required)
+                       << " to " << GraphicsApiProvider::apiName(next);
+
+                if (onSwitched) {
+                    onSwitched();
+                }
+            }
+            this->destroy();
+        });
+    }
+}
+
 void GraphicsApiProvider::setGraphicsApi(GraphicsApi api)
 {
     QQuickWindow::setGraphicsApi(static_cast<QSGRendererInterface::GraphicsApi>(api));

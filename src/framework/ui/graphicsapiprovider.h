@@ -52,6 +52,9 @@ public:
     static GraphicsApi apiByName(const QString& name);
     static QString apiName(GraphicsApi api);
 
+    using OnApiSwitched = std::function<void ()>;
+    static void adjustGraphicsApi(const Version& appVersion, const OnApiSwitched& f);
+
     GraphicsApi requiredGraphicsApi();
     void setGraphicsApiStatus(GraphicsApi api, Status status);
 
@@ -65,6 +68,8 @@ public:
     static GraphicsTestObject* graphicsTestObject;
 
 private:
+
+    void doAdjustGraphicsApi(const OnApiSwitched& f);
 
     QString dataFilePath() const;
 
