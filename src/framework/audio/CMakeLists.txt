@@ -119,13 +119,21 @@ set(MODULE_SRC
     ${CMAKE_CURRENT_LIST_DIR}/internal/abstractsynthesizer.cpp
     ${CMAKE_CURRENT_LIST_DIR}/internal/abstractsynthesizer.h
     ${CMAKE_CURRENT_LIST_DIR}/internal/abstracteventsequencer.h
+    ${CMAKE_CURRENT_LIST_DIR}/internal/playback.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/internal/playback.h
+    ${CMAKE_CURRENT_LIST_DIR}/internal/player.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/internal/player.h
 
     # Driver
     ${DRIVER_SRC}
 
     # Worker
-    ${CMAKE_CURRENT_LIST_DIR}/internal/worker/playback.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/internal/worker/playback.h
+    ${CMAKE_CURRENT_LIST_DIR}/internal/worker/iworkerplayback.h
+    ${CMAKE_CURRENT_LIST_DIR}/internal/worker/workerplayback.h
+    ${CMAKE_CURRENT_LIST_DIR}/internal/worker/workerplayback.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/internal/worker/iworkerplayer.h
+    ${CMAKE_CURRENT_LIST_DIR}/internal/worker/workerplayer.h
+    ${CMAKE_CURRENT_LIST_DIR}/internal/worker/workerplayer.cpp
     ${CMAKE_CURRENT_LIST_DIR}/internal/worker/abstractaudiosource.cpp
     ${CMAKE_CURRENT_LIST_DIR}/internal/worker/abstractaudiosource.h
     ${CMAKE_CURRENT_LIST_DIR}/internal/worker/samplerateconvertor.cpp
@@ -154,8 +162,6 @@ set(MODULE_SRC
     ${CMAKE_CURRENT_LIST_DIR}/internal/worker/equaliser.h
     ${CMAKE_CURRENT_LIST_DIR}/internal/worker/trackshandler.cpp
     ${CMAKE_CURRENT_LIST_DIR}/internal/worker/trackshandler.h
-    ${CMAKE_CURRENT_LIST_DIR}/internal/worker/player.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/internal/worker/player.h
     ${CMAKE_CURRENT_LIST_DIR}/internal/worker/audiooutputhandler.cpp
     ${CMAKE_CURRENT_LIST_DIR}/internal/worker/audiooutputhandler.h
     ${CMAKE_CURRENT_LIST_DIR}/internal/worker/itracksequence.h
@@ -168,6 +174,14 @@ set(MODULE_SRC
     ${CMAKE_CURRENT_LIST_DIR}/internal/worker/sequenceio.cpp
     ${CMAKE_CURRENT_LIST_DIR}/internal/worker/sequenceio.h
     ${CMAKE_CURRENT_LIST_DIR}/internal/worker/track.h
+    ${CMAKE_CURRENT_LIST_DIR}/internal/worker/iworkercontext.h
+    ${CMAKE_CURRENT_LIST_DIR}/internal/worker/workercontext.h
+    ${CMAKE_CURRENT_LIST_DIR}/internal/worker/workercontext.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/internal/worker/iworkerchannel.h
+    ${CMAKE_CURRENT_LIST_DIR}/internal/worker/workerchannel.h
+    ${CMAKE_CURRENT_LIST_DIR}/internal/worker/workerchannel.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/internal/worker/workerchannelcontroller.h
+    ${CMAKE_CURRENT_LIST_DIR}/internal/worker/workerchannelcontroller.cpp
 
     # DSP
     ${CMAKE_CURRENT_LIST_DIR}/internal/dsp/envelopefilterconfig.h
@@ -211,6 +225,11 @@ set(MODULE_SRC
     ${CMAKE_CURRENT_LIST_DIR}/internal/synthesizers/fluidsynth/fluidsoundfontparser.cpp
     ${CMAKE_CURRENT_LIST_DIR}/internal/synthesizers/synthresolver.cpp
     ${CMAKE_CURRENT_LIST_DIR}/internal/synthesizers/synthresolver.h
+
+    # RPC
+    ${CMAKE_CURRENT_LIST_DIR}/internal/rpc/irpcchannel.h
+    ${CMAKE_CURRENT_LIST_DIR}/internal/rpc/platform/general/generalrpcchannel.h
+    ${CMAKE_CURRENT_LIST_DIR}/internal/rpc/platform/general/generalrpcchannel.cpp
     )
 
 # fluidsynth dependency

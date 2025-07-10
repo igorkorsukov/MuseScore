@@ -28,10 +28,7 @@
 #include "internal/audiothread.h"
 #include "internal/audiosanitizer.h"
 
-#include "internal/worker/player.h"
-#include "internal/worker/trackshandler.h"
-#include "internal/worker/audiooutputhandler.h"
-#include "internal/worker/tracksequence.h"
+#include "internal/player.h"
 
 #include "audioerrors.h"
 
@@ -43,40 +40,24 @@ using namespace muse::async;
 
 void Playback::init()
 {
-    ONLY_AUDIO_WORKER_THREAD;
-
-    m_trackHandlersPtr = std::make_shared<TracksHandler>(this, iocContext());
-    m_audioOutputPtr = std::make_shared<AudioOutputHandler>(this, iocContext());
 }
 
 void Playback::deinit()
 {
-    ONLY_AUDIO_WORKER_THREAD;
-
-    m_sequences.clear();
-
-    m_trackHandlersPtr = nullptr;
-    m_audioOutputPtr = nullptr;
-
-    disconnectAll();
 }
 
 bool Playback::isInited() const
 {
-    return m_trackHandlersPtr != nullptr;
+    return true;//m_trackHandlersPtr != nullptr;
 }
 
 Promise<TrackSequenceId> Playback::addSequence()
 {
     return Promise<TrackSequenceId>([this](auto resolve, auto /*reject*/) {
         ONLY_AUDIO_WORKER_THREAD;
-
-        TrackSequenceId newId = static_cast<TrackSequenceId>(m_sequences.size());
-
-        m_sequences.emplace(newId, std::make_shared<TrackSequence>(newId, iocContext()));
+        TrackSequenceId newId = workerPlayback()->addSequence();
         m_sequenceAdded.send(newId);
-
-        return resolve(std::move(newId));
+        return resolve(newId);
     }, AudioThread::ID);
 }
 
@@ -84,13 +65,7 @@ Promise<TrackSequenceIdList> Playback::sequenceIdList() const
 {
     return Promise<TrackSequenceIdList>([this](auto resolve, auto /*reject*/) {
         ONLY_AUDIO_WORKER_THREAD;
-
-        TrackSequenceIdList result;
-
-        for (const auto& pair : m_sequences) {
-            result.push_back(pair.first);
-        }
-
+        TrackSequenceIdList result = workerPlayback()->sequenceIdList();
         return resolve(std::move(result));
     }, AudioThread::ID);
 }
@@ -99,13 +74,7 @@ void Playback::removeSequence(const TrackSequenceId id)
 {
     Async::call(this, [this, id]() {
         ONLY_AUDIO_WORKER_THREAD;
-
-        auto search = m_sequences.find(id);
-
-        if (search != m_sequences.end()) {
-            m_sequences.erase(search);
-        }
-
+        workerPlayback()->removeSequence(id);
         m_sequenceRemoved.send(id);
     }, AudioThread::ID);
 }
@@ -126,34 +95,17 @@ Channel<TrackSequenceId> Playback::sequenceRemoved() const
 
 IPlayerPtr Playback::player(const TrackSequenceId id) const
 {
-    std::shared_ptr<Player> p = std::make_shared<Player>(this, id);
-    p->init();
-    return p;
+    return workerPlayback()->player(id);
 }
 
 ITracksPtr Playback::tracks() const
 {
     ONLY_AUDIO_MAIN_OR_WORKER_THREAD;
 
-    return m_trackHandlersPtr;
+    return workerPlayback()->tracks();
 }
 
 IAudioOutputPtr Playback::audioOutput() const
 {
-    ONLY_AUDIO_MAIN_OR_WORKER_THREAD;
-
-    return m_audioOutputPtr;
-}
-
-ITrackSequencePtr Playback::sequence(const TrackSequenceId id) const
-{
-    ONLY_AUDIO_WORKER_THREAD;
-
-    auto search = m_sequences.find(id);
-
-    if (search != m_sequences.end()) {
-        return search->second;
-    }
-
-    return nullptr;
+    return workerPlayback()->audioOutput();
 }

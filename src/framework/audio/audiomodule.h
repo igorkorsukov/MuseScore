@@ -37,6 +37,14 @@ namespace muse::audio::synth  {
 class SynthResolver;
 }
 
+namespace muse::audio::worker  {
+class WorkerPlayback;
+}
+
+namespace muse::audio::rpc  {
+class GeneralRpcChannel;
+}
+
 namespace muse::audio {
 class AudioConfiguration;
 class AudioEngine;
@@ -68,6 +76,7 @@ private:
 
     std::shared_ptr<AudioConfiguration> m_configuration;
     std::shared_ptr<AudioEngine> m_audioEngine;
+    std::shared_ptr<rpc::GeneralRpcChannel> m_rpcChannel;
     std::shared_ptr<AudioThread> m_audioWorker;
     std::shared_ptr<AudioBuffer> m_audioBuffer;
     std::shared_ptr<AudioOutputDeviceController> m_audioOutputController;
@@ -75,7 +84,8 @@ private:
     std::shared_ptr<fx::FxResolver> m_fxResolver;
     std::shared_ptr<synth::SynthResolver> m_synthResolver;
 
-    std::shared_ptr<Playback> m_playbackFacade;
+    std::shared_ptr<Playback> m_mainPlayback;
+    std::shared_ptr<worker::WorkerPlayback> m_workerPlayback;
 
     std::shared_ptr<SoundFontRepository> m_soundFontRepository;
 

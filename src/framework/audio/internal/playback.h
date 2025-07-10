@@ -22,20 +22,21 @@
 #ifndef MUSE_AUDIO_SEQUENCER_H
 #define MUSE_AUDIO_SEQUENCER_H
 
-#include <map>
-
-#include "modularity/ioc.h"
 #include "global/async/asyncable.h"
+
+#include "global/modularity/ioc.h"
+#include "worker/iworkerplayback.h"
 
 #include "iplayer.h"
 #include "itracks.h"
 #include "iaudiooutput.h"
-#include "igettracksequence.h"
 #include "iplayback.h"
 
 namespace muse::audio {
-class Playback : public IPlayback, public IGetTrackSequence, public Injectable, public async::Asyncable
+class Playback : public IPlayback, public Injectable, public async::Asyncable
 {
+    Inject<worker::IWorkerPlayback> workerPlayback;
+
 public:
     Playback(const muse::modularity::ContextPtr& iocCtx)
         : Injectable(iocCtx) {}
@@ -56,15 +57,7 @@ public:
     ITracksPtr tracks() const override;
     IAudioOutputPtr audioOutput() const override;
 
-protected:
-    // IGetTrackSequence
-    ITrackSequencePtr sequence(const TrackSequenceId id) const override;
-
 private:
-    ITracksPtr m_trackHandlersPtr = nullptr;
-    IAudioOutputPtr m_audioOutputPtr = nullptr;
-
-    std::map<TrackSequenceId, ITrackSequencePtr> m_sequences;
 
     async::Channel<TrackSequenceId> m_sequenceAdded;
     async::Channel<TrackSequenceId> m_sequenceRemoved;
