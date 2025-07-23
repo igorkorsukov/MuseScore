@@ -28,6 +28,7 @@
 
 #include "async/channel.h"
 #include "realfn.h"
+#include "global/types/number.h"
 #include "types/flags.h"
 
 #include "mpetypes.h"
@@ -36,7 +37,7 @@
 namespace muse::mpe {
 struct NoteEvent;
 struct RestEvent;
-using PlaybackEvent = std::variant<NoteEvent, RestEvent>;
+using PlaybackEvent = std::variant<std::monostate, NoteEvent, RestEvent>;
 using PlaybackEventList = std::vector<PlaybackEvent>;
 using PlaybackEventsMap = std::map<timestamp_t, PlaybackEventList>;
 
@@ -69,7 +70,7 @@ struct ArrangementContext
                && actualDuration == other.actualDuration
                && voiceLayerIndex == other.voiceLayerIndex
                && staffLayerIndex == other.staffLayerIndex
-               && bps == other.bps;
+               && muse::is_equal(bps, other.bps);
     }
 };
 
@@ -309,6 +310,8 @@ struct PlaybackParam {
     Type type = Undefined;
     Value val;
     Flags<FlagType> flags;
+
+    PlaybackParam() = default;
 
     PlaybackParam(Type t, Value v, const Flags<FlagType>& f = {})
         : type(t), val(std::move(v)), flags(f)
