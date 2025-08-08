@@ -67,7 +67,7 @@ struct ObjectWithPack {
     String mustr;
     number_t<float> mureal;
 
-    template<class T>
+    template<typename T>
     void pack(T& pack)
     {
         pack(i32, ui64, float32, float64, str, b, vi, map, mustr, mureal);
