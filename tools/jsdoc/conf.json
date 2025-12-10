@@ -15,7 +15,7 @@
         }
     },
 	"opts": {
-        "template": "./template",
+        "template": "./template2",
         "encoding": "utf8",               
         "destination": "./out/",          
         "recurse": true,                  
