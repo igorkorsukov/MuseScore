@@ -1,0 +1,33 @@
+
+
+.navbar {
+    height: 40px;  
+    background-color: #fff; 
+    width: 100%;
+    float: none;
+	display: flex;
+	justify-content: flex-end; 
+    box-sizing: border-box;
+}
+
+.button-icon {
+    width: 1.8rem;
+    height: 1.8rem;
+}
+
+.icon-button {
+    height: 2rem;
+	width: 2rem;
+    padding: 0; 
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    display: flex; 
+    align-items: center;
+    justify-content: center;
+}
+
+body.dark-mode {
+    background-color: #333;
+    color: #fff;
+}
