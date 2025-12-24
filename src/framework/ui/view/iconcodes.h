@@ -59,7 +59,7 @@ public:
 
     /** APIDOC
      * Icon code
-     * @memberof Qml
+     * @memberof Controls
      * @enum
      * @name IconCode
      */

@@ -3,7 +3,7 @@ const path = require('node:path');
 const readline = require('node:readline');
 
 const VERSION = "0.2"
-const QML_NS = "Qml"
+const QML_NS = "Controls"
 
 var filter = {
     ignoreFile: "",
@@ -499,14 +499,10 @@ async function extractDoc(file)
                 }
             }
 
-            this.doclets.push(doclet);
-
-            // reset
-            this.currentComment = "";
-            this.parentDoc = null;
-            this.doc = null;
             this.docs = [];
-        },
+
+            this.doclets.push(doclet);
+        }
     }                                   
 
     for await (let line of rl) {

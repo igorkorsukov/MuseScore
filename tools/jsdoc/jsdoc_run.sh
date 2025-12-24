@@ -10,15 +10,19 @@ GEN_APIDOCS_DIR=${HERE}/gen_apidoc
 
 JSDOC=${HERE}/node_modules/.bin/jsdoc
 
-echo "Cleaning ${GEN_APIDOCSRC_DIR}"
-rm -rf ${GEN_APIDOCSRC_DIR}
-mkdir -p ${GEN_APIDOCSRC_DIR}
+IS_EXTRACT=1
 
-echo "Extracting docs..."
-node ${HERE}/jsdoc_extractor.js -d ${SRC_DIR} -e .cpp,.h,.qml -o ${GEN_APIDOCSRC_DIR}
+if [ $IS_EXTRACT -eq 1 ]; then
+    echo "Cleaning ${GEN_APIDOCSRC_DIR}"
+    rm -rf ${GEN_APIDOCSRC_DIR}
+    mkdir -p ${GEN_APIDOCSRC_DIR}
 
-echo "Copying static..."
-cp -r ${APIDOC_STATIC_DIR}/* ${GEN_APIDOCSRC_DIR}/
+    echo "Extracting docs..."
+    node ${HERE}/jsdoc_extractor.js -d ${SRC_DIR} -e .cpp,.h,.qml -o ${GEN_APIDOCSRC_DIR}
+
+    echo "Copying static..."
+    cp -r ${APIDOC_STATIC_DIR}/* ${GEN_APIDOCSRC_DIR}/
+fi
 
 echo "Generating docs..."
 rm -rf ${GEN_APIDOCS_DIR}

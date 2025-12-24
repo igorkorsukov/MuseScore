@@ -33,13 +33,14 @@ import Muse.UiComponents
  * @hideconstructor
  * @example
  * import MuseApi.Controls
+ * import MuseApi.Interactive
  *
  * ExtensionBlank {
  *      FlatButton {
  *          icon: IconCode.STAR
  *          text: "Click me"
  *          onClicked: {
- *              api.interactive.info("Test", "Clicked on button")
+ *              Interactive.info("Test", "Clicked on button")
  *          }
  *      }
  * }

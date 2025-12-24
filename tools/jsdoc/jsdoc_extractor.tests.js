@@ -87,10 +87,52 @@ async function classTest() {
     console.log(doc)
 }
 
+async function qmlTest() {
+    const testFile = TEMP_DIR + "/type.qml";
+    const testCode = `
+            /** APIDOC
+             * Qml UI Controls.  
+             * When using controls and types from this module, you do not need to specify the namespace name, unlike others.
+             * @namespace Controls
+             * @example
+             * import MuseApi.Controls
+             * import MuseApi.Interactive
+             * 
+             * ExtensionBlank {
+             *      FlatButton {
+             *          icon: IconCode.STAR
+             *          text: "Click me"
+             *          onClicked: {
+             *              Interactive.info("Test", "Clicked on button")
+             *          }
+             *      }
+             * }
+             */
+
+            /** APIDOC
+             * Base class for extension form
+             * @class ExtensionBlank
+             * @hideconstructor
+             * @example
+             * import MuseApi.Controls
+             *
+             * ExtensionBlank {
+             *     // content of extension form
+             * }
+            */
+    `;
+
+    saveFile(testCode, testFile);
+
+    const doc = await extractDoc(testFile);
+    console.log(doc)
+}
+
 async function main() 
 {
     //await enumTest();
-   await classTest();
+    //await classTest();
+    await qmlTest();
 }
 
 main();

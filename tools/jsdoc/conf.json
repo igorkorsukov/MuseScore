@@ -19,10 +19,6 @@
         "encoding": "utf8",                       
         "recurse": true,                  
         "theme_opts": {
-            "default_theme": "light",
-            "title": "Home",
-            "sections": ["Tutorials", "Namespaces", "Classes", "Global"],
-            "sort": false
         }                
 	},
     "markdown": {

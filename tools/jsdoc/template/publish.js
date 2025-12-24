@@ -359,14 +359,14 @@ function buildNav(members) {
     const seen = {};
     const seenTutorials = {};
 
-    nav += buildMemberNav(members.modules, 'Modules', {}, linkto);
-    nav += buildMemberNav(members.externals, 'Externals', seen, linktoExternal);
+    nav += buildMemberNav(members.tutorials, 'Tutorials', seenTutorials, linktoTutorial);
     nav += buildMemberNav(members.namespaces, 'Namespaces', seen, linkto);
     nav += buildMemberNav(members.classes, 'Classes', seen, linkto);
+    nav += buildMemberNav(members.modules, 'Modules', {}, linkto);
+    nav += buildMemberNav(members.externals, 'Externals', seen, linktoExternal);
     nav += buildMemberNav(members.interfaces, 'Interfaces', seen, linkto);
     nav += buildMemberNav(members.events, 'Events', seen, linkto);
     nav += buildMemberNav(members.mixins, 'Mixins', seen, linkto);
-    nav += buildMemberNav(members.tutorials, 'Tutorials', seenTutorials, linktoTutorial);
 
     if (members.globals.length) {
         globalNav = '';

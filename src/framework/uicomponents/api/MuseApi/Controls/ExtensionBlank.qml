@@ -22,10 +22,24 @@
 import QtQuick
 import MuseApi.Theme
 
-//! NOTE Root namespace for all Qml types
+//! NOTE Root namespace for all Qml Controls types
 /** APIDOC
- * Qml UI Controls
- * @namespace Qml
+ * Qml UI Controls.  
+ * When using controls and types from this module, you do not need to specify the namespace name, unlike others.
+ * @namespace Controls
+ * @example
+ * import MuseApi.Controls
+ * import MuseApi.Interactive
+ * 
+ * ExtensionBlank {
+ *      FlatButton {
+ *          icon: IconCode.STAR
+ *          text: "Click me"
+ *          onClicked: {
+ *              Interactive.info("Test", "Clicked on button")
+ *          }
+ *      }
+ * }
  */
 
 /** APIDOC
