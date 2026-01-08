@@ -36,6 +36,7 @@ public:
 
     virtual std::string moduleName() const = 0;
 
+    virtual void registerGlobalExports() {}
     virtual void registerExports() {}
     virtual void resolveImports() {}
 
@@ -59,6 +60,7 @@ public:
 
     std::shared_ptr<IApplication> application() const { return m_application; }
 
+    bool isGlobalInited() const { return m_application ? m_application->isGlobalInited() : false; }
     const modularity::ContextPtr iocContext() const { return m_application ? m_application->iocContext() : muse::modularity::globalCtx(); }
     ModulesIoC* ioc() const { return m_application ? m_application->ioc() : muse::modularity::globalIoc(); }
 

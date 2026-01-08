@@ -57,6 +57,7 @@ public:
 
     void restart() override;
 
+    bool isGlobalInited() const override;
     const modularity::ContextPtr iocContext() const override;
     modularity::ModulesIoC* ioc() const override;
 
@@ -72,6 +73,8 @@ public:
 protected:
 
     void removeIoC();
+
+    bool m_isGlobalInited = false;
 
 private:
     RunMode m_runMode = RunMode::GuiApp;

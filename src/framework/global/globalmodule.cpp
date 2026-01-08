@@ -97,18 +97,24 @@ std::string GlobalModule::moduleName() const
     return "global";
 }
 
+void GlobalModule::registerGlobalExports()
+{
+    m_configuration = std::make_shared<GlobalConfiguration>();
+
+    ioc()->registerExport<IGlobalConfiguration>(moduleName(), m_configuration);
+}
+
 void GlobalModule::registerExports()
 {
     if (!m_application) {
         m_application = std::make_shared<ApplicationStub>();
     }
 
-    m_configuration = std::make_shared<GlobalConfiguration>(iocContext());
     m_systemInfo = std::make_shared<SystemInfo>();
     m_tickerProvider = std::make_shared<TickerProvider>();
 
     ioc()->registerExport<IApplication>(moduleName(), m_application);
-    ioc()->registerExport<IGlobalConfiguration>(moduleName(), m_configuration);
+
     ioc()->registerExport<ISystemInfo>(moduleName(), m_systemInfo);
     ioc()->registerExport<ICryptographicHash>(moduleName(), new CryptographicHash());
     ioc()->registerExport<IProcess>(moduleName(), new Process());

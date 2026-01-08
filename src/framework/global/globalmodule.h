@@ -19,8 +19,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-#ifndef MUSE_GLOBAL_GLOBALMODULE_H
-#define MUSE_GLOBAL_GLOBALMODULE_H
+#pragma once
 
 #include <memory>
 #include <optional>
@@ -46,6 +45,7 @@ public:
     GlobalModule();
 
     std::string moduleName() const override;
+    void registerGlobalExports() override;
     void registerExports() override;
     void registerApi() override;
     void onPreInit(const IApplication::RunMode& mode) override;
@@ -65,5 +65,3 @@ private:
     bool m_endTimePeriod = false;
 };
 }
-
-#endif // MUSE_GLOBAL_GLOBALMODULE_H

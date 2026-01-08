@@ -114,6 +114,10 @@ String BaseApplication::appRevision()
 BaseApplication::BaseApplication(const modularity::ContextPtr& ctx)
     : muse::Injectable(ctx), m_iocContext(ctx)
 {
+    //! NOTE If the ID is 0 (or -1), this indicates the first instance of the application,
+    // and global services need to be initialized.
+    // If it is greater than 0, global services have already been initialized.
+    m_isGlobalInited = ctx->id > 0;
 }
 
 void BaseApplication::setRunMode(const RunMode& mode)
@@ -171,6 +175,11 @@ void BaseApplication::restart()
 #endif
 }
 
+bool BaseApplication::isGlobalInited() const
+{
+    return m_isGlobalInited;
+}
+
 const modularity::ContextPtr BaseApplication::iocContext() const
 {
     return m_iocContext;
@@ -183,7 +192,6 @@ modularity::ModulesIoC* BaseApplication::ioc() const
 
 void BaseApplication::removeIoC()
 {
-    modularity::_ioc(m_iocContext)->reset();
     modularity::removeIoC(m_iocContext);
 }
 

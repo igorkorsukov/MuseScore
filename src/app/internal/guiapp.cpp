@@ -127,6 +127,8 @@ void GuiApp::perform()
         m->onAllInited(runMode);
     }
 
+    m_isGlobalInited = true;
+
     // ====================================================
     // Setup modules: onStartApp (on next event loop)
     // ====================================================

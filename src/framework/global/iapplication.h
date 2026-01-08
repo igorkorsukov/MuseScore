@@ -63,6 +63,7 @@ public:
     virtual void finish() = 0;
     virtual void restart() = 0;
 
+    virtual bool isGlobalInited() const = 0;
     virtual const modularity::ContextPtr iocContext() const = 0;
     virtual modularity::ModulesIoC* ioc() const = 0;
 
