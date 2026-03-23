@@ -34,11 +34,21 @@ public:
 
     std::string moduleName() const override;
     void registerExports() override;
-    void resolveImports() override;
     void onInit(const muse::IApplication::RunMode& mode) override;
+
+    muse::modularity::IContextSetup* newContext(const muse::modularity::ContextPtr& ctx) const override;
 
 private:
     std::shared_ptr<ImagesExportConfiguration> m_configuration;
+};
+
+class ImagesExportContext : public muse::modularity::IContextSetup
+{
+public:
+    ImagesExportContext(const muse::modularity::ContextPtr& ctx)
+        : muse::modularity::IContextSetup(ctx) {}
+
+    void resolveImports() override;
 };
 }
 

@@ -36,7 +36,18 @@ public:
     void resolveImports() override;
     void onInit(const muse::IApplication::RunMode&) override;
 
+    muse::modularity::IContextSetup* newContext(const muse::modularity::ContextPtr& ctx) const override;
+
 private:
     std::shared_ptr<MusicXmlConfiguration> m_configuration;
+};
+
+class MusicXmlContext : public muse::modularity::IContextSetup
+{
+public:
+    MusicXmlContext(const muse::modularity::ContextPtr& ctx)
+        : muse::modularity::IContextSetup(ctx) {}
+
+    void resolveImports() override;
 };
 }

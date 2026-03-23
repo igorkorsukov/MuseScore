@@ -35,32 +35,42 @@ using namespace muse;
 using namespace mu::iex::mei;
 using namespace mu::project;
 
+static const std::string mname("iex_mei");
+
 std::string MeiModule::moduleName() const
 {
-    return "iex_mei";
+    return mname;
 }
 
 void MeiModule::registerExports()
 {
     m_configuration = std::make_shared<MeiConfiguration>();
 
-    globalIoc()->registerExport<IMeiConfiguration>(moduleName(), m_configuration);
+    globalIoc()->registerExport<IMeiConfiguration>(mname, m_configuration);
 }
 
 void MeiModule::resolveImports()
 {
-    auto readers = globalIoc()->resolve<INotationReadersRegister>(moduleName());
+    auto readers = globalIoc()->resolve<INotationReadersRegister>(mname);
     if (readers) {
         readers->reg({ "mei" }, std::make_shared<MeiReader>(muse::modularity::globalCtx()));
-    }
-
-    auto writers = globalIoc()->resolve<INotationWritersRegister>(moduleName());
-    if (writers) {
-        writers->reg({ "mei" }, std::make_shared<MeiWriter>());
     }
 }
 
 void MeiModule::onInit(const IApplication::RunMode&)
 {
     m_configuration->init();
+}
+
+muse::modularity::IContextSetup* MeiModule::newContext(const muse::modularity::ContextPtr& ctx) const
+{
+    return new MeiContext(ctx);
+}
+
+void MeiContext::resolveImports()
+{
+    auto writers = ioc()->resolve<INotationWritersRegister>(mname);
+    if (writers) {
+        writers->reg({ "mei" }, std::make_shared<MeiWriter>());
+    }
 }

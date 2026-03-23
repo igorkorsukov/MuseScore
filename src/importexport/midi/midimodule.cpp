@@ -36,32 +36,42 @@ using namespace muse::modularity;
 using namespace mu::iex::midi;
 using namespace mu::project;
 
+static const std::string mname("iex_midi");
+
 std::string MidiModule::moduleName() const
 {
-    return "iex_midi";
+    return mname;
 }
 
 void MidiModule::registerExports()
 {
     m_configuration = std::make_shared<MidiConfiguration>();
 
-    globalIoc()->registerExport<IMidiImportExportConfiguration>(moduleName(), m_configuration);
+    globalIoc()->registerExport<IMidiImportExportConfiguration>(mname, m_configuration);
 }
 
 void MidiModule::resolveImports()
 {
-    auto readers = globalIoc()->resolve<INotationReadersRegister>(moduleName());
+    auto readers = globalIoc()->resolve<INotationReadersRegister>(mname);
     if (readers) {
         readers->reg({ "mid", "midi", "kar" }, std::make_shared<NotationMidiReader>());
-    }
-
-    auto writers = globalIoc()->resolve<INotationWritersRegister>(moduleName());
-    if (writers) {
-        writers->reg({ "mid", "midi", "kar" }, std::make_shared<NotationMidiWriter>(globalCtx()));
     }
 }
 
 void MidiModule::onInit(const muse::IApplication::RunMode&)
 {
     m_configuration->init();
+}
+
+IContextSetup* MidiModule::newContext(const muse::modularity::ContextPtr& ctx) const
+{
+    return new MidiContext(ctx);
+}
+
+void MidiContext::resolveImports()
+{
+    auto writers = ioc()->resolve<INotationWritersRegister>(mname);
+    if (writers) {
+        writers->reg({ "mid", "midi", "kar" }, std::make_shared<NotationMidiWriter>());
+    }
 }

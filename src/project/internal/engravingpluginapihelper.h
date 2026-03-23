@@ -33,7 +33,7 @@
 namespace mu::project {
 class EngravingPluginAPIHelper : public engraving::IEngravingPluginAPIHelper, public muse::Contextable
 {
-    muse::GlobalInject<INotationWritersRegister> writers;
+    muse::ContextInject<INotationWritersRegister> writers = { this };
     muse::ContextInject<context::IGlobalContext> globalContext = { this };
     muse::ContextInject<IProjectFilesController> projectFilesController = { this };
     muse::ContextInject<IExportProjectScenario> exportProjectScenario = { this };

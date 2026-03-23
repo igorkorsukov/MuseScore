@@ -37,8 +37,19 @@ public:
     void resolveImports() override;
     void onInit(const muse::IApplication::RunMode& mode) override;
 
+    muse::modularity::IContextSetup* newContext(const muse::modularity::ContextPtr& ctx) const override;
+
 private:
     std::shared_ptr<MidiConfiguration> m_configuration;
+};
+
+class MidiContext : public muse::modularity::IContextSetup
+{
+public:
+    MidiContext(const muse::modularity::ContextPtr& ctx)
+        : muse::modularity::IContextSetup(ctx) {}
+
+    void resolveImports() override;
 };
 }
 

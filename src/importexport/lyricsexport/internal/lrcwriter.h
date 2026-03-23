@@ -31,16 +31,13 @@ class Score;
 }
 
 namespace mu::iex::lrcexport {
-class LRCWriter : public project::INotationWriter, public muse::Contextable
+class LRCWriter : public project::INotationWriter
 {
 public:
     muse::GlobalInject<mu::iex::lrcexport::ILyricsExportConfiguration> configuration;
 
 public:
-    LRCWriter(const muse::modularity::ContextPtr& iocCtx)
-        : muse::Contextable(iocCtx)
-    {
-    }
+    LRCWriter() = default;
 
     // Interface implementation
     std::vector<UnitType> supportedUnitTypes() const override;

@@ -33,7 +33,18 @@ public:
     void resolveImports() override;
     void onInit(const muse::IApplication::RunMode&) override;
 
+    muse::modularity::IContextSetup* newContext(const muse::modularity::ContextPtr& ctx) const override;
+
 private:
     std::shared_ptr<class MnxConfiguration> m_configuration;
+};
+
+class MnxModuleContext : public muse::modularity::IContextSetup
+{
+public:
+    MnxModuleContext(const muse::modularity::ContextPtr& ctx)
+        : muse::modularity::IContextSetup(ctx) {}
+
+    void resolveImports() override;
 };
 } // namespace mu::iex::mnxio

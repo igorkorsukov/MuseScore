@@ -39,9 +39,9 @@ class ConverterController : public IConverterController, public muse::Contextabl
 {
     muse::GlobalInject<project::IProjectCreator> notationCreator;
     muse::GlobalInject<muse::extensions::IExtensionsProvider> extensionsProvider;
-    muse::GlobalInject<project::INotationWritersRegister> writers;
     muse::GlobalInject<project::IProjectRWRegister> projectRW;
     muse::ContextInject<context::IGlobalContext> globalContext = { this };
+    muse::ContextInject<project::INotationWritersRegister> writers = { this };
 
 public:
     ConverterController(const muse::modularity::ContextPtr& iocCtx)

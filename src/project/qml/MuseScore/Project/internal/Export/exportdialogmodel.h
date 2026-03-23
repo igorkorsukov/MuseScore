@@ -107,7 +107,7 @@ class ExportDialogModel : public QAbstractListModel, public QQmlParserStatus, pu
     muse::GlobalInject<iex::mnxio::IMnxConfiguration> mnxConfiguration;
     muse::GlobalInject<IProjectConfiguration> configuration;
     muse::GlobalInject<iex::imagesexport::IImagesExportConfiguration> imageExportConfiguration;
-    muse::GlobalInject<INotationWritersRegister> writers;
+    muse::ContextInject<INotationWritersRegister> writers = { this };
     muse::ContextInject<muse::IInteractive> interactive = { this };
     muse::ContextInject<context::IGlobalContext> context = { this };
     muse::ContextInject<IExportProjectScenario> exportProjectScenario = { this };

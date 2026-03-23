@@ -27,7 +27,12 @@
 #include "inotationwriter.h"
 
 namespace mu::project {
-class INotationWritersRegister : MODULE_GLOBAL_INTERFACE
+//! TODO It would be good to make this register and writers global, but:
+// * Writers now have a state: progress and abortion.
+// Progress must be passed as an argument and, through it, abortion must be performed.
+// * Audio writers currently access the audio subsystem.
+// However, it's currently contextual. This could be fixed.
+class INotationWritersRegister : MODULE_CONTEXT_INTERFACE
 {
     INTERFACE_ID(INotationWritersRegister)
 

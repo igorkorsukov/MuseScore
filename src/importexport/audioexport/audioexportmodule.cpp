@@ -38,30 +38,37 @@ using namespace muse::modularity;
 using namespace mu::iex::audioexport;
 using namespace mu::project;
 
+static const std::string mname("iex_audioexport");
+
 std::string AudioExportModule::moduleName() const
 {
-    return "iex_audioexport";
+    return mname;
 }
 
 void AudioExportModule::registerExports()
 {
     m_configuration = std::make_shared<AudioExportConfiguration>();
 
-    globalIoc()->registerExport<AudioExportConfiguration>(moduleName(), m_configuration);
+    globalIoc()->registerExport<AudioExportConfiguration>(mname, m_configuration);
 }
 
-void AudioExportModule::resolveImports()
+void AudioExportModule::onInit(const IApplication::RunMode&)
 {
-    auto writers = globalIoc()->resolve<INotationWritersRegister>(moduleName());
+    m_configuration->init();
+}
+
+IContextSetup* AudioExportModule::newContext(const muse::modularity::ContextPtr& ctx) const
+{
+    return new AudioExportContext(ctx);
+}
+
+void AudioExportContext::resolveImports()
+{
+    auto writers = ioc()->resolve<INotationWritersRegister>(mname);
     if (writers) {
         writers->reg({ "wav" }, std::make_shared<WaveWriter>(globalCtx()));
         writers->reg({ "mp3" }, std::make_shared<Mp3Writer>(globalCtx()));
         writers->reg({ "ogg" }, std::make_shared<OggWriter>(globalCtx()));
         writers->reg({ "flac" }, std::make_shared<FlacWriter>(globalCtx()));
     }
-}
-
-void AudioExportModule::onInit(const IApplication::RunMode&)
-{
-    m_configuration->init();
 }

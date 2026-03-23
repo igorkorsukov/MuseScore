@@ -35,8 +35,19 @@ public:
     void resolveImports() override;
     void onInit(const muse::IApplication::RunMode& mode) override;
 
+    muse::modularity::IContextSetup* newContext(const muse::modularity::ContextPtr& ctx) const override;
+
 private:
     std::shared_ptr<MeiConfiguration> m_configuration;
+};
+
+class MeiContext : public muse::modularity::IContextSetup
+{
+public:
+    MeiContext(const muse::modularity::ContextPtr& ctx)
+        : muse::modularity::IContextSetup(ctx) {}
+
+    void resolveImports() override;
 };
 }
 

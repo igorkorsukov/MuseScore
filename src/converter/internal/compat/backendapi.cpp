@@ -288,6 +288,8 @@ Ret BackendApi::exportScorePngs(const INotationPtr notation, BackendJsonWriter& 
 {
     TRACEFUNC
 
+    muse::ContextInject<project::INotationWritersRegister> writers = { notation->iocContext() };
+
     auto pngWriter = writers()->writer(PNG_WRITER_NAME);
     if (!pngWriter) {
         LOGW() << "Not found writer " << PNG_WRITER_NAME;
@@ -328,6 +330,8 @@ Ret BackendApi::exportScoreSvgs(const INotationPtr notation, const muse::io::pat
                                 bool addSeparator)
 {
     TRACEFUNC
+
+    muse::ContextInject<project::INotationWritersRegister> writers = { notation->iocContext() };
 
     auto svgWriter = writers()->writer(SVG_WRITER_NAME);
     if (!svgWriter) {
@@ -477,6 +481,8 @@ Ret BackendApi::devInfo(const notation::INotationPtr notation, BackendJsonWriter
 
 RetVal<QByteArray> BackendApi::processWriter(const std::string& writerName, const INotationPtr notation)
 {
+    muse::ContextInject<project::INotationWritersRegister> writers = { notation->iocContext() };
+
     auto writer = writers()->writer(writerName);
     if (!writer) {
         LOGW() << "Not found writer " << writerName;
@@ -504,6 +510,8 @@ RetVal<QByteArray> BackendApi::processWriter(const std::string& writerName, cons
 RetVal<QByteArray> BackendApi::processWriter(const std::string& writerName, const INotationPtrList notations,
                                              const INotationWriter::Options& options)
 {
+    muse::ContextInject<project::INotationWritersRegister> writers = { notations.front()->iocContext() };
+
     auto writer = writers()->writer(writerName);
     if (!writer) {
         LOGW() << "Not found writer " << writerName;

@@ -33,30 +33,41 @@ using namespace muse::modularity;
 using namespace mu::iex::mnxio;
 using namespace mu::project;
 
+static const std::string mname("iex_mnx");
+
 std::string MnxModule::moduleName() const
 {
-    return "iex_mnx";
+    return mname;
 }
 
 void MnxModule::registerExports()
 {
     m_configuration = std::make_shared<MnxConfiguration>();
-    globalIoc()->registerExport<IMnxConfiguration>(moduleName(), m_configuration);
+    globalIoc()->registerExport<IMnxConfiguration>(mname, m_configuration);
 }
 
 void MnxModule::resolveImports()
 {
-    auto readers = globalIoc()->resolve<INotationReadersRegister>(moduleName());
+    auto readers = globalIoc()->resolve<INotationReadersRegister>(mname);
     if (readers) {
-        readers->reg({ "mnx", "json" }, std::make_shared<NotationMnxReader>(globalCtx()));
-    }
-    auto writers = globalIoc()->resolve<INotationWritersRegister>(moduleName());
-    if (writers) {
-        writers->reg({ "mnx" }, std::make_shared<NotationMnxWriter>(globalCtx()));
+        readers->reg({ "mnx", "json" }, std::make_shared<NotationMnxReader>());
     }
 }
 
 void MnxModule::onInit(const muse::IApplication::RunMode&)
 {
     m_configuration->init();
+}
+
+IContextSetup* MnxModule::newContext(const muse::modularity::ContextPtr& ctx) const
+{
+    return new MnxModuleContext(ctx);
+}
+
+void MnxModuleContext::resolveImports()
+{
+    auto writers = ioc()->resolve<INotationWritersRegister>(mname);
+    if (writers) {
+        writers->reg({ "mnx" }, std::make_shared<NotationMnxWriter>());
+    }
 }

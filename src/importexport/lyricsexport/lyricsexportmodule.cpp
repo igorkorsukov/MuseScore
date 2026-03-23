@@ -33,26 +33,33 @@ using namespace muse;
 using namespace mu::iex::lrcexport;
 using namespace mu::project;
 
+static const std::string mname("iex_lyricsexport");
+
 std::string LyricsExportModule::moduleName() const
 {
-    return "iex_lyricsexport";
+    return mname;
 }
 
 void LyricsExportModule::registerExports()
 {
     m_configuration = std::make_shared<LyricsExportConfiguration>();
-    globalIoc()->registerExport<ILyricsExportConfiguration>(moduleName(), m_configuration);
-}
-
-void LyricsExportModule::resolveImports()
-{
-    auto writers = globalIoc()->resolve<INotationWritersRegister>(moduleName());
-    if (writers) {
-        writers->reg({ "lrc" }, std::make_shared<LRCWriter>(muse::modularity::globalCtx()));
-    }
+    globalIoc()->registerExport<ILyricsExportConfiguration>(mname, m_configuration);
 }
 
 void LyricsExportModule::onInit(const IApplication::RunMode&)
 {
     m_configuration->init();
+}
+
+muse::modularity::IContextSetup* LyricsExportModule::newContext(const muse::modularity::ContextPtr& ctx) const
+{
+    return new LyricsExportContext(ctx);
+}
+
+void LyricsExportContext::resolveImports()
+{
+    auto writers = ioc()->resolve<INotationWritersRegister>(mname);
+    if (writers) {
+        writers->reg({ "lrc" }, std::make_shared<LRCWriter>());
+    }
 }

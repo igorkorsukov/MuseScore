@@ -27,11 +27,12 @@
 #include "importexport/mnx/imnxconfiguration.h"
 
 namespace mu::iex::mnxio {
-class NotationMnxWriter : public project::INotationWriter, public muse::Injectable
+class NotationMnxWriter : public project::INotationWriter
 {
+    muse::GlobalInject<IMnxConfiguration> mnxConfiguration;
+
 public:
-    NotationMnxWriter(const muse::modularity::ContextPtr& iocCtx)
-        : muse::Injectable(iocCtx) {}
+    NotationMnxWriter() = default;
 
     std::vector<UnitType> supportedUnitTypes() const override;
     bool supportsUnitType(UnitType unitType) const override;
@@ -39,8 +40,5 @@ public:
     muse::Ret write(notation::INotationPtr notation, muse::io::IODevice& dstDevice, const Options& options = Options()) override;
     muse::Ret writeList(const notation::INotationPtrList& notations, muse::io::IODevice& dstDevice,
                         const Options& options = Options()) override;
-
-private:
-    muse::GlobalInject<IMnxConfiguration> mnxConfiguration;
 };
 }

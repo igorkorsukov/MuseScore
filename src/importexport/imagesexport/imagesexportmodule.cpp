@@ -34,29 +34,36 @@ using namespace muse;
 using namespace mu::iex::imagesexport;
 using namespace mu::project;
 
+static const std::string mname("iex_imagesexport");
+
 std::string ImagesExportModule::moduleName() const
 {
-    return "iex_imagesexport";
+    return mname;
 }
 
 void ImagesExportModule::registerExports()
 {
     m_configuration = std::make_shared<ImagesExportConfiguration>();
 
-    globalIoc()->registerExport<IImagesExportConfiguration>(moduleName(), m_configuration);
-}
-
-void ImagesExportModule::resolveImports()
-{
-    auto writers = globalIoc()->resolve<INotationWritersRegister>(moduleName());
-    if (writers) {
-        writers->reg({ "pdf" }, std::make_shared<PdfWriter>());
-        writers->reg({ "svg" }, std::make_shared<SvgWriter>());
-        writers->reg({ "png" }, std::make_shared<PngWriter>());
-    }
+    globalIoc()->registerExport<IImagesExportConfiguration>(mname, m_configuration);
 }
 
 void ImagesExportModule::onInit(const IApplication::RunMode&)
 {
     m_configuration->init();
+}
+
+muse::modularity::IContextSetup* ImagesExportModule::newContext(const muse::modularity::ContextPtr& ctx) const
+{
+    return new ImagesExportContext(ctx);
+}
+
+void ImagesExportContext::resolveImports()
+{
+    auto writers = ioc()->resolve<INotationWritersRegister>(mname);
+    if (writers) {
+        writers->reg({ "pdf" }, std::make_shared<PdfWriter>());
+        writers->reg({ "svg" }, std::make_shared<SvgWriter>());
+        writers->reg({ "png" }, std::make_shared<PngWriter>());
+    }
 }

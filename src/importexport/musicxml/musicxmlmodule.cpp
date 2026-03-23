@@ -36,16 +36,18 @@
 using namespace muse;
 using namespace mu::iex::musicxml;
 
+static const std::string mname("iex_musicxml");
+
 std::string MusicXmlModule::moduleName() const
 {
-    return "iex_musicxml";
+    return mname;
 }
 
 void MusicXmlModule::registerExports()
 {
 #ifndef MUSICXML_NO_INTERNAL
     m_configuration = std::make_shared<MusicXmlConfiguration>();
-    globalIoc()->registerExport<IMusicXmlConfiguration>(moduleName(), m_configuration);
+    globalIoc()->registerExport<IMusicXmlConfiguration>(mname, m_configuration);
 #endif
 }
 
@@ -54,15 +56,9 @@ void MusicXmlModule::resolveImports()
 #ifndef MUSICXML_NO_INTERNAL
     using namespace mu::project;
 
-    auto readers = globalIoc()->resolve<INotationReadersRegister>(moduleName());
+    auto readers = globalIoc()->resolve<INotationReadersRegister>(mname);
     if (readers) {
         readers->reg({ "xml", "musicxml", "mxl" }, std::make_shared<MusicXmlReader>());
-    }
-
-    auto writers = globalIoc()->resolve<INotationWritersRegister>(moduleName());
-    if (writers) {
-        writers->reg({ "musicxml", "xml" }, std::make_shared<MusicXmlWriter>());
-        writers->reg({ "mxl" }, std::make_shared<MxlWriter>());
     }
 #endif
 }
@@ -72,4 +68,18 @@ void MusicXmlModule::onInit(const IApplication::RunMode&)
 #ifndef MUSICXML_NO_INTERNAL
     m_configuration->init();
 #endif
+}
+
+muse::modularity::IContextSetup* MusicXmlModule::newContext(const muse::modularity::ContextPtr& ctx) const
+{
+    return new MusicXmlContext(ctx);
+}
+
+void MusicXmlContext::resolveImports()
+{
+    auto writers = ioc()->resolve<INotationWritersRegister>(mname);
+    if (writers) {
+        writers->reg({ "musicxml", "xml" }, std::make_shared<MusicXmlWriter>());
+        writers->reg({ "mxl" }, std::make_shared<MxlWriter>());
+    }
 }

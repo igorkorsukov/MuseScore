@@ -32,8 +32,8 @@
 namespace mu::iex::mei {
 class MeiReader : public project::INotationReader, public muse::Contextable
 {
-    muse::ContextInject<muse::IInteractive> interactive = { this };
     muse::GlobalInject<muse::io::IFileSystem> fileSystem;
+    muse::ContextInject<muse::IInteractive> interactive = { this };
 
 public:
 

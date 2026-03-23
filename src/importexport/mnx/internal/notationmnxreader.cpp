@@ -39,15 +39,6 @@ using namespace mu::iex::mnxio;
 using namespace mu::engraving;
 using namespace muse;
 
-const IMnxConfiguration* NotationMnxReader::mnxConfiguration() const
-{
-    const auto configuration = m_mnxConfiguration();
-    IF_ASSERT_FAILED(configuration) {
-        throw std::runtime_error("MNX configuration is not available");
-    }
-    return configuration.get();
-}
-
 Ret NotationMnxReader::importJson(MasterScore* score, ByteArray&& jsonData, const io::path_t& path) const
 {
     try {
