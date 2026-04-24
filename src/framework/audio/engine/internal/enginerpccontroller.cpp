@@ -23,6 +23,7 @@
 
 #include "audio/common/audiosanitizer.h"
 #include "audio/common/rpc/rpcpacker.h"
+#include "audio/common/audioerrors.h"
 
 #include "log.h"
 
@@ -49,7 +50,11 @@ std::shared_ptr<IAudioContext> EngineRpcController::audioContext(rpc::CtxId ctxI
     IF_ASSERT_FAILED(ctxId > 0) {
         return nullptr;
     }
-    return audioEngine()->context(static_cast<AudioCtxId>(ctxId));
+    auto audioContext = audioEngine()->context(static_cast<AudioCtxId>(ctxId));
+    IF_ASSERT_FAILED(audioContext) {
+        return nullptr;
+    }
+    return audioContext;
 }
 
 void EngineRpcController::init()
@@ -112,6 +117,10 @@ void EngineRpcController::init()
 
         RetVal<std::shared_ptr<IAudioContext> > ret = audioEngine()->addAudioContext(msg.ctxId);
         if (ret.ret) {
+            IF_ASSERT_FAILED(ret.val) {
+                return;
+            }
+
             const std::shared_ptr<IAudioContext>& audioContext = ret.val;
             // Notification
             audioContext->trackAdded().onReceive(this, [this](TrackId trackId) {
@@ -160,18 +169,28 @@ void EngineRpcController::init()
     // Tracks
     onQuickRequest(MsgCode::GetTrackIdList, [this](const Msg& msg) {
         ONLY_AUDIO_RPC_THREAD;
-        RetVal<TrackIdList> ret = audioContext(msg.ctxId)->trackIdList();
-        channel()->send(rpc::make_response(msg, RpcPacker::pack(ret)));
+        if (auto actx = audioContext(msg.ctxId)) {
+            RetVal<TrackIdList> ret = actx->trackIdList();
+            channel()->send(rpc::make_response(msg, RpcPacker::pack(ret)));
+        } else {
+            channel()->send(rpc::make_response(msg, RpcPacker::pack(RetVal<TrackIdList>::make_ret(Err::InvalidContext))));
+        }
     });
 
     onQuickRequest(MsgCode::GetTrackName, [this](const Msg& msg) {
         ONLY_AUDIO_RPC_THREAD;
+
         TrackId trackId = 0;
         IF_ASSERT_FAILED(RpcPacker::unpack(msg.data, trackId)) {
             return;
         }
-        RetVal<TrackName> ret = audioContext(msg.ctxId)->trackName(trackId);
-        channel()->send(rpc::make_response(msg, RpcPacker::pack(ret)));
+
+        if (auto actx = audioContext(msg.ctxId)) {
+            RetVal<TrackName> ret = actx->trackName(trackId);
+            channel()->send(rpc::make_response(msg, RpcPacker::pack(ret)));
+        } else {
+            channel()->send(rpc::make_response(msg, RpcPacker::pack(RetVal<TrackName>::make_ret(Err::InvalidContext))));
+        }
     });
 
     onLongRequest(MsgCode::AddTrackWithPlaybackData, [this](const Msg& msg) {

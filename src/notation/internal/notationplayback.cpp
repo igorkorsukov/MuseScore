@@ -176,7 +176,7 @@ void NotationPlayback::triggerCountIn(muse::midi::tick_t tick, muse::secs_t& cou
 {
     muse::mpe::duration_t durationInMicrosecs = 0;
     m_playbackModel.triggerCountIn(tick, durationInMicrosecs);
-    countInDuration = audio::microsecsToSecs(durationInMicrosecs);
+    countInDuration = muse::usecs_to_secs(durationInMicrosecs);
 }
 
 void NotationPlayback::triggerControllers(const muse::mpe::ControllerChangeEventList& list, notation::staff_idx_t staffIdx, int tick)

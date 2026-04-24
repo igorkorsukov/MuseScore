@@ -93,12 +93,14 @@ RetVal<std::shared_ptr<IAudioContext> > AudioEngine::addAudioContext(const Audio
     if (m_contexts.find(ctxId) != m_contexts.end()) {
         return RetType::make_ret(Err::AudioContextAlreadyExists);
     }
+
     auto ctx = std::make_shared<AudioContext>(ctxId);
     Ret ret = ctx->init();
-    if (ret) {
-        m_contexts[ctxId] = ctx;
+    if (!ret) {
+        return RetType::make_ret(ret);
     }
 
+    m_contexts[ctxId] = ctx;
     return RetType::make_ok(ctx);
 }
 

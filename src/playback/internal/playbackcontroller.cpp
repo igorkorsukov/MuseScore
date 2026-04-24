@@ -1498,7 +1498,7 @@ void PlaybackController::setupPlayer()
         updateCurrentTempo();
 
         secs_t endSecs = totalPlayTime();
-        if (pos + milisecsToSecs(1) >= endSecs) {
+        if (pos + muse::msecs_to_secs(1) >= endSecs) {
             stop();
         }
     });

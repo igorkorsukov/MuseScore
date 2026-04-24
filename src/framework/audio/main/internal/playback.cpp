@@ -94,6 +94,7 @@ async::Promise<Ret> Playback::init()
                 ONLY_AUDIO_MAIN_THREAD;
                 Ret ret;
                 IF_ASSERT_FAILED(RpcPacker::unpack(res.data, ret)) {
+                    (void)resolve(muse::make_ret(Ret::Code::InternalError));
                     return;
                 }
                 m_inited.set(ret.success());
@@ -131,6 +132,8 @@ void Playback::deinit()
     channel()->onNotification(MsgCode::MasterOutputParamsChanged, nullptr);
 
     m_saveSoundTrackProgressStream = SaveSoundTrackProgress();
+    m_saveSoundTrackProgressStreamInited = false;
+    m_saveSoundTrackProgressStreamId = 0;
 
     channel()->send(rpc::make_request(MsgCode::ContextDeinit));
     m_inited.set(false);

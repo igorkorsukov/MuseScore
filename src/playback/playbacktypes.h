@@ -67,12 +67,12 @@ static const QTime ZERO_TIME(0, 0, 0, 0);
 
 inline QTime timeFromSeconds(muse::audio::secs_t seconds)
 {
-    return ZERO_TIME.addMSecs(muse::audio::secsToMilisecs(seconds));
+    return ZERO_TIME.addMSecs(muse::secs_to_msecs(seconds));
 }
 
 inline muse::audio::secs_t timeToSeconds(const QTime& time)
 {
-    return muse::audio::milisecsToSecs(ZERO_TIME.msecsTo(time));
+    return muse::msecs_to_secs(ZERO_TIME.msecsTo(time));
 }
 
 enum class SoundProfileType {
