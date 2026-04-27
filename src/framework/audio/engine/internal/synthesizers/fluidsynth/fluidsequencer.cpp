@@ -387,7 +387,7 @@ int FluidSequencer::expressionLevel(const mpe::dynamic_level_t dynamicLevel) con
 
     dynamic_level_t result = RealRound(MIN_SUPPORTED_VOLUME + (stepCount * VOLUME_STEP), 0);
 
-    return std::min(result, MAX_SUPPORTED_DYNAMICS_LEVEL);
+    return std::clamp((int)result, MIN_SUPPORTED_VOLUME, MAX_SUPPORTED_VOLUME);
 }
 
 int FluidSequencer::pitchBendLevel(const mpe::pitch_level_t pitchLevel) const
