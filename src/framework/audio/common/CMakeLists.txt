@@ -40,11 +40,6 @@ target_sources(muse_audio_common PRIVATE
     # Rpc
     rpc/irpcchannel.h
     rpc/rpcpacker.h
-    rpc/icontextrpcchannel.h
-    rpc/contextrpcchannel.cpp
-    rpc/contextrpcchannel.h
-    rpc/contextrpcchannelcontroller.cpp
-    rpc/contextrpcchannelcontroller.h
 )
 
 if(OS_IS_WASM)

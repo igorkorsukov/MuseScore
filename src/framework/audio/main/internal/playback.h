@@ -26,7 +26,7 @@
 #include "global/types/retval.h"
 
 #include "modularity/ioc.h"
-#include "common/rpc/icontextrpcchannel.h"
+#include "common/rpc/irpcchannel.h"
 #include "../istartaudiocontroller.h"
 
 #include "../iplayer.h"
@@ -38,7 +38,7 @@ namespace muse::audio {
 class Playback : public IPlayback, public async::Asyncable, public Contextable
 {
     GlobalInject<IStartAudioController> startAudioController;
-    ContextInject<rpc::IContextRpcChannel> channel = { this };
+    GlobalInject<rpc::IRpcChannel> channel;
 
 public:
     Playback(const muse::modularity::ContextPtr& ctx)
@@ -103,6 +103,8 @@ public:
     void clearAllFx() override;
 
 private:
+
+    rpc::CtxId ctxId() const;
 
     ValCh<bool> m_inited;
 

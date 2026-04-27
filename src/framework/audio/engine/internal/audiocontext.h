@@ -44,6 +44,8 @@ class AudioContext : public IAudioContext, public IGetTrackSource, public async:
 public:
     AudioContext(const AudioCtxId& ctxId);
 
+    AudioCtxId id() const override;
+
     Ret init() override;
     void deinit() override;
 

@@ -42,7 +42,7 @@ using namespace muse::audio::synth;
 EngineController::EngineController(std::shared_ptr<rpc::IRpcChannel> rpcChannel)
     : m_rpcChannel(rpcChannel)
 {
-    m_rpcChannel->onRequest(rpc::MsgCode::EngineInit, [this](const rpc::Msg& msg) {
+    m_rpcChannel->onRequest(rpc::GLOBAL_CTX_ID, rpc::MsgCode::EngineInit, [this](const rpc::Msg& msg) {
         OutputSpec spec;
         AudioEngineConfig conf;
 
@@ -55,7 +55,7 @@ EngineController::EngineController(std::shared_ptr<rpc::IRpcChannel> rpcChannel)
         m_rpcChannel->send(rpc::make_response(msg));
     });
 
-    m_rpcChannel->onRequest(rpc::MsgCode::EngineDeinit, [this](const rpc::Msg& msg) {
+    m_rpcChannel->onRequest(rpc::GLOBAL_CTX_ID, rpc::MsgCode::EngineDeinit, [this](const rpc::Msg& msg) {
         deinit();
         m_rpcChannel->send(rpc::make_response(msg));
     });
@@ -71,7 +71,7 @@ void EngineController::onStartRunning()
 
     //! NOTE We inform that the engine is running and can receive messages
     //! (it has not yet been initialized)
-    m_rpcChannel->send(rpc::make_notification(rpc::MsgCode::EngineRunning));
+    m_rpcChannel->send(rpc::make_notification(rpc::GLOBAL_CTX_ID, rpc::MsgCode::EngineRunning));
 }
 
 void EngineController::init(const OutputSpec& outputSpec, const AudioEngineConfig& conf)

@@ -39,10 +39,13 @@ using namespace muse::audio::engine;
 AudioContext::AudioContext(const AudioCtxId& ctxId)
     : m_ctxId(ctxId)
 {
-    UNUSED(m_ctxId); // just for information
-
     m_player = std::make_shared<EnginePlayer>(this);
     m_mixer = std::make_shared<Mixer>();
+}
+
+AudioCtxId AudioContext::id() const
+{
+    return m_ctxId;
 }
 
 Ret AudioContext::init()

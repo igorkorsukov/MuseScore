@@ -32,6 +32,8 @@ class IAudioContext
 public:
     virtual ~IAudioContext() = default;
 
+    virtual AudioCtxId id() const = 0;
+
     // Init
     virtual Ret init() = 0;
     virtual void deinit() = 0;

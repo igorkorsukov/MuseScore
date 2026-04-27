@@ -103,7 +103,7 @@ AudioEngineConfig AudioConfiguration::engineConfig() const
 
 void AudioConfiguration::onEngineConfigChanged()
 {
-    rpcChannel()->send(rpc::make_notification(rpc::MsgCode::EngineConfigChanged, rpc::RpcPacker::pack(engineConfig())));
+    rpcChannel()->send(rpc::make_notification(rpc::GLOBAL_CTX_ID, rpc::MsgCode::EngineConfigChanged, rpc::RpcPacker::pack(engineConfig())));
 }
 
 std::string AudioConfiguration::defaultAudioApi() const

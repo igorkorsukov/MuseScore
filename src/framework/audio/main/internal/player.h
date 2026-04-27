@@ -28,12 +28,12 @@
 #include "global/async/asyncable.h"
 
 #include "modularity/ioc.h"
-#include "audio/common/rpc/icontextrpcchannel.h"
+#include "audio/common/rpc/irpcchannel.h"
 
 namespace muse::audio {
 class Player : public IPlayer, public Contextable, public async::Asyncable
 {
-    ContextInject<rpc::IContextRpcChannel> channel = { this };
+    GlobalInject<rpc::IRpcChannel> channel;
 
 public:
     Player(const muse::modularity::ContextPtr& ctx)
@@ -60,6 +60,8 @@ public:
     async::Channel<secs_t> playbackPositionChanged() const override;
 
 private:
+
+    rpc::CtxId ctxId() const;
 
     PlaybackStatus m_playbackStatus = PlaybackStatus::Stopped;
     async::Channel<PlaybackStatus> m_playbackStatusChanged;

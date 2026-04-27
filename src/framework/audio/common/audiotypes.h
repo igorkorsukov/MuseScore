@@ -51,7 +51,7 @@ using volume_dbfs_t = db_t;
 using gain_t = float;
 using balance_t = float;
 
-using AudioCtxId = uint8_t;
+using AudioCtxId = uint16_t;
 
 using TrackId = int32_t;
 using TrackIdList = std::vector<TrackId>;

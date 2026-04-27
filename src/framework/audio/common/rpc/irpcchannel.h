@@ -22,8 +22,10 @@
 #pragma once
 
 #include <functional>
+#include <tuple>
 
 #include "global/modularity/imoduleinterface.h"
+#include "global/modularity/ioc.h"
 
 #include "global/types/bytearray.h"
 #include "global/async/channel.h"
@@ -33,7 +35,19 @@
 
 namespace muse::audio::rpc {
 using CallId = uint64_t;
-using CtxId = uint8_t;
+using CtxId = uint16_t;
+constexpr CtxId GLOBAL_CTX_ID = 0;
+
+inline CtxId ctxId(const muse::modularity::ContextPtr& ctx)
+{
+    IF_ASSERT_FAILED(ctx) {
+        return GLOBAL_CTX_ID;
+    }
+    IF_ASSERT_FAILED(ctx->id > 0) {
+        return GLOBAL_CTX_ID;
+    }
+    return static_cast<CtxId>(ctx->id);
+}
 
 enum class MsgCode {
     Undefined = 0,
@@ -262,6 +276,21 @@ struct Msg {
     ByteArray data;
 };
 
+struct MsgKey {
+    CtxId ctxId = 0;
+    MsgCode code = MsgCode::Undefined;
+
+    bool operator==(const MsgKey& other) const
+    {
+        return ctxId == other.ctxId && code == other.code;
+    }
+
+    bool operator<(const MsgKey& other) const
+    {
+        return std::tie(ctxId, code) < std::tie(other.ctxId, other.code);
+    }
+};
+
 using StreamId = CallId;
 using StreamName = MsgCode;
 using StreamMsg = Msg;
@@ -364,9 +393,8 @@ public:
     virtual void process() = 0;
 
     virtual void send(const Msg& msg, const Handler& onResponse = nullptr) = 0;
-    virtual void onRequest(MsgCode code, Handler h) = 0;
-    virtual void onNotification(MsgCode code, Handler h) = 0;
-    virtual void listenAll(Handler h) = 0;
+    virtual void onRequest(CtxId ctxId, MsgCode code, Handler h) = 0;
+    virtual void onNotification(CtxId ctxId, MsgCode code, Handler h) = 0;
 
     // stream (async/channel)
     template<typename ... Types>
@@ -462,11 +490,12 @@ inline CallId new_call_id()
     return lastId;
 }
 
-inline Msg make_request(MsgCode m, const ByteArray& data = ByteArray())
+inline Msg make_request(CtxId ctxId, MsgCode code, const ByteArray& data = ByteArray())
 {
     Msg msg;
     msg.callId = new_call_id();
-    msg.code = m;
+    msg.ctxId = ctxId;
+    msg.code = code;
     msg.type = MsgType::Request;
     msg.data = data;
     return msg;
@@ -483,11 +512,12 @@ inline Msg make_response(const Msg& req, const ByteArray& data = ByteArray())
     return msg;
 }
 
-inline Msg make_notification(MsgCode m, const ByteArray& data = ByteArray())
+inline Msg make_notification(CtxId ctxId, MsgCode code, const ByteArray& data = ByteArray())
 {
     Msg msg;
     msg.callId = new_call_id();
-    msg.code = m;
+    msg.ctxId = ctxId;
+    msg.code = code;
     msg.type = MsgType::Notification;
     msg.data = data;
     return msg;

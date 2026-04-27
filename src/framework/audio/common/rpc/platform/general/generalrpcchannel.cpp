@@ -101,10 +101,6 @@ void GeneralRpcChannel::receive(RpcData& to, const Msg& m) const
              << ", data.size: " << m.data.size();
 
     // all
-    if (to.listenerAll) {
-        to.listenerAll(m);
-    }
-
     switch (m.type) {
     case MsgType::Stream: {
         auto it = to.onStreams.find(m.callId);
@@ -113,13 +109,13 @@ void GeneralRpcChannel::receive(RpcData& to, const Msg& m) const
         }
     } break;
     case MsgType::Request: {
-        auto it = to.onRequests.find(m.code);
+        auto it = to.onRequests.find({ m.ctxId, m.code });
         if (it != to.onRequests.end() && it->second) {
             it->second(m);
         }
     } break;
     case MsgType::Notification: {
-        auto it = to.onNotifications.find(m.code);
+        auto it = to.onNotifications.find({ m.ctxId, m.code });
         if (it != to.onNotifications.end() && it->second) {
             it->second(m);
         }
@@ -140,30 +136,21 @@ void GeneralRpcChannel::receive(RpcData& to, const Msg& m) const
     }
 }
 
-void GeneralRpcChannel::onRequest(MsgCode code, Handler h)
+void GeneralRpcChannel::onRequest(CtxId ctxId, MsgCode code, Handler h)
 {
     if (s_isMainThread) {
-        m_mainRpcData.onRequests[code] = h;
+        m_mainRpcData.onRequests[{ ctxId, code }] = h;
     } else {
-        m_engineRpcData.onRequests[code] = h;
+        m_engineRpcData.onRequests[{ ctxId, code }] = h;
     }
 }
 
-void GeneralRpcChannel::onNotification(MsgCode code, Handler h)
+void GeneralRpcChannel::onNotification(CtxId ctxId, MsgCode code, Handler h)
 {
     if (s_isMainThread) {
-        m_mainRpcData.onNotifications[code] = h;
+        m_mainRpcData.onNotifications[{ ctxId, code }] = h;
     } else {
-        m_engineRpcData.onNotifications[code] = h;
-    }
-}
-
-void GeneralRpcChannel::listenAll(Handler h)
-{
-    if (s_isMainThread) {
-        m_mainRpcData.listenerAll = h;
-    } else {
-        m_engineRpcData.listenerAll = h;
+        m_engineRpcData.onNotifications[{ ctxId, code }] = h;
     }
 }
 
