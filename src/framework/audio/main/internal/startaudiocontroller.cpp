@@ -290,13 +290,14 @@ void StartAudioController::startAudioProcessing(const IApplication::RunMode& mod
 void StartAudioController::stopAudioProcessing()
 {
 #ifndef Q_OS_WASM
-    if (m_isAudioStarted.val) {
-        m_rpcChannel->send(rpc::make_request(Method::EngineDeinit), [this](const Msg&) {
+    m_rpcChannel->send(rpc::make_request(Method::EngineDeinit), [this](const Msg&) {
+        if (m_isAudioStarted.val) {
             m_isAudioStarted.set(false);
-        });
-    }
+        }
+    });
 
-    while (m_isAudioStarted.val) {
+    do {
+        // Ensure that RPC process() is called at least once
         m_rpcChannel->process();
 
         if (!m_isAudioStarted.val) {
@@ -306,7 +307,7 @@ void StartAudioController::stopAudioProcessing()
         std::this_thread::yield();
         using namespace std::chrono_literals;
         std::this_thread::sleep_for(10ms);
-    }
+    } while (m_isAudioStarted.val);
 
     audioDriverController()->close();
 
