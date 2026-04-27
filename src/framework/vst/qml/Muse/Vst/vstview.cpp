@@ -40,6 +40,25 @@
 
 using namespace muse::vst;
 
+#ifdef Q_OS_WIN
+static void removeMinMaxButtons(HWND window)
+{
+    IF_ASSERT_FAILED(window && IsWindow(window)) {
+        return;
+    }
+
+    // Remove the minimize & maximize buttons
+    LONG style = GetWindowLong(window, GWL_STYLE);
+    style &= ~(WS_MINIMIZEBOX | WS_MAXIMIZEBOX);
+    SetWindowLong(window, GWL_STYLE, style);
+
+    // Force redraw of non-client area
+    SetWindowPos(window, nullptr, 0, 0, 0, 0,
+                 SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_FRAMECHANGED);
+}
+
+#endif
+
 ::Steinberg::uint32 PLUGIN_API VstView::addRef()
 {
     return ::Steinberg::FUnknownPrivate::atomicAdd(__funknownRefCount, 1);
@@ -156,12 +175,15 @@ void VstView::init()
 #ifdef Q_OS_WIN
     HWND winHwnd = reinterpret_cast<HWND>(m_vstWindow->winId());
     HWND viewHwnd = GetWindow(winHwnd, GW_CHILD);
-    m_rootHandle = GetAncestor(winHwnd, GA_ROOT);
+    HWND rootHandle = GetAncestor(winHwnd, GA_ROOT);
+    m_rootHandle = rootHandle;
 
     if (viewHwnd && IsWindow(viewHwnd)) {
         m_plugViewHandle = viewHwnd;
         qApp->installNativeEventFilter(this);
     }
+
+    removeMinMaxButtons(rootHandle);
 #endif
 }
 
