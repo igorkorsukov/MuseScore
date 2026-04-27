@@ -478,7 +478,7 @@ const TextStyle dynamicsTextStyle { {
     { TextStylePropertyType::FrameRound,           Sid::expressionFrameRound,                   Pid::FRAME_ROUND },
     { TextStylePropertyType::FrameBorderColor,     Sid::expressionFrameFgColor,                 Pid::FRAME_FG_COLOR },
     { TextStylePropertyType::FrameFillColor,       Sid::expressionFrameBgColor,                 Pid::FRAME_BG_COLOR },
-    { TextStylePropertyType::MusicalSymbolsScale,  Sid::dummyMusicalSymbolsScale,               Pid::MUSICAL_SYMBOLS_SCALE },
+    { TextStylePropertyType::MusicalSymbolsScale,  Sid::dynamicsSize,                           Pid::MUSICAL_SYMBOLS_SCALE },
     { TextStylePropertyType::MusicalSymbolsSize,   Sid::dynamicsMusicalSymbolSize,              Pid::MUSIC_SYMBOL_SIZE },
     { TextStylePropertyType::Position,             Sid::dynamicsPosition,                       Pid::POSITION },
 } };
