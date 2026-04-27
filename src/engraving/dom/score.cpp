@@ -3110,6 +3110,7 @@ void Score::padToggle(Pad p, bool toggleForSelectionOnly)
 
                     for (const NoteVal& nval : m_is.notes()) {
                         if (chord && chord->findNote(nval.pitch)) {
+                            m_is.moveToNextInputPos();
                             continue;
                         }
 
