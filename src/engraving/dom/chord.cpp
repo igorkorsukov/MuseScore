@@ -799,6 +799,9 @@ void Chord::remove(EngravingItem* e)
     case ElementType::CHORD:
     {
         auto i = std::find(m_graceNotes.begin(), m_graceNotes.end(), toChord(e));
+        IF_ASSERT_FAILED(i != m_graceNotes.end()) {
+            break;
+        }
         Chord* grace = *i;
         grace->setGraceIndex(i - m_graceNotes.begin());
         m_graceNotes.erase(i);
