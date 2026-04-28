@@ -69,7 +69,7 @@ void GeneralRpcChannel::process()
     }
 }
 
-void GeneralRpcChannel::send(const Msg& msg, const Handler& onResponse)
+void GeneralRpcChannel::send(const Msg& msg, const ResponseHandler& onResponse)
 {
     RPCLOG() << "ctxId: " << msg.ctxId
              << ", callId: " << msg.callId
@@ -92,7 +92,7 @@ void GeneralRpcChannel::send(const Msg& msg, const Handler& onResponse)
     }
 }
 
-void GeneralRpcChannel::receive(RpcData& to, const Msg& m) const
+void GeneralRpcChannel::receive(RpcData& to, const Msg& m)
 {
     RPCLOG() << "ctxId: " << m.ctxId
              << ", callId: " << m.callId
@@ -111,13 +111,10 @@ void GeneralRpcChannel::receive(RpcData& to, const Msg& m) const
     case MsgType::Request: {
         auto it = to.onRequests.find({ m.ctxId, m.code });
         if (it != to.onRequests.end() && it->second) {
-            it->second(m);
-        }
-    } break;
-    case MsgType::Notification: {
-        auto it = to.onNotifications.find({ m.ctxId, m.code });
-        if (it != to.onNotifications.end() && it->second) {
-            it->second(m);
+            Msg resp = it->second(m);
+            if (resp.type != MsgType::ResponseDelayed) {
+                send(resp);  // send response
+            }
         }
     } break;
     case MsgType::Response: {
@@ -129,6 +126,13 @@ void GeneralRpcChannel::receive(RpcData& to, const Msg& m) const
             to.onResponses.erase(it);
         }
     } break;
+    case MsgType::Notification: {
+        auto it = to.onNotifications.find({ m.ctxId, m.code });
+        if (it != to.onNotifications.end() && it->second) {
+            it->second(m);
+        }
+    } break;
+
     default: {
         UNREACHABLE;
         break;
@@ -136,7 +140,7 @@ void GeneralRpcChannel::receive(RpcData& to, const Msg& m) const
     }
 }
 
-void GeneralRpcChannel::onRequest(CtxId ctxId, MsgCode code, Handler h)
+void GeneralRpcChannel::onRequest(CtxId ctxId, MsgCode code, RequestHandler h)
 {
     if (s_isMainThread) {
         m_mainRpcData.onRequests[{ ctxId, code }] = h;
@@ -145,7 +149,7 @@ void GeneralRpcChannel::onRequest(CtxId ctxId, MsgCode code, Handler h)
     }
 }
 
-void GeneralRpcChannel::onNotification(CtxId ctxId, MsgCode code, Handler h)
+void GeneralRpcChannel::onNotification(CtxId ctxId, MsgCode code, NotificationHandler h)
 {
     if (s_isMainThread) {
         m_mainRpcData.onNotifications[{ ctxId, code }] = h;

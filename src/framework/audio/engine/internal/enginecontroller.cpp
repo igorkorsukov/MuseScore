@@ -47,17 +47,17 @@ EngineController::EngineController(std::shared_ptr<rpc::IRpcChannel> rpcChannel)
         AudioEngineConfig conf;
 
         IF_ASSERT_FAILED(rpc::RpcPacker::unpack(msg.data, spec, conf)) {
-            return;
+            return make_response_ret(msg, make_ret(Err::InvalidRpcData));
         }
 
         init(spec, conf);
 
-        m_rpcChannel->send(rpc::make_response(msg));
+        return make_response_ret(msg, make_ok());
     });
 
     m_rpcChannel->onRequest(rpc::GLOBAL_CTX_ID, rpc::MsgCode::EngineDeinit, [this](const rpc::Msg& msg) {
         deinit();
-        m_rpcChannel->send(rpc::make_response(msg));
+        return make_response_ret(msg, make_ok());
     });
 }
 

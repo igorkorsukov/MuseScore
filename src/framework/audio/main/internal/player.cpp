@@ -50,15 +50,20 @@ void Player::init()
         Msg msg = rpc::make_request(ctxId(), MsgCode::GetPlaybackStatus);
         channel()->send(msg, [this](const Msg& res) {
             ONLY_AUDIO_MAIN_THREAD;
+            Ret ret;
             PlaybackStatus status = PlaybackStatus::Stopped;
             StreamId streamId = 0;
-            IF_ASSERT_FAILED(RpcPacker::unpack(res.data, status, streamId)) {
+            IF_ASSERT_FAILED(RpcPacker::unpack(res.data, ret, status, streamId)) {
                 return;
             }
 
-            channel()->addReceiveStream(StreamName::PlaybackStatusStream, streamId, m_playbackStatusChanged);
-            //! NOTE Send initial state
-            m_playbackStatusChanged.send(status);
+            if (ret) {
+                channel()->addReceiveStream(StreamName::PlaybackStatusStream, streamId, m_playbackStatusChanged);
+                //! NOTE Send initial state
+                m_playbackStatusChanged.send(status);
+            } else {
+                LOGE() << "GetPlaybackStatus failed: " << ret.toString();
+            }
         });
     }
 
@@ -70,15 +75,20 @@ void Player::init()
         Msg msg = rpc::make_request(ctxId(), MsgCode::GetPlaybackPosition);
         channel()->send(msg, [this](const Msg& res) {
             ONLY_AUDIO_MAIN_THREAD;
+            Ret ret;
             secs_t pos = 0.0;
             StreamId streamId = 0;
-            IF_ASSERT_FAILED(RpcPacker::unpack(res.data, pos, streamId)) {
+            IF_ASSERT_FAILED(RpcPacker::unpack(res.data, ret, pos, streamId)) {
                 return;
             }
 
-            channel()->addReceiveStream(StreamName::PlaybackPositionStream, streamId, m_playbackPositionChanged);
-            //! NOTE Send initial state
-            m_playbackPositionChanged.send(pos);
+            if (ret) {
+                channel()->addReceiveStream(StreamName::PlaybackPositionStream, streamId, m_playbackPositionChanged);
+                //! NOTE Send initial state
+                m_playbackPositionChanged.send(pos);
+            } else {
+                LOGE() << "GetPlaybackPosition failed: " << ret.toString();
+            }
         });
     }
 }

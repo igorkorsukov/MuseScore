@@ -49,9 +49,9 @@ private:
 
     std::shared_ptr<IAudioContext> audioContext(rpc::CtxId ctxId) const;
 
-    void onLongRequest(rpc::CtxId ctxId, rpc::MsgCode code, const rpc::Handler& h);
-    void onQuickRequest(rpc::CtxId ctxId, rpc::MsgCode code, const rpc::Handler& h);
-    void onRequest(OperationType type, rpc::CtxId ctxId, rpc::MsgCode code, const rpc::Handler& h);
+    void onLongRequest(rpc::CtxId ctxId, rpc::MsgCode code, const rpc::RequestHandler& h);
+    void onQuickRequest(rpc::CtxId ctxId, rpc::MsgCode code, const rpc::RequestHandler& h);
+    void onRequest(OperationType type, rpc::CtxId ctxId, rpc::MsgCode code, const rpc::RequestHandler& h);
 
     std::vector<rpc::MsgKey> m_usedRequests;
     std::atomic<bool> m_terminated = false;

@@ -251,6 +251,7 @@ enum class MsgType {
     Notification,
     Request,
     Response,
+    ResponseDelayed,
     Stream
 };
 
@@ -261,6 +262,7 @@ inline std::string to_string(MsgType t)
     case MsgType::Notification: return "Notification";
     case MsgType::Request: return "Request";
     case MsgType::Response: return "Response";
+    case MsgType::ResponseDelayed: return "ResponseDelayed";
     case MsgType::Stream: return "Stream";
     }
 
@@ -294,7 +296,6 @@ struct MsgKey {
 using StreamId = CallId;
 using StreamName = MsgCode;
 using StreamMsg = Msg;
-using Handler = std::function<void (const Msg& msg)>;
 
 inline StreamId& last_stream_id()
 {
@@ -381,6 +382,10 @@ public:
     virtual void onStream(StreamId id, StreamHandler h) = 0;
 };
 
+using RequestHandler = std::function<Msg (const Msg& msg)>;
+using ResponseHandler = std::function<void (const Msg& msg)>;
+using NotificationHandler = std::function<void (const Msg& msg)>;
+
 class IRpcChannel : MODULE_GLOBAL_INTERFACE, public IStreamRpcChannel
 {
     INTERFACE_ID(IRpcChannel)
@@ -392,9 +397,9 @@ public:
 
     virtual void process() = 0;
 
-    virtual void send(const Msg& msg, const Handler& onResponse = nullptr) = 0;
-    virtual void onRequest(CtxId ctxId, MsgCode code, Handler h) = 0;
-    virtual void onNotification(CtxId ctxId, MsgCode code, Handler h) = 0;
+    virtual void send(const Msg& msg, const ResponseHandler& onResponse = nullptr) = 0;
+    virtual void onRequest(CtxId ctxId, MsgCode code, RequestHandler h) = 0;
+    virtual void onNotification(CtxId ctxId, MsgCode code, NotificationHandler h) = 0;
 
     // stream (async/channel)
     template<typename ... Types>
@@ -510,6 +515,25 @@ inline Msg make_response(const Msg& req, const ByteArray& data = ByteArray())
     msg.type = MsgType::Response;
     msg.data = data;
     return msg;
+}
+
+//! NOTE Service message means that the response will be sent later
+inline Msg make_response_delayed(const Msg& req)
+{
+    Msg r = make_response(req);
+    r.type = MsgType::ResponseDelayed;
+    return r;
+}
+
+inline Msg make_response_ret(const Msg& req, const Ret& ret)
+{
+    return make_response(req, RpcPacker::pack(ret));
+}
+
+template<typename T>
+inline Msg make_response_ret(const Msg& req, const RetVal<T>& ret)
+{
+    return make_response(req, RpcPacker::pack(ret));
 }
 
 inline Msg make_notification(CtxId ctxId, MsgCode code, const ByteArray& data = ByteArray())
