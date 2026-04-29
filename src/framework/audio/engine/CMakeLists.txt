@@ -75,8 +75,6 @@ else()
         internal/track.h
         internal/abstractaudiosource.cpp
         internal/abstractaudiosource.h
-        internal/eventaudiosource.cpp
-        internal/eventaudiosource.h
         internal/sinesource.cpp
         internal/sinesource.h
         # internal/noisesource.cpp
@@ -89,8 +87,12 @@ else()
         # Nodes
         internal/nodes/audionode.cpp
         internal/nodes/audionode.h
+        internal/nodes/audiosourcenode.cpp
+        internal/nodes/audiosourcenode.h
         internal/nodes/mixernode.cpp
         internal/nodes/mixernode.h
+        internal/nodes/eventaudionode.cpp
+        internal/nodes/eventaudionode.h
 
         # DSP
         internal/dsp/envelopefilterconfig.h

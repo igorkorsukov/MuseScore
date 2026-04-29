@@ -94,7 +94,7 @@ Ret Mixer::addChannel(ITrackAudioOutputPtr output)
             channel->setMode(ProcessMode::Idle);
         } else {
             channel->setMode(mode());
-            ITrackAudioInputPtr source = std::static_pointer_cast<ITrackAudioInput>(channel->source());
+            AudioSourceNodePtr source = std::dynamic_pointer_cast<AudioSourceNode>(channel->source());
             if (source) {
                 source->seek(playbackPosition());
             }

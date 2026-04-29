@@ -32,7 +32,7 @@ using namespace muse::async;
 using namespace muse::audio;
 using namespace muse::audio::engine;
 
-MixerChannel::MixerChannel(const TrackId trackId, const OutputSpec& outputSpec, IAudioSourcePtr source,
+MixerChannel::MixerChannel(const TrackId trackId, const OutputSpec& outputSpec, AudioNodePtr source,
                            PlayheadPositionPtr playheadPosition)
     : m_trackId(trackId),
     m_outputSpec(outputSpec),
@@ -60,7 +60,7 @@ TrackId MixerChannel::trackId() const
     return m_trackId;
 }
 
-IAudioSourcePtr MixerChannel::source() const
+AudioNodePtr MixerChannel::source() const
 {
     return m_audioSource;
 }
@@ -189,14 +189,15 @@ unsigned int MixerChannel::audioChannelsCount() const
 {
     ONLY_AUDIO_ENGINE_THREAD;
 
-    return m_audioSource ? m_audioSource->audioChannelsCount() : m_outputSpec.audioChannelCount;
+    return m_outputSpec.audioChannelCount;
 }
 
 async::Channel<unsigned int> MixerChannel::audioChannelsCountChanged() const
 {
     ONLY_AUDIO_ENGINE_THREAD;
 
-    return m_audioSource ? m_audioSource->audioChannelsCountChanged() : async::Channel<unsigned int>();
+    static async::Channel<unsigned int> channel;
+    return channel;
 }
 
 samples_t MixerChannel::process(float* buffer, samples_t samplesPerChannel)
@@ -207,7 +208,7 @@ samples_t MixerChannel::process(float* buffer, samples_t samplesPerChannel)
 
     if (m_audioSource) {
         if (!m_params.muted || !m_isSilent) {
-            processedSamplesCount = m_audioSource->process(buffer, samplesPerChannel);
+            m_audioSource->process(buffer, samplesPerChannel);
         }
     }
 

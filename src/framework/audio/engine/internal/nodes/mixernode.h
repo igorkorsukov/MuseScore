@@ -32,8 +32,11 @@ class MixerNode : public AudioNode
 {
 protected:
     void onOutputSpecChanged(const OutputSpec& spec) override;
+    void onModeChanged(const ProcessMode mode) override;
+
     void doAddNode(std::shared_ptr<AudioNode> other) override;
     void doRemoveNode(std::shared_ptr<AudioNode> other) override;
+
     void doProcess(float* buffer, samples_t samplesPerChannel) override;
     void doSelfProcess(float* buffer, samples_t samplesPerChannel) override;
 

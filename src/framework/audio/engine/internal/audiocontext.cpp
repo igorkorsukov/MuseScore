@@ -157,7 +157,9 @@ RetVal2<TrackId, AudioParams> AudioContext::addTrack(const std::string& trackNam
         return RetType::make_ret(Err::InvalidSetupData);
     }
 
-    auto onOffStreamReceived = [this](const TrackId trackId) {
+    TrackId trackId = newTrackId();
+
+    auto onOffStreamReceived = [this, trackId]() {
         std::unordered_set<TrackId> tracksToProcess = m_tracksToProcessWhenIdle;
 
         if (m_prevActiveTrackId == INVALID_TRACK_ID) {
@@ -170,10 +172,8 @@ RetVal2<TrackId, AudioParams> AudioContext::addTrack(const std::string& trackNam
         m_prevActiveTrackId = trackId;
     };
 
-    TrackId trackId = newTrackId();
-
 // Make source
-    RetVal<ITrackAudioInputPtr> source = audioFactory()->makeEventSource(trackId, playbackData, params.in, onOffStreamReceived);
+    RetVal<AudioSourceNodePtr> source = audioFactory()->makeEventSource(trackId, playbackData, params.in, onOffStreamReceived);
     if (!source.ret) {
         return RetType::make_ret(source.ret);
     }
@@ -362,7 +362,7 @@ RetVal<TrackName> AudioContext::trackName(const TrackId trackId) const
     return RetVal<TrackName>::make_ret((int)Err::InvalidTrackId, "no track");
 }
 
-ITrackAudioInputPtr AudioContext::trackSource(const TrackId trackId) const
+AudioSourceNodePtr AudioContext::trackSource(const TrackId trackId) const
 {
     ONLY_AUDIO_ENGINE_THREAD;
     if (const Track* t = track(trackId)) {
@@ -371,10 +371,10 @@ ITrackAudioInputPtr AudioContext::trackSource(const TrackId trackId) const
     return nullptr;
 }
 
-std::vector<ITrackAudioInputPtr> AudioContext::allTracksSources() const
+std::vector<AudioSourceNodePtr> AudioContext::allTracksSources() const
 {
     ONLY_AUDIO_ENGINE_THREAD;
-    std::vector<ITrackAudioInputPtr> result;
+    std::vector<AudioSourceNodePtr> result;
     result.reserve(m_tracks.size());
     for (const Track& t : m_tracks) {
         if (t.source) {

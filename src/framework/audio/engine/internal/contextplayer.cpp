@@ -200,7 +200,7 @@ void ContextPlayer::stop()
     m_status.set(PlaybackStatus::Stopped);
     m_countDown = 0.;
     seek(TimePosition::zero(m_currentPosition.sampleRate()));
-    m_notYetReadyToPlayTrackIdSet.clear();
+    m_notYetReadyToPlayTrack.clear();
 }
 
 void ContextPlayer::pause()
@@ -212,7 +212,7 @@ void ContextPlayer::pause()
     }
 
     m_status.set(PlaybackStatus::Paused);
-    m_notYetReadyToPlayTrackIdSet.clear();
+    m_notYetReadyToPlayTrack.clear();
 }
 
 void ContextPlayer::resume(const secs_t delay)
@@ -327,37 +327,33 @@ void ContextPlayer::prepareAllTracksToPlay(AllTracksReadyCallback allTracksReady
         return;
     }
 
-    std::vector<ITrackAudioInputPtr> notYetReadyToPlayTracks;
-    m_notYetReadyToPlayTrackIdSet.clear();
+    m_notYetReadyToPlayTrack.clear();
 
     for (const auto& source : m_trackSource->allTracksSources()) {
         source->prepareToPlay();
 
         if (!source->readyToPlay()) {
-            notYetReadyToPlayTracks.push_back(source);
-            m_notYetReadyToPlayTrackIdSet.insert(source->trackId());
+            m_notYetReadyToPlayTrack.insert(source);
         }
     }
 
-    if (notYetReadyToPlayTracks.empty()) {
+    if (m_notYetReadyToPlayTrack.empty()) {
         allTracksReadyCallback();
         return;
     }
 
-    for (const auto& source : notYetReadyToPlayTracks) {
-        TrackId trackId = source->trackId();
-        source->readyToPlayChanged().onNotify(this, [this, trackId, allTracksReadyCallback]() {
-            muse::remove(m_notYetReadyToPlayTrackIdSet, trackId);
+    for (const auto& source : m_notYetReadyToPlayTrack) {
+        std::weak_ptr<AudioSourceNode> weakPtr = source;
+        source->readyToPlayChanged().onNotify(this, [this, weakPtr, allTracksReadyCallback]() {
+            if (auto source = weakPtr.lock()) {
+                muse::remove(m_notYetReadyToPlayTrack, source);
 
-            if (m_notYetReadyToPlayTrackIdSet.empty()) {
-                allTracksReadyCallback();
-            }
+                if (m_notYetReadyToPlayTrack.empty()) {
+                    allTracksReadyCallback();
+                }
 
-            ITrackAudioInputPtr source = m_trackSource->trackSource(trackId);
-            IF_ASSERT_FAILED(source) {
-                return;
+                source->readyToPlayChanged().disconnect(this);
             }
-            source->readyToPlayChanged().disconnect(this);
         }, Asyncable::Mode::SetReplace);
     }
 }

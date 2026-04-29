@@ -23,18 +23,48 @@
 
 #include "log.h"
 
+using namespace muse::audio;
 using namespace muse::audio::engine;
 
 void AudioNode::setOutputSpec(const OutputSpec& spec)
 {
+    if (m_outputSpec == spec) {
+        return;
+    }
     m_outputSpec = spec;
     onOutputSpecChanged(spec);
+}
+
+const OutputSpec& AudioNode::outputSpec() const
+{
+    return m_outputSpec;
 }
 
 void AudioNode::onOutputSpecChanged(const OutputSpec& spec)
 {
     if (m_input) {
         m_input->setOutputSpec(spec);
+    }
+}
+
+void AudioNode::setMode(const ProcessMode mode)
+{
+    if (m_mode == mode) {
+        return;
+    }
+    m_mode = mode;
+    onModeChanged(mode);
+}
+
+ProcessMode AudioNode::mode() const
+{
+    return m_mode;
+}
+
+void AudioNode::onModeChanged(const ProcessMode mode)
+{
+    if (m_input) {
+        m_input->setMode(mode);
     }
 }
 

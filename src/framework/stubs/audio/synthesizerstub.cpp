@@ -34,16 +34,6 @@ void SynthesizerStub::setOutputSpec(const OutputSpec&)
 {
 }
 
-unsigned int SynthesizerStub::audioChannelsCount() const
-{
-    return 2;
-}
-
-async::Channel<unsigned int> SynthesizerStub::audioChannelsCountChanged() const
-{
-    return async::Channel<unsigned int>();
-}
-
 samples_t SynthesizerStub::process(float*, samples_t)
 {
     return 0;

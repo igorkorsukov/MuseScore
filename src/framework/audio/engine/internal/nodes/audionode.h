@@ -34,6 +34,9 @@ public:
     virtual ~AudioNode() = default;
 
     void setOutputSpec(const OutputSpec& spec);
+    const OutputSpec& outputSpec() const;
+    void setMode(const ProcessMode mode);
+    ProcessMode mode() const;
 
     AudioNode* connect(std::shared_ptr<AudioNode> other);
     AudioNode* disconnect(std::shared_ptr<AudioNode> other);
@@ -43,12 +46,19 @@ public:
 protected:
 
     virtual void onOutputSpecChanged(const OutputSpec& spec);
+    virtual void onModeChanged(const ProcessMode mode);
+
     virtual void doAddNode(std::shared_ptr<AudioNode> other);
     virtual void doRemoveNode(std::shared_ptr<AudioNode> other);
+
     virtual void doProcess(float* buffer, samples_t samplesPerChannel);
     virtual void doSelfProcess(float* buffer, samples_t samplesPerChannel) = 0;
 
     OutputSpec m_outputSpec;
+    ProcessMode m_mode = ProcessMode::Undefined;
+
     std::shared_ptr<AudioNode> m_input = nullptr;
 };
+
+using AudioNodePtr = std::shared_ptr<AudioNode>;
 }

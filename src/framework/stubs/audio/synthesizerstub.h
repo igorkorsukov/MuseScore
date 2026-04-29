@@ -32,10 +32,6 @@ public:
 
     void setOutputSpec(const OutputSpec& spec) override;
 
-    unsigned int audioChannelsCount() const override;
-
-    async::Channel<unsigned int> audioChannelsCountChanged() const override;
-
     samples_t process(float* buffer, samples_t samplesPerChannel) override;
 
     std::string name() const override;

@@ -26,7 +26,7 @@
 
 #include "audio/engine/internal/mixerchannel.h"
 
-#include "eventaudiosource.h"
+#include "nodes/eventaudionode.h"
 
 using namespace muse;
 using namespace muse::audio;
@@ -71,18 +71,18 @@ void AudioFactory::clearSynthSources()
     synthResolver()->clearSources();
 }
 
-RetVal<ITrackAudioInputPtr> AudioFactory::makeEventSource(const TrackId trackId, const mpe::PlaybackData& playbackData,
-                                                          const AudioInputParams& params,
-                                                          const std::function<void(const TrackId)> onOffStreamReceived) const
+RetVal<AudioSourceNodePtr> AudioFactory::makeEventSource(const TrackId trackId, const mpe::PlaybackData& playbackData,
+                                                         const AudioInputParams& params,
+                                                         const std::function<void()> onOffStreamReceived) const
 {
-    EventAudioSourcePtr source = std::make_shared<EventAudioSource>(trackId, playbackData, onOffStreamReceived);
+    EventAudioNodePtr source = std::make_shared<EventAudioNode>(trackId, playbackData, onOffStreamReceived);
     source->setOutputSpec(audioEngine()->outputSpec());
     source->applyInputParams(params);
-    return RetVal<ITrackAudioInputPtr>::make_ok(source);
+    return RetVal<AudioSourceNodePtr>::make_ok(source);
 }
 
 RetVal<ITrackAudioOutputPtr> AudioFactory::makeMixerChannel(const TrackId trackId, const AudioOutputParams& params,
-                                                            const ITrackAudioInputPtr& source) const
+                                                            const AudioNodePtr& source) const
 {
     auto channel = std::make_shared<MixerChannel>(trackId, audioEngine()->outputSpec(), source, nullptr);
     channel->applyOutputParams(params);

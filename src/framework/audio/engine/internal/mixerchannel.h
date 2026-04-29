@@ -38,14 +38,13 @@ class MixerChannel : public ITrackAudioOutput, public async::Asyncable
     GlobalInject<IAudioFactory> audioFactory;
 
 public:
-    explicit MixerChannel(const TrackId trackId, const OutputSpec& outputSpec, IAudioSourcePtr source,
-                          PlayheadPositionPtr playheadPosition);
+    explicit MixerChannel(const TrackId trackId, const OutputSpec& outputSpec, AudioNodePtr source, PlayheadPositionPtr playheadPosition);
     explicit MixerChannel(const TrackId trackId, const OutputSpec& outputSpec, PlayheadPositionPtr playheadPosition);
 
     void setPlayheadPosition(PlayheadPositionPtr playheadPosition);
 
     TrackId trackId() const;
-    IAudioSourcePtr source() const;
+    AudioNodePtr source() const;
 
     bool muted() const;
     async::Notification mutedChanged() const;
@@ -82,7 +81,7 @@ private:
     OutputSpec m_outputSpec;
     AudioOutputParams m_params;
 
-    IAudioSourcePtr m_audioSource = nullptr;
+    AudioNodePtr m_audioSource = nullptr;
     PlayheadPositionPtr m_playheadPosition = nullptr;
     std::vector<IFxProcessorPtr> m_fxProcessors = {};
 

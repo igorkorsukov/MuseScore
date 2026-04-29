@@ -33,6 +33,13 @@ void MixerNode::onOutputSpecChanged(const OutputSpec& spec)
     }
 }
 
+void MixerNode::onModeChanged(const ProcessMode mode)
+{
+    for (auto& input : m_inputs) {
+        input->setMode(mode);
+    }
+}
+
 void MixerNode::doAddNode(std::shared_ptr<AudioNode> other)
 {
     m_inputs.emplace_back(other);

@@ -30,6 +30,7 @@
 #include "audio/common/audiotypes.h"
 #include "audio/common/timeposition.h"
 
+#include "nodes/audionode.h"
 #include "../iaudiosource.h"
 
 namespace muse::audio::engine {
@@ -37,31 +38,6 @@ enum TrackType {
     Undefined = -1,
     Event_track,
     Sound_track
-};
-
-class ITrackAudioInput : public IAudioSource
-{
-public:
-    virtual ~ITrackAudioInput() = default;
-
-    virtual TrackId trackId() const = 0;
-
-    virtual void seek(const TimePosition& position, const bool flushSound = true) = 0;
-    virtual void flush() = 0;
-
-    virtual const AudioInputParams& inputParams() const = 0;
-    virtual void applyInputParams(const AudioInputParams& requiredParams) = 0;
-    virtual async::Channel<AudioInputParams> inputParamsChanged() const = 0;
-
-    virtual void prepareToPlay() = 0;
-    virtual bool readyToPlay() const = 0;
-    virtual async::Notification readyToPlayChanged() const = 0;
-
-    virtual bool hasPendingChunks() const = 0;
-    virtual void processInput() = 0;
-    virtual InputProcessingProgress inputProcessingProgress() const = 0;
-
-    virtual void clearCache() = 0;
 };
 
 class ITrackAudioOutput : public IAudioSource
@@ -76,6 +52,5 @@ public:
     virtual AudioSignalChanges audioSignalChanges() const = 0;
 };
 
-using ITrackAudioInputPtr = std::shared_ptr<ITrackAudioInput>;
 using ITrackAudioOutputPtr = std::shared_ptr<ITrackAudioOutput>;
 }

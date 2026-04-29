@@ -49,13 +49,12 @@ public:
     RetVal<synth::ISynthesizerPtr> makeDefaultSynth(const TrackId trackId) const override;
     void clearSynthSources() override;
 
-    RetVal<ITrackAudioInputPtr> makeEventSource(const TrackId trackId, const mpe::PlaybackData& playbackData,
-                                                const AudioInputParams& params,
-                                                const std::function<void(const TrackId)> onOffStreamReceived = nullptr) const override;
+    RetVal<AudioSourceNodePtr> makeEventSource(const TrackId trackId, const mpe::PlaybackData& playbackData, const AudioInputParams& params,
+                                               const std::function<void()> onOffStreamReceived = nullptr) const override;
 
     // Make output (mixer channel)
     RetVal<ITrackAudioOutputPtr> makeMixerChannel(const TrackId trackId, const AudioOutputParams& params,
-                                                  const ITrackAudioInputPtr& source) const override;
+                                                  const AudioNodePtr& source) const override;
     RetVal<ITrackAudioOutputPtr> makeMixerAuxChannel(const TrackId trackId, const AudioOutputParams& params) const override;
 
     // Make FX

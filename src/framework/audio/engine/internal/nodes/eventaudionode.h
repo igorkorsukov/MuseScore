@@ -22,34 +22,26 @@
 
 #pragma once
 
+#include "audiosourcenode.h"
+
 #include "global/async/asyncable.h"
 #include "global/modularity/ioc.h"
 #include "mpe/events.h"
 
 #include "audio/common/audiotypes.h"
-#include "iaudiofactory.h"
-#include "track.h"
+#include "../iaudiofactory.h"
 
 namespace muse::audio::engine {
-class EventAudioSource : public ITrackAudioInput, public async::Asyncable
+class EventAudioNode : public AudioSourceNode, public async::Asyncable
 {
     GlobalInject<IAudioFactory> audioFactory;
 
 public:
-    using OnOffStreamEventsReceived = std::function<void (const TrackId)>;
+    using OnOffStreamEventsReceived = std::function<void ()>;
 
-    explicit EventAudioSource(const TrackId trackId, const mpe::PlaybackData& playbackData, OnOffStreamEventsReceived onOffStreamReceived);
+    explicit EventAudioNode(TrackId trackId, const mpe::PlaybackData& playbackData, OnOffStreamEventsReceived onOffStreamReceived);
 
-    ~EventAudioSource() override;
-
-    TrackId trackId() const override;
-
-    void setMode(const ProcessMode mode) override;
-    ProcessMode mode() const override;
-    void setOutputSpec(const OutputSpec& spec) override;
-    unsigned int audioChannelsCount() const override;
-    async::Channel<unsigned int> audioChannelsCountChanged() const override;
-    samples_t process(float* buffer, samples_t samplesPerChannel) override;
+    ~EventAudioNode() override;
 
     void seek(const TimePosition& position, const bool flushSound = true) override;
     void flush() override;
@@ -76,6 +68,11 @@ private:
         bool isValid() const { return mode != ProcessMode::Undefined; }
     };
 
+    void onModeChanged(const ProcessMode mode) override;
+    void onOutputSpecChanged(const OutputSpec& spec) override;
+
+    void doSelfProcess(float* buffer, samples_t samplesPerChannel) override;
+
     void setupSource();
     SynthCtx currentSynthCtx() const;
     void restoreSynthCtx(const SynthCtx& ctx);
@@ -85,8 +82,7 @@ private:
     synth::ISynthesizerPtr m_synth = nullptr;
     AudioInputParams m_params;
     async::Channel<AudioInputParams> m_paramsChanges;
-    OutputSpec m_outputSpec;
 };
 
-using EventAudioSourcePtr = std::shared_ptr<EventAudioSource>;
+using EventAudioNodePtr = std::shared_ptr<EventAudioNode>;
 }

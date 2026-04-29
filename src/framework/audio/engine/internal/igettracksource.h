@@ -24,7 +24,7 @@
 
 #include "audio/common/audiotypes.h"
 
-#include "track.h"
+#include "nodes/audiosourcenode.h"
 
 namespace muse::audio::engine {
 class IGetTrackSource
@@ -32,7 +32,7 @@ class IGetTrackSource
 public:
     virtual ~IGetTrackSource() = default;
 
-    virtual ITrackAudioInputPtr trackSource(const TrackId trackId) const = 0;
-    virtual std::vector<ITrackAudioInputPtr> allTracksSources() const = 0;
+    virtual AudioSourceNodePtr trackSource(const TrackId trackId) const = 0;
+    virtual std::vector<AudioSourceNodePtr> allTracksSources() const = 0;
 };
 }

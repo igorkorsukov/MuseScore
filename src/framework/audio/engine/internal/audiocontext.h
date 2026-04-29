@@ -128,7 +128,7 @@ private:
         TrackId id = INVALID_TRACK_ID;
         TrackType type = Undefined;
         TrackName name;
-        ITrackAudioInputPtr source = nullptr;
+        AudioSourceNodePtr source = nullptr;
         ITrackAudioOutputPtr output = nullptr;
     };
 
@@ -139,8 +139,8 @@ private:
     const Track* track(const TrackId id) const;
 
     // IGetTrackSource
-    ITrackAudioInputPtr trackSource(const TrackId trackId) const override;
-    std::vector<ITrackAudioInputPtr> allTracksSources() const override;
+    AudioSourceNodePtr trackSource(const TrackId trackId) const override;
+    std::vector<AudioSourceNodePtr> allTracksSources() const override;
     // -----
 
     void listenInputProcessing(std::function<void(const Ret&)> completed);

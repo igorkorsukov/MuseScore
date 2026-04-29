@@ -107,6 +107,6 @@ private:
     async::Channel<TimeEvent> m_timeEvent;
 
     bool m_flushSoundOnSeek = true;
-    std::set<TrackId> m_notYetReadyToPlayTrackIdSet;
+    std::set<AudioSourceNodePtr> m_notYetReadyToPlayTrack;
 };
 }
