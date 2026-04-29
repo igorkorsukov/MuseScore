@@ -100,23 +100,14 @@ void EventAudioSource::setOutputSpec(const OutputSpec& spec)
 unsigned int EventAudioSource::audioChannelsCount() const
 {
     ONLY_AUDIO_ENGINE_THREAD;
-
-    if (!m_synth) {
-        return 0;
-    }
-
-    return m_synth->audioChannelsCount();
+    return m_outputSpec.audioChannelCount;
 }
 
 async::Channel<unsigned int> EventAudioSource::audioChannelsCountChanged() const
 {
     ONLY_AUDIO_ENGINE_THREAD;
-
-    IF_ASSERT_FAILED(m_synth) {
-        return {};
-    }
-
-    return m_synth->audioChannelsCountChanged();
+    static async::Channel<unsigned int> channel;
+    return channel;
 }
 
 samples_t EventAudioSource::process(float* buffer, samples_t samplesPerChannel)

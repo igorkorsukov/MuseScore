@@ -62,10 +62,7 @@ public:
     muse::audio::TimePosition playbackPosition() const override;
     void setPlaybackPosition(const muse::audio::TimePosition& position) override;
 
-    // IAudioSource
     void setOutputSpec(const audio::OutputSpec& spec) override;
-    unsigned int audioChannelsCount() const override;
-    async::Channel<unsigned int> audioChannelsCountChanged() const override;
     muse::audio::samples_t process(float* buffer, muse::audio::samples_t samplesPerChannel) override;
 
 private:
@@ -77,7 +74,6 @@ private:
     std::unique_ptr<VstAudioClient> m_vstAudioClient = nullptr;
 
     audio::OutputSpec m_outputSpec;
-    async::Channel<unsigned int> m_streamsCountChanged;
 
     VstSequencer m_sequencer;
 

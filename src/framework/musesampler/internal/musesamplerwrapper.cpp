@@ -141,16 +141,6 @@ void MuseSamplerWrapper::setOutputSpec(const audio::OutputSpec& spec)
     setMode(m_mode);
 }
 
-unsigned int MuseSamplerWrapper::audioChannelsCount() const
-{
-    return AUDIO_CHANNELS_COUNT;
-}
-
-async::Channel<unsigned int> MuseSamplerWrapper::audioChannelsCountChanged() const
-{
-    return m_audioChannelsCountChanged;
-}
-
 samples_t MuseSamplerWrapper::process(float* buffer, samples_t samplesPerChannel)
 {
     if (!m_samplerLib || !m_sampler) {

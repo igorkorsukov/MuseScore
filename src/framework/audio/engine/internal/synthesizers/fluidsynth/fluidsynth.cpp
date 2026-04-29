@@ -402,11 +402,6 @@ void FluidSynth::setPlaybackPosition(const TimePosition& position)
     }
 }
 
-unsigned int FluidSynth::audioChannelsCount() const
-{
-    return FLUID_AUDIO_CHANNELS_COUNT;
-}
-
 samples_t FluidSynth::process(float* buffer, samples_t samplesPerChannel)
 {
     IF_ASSERT_FAILED(samplesPerChannel > 0) {
@@ -466,11 +461,6 @@ bool FluidSynth::processSequence(const FluidSequencer::EventSequence& sequence, 
                                          buffer, 1, FLUID_AUDIO_CHANNELS_COUNT);
 
     return result == FLUID_OK;
-}
-
-async::Channel<unsigned int> FluidSynth::audioChannelsCountChanged() const
-{
-    return m_streamsCountChanged;
 }
 
 void FluidSynth::toggleExpressionController()

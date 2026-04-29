@@ -196,16 +196,6 @@ void VstSynthesiser::setOutputSpec(const audio::OutputSpec& spec)
     }
 }
 
-unsigned int VstSynthesiser::audioChannelsCount() const
-{
-    return m_outputSpec.audioChannelCount;
-}
-
-async::Channel<unsigned int> VstSynthesiser::audioChannelsCountChanged() const
-{
-    return m_streamsCountChanged;
-}
-
 samples_t VstSynthesiser::process(float* buffer, samples_t samplesPerChannel)
 {
     if (!buffer) {

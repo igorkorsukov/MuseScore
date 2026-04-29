@@ -43,8 +43,6 @@ public:
 
     void setMode(const muse::audio::ProcessMode mode) override;
     void setOutputSpec(const audio::OutputSpec& spec) override;
-    unsigned int audioChannelsCount() const override;
-    async::Channel<unsigned int> audioChannelsCountChanged() const override;
     muse::audio::samples_t process(float* buffer, muse::audio::samples_t samplesPerChannel) override;
 
     std::string name() const override;
@@ -98,8 +96,6 @@ private:
             *this = RenderingInfo();
         }
     };
-
-    async::Channel<unsigned int> m_audioChannelsCountChanged;
 
     MuseSamplerLibHandlerPtr m_samplerLib = nullptr;
     ms_MuseSampler m_sampler = nullptr;

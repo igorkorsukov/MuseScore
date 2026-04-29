@@ -61,9 +61,7 @@ public:
     TimePosition playbackPosition() const override;
     void setPlaybackPosition(const TimePosition& position) override;
 
-    unsigned int audioChannelsCount() const override;
     samples_t process(float* buffer, samples_t samplesPerChannel) override;
-    async::Channel<unsigned int> audioChannelsCountChanged() const override;
 
     void setMode(const ProcessMode mode) override;
     void setOutputSpec(const OutputSpec& spec) override;
@@ -115,8 +113,6 @@ private:
 
     std::shared_ptr<Fluid> m_fluid;
     std::shared_ptr<midi::IMidiOutPort> m_midiOutPort;
-
-    async::Channel<unsigned int> m_streamsCountChanged;
 
     FluidSequencer m_sequencer;
     std::set<io::path_t> m_sfontPaths;
