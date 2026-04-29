@@ -63,8 +63,10 @@ Ret AudioEngine::init(const OutputSpec& outputSpec)
            << ", audioChannelCount: " << outputSpec.audioChannelCount;
 
     m_outputSpec = outputSpec;
-
     m_operationType = OperationType::NoOperation;
+
+    m_mixer = std::make_shared<MixerNode>();
+    m_mixer->setOutputSpec(outputSpec);
 
     m_inited = true;
 
@@ -101,6 +103,9 @@ RetVal<std::shared_ptr<IAudioContext> > AudioEngine::addAudioContext(const Audio
     }
 
     m_contexts[ctxId] = ctx;
+
+    ctx->connect(m_mixer);
+
     return RetType::make_ok(ctx);
 }
 
@@ -117,7 +122,9 @@ void AudioEngine::destroyContext(const AudioCtxId& ctxId)
 {
     auto it = m_contexts.find(ctxId);
     if (it != m_contexts.end()) {
-        it->second->deinit();
+        auto& ctx = it->second;
+        ctx->deinit();
+        ctx->disconnect(m_mixer);
         m_contexts.erase(it);
     }
 }
@@ -140,8 +147,8 @@ void AudioEngine::setOutputSpec(const OutputSpec& outputSpec)
 
     m_outputSpec = outputSpec;
 
-    for (auto& p : m_contexts) {
-        p.second->setOutputSpec(outputSpec);
+    if (m_mixer) {
+        m_mixer->setOutputSpec(outputSpec);
     }
 
     m_outputSpecChanged.send(outputSpec);
@@ -209,23 +216,15 @@ samples_t AudioEngine::process(float* buffer, samples_t samplesPerChannel)
     }
     case OperationType::NoOperation: {
         // normal playing
-        //! TODO mix all contexts audio
-        samples_t totalProcessedSamples = 0;
-        for (auto& p : m_contexts) {
-            totalProcessedSamples = p.second->process(buffer, samplesPerChannel);
-        }
-        return totalProcessedSamples;
+        m_mixer->process(buffer, samplesPerChannel);
+        return samplesPerChannel;
     }
     case OperationType::QuickOperation: {
         // wait
         LOGD() << "wait end of quick operation";
         std::scoped_lock<std::mutex> lock(m_quickOperationWaitMutex);
-        //! TODO mix all contexts audio
-        samples_t totalProcessedSamples = 0;
-        for (auto& p : m_contexts) {
-            totalProcessedSamples = p.second->process(buffer, samplesPerChannel);
-        }
-        return totalProcessedSamples;
+        m_mixer->process(buffer, samplesPerChannel);
+        return samplesPerChannel;
     }
     case OperationType::LongOperation: {
         return fillSilent(buffer, samplesPerChannel);

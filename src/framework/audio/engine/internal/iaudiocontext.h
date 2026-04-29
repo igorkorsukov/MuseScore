@@ -109,8 +109,5 @@ public:
     virtual async::Promise<Ret> saveSoundTrack(io::IODevice& dstDevice, const SoundTrackFormat& format) = 0;
     virtual SaveSoundTrackProgress saveSoundTrackProgressChanged() const = 0;
     virtual void abortSavingAllSoundTracks() = 0;
-
-    // Processing
-    virtual samples_t process(float* buffer, samples_t samplesPerChannel) = 0;
 };
 }

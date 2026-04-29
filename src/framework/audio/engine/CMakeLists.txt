@@ -86,6 +86,12 @@ else()
         internal/transporteventsdispatcher.cpp
         internal/transporteventsdispatcher.h
 
+        # Nodes
+        internal/nodes/audionode.cpp
+        internal/nodes/audionode.h
+        internal/nodes/mixernode.cpp
+        internal/nodes/mixernode.h
+
         # DSP
         internal/dsp/envelopefilterconfig.h
         internal/dsp/compressor.cpp

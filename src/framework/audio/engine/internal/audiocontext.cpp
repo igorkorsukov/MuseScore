@@ -809,8 +809,8 @@ SaveSoundTrackProgress AudioContext::saveSoundTrackProgressChanged() const
 }
 
 // Processing
-samples_t AudioContext::process(float* buffer, samples_t samplesPerChannel)
+void AudioContext::doSelfProcess(float* buffer, samples_t samplesPerChannel)
 {
     ONLY_AUDIO_PROC_THREAD;
-    return m_mixer->process(buffer, samplesPerChannel);
+    m_mixer->process(buffer, samplesPerChannel);
 }

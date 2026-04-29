@@ -22,6 +22,7 @@
 #pragma once
 
 #include "iaudiocontext.h"
+#include "nodes/audionode.h"
 
 #include "global/async/asyncable.h"
 
@@ -35,7 +36,7 @@
 
 namespace muse::audio::engine {
 class EnginePlayer;
-class AudioContext : public IAudioContext, public IGetTrackSource, public async::Asyncable
+class AudioContext : public AudioNode, public IAudioContext, public IGetTrackSource, public async::Asyncable
 {
     GlobalInject<IAudioEngine> audioEngine;
     GlobalInject<IAudioFactory> audioFactory;
@@ -121,9 +122,6 @@ public:
     SaveSoundTrackProgress saveSoundTrackProgressChanged() const override;
     void abortSavingAllSoundTracks() override;
 
-    // Processing
-    samples_t process(float* buffer, samples_t samplesPerChannel) override;
-
 private:
 
     struct Track
@@ -148,6 +146,9 @@ private:
     bool hasPendingChunks(const TrackId id) const;
     size_t tracksBeingProcessedCount() const;
     Ret doSaveSoundTrack(io::IODevice& dstDevice, const SoundTrackFormat& format);
+
+    // Processing
+    void doSelfProcess(float* buffer, samples_t samplesPerChannel) override;
 
     AudioCtxId m_ctxId = 0;
 

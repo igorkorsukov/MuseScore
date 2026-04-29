@@ -30,6 +30,8 @@
 
 #include "global/types/ret.h"
 
+#include "nodes/mixernode.h"
+
 namespace muse::audio::engine {
 class AudioContext;
 class AudioEngine : public IAudioEngine
@@ -60,10 +62,11 @@ private:
 
     std::atomic<bool> m_inited = false;
 
-    std::map<AudioCtxId, std::shared_ptr<AudioContext> > m_contexts;
-
     OutputSpec m_outputSpec;
     async::Channel<OutputSpec> m_outputSpecChanged;
+
+    std::map<AudioCtxId, std::shared_ptr<AudioContext> > m_contexts;
+    std::shared_ptr<MixerNode> m_mixer;
 
     std::atomic<bool> m_processing = false;
     std::atomic<OperationType> m_operationType = OperationType::Undefined;
