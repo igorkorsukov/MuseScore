@@ -70,8 +70,17 @@ void AudioNode::doAddNode(std::shared_ptr<AudioNode> other)
     m_input = other;
 }
 
-void AudioNode::doRemoveNode(std::shared_ptr<AudioNode>)
+void AudioNode::doRemoveNode(std::shared_ptr<AudioNode> other)
 {
+    IF_ASSERT_FAILED(other) {
+        return;
+    }
+
+    IF_ASSERT_FAILED(m_input == other) {
+        LOGE() << "not connected to this node";
+        return;
+    }
+
     m_input = nullptr;
 }
 

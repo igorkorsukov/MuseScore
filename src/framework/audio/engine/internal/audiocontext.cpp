@@ -25,7 +25,7 @@
 #include "audio/common/audioerrors.h"
 #include "audio/common/audioutils.h"
 
-#include "engineplayer.h"
+#include "contextplayer.h"
 
 #include "muse_framework_config.h"
 #ifdef MUSE_MODULE_AUDIO_EXPORT
@@ -39,7 +39,7 @@ using namespace muse::audio::engine;
 AudioContext::AudioContext(const AudioCtxId& ctxId)
     : m_ctxId(ctxId)
 {
-    m_player = std::make_shared<EnginePlayer>(this);
+    m_player = std::make_shared<ContextPlayer>(this);
     m_mixer = std::make_shared<Mixer>();
 }
 
@@ -99,10 +99,9 @@ void AudioContext::setMode(const ProcessMode mode)
     m_mixer->setMode(mode);
 }
 
-void AudioContext::setOutputSpec(const OutputSpec& outputSpec)
+void AudioContext::onOutputSpecChanged(const OutputSpec& outputSpec)
 {
     ONLY_AUDIO_ENGINE_THREAD;
-    m_outputSpec = outputSpec;
     m_mixer->setOutputSpec(outputSpec);
 
     TimePosition currentPosition = m_player->currentPosition();

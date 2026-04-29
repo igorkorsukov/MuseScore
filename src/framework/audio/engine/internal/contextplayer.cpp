@@ -20,7 +20,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include "engineplayer.h"
+#include "contextplayer.h"
 
 #include "audio/common/audiosanitizer.h"
 #include "audio/common/audioerrors.h"
@@ -32,7 +32,7 @@ using namespace muse::audio;
 using namespace muse::audio::engine;
 using namespace muse::async;
 
-EnginePlayer::EnginePlayer(IGetTrackSource* getTracks)
+ContextPlayer::ContextPlayer(IGetTrackSource* getTracks)
     : m_trackSource(getTracks)
 {
     m_status.set(PlaybackStatus::Stopped);
@@ -48,7 +48,7 @@ EnginePlayer::EnginePlayer(IGetTrackSource* getTracks)
     });
 }
 
-void EnginePlayer::onStatusChanged(const PlaybackStatus status)
+void ContextPlayer::onStatusChanged(const PlaybackStatus status)
 {
     const bool active = status == PlaybackStatus::Running;
     if (active) {
@@ -63,7 +63,7 @@ void EnginePlayer::onStatusChanged(const PlaybackStatus status)
     }
 }
 
-void EnginePlayer::forward(const TimePosition& delta)
+void ContextPlayer::forward(const TimePosition& delta)
 {
     ONLY_AUDIO_PROC_THREAD;
 
@@ -82,7 +82,7 @@ void EnginePlayer::forward(const TimePosition& delta)
     m_timeChanged.send(m_currentPosition.time());
 }
 
-TimePosition EnginePlayer::proc_onTimeChanged(const TimePosition& delta)
+TimePosition ContextPlayer::proc_onTimeChanged(const TimePosition& delta)
 {
     ONLY_AUDIO_PROC_THREAD;
 
@@ -116,12 +116,12 @@ TimePosition EnginePlayer::proc_onTimeChanged(const TimePosition& delta)
     return newTime;
 }
 
-const TimePosition& EnginePlayer::currentPosition() const
+const TimePosition& ContextPlayer::currentPosition() const
 {
     return m_currentPosition;
 }
 
-void EnginePlayer::onTimeEvent(const TimeEvent event)
+void ContextPlayer::onTimeEvent(const TimeEvent event)
 {
     ONLY_AUDIO_ENGINE_THREAD;
     switch (event.type) {
@@ -139,7 +139,7 @@ void EnginePlayer::onTimeEvent(const TimeEvent event)
     }
 }
 
-async::Promise<Ret> EnginePlayer::prepareToPlay()
+async::Promise<Ret> ContextPlayer::prepareToPlay()
 {
     ONLY_AUDIO_ENGINE_THREAD;
 
@@ -152,7 +152,7 @@ async::Promise<Ret> EnginePlayer::prepareToPlay()
     });
 }
 
-void EnginePlayer::play(const secs_t delay)
+void ContextPlayer::play(const secs_t delay)
 {
     ONLY_AUDIO_ENGINE_THREAD;
 
@@ -164,7 +164,7 @@ void EnginePlayer::play(const secs_t delay)
     m_status.set(PlaybackStatus::Running);
 }
 
-void EnginePlayer::seek(const TimePosition& position, const bool flushSound)
+void ContextPlayer::seek(const TimePosition& position, const bool flushSound)
 {
     ONLY_AUDIO_ENGINE_THREAD;
 
@@ -189,7 +189,7 @@ void EnginePlayer::seek(const TimePosition& position, const bool flushSound)
     m_flushSoundOnSeek = true;
 }
 
-void EnginePlayer::stop()
+void ContextPlayer::stop()
 {
     ONLY_AUDIO_ENGINE_THREAD;
 
@@ -203,7 +203,7 @@ void EnginePlayer::stop()
     m_notYetReadyToPlayTrackIdSet.clear();
 }
 
-void EnginePlayer::pause()
+void ContextPlayer::pause()
 {
     ONLY_AUDIO_ENGINE_THREAD;
 
@@ -215,7 +215,7 @@ void EnginePlayer::pause()
     m_notYetReadyToPlayTrackIdSet.clear();
 }
 
-void EnginePlayer::resume(const secs_t delay)
+void ContextPlayer::resume(const secs_t delay)
 {
     ONLY_AUDIO_ENGINE_THREAD;
 
@@ -228,19 +228,19 @@ void EnginePlayer::resume(const secs_t delay)
     m_status.set(PlaybackStatus::Running);
 }
 
-secs_t EnginePlayer::duration() const
+secs_t ContextPlayer::duration() const
 {
     ONLY_AUDIO_ENGINE_THREAD;
     return m_timeDuration;
 }
 
-void EnginePlayer::setDuration(const secs_t duration)
+void ContextPlayer::setDuration(const secs_t duration)
 {
     ONLY_AUDIO_ENGINE_THREAD;
     m_timeDuration = duration;
 }
 
-Ret EnginePlayer::setLoop(const secs_t from, const secs_t to)
+Ret ContextPlayer::setLoop(const secs_t from, const secs_t to)
 {
     ONLY_AUDIO_ENGINE_THREAD;
 
@@ -254,50 +254,50 @@ Ret EnginePlayer::setLoop(const secs_t from, const secs_t to)
     return Ret(Ret::Code::Ok);
 }
 
-void EnginePlayer::resetLoop()
+void ContextPlayer::resetLoop()
 {
     ONLY_AUDIO_ENGINE_THREAD;
     m_timeLoopStart = 0;
     m_timeLoopEnd = 0;
 }
 
-secs_t EnginePlayer::playbackPosition() const
+secs_t ContextPlayer::playbackPosition() const
 {
     ONLY_AUDIO_ENGINE_THREAD;
     return m_currentPosition.time();
 }
 
-Channel<secs_t> EnginePlayer::playbackPositionChanged() const
+Channel<secs_t> ContextPlayer::playbackPositionChanged() const
 {
     ONLY_AUDIO_ENGINE_THREAD;
     return m_timeChanged;
 }
 
-PlaybackStatus EnginePlayer::playbackStatus() const
+PlaybackStatus ContextPlayer::playbackStatus() const
 {
     ONLY_AUDIO_ENGINE_THREAD;
     return m_status.val;
 }
 
-Channel<PlaybackStatus> EnginePlayer::playbackStatusChanged() const
+Channel<PlaybackStatus> ContextPlayer::playbackStatusChanged() const
 {
     ONLY_AUDIO_ENGINE_THREAD;
     return m_status.ch;
 }
 
-bool EnginePlayer::isActive() const
+bool ContextPlayer::isActive() const
 {
     ONLY_AUDIO_ENGINE_THREAD;
     return m_isActive.val;
 }
 
-Channel<bool> EnginePlayer::isActiveChanged() const
+Channel<bool> ContextPlayer::isActiveChanged() const
 {
     ONLY_AUDIO_ENGINE_THREAD;
     return m_isActive.ch;
 }
 
-void EnginePlayer::seekAllTracks(const TimePosition& position)
+void ContextPlayer::seekAllTracks(const TimePosition& position)
 {
     IF_ASSERT_FAILED(m_trackSource) {
         return;
@@ -308,7 +308,7 @@ void EnginePlayer::seekAllTracks(const TimePosition& position)
     }
 }
 
-void EnginePlayer::flushAllTracks()
+void ContextPlayer::flushAllTracks()
 {
     IF_ASSERT_FAILED(m_trackSource) {
         return;
@@ -319,7 +319,7 @@ void EnginePlayer::flushAllTracks()
     }
 }
 
-void EnginePlayer::prepareAllTracksToPlay(AllTracksReadyCallback allTracksReadyCallback)
+void ContextPlayer::prepareAllTracksToPlay(AllTracksReadyCallback allTracksReadyCallback)
 {
     ONLY_AUDIO_ENGINE_THREAD;
 

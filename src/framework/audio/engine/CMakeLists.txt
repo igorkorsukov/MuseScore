@@ -68,8 +68,8 @@ else()
         internal/mixer.h
         internal/mixerchannel.cpp
         internal/mixerchannel.h
-        internal/engineplayer.cpp
-        internal/engineplayer.h
+        internal/contextplayer.cpp
+        internal/contextplayer.h
         internal/samplerateconvertor.cpp
         internal/samplerateconvertor.h
         internal/track.h

@@ -40,7 +40,6 @@ public:
 
     // Config
     virtual void setMode(const ProcessMode newMode) = 0;
-    virtual void setOutputSpec(const OutputSpec& outputSpec) = 0;
 
     // Tracks
     virtual RetVal2<TrackId, AudioParams> addTrack(const TrackName& trackName, io::IODevice* playbackData, const AudioParams& params) = 0;

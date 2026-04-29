@@ -204,15 +204,17 @@ samples_t AudioEngine::process(float* buffer, samples_t samplesPerChannel)
         m_processing = false;
     };
 
+    fillSilent(buffer, samplesPerChannel); // clear buffer
+
     if (!m_inited) {
-        return fillSilent(buffer, samplesPerChannel);
+        return 0;
     }
 
     // check current operation
     switch (m_operationType) {
     case OperationType::Undefined: {
         UNREACHABLE;
-        return fillSilent(buffer, samplesPerChannel);
+        return 0;
     }
     case OperationType::NoOperation: {
         // normal playing
@@ -227,9 +229,9 @@ samples_t AudioEngine::process(float* buffer, samples_t samplesPerChannel)
         return samplesPerChannel;
     }
     case OperationType::LongOperation: {
-        return fillSilent(buffer, samplesPerChannel);
+        return 0;
     }
     }
 
-    return fillSilent(buffer, samplesPerChannel);
+    return 0;
 }

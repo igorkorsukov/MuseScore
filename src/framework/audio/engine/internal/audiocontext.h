@@ -35,7 +35,7 @@
 #include "mixer.h"
 
 namespace muse::audio::engine {
-class EnginePlayer;
+class ContextPlayer;
 class AudioContext : public AudioNode, public IAudioContext, public IGetTrackSource, public async::Asyncable
 {
     GlobalInject<IAudioEngine> audioEngine;
@@ -52,7 +52,6 @@ public:
 
     // Config
     void setMode(const ProcessMode newMode) override;
-    void setOutputSpec(const OutputSpec& outputSpec) override;
 
     // Tracks
     RetVal2<TrackId, AudioParams> addTrack(const std::string& trackName, io::IODevice* playbackData, const AudioParams& params) override;
@@ -133,6 +132,8 @@ private:
         ITrackAudioOutputPtr output = nullptr;
     };
 
+    void onOutputSpecChanged(const OutputSpec& spec) override;
+
     TrackId newTrackId() const;
     void doAddTrack(const Track& track);
     const Track* track(const TrackId id) const;
@@ -152,8 +153,7 @@ private:
 
     AudioCtxId m_ctxId = 0;
 
-    OutputSpec m_outputSpec;
-    std::shared_ptr<EnginePlayer> m_player;
+    std::shared_ptr<ContextPlayer> m_player;
     std::shared_ptr<Mixer> m_mixer;
 
     std::vector<Track> m_tracks;

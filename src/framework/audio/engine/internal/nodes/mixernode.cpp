@@ -46,12 +46,15 @@ void MixerNode::doRemoveNode(std::shared_ptr<AudioNode> other)
 void MixerNode::doProcess(float* buffer, samples_t samplesPerChannel)
 {
     const audioch_t audioChannelCount = m_outputSpec.audioChannelCount;
-    const size_t outBufferSize = m_outputSpec.samplesPerChannel * audioChannelCount;
+    const size_t outBufferSize = samplesPerChannel * audioChannelCount;
+
     for (auto& input : m_inputs) {
         // prepare input buffer
         if (m_buffer.size() < outBufferSize) {
             m_buffer.resize(outBufferSize);
         }
+
+        // clear previous data
         std::fill(m_buffer.begin(), m_buffer.begin() + outBufferSize, 0.0f);
 
         // process input
