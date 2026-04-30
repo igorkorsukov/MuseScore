@@ -93,6 +93,8 @@ else()
         internal/nodes/mixernode.h
         internal/nodes/eventaudionode.cpp
         internal/nodes/eventaudionode.h
+        internal/nodes/fxnode.cpp
+        internal/nodes/fxnode.h
 
         # DSP
         internal/dsp/envelopefilterconfig.h

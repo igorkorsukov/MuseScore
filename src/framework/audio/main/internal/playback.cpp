@@ -164,6 +164,13 @@ IPlayerPtr Playback::player() const
     return p;
 }
 
+template<typename T>
+static void doReject(MsgCode code, T& reject, const Ret& ret)
+{
+    LOGE() << "failed rpc request: " << rpc::to_string(code) << ", err: " << ret.toString();
+    (void)reject(ret.code(), ret.text());
+}
+
 // 2. Setup tracks
 async::Promise<TrackIdList> Playback::trackIdList() const
 {
@@ -175,14 +182,13 @@ async::Promise<TrackIdList> Playback::trackIdList() const
             ONLY_AUDIO_MAIN_THREAD;
             RetVal<TrackIdList> ret;
             IF_ASSERT_FAILED(RpcPacker::unpack(res.data, ret)) {
-                Ret ret = audio::make_ret(Err::InvalidRpcData);
-                (void)reject(ret.code(), ret.text());
+                doReject(MsgCode::GetTrackIdList, reject, audio::make_ret(Err::InvalidRpcData));
                 return;
             }
             if (ret.ret) {
                 (void)resolve(ret.val);
             } else {
-                (void)reject(ret.ret.code(), ret.ret.text());
+                doReject(MsgCode::GetTrackIdList, reject, ret.ret);
             }
         });
         return Promise<TrackIdList>::dummy_result();
@@ -199,8 +205,7 @@ async::Promise<RetVal<TrackName> > Playback::trackName(const TrackId trackId) co
             ONLY_AUDIO_MAIN_THREAD;
             RetVal<TrackName> ret;
             IF_ASSERT_FAILED(RpcPacker::unpack(res.data, ret)) {
-                Ret ret = audio::make_ret(Err::InvalidRpcData);
-                (void)reject(ret.code(), ret.text());
+                doReject(MsgCode::GetTrackName, reject, audio::make_ret(Err::InvalidRpcData));
                 return;
             }
             (void)resolve(ret);
@@ -216,8 +221,8 @@ async::Promise<TrackId, AudioParams> Playback::addTrack(const TrackName& trackNa
 #ifdef MUE_CONFIGURATION_IS_APPWEB
     NOT_SUPPORTED;
     return async::make_promise<TrackId, AudioParams>([](auto /*resolve*/, auto reject) {
-        Ret ret = muse::make_ret(Ret::Code::NotSupported);
-        return reject(ret.code(), ret.text());
+        doReject(MsgCode::AddTrackWithIODevice, reject, muse::make_ret(Ret::Code::NotSupported));
+        return Promise<TrackId, AudioParams>::dummy_result();
     });
 #else
     ONLY_AUDIO_MAIN_THREAD;
@@ -231,14 +236,13 @@ async::Promise<TrackId, AudioParams> Playback::addTrack(const TrackName& trackNa
             ONLY_AUDIO_MAIN_THREAD;
             RetVal2<TrackId, AudioParams> ret;
             IF_ASSERT_FAILED(RpcPacker::unpack(res.data, ret)) {
-                Ret ret = audio::make_ret(Err::InvalidRpcData);
-                (void)reject(ret.code(), ret.text());
+                doReject(MsgCode::AddTrackWithIODevice, reject, audio::make_ret(Err::InvalidRpcData));
                 return;
             }
             if (ret.ret) {
                 (void)resolve(ret.val1, ret.val2);
             } else {
-                (void)reject(ret.ret.code(), ret.ret.text());
+                doReject(MsgCode::AddTrackWithIODevice, reject, ret.ret);
             }
         });
         return Promise<TrackId, AudioParams>::dummy_result();
@@ -265,14 +269,13 @@ async::Promise<TrackId, AudioParams> Playback::addTrack(const TrackName& trackNa
             ONLY_AUDIO_MAIN_THREAD;
             RetVal2<TrackId, AudioParams> ret;
             IF_ASSERT_FAILED(RpcPacker::unpack(res.data, ret)) {
-                Ret ret = audio::make_ret(Err::InvalidRpcData);
-                (void)reject(ret.code(), ret.text());
+                doReject(MsgCode::AddTrackWithPlaybackData, reject, audio::make_ret(Err::InvalidRpcData));
                 return;
             }
             if (ret.ret) {
                 (void)resolve(ret.val1, ret.val2);
             } else {
-                (void)reject(ret.ret.code(), ret.ret.text());
+                doReject(MsgCode::AddTrackWithPlaybackData, reject, ret.ret);
             }
         });
         return Promise<TrackId, AudioParams>::dummy_result();
@@ -290,14 +293,13 @@ async::Promise<TrackId, AudioOutputParams> Playback::addAuxTrack(const TrackName
             ONLY_AUDIO_MAIN_THREAD;
             RetVal2<TrackId, AudioOutputParams> ret;
             IF_ASSERT_FAILED(RpcPacker::unpack(res.data, ret)) {
-                Ret ret = audio::make_ret(Err::InvalidRpcData);
-                (void)reject(ret.code(), ret.text());
+                doReject(MsgCode::AddAuxTrack, reject, audio::make_ret(Err::InvalidRpcData));
                 return;
             }
             if (ret.ret) {
                 (void)resolve(ret.val1, ret.val2);
             } else {
-                (void)reject(ret.ret.code(), ret.ret.text());
+                doReject(MsgCode::AddAuxTrack, reject, ret.ret);
             }
         });
         return Promise<TrackId, AudioOutputParams>::dummy_result();
@@ -338,14 +340,13 @@ async::Promise<AudioResourceMetaList> Playback::availableInputResources() const
             ONLY_AUDIO_MAIN_THREAD;
             RetVal<AudioResourceMetaList> ret;
             IF_ASSERT_FAILED(RpcPacker::unpack(res.data, ret)) {
-                Ret ret = audio::make_ret(Err::InvalidRpcData);
-                (void)reject(ret.code(), ret.text());
+                doReject(MsgCode::GetAvailableInputResources, reject, audio::make_ret(Err::InvalidRpcData));
                 return;
             }
             if (ret.ret) {
                 (void)resolve(ret.val);
             } else {
-                (void)reject(ret.ret.code(), ret.ret.text());
+                doReject(MsgCode::GetAvailableInputResources, reject, ret.ret);
             }
         });
         return Promise<AudioResourceMetaList>::dummy_result();
@@ -362,14 +363,13 @@ async::Promise<SoundPresetList> Playback::availableSoundPresets(const AudioResou
             ONLY_AUDIO_MAIN_THREAD;
             RetVal<SoundPresetList> ret;
             IF_ASSERT_FAILED(RpcPacker::unpack(res.data, ret)) {
-                Ret ret = audio::make_ret(Err::InvalidRpcData);
-                (void)reject(ret.code(), ret.text());
+                doReject(MsgCode::GetAvailableSoundPresets, reject, audio::make_ret(Err::InvalidRpcData));
                 return;
             }
             if (ret.ret) {
                 (void)resolve(ret.val);
             } else {
-                (void)reject(ret.ret.code(), ret.ret.text());
+                doReject(MsgCode::GetAvailableSoundPresets, reject, ret.ret);
             }
         });
         return Promise<SoundPresetList>::dummy_result();
@@ -386,15 +386,14 @@ async::Promise<AudioInputParams> Playback::inputParams(const TrackId trackId) co
             ONLY_AUDIO_MAIN_THREAD;
             RetVal<AudioInputParams> ret;
             IF_ASSERT_FAILED(RpcPacker::unpack(res.data, ret)) {
-                Ret ret = audio::make_ret(Err::InvalidRpcData);
-                (void)reject(ret.code(), ret.text());
+                doReject(MsgCode::GetInputParams, reject, audio::make_ret(Err::InvalidRpcData));
                 return;
             }
 
             if (ret.ret) {
                 (void)resolve(ret.val);
             } else {
-                (void)reject(ret.ret.code(), ret.ret.text());
+                doReject(MsgCode::GetInputParams, reject, ret.ret);
             }
         });
         return Promise<AudioInputParams>::dummy_result();
@@ -432,8 +431,7 @@ muse::async::Promise<InputProcessingProgress> Playback::inputProcessingProgress(
             bool isStarted = false;
             StreamId streamId = 0;
             IF_ASSERT_FAILED(RpcPacker::unpack(res.data, ret, isStarted, streamId)) {
-                Ret ret = audio::make_ret(Err::InvalidRpcData);
-                (void)reject(ret.code(), ret.text());
+                doReject(MsgCode::GetInputProcessingProgress, reject, audio::make_ret(Err::InvalidRpcData));
                 return;
             }
 
@@ -443,7 +441,7 @@ muse::async::Promise<InputProcessingProgress> Playback::inputProcessingProgress(
                 channel()->addReceiveStream(StreamName::InputProcessingProgressStream, streamId, prog.processedChannel);
                 (void)resolve(prog);
             } else {
-                (void)reject(ret.code(), ret.text());
+                doReject(MsgCode::GetInputProcessingProgress, reject, ret);
             }
         });
         return Promise<InputProcessingProgress>::dummy_result();
@@ -476,15 +474,14 @@ async::Promise<AudioOutputParams> Playback::outputParams(const TrackId trackId) 
             ONLY_AUDIO_MAIN_THREAD;
             RetVal<AudioOutputParams> ret;
             IF_ASSERT_FAILED(RpcPacker::unpack(res.data, ret)) {
-                Ret ret = audio::make_ret(Err::InvalidRpcData);
-                (void)reject(ret.code(), ret.text());
+                doReject(MsgCode::GetOutputParams, reject, audio::make_ret(Err::InvalidRpcData));
                 return;
             }
 
             if (ret.ret) {
                 (void)resolve(ret.val);
             } else {
-                (void)reject(ret.ret.code(), ret.ret.text());
+                doReject(MsgCode::GetOutputParams, reject, ret.ret);
             }
         });
         return Promise<AudioOutputParams>::dummy_result();
@@ -513,15 +510,14 @@ async::Promise<AudioOutputParams> Playback::masterOutputParams() const
             ONLY_AUDIO_MAIN_THREAD;
             RetVal<AudioOutputParams> ret;
             IF_ASSERT_FAILED(RpcPacker::unpack(res.data, ret)) {
-                Ret ret = audio::make_ret(Err::InvalidRpcData);
-                (void)reject(ret.code(), ret.text());
+                doReject(MsgCode::GetMasterOutputParams, reject, audio::make_ret(Err::InvalidRpcData));
                 return;
             }
 
             if (ret.ret) {
                 (void)resolve(ret.val);
             } else {
-                (void)reject(ret.ret.code(), ret.ret.text());
+                doReject(MsgCode::GetMasterOutputParams, reject, ret.ret);
             }
         });
         return Promise<AudioOutputParams>::dummy_result();
@@ -557,14 +553,13 @@ async::Promise<AudioResourceMetaList> Playback::availableOutputResources() const
             ONLY_AUDIO_MAIN_THREAD;
             RetVal<AudioResourceMetaList> ret;
             IF_ASSERT_FAILED(RpcPacker::unpack(res.data, ret)) {
-                Ret ret = audio::make_ret(Err::InvalidRpcData);
-                (void)reject(ret.code(), ret.text());
+                doReject(MsgCode::GetAvailableOutputResources, reject, audio::make_ret(Err::InvalidRpcData));
                 return;
             }
             if (ret.ret) {
                 (void)resolve(ret.val);
             } else {
-                (void)reject(ret.ret.code(), ret.ret.text());
+                doReject(MsgCode::GetAvailableOutputResources, reject, ret.ret);
             }
         });
         return Promise<AudioResourceMetaList>::dummy_result();
@@ -581,8 +576,7 @@ async::Promise<AudioSignalChanges> Playback::signalChanges(const TrackId trackId
             ONLY_AUDIO_MAIN_THREAD;
             RetVal<StreamId> ret;
             IF_ASSERT_FAILED(RpcPacker::unpack(res.data, ret)) {
-                Ret ret = audio::make_ret(Err::InvalidRpcData);
-                (void)reject(ret.code(), ret.text());
+                doReject(MsgCode::GetSignalChanges, reject, audio::make_ret(Err::InvalidRpcData));
                 return;
             }
 
@@ -591,7 +585,7 @@ async::Promise<AudioSignalChanges> Playback::signalChanges(const TrackId trackId
                 channel()->addReceiveStream(StreamName::AudioSignalStream, ret.val, ch);
                 (void)resolve(ch);
             } else {
-                (void)reject(ret.ret.code(), ret.ret.text());
+                doReject(MsgCode::GetSignalChanges, reject, ret.ret);
             }
         });
         return Promise<AudioSignalChanges>::dummy_result();
@@ -608,8 +602,7 @@ async::Promise<AudioSignalChanges> Playback::masterSignalChanges() const
             ONLY_AUDIO_MAIN_THREAD;
             RetVal<StreamId> ret;
             IF_ASSERT_FAILED(RpcPacker::unpack(res.data, ret)) {
-                Ret ret = audio::make_ret(Err::InvalidRpcData);
-                (void)reject(ret.code(), ret.text());
+                doReject(MsgCode::GetMasterSignalChanges, reject, audio::make_ret(Err::InvalidRpcData));
                 return;
             }
 
@@ -618,7 +611,7 @@ async::Promise<AudioSignalChanges> Playback::masterSignalChanges() const
                 channel()->addReceiveStream(StreamName::AudioMasterSignalStream, ret.val, ch);
                 (void)resolve(ch);
             } else {
-                (void)reject(ret.ret.code(), ret.ret.text());
+                doReject(MsgCode::GetMasterSignalChanges, reject, ret.ret);
             }
         });
         return Promise<AudioSignalChanges>::dummy_result();
@@ -635,15 +628,14 @@ async::Promise<bool> Playback::saveSoundTrack(const SoundTrackFormat& format, io
             ONLY_AUDIO_MAIN_THREAD;
             Ret ret;
             IF_ASSERT_FAILED(RpcPacker::unpack(res.data, ret)) {
-                Ret ret = audio::make_ret(Err::InvalidRpcData);
-                (void)reject(ret.code(), ret.text());
+                doReject(MsgCode::SaveSoundTrack, reject, audio::make_ret(Err::InvalidRpcData));
                 return;
             }
 
             if (ret) {
                 (void)resolve(true);
             } else {
-                (void)reject(ret.code(), ret.text());
+                doReject(MsgCode::SaveSoundTrack, reject, ret);
             }
         });
         return Promise<bool>::dummy_result();

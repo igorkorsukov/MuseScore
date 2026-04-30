@@ -42,7 +42,7 @@ public:
     virtual bool active() const = 0;
     virtual void setActive(bool active) = 0;
 
-    virtual void setPlaying(bool playing) = 0;
+    virtual void setMode(const ProcessMode mode) = 0;
 
     virtual bool shouldProcessDuringSilence() const = 0;
 

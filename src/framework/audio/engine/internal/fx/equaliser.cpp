@@ -44,7 +44,7 @@ void Equaliser::setActive(bool active)
     m_active = active;
 }
 
-void Equaliser::setPlaying(bool)
+void Equaliser::setMode(const ProcessMode)
 {
 }
 

@@ -31,6 +31,7 @@
 #include "audiosignalnotifier.h"
 #include "track.h"
 #include "../iplayhead.h"
+#include "nodes/fxnode.h"
 
 namespace muse::audio::engine {
 class MixerChannel : public ITrackAudioOutput, public async::Asyncable
@@ -83,7 +84,7 @@ private:
 
     AudioNodePtr m_audioSource = nullptr;
     PlayheadPositionPtr m_playheadPosition = nullptr;
-    std::vector<IFxProcessorPtr> m_fxProcessors = {};
+    std::vector<FxNodePtr> m_fxNodes;
 
     bool m_isSilent = true;
     bool m_shouldProcessDuringSilence = false;

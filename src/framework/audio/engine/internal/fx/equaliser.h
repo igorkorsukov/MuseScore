@@ -39,7 +39,7 @@ public:
     void setGain(float value);
     void setQ(float value);
 
-    void setPlaying(bool playing) override;
+    void setMode(const ProcessMode mode) override;
     bool shouldProcessDuringSilence() const override;
 
     void process(float* buffer, samples_t sampleCount, samples_t playbackPositionSamples = 0) override;

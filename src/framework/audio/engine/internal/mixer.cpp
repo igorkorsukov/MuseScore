@@ -170,7 +170,7 @@ void Mixer::setOutputSpec(const OutputSpec& spec)
         aux.channel->setOutputSpec(spec);
     }
 
-    for (IFxProcessorPtr& fx : m_masterFxProcessors) {
+    for (FxNodePtr& fx : m_masterFxNodes) {
         fx->setOutputSpec(spec);
     }
 }
@@ -345,8 +345,8 @@ void Mixer::setMode(const ProcessMode mode)
         }
     }
 
-    for (IFxProcessorPtr& fx : m_masterFxProcessors) {
-        fx->setPlaying(isModePlaying(mode));
+    for (FxNodePtr& fx : m_masterFxNodes) {
+        fx->setMode(mode);
     }
 }
 
@@ -379,12 +379,13 @@ void Mixer::setMasterOutputParams(const AudioOutputParams& params)
         return;
     }
 
-    m_masterFxProcessors.clear();
-    m_masterFxProcessors = audioFactory()->makeMasterFxList(params.fxChain);
+    m_masterFxNodes.clear();
+    m_masterFxNodes = audioFactory()->makeMasterFxList(params.fxChain);
 
-    for (IFxProcessorPtr& fx : m_masterFxProcessors) {
+    for (FxNodePtr& fx : m_masterFxNodes) {
         fx->setOutputSpec(m_outputSpec);
-        fx->setPlaying(isModePlaying(m_mode));
+        fx->setMode(m_mode);
+        fx->setPlayheadPosition(m_playhead);
 
         fx->paramsChanged().onReceive(this, [this](const AudioFxParams& fxParams) {
             m_masterParams.fxChain.insert_or_assign(fxParams.chainOrder, fxParams);
@@ -395,8 +396,8 @@ void Mixer::setMasterOutputParams(const AudioOutputParams& params)
 
     AudioOutputParams resultParams = params;
 
-    auto findFxProcessor = [this](const std::pair<AudioFxChainOrder, AudioFxParams>& params) -> IFxProcessorPtr {
-        for (IFxProcessorPtr& fx : m_masterFxProcessors) {
+    auto findFxNode = [this](const std::pair<AudioFxChainOrder, AudioFxParams>& params) -> FxNodePtr {
+        for (FxNodePtr& fx : m_masterFxNodes) {
             if (fx->params().chainOrder != params.first) {
                 continue;
             }
@@ -410,8 +411,8 @@ void Mixer::setMasterOutputParams(const AudioOutputParams& params)
     };
 
     for (auto it = resultParams.fxChain.begin(); it != resultParams.fxChain.end();) {
-        if (IFxProcessorPtr fx = findFxProcessor(*it)) {
-            fx->setActive(it->second.active);
+        if (FxNodePtr fx = findFxNode(*it)) {
+            fx->setBypassed(!it->second.active);
             ++it;
         } else {
             it = resultParams.fxChain.erase(it);
@@ -541,10 +542,8 @@ void Mixer::processAuxChannels(float* buffer, samples_t samplesPerChannel)
 
 void Mixer::processMasterFx(float* buffer, samples_t samplesPerChannel)
 {
-    for (IFxProcessorPtr& fxProcessor : m_masterFxProcessors) {
-        if (fxProcessor->active()) {
-            fxProcessor->process(buffer, samplesPerChannel, playbackPosition().samples());
-        }
+    for (FxNodePtr& fx : m_masterFxNodes) {
+        fx->process(buffer, samplesPerChannel);
     }
 }
 
@@ -586,7 +585,7 @@ void Mixer::completeOutput(float* buffer, samples_t samplesPerChannel)
 void Mixer::updateShouldProcessMasterFxDuringSilence()
 {
     m_shouldProcessMasterFxDuringSilence = false;
-    for (const IFxProcessorPtr& fx : m_masterFxProcessors) {
+    for (const FxNodePtr& fx : m_masterFxNodes) {
         if (fx->shouldProcessDuringSilence()) {
             m_shouldProcessMasterFxDuringSilence = true;
             return;

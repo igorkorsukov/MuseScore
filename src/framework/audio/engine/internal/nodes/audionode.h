@@ -38,6 +38,14 @@ public:
     void setMode(const ProcessMode mode);
     ProcessMode mode() const;
 
+    // turns off this node and all connected ones (like mute)
+    void setEnabled(bool enabled);
+    bool enabled() const;
+
+    // turns off only this node (like bypass)
+    void setBypassed(bool bypassed);
+    bool bypassed() const;
+
     AudioNode* connect(std::shared_ptr<AudioNode> other);
     AudioNode* disconnect(std::shared_ptr<AudioNode> other);
 
@@ -47,6 +55,8 @@ protected:
 
     virtual void onOutputSpecChanged(const OutputSpec& spec);
     virtual void onModeChanged(const ProcessMode mode);
+    virtual void onEnabledChanged(bool enabled);
+    virtual void onBypassedChanged(bool bypassed);
 
     virtual void doAddNode(std::shared_ptr<AudioNode> other);
     virtual void doRemoveNode(std::shared_ptr<AudioNode> other);
@@ -56,6 +66,8 @@ protected:
 
     OutputSpec m_outputSpec;
     ProcessMode m_mode = ProcessMode::Undefined;
+    bool m_enabled = true;
+    bool m_bypassed = false;
 
     std::shared_ptr<AudioNode> m_input = nullptr;
 };

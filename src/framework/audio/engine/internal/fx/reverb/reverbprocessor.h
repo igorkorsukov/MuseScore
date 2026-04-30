@@ -47,7 +47,7 @@ public:
     bool active() const override;
     void setActive(bool active) override;
 
-    void setPlaying(bool playing) override;
+    void setMode(const ProcessMode mode) override;
 
     bool shouldProcessDuringSilence() const override;
 

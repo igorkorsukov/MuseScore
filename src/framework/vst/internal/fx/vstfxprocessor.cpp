@@ -100,9 +100,9 @@ void VstFxProcessor::setActive(bool active)
     m_params.active = active;
 }
 
-void VstFxProcessor::setPlaying(bool playing)
+void VstFxProcessor::setMode(const muse::audio::ProcessMode mode)
 {
-    m_vstAudioClient->setIsPlaying(playing);
+    m_vstAudioClient->setIsPlaying(muse::audio::isModePlaying(mode));
 }
 
 bool VstFxProcessor::shouldProcessDuringSilence() const

@@ -333,7 +333,7 @@ void ReverbProcessor::setActive(bool active)
     m_params.active = active;
 }
 
-void ReverbProcessor::setPlaying(bool)
+void ReverbProcessor::setMode(const ProcessMode)
 {
 }
 

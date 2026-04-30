@@ -96,14 +96,24 @@ RetVal<ITrackAudioOutputPtr> AudioFactory::makeMixerAuxChannel(const TrackId tra
     return RetVal<ITrackAudioOutputPtr>::make_ok(channel);
 }
 
-std::vector<IFxProcessorPtr> AudioFactory::makeMasterFxList(const AudioFxChain& fxChain) const
+std::vector<FxNodePtr> AudioFactory::makeMasterFxList(const AudioFxChain& fxChain) const
 {
-    return fxResolver()->resolveMasterFxList(fxChain, audioEngine()->outputSpec());
+    std::vector<IFxProcessorPtr> fxlist = fxResolver()->resolveMasterFxList(fxChain, audioEngine()->outputSpec());
+    std::vector<FxNodePtr> result;
+    for (const auto& fx : fxlist) {
+        result.push_back(std::make_shared<FxNode>(fx));
+    }
+    return result;
 }
 
-std::vector<IFxProcessorPtr> AudioFactory::makeTrackFxList(const TrackId trackId, const AudioFxChain& fxChain) const
+std::vector<FxNodePtr> AudioFactory::makeTrackFxList(const TrackId trackId, const AudioFxChain& fxChain) const
 {
-    return fxResolver()->resolveFxList(trackId, fxChain, audioEngine()->outputSpec());
+    std::vector<IFxProcessorPtr> fxlist = fxResolver()->resolveFxList(trackId, fxChain, audioEngine()->outputSpec());
+    std::vector<FxNodePtr> result;
+    for (const auto& fx : fxlist) {
+        result.push_back(std::make_shared<FxNode>(fx));
+    }
+    return result;
 }
 
 void AudioFactory::clearAllFx()

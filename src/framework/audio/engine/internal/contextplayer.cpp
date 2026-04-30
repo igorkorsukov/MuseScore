@@ -200,7 +200,7 @@ void ContextPlayer::stop()
     m_status.set(PlaybackStatus::Stopped);
     m_countDown = 0.;
     seek(TimePosition::zero(m_currentPosition.sampleRate()));
-    m_notYetReadyToPlayTrack.clear();
+    m_notYetReadyToPlayTracks.clear();
 }
 
 void ContextPlayer::pause()
@@ -212,7 +212,7 @@ void ContextPlayer::pause()
     }
 
     m_status.set(PlaybackStatus::Paused);
-    m_notYetReadyToPlayTrack.clear();
+    m_notYetReadyToPlayTracks.clear();
 }
 
 void ContextPlayer::resume(const secs_t delay)
@@ -327,28 +327,28 @@ void ContextPlayer::prepareAllTracksToPlay(AllTracksReadyCallback allTracksReady
         return;
     }
 
-    m_notYetReadyToPlayTrack.clear();
+    m_notYetReadyToPlayTracks.clear();
 
     for (const auto& source : m_trackSource->allTracksSources()) {
         source->prepareToPlay();
 
         if (!source->readyToPlay()) {
-            m_notYetReadyToPlayTrack.insert(source);
+            m_notYetReadyToPlayTracks.insert(source);
         }
     }
 
-    if (m_notYetReadyToPlayTrack.empty()) {
+    if (m_notYetReadyToPlayTracks.empty()) {
         allTracksReadyCallback();
         return;
     }
 
-    for (const auto& source : m_notYetReadyToPlayTrack) {
+    for (const auto& source : m_notYetReadyToPlayTracks) {
         std::weak_ptr<AudioSourceNode> weakPtr = source;
         source->readyToPlayChanged().onNotify(this, [this, weakPtr, allTracksReadyCallback]() {
             if (auto source = weakPtr.lock()) {
-                muse::remove(m_notYetReadyToPlayTrack, source);
+                muse::remove(m_notYetReadyToPlayTracks, source);
 
-                if (m_notYetReadyToPlayTrack.empty()) {
+                if (m_notYetReadyToPlayTracks.empty()) {
                     allTracksReadyCallback();
                 }
 

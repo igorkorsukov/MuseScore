@@ -68,6 +68,45 @@ void AudioNode::onModeChanged(const ProcessMode mode)
     }
 }
 
+void AudioNode::setEnabled(bool enabled)
+{
+    if (m_enabled == enabled) {
+        return;
+    }
+    m_enabled = enabled;
+    onEnabledChanged(enabled);
+}
+
+bool AudioNode::enabled() const
+{
+    return m_enabled;
+}
+
+void AudioNode::onEnabledChanged(bool enabled)
+{
+    if (m_input) {
+        m_input->setEnabled(enabled);
+    }
+}
+
+void AudioNode::setBypassed(bool bypassed)
+{
+    if (m_bypassed == bypassed) {
+        return;
+    }
+    m_bypassed = bypassed;
+    onBypassedChanged(bypassed);
+}
+
+bool AudioNode::bypassed() const
+{
+    return m_bypassed;
+}
+
+void AudioNode::onBypassedChanged(bool /*bypassed*/)
+{
+}
+
 AudioNode* AudioNode::connect(std::shared_ptr<AudioNode> other)
 {
     IF_ASSERT_FAILED(other) {
@@ -116,6 +155,10 @@ void AudioNode::doRemoveNode(std::shared_ptr<AudioNode> other)
 
 void AudioNode::process(float* buffer, samples_t samplesPerChannel)
 {
+    if (!m_enabled) {
+        return;
+    }
+
     doProcess(buffer, samplesPerChannel);
 }
 
@@ -123,6 +166,10 @@ void AudioNode::doProcess(float* buffer, samples_t samplesPerChannel)
 {
     if (m_input) {
         m_input->process(buffer, samplesPerChannel);
+    }
+
+    if (m_bypassed) {
+        return;
     }
 
     doSelfProcess(buffer, samplesPerChannel);

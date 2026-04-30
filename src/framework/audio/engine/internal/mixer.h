@@ -27,8 +27,6 @@
 
 #include "global/modularity/ioc.h"
 #include "global/async/asyncable.h"
-#include "global/types/retval.h"
-
 #include "abstractaudiosource.h"
 
 #include "../iplayhead.h"
@@ -36,6 +34,7 @@
 
 #include "mixerchannel.h"
 #include "audiosignalnotifier.h"
+#include "nodes/fxnode.h"
 
 namespace muse {
 class TaskScheduler;
@@ -103,7 +102,7 @@ private:
 
     AudioOutputParams m_masterParams;
     async::Channel<AudioOutputParams> m_masterOutputParamsChanged;
-    std::vector<IFxProcessorPtr> m_masterFxProcessors = {};
+    std::vector<FxNodePtr> m_masterFxNodes;
 
     struct TrackData {
         TrackId trackId;
