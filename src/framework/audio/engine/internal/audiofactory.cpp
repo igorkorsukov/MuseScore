@@ -84,14 +84,18 @@ RetVal<AudioSourceNodePtr> AudioFactory::makeEventSource(const TrackId trackId, 
 RetVal<AudioOutputNodePtr> AudioFactory::makeMixerChannel(const TrackId trackId, const AudioOutputParams& params,
                                                           const AudioSourceNodePtr& source) const
 {
-    auto channel = std::make_shared<MixerChannel>(trackId, audioEngine()->outputSpec(), source, nullptr);
+    auto channel = std::make_shared<MixerChannel>(trackId, source, nullptr);
+    channel->init();
+    channel->setOutputSpec(audioEngine()->outputSpec());
     channel->applyOutputParams(params);
     return RetVal<AudioOutputNodePtr>::make_ok(channel);
 }
 
 RetVal<AudioOutputNodePtr> AudioFactory::makeMixerAuxChannel(const TrackId trackId, const AudioOutputParams& params) const
 {
-    auto channel = std::make_shared<MixerChannel>(trackId, audioEngine()->outputSpec(), nullptr);
+    auto channel = std::make_shared<MixerChannel>(trackId, nullptr);
+    channel->init();
+    channel->setOutputSpec(audioEngine()->outputSpec());
     channel->applyOutputParams(params);
     return RetVal<AudioOutputNodePtr>::make_ok(channel);
 }

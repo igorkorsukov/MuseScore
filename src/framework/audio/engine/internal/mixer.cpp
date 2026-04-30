@@ -24,8 +24,6 @@
 #include "audio/common/audiosanitizer.h"
 #include "audio/common/audioerrors.h"
 
-#include "dsp/audiomathutils.h"
-
 #include "muse_framework_config.h"
 
 #ifdef MUSE_THREADS_SUPPORT
@@ -60,6 +58,13 @@ void Mixer::init()
 
     AudioSanitizer::setMixerThreads(m_taskScheduler->threadIdSet());
 #endif
+
+    //! Make the chain: audiocontext <- signalnode <- controlnode <- mixerchannel[n]
+    m_signalNode = std::make_shared<SignalNode>();
+    m_controlNode = std::make_shared<ControlNode>();
+
+    m_controlNode->connect(m_signalNode);
+    this->connect(m_controlNode);
 }
 
 Ret Mixer::addChannel(AudioOutputNodePtr output)
@@ -142,6 +147,9 @@ void Mixer::onOutputSpecChanged(const OutputSpec& spec)
 {
     ONLY_AUDIO_ENGINE_THREAD;
 
+    m_signalNode->setOutputSpec(spec);
+    m_controlNode->setOutputSpec(spec);
+
     for (auto& t : m_tracks) {
         t.channel->setOutputSpec(spec);
     }
@@ -166,12 +174,15 @@ void Mixer::doProcess(float* buffer, samples_t samplesPerChannel)
     ONLY_AUDIO_PROC_THREAD;
 
     //! NOTE Temporary hack
-    // audiocontext -> mixer (process->doProcess) -> m_controlNode -> mixer (process->doProcess->doSelfProcess)
+    // audiocontext -> mixer(process->doProcess)
+    // -> m_signalNode
+    // -> m_controlNode
+    // -> mixer (process->doProcess->doSelfProcess)
 
-    if (!m_controlNodeProcessing && m_controlNode) {
-        m_controlNodeProcessing = true;
-        m_controlNode->process(buffer, samplesPerChannel);
-        m_controlNodeProcessing = false;
+    if (!m_chainProcessing) {
+        m_chainProcessing = true;
+        m_signalNode->process(buffer, samplesPerChannel);
+        m_chainProcessing = false;
     } else {
         doSelfProcess(buffer, samplesPerChannel);
     }
@@ -188,7 +199,7 @@ void Mixer::doSelfProcess(float* outBuffer, samples_t samplesPerChannel)
     size_t outBufferSize = samplesPerChannel * m_outputSpec.audioChannelCount;
     std::fill(outBuffer, outBuffer + outBufferSize, 0.f);
 
-    if (m_isIdle && m_tracksToProcessWhenIdle.empty() && (m_isSilence && !m_shouldProcessMasterFxDuringSilence)) {
+    if (m_isIdle && m_tracksToProcessWhenIdle.empty() && (m_signalNode->isSilent() && !m_shouldProcessMasterFxDuringSilence)) {
         notifyNoAudioSignal();
         return;
     }
@@ -202,9 +213,7 @@ void Mixer::doSelfProcess(float* outBuffer, samples_t samplesPerChannel)
             continue;
         }
 
-        if (!t.channel->isSilent()) {
-            m_isSilence = false;
-        } else if (m_isSilence) {
+        if (t.channel->isSilent()) {
             continue;
         }
 
@@ -212,14 +221,13 @@ void Mixer::doSelfProcess(float* outBuffer, samples_t samplesPerChannel)
         writeTrackToAuxBuffers(t.buffer.data(), t.channel->outputParams().auxSends, samplesPerChannel);
     }
 
-    if (m_masterParams.muted || samplesPerChannel == 0 || (m_isSilence && !m_shouldProcessMasterFxDuringSilence)) {
+    if (m_masterParams.muted || samplesPerChannel == 0 || (m_signalNode->isSilent() && !m_shouldProcessMasterFxDuringSilence)) {
         notifyNoAudioSignal();
         return;
     }
 
     processAuxChannels(outBuffer, samplesPerChannel);
     processMasterFx(outBuffer, samplesPerChannel);
-    completeOutput(outBuffer, samplesPerChannel);
 
     notifyAboutAudioSignalChanges();
 }
@@ -408,13 +416,6 @@ void Mixer::setMasterOutputParams(const AudioOutputParams& params)
     m_masterOutputParamsChanged.send(resultParams);
     updateShouldProcessMasterFxDuringSilence();
 
-    if (!m_controlNode) {
-        m_controlNode = std::make_shared<ControlNode>();
-        m_controlNode->setOutputSpec(m_outputSpec);
-
-        this->connect(m_controlNode);
-    }
-
     m_controlNode->setVolume(muse::db_to_linear(resultParams.volume));
     m_controlNode->setPan(resultParams.balance);
     m_controlNode->setMute(resultParams.muted);
@@ -432,7 +433,7 @@ Channel<AudioOutputParams> Mixer::masterOutputParamsChanged() const
 
 AudioSignalChanges Mixer::masterAudioSignalChanges() const
 {
-    return m_audioSignalNotifier.audioSignalChanges;
+    return m_signalNode->audioSignalChanges();
 }
 
 void Mixer::setIsIdle(bool idle)
@@ -543,36 +544,6 @@ void Mixer::processMasterFx(float* buffer, samples_t samplesPerChannel)
     }
 }
 
-void Mixer::completeOutput(float* buffer, samples_t samplesPerChannel)
-{
-    IF_ASSERT_FAILED(buffer) {
-        return;
-    }
-
-    float globalPeak = 0.f;
-
-    for (audioch_t audioChNum = 0; audioChNum < m_outputSpec.audioChannelCount; ++audioChNum) {
-        float peak = 0.f;
-
-        for (samples_t s = 0; s < samplesPerChannel; ++s) {
-            const size_t idx = s * m_outputSpec.audioChannelCount + audioChNum;
-            const float absSample = std::fabs(buffer[idx]);
-
-            if (absSample > peak) {
-                peak = absSample;
-            }
-        }
-
-        m_audioSignalNotifier.updateSignalValue(audioChNum, peak);
-
-        if (peak > globalPeak) {
-            globalPeak = peak;
-        }
-    }
-
-    m_isSilence = RealIsNull(globalPeak);
-}
-
 void Mixer::updateShouldProcessMasterFxDuringSilence()
 {
     m_shouldProcessMasterFxDuringSilence = false;
@@ -587,21 +558,18 @@ void Mixer::updateShouldProcessMasterFxDuringSilence()
 void Mixer::notifyAboutAudioSignalChanges()
 {
     for (const auto& t : m_tracks) {
-        t.channel->signalNotifier().notifyAboutChanges();
+        t.channel->notifyAboutAudioSignalChanges();
     }
 
     for (AuxChannelInfo& aux : m_auxChannelInfoList) {
-        aux.channel->signalNotifier().notifyAboutChanges();
+        aux.channel->notifyAboutAudioSignalChanges();
     }
 
-    m_audioSignalNotifier.notifyAboutChanges();
+    m_signalNode->notifyAboutAudioSignalChanges();
 }
 
 void Mixer::notifyNoAudioSignal()
 {
-    for (audioch_t audioChNum = 0; audioChNum < m_outputSpec.audioChannelCount; ++audioChNum) {
-        m_audioSignalNotifier.updateSignalValue(audioChNum, 0.f);
-    }
-
+    m_signalNode->setNoAudioSignal();
     notifyAboutAudioSignalChanges();
 }

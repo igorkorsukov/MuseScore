@@ -510,7 +510,16 @@ RetVal<AudioSignalChanges> AudioContext::signalChanges(const TrackId trackId) co
 {
     ONLY_AUDIO_ENGINE_THREAD;
     if (const Track* t = track(trackId)) {
-        return RetVal<AudioSignalChanges>::make_ok(t->output ? t->output->audioSignalChanges() : AudioSignalChanges());
+        if (!t->output) {
+            return RetVal<AudioSignalChanges>::make_ok(AudioSignalChanges());
+        }
+
+        MixerChannelPtr channel = std::dynamic_pointer_cast<MixerChannel>(t->output);
+        IF_ASSERT_FAILED(channel) {
+            return RetVal<AudioSignalChanges>::make_ok(AudioSignalChanges());
+        }
+
+        return RetVal<AudioSignalChanges>::make_ok(channel->audioSignalChanges());
     }
 
     return make_ret(Err::InvalidTrackId);

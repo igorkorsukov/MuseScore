@@ -35,6 +35,7 @@
 #include "audiosignalnotifier.h"
 #include "nodes/fxnode.h"
 #include "nodes/controlnode.h"
+#include "nodes/signalnode.h"
 
 namespace muse {
 class TaskScheduler;
@@ -82,7 +83,6 @@ private:
     void writeTrackToAuxBuffers(const float* trackBuffer, const AuxSendsParams& auxSends, samples_t samplesPerChannel);
     void processAuxChannels(float* buffer, samples_t samplesPerChannel);
     void processMasterFx(float* buffer, samples_t samplesPerChannel);
-    void completeOutput(float* buffer, samples_t samplesPerChannel);
 
     void updateNonMutedTrackCount();
     bool useMultithreading() const;
@@ -121,12 +121,10 @@ private:
 
     std::shared_ptr<IPlayhead> m_playhead;
 
-    bool m_controlNodeProcessing = false;
+    bool m_chainProcessing = false;
+    SignalNodePtr m_signalNode;
     ControlNodePtr m_controlNode;
 
-    mutable AudioSignalsNotifier m_audioSignalNotifier;
-
-    bool m_isSilence = false;
     bool m_shouldProcessMasterFxDuringSilence = false;
     bool m_isIdle = false;
 };

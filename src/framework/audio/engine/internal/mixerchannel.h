@@ -29,10 +29,10 @@
 #include "nodes/audiooutputnode.h"
 
 #include "iaudiofactory.h"
-#include "audiosignalnotifier.h"
 #include "../iplayhead.h"
 #include "nodes/fxnode.h"
 #include "nodes/controlnode.h"
+#include "nodes/signalnode.h"
 
 namespace muse::audio::engine {
 class MixerChannel : public AudioOutputNode, public async::Asyncable
@@ -40,9 +40,10 @@ class MixerChannel : public AudioOutputNode, public async::Asyncable
     GlobalInject<IAudioFactory> audioFactory;
 
 public:
-    explicit MixerChannel(const TrackId trackId, const OutputSpec& outputSpec, AudioSourceNodePtr source,
-                          PlayheadPositionPtr playheadPosition);
-    explicit MixerChannel(const TrackId trackId, const OutputSpec& outputSpec, PlayheadPositionPtr playheadPosition);
+    explicit MixerChannel(const TrackId trackId, AudioSourceNodePtr source, PlayheadPositionPtr playheadPosition);
+    explicit MixerChannel(const TrackId trackId, PlayheadPositionPtr playheadPosition);
+
+    void init();
 
     void setPlayheadPosition(PlayheadPositionPtr playheadPosition);
 
@@ -56,10 +57,9 @@ public:
     bool shouldProcessDuringSilence() const;
     async::Channel<bool> shouldProcessDuringSilenceChanged() const;
 
-    AudioSignalsNotifier& signalNotifier() const;
     void setNoAudioSignal();
-
-    AudioSignalChanges audioSignalChanges() const override;
+    void notifyAboutAudioSignalChanges();
+    AudioSignalChanges audioSignalChanges() const;
 
 private:
 
@@ -69,25 +69,21 @@ private:
     void doProcess(float* buffer, samples_t samplesPerChannel) override;
     void doSelfProcess(float* buffer, samples_t samplesPerChannel) override;
 
-    void completeOutput(float* buffer, unsigned int samplesCount);
-
     void updateShouldProcessDuringSilence();
 
     TrackId m_trackId = -1;
-
-    AudioSourceNodePtr m_audioSource;
     PlayheadPositionPtr m_playheadPosition;
-    std::vector<FxNodePtr> m_fxNodes;
 
-    bool m_controlNodeProcessing = false;
+    bool m_chainProcessing = false;
+    SignalNodePtr m_signalNode;
     ControlNodePtr m_controlNode;
+    std::vector<FxNodePtr> m_fxNodes;
+    AudioSourceNodePtr m_sourceNode;
 
-    bool m_isSilent = true;
     bool m_shouldProcessDuringSilence = false;
     async::Channel<bool> m_shouldProcessDuringSilenceChanged;
 
     async::Notification m_mutedChanged;
-    mutable AudioSignalsNotifier m_audioSignalNotifier;
 };
 
 using MixerChannelPtr = std::shared_ptr<MixerChannel>;

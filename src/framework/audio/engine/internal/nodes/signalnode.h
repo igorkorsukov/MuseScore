@@ -24,26 +24,31 @@
 
 #include "audionode.h"
 
-#include "global/async/channel.h"
-
-#include "audio/common/audiotypes.h"
+namespace muse::audio {
+//! TODO Move AudioSignalsNotifier functionality to this node
+struct AudioSignalsNotifier;
+}
 
 namespace muse::audio::engine {
-class AudioOutputNode : public AudioNode
+class SignalNode : public AudioNode
 {
 public:
 
-    const AudioOutputParams& outputParams() const;
-    void applyOutputParams(const AudioOutputParams& requiredParams);
-    async::Channel<AudioOutputParams> outputParamsChanged() const;
+    SignalNode();
+
+    bool isSilent() const;
+    void setNoAudioSignal();
+    void notifyAboutAudioSignalChanges();
+
+    AudioSignalChanges audioSignalChanges() const;
 
 protected:
 
-    virtual AudioOutputParams onOutputParamsChanged(const AudioOutputParams& requiredParams);
+    void doSelfProcess(float* buffer, samples_t samplesPerChannel) override;
 
-    AudioOutputParams m_params;
-    async::Channel<AudioOutputParams> m_paramsChanges;
+    bool m_isSilent = true;
+    std::shared_ptr<AudioSignalsNotifier> m_audioSignalNotifier;
 };
 
-using AudioOutputNodePtr = std::shared_ptr<AudioOutputNode>;
+using SignalNodePtr = std::shared_ptr<SignalNode>;
 }

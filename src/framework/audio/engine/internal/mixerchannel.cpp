@@ -30,23 +30,31 @@ using namespace muse::async;
 using namespace muse::audio;
 using namespace muse::audio::engine;
 
-MixerChannel::MixerChannel(const TrackId trackId, const OutputSpec& outputSpec, AudioSourceNodePtr source,
-                           PlayheadPositionPtr playheadPosition)
+MixerChannel::MixerChannel(const TrackId trackId, AudioSourceNodePtr source, PlayheadPositionPtr playheadPosition)
     : m_trackId(trackId),
-    m_audioSource(source),
-    m_playheadPosition(playheadPosition)
+    m_playheadPosition(playheadPosition),
+    m_sourceNode(source)
 {
     ONLY_AUDIO_ENGINE_THREAD;
-
-    setOutputSpec(outputSpec);
 }
 
-MixerChannel::MixerChannel(const TrackId trackId, const OutputSpec& outputSpec,
-                           PlayheadPositionPtr playheadPosition)
-    : MixerChannel(trackId, outputSpec, nullptr, playheadPosition)
+MixerChannel::MixerChannel(const TrackId trackId,  PlayheadPositionPtr playheadPosition)
+    : MixerChannel(trackId, nullptr, playheadPosition)
 {
     ONLY_AUDIO_ENGINE_THREAD;
-    setOutputSpec(outputSpec);
+}
+
+void MixerChannel::init()
+{
+    ONLY_AUDIO_ENGINE_THREAD;
+
+    // Make the chain: mixer <- signalnode <- controlnode <- mixerchannel(fxnodes <- audio source)
+    m_signalNode = std::make_shared<SignalNode>();
+    m_controlNode = std::make_shared<ControlNode>();
+
+    m_controlNode->connect(m_signalNode);
+
+    this->connect(m_controlNode);
 }
 
 void MixerChannel::setPlayheadPosition(PlayheadPositionPtr playheadPosition)
@@ -66,7 +74,7 @@ TrackId MixerChannel::trackId() const
 
 AudioNodePtr MixerChannel::source() const
 {
-    return m_audioSource;
+    return m_sourceNode;
 }
 
 bool MixerChannel::muted() const
@@ -129,18 +137,11 @@ AudioOutputParams MixerChannel::onOutputParamsChanged(const AudioOutputParams& r
         m_mutedChanged.notify();
     }
 
-    if (!resultParams.muted && m_audioSource && m_playheadPosition) {
-        m_audioSource->seek(m_playheadPosition->currentPosition());
+    if (mutedChanged && !resultParams.muted && m_sourceNode && m_playheadPosition) {
+        m_sourceNode->seek(m_playheadPosition->currentPosition());
     }
 
     updateShouldProcessDuringSilence();
-
-    if (!m_controlNode) {
-        m_controlNode = std::make_shared<ControlNode>();
-        m_controlNode->setOutputSpec(m_outputSpec);
-
-        this->connect(m_controlNode);
-    }
 
     m_controlNode->setVolume(muse::db_to_linear(resultParams.volume));
     m_controlNode->setPan(resultParams.balance);
@@ -151,15 +152,25 @@ AudioOutputParams MixerChannel::onOutputParamsChanged(const AudioOutputParams& r
 
 AudioSignalChanges MixerChannel::audioSignalChanges() const
 {
-    return m_audioSignalNotifier.audioSignalChanges;
+    return m_signalNode->audioSignalChanges();
+}
+
+void MixerChannel::setNoAudioSignal()
+{
+    m_signalNode->setNoAudioSignal();
+}
+
+void MixerChannel::notifyAboutAudioSignalChanges()
+{
+    m_signalNode->notifyAboutAudioSignalChanges();
 }
 
 void MixerChannel::onModeChanged(const ProcessMode mode)
 {
     ONLY_AUDIO_ENGINE_THREAD;
 
-    if (m_audioSource) {
-        m_audioSource->setMode(mode);
+    if (m_sourceNode) {
+        m_sourceNode->setMode(mode);
     }
 
     for (FxNodePtr& fx : m_fxNodes) {
@@ -171,8 +182,11 @@ void MixerChannel::onOutputSpecChanged(const OutputSpec& spec)
 {
     ONLY_AUDIO_ENGINE_THREAD;
 
-    if (m_audioSource) {
-        m_audioSource->setOutputSpec(spec);
+    m_signalNode->setOutputSpec(spec);
+    m_controlNode->setOutputSpec(spec);
+
+    if (m_sourceNode) {
+        m_sourceNode->setOutputSpec(spec);
     }
 
     for (FxNodePtr& fx : m_fxNodes) {
@@ -185,12 +199,15 @@ void MixerChannel::doProcess(float* buffer, samples_t samplesPerChannel)
     ONLY_AUDIO_PROC_THREAD;
 
     //! NOTE Temporary hack
-    // mixer -> mixerchannel (process->doProcess) -> m_controlNode -> mixerchannel (process->doProcess->doSelfProcess)
+    // mixer -> mixerchannel (process->doProcess)
+    // -> m_signalNode
+    // -> m_controlNode
+    // -> mixerchannel (process->doProcess->doSelfProcess)
 
-    if (!m_controlNodeProcessing) {
-        m_controlNodeProcessing = true;
-        m_controlNode->process(buffer, samplesPerChannel);
-        m_controlNodeProcessing = false;
+    if (!m_chainProcessing) {
+        m_chainProcessing = true;
+        m_signalNode->process(buffer, samplesPerChannel);
+        m_chainProcessing = false;
     } else {
         doSelfProcess(buffer, samplesPerChannel);
     }
@@ -202,13 +219,13 @@ void MixerChannel::doSelfProcess(float* buffer, samples_t samplesPerChannel)
 
     const unsigned int audioChannelCount = m_outputSpec.audioChannelCount;
 
-    if (m_audioSource) {
-        if (!m_params.muted || !m_isSilent) {
-            m_audioSource->process(buffer, samplesPerChannel);
+    if (m_sourceNode) {
+        if (!m_params.muted || !m_signalNode->isSilent()) {
+            m_sourceNode->process(buffer, samplesPerChannel);
         }
     }
 
-    if (m_params.muted && m_isSilent) {
+    if (m_params.muted && m_signalNode->isSilent()) {
         std::fill(buffer, buffer + samplesPerChannel * audioChannelCount, 0.f);
         setNoAudioSignal();
         return;
@@ -217,35 +234,6 @@ void MixerChannel::doSelfProcess(float* buffer, samples_t samplesPerChannel)
     for (FxNodePtr& fx : m_fxNodes) {
         fx->process(buffer, samplesPerChannel);
     }
-
-    completeOutput(buffer, samplesPerChannel);
-}
-
-void MixerChannel::completeOutput(float* buffer, unsigned int samplesCount)
-{
-    const unsigned int channelsCount = m_outputSpec.audioChannelCount;
-    float globalPeak = 0.f;
-
-    for (audioch_t audioChNum = 0; audioChNum < channelsCount; ++audioChNum) {
-        float peak = 0.f;
-
-        for (unsigned int s = 0; s < samplesCount; ++s) {
-            const unsigned int idx = s * channelsCount + audioChNum;
-            const float absSample = std::fabs(buffer[idx]);
-
-            if (absSample > peak) {
-                peak = absSample;
-            }
-        }
-
-        m_audioSignalNotifier.updateSignalValue(audioChNum, peak);
-
-        if (peak > globalPeak) {
-            globalPeak = peak;
-        }
-    }
-
-    m_isSilent = RealIsNull(globalPeak);
 }
 
 void MixerChannel::updateShouldProcessDuringSilence()
@@ -266,7 +254,7 @@ void MixerChannel::updateShouldProcessDuringSilence()
 
 bool MixerChannel::isSilent() const
 {
-    return m_isSilent;
+    return m_signalNode ? m_signalNode->isSilent() : true;
 }
 
 bool MixerChannel::shouldProcessDuringSilence() const
@@ -277,18 +265,4 @@ bool MixerChannel::shouldProcessDuringSilence() const
 async::Channel<bool> MixerChannel::shouldProcessDuringSilenceChanged() const
 {
     return m_shouldProcessDuringSilenceChanged;
-}
-
-AudioSignalsNotifier& MixerChannel::signalNotifier() const
-{
-    return m_audioSignalNotifier;
-}
-
-void MixerChannel::setNoAudioSignal()
-{
-    unsigned int channelsCount = m_outputSpec.audioChannelCount;
-
-    for (audioch_t audioChNum = 0; audioChNum < channelsCount; ++audioChNum) {
-        m_audioSignalNotifier.updateSignalValue(audioChNum, 0.f);
-    }
 }

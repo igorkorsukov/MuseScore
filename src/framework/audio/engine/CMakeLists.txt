@@ -98,6 +98,8 @@ else()
         internal/nodes/fxnode.h
         internal/nodes/controlnode.cpp
         internal/nodes/controlnode.h
+        internal/nodes/signalnode.cpp
+        internal/nodes/signalnode.h
 
         # DSP
         internal/dsp/envelopefilterconfig.h
