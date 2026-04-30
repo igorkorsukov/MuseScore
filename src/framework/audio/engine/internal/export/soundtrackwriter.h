@@ -27,11 +27,10 @@
 #include "global/async/asyncable.h"
 
 #include "global/modularity/ioc.h"
-#include "../iaudioengine.h"
 #include "audio/common/rpc/irpcchannel.h"
 
 #include "audio/common/audiotypes.h"
-#include "../../iaudiosource.h"
+#include "../nodes/audionode.h"
 
 #include "abstractaudioencoder.h"
 
@@ -45,7 +44,7 @@ class SoundTrackWriter : public async::Asyncable
     muse::GlobalInject<rpc::IRpcChannel> rpcChannel;
 
 public:
-    SoundTrackWriter(io::IODevice& dstDevice, const SoundTrackFormat& format, const secs_t totalDuration, engine::IAudioSourcePtr source);
+    SoundTrackWriter(io::IODevice& dstDevice, const SoundTrackFormat& format, const secs_t totalDuration, engine::AudioNodePtr source);
 
     Ret write();
     void abort();
@@ -57,13 +56,13 @@ private:
 
     void sendProgress(uint64_t framesWritten, uint64_t totalFrames);
 
-    engine::IAudioSourcePtr m_source = nullptr;
+    engine::AudioNodePtr m_source;
 
     std::vector<float> m_intermBuffer;
     samples_t m_renderStep = 0;
     samples_t m_totalSamplesPerChannel = 0;
 
-    encode::AbstractAudioEncoderPtr m_encoderPtr = nullptr;
+    encode::AbstractAudioEncoderPtr m_encoderPtr;
 
     Progress m_progress;
     std::atomic<bool> m_isAborted = false;

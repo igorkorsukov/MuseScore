@@ -25,21 +25,20 @@
 
 #include "audio/common/audiosanitizer.h"
 
-#include "dsp/audiomathutils.h"
-
 using namespace muse;
 using namespace muse::async;
 using namespace muse::audio;
 using namespace muse::audio::engine;
 
-MixerChannel::MixerChannel(const TrackId trackId, const OutputSpec& outputSpec, AudioNodePtr source,
+MixerChannel::MixerChannel(const TrackId trackId, const OutputSpec& outputSpec, AudioSourceNodePtr source,
                            PlayheadPositionPtr playheadPosition)
     : m_trackId(trackId),
-    m_outputSpec(outputSpec),
-    m_audioSource(std::move(source)),
+    m_audioSource(source),
     m_playheadPosition(playheadPosition)
 {
     ONLY_AUDIO_ENGINE_THREAD;
+
+    setOutputSpec(outputSpec);
 }
 
 MixerChannel::MixerChannel(const TrackId trackId, const OutputSpec& outputSpec,
@@ -47,12 +46,17 @@ MixerChannel::MixerChannel(const TrackId trackId, const OutputSpec& outputSpec,
     : MixerChannel(trackId, outputSpec, nullptr, playheadPosition)
 {
     ONLY_AUDIO_ENGINE_THREAD;
+    setOutputSpec(outputSpec);
 }
 
 void MixerChannel::setPlayheadPosition(PlayheadPositionPtr playheadPosition)
 {
     ONLY_AUDIO_ENGINE_THREAD;
     m_playheadPosition = playheadPosition;
+
+    for (FxNodePtr& fx : m_fxNodes) {
+        fx->setPlayheadPosition(m_playheadPosition);
+    }
 }
 
 TrackId MixerChannel::trackId() const
@@ -75,18 +79,9 @@ async::Notification MixerChannel::mutedChanged() const
     return m_mutedChanged;
 }
 
-const AudioOutputParams& MixerChannel::outputParams() const
-{
-    return m_params;
-}
-
-void MixerChannel::applyOutputParams(const AudioOutputParams& requiredParams)
+AudioOutputParams MixerChannel::onOutputParamsChanged(const AudioOutputParams& requiredParams)
 {
     ONLY_AUDIO_ENGINE_THREAD;
-
-    if (m_params == requiredParams) {
-        return;
-    }
 
     m_fxNodes.clear();
     m_fxNodes = audioFactory()->makeTrackFxList(m_trackId, requiredParams.fxChain);
@@ -129,20 +124,29 @@ void MixerChannel::applyOutputParams(const AudioOutputParams& requiredParams)
     }
 
     bool mutedChanged = m_params.muted != resultParams.muted;
-
-    m_params = resultParams;
-    m_paramsChanges.send(std::move(resultParams));
-
     if (mutedChanged) {
+        m_params = resultParams; //! NOTE Temporary hack
         m_mutedChanged.notify();
     }
 
-    updateShouldProcessDuringSilence();
-}
+    if (!resultParams.muted && m_audioSource && m_playheadPosition) {
+        m_audioSource->seek(m_playheadPosition->currentPosition());
+    }
 
-async::Channel<AudioOutputParams> MixerChannel::outputParamsChanged() const
-{
-    return m_paramsChanges;
+    updateShouldProcessDuringSilence();
+
+    if (!m_controlNode) {
+        m_controlNode = std::make_shared<ControlNode>();
+        m_controlNode->setOutputSpec(m_outputSpec);
+
+        this->connect(m_controlNode);
+    }
+
+    m_controlNode->setVolume(muse::db_to_linear(resultParams.volume));
+    m_controlNode->setPan(resultParams.balance);
+    m_controlNode->setMute(resultParams.muted);
+
+    return resultParams;
 }
 
 AudioSignalChanges MixerChannel::audioSignalChanges() const
@@ -150,17 +154,9 @@ AudioSignalChanges MixerChannel::audioSignalChanges() const
     return m_audioSignalNotifier.audioSignalChanges;
 }
 
-ProcessMode MixerChannel::mode() const
+void MixerChannel::onModeChanged(const ProcessMode mode)
 {
     ONLY_AUDIO_ENGINE_THREAD;
-    return m_mode;
-}
-
-void MixerChannel::setMode(const ProcessMode mode)
-{
-    ONLY_AUDIO_ENGINE_THREAD;
-
-    m_mode = mode;
 
     if (m_audioSource) {
         m_audioSource->setMode(mode);
@@ -171,11 +167,9 @@ void MixerChannel::setMode(const ProcessMode mode)
     }
 }
 
-void MixerChannel::setOutputSpec(const OutputSpec& spec)
+void MixerChannel::onOutputSpecChanged(const OutputSpec& spec)
 {
     ONLY_AUDIO_ENGINE_THREAD;
-
-    m_outputSpec = spec;
 
     if (m_audioSource) {
         m_audioSource->setOutputSpec(spec);
@@ -186,26 +180,27 @@ void MixerChannel::setOutputSpec(const OutputSpec& spec)
     }
 }
 
-unsigned int MixerChannel::audioChannelsCount() const
+void MixerChannel::doProcess(float* buffer, samples_t samplesPerChannel)
 {
-    ONLY_AUDIO_ENGINE_THREAD;
+    ONLY_AUDIO_PROC_THREAD;
 
-    return m_outputSpec.audioChannelCount;
+    //! NOTE Temporary hack
+    // mixer -> mixerchannel (process->doProcess) -> m_controlNode -> mixerchannel (process->doProcess->doSelfProcess)
+
+    if (!m_controlNodeProcessing) {
+        m_controlNodeProcessing = true;
+        m_controlNode->process(buffer, samplesPerChannel);
+        m_controlNodeProcessing = false;
+    } else {
+        doSelfProcess(buffer, samplesPerChannel);
+    }
 }
 
-async::Channel<unsigned int> MixerChannel::audioChannelsCountChanged() const
+void MixerChannel::doSelfProcess(float* buffer, samples_t samplesPerChannel)
 {
-    ONLY_AUDIO_ENGINE_THREAD;
+    ONLY_AUDIO_PROC_THREAD;
 
-    static async::Channel<unsigned int> channel;
-    return channel;
-}
-
-samples_t MixerChannel::process(float* buffer, samples_t samplesPerChannel)
-{
-    ONLY_AUDIO_ENGINE_THREAD;
-
-    samples_t processedSamplesCount = samplesPerChannel;
+    const unsigned int audioChannelCount = m_outputSpec.audioChannelCount;
 
     if (m_audioSource) {
         if (!m_params.muted || !m_isSilent) {
@@ -213,11 +208,10 @@ samples_t MixerChannel::process(float* buffer, samples_t samplesPerChannel)
         }
     }
 
-    if (processedSamplesCount == 0 || (m_params.muted && m_isSilent)) {
-        std::fill(buffer, buffer + samplesPerChannel * audioChannelsCount(), 0.f);
+    if (m_params.muted && m_isSilent) {
+        std::fill(buffer, buffer + samplesPerChannel * audioChannelCount, 0.f);
         setNoAudioSignal();
-
-        return processedSamplesCount;
+        return;
     }
 
     for (FxNodePtr& fx : m_fxNodes) {
@@ -225,26 +219,19 @@ samples_t MixerChannel::process(float* buffer, samples_t samplesPerChannel)
     }
 
     completeOutput(buffer, samplesPerChannel);
-
-    return processedSamplesCount;
 }
 
 void MixerChannel::completeOutput(float* buffer, unsigned int samplesCount)
 {
-    const unsigned int channelsCount = audioChannelsCount();
-    const float volume = muse::db_to_linear(m_params.volume);
+    const unsigned int channelsCount = m_outputSpec.audioChannelCount;
     float globalPeak = 0.f;
 
     for (audioch_t audioChNum = 0; audioChNum < channelsCount; ++audioChNum) {
-        const gain_t totalGain = dsp::balanceGain(m_params.balance, audioChNum) * volume;
         float peak = 0.f;
 
         for (unsigned int s = 0; s < samplesCount; ++s) {
             const unsigned int idx = s * channelsCount + audioChNum;
-            const float resultSample = buffer[idx] * totalGain;
-            const float absSample = std::fabs(resultSample);
-
-            buffer[idx] = resultSample;
+            const float absSample = std::fabs(buffer[idx]);
 
             if (absSample > peak) {
                 peak = absSample;
@@ -299,7 +286,7 @@ AudioSignalsNotifier& MixerChannel::signalNotifier() const
 
 void MixerChannel::setNoAudioSignal()
 {
-    unsigned int channelsCount = audioChannelsCount();
+    unsigned int channelsCount = m_outputSpec.audioChannelCount;
 
     for (audioch_t audioChNum = 0; audioChNum < channelsCount; ++audioChNum) {
         m_audioSignalNotifier.updateSignalValue(audioChNum, 0.f);

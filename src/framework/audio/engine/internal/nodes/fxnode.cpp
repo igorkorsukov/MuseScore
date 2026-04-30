@@ -29,6 +29,7 @@ using namespace muse::audio::engine;
 FxNode::FxNode(IFxProcessorPtr fxProcessor, PlayheadPositionPtr playheadPosition)
     : m_fxProcessor(fxProcessor), m_playheadPosition(playheadPosition)
 {
+    assert(m_fxProcessor && "FxNode requires a non-null IFxProcessor");
 }
 
 void FxNode::setPlayheadPosition(PlayheadPositionPtr playheadPosition)

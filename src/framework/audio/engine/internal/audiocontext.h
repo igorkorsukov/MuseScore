@@ -123,13 +123,19 @@ public:
 
 private:
 
+    enum class TrackType {
+        Undefined = -1,
+        Event_track,
+        Sound_track
+    };
+
     struct Track
     {
         TrackId id = INVALID_TRACK_ID;
-        TrackType type = Undefined;
+        TrackType type = TrackType::Undefined;
         TrackName name;
-        AudioSourceNodePtr source = nullptr;
-        ITrackAudioOutputPtr output = nullptr;
+        AudioSourceNodePtr source;
+        AudioOutputNodePtr output;
     };
 
     void onOutputSpecChanged(const OutputSpec& spec) override;

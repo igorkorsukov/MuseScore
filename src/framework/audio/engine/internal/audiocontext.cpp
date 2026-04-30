@@ -179,7 +179,7 @@ RetVal2<TrackId, AudioParams> AudioContext::addTrack(const std::string& trackNam
     }
 
 // Make output and add to mixer
-    RetVal<ITrackAudioOutputPtr> output = audioFactory()->makeMixerChannel(trackId, params.out, source.val);
+    RetVal<AudioOutputNodePtr> output = audioFactory()->makeMixerChannel(trackId, params.out, source.val);
     if (!output.ret) {
         return RetType::make_ret(output.ret);
     }
@@ -221,7 +221,7 @@ RetVal2<TrackId, AudioOutputParams> AudioContext::addAuxTrack(const std::string&
     TrackId trackId = newTrackId();
 
 // Make output and add to mixer
-    RetVal<ITrackAudioOutputPtr> output = audioFactory()->makeMixerAuxChannel(trackId, params);
+    RetVal<AudioOutputNodePtr> output = audioFactory()->makeMixerAuxChannel(trackId, params);
     if (!output.ret) {
         return RetType::make_ret(output.ret);
     }

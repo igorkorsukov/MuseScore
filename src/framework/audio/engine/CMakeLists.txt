@@ -72,7 +72,6 @@ else()
         internal/contextplayer.h
         internal/samplerateconvertor.cpp
         internal/samplerateconvertor.h
-        internal/track.h
         internal/abstractaudiosource.cpp
         internal/abstractaudiosource.h
         internal/sinesource.cpp
@@ -89,12 +88,16 @@ else()
         internal/nodes/audionode.h
         internal/nodes/audiosourcenode.cpp
         internal/nodes/audiosourcenode.h
+        internal/nodes/audiooutputnode.cpp
+        internal/nodes/audiooutputnode.h
         internal/nodes/mixernode.cpp
         internal/nodes/mixernode.h
         internal/nodes/eventaudionode.cpp
         internal/nodes/eventaudionode.h
         internal/nodes/fxnode.cpp
         internal/nodes/fxnode.h
+        internal/nodes/controlnode.cpp
+        internal/nodes/controlnode.h
 
         # DSP
         internal/dsp/envelopefilterconfig.h

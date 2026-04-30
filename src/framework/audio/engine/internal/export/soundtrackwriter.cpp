@@ -56,7 +56,7 @@ static encode::AbstractAudioEncoderPtr createEncoder(const SoundTrackFormat& for
 }
 
 SoundTrackWriter::SoundTrackWriter(io::IODevice& dstDevice, const SoundTrackFormat& format,
-                                   const secs_t totalDuration, IAudioSourcePtr source)
+                                   const secs_t totalDuration, AudioNodePtr source)
     : m_source(std::move(source))
 {
     if (!m_source) {

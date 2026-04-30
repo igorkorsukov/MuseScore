@@ -131,7 +131,7 @@ void AudioNode::doAddNode(std::shared_ptr<AudioNode> other)
         return;
     }
 
-    IF_ASSERT_FAILED(m_input) {
+    IF_ASSERT_FAILED(!m_input) {
         LOGE() << "already connected to another node";
         return;
     }

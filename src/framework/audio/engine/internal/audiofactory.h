@@ -53,9 +53,9 @@ public:
                                                const std::function<void()> onOffStreamReceived = nullptr) const override;
 
     // Make output (mixer channel)
-    RetVal<ITrackAudioOutputPtr> makeMixerChannel(const TrackId trackId, const AudioOutputParams& params,
-                                                  const AudioNodePtr& source) const override;
-    RetVal<ITrackAudioOutputPtr> makeMixerAuxChannel(const TrackId trackId, const AudioOutputParams& params) const override;
+    RetVal<AudioOutputNodePtr> makeMixerChannel(const TrackId trackId, const AudioOutputParams& params,
+                                                const AudioSourceNodePtr& source) const override;
+    RetVal<AudioOutputNodePtr> makeMixerAuxChannel(const TrackId trackId, const AudioOutputParams& params) const override;
 
     // Make FX
     std::vector<FxNodePtr> makeMasterFxList(const AudioFxChain& fxChain) const override;

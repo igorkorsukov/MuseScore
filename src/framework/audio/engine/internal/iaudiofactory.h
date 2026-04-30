@@ -25,11 +25,10 @@
 #include "global/modularity/imoduleinterface.h"
 #include "global/types/retval.h"
 #include "mpe/events.h"
-#include "../ifxprocessor.h"
 #include "../isynthesizer.h"
 #include "nodes/audiosourcenode.h"
+#include "nodes/audiooutputnode.h"
 #include "nodes/fxnode.h"
-#include "track.h"
 
 namespace muse::audio::engine {
 class IAudioFactory : MODULE_GLOBAL_INTERFACE
@@ -60,9 +59,9 @@ public:
                                                        const std::function<void()> onOffStreamReceived = nullptr) const = 0;
 
     // Make output (mixer channel)
-    virtual RetVal<ITrackAudioOutputPtr> makeMixerChannel(const TrackId trackId, const AudioOutputParams& params,
-                                                          const AudioNodePtr& source) const = 0;
-    virtual RetVal<ITrackAudioOutputPtr> makeMixerAuxChannel(const TrackId trackId, const AudioOutputParams& params) const = 0;
+    virtual RetVal<AudioOutputNodePtr> makeMixerChannel(const TrackId trackId, const AudioOutputParams& params,
+                                                        const AudioSourceNodePtr& source) const = 0;
+    virtual RetVal<AudioOutputNodePtr> makeMixerAuxChannel(const TrackId trackId, const AudioOutputParams& params) const = 0;
 
     // Make FX
     virtual std::vector<FxNodePtr> makeMasterFxList(const AudioFxChain& fxChain) const = 0;

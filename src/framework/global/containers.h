@@ -386,8 +386,8 @@ inline auto values(const std::multimap<K, V>& mm, const K& key) -> std::vector<t
     return result;
 }
 
-template<typename C>
-inline typename C::const_iterator findLessOrEqual(const C& c, const typename C::key_type& k)
+template<typename Container>
+inline typename Container::const_iterator findLessOrEqual(const Container& c, const typename Container::key_type& k)
 {
     if (c.empty()) {
         return c.cend();
@@ -401,8 +401,8 @@ inline typename C::const_iterator findLessOrEqual(const C& c, const typename C::
     return std::prev(it);
 }
 
-template<typename C>
-inline typename C::iterator findLessOrEqual(C& c, const typename C::key_type& k)
+template<typename Container>
+inline typename Container::iterator findLessOrEqual(Container& c, const typename Container::key_type& k)
 {
     if (c.empty()) {
         return c.end();
@@ -416,8 +416,8 @@ inline typename C::iterator findLessOrEqual(C& c, const typename C::key_type& k)
     return std::prev(it);
 }
 
-template<typename C>
-inline typename C::const_iterator findLess(const C& c, const typename C::key_type& k)
+template<typename Container>
+inline typename Container::const_iterator findLess(const Container& c, const typename Container::key_type& k)
 {
     if (c.empty()) {
         return c.cend();
@@ -431,8 +431,8 @@ inline typename C::const_iterator findLess(const C& c, const typename C::key_typ
     return std::prev(it);
 }
 
-template<typename C>
-inline typename C::iterator findLess(C& c, const typename C::key_type& k)
+template<typename Container>
+inline typename Container::iterator findLess(Container& c, const typename Container::key_type& k)
 {
     if (c.empty()) {
         return c.end();
