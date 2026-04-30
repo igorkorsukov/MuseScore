@@ -100,6 +100,8 @@ else()
         internal/nodes/controlnode.h
         internal/nodes/signalnode.cpp
         internal/nodes/signalnode.h
+        internal/nodes/playheadnode.cpp
+        internal/nodes/playheadnode.h
 
         # DSP
         internal/dsp/envelopefilterconfig.h

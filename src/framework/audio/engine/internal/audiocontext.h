@@ -33,6 +33,7 @@
 
 #include "igettracksource.h"
 #include "mixer.h"
+#include "nodes/playheadnode.h"
 
 namespace muse::audio::engine {
 class ContextPlayer;
@@ -160,6 +161,7 @@ private:
     AudioCtxId m_ctxId = 0;
 
     std::shared_ptr<ContextPlayer> m_player;
+    PlayheadNodePtr m_playheadNode;
     std::shared_ptr<Mixer> m_mixer;
 
     std::vector<Track> m_tracks;

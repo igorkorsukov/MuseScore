@@ -163,12 +163,6 @@ void Mixer::onOutputSpecChanged(const OutputSpec& spec)
     }
 }
 
-const TimePosition& Mixer::playbackPosition() const
-{
-    static TimePosition nullpos;
-    return m_playhead ? m_playhead->currentPosition() : nullpos;
-}
-
 void Mixer::doProcess(float* buffer, samples_t samplesPerChannel)
 {
     ONLY_AUDIO_PROC_THREAD;
@@ -191,10 +185,6 @@ void Mixer::doProcess(float* buffer, samples_t samplesPerChannel)
 void Mixer::doSelfProcess(float* outBuffer, samples_t samplesPerChannel)
 {
     ONLY_AUDIO_PROC_THREAD;
-
-    if (m_playhead) {
-        m_playhead->forward(TimePosition::fromSamples(samplesPerChannel, m_outputSpec.sampleRate));
-    }
 
     size_t outBufferSize = samplesPerChannel * m_outputSpec.audioChannelCount;
     std::fill(outBuffer, outBuffer + outBufferSize, 0.f);

@@ -5,7 +5,7 @@
  * MuseScore
  * Music Composition & Notation
  *
- * Copyright (C) 2021 MuseScore Limited and others
+ * Copyright (C) 2026 MuseScore Limited and others
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3 as
@@ -22,25 +22,22 @@
 
 #pragma once
 
-#include <memory>
+#include "audionode.h"
 
-#include "audio/common/timeposition.h"
+#include "../../iplayhead.h"
 
 namespace muse::audio::engine {
-class IPlayheadPosition
+class PlayheadNode : public AudioNode
 {
 public:
-    virtual ~IPlayheadPosition() = default;
-    virtual const TimePosition& currentPosition() const = 0;
+    explicit PlayheadNode(PlayheadPtr playhead);
+
+protected:
+
+    void doSelfProcess(float* buffer, samples_t samplesPerChannel) override;
+
+    PlayheadPtr m_playhead;
 };
 
-class IPlayhead : public IPlayheadPosition
-{
-public:
-
-    virtual void forward(const TimePosition& delta) = 0;
-};
-
-using PlayheadPositionPtr = std::shared_ptr<IPlayheadPosition>;
-using PlayheadPtr = std::shared_ptr<IPlayhead>;
+using PlayheadNodePtr = std::shared_ptr<PlayheadNode>;
 }

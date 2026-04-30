@@ -23,7 +23,6 @@
 #pragma once
 
 #include <memory>
-#include <map>
 
 #include "global/modularity/ioc.h"
 #include "global/async/asyncable.h"
@@ -32,7 +31,6 @@
 #include "iaudiofactory.h"
 
 #include "mixerchannel.h"
-#include "audiosignalnotifier.h"
 #include "nodes/fxnode.h"
 #include "nodes/controlnode.h"
 #include "nodes/signalnode.h"
@@ -68,8 +66,6 @@ public:
     void setTracksToProcessWhenIdle(const std::unordered_set<TrackId>& trackIds);
 
 private:
-
-    const TimePosition& playbackPosition() const;
 
     void onOutputSpecChanged(const OutputSpec& spec) override;
     void onModeChanged(const ProcessMode mode) override;

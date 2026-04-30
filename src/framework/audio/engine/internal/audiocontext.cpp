@@ -40,6 +40,8 @@ AudioContext::AudioContext(const AudioCtxId& ctxId)
     : m_ctxId(ctxId)
 {
     m_player = std::make_shared<ContextPlayer>(this);
+
+    m_playheadNode = std::make_shared<PlayheadNode>(std::static_pointer_cast<IPlayhead>(m_player));
     m_mixer = std::make_shared<Mixer>();
 }
 
@@ -52,6 +54,9 @@ Ret AudioContext::init()
 {
     m_mixer->init();
     m_mixer->setPlayhead(std::static_pointer_cast<IPlayhead>(m_player));
+
+    // Make the chain: audiocontext <- playheadnode <- mixer
+    m_mixer->connect(m_playheadNode);
 
     OutputSpec outputSpec = audioEngine()->outputSpec();
     setOutputSpec(outputSpec);
@@ -96,13 +101,15 @@ void AudioContext::setMode(const ProcessMode mode)
         m_mixer->setTracksToProcessWhenIdle(m_tracksToProcessWhenIdle);
     }
     m_mixer->setIsIdle(mode == ProcessMode::Idle);
-    m_mixer->setMode(mode);
+    m_playheadNode->setMode(mode);
+    // mixer will be notified about the mode change via the playhead node
 }
 
 void AudioContext::onOutputSpecChanged(const OutputSpec& outputSpec)
 {
     ONLY_AUDIO_ENGINE_THREAD;
-    m_mixer->setOutputSpec(outputSpec);
+    m_playheadNode->setOutputSpec(outputSpec);
+    // mixer will be notified about the output spec change via the playhead node
 
     TimePosition currentPosition = m_player->currentPosition();
     if (currentPosition.isValid()) {
@@ -820,5 +827,5 @@ SaveSoundTrackProgress AudioContext::saveSoundTrackProgressChanged() const
 void AudioContext::doSelfProcess(float* buffer, samples_t samplesPerChannel)
 {
     ONLY_AUDIO_PROC_THREAD;
-    m_mixer->process(buffer, samplesPerChannel);
+    m_playheadNode->process(buffer, samplesPerChannel);
 }
