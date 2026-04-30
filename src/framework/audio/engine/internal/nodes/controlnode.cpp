@@ -31,6 +31,7 @@ using namespace muse::audio::engine;
 void ControlNode::setVolume(float value)
 {
     m_volume = value;
+    updateChannelGains();
 }
 
 float ControlNode::volume() const
@@ -41,6 +42,7 @@ float ControlNode::volume() const
 void ControlNode::setPan(float pan)
 {
     m_pan = pan;
+    updateChannelGains();
 }
 
 float ControlNode::pan() const
@@ -58,15 +60,29 @@ bool ControlNode::mute() const
     return !enabled();
 }
 
+void ControlNode::onOutputSpecChanged(const OutputSpec&)
+{
+    updateChannelGains();
+}
+
+void ControlNode::updateChannelGains()
+{
+    const audioch_t channelsCount = m_outputSpec.audioChannelCount;
+    m_channelGains.resize(channelsCount);
+    for (audioch_t audioChNum = 0; audioChNum < channelsCount; ++audioChNum) {
+        m_channelGains[audioChNum] = dsp::balanceGain(m_pan, audioChNum) * m_volume;
+    }
+}
+
 void ControlNode::doSelfProcess(float* buffer, samples_t samplesPerChannel)
 {
     const audioch_t channelsCount = m_outputSpec.audioChannelCount;
 
-    for (audioch_t audioChNum = 0; audioChNum < channelsCount; ++audioChNum) {
-        const gain_t totalChGain = dsp::balanceGain(m_pan, audioChNum) * m_volume;
-        for (unsigned int s = 0; s < samplesPerChannel; ++s) {
-            const unsigned int idx = s * channelsCount + audioChNum;
-            buffer[idx] = buffer[idx] * totalChGain;
+    for (size_t s = 0; s < samplesPerChannel; ++s) {
+        const size_t frameOffset = s * channelsCount;
+        for (size_t ch = 0; ch < channelsCount; ++ch) {
+            const size_t idx = frameOffset + ch;
+            buffer[idx] = buffer[idx] * m_channelGains[ch];
         }
     }
 }

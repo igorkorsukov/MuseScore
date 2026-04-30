@@ -38,7 +38,12 @@ public:
 
 protected:
 
+    void updateChannelGains();
+
+    void onOutputSpecChanged(const OutputSpec& spec) override;
     void doSelfProcess(float* buffer, samples_t samplesPerChannel) override;
+
+    std::vector<float> m_channelGains;
 
     float m_volume = 1.0f;
     float m_pan = 0.0f;
