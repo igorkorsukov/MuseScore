@@ -62,27 +62,26 @@ AudioSignalChanges SignalNode::audioSignalChanges() const
 
 void SignalNode::doSelfProcess(float* buffer, samples_t samplesPerChannel)
 {
-    const unsigned int channelsCount = m_outputSpec.audioChannelCount;
-    float globalPeak = 0.f;
+    const audioch_t channelsCount = m_outputSpec.audioChannelCount;
 
-    for (audioch_t audioChNum = 0; audioChNum < channelsCount; ++audioChNum) {
-        float peak = 0.f;
-
-        for (unsigned int s = 0; s < samplesPerChannel; ++s) {
-            const unsigned int idx = s * channelsCount + audioChNum;
-            const float absSample = std::fabs(buffer[idx]);
-
-            if (absSample > peak) {
-                peak = absSample;
+    std::vector<float> channelPeaks(channelsCount, 0.f);
+    for (size_t s = 0; s < samplesPerChannel; ++s) {
+        const size_t frameOffset = s * channelsCount;
+        for (size_t ch = 0; ch < channelsCount; ++ch) {
+            const size_t idx = frameOffset + ch;
+            const float a = std::fabs(buffer[idx]);
+            if (a > channelPeaks[ch]) {
+                channelPeaks[ch] = a;
             }
-        }
-
-        m_audioSignalNotifier->updateSignalValue(audioChNum, peak);
-
-        if (peak > globalPeak) {
-            globalPeak = peak;
         }
     }
 
-    m_isSilent = muse::is_zero(globalPeak);
+    m_isSilent = true;
+    for (audioch_t ch = 0; ch < channelsCount; ++ch) {
+        float peak = channelPeaks[ch];
+        if (peak > 0.f) {
+            m_isSilent = false;
+        }
+        m_audioSignalNotifier->updateSignalValue(ch, peak);
+    }
 }
