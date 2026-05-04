@@ -84,7 +84,10 @@ private:
 
     void processTrackChannels(size_t outBufferSize, size_t samplesPerChannel);
     void mixOutputFromChannel(float* outBuffer, const float* inBuffer, unsigned int samplesCount) const;
+<<<<<<< HEAD
     void prepareAuxBuffers(size_t outBufferSize);
+=======
+>>>>>>> 311457d45c ([audio] replaced mixchannel on trackchain)
     void writeTrackToAuxBuffers(const float* trackBuffer, size_t outBufferSize, const AuxSendsParams& auxSends);
     void processAuxChannels(float* buffer, samples_t samplesPerChannel);
     void processMasterFx(float* buffer, samples_t samplesPerChannel);
