@@ -23,6 +23,8 @@
 #pragma once
 
 #include <memory>
+#include <string>
+#include <sstream>
 
 #include "audio/common/audiotypes.h"
 
@@ -39,6 +41,8 @@ class IAudioNode : public std::enable_shared_from_this<IAudioNode>
 {
 public:
     virtual ~IAudioNode() = default;
+
+    virtual std::string name() const = 0;
 
     virtual void setOutputSpec(const OutputSpec& spec) = 0;
     virtual const OutputSpec& outputSpec() const = 0;
@@ -57,6 +61,8 @@ public:
     virtual IAudioNode* disconnect(std::shared_ptr<IAudioNode> other) = 0;
 
     virtual void process(float* buffer, samples_t samplesPerChannel) = 0;
+
+    virtual std::string dump(int indent = 0) const = 0;
 
 protected:
 
@@ -84,6 +90,8 @@ class AudioNode : public IAudioNode
 {
 public:
 
+    std::string name() const final override;
+
     void setOutputSpec(const OutputSpec& spec) final override;
     const OutputSpec& outputSpec() const final override;
     void setMode(const ProcessMode mode) final override;
@@ -104,6 +112,8 @@ public:
     // to reduce the stack count for easier debugging.
     virtual void process(float* buffer, samples_t samplesPerChannel) override;
 
+    std::string dump(int indent = 0) const override;
+
 protected:
 
     virtual void onOutputSpecChanged(const OutputSpec& spec) override;
@@ -123,6 +133,12 @@ protected:
 
     std::shared_ptr<IAudioNode> m_input = nullptr;
 };
+
+template<typename T>
+std::string AudioNode<T>::name() const
+{
+    return T::name;
+}
 
 template<typename T>
 void AudioNode<T>::setOutputSpec(const OutputSpec& spec)
@@ -283,5 +299,16 @@ void AudioNode<T>::process(float* buffer, samples_t samplesPerChannel)
     }
 
     doSelfProcess(buffer, samplesPerChannel);
+}
+
+template<typename T>
+std::string AudioNode<T>::dump(int indent) const
+{
+    std::stringstream ss;
+    ss << std::string(indent, ' ') << name();
+    if (m_input) {
+        ss << " <--" << m_input->dump(indent);
+    }
+    return ss.str();
 }
 }

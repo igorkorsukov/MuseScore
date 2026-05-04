@@ -60,25 +60,29 @@ AudioSignalChanges SignalNode::audioSignalChanges() const
     return m_audioSignalNotifier->audioSignalChanges;
 }
 
+void SignalNode::onOutputSpecChanged(const OutputSpec& spec)
+{
+    m_channelPeaks.resize(spec.audioChannelCount, 0.f);
+}
+
 void SignalNode::doSelfProcess(float* buffer, samples_t samplesPerChannel)
 {
     const audioch_t channelsCount = m_outputSpec.audioChannelCount;
 
-    std::vector<float> channelPeaks(channelsCount, 0.f);
     for (size_t s = 0; s < samplesPerChannel; ++s) {
         const size_t frameOffset = s * channelsCount;
         for (size_t ch = 0; ch < channelsCount; ++ch) {
             const size_t idx = frameOffset + ch;
             const float a = std::fabs(buffer[idx]);
-            if (a > channelPeaks[ch]) {
-                channelPeaks[ch] = a;
+            if (a > m_channelPeaks[ch]) {
+                m_channelPeaks[ch] = a;
             }
         }
     }
 
     m_isSilent = true;
     for (audioch_t ch = 0; ch < channelsCount; ++ch) {
-        float peak = channelPeaks[ch];
+        float peak = m_channelPeaks[ch];
         if (peak > 0.f) {
             m_isSilent = false;
         }

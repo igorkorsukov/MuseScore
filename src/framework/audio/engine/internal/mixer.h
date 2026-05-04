@@ -40,14 +40,14 @@ class TaskScheduler;
 }
 
 namespace muse::audio {
-struct MixerContextTag
+struct ContextMixerTag
 {
-    static constexpr const char* name = "MixerContext";
+    static constexpr const char* name = "ContextMixer";
 };
 }
 
 namespace muse::audio::engine {
-class Mixer : public AudioNode<MixerContextTag>, public async::Asyncable
+class Mixer : public AudioNode<ContextMixerTag>, public async::Asyncable
 {
     GlobalInject<IAudioFactory> audioFactory;
 

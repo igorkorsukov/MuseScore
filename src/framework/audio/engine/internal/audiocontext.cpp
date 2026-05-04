@@ -577,6 +577,8 @@ async::Promise<Ret> AudioContext::prepareToPlay()
 
 void AudioContext::play(const secs_t delay)
 {
+    LOGD() << m_playheadNode->dump();
+
     ONLY_AUDIO_ENGINE_THREAD;
     m_player->play(delay);
 }

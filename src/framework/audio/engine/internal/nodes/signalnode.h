@@ -51,8 +51,11 @@ public:
 
 protected:
 
+    void onOutputSpecChanged(const OutputSpec& spec) override;
+
     void doSelfProcess(float* buffer, samples_t samplesPerChannel) override;
 
+    std::vector<float> m_channelPeaks;
     bool m_isSilent = true;
     std::shared_ptr<AudioSignalsNotifier> m_audioSignalNotifier;
 };
