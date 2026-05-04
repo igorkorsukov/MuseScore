@@ -30,7 +30,7 @@
 
 #include "iaudiofactory.h"
 #include "../iplayhead.h"
-#include "nodes/fxnode.h"
+#include "nodes/fxchain.h"
 #include "nodes/controlnode.h"
 #include "nodes/signalnode.h"
 
@@ -71,21 +71,17 @@ private:
 
     void doSelfProcess(float* buffer, samples_t samplesPerChannel) override;
 
-    void updateShouldProcessDuringSilence();
-
     TrackId m_trackId = -1;
     PlayheadPositionPtr m_playheadPosition;
 
     bool m_chainProcessing = false;
     SignalNodePtr m_signalNode;
     ControlNodePtr m_controlNode;
-    std::vector<FxNodePtr> m_fxNodes;
+    FxChainPtr m_fxChain;
     AudioSourceNodePtr m_sourceNode;
 
-    bool m_shouldProcessDuringSilence = false;
-    async::Channel<bool> m_shouldProcessDuringSilenceChanged;
-
     async::Notification m_mutedChanged;
+    async::Channel<bool> m_shouldProcessDuringSilenceChanged;
 };
 
 using MixerChannelPtr = std::shared_ptr<MixerChannel>;

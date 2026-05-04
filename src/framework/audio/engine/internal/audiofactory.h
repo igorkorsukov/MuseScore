@@ -58,8 +58,8 @@ public:
     RetVal<AudioOutputNodePtr> makeMixerAuxChannel(const TrackId trackId, const AudioOutputParams& params) const override;
 
     // Make FX
-    std::vector<FxNodePtr> makeMasterFxList(const AudioFxChain& fxChain) const override;
-    std::vector<FxNodePtr> makeTrackFxList(const TrackId trackId, const AudioFxChain& fxChain) const override;
+    FxChainPtr makeMasterFxChain(const AudioFxChain& fxChain) const override;
+    FxChainPtr makeTrackFxChain(const TrackId trackId, const AudioFxChain& fxChain) const override;
     void clearAllFx() override;
 };
 }

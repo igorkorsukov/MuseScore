@@ -158,8 +158,8 @@ void Mixer::onOutputSpecChanged(const OutputSpec& spec)
         aux.channel->setOutputSpec(spec);
     }
 
-    for (FxNodePtr& fx : m_masterFxNodes) {
-        fx->setOutputSpec(spec);
+    if (m_masterFxChain) {
+        m_masterFxChain->setOutputSpec(spec);
     }
 }
 
@@ -189,7 +189,12 @@ void Mixer::doSelfProcess(float* outBuffer, samples_t samplesPerChannel)
     size_t outBufferSize = samplesPerChannel * m_outputSpec.audioChannelCount;
     std::fill(outBuffer, outBuffer + outBufferSize, 0.f);
 
-    if (m_isIdle && m_tracksToProcessWhenIdle.empty() && (m_signalNode->isSilent() && !m_shouldProcessMasterFxDuringSilence)) {
+    bool procFxOnSilence = false;
+    if (m_masterFxChain) {
+        procFxOnSilence = m_masterFxChain->shouldProcessDuringSilence();
+    }
+
+    if (m_isIdle && m_tracksToProcessWhenIdle.empty() && (m_signalNode->isSilent() && !procFxOnSilence)) {
         notifyNoAudioSignal();
         return;
     }
@@ -211,7 +216,7 @@ void Mixer::doSelfProcess(float* outBuffer, samples_t samplesPerChannel)
         writeTrackToAuxBuffers(t.buffer.data(), t.channel->outputParams().auxSends, samplesPerChannel);
     }
 
-    if (m_masterParams.muted || samplesPerChannel == 0 || (m_signalNode->isSilent() && !m_shouldProcessMasterFxDuringSilence)) {
+    if (m_masterParams.muted || samplesPerChannel == 0 || (m_signalNode->isSilent() && !procFxOnSilence)) {
         notifyNoAudioSignal();
         return;
     }
@@ -328,8 +333,8 @@ void Mixer::onModeChanged(const ProcessMode mode)
         }
     }
 
-    for (FxNodePtr& fx : m_masterFxNodes) {
-        fx->setMode(mode);
+    if (m_masterFxChain) {
+        m_masterFxChain->setMode(mode);
     }
 }
 
@@ -362,53 +367,23 @@ void Mixer::setMasterOutputParams(const AudioOutputParams& params)
         return;
     }
 
-    m_masterFxNodes.clear();
-    m_masterFxNodes = audioFactory()->makeMasterFxList(params.fxChain);
+    m_masterFxChain = audioFactory()->makeMasterFxChain(params.fxChain);
+    m_masterFxChain->setOutputSpec(m_outputSpec);
+    m_masterFxChain->setMode(m_mode);
+    m_masterFxChain->setPlayheadPosition(m_playhead);
 
-    for (FxNodePtr& fx : m_masterFxNodes) {
-        fx->setOutputSpec(m_outputSpec);
-        fx->setMode(m_mode);
-        fx->setPlayheadPosition(m_playhead);
+    m_masterFxChain->fxChainSpecChanged().onReceive(this, [this](const AudioFxChain& fxChainSpec) {
+        m_masterParams.fxChain = fxChainSpec;
+        m_masterOutputParamsChanged.send(m_masterParams);
+    });
 
-        fx->paramsChanged().onReceive(this, [this](const AudioFxParams& fxParams) {
-            m_masterParams.fxChain.insert_or_assign(fxParams.chainOrder, fxParams);
-            m_masterOutputParamsChanged.send(m_masterParams);
-            updateShouldProcessMasterFxDuringSilence();
-        }, async::Asyncable::Mode::SetReplace);
-    }
+    m_masterParams = params;
+    m_masterParams.fxChain = m_masterFxChain->fxChainSpec();
+    m_masterOutputParamsChanged.send(m_masterParams);
 
-    AudioOutputParams resultParams = params;
-
-    auto findFxNode = [this](const std::pair<AudioFxChainOrder, AudioFxParams>& params) -> FxNodePtr {
-        for (FxNodePtr& fx : m_masterFxNodes) {
-            if (fx->params().chainOrder != params.first) {
-                continue;
-            }
-
-            if (fx->params().resourceMeta == params.second.resourceMeta) {
-                return fx;
-            }
-        }
-
-        return nullptr;
-    };
-
-    for (auto it = resultParams.fxChain.begin(); it != resultParams.fxChain.end();) {
-        if (FxNodePtr fx = findFxNode(*it)) {
-            fx->setBypassed(!it->second.active);
-            ++it;
-        } else {
-            it = resultParams.fxChain.erase(it);
-        }
-    }
-
-    m_masterParams = resultParams;
-    m_masterOutputParamsChanged.send(resultParams);
-    updateShouldProcessMasterFxDuringSilence();
-
-    m_controlNode->setVolume(muse::db_to_linear(resultParams.volume));
-    m_controlNode->setPan(resultParams.balance);
-    m_controlNode->setMute(resultParams.muted);
+    m_controlNode->setVolume(muse::db_to_linear(m_masterParams.volume));
+    m_controlNode->setPan(m_masterParams.balance);
+    m_controlNode->setMute(m_masterParams.muted);
 }
 
 void Mixer::clearMasterOutputParams()
@@ -529,19 +504,8 @@ void Mixer::processAuxChannels(float* buffer, samples_t samplesPerChannel)
 
 void Mixer::processMasterFx(float* buffer, samples_t samplesPerChannel)
 {
-    for (FxNodePtr& fx : m_masterFxNodes) {
-        fx->process(buffer, samplesPerChannel);
-    }
-}
-
-void Mixer::updateShouldProcessMasterFxDuringSilence()
-{
-    m_shouldProcessMasterFxDuringSilence = false;
-    for (const FxNodePtr& fx : m_masterFxNodes) {
-        if (fx->shouldProcessDuringSilence()) {
-            m_shouldProcessMasterFxDuringSilence = true;
-            return;
-        }
+    if (m_masterFxChain) {
+        m_masterFxChain->process(buffer, samplesPerChannel);
     }
 }
 

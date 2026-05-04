@@ -91,8 +91,6 @@ private:
     void updateNonMutedTrackCount();
     bool useMultithreading() const;
 
-    void updateShouldProcessMasterFxDuringSilence();
-
     void notifyAboutAudioSignalChanges();
     void notifyNoAudioSignal();
 
@@ -102,7 +100,7 @@ private:
 
     AudioOutputParams m_masterParams;
     async::Channel<AudioOutputParams> m_masterOutputParamsChanged;
-    std::vector<FxNodePtr> m_masterFxNodes;
+    FxChainPtr m_masterFxChain;
 
     struct TrackData {
         TrackId trackId;
@@ -129,7 +127,6 @@ private:
     SignalNodePtr m_signalNode;
     ControlNodePtr m_controlNode;
 
-    bool m_shouldProcessMasterFxDuringSilence = false;
     bool m_isIdle = false;
 };
 

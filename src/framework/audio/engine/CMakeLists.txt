@@ -96,12 +96,17 @@ else()
         internal/nodes/eventaudionode.h
         internal/nodes/fxnode.cpp
         internal/nodes/fxnode.h
+        internal/nodes/fxchain.cpp
+        internal/nodes/fxchain.h
         internal/nodes/controlnode.cpp
         internal/nodes/controlnode.h
         internal/nodes/signalnode.cpp
         internal/nodes/signalnode.h
         internal/nodes/playheadnode.cpp
         internal/nodes/playheadnode.h
+        internal/nodes/chainnode.h
+        internal/nodes/trackchain.cpp
+        internal/nodes/trackchain.h
 
         # DSP
         internal/dsp/envelopefilterconfig.h

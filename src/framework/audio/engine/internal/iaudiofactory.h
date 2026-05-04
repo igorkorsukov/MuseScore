@@ -28,7 +28,7 @@
 #include "../isynthesizer.h"
 #include "nodes/audiosourcenode.h"
 #include "nodes/audiooutputnode.h"
-#include "nodes/fxnode.h"
+#include "nodes/fxchain.h"
 
 namespace muse::audio::engine {
 class IAudioFactory : MODULE_GLOBAL_INTERFACE
@@ -64,8 +64,8 @@ public:
     virtual RetVal<AudioOutputNodePtr> makeMixerAuxChannel(const TrackId trackId, const AudioOutputParams& params) const = 0;
 
     // Make FX
-    virtual std::vector<FxNodePtr> makeMasterFxList(const AudioFxChain& fxChain) const = 0;
-    virtual std::vector<FxNodePtr> makeTrackFxList(const TrackId trackId, const AudioFxChain& fxChain) const = 0;
+    virtual FxChainPtr makeMasterFxChain(const AudioFxChain& fxChain) const = 0;
+    virtual FxChainPtr makeTrackFxChain(const TrackId trackId, const AudioFxChain& fxChain) const = 0;
 
     //! NOTE For internal purposes,
     // created effect instances are registered in an internal registry (see VST).
