@@ -27,7 +27,6 @@
 #include "mpe/events.h"
 #include "../isynthesizer.h"
 #include "nodes/audiosourcenode.h"
-#include "nodes/audiooutputnode.h"
 #include "nodes/fxchain.h"
 
 namespace muse::audio::engine {
@@ -57,12 +56,6 @@ public:
     virtual RetVal<AudioSourceNodePtr> makeEventSource(const TrackId trackId, const mpe::PlaybackData& playbackData,
                                                        const AudioInputParams& params,
                                                        const std::function<void()> onOffStreamReceived = nullptr) const = 0;
-
-    // Make output (mixer channel)
-    virtual RetVal<AudioOutputNodePtr> makeMixerChannel(const TrackId trackId, const AudioOutputParams& params,
-                                                        const AudioSourceNodePtr& source) const = 0;
-    virtual RetVal<AudioOutputNodePtr> makeMixerAuxChannel(const TrackId trackId, const AudioOutputParams& params) const = 0;
-
     // Make FX
     virtual FxChainPtr makeMasterFxChain(const AudioFxChain& fxChain) const = 0;
     virtual FxChainPtr makeTrackFxChain(const TrackId trackId, const AudioFxChain& fxChain) const = 0;

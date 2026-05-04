@@ -37,16 +37,28 @@ public:
 
     void add(IAudioNodePtr node);
     void remove(IAudioNodePtr node);
+    void clear();
 
 protected:
 
-    void doSelfProcess(float*, samples_t) override
-    {
-        // noop
-    }
+    void doSelfProcess(float*, samples_t) override {}
+
+    void doAdd(IAudioNodePtr node);
+    virtual void rebuild();
 
     std::vector<IAudioNodePtr> m_nodes;
 };
+
+template<typename T>
+void ChainNode<T>::rebuild()
+{
+    IAudioNodePtr next = this->shared_from_this();
+    for (auto& node : m_nodes) {
+        node->disconnectAll();
+        node->connect(next);
+        next = node;
+    }
+}
 
 template<typename T>
 void ChainNode<T>::add(IAudioNodePtr node)
@@ -55,11 +67,20 @@ void ChainNode<T>::add(IAudioNodePtr node)
         return;
     }
 
-    IAudioNodePtr prev = m_nodes.empty() ? this->shared_from_this() : m_nodes.front();
+    doAdd(node);
+    rebuild();
+}
 
+template<typename T>
+void ChainNode<T>::doAdd(IAudioNodePtr node)
+{
+    IF_ASSERT_FAILED(node) {
+        return;
+    }
+
+    node->setOutputSpec(AudioNode<T>::outputSpec());
+    node->setMode(AudioNode<T>::mode());
     m_nodes.push_back(node);
-
-    node->connect(prev);
 }
 
 template<typename T>
@@ -69,20 +90,19 @@ void ChainNode<T>::remove(IAudioNodePtr node)
         return;
     }
 
-    size_t index = muse::indexOf(m_nodes, node);
-    if (index == muse::nidx) {
-        return;
+    bool removed = muse::remove(m_nodes, node);
+    if (removed) {
+        node->disconnectAll();
+        rebuild();
     }
+}
 
-    IAudioNodePtr prev = index == 0 ? this->shared_from_this() : m_nodes[index - 1];
-    IAudioNodePtr next = index + 1 < m_nodes.size() ? m_nodes[index + 1] : nullptr;
-
-    node->disconnect(prev);
-
-    if (next) {
-        node->connect(next);
+template<typename T>
+void ChainNode<T>::clear()
+{
+    for (auto& node : m_nodes) {
+        node->disconnectAll();
     }
-
-    m_nodes.erase(m_nodes.begin() + index);
+    m_nodes.clear();
 }
 }

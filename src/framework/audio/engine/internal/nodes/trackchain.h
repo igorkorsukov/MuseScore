@@ -19,13 +19,14 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
+#pragma once
 
- #include "audionode.h"
+#include "audionode.h"
 
- #include "audiosourcenode.h"
- #include "fxchain.h"
- #include "controlnode.h"
- #include "signalnode.h"
+#include "audiosourcenode.h"
+#include "fxchain.h"
+#include "controlnode.h"
+#include "signalnode.h"
 
 namespace muse::audio {
 struct TrackChainTag
@@ -37,11 +38,13 @@ struct TrackChainTag
 namespace muse::audio::engine {
 //! NOTE A typical node chain for processing a track:
 //! signalnode <- controlnode <- fxnode[] <- audiosource
-class TrackChain : public AudioNode<TrackChainTag>
+class TrackChain : public ChainNode<TrackChainTag>
 {
 public:
 
     TrackChain(TrackId trackId);
+
+    TrackId trackId() const;
 
     void setSource(AudioSourceNodePtr source);
     AudioSourceNodePtr source() const;
@@ -55,11 +58,14 @@ public:
     void setSignal(SignalNodePtr signalNode);
     SignalNodePtr signal() const;
 
-    void build();
+    void rebuild() override;
 
 protected:
 
-    TrackId m_trackId;
+    void doSelfProcess(float*, samples_t) override {}
+
+    TrackId m_trackId = INVALID_TRACK_ID;
+
     AudioSourceNodePtr m_source;
     FxChainPtr m_fxChain;
     ControlNodePtr m_control;

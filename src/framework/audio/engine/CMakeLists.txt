@@ -66,8 +66,6 @@ else()
         internal/enginerpccontroller.h
         internal/mixer.cpp
         internal/mixer.h
-        internal/mixerchannel.cpp
-        internal/mixerchannel.h
         internal/contextplayer.cpp
         internal/contextplayer.h
         internal/samplerateconvertor.cpp
@@ -88,8 +86,6 @@ else()
         internal/nodes/audionode.h
         internal/nodes/audiosourcenode.cpp
         internal/nodes/audiosourcenode.h
-        internal/nodes/audiooutputnode.cpp
-        internal/nodes/audiooutputnode.h
         internal/nodes/mixernode.cpp
         internal/nodes/mixernode.h
         internal/nodes/eventaudionode.cpp

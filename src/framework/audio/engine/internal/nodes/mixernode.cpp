@@ -40,14 +40,16 @@ void MixerNode::onModeChanged(const ProcessMode mode)
     }
 }
 
-void MixerNode::doAddNode(std::shared_ptr<IAudioNode> other)
+bool MixerNode::doAddNode(std::shared_ptr<IAudioNode> other)
 {
     m_inputs.emplace_back(other);
+    return true;
 }
 
-void MixerNode::doRemoveNode(std::shared_ptr<IAudioNode> other)
+bool MixerNode::doRemoveNode(std::shared_ptr<IAudioNode> other)
 {
     muse::remove(m_inputs, other);
+    return true;
 }
 
 void MixerNode::process(float* buffer, samples_t samplesPerChannel)

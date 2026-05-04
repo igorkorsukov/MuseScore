@@ -30,10 +30,10 @@
 #include "../iplayhead.h"
 #include "iaudiofactory.h"
 
-#include "mixerchannel.h"
-#include "nodes/fxnode.h"
+#include "nodes/fxchain.h"
 #include "nodes/controlnode.h"
 #include "nodes/signalnode.h"
+#include "nodes/trackchain.h"
 
 namespace muse {
 class TaskScheduler;
@@ -56,8 +56,8 @@ public:
 
     void init();
 
-    Ret addChannel(AudioOutputNodePtr output);
-    Ret addAuxChannel(AudioOutputNodePtr output);
+    Ret addChannel(TrackChainPtr trackChain, const AuxSendsParams& auxSends);
+    Ret addAuxChannel(TrackChainPtr trackChain);
     Ret removeChannel(const TrackId trackId);
 
     void setPlayhead(PlayheadPtr playhead);
@@ -71,6 +71,7 @@ public:
 
     void setIsIdle(bool idle);
     void setTracksToProcessWhenIdle(const std::unordered_set<TrackId>& trackIds);
+    void setNonMutedTrackCount(size_t count);
 
     void process(float* buffer, samples_t samplesPerChannel) override;
 
@@ -84,11 +85,10 @@ private:
     void processTrackChannels(size_t outBufferSize, size_t samplesPerChannel);
     void mixOutputFromChannel(float* outBuffer, const float* inBuffer, unsigned int samplesCount) const;
     void prepareAuxBuffers(size_t outBufferSize);
-    void writeTrackToAuxBuffers(const float* trackBuffer, const AuxSendsParams& auxSends, samples_t samplesPerChannel);
+    void writeTrackToAuxBuffers(const float* trackBuffer, size_t outBufferSize, const AuxSendsParams& auxSends);
     void processAuxChannels(float* buffer, samples_t samplesPerChannel);
     void processMasterFx(float* buffer, samples_t samplesPerChannel);
 
-    void updateNonMutedTrackCount();
     bool useMultithreading() const;
 
     void notifyAboutAudioSignalChanges();
@@ -104,22 +104,16 @@ private:
 
     struct TrackData {
         TrackId trackId;
-        MixerChannelPtr channel;
+        TrackChainPtr chain;
         std::vector<float> buffer;
         bool processed = false;
     };
 
     std::vector<TrackData> m_tracks;
+    std::vector<TrackData> m_auxTracks;
+    std::map<TrackId, AuxSendsParams> m_auxSends;
 
     std::unordered_set<TrackId> m_tracksToProcessWhenIdle;
-
-    struct AuxChannelInfo {
-        MixerChannelPtr channel;
-        std::vector<float> buffer;
-        bool receivedAudioSignal = false;
-    };
-
-    std::vector<AuxChannelInfo> m_auxChannelInfoList;
 
     std::shared_ptr<IPlayhead> m_playhead;
 

@@ -31,29 +31,34 @@ TrackChain::TrackChain(TrackId trackId)
 {
 }
 
-void TrackChain::build()
+void TrackChain::rebuild()
 {
-    IAudioNodePtr next = this->shared_from_this();
+    clear();
+
     if (m_signal) {
-        m_signal->connect(next);
-        next = m_signal;
+        doAdd(m_signal);
     }
     if (m_control) {
-        m_control->connect(next);
-        next = m_control;
+        doAdd(m_control);
     }
     if (m_fxChain) {
-        m_fxChain->connect(next);
-        next = m_fxChain;
+        doAdd(m_fxChain);
     }
     if (m_source) {
-        m_source->connect(next);
-        next = m_source;
+        doAdd(m_source);
     }
+
+    ChainNode<TrackChainTag>::rebuild();
+}
+
+TrackId TrackChain::trackId() const
+{
+    return m_trackId;
 }
 
 void TrackChain::setSource(AudioSourceNodePtr source)
 {
+    clear();
     m_source = source;
 }
 
@@ -64,6 +69,7 @@ AudioSourceNodePtr TrackChain::source() const
 
 void TrackChain::setFxChain(FxChainPtr fxChain)
 {
+    clear();
     m_fxChain = fxChain;
 }
 
@@ -74,6 +80,7 @@ FxChainPtr TrackChain::fxChain() const
 
 void TrackChain::setControl(ControlNodePtr controlNode)
 {
+    clear();
     m_control = controlNode;
 }
 
@@ -84,6 +91,7 @@ ControlNodePtr TrackChain::control() const
 
 void TrackChain::setSignal(SignalNodePtr signalNode)
 {
+    clear();
     m_signal = signalNode;
 }
 

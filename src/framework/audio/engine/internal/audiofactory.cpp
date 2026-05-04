@@ -24,8 +24,6 @@
 
 #include "audio/common/audioerrors.h"
 
-#include "mixerchannel.h"
-
 #include "nodes/eventaudionode.h"
 
 using namespace muse;
@@ -79,25 +77,6 @@ RetVal<AudioSourceNodePtr> AudioFactory::makeEventSource(const TrackId trackId, 
     source->setOutputSpec(audioEngine()->outputSpec());
     source->applyInputParams(params);
     return RetVal<AudioSourceNodePtr>::make_ok(source);
-}
-
-RetVal<AudioOutputNodePtr> AudioFactory::makeMixerChannel(const TrackId trackId, const AudioOutputParams& params,
-                                                          const AudioSourceNodePtr& source) const
-{
-    auto channel = std::make_shared<MixerChannel>(trackId, source, nullptr);
-    channel->init();
-    channel->setOutputSpec(audioEngine()->outputSpec());
-    channel->applyOutputParams(params);
-    return RetVal<AudioOutputNodePtr>::make_ok(channel);
-}
-
-RetVal<AudioOutputNodePtr> AudioFactory::makeMixerAuxChannel(const TrackId trackId, const AudioOutputParams& params) const
-{
-    auto channel = std::make_shared<MixerChannel>(trackId, nullptr);
-    channel->init();
-    channel->setOutputSpec(audioEngine()->outputSpec());
-    channel->applyOutputParams(params);
-    return RetVal<AudioOutputNodePtr>::make_ok(channel);
 }
 
 FxChainPtr AudioFactory::makeMasterFxChain(const AudioFxChain& fxChain) const

@@ -59,6 +59,7 @@ public:
 
     virtual IAudioNode* connect(std::shared_ptr<IAudioNode> other) = 0;
     virtual IAudioNode* disconnect(std::shared_ptr<IAudioNode> other) = 0;
+    virtual void disconnectAll() = 0;
 
     virtual void process(float* buffer, samples_t samplesPerChannel) = 0;
 
@@ -74,8 +75,8 @@ protected:
     virtual void onEnabledChanged(bool enabled) = 0;
     virtual void onBypassedChanged(bool bypassed) = 0;
 
-    virtual void doAddNode(std::shared_ptr<IAudioNode> other) = 0;
-    virtual void doRemoveNode(std::shared_ptr<IAudioNode> other) = 0;
+    virtual bool doAddNode(std::shared_ptr<IAudioNode> other) = 0;
+    virtual bool doRemoveNode(std::shared_ptr<IAudioNode> other) = 0;
 
     virtual void doSelfProcess(float* buffer, samples_t samplesPerChannel) = 0;
 };
@@ -107,6 +108,7 @@ public:
 
     IAudioNode* connect(std::shared_ptr<IAudioNode> other) final override;
     IAudioNode* disconnect(std::shared_ptr<IAudioNode> other) final override;
+    void disconnectAll() final override;
 
     //! NOTE This method needs to be overridden directly
     // to reduce the stack count for easier debugging.
@@ -121,8 +123,8 @@ protected:
     virtual void onEnabledChanged(bool enabled) override;
     virtual void onBypassedChanged(bool bypassed) override;
 
-    virtual void doAddNode(std::shared_ptr<IAudioNode> other) override;
-    virtual void doRemoveNode(std::shared_ptr<IAudioNode> other) override;
+    virtual bool doAddNode(std::shared_ptr<IAudioNode> other) override;
+    virtual bool doRemoveNode(std::shared_ptr<IAudioNode> other) override;
 
     // virtual void doSelfProcess(float* buffer, samples_t samplesPerChannel) = 0;
 
@@ -131,6 +133,7 @@ protected:
     bool m_enabled = true;
     bool m_bypassed = false;
 
+    std::vector<std::shared_ptr<IAudioNode> > m_connectedTo;
     std::shared_ptr<IAudioNode> m_input = nullptr;
 };
 
@@ -239,7 +242,10 @@ IAudioNode* AudioNode<T>::connect(std::shared_ptr<IAudioNode> other)
     IF_ASSERT_FAILED(other) {
         return this;
     }
-    other->doAddNode(shared_from_this());
+    bool ok = other->doAddNode(shared_from_this());
+    if (ok) {
+        m_connectedTo.push_back(other);
+    }
     return this;
 }
 
@@ -249,38 +255,51 @@ IAudioNode* AudioNode<T>::disconnect(std::shared_ptr<IAudioNode> other)
     IF_ASSERT_FAILED(other) {
         return this;
     }
-    other->doRemoveNode(shared_from_this());
+    bool ok = other->doRemoveNode(shared_from_this());
+    if (ok) {
+        muse::remove(m_connectedTo, other);
+    }
     return this;
 }
 
 template<typename T>
-void AudioNode<T>::doAddNode(std::shared_ptr<IAudioNode> other)
+void AudioNode<T>::disconnectAll()
+{
+    for (auto& connectedTo : m_connectedTo) {
+        disconnect(connectedTo);
+    }
+}
+
+template<typename T>
+bool AudioNode<T>::doAddNode(std::shared_ptr<IAudioNode> other)
 {
     IF_ASSERT_FAILED(other) {
-        return;
+        return false;
     }
 
     IF_ASSERT_FAILED(!m_input) {
         LOGE() << "already connected to another node";
-        return;
+        return false;
     }
 
     m_input = other;
+    return true;
 }
 
 template<typename T>
-void AudioNode<T>::doRemoveNode(std::shared_ptr<IAudioNode> other)
+bool AudioNode<T>::doRemoveNode(std::shared_ptr<IAudioNode> other)
 {
     IF_ASSERT_FAILED(other) {
-        return;
+        return false;
     }
 
     IF_ASSERT_FAILED(m_input == other) {
         LOGE() << "not connected to this node";
-        return;
+        return false;
     }
 
     m_input = nullptr;
+    return true;
 }
 
 template<typename T>

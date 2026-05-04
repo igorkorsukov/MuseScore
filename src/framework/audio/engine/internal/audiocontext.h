@@ -34,6 +34,7 @@
 #include "igettracksource.h"
 #include "mixer.h"
 #include "nodes/playheadnode.h"
+#include "nodes/trackchain.h"
 
 namespace muse::audio {
 struct AudioContextTag
@@ -139,16 +140,22 @@ private:
         TrackId id = INVALID_TRACK_ID;
         TrackType type = TrackType::Undefined;
         TrackName name;
-        AudioSourceNodePtr source;
-        AudioOutputNodePtr output;
+        AudioOutputParams params;
+        TrackChainPtr chain;
     };
 
     void onOutputSpecChanged(const OutputSpec& spec) override;
     void onModeChanged(const ProcessMode mode) override;
+    void onOutputParamsChanged(Track& track, const AudioOutputParams& requiredParams);
+    void updateNonMutedTrackCount();
 
     TrackId newTrackId() const;
     void doAddTrack(const Track& track);
     const Track* track(const TrackId id) const;
+    Track* track(const TrackId id);
+
+    // Processing
+    void doSelfProcess(float* buffer, samples_t samplesPerChannel) override;
 
     // IGetTrackSource
     AudioSourceNodePtr trackSource(const TrackId trackId) const override;
@@ -159,9 +166,6 @@ private:
     bool hasPendingChunks(const TrackId id) const;
     size_t tracksBeingProcessedCount() const;
     Ret doSaveSoundTrack(io::IODevice& dstDevice, const SoundTrackFormat& format);
-
-    // Processing
-    void doSelfProcess(float* buffer, samples_t samplesPerChannel) override;
 
     AudioCtxId m_ctxId = 0;
 

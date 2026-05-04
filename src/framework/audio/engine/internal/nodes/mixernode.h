@@ -45,8 +45,8 @@ protected:
     void onOutputSpecChanged(const OutputSpec& spec) override;
     void onModeChanged(const ProcessMode mode) override;
 
-    void doAddNode(std::shared_ptr<IAudioNode> other) override;
-    void doRemoveNode(std::shared_ptr<IAudioNode> other) override;
+    bool doAddNode(std::shared_ptr<IAudioNode> other) override;
+    bool doRemoveNode(std::shared_ptr<IAudioNode> other) override;
 
     void doSelfProcess(float* buffer, samples_t samplesPerChannel) override;
 
