@@ -29,8 +29,15 @@ namespace muse::audio {
 struct AudioSignalsNotifier;
 }
 
+namespace muse::audio {
+struct SignalTag
+{
+    static constexpr const char* name = "Signal";
+};
+}
+
 namespace muse::audio::engine {
-class SignalNode : public AudioNode
+class SignalNode : public AudioNode<SignalTag>
 {
 public:
 

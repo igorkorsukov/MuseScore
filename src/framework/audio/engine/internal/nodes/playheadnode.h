@@ -26,8 +26,15 @@
 
 #include "../../iplayhead.h"
 
+namespace muse::audio {
+struct PlayheadTag
+{
+    static constexpr const char* name = "Playhead";
+};
+}
+
 namespace muse::audio::engine {
-class PlayheadNode : public AudioNode
+class PlayheadNode : public AudioNode<PlayheadTag>
 {
 public:
     explicit PlayheadNode(PlayheadPtr playhead);

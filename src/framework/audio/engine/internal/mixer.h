@@ -39,8 +39,15 @@ namespace muse {
 class TaskScheduler;
 }
 
+namespace muse::audio {
+struct MixerContextTag
+{
+    static constexpr const char* name = "MixerContext";
+};
+}
+
 namespace muse::audio::engine {
-class Mixer : public AudioNode, public async::Asyncable
+class Mixer : public AudioNode<MixerContextTag>, public async::Asyncable
 {
     GlobalInject<IAudioFactory> audioFactory;
 
@@ -65,12 +72,13 @@ public:
     void setIsIdle(bool idle);
     void setTracksToProcessWhenIdle(const std::unordered_set<TrackId>& trackIds);
 
+    void process(float* buffer, samples_t samplesPerChannel) override;
+
 private:
 
     void onOutputSpecChanged(const OutputSpec& spec) override;
     void onModeChanged(const ProcessMode mode) override;
 
-    void doProcess(float* buffer, samples_t samplesPerChannel) override;
     void doSelfProcess(float* buffer, samples_t samplesPerChannel) override;
 
     void processTrackChannels(size_t outBufferSize, size_t samplesPerChannel);

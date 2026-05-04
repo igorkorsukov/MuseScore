@@ -44,7 +44,7 @@ class SoundTrackWriter : public async::Asyncable
     muse::GlobalInject<rpc::IRpcChannel> rpcChannel;
 
 public:
-    SoundTrackWriter(io::IODevice& dstDevice, const SoundTrackFormat& format, const secs_t totalDuration, engine::AudioNodePtr source);
+    SoundTrackWriter(io::IODevice& dstDevice, const SoundTrackFormat& format, const secs_t totalDuration, IAudioNodePtr source);
 
     Ret write();
     void abort();
@@ -56,7 +56,7 @@ private:
 
     void sendProgress(uint64_t framesWritten, uint64_t totalFrames);
 
-    engine::AudioNodePtr m_source;
+    IAudioNodePtr m_source;
 
     std::vector<float> m_intermBuffer;
     samples_t m_renderStep = 0;

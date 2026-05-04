@@ -94,7 +94,7 @@ void AudioContext::deinit()
 }
 
 // Config
-void AudioContext::setMode(const ProcessMode mode)
+void AudioContext::onModeChanged(const ProcessMode mode)
 {
     ONLY_AUDIO_ENGINE_THREAD;
     if (mode == ProcessMode::Idle) {

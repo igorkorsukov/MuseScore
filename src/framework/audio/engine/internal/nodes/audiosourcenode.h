@@ -29,9 +29,16 @@
 #include "audio/common/audiotypes.h"
 #include "audio/common/timeposition.h"
 
+namespace muse::audio {
+struct SourceTag
+{
+    static constexpr const char* name = "Source";
+};
+}
+
 namespace muse::audio::engine {
 //! NOTE Abstract Base Audio Source Node
-class AudioSourceNode : public AudioNode
+class AudioSourceNode : public AudioNode<SourceTag>
 {
 public:
 

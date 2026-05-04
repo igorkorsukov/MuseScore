@@ -38,9 +38,6 @@ public:
     virtual Ret init() = 0;
     virtual void deinit() = 0;
 
-    // Config
-    virtual void setMode(const ProcessMode newMode) = 0;
-
     // Tracks
     virtual RetVal2<TrackId, AudioParams> addTrack(const TrackName& trackName, io::IODevice* playbackData, const AudioParams& params) = 0;
     virtual RetVal2<TrackId, AudioParams> addTrack(const TrackName& trackName, const mpe::PlaybackData& playbackData,

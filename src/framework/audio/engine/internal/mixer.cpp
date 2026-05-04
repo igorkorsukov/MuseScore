@@ -163,7 +163,7 @@ void Mixer::onOutputSpecChanged(const OutputSpec& spec)
     }
 }
 
-void Mixer::doProcess(float* buffer, samples_t samplesPerChannel)
+void Mixer::process(float* buffer, samples_t samplesPerChannel)
 {
     ONLY_AUDIO_PROC_THREAD;
 

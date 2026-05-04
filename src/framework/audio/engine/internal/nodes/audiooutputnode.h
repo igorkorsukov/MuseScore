@@ -28,8 +28,15 @@
 
 #include "audio/common/audiotypes.h"
 
+namespace muse::audio {
+struct OutputTag
+{
+    static constexpr const char* name = "Output";
+};
+}
+
 namespace muse::audio::engine {
-class AudioOutputNode : public AudioNode
+class AudioOutputNode : public AudioNode<OutputTag>
 {
 public:
 

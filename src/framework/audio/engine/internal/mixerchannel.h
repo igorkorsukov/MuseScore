@@ -48,7 +48,7 @@ public:
     void setPlayheadPosition(PlayheadPositionPtr playheadPosition);
 
     TrackId trackId() const;
-    AudioNodePtr source() const;
+    IAudioNodePtr source() const;
 
     bool muted() const;
     async::Notification mutedChanged() const;
@@ -61,12 +61,14 @@ public:
     void notifyAboutAudioSignalChanges();
     AudioSignalChanges audioSignalChanges() const;
 
+    void process(float* buffer, samples_t samplesPerChannel) override;
+
 private:
 
     void onOutputSpecChanged(const OutputSpec& spec) override;
     void onModeChanged(const ProcessMode mode) override;
     AudioOutputParams onOutputParamsChanged(const AudioOutputParams& requiredParams) override;
-    void doProcess(float* buffer, samples_t samplesPerChannel) override;
+
     void doSelfProcess(float* buffer, samples_t samplesPerChannel) override;
 
     void updateShouldProcessDuringSilence();

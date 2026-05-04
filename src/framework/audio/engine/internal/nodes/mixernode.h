@@ -27,20 +27,30 @@
 
 #include "audionode.h"
 
-namespace muse::audio::engine {
-class MixerNode : public AudioNode
+namespace muse::audio {
+struct MixerTag
 {
+    static constexpr const char* name = "Mixer";
+};
+}
+
+namespace muse::audio::engine {
+class MixerNode : public AudioNode<MixerTag>
+{
+public:
+
+    void process(float* buffer, samples_t samplesPerChannel) override;
+
 protected:
     void onOutputSpecChanged(const OutputSpec& spec) override;
     void onModeChanged(const ProcessMode mode) override;
 
-    void doAddNode(std::shared_ptr<AudioNode> other) override;
-    void doRemoveNode(std::shared_ptr<AudioNode> other) override;
+    void doAddNode(std::shared_ptr<IAudioNode> other) override;
+    void doRemoveNode(std::shared_ptr<IAudioNode> other) override;
 
-    void doProcess(float* buffer, samples_t samplesPerChannel) override;
     void doSelfProcess(float* buffer, samples_t samplesPerChannel) override;
 
-    std::vector<std::shared_ptr<AudioNode> > m_inputs;
+    std::vector<std::shared_ptr<IAudioNode> > m_inputs;
     std::vector<float> m_buffer;
 };
 }

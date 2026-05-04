@@ -72,7 +72,7 @@ TrackId MixerChannel::trackId() const
     return m_trackId;
 }
 
-AudioNodePtr MixerChannel::source() const
+IAudioNodePtr MixerChannel::source() const
 {
     return m_sourceNode;
 }
@@ -194,7 +194,7 @@ void MixerChannel::onOutputSpecChanged(const OutputSpec& spec)
     }
 }
 
-void MixerChannel::doProcess(float* buffer, samples_t samplesPerChannel)
+void MixerChannel::process(float* buffer, samples_t samplesPerChannel)
 {
     ONLY_AUDIO_PROC_THREAD;
 

@@ -26,8 +26,15 @@
 #include "../../ifxprocessor.h"
 #include "../../iplayhead.h"
 
+namespace muse::audio {
+struct FxTag
+{
+    static constexpr const char* name = "Fx";
+};
+}
+
 namespace muse::audio::engine {
-class FxNode : public AudioNode
+class FxNode : public AudioNode<FxTag>
 {
 public:
 

@@ -35,9 +35,16 @@
 #include "mixer.h"
 #include "nodes/playheadnode.h"
 
+namespace muse::audio {
+struct AudioContextTag
+{
+    static constexpr const char* name = "AudioContext";
+};
+}
+
 namespace muse::audio::engine {
 class ContextPlayer;
-class AudioContext : public AudioNode, public IAudioContext, public IGetTrackSource, public async::Asyncable
+class AudioContext : public AudioNode<AudioContextTag>, public IAudioContext, public IGetTrackSource, public async::Asyncable
 {
     GlobalInject<IAudioEngine> audioEngine;
     GlobalInject<IAudioFactory> audioFactory;
@@ -50,9 +57,6 @@ public:
 
     Ret init() override;
     void deinit() override;
-
-    // Config
-    void setMode(const ProcessMode newMode) override;
 
     // Tracks
     RetVal2<TrackId, AudioParams> addTrack(const std::string& trackName, io::IODevice* playbackData, const AudioParams& params) override;
@@ -140,6 +144,7 @@ private:
     };
 
     void onOutputSpecChanged(const OutputSpec& spec) override;
+    void onModeChanged(const ProcessMode mode) override;
 
     TrackId newTrackId() const;
     void doAddTrack(const Track& track);

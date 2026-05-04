@@ -26,51 +26,262 @@
 
 #include "audio/common/audiotypes.h"
 
-namespace muse::audio::engine {
-//! NOTE Abstract Base Audio Node
-class AudioNode : public std::enable_shared_from_this<AudioNode>
+//! NOTE Nodes are in the engine de facto namespace,
+// but the engine is not specified here only
+// so that the class names are shorter when
+// debugging in the call stack (the full names are specified there)
+
+namespace muse::audio {
+template<typename T>
+class AudioNode;
+
+class IAudioNode : public std::enable_shared_from_this<IAudioNode>
 {
 public:
-    virtual ~AudioNode() = default;
+    virtual ~IAudioNode() = default;
 
-    void setOutputSpec(const OutputSpec& spec);
-    const OutputSpec& outputSpec() const;
-    void setMode(const ProcessMode mode);
-    ProcessMode mode() const;
+    virtual void setOutputSpec(const OutputSpec& spec) = 0;
+    virtual const OutputSpec& outputSpec() const = 0;
+    virtual void setMode(const ProcessMode mode) = 0;
+    virtual ProcessMode mode() const = 0;
 
     // turns off this node and all connected ones (like mute)
-    void setEnabled(bool enabled);
-    bool enabled() const;
+    virtual void setEnabled(bool enabled) = 0;
+    virtual bool enabled() const = 0;
 
     // turns off only this node (like bypass)
-    void setBypassed(bool bypassed);
-    bool bypassed() const;
+    virtual void setBypassed(bool bypassed) = 0;
+    virtual bool bypassed() const = 0;
 
-    AudioNode* connect(std::shared_ptr<AudioNode> other);
-    AudioNode* disconnect(std::shared_ptr<AudioNode> other);
+    virtual IAudioNode* connect(std::shared_ptr<IAudioNode> other) = 0;
+    virtual IAudioNode* disconnect(std::shared_ptr<IAudioNode> other) = 0;
 
-    void process(float* buffer, samples_t samplesPerChannel);
+    virtual void process(float* buffer, samples_t samplesPerChannel) = 0;
 
 protected:
 
-    virtual void onOutputSpecChanged(const OutputSpec& spec);
-    virtual void onModeChanged(const ProcessMode mode);
-    virtual void onEnabledChanged(bool enabled);
-    virtual void onBypassedChanged(bool bypassed);
+    template<typename T>
+    friend class AudioNode;
 
-    virtual void doAddNode(std::shared_ptr<AudioNode> other);
-    virtual void doRemoveNode(std::shared_ptr<AudioNode> other);
+    virtual void onOutputSpecChanged(const OutputSpec& spec) = 0;
+    virtual void onModeChanged(const ProcessMode mode) = 0;
+    virtual void onEnabledChanged(bool enabled) = 0;
+    virtual void onBypassedChanged(bool bypassed) = 0;
 
-    virtual void doProcess(float* buffer, samples_t samplesPerChannel);
+    virtual void doAddNode(std::shared_ptr<IAudioNode> other) = 0;
+    virtual void doRemoveNode(std::shared_ptr<IAudioNode> other) = 0;
+
     virtual void doSelfProcess(float* buffer, samples_t samplesPerChannel) = 0;
+};
+
+using IAudioNodePtr = std::shared_ptr<IAudioNode>;
+
+//! NOTE A template base node class.
+// The tag is primarily used to simplify debugging
+// (for example, to make it easier to understand the call stack).
+template<typename T>
+class AudioNode : public IAudioNode
+{
+public:
+
+    void setOutputSpec(const OutputSpec& spec) final override;
+    const OutputSpec& outputSpec() const final override;
+    void setMode(const ProcessMode mode) final override;
+    ProcessMode mode() const final override;
+
+    // turns off this node and all connected ones (like mute)
+    void setEnabled(bool enabled) final override;
+    bool enabled() const final override;
+
+    // turns off only this node (like bypass)
+    void setBypassed(bool bypassed) final override;
+    bool bypassed() const final override;
+
+    IAudioNode* connect(std::shared_ptr<IAudioNode> other) final override;
+    IAudioNode* disconnect(std::shared_ptr<IAudioNode> other) final override;
+
+    //! NOTE This method needs to be overridden directly
+    // to reduce the stack count for easier debugging.
+    virtual void process(float* buffer, samples_t samplesPerChannel) override;
+
+protected:
+
+    virtual void onOutputSpecChanged(const OutputSpec& spec) override;
+    virtual void onModeChanged(const ProcessMode mode) override;
+    virtual void onEnabledChanged(bool enabled) override;
+    virtual void onBypassedChanged(bool bypassed) override;
+
+    virtual void doAddNode(std::shared_ptr<IAudioNode> other) override;
+    virtual void doRemoveNode(std::shared_ptr<IAudioNode> other) override;
+
+    // virtual void doSelfProcess(float* buffer, samples_t samplesPerChannel) = 0;
 
     OutputSpec m_outputSpec;
     ProcessMode m_mode = ProcessMode::Undefined;
     bool m_enabled = true;
     bool m_bypassed = false;
 
-    std::shared_ptr<AudioNode> m_input = nullptr;
+    std::shared_ptr<IAudioNode> m_input = nullptr;
 };
 
-using AudioNodePtr = std::shared_ptr<AudioNode>;
+template<typename T>
+void AudioNode<T>::setOutputSpec(const OutputSpec& spec)
+{
+    if (m_outputSpec == spec) {
+        return;
+    }
+    m_outputSpec = spec;
+    onOutputSpecChanged(spec);
+}
+
+template<typename T>
+const OutputSpec& AudioNode<T>::outputSpec() const
+{
+    return m_outputSpec;
+}
+
+template<typename T>
+void AudioNode<T>::onOutputSpecChanged(const OutputSpec& spec)
+{
+    if (m_input) {
+        m_input->setOutputSpec(spec);
+    }
+}
+
+template<typename T>
+void AudioNode<T>::setMode(const ProcessMode mode)
+{
+    if (m_mode == mode) {
+        return;
+    }
+    m_mode = mode;
+    onModeChanged(mode);
+}
+
+template<typename T>
+ProcessMode AudioNode<T>::mode() const
+{
+    return m_mode;
+}
+
+template<typename T>
+void AudioNode<T>::onModeChanged(const ProcessMode mode)
+{
+    if (m_input) {
+        m_input->setMode(mode);
+    }
+}
+
+template<typename T>
+void AudioNode<T>::setEnabled(bool enabled)
+{
+    if (m_enabled == enabled) {
+        return;
+    }
+    m_enabled = enabled;
+    onEnabledChanged(enabled);
+}
+
+template<typename T>
+bool AudioNode<T>::enabled() const
+{
+    return m_enabled;
+}
+
+template<typename T>
+void AudioNode<T>::onEnabledChanged(bool enabled)
+{
+    if (m_input) {
+        m_input->setEnabled(enabled);
+    }
+}
+
+template<typename T>
+void AudioNode<T>::setBypassed(bool bypassed)
+{
+    if (m_bypassed == bypassed) {
+        return;
+    }
+    m_bypassed = bypassed;
+    onBypassedChanged(bypassed);
+}
+
+template<typename T>
+bool AudioNode<T>::bypassed() const
+{
+    return m_bypassed;
+}
+
+template<typename T>
+void AudioNode<T>::onBypassedChanged(bool /*bypassed*/)
+{
+}
+
+template<typename T>
+IAudioNode* AudioNode<T>::connect(std::shared_ptr<IAudioNode> other)
+{
+    IF_ASSERT_FAILED(other) {
+        return this;
+    }
+    other->doAddNode(shared_from_this());
+    return this;
+}
+
+template<typename T>
+IAudioNode* AudioNode<T>::disconnect(std::shared_ptr<IAudioNode> other)
+{
+    IF_ASSERT_FAILED(other) {
+        return this;
+    }
+    other->doRemoveNode(shared_from_this());
+    return this;
+}
+
+template<typename T>
+void AudioNode<T>::doAddNode(std::shared_ptr<IAudioNode> other)
+{
+    IF_ASSERT_FAILED(other) {
+        return;
+    }
+
+    IF_ASSERT_FAILED(!m_input) {
+        LOGE() << "already connected to another node";
+        return;
+    }
+
+    m_input = other;
+}
+
+template<typename T>
+void AudioNode<T>::doRemoveNode(std::shared_ptr<IAudioNode> other)
+{
+    IF_ASSERT_FAILED(other) {
+        return;
+    }
+
+    IF_ASSERT_FAILED(m_input == other) {
+        LOGE() << "not connected to this node";
+        return;
+    }
+
+    m_input = nullptr;
+}
+
+template<typename T>
+void AudioNode<T>::process(float* buffer, samples_t samplesPerChannel)
+{
+    if (!m_enabled) {
+        return;
+    }
+
+    if (m_input) {
+        m_input->process(buffer, samplesPerChannel);
+    }
+
+    if (m_bypassed) {
+        return;
+    }
+
+    doSelfProcess(buffer, samplesPerChannel);
+}
 }

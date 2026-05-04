@@ -24,8 +24,15 @@
 
 #include "audionode.h"
 
+namespace muse::audio {
+struct ControlTag
+{
+    static constexpr const char* name = "Control";
+};
+}
+
 namespace muse::audio::engine {
-class ControlNode : public AudioNode
+class ControlNode : public AudioNode<ControlTag>
 {
 public:
 
