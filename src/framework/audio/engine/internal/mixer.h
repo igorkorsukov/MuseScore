@@ -60,8 +60,6 @@ public:
     Ret addAuxChannel(TrackChainPtr trackChain);
     Ret removeChannel(const TrackId trackId);
 
-    void setPlayhead(PlayheadPtr playhead);
-
     void setIsIdle(bool idle);
     void setTracksToProcessWhenIdle(const std::unordered_set<TrackId>& trackIds);
     void setNonMutedTrackCount(size_t count);
@@ -73,21 +71,15 @@ private:
     void onOutputSpecChanged(const OutputSpec& spec) override;
     void onModeChanged(const ProcessMode mode) override;
 
-    void doSelfProcess(float* buffer, samples_t samplesPerChannel) override;
+    void doSelfProcess(float*, samples_t) override {}
 
     void processTrackChannels(size_t outBufferSize, size_t samplesPerChannel);
     void mixOutputFromChannel(float* outBuffer, const float* inBuffer, unsigned int samplesCount) const;
-<<<<<<< HEAD
     void prepareAuxBuffers(size_t outBufferSize);
-=======
->>>>>>> 311457d45c ([audio] replaced mixchannel on trackchain)
     void writeTrackToAuxBuffers(const float* trackBuffer, size_t outBufferSize, const AuxSendsParams& auxSends);
     void processAuxChannels(float* buffer, samples_t samplesPerChannel);
 
     bool useMultithreading() const;
-
-    void notifyAboutAudioSignalChanges();
-    void notifyNoAudioSignal();
 
     TaskScheduler* m_taskScheduler = nullptr;
 
@@ -104,9 +96,6 @@ private:
 
     size_t m_nonMutedTrackCount = 0;
     std::unordered_set<TrackId> m_tracksToProcessWhenIdle;
-
-    std::shared_ptr<IPlayhead> m_playhead;
-
     bool m_isIdle = false;
 };
 

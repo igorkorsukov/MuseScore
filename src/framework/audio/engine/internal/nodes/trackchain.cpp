@@ -29,6 +29,8 @@ using namespace muse::audio::engine;
 TrackChain::TrackChain(TrackId trackId)
     : m_trackId(trackId)
 {
+    std::string tname = trackId == INVALID_TRACK_ID ? "master" : std::to_string(trackId);
+    setName(std::string(TrackChainTag::name) + "[" + tname + "]");
 }
 
 void TrackChain::rebuild()

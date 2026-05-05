@@ -22,42 +22,20 @@
 
 #include "signalnode.h"
 
-#include "global/types/number.h"
-
-#include "../audiosignalnotifier.h"
-
 using namespace muse::audio;
 using namespace muse::audio::engine;
 
-SignalNode::SignalNode()
-{
-    m_audioSignalNotifier = std::make_shared<AudioSignalsNotifier>();
-}
+static constexpr volume_dbfs_t MINIMUM_OPERABLE_DBFS_LEVEL = volume_dbfs_t::make(-100.f);
+static constexpr volume_dbfs_t PRESSURE_MINIMAL_VALUABLE_DIFF = volume_dbfs_t::make(2.5f);
 
 bool SignalNode::isSilent() const
 {
     return m_isSilent;
 }
 
-void SignalNode::setNoAudioSignal()
-{
-    unsigned int channelsCount = m_outputSpec.audioChannelCount;
-
-    for (audioch_t audioChNum = 0; audioChNum < channelsCount; ++audioChNum) {
-        m_audioSignalNotifier->updateSignalValue(audioChNum, 0.f);
-    }
-
-    m_isSilent = true;
-}
-
-void SignalNode::notifyAboutAudioSignalChanges()
-{
-    m_audioSignalNotifier->notifyAboutChanges();
-}
-
 AudioSignalChanges SignalNode::audioSignalChanges() const
 {
-    return m_audioSignalNotifier->audioSignalChanges;
+    return m_audioSignalChanges;
 }
 
 void SignalNode::onOutputSpecChanged(const OutputSpec& spec)
@@ -68,6 +46,10 @@ void SignalNode::onOutputSpecChanged(const OutputSpec& spec)
 void SignalNode::doSelfProcess(float* buffer, samples_t samplesPerChannel)
 {
     const audioch_t channelsCount = m_outputSpec.audioChannelCount;
+
+    for (audioch_t ch = 0; ch < channelsCount; ++ch) {
+        m_channelPeaks[ch] = 0.f;
+    }
 
     for (size_t s = 0; s < samplesPerChannel; ++s) {
         const size_t frameOffset = s * channelsCount;
@@ -86,6 +68,35 @@ void SignalNode::doSelfProcess(float* buffer, samples_t samplesPerChannel)
         if (peak > 0.f) {
             m_isSilent = false;
         }
-        m_audioSignalNotifier->updateSignalValue(ch, peak);
+        updateSignalValue(ch, peak);
+    }
+
+    notifyAboutChanges();
+}
+
+void SignalNode::updateSignalValue(const audioch_t ch, const float newPeak)
+{
+    volume_dbfs_t newPressure = (newPeak > 0.f) ? volume_dbfs_t(muse::linear_to_db(newPeak)) : MINIMUM_OPERABLE_DBFS_LEVEL;
+    newPressure = std::max(newPressure, MINIMUM_OPERABLE_DBFS_LEVEL);
+
+    AudioSignalVal& signalVal = m_signalValuesMap[ch];
+
+    if (muse::is_equal(signalVal.pressure, newPressure)) {
+        return;
+    }
+
+    if (std::abs(signalVal.pressure - newPressure) < PRESSURE_MINIMAL_VALUABLE_DIFF) {
+        return;
+    }
+
+    signalVal.pressure = newPressure;
+    m_shouldNotifyAboutChanges = true;
+}
+
+void SignalNode::notifyAboutChanges()
+{
+    if (m_shouldNotifyAboutChanges) {
+        m_audioSignalChanges.send(m_signalValuesMap);
+        m_shouldNotifyAboutChanges = false;
     }
 }

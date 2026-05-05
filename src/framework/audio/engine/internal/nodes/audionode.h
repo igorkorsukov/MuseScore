@@ -42,7 +42,8 @@ class IAudioNode : public std::enable_shared_from_this<IAudioNode>
 public:
     virtual ~IAudioNode() = default;
 
-    virtual std::string name() const = 0;
+    virtual void setName(const std::string& name) = 0;
+    virtual const std::string& name() const = 0;
 
     virtual void setOutputSpec(const OutputSpec& spec) = 0;
     virtual const OutputSpec& outputSpec() const = 0;
@@ -91,7 +92,8 @@ class AudioNode : public IAudioNode
 {
 public:
 
-    std::string name() const final override;
+    void setName(const std::string& name) override;
+    const std::string& name() const override;
 
     void setOutputSpec(const OutputSpec& spec) final override;
     const OutputSpec& outputSpec() const final override;
@@ -118,6 +120,8 @@ public:
 
 protected:
 
+    AudioNode();
+
     virtual void onOutputSpecChanged(const OutputSpec& spec) override;
     virtual void onModeChanged(const ProcessMode mode) override;
     virtual void onEnabledChanged(bool enabled) override;
@@ -128,6 +132,7 @@ protected:
 
     // virtual void doSelfProcess(float* buffer, samples_t samplesPerChannel) = 0;
 
+    std::string m_name;
     OutputSpec m_outputSpec;
     ProcessMode m_mode = ProcessMode::Undefined;
     bool m_enabled = true;
@@ -138,9 +143,21 @@ protected:
 };
 
 template<typename T>
-std::string AudioNode<T>::name() const
+AudioNode<T>::AudioNode()
+    : m_name(T::name)
 {
-    return T::name;
+}
+
+template<typename T>
+void AudioNode<T>::setName(const std::string& name)
+{
+    m_name = name;
+}
+
+template<typename T>
+const std::string& AudioNode<T>::name() const
+{
+    return m_name;
 }
 
 template<typename T>

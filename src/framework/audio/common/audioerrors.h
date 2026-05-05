@@ -64,6 +64,7 @@ enum class Err {
     AudioContextAlreadyExists = 354,
     InvalidContext = 355,
     InvalidRpcData = 356,
+    NoSignalNode = 357,
 
     // clock
     InvalidTimeLoop = 360,

@@ -131,8 +131,10 @@ private:
 
     enum class TrackType {
         Undefined = -1,
+        Master_track,
         Event_track,
-        Sound_track
+        Sound_track,
+        Aux_track
     };
 
     struct Track
@@ -147,6 +149,7 @@ private:
     void onOutputSpecChanged(const OutputSpec& spec) override;
     void onModeChanged(const ProcessMode mode) override;
     void onOutputParamsChanged(Track& track, const AudioOutputParams& requiredParams);
+    void onMasterOutputParamsChanged(Track& track, const AudioOutputParams& requiredParams);
     void updateNonMutedTrackCount();
 
     TrackId newTrackId() const;
@@ -171,15 +174,16 @@ private:
 
     std::shared_ptr<ContextPlayer> m_player;
     PlayheadNodePtr m_playheadNode;
-    TrackChainPtr m_masterTrackChain;
     std::shared_ptr<Mixer> m_mixer;
 
+    Track m_masterTrack;
     std::vector<Track> m_tracks;
     async::Channel<TrackId> m_trackAdded;
     async::Channel<TrackId> m_trackRemoved;
 
     async::Channel<TrackId, AudioInputParams> m_inputParamsChanged;
     async::Channel<TrackId, AudioOutputParams> m_outputParamsChanged;
+    async::Channel<AudioOutputParams> m_masterOutputParamsChanged;
 
     // -----
     void onShouldProcessDuringSilenceChanged(const TrackId trackId, bool shouldProcess);
