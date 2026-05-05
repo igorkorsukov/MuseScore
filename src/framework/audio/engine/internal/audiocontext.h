@@ -171,6 +171,7 @@ private:
 
     std::shared_ptr<ContextPlayer> m_player;
     PlayheadNodePtr m_playheadNode;
+    TrackChainPtr m_masterTrackChain;
     std::shared_ptr<Mixer> m_mixer;
 
     std::vector<Track> m_tracks;

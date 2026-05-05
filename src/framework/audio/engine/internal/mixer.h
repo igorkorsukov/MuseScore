@@ -62,13 +62,6 @@ public:
 
     void setPlayhead(PlayheadPtr playhead);
 
-    AudioOutputParams masterOutputParams() const;
-    void setMasterOutputParams(const AudioOutputParams& params);
-    void clearMasterOutputParams();
-    async::Channel<AudioOutputParams> masterOutputParamsChanged() const;
-
-    AudioSignalChanges masterAudioSignalChanges() const;
-
     void setIsIdle(bool idle);
     void setTracksToProcessWhenIdle(const std::unordered_set<TrackId>& trackIds);
     void setNonMutedTrackCount(size_t count);
@@ -90,7 +83,6 @@ private:
 >>>>>>> 311457d45c ([audio] replaced mixchannel on trackchain)
     void writeTrackToAuxBuffers(const float* trackBuffer, size_t outBufferSize, const AuxSendsParams& auxSends);
     void processAuxChannels(float* buffer, samples_t samplesPerChannel);
-    void processMasterFx(float* buffer, samples_t samplesPerChannel);
 
     bool useMultithreading() const;
 
@@ -98,12 +90,6 @@ private:
     void notifyNoAudioSignal();
 
     TaskScheduler* m_taskScheduler = nullptr;
-
-    size_t m_nonMutedTrackCount = 0;
-
-    AudioOutputParams m_masterParams;
-    async::Channel<AudioOutputParams> m_masterOutputParamsChanged;
-    FxChainPtr m_masterFxChain;
 
     struct TrackData {
         TrackId trackId;
@@ -116,13 +102,10 @@ private:
     std::vector<TrackData> m_auxTracks;
     std::map<TrackId, AuxSendsParams> m_auxSends;
 
+    size_t m_nonMutedTrackCount = 0;
     std::unordered_set<TrackId> m_tracksToProcessWhenIdle;
 
     std::shared_ptr<IPlayhead> m_playhead;
-
-    bool m_chainProcessing = false;
-    SignalNodePtr m_signalNode;
-    ControlNodePtr m_controlNode;
 
     bool m_isIdle = false;
 };

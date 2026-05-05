@@ -58,13 +58,6 @@ void Mixer::init()
 
     AudioSanitizer::setMixerThreads(m_taskScheduler->threadIdSet());
 #endif
-
-    //! Make the chain: audiocontext <- signalnode <- controlnode <- mixerchannel[n]
-    m_signalNode = std::make_shared<SignalNode>();
-    m_controlNode = std::make_shared<ControlNode>();
-
-    m_controlNode->connect(m_signalNode);
-    this->connect(m_controlNode);
 }
 
 Ret Mixer::addChannel(TrackChainPtr trackChain, const AuxSendsParams& auxSends)
@@ -122,10 +115,6 @@ Ret Mixer::removeChannel(const TrackId trackId)
 void Mixer::onOutputSpecChanged(const OutputSpec& spec)
 {
     ONLY_AUDIO_ENGINE_THREAD;
-
-    m_signalNode->setOutputSpec(spec);
-    m_controlNode->setOutputSpec(spec);
-
     for (auto& t : m_tracks) {
         t.chain->setOutputSpec(spec);
     }
@@ -133,47 +122,17 @@ void Mixer::onOutputSpecChanged(const OutputSpec& spec)
     for (auto& t : m_auxTracks) {
         t.chain->setOutputSpec(spec);
     }
-
-    if (m_masterFxChain) {
-        m_masterFxChain->setOutputSpec(spec);
-    }
 }
 
-void Mixer::process(float* buffer, samples_t samplesPerChannel)
+void Mixer::process(float* outBuffer, samples_t samplesPerChannel)
 {
     ONLY_AUDIO_PROC_THREAD;
 
-    //! NOTE Temporary hack
-    // audiocontext -> mixer(process->doProcess)
-    // -> m_signalNode
-    // -> m_controlNode
-    // -> mixer (process->doProcess->doSelfProcess)
-
-    if (!m_chainProcessing) {
-        m_chainProcessing = true;
-        m_signalNode->process(buffer, samplesPerChannel);
-        m_chainProcessing = false;
-    } else {
-        doSelfProcess(buffer, samplesPerChannel);
-    }
-}
-
-void Mixer::doSelfProcess(float* outBuffer, samples_t samplesPerChannel)
-{
-    ONLY_AUDIO_PROC_THREAD;
-
-    size_t outBufferSize = samplesPerChannel * m_outputSpec.audioChannelCount;
-    std::fill(outBuffer, outBuffer + outBufferSize, 0.f);
-
-    bool procFxOnSilence = false;
-    if (m_masterFxChain) {
-        procFxOnSilence = m_masterFxChain->shouldProcessDuringSilence();
-    }
-
-    if (m_isIdle && m_tracksToProcessWhenIdle.empty() && (m_signalNode->isSilent() && !procFxOnSilence)) {
-        notifyNoAudioSignal();
+    if (!m_enabled) {
         return;
     }
+
+    const size_t outBufferSize = samplesPerChannel * m_outputSpec.audioChannelCount;
 
     processTrackChannels(outBufferSize, samplesPerChannel);
 

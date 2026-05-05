@@ -45,6 +45,8 @@ AudioContext::AudioContext(const AudioCtxId& ctxId)
 
     m_playheadNode = std::make_shared<PlayheadNode>(std::static_pointer_cast<IPlayhead>(m_player));
     m_mixer = std::make_shared<Mixer>();
+
+    m_masterTrackChain = std::make_shared<TrackChain>(INVALID_TRACK_ID);
 }
 
 AudioCtxId AudioContext::id() const
@@ -57,8 +59,18 @@ Ret AudioContext::init()
     m_mixer->init();
     m_mixer->setPlayhead(std::static_pointer_cast<IPlayhead>(m_player));
 
-    // Make the chain: audiocontext <- playheadnode <- mixer
-    m_mixer->connect(m_playheadNode);
+    // Make the chain: audiocontext <- playheadnode
+    // <- mastertrackchain <- mastersignalnode <- mastercontrolnode <- masterfxchain
+    // <- mixer
+    m_masterTrackChain->setSource(m_mixer);
+    m_masterTrackChain->setFxChain(nullptr); //!< NOTE Master fx chain is not used yet
+    m_masterTrackChain->setControl(std::make_shared<ControlNode>());
+    m_masterTrackChain->setSignal(std::make_shared<SignalNode>());
+    m_masterTrackChain->rebuild();
+
+    m_masterTrackChain->connect(m_playheadNode);
+
+    LOGD() << "Master track chain: " << m_playheadNode->dump();
 
     OutputSpec outputSpec = audioEngine()->outputSpec();
     setOutputSpec(outputSpec);

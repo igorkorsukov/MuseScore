@@ -56,13 +56,13 @@ TrackId TrackChain::trackId() const
     return m_trackId;
 }
 
-void TrackChain::setSource(AudioSourceNodePtr source)
+void TrackChain::setSource(IAudioNodePtr source)
 {
     clear();
     m_source = source;
 }
 
-AudioSourceNodePtr TrackChain::source() const
+IAudioNodePtr TrackChain::source() const
 {
     return m_source;
 }

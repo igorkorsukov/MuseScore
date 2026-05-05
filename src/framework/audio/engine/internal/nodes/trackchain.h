@@ -46,8 +46,8 @@ public:
 
     TrackId trackId() const;
 
-    void setSource(AudioSourceNodePtr source);
-    AudioSourceNodePtr source() const;
+    void setSource(IAudioNodePtr source);
+    IAudioNodePtr source() const;
 
     void setFxChain(FxChainPtr fxChain);
     FxChainPtr fxChain() const;
@@ -66,7 +66,7 @@ protected:
 
     TrackId m_trackId = INVALID_TRACK_ID;
 
-    AudioSourceNodePtr m_source;
+    IAudioNodePtr m_source;
     FxChainPtr m_fxChain;
     ControlNodePtr m_control;
     SignalNodePtr m_signal;
