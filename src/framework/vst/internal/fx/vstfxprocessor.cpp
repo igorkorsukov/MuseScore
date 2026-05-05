@@ -74,7 +74,7 @@ AudioFxType VstFxProcessor::type() const
 std::string VstFxProcessor::name() const
 {
     std::string pname;
-    if (!m_pluginPtr) {
+    if (m_pluginPtr) {
         pname = m_pluginPtr->name();
     }
 

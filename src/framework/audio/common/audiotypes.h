@@ -26,6 +26,7 @@
 #include <set>
 #include <string>
 #include <cmath>
+#include <sstream>
 
 #include "global/types/number.h"
 #include "global/types/secs.h"
@@ -63,6 +64,7 @@ using PlaybackData = std::variant<mpe::PlaybackData, io::IODevice*>;
 using PlaybackSetupData = mpe::PlaybackSetupData;
 
 static constexpr TrackId INVALID_TRACK_ID = -1;
+static constexpr TrackId MASTER_TRACK_ID = 0;
 
 static constexpr char DEFAULT_DEVICE_ID[] = "default";
 
@@ -90,6 +92,15 @@ struct OutputSpec {
     }
 
     inline bool operator!=(const OutputSpec& other) const { return !this->operator==(other); }
+
+    std::string dump() const
+    {
+        std::stringstream ss;
+        ss << "sampleRate: " << sampleRate
+           << ", samplesPerChannel: " << samplesPerChannel
+           << ", audioChannelCount: " << audioChannelCount;
+        return ss.str();
+    }
 };
 
 enum class SoundTrackType {
@@ -341,24 +352,21 @@ struct AuxSendParams {
 
 using AuxSendsParams = std::vector<AuxSendParams>;
 
-struct AudioOutputParams {
-    AudioFxChain fxChain;
+struct ControlParams {
     volume_db_t volume = 0.f;
     balance_t balance = 0.f;
-    AuxSendsParams auxSends;
-    bool solo = false;
     bool muted = false;
-    bool forceMute = false;
 
-    bool operator ==(const AudioOutputParams& other) const
+    bool operator ==(const ControlParams& other) const
     {
-        return fxChain == other.fxChain
-               && RealIsEqual(volume, other.volume)
-               && RealIsEqual(balance, other.balance)
-               && auxSends == other.auxSends
-               && solo == other.solo
-               && muted == other.muted
-               && forceMute == other.forceMute;
+        return muted == other.muted
+               && muse::is_equal(volume, other.volume)
+               && muse::is_equal(balance, other.balance);
+    }
+
+    bool operator !=(const ControlParams& other) const
+    {
+        return !this->operator==(other);
     }
 };
 
@@ -406,13 +414,17 @@ struct AudioSourceParams {
                && resourceMeta == other.resourceMeta
                && configuration == other.configuration;
     }
+
+    bool operator !=(const AudioSourceParams& other) const { return !this->operator==(other); }
 };
 
 using AudioInputParams = AudioSourceParams;
 
-struct AudioParams {
-    AudioInputParams in;
-    AudioOutputParams out;
+struct TrackParams {
+    AudioInputParams source;
+    AudioFxChain fxChain;
+    AuxSendsParams auxSends;
+    ControlParams control;
 };
 
 struct AudioSignalVal {
@@ -475,6 +487,17 @@ enum class ProcessMode {
     Playing,
     PlayingOffline
 };
+
+inline std::string to_string(ProcessMode mode)
+{
+    switch (mode) {
+    case ProcessMode::Undefined: return "Undefined";
+    case ProcessMode::Idle: return "Idle";
+    case ProcessMode::Playing: return "Playing";
+    case ProcessMode::PlayingOffline: return "PlayingOffline";
+    }
+    return "Unknown";
+}
 
 inline bool isModePlaying(ProcessMode mode)
 {

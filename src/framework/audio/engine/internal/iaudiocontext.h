@@ -38,11 +38,16 @@ public:
     virtual Ret init() = 0;
     virtual void deinit() = 0;
 
+    // Resources
+    virtual AudioResourceMetaList availableInputResources() const = 0;
+    virtual SoundPresetList availableSoundPresets(const AudioResourceMeta& resourceMeta) const = 0;
+    virtual AudioResourceMetaList availableOutputResources() const = 0;
+
     // Tracks
-    virtual RetVal2<TrackId, AudioParams> addTrack(const TrackName& trackName, io::IODevice* playbackData, const AudioParams& params) = 0;
-    virtual RetVal2<TrackId, AudioParams> addTrack(const TrackName& trackName, const mpe::PlaybackData& playbackData,
-                                                   const AudioParams& params) = 0;
-    virtual RetVal2<TrackId, AudioOutputParams> addAuxTrack(const TrackName& trackName, const AudioOutputParams& outputParams) = 0;
+    virtual RetVal2<TrackId, TrackParams> addTrack(const TrackName& trackName, io::IODevice* playbackData, const TrackParams& params) = 0;
+    virtual RetVal2<TrackId, TrackParams> addTrack(const TrackName& trackName, const mpe::PlaybackData& playbackData,
+                                                   const TrackParams& params) = 0;
+    virtual RetVal2<TrackId, TrackParams> addAuxTrack(const TrackName& trackName, const TrackParams& params) = 0;
 
     virtual void removeTrack(const TrackId trackId) = 0;
     virtual void removeAllTracks() = 0;
@@ -53,35 +58,28 @@ public:
     virtual RetVal<TrackIdList> trackIdList() const = 0;
     virtual RetVal<TrackName> trackName(const TrackId trackId) const = 0;
 
-    // Sources
-    virtual AudioResourceMetaList availableInputResources() const = 0;
-    virtual SoundPresetList availableSoundPresets(const AudioResourceMeta& resourceMeta) const = 0;
+    // Params
+    virtual RetVal<TrackParams> params(const TrackId trackId) const = 0;
+    virtual void setSourceParams(const TrackId trackId, const AudioSourceParams& params) = 0;
+    virtual void setControlParams(const TrackId trackId, const ControlParams& params) = 0;
+    virtual void setFxChainParams(const TrackId trackId, const AudioFxChain& params) = 0;
+    virtual void setAuxSendsParams(const TrackId trackId, const AuxSendsParams& params) = 0;
 
-    virtual RetVal<AudioInputParams> inputParams(const TrackId trackId) const = 0;
-    virtual void setInputParams(const TrackId trackId, const AudioInputParams& params) = 0;
-    virtual async::Channel<TrackId, AudioInputParams> inputParamsChanged() const = 0;
+    virtual async::Channel<TrackId, AudioSourceParams> sourceParamsChanged() const = 0;
+    virtual async::Channel<TrackId, AudioFxChain> fxChainParamsChanged() const = 0;
 
+    // Input processing
     virtual void processInput(const TrackId trackId) const = 0;
     virtual RetVal<InputProcessingProgress> inputProcessingProgress(const TrackId trackId) const = 0;
 
+    // Clear
     virtual void clearCache(const TrackId trackId) const = 0;
     virtual void clearSources() = 0;
-
-    // Outputs
-    virtual AudioResourceMetaList availableOutputResources() const = 0;
-
-    virtual RetVal<AudioOutputParams> outputParams(const TrackId trackId) const = 0;
-    virtual void setOutputParams(const TrackId trackId, const AudioOutputParams& params) = 0;
-    virtual async::Channel<TrackId, AudioOutputParams> outputParamsChanged() const = 0;
-    virtual RetVal<AudioSignalChanges> signalChanges(const TrackId trackId) const = 0;
-
-    virtual RetVal<AudioOutputParams> masterOutputParams() const = 0;
-    virtual void setMasterOutputParams(const AudioOutputParams& params) = 0;
     virtual void clearMasterOutputParams() = 0;
-    virtual async::Channel<AudioOutputParams> masterOutputParamsChanged() const = 0;
-    virtual RetVal<AudioSignalChanges> masterSignalChanges() const = 0;
-
     virtual void clearAllFx() = 0;
+
+    // Signals
+    virtual RetVal<AudioSignalChanges> signalChanges(const TrackId trackId) const = 0;
 
     // Play
     virtual async::Promise<Ret> prepareToPlay() = 0;

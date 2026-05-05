@@ -222,7 +222,7 @@ private:
     void addAuxTrack(muse::audio::aux_channel_idx_t index, const TrackAddFinished& onFinished);
 
     void setTrackActivity(const engraving::InstrumentTrackId& instrumentTrackId, const bool isActive);
-    muse::audio::AudioOutputParams trackOutputParams(const engraving::InstrumentTrackId& instrumentTrackId) const;
+    project::AudioOutputParams trackOutputParams(const engraving::InstrumentTrackId& instrumentTrackId) const;
     void removeTrack(const engraving::InstrumentTrackId& instrumentTrackId);
 
     void onTrackNewlyAdded(const engraving::InstrumentTrackId& instrumentTrackId);

@@ -73,7 +73,7 @@ Ret Mixer::addTrack(TrackChainPtr trackChain, const AuxSendsParams& auxSends)
 
     m_tracks.emplace_back(std::move(trackData));
 
-    m_auxSends[trackChain->trackId()] = auxSends;
+    setAuxSends(trackData.trackId, auxSends);
 
     return make_ok();
 }
@@ -112,6 +112,12 @@ Ret Mixer::removeTrack(const TrackId trackId)
     }
 
     return removed ? make_ret(Ret::Code::Ok) : make_ret(Err::InvalidTrackId);
+}
+
+void Mixer::setAuxSends(const TrackId trackId, const AuxSendsParams& auxSends)
+{
+    ONLY_AUDIO_ENGINE_THREAD;
+    m_auxSends[trackId] = auxSends;
 }
 
 void Mixer::onOutputSpecChanged(const OutputSpec& spec)

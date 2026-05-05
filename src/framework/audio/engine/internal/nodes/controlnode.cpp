@@ -50,12 +50,12 @@ float ControlNode::pan() const
     return m_pan;
 }
 
-void ControlNode::setMute(bool mute)
+void ControlNode::setMuted(bool muted)
 {
-    setEnabled(!mute);
+    setEnabled(!muted);
 }
 
-bool ControlNode::mute() const
+bool ControlNode::muted() const
 {
     return !enabled();
 }

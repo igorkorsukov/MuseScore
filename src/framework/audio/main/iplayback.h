@@ -45,22 +45,26 @@ class IPlayback : MODULE_CONTEXT_INTERFACE
 public:
     virtual ~IPlayback() = default;
 
-    // A quick guide how to playback something:
-
-    // 1. Init
+    // Init
     virtual async::Promise<Ret> init() = 0;
     virtual bool isInited() const = 0;
     virtual async::Channel<bool> initedChanged() const = 0;
     virtual void deinit() = 0;
 
-    // 2. Setup tracks
+    // Resources
+    virtual async::Promise<AudioResourceMetaList> availableInputResources() const = 0;
+    virtual async::Promise<SoundPresetList> availableSoundPresets(const AudioResourceMeta& resourceMeta) const = 0;
+    virtual async::Promise<AudioResourceMetaList> availableOutputResources() const = 0;
+
+    // Setup tracks
     virtual async::Promise<TrackIdList> trackIdList() const = 0;
     virtual async::Promise<RetVal<TrackName> > trackName(const TrackId trackId) const = 0;
 
-    virtual async::Promise<TrackId, AudioParams> addTrack(const TrackName& name, io::IODevice* data, AudioParams&& params) = 0;
-    virtual async::Promise<TrackId, AudioParams> addTrack(const TrackName& name, const mpe::PlaybackData& data, AudioParams&& params) = 0;
+    virtual async::Promise<TrackId, TrackParams> addTrack(const TrackName& name, io::IODevice* data, const TrackParams& params) = 0;
+    virtual async::Promise<TrackId, TrackParams> addTrack(const TrackName& name, const mpe::PlaybackData& data,
+                                                          const TrackParams& params) = 0;
 
-    virtual async::Promise<TrackId, AudioOutputParams> addAuxTrack(const TrackName& trackName, const AudioOutputParams& outputParams) = 0;
+    virtual async::Promise<TrackId, TrackParams> addAuxTrack(const TrackName& trackName, const TrackParams& params) = 0;
 
     virtual void removeTrack(const TrackId trackId) = 0;
     virtual void removeAllTracks() = 0;
@@ -68,42 +72,47 @@ public:
     virtual async::Channel<TrackId> trackAdded() const = 0;
     virtual async::Channel<TrackId> trackRemoved() const = 0;
 
-    virtual async::Promise<AudioResourceMetaList> availableInputResources() const = 0;
-    virtual async::Promise<SoundPresetList> availableSoundPresets(const AudioResourceMeta& resourceMeta) const = 0;
+    // Params
+    // Get all params
+    virtual async::Promise<TrackParams> params(const TrackId trackId) const = 0;
 
-    virtual async::Promise<AudioInputParams> inputParams(const TrackId trackId) const = 0;
-    virtual void setInputParams(const TrackId trackId, const AudioInputParams& params) = 0;
-    virtual async::Channel<TrackId, AudioInputParams> inputParamsChanged() const = 0;
+    // Set some params
+    virtual void setSourceParams(const TrackId trackId, const AudioSourceParams& params) = 0;
+    virtual void setControlParams(const TrackId trackId, const ControlParams& params) = 0;
+    virtual void setFxChainParams(const TrackId trackId, const AudioFxChain& params) = 0;
+    virtual void setAuxSendsParams(const TrackId trackId, const AuxSendsParams& params) = 0;
 
+    // These parameters can be changed within the audio system.
+    virtual async::Channel<TrackId, AudioSourceParams> sourceParamsChanged() const = 0;
+    virtual async::Channel<TrackId, AudioFxChain> fxChainParamsChanged() const = 0;
+
+    // Same for master
+    virtual async::Promise<TrackParams> masterParams() const = 0;
+    virtual void setMasterControlParams(const ControlParams& params) = 0;
+    virtual void setMasterFxChainParams(const AudioFxChain& params) = 0;
+    virtual void setMasterAuxSendsParams(const AuxSendsParams& params) = 0;
+    virtual async::Channel<AudioFxChain> masterFxChainParamsChanged() const = 0;
+
+    // Input processing
     virtual void processInput(const TrackId trackId) const = 0;
     virtual async::Promise<InputProcessingProgress> inputProcessingProgress(const TrackId trackId) const = 0;
 
     virtual void clearCache(const TrackId trackId) const = 0;
     virtual void clearSources() = 0;
+    virtual void clearMasterOutputParams() = 0;
+    virtual void clearAllFx() = 0;
 
-    // 3. Play
+    // Play
     virtual std::shared_ptr<IPlayer> player() const = 0;
 
-    // 4. Adjust output
-    virtual async::Promise<AudioOutputParams> outputParams(const TrackId trackId) const = 0;
-    virtual void setOutputParams(const TrackId trackId, const AudioOutputParams& params) = 0;
-    virtual async::Channel<TrackId, AudioOutputParams> outputParamsChanged() const = 0;
-
-    virtual async::Promise<AudioOutputParams> masterOutputParams() const = 0;
-    virtual void setMasterOutputParams(const AudioOutputParams& params) = 0;
-    virtual void clearMasterOutputParams() = 0;
-    virtual async::Channel<AudioOutputParams> masterOutputParamsChanged() const = 0;
-
-    virtual async::Promise<AudioResourceMetaList> availableOutputResources() const = 0;
-
+    // Signal changes
     virtual async::Promise<AudioSignalChanges> signalChanges(const TrackId trackId) const = 0;
     virtual async::Promise<AudioSignalChanges> masterSignalChanges() const = 0;
 
+    // Export
     virtual async::Promise<bool> saveSoundTrack(const SoundTrackFormat& format, io::IODevice& dstDevice) = 0;
     virtual void abortSavingAllSoundTracks() = 0;
     virtual SaveSoundTrackProgress saveSoundTrackProgressChanged() const = 0;
-
-    virtual void clearAllFx() = 0;
 };
 
 using IPlaybackPtr = std::shared_ptr<IPlayback>;

@@ -66,6 +66,11 @@ enum class MsgCode {
     // AudioEngine
     SetOutputSpec,
 
+    // Resources
+    GetAvailableInputResources,
+    GetAvailableSoundPresets,
+    GetAvailableOutputResources,
+
     // Tracks
     RemoveTrack,
     RemoveAllTracks,
@@ -78,19 +83,25 @@ enum class MsgCode {
     TrackAdded,
     TrackRemoved,
 
-    GetAvailableInputResources,
-    GetAvailableSoundPresets,
-
-    GetInputParams,
-    SetInputParams,
-    GetInputProcessingProgress,
+    // Params
+    GetTrackParams,
+    SetSourceParams,
+    SetControlParams,
+    SetFxChainParams,
+    SetAuxSendsParams,
     // notification
-    InputParamsChanged,
+    SourceParamsChanged,
+    FxChainParamsChanged,
 
+    // Input processing
+    GetInputProcessingProgress,
     ProcessInput,
 
+    // Clear
     ClearCache,
     ClearSources,
+    ClearMasterOutputParams,
+    ClearAllFx,
 
     // Play
     PrepareToPlay,
@@ -105,26 +116,13 @@ enum class MsgCode {
     GetPlaybackStatus,
     GetPlaybackPosition,
 
-    // Output
-    GetOutputParams,
-    SetOutputParams,
-    GetMasterOutputParams,
-    SetMasterOutputParams,
-    ClearMasterOutputParams,
-    // notification
-    OutputParamsChanged,
-    MasterOutputParamsChanged,
-
+    // Signals
     GetSignalChanges,
-    GetMasterSignalChanges,
 
-    GetAvailableOutputResources,
-
+    // Export
     SaveSoundTrack,
     AbortSavingAllSoundTracks,
     GetSaveSoundTrackProgress,
-
-    ClearAllFx,
 
     // SoundFont
     LoadSoundFonts,
@@ -165,6 +163,11 @@ inline std::string to_string(MsgCode m)
     // AudioEngine
     case MsgCode::SetOutputSpec: return "SetOutputSpec";
 
+    // Resources
+    case MsgCode::GetAvailableInputResources: return "GetAvailableInputResources";
+    case MsgCode::GetAvailableSoundPresets: return "GetAvailableSoundPresets";
+    case MsgCode::GetAvailableOutputResources: return "GetAvailableOutputResources";
+
     // Tracks
     case MsgCode::RemoveTrack: return "RemoveTrack";
     case MsgCode::RemoveAllTracks: return "RemoveAllTracks";
@@ -176,18 +179,25 @@ inline std::string to_string(MsgCode m)
     case MsgCode::TrackAdded: return "TrackAdded";
     case MsgCode::TrackRemoved: return "TrackRemoved";
 
-    case MsgCode::GetAvailableInputResources: return "GetAvailableInputResources";
-    case MsgCode::GetAvailableSoundPresets: return "GetAvailableSoundPresets";
+    // Params
+    case MsgCode::GetTrackParams: return "GetTrackParams";
+    case MsgCode::SetSourceParams: return "SetSourceParams";
+    case MsgCode::SetControlParams: return "SetControlParams";
+    case MsgCode::SetFxChainParams: return "SetFxChainParams";
+    case MsgCode::SetAuxSendsParams: return "SetAuxSendsParams";
+    // notification
+    case MsgCode::SourceParamsChanged: return "SourceParamsChanged";
+    case MsgCode::FxChainParamsChanged: return "FxChainParamsChanged";
 
-    case MsgCode::GetInputParams: return "GetInputParams";
-    case MsgCode::SetInputParams: return "SetInputParams";
+    // Input processing
     case MsgCode::GetInputProcessingProgress: return "GetInputProcessingProgress";
-    case MsgCode::InputParamsChanged: return "InputParamsChanged";
-
     case MsgCode::ProcessInput: return "ProcessInput";
 
+    // Clear
     case MsgCode::ClearCache: return "ClearCache";
     case MsgCode::ClearSources: return "ClearSources";
+    case MsgCode::ClearMasterOutputParams: return "ClearMasterOutputParams";
+    case MsgCode::ClearAllFx: return "ClearAllFx";
 
     // Play
     case MsgCode::PrepareToPlay: return "PrepareToPlay";
@@ -202,25 +212,12 @@ inline std::string to_string(MsgCode m)
     case MsgCode::GetPlaybackStatus: return "GetPlaybackStatus";
     case MsgCode::GetPlaybackPosition: return "GetPlaybackPosition";
 
-    // Output
-    case MsgCode::GetOutputParams: return "GetOutputParams";
-    case MsgCode::SetOutputParams: return "SetOutputParams";
-    case MsgCode::GetMasterOutputParams: return "GetMasterOutputParams";
-    case MsgCode::SetMasterOutputParams: return "SetMasterOutputParams";
-    case MsgCode::ClearMasterOutputParams: return "ClearMasterOutputParams";
-    case MsgCode::OutputParamsChanged: return "OutputParamsChanged";
-    case MsgCode::MasterOutputParamsChanged: return "MasterOutputParamsChanged";
-
+    // Signals
     case MsgCode::GetSignalChanges: return "GetSignalChanges";
-    case MsgCode::GetMasterSignalChanges: return "GetMasterSignalChanges";
-
-    case MsgCode::GetAvailableOutputResources: return "GetAvailableOutputResources";
 
     case MsgCode::SaveSoundTrack: return "SaveSoundTrack";
     case MsgCode::AbortSavingAllSoundTracks: return "AbortSavingAllSoundTracks";
     case MsgCode::GetSaveSoundTrackProgress: return "GetSaveSoundTrackProgress";
-
-    case MsgCode::ClearAllFx: return "ClearAllFx";
 
     // SoundFont
     case MsgCode::LoadSoundFonts: return "LoadSoundFonts";

@@ -45,18 +45,17 @@ void unpack_custom(muse::msgpack::UnPacker& p, muse::audio::AudioFxCategory& val
 void pack_custom(muse::msgpack::Packer& p, const muse::audio::AudioResourceMeta& value);
 void unpack_custom(muse::msgpack::UnPacker& p, muse::audio::AudioResourceMeta& value);
 
-void pack_custom(muse::msgpack::Packer& p, const muse::audio::AudioFxParams& value);
-void unpack_custom(muse::msgpack::UnPacker& p, muse::audio::AudioFxParams& value);
-
-void pack_custom(muse::msgpack::Packer& p, const muse::audio::AuxSendParams& value);
-void unpack_custom(muse::msgpack::UnPacker& p, muse::audio::AuxSendParams& value);
-
+// Params
 void pack_custom(muse::msgpack::Packer& p, const muse::audio::AudioSourceParams& value);
 void unpack_custom(muse::msgpack::UnPacker& p, muse::audio::AudioSourceParams& value);
-void pack_custom(muse::msgpack::Packer& p, const muse::audio::AudioOutputParams& value);
-void unpack_custom(muse::msgpack::UnPacker& p, muse::audio::AudioOutputParams& value);
-void pack_custom(muse::msgpack::Packer& p, const muse::audio::AudioParams& value);
-void unpack_custom(muse::msgpack::UnPacker& p, muse::audio::AudioParams& value);
+void pack_custom(muse::msgpack::Packer& p, const muse::audio::AudioFxParams& value);
+void unpack_custom(muse::msgpack::UnPacker& p, muse::audio::AudioFxParams& value);
+void pack_custom(muse::msgpack::Packer& p, const muse::audio::AuxSendParams& value);
+void unpack_custom(muse::msgpack::UnPacker& p, muse::audio::AuxSendParams& value);
+void pack_custom(muse::msgpack::Packer& p, const muse::audio::ControlParams& value);
+void unpack_custom(muse::msgpack::UnPacker& p, muse::audio::ControlParams& value);
+void pack_custom(muse::msgpack::Packer& p, const muse::audio::TrackParams& value);
+void unpack_custom(muse::msgpack::UnPacker& p, muse::audio::TrackParams& value);
 
 void pack_custom(muse::msgpack::Packer& p, const muse::audio::SoundPreset& value);
 void unpack_custom(muse::msgpack::UnPacker& p, muse::audio::SoundPreset& value);
@@ -215,24 +214,24 @@ inline void unpack_custom(muse::msgpack::UnPacker& p, muse::audio::AuxSendParams
     p.process(value.signalAmount, value.active);
 }
 
-inline void pack_custom(muse::msgpack::Packer& p, const muse::audio::AudioOutputParams& value)
+inline void pack_custom(muse::msgpack::Packer& p, const muse::audio::ControlParams& value)
 {
-    p.process(value.fxChain, value.volume, value.balance,  value.auxSends, value.solo, value.muted, value.forceMute);
+    p.process(value.volume, value.balance, value.muted);
 }
 
-inline void unpack_custom(muse::msgpack::UnPacker& p, muse::audio::AudioOutputParams& value)
+inline void unpack_custom(muse::msgpack::UnPacker& p, muse::audio::ControlParams& value)
 {
-    p.process(value.fxChain, value.volume, value.balance, value.auxSends, value.solo, value.muted, value.forceMute);
+    p.process(value.volume, value.balance, value.muted);
 }
 
-inline void pack_custom(muse::msgpack::Packer& p, const muse::audio::AudioParams& value)
+inline void pack_custom(muse::msgpack::Packer& p, const muse::audio::TrackParams& value)
 {
-    p.process(value.in, value.out);
+    p.process(value.source, value.fxChain, value.auxSends, value.control);
 }
 
-inline void unpack_custom(muse::msgpack::UnPacker& p, muse::audio::AudioParams& value)
+inline void unpack_custom(muse::msgpack::UnPacker& p, muse::audio::TrackParams& value)
 {
-    p.process(value.in, value.out);
+    p.process(value.source, value.fxChain, value.auxSends, value.control);
 }
 
 inline void pack_custom(muse::msgpack::Packer& p, const muse::audio::SoundPreset& value)

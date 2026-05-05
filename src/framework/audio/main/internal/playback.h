@@ -44,20 +44,24 @@ public:
     Playback(const muse::modularity::ContextPtr& ctx)
         : Contextable(ctx) {}
 
-    // 1. Init
+    // Init
     async::Promise<Ret> init() override;
     bool isInited() const override;
     async::Channel<bool> initedChanged() const override;
     void deinit() override;
 
-    // 2. Setup tracks
+    // Resources
+    async::Promise<AudioResourceMetaList> availableInputResources() const override;
+    async::Promise<SoundPresetList> availableSoundPresets(const AudioResourceMeta& resourceMeta) const override;
+    async::Promise<AudioResourceMetaList> availableOutputResources() const override;
+
+    // Setup tracks
     async::Promise<TrackIdList> trackIdList() const override;
     async::Promise<RetVal<TrackName> > trackName(const TrackId trackId) const override;
 
-    async::Promise<TrackId, AudioParams> addTrack(const TrackName& name, io::IODevice* data, AudioParams&& params) override;
-    async::Promise<TrackId, AudioParams> addTrack(const TrackName& name, const mpe::PlaybackData& data, AudioParams&& params) override;
-
-    async::Promise<TrackId, AudioOutputParams> addAuxTrack(const TrackName& name, const AudioOutputParams& outputParams) override;
+    async::Promise<TrackId, TrackParams> addTrack(const TrackName& name, io::IODevice* data, const TrackParams& params) override;
+    async::Promise<TrackId, TrackParams> addTrack(const TrackName& name, const mpe::PlaybackData& data, const TrackParams& params) override;
+    async::Promise<TrackId, TrackParams> addAuxTrack(const TrackName& name, const TrackParams& params) override;
 
     void removeTrack(const TrackId trackId) override;
     void removeAllTracks() override;
@@ -65,42 +69,48 @@ public:
     async::Channel<TrackId> trackAdded() const override;
     async::Channel<TrackId> trackRemoved() const override;
 
-    async::Promise<AudioResourceMetaList> availableInputResources() const override;
-    async::Promise<SoundPresetList> availableSoundPresets(const AudioResourceMeta& resourceMeta) const override;
+    // Params
+    // Get all params
+    async::Promise<TrackParams> params(const TrackId trackId) const override;
 
-    async::Promise<AudioInputParams> inputParams(const TrackId trackId) const override;
-    void setInputParams(const TrackId trackId, const AudioInputParams& params) override;
-    async::Channel<TrackId, AudioInputParams> inputParamsChanged() const override;
+    // Set some params
+    void setSourceParams(const TrackId trackId, const AudioSourceParams& params) override;
+    void setControlParams(const TrackId trackId, const ControlParams& params) override;
+    void setFxChainParams(const TrackId trackId, const AudioFxChain& params) override;
+    void setAuxSendsParams(const TrackId trackId, const AuxSendsParams& params) override;
 
+    // These parameters can be changed within the audio system.
+    async::Channel<TrackId, AudioSourceParams> sourceParamsChanged() const override;
+    async::Channel<TrackId, AudioFxChain> fxChainParamsChanged() const override;
+
+    // Same for master
+    async::Promise<TrackParams> masterParams() const override;
+    void setMasterControlParams(const ControlParams& params) override;
+    void setMasterFxChainParams(const AudioFxChain& params) override;
+    void setMasterAuxSendsParams(const AuxSendsParams& params) override;
+    async::Channel<AudioFxChain> masterFxChainParamsChanged() const override;
+
+    // Input processing
     void processInput(const TrackId trackId) const override;
     async::Promise<InputProcessingProgress> inputProcessingProgress(const TrackId trackId) const override;
 
+    // Clear cache
     void clearCache(const TrackId trackId) const override;
     void clearSources() override;
+    void clearMasterOutputParams() override;
+    void clearAllFx() override;
 
-    // 3. Play
+    // Play
     IPlayerPtr player() const override;
 
-    // 4. Adjust output
-    async::Promise<AudioOutputParams> outputParams(const TrackId trackId) const override;
-    void setOutputParams(const TrackId trackId, const AudioOutputParams& params) override;
-    async::Channel<TrackId, AudioOutputParams> outputParamsChanged() const override;
-
-    async::Promise<AudioOutputParams> masterOutputParams() const override;
-    void setMasterOutputParams(const AudioOutputParams& params) override;
-    void clearMasterOutputParams() override;
-    async::Channel<AudioOutputParams> masterOutputParamsChanged() const override;
-
-    async::Promise<AudioResourceMetaList> availableOutputResources() const override;
-
+    // Signal changes
     async::Promise<AudioSignalChanges> signalChanges(const TrackId trackId) const override;
     async::Promise<AudioSignalChanges> masterSignalChanges() const override;
 
+    // Export
     async::Promise<bool> saveSoundTrack(const SoundTrackFormat& format, io::IODevice& dstDevice) override;
     void abortSavingAllSoundTracks() override;
     SaveSoundTrackProgress saveSoundTrackProgressChanged() const override;
-
-    void clearAllFx() override;
 
 private:
 
@@ -110,9 +120,9 @@ private:
 
     async::Channel<TrackId> m_trackAdded;
     async::Channel<TrackId> m_trackRemoved;
-    async::Channel<TrackId, AudioInputParams> m_inputParamsChanged;
-    async::Channel<TrackId, AudioOutputParams> m_outputParamsChanged;
-    async::Channel<AudioOutputParams> m_masterOutputParamsChanged;
+    async::Channel<TrackId, AudioSourceParams> m_sourceParamsChanged;
+    async::Channel<TrackId, AudioFxChain> m_fxChainParamsChanged;
+    async::Channel<AudioFxChain> m_masterFxChainParamsChanged;
 
     mutable bool m_saveSoundTrackProgressStreamInited = false;
     async::Channel<int64_t, int64_t, SaveSoundTrackStage> m_saveSoundTrackProgressStream;

@@ -60,6 +60,8 @@ public:
     Ret addAuxTrack(TrackChainPtr trackChain);
     Ret removeTrack(const TrackId trackId);
 
+    void setAuxSends(const TrackId trackId, const AuxSendsParams& auxSends);
+
     void setTracksToProcessWhenIdle(const std::unordered_set<TrackId>& trackIds);
     void setNonMutedTrackCount(size_t count);
 

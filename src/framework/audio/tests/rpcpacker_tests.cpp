@@ -180,51 +180,47 @@ TEST_F(Audio_RpcPackerTests, AuxSendParams)
     EXPECT_TRUE(origin == unpacked);
 }
 
-TEST_F(Audio_RpcPackerTests, AudioOutputParams)
+TEST_F(Audio_RpcPackerTests, ControlParams)
 {
-    AudioOutputParams origin;
-    origin.fxChain.insert({ 3, {} });
+    ControlParams origin;
     origin.volume = 0.6f;
     origin.balance = 0.5;
-    origin.auxSends.push_back({});
-    origin.forceMute = true;
     origin.muted = true;
-    origin.solo = true;
 
     KNOWN_FIELDS(origin,
-                 origin.fxChain,
                  origin.volume,
                  origin.balance,
-                 origin.auxSends,
-                 origin.forceMute,
-                 origin.muted,
-                 origin.solo);
+                 origin.muted);
 
     ByteArray data = rpc::RpcPacker::pack(origin);
 
-    AudioOutputParams unpacked;
+    ControlParams unpacked;
     bool ok = rpc::RpcPacker::unpack(data, unpacked);
 
     EXPECT_TRUE(ok);
     EXPECT_TRUE(origin == unpacked);
 }
 
-TEST_F(Audio_RpcPackerTests, AudioParams)
+TEST_F(Audio_RpcPackerTests, TrackParams)
 {
-    AudioParams origin;
+    TrackParams origin;
 
     KNOWN_FIELDS(origin,
-                 origin.in,
-                 origin.out);
+                 origin.source,
+                 origin.fxChain,
+                 origin.auxSends,
+                 origin.control);
 
     ByteArray data = rpc::RpcPacker::pack(origin);
 
-    AudioParams unpacked;
+    TrackParams unpacked;
     bool ok = rpc::RpcPacker::unpack(data, unpacked);
 
     EXPECT_TRUE(ok);
-    EXPECT_TRUE(origin.in == unpacked.in);
-    EXPECT_TRUE(origin.out == unpacked.out);
+    EXPECT_TRUE(origin.source == unpacked.source);
+    EXPECT_TRUE(origin.fxChain == unpacked.fxChain);
+    EXPECT_TRUE(origin.auxSends == unpacked.auxSends);
+    EXPECT_TRUE(origin.control == unpacked.control);
 }
 
 TEST_F(Audio_RpcPackerTests, SoundPreset)

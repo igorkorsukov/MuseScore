@@ -274,21 +274,25 @@ void MixerPanelModel::setupConnections()
         }
     });
 
-    playback()->inputParamsChanged().onReceive(this, [this](const TrackId trackId, AudioInputParams params) {
+    playback()->sourceParamsChanged().onReceive(this, [this](const TrackId trackId, const AudioSourceParams& params) {
         if (MixerChannelItem* item = findChannelItem(trackId)) {
             item->loadInputParams(std::move(params));
         }
     });
 
-    playback()->outputParamsChanged().onReceive(this, [this](const TrackId trackId, AudioOutputParams params) {
+    playback()->fxChainParamsChanged().onReceive(this, [this](const TrackId trackId, const AudioFxChain& params) {
         if (MixerChannelItem* item = findChannelItem(trackId)) {
-            loadOutputParams(item, std::move(params));
+            AudioOutputParams outParams = audioSettings()->trackOutputParams(item->instrumentTrackId());
+            outParams.fxChain = params;
+            loadOutputParams(item, std::move(outParams));
         }
     });
 
-    playback()->masterOutputParamsChanged().onReceive(this, [this](AudioOutputParams params) {
+    playback()->masterFxChainParamsChanged().onReceive(this, [this](const AudioFxChain& params) {
         if (m_masterChannelItem) {
-            loadOutputParams(m_masterChannelItem, std::move(params));
+            AudioOutputParams outParams = audioSettings()->masterAudioOutputParams();
+            outParams.fxChain = params;
+            loadOutputParams(m_masterChannelItem, std::move(outParams));
         }
     }, Asyncable::Mode::SetReplace);
 
@@ -411,10 +415,16 @@ MixerChannelItem* MixerPanelModel::buildInstrumentChannelItem(const TrackId trac
     item->setPanelSection(m_navigationSection);
     item->loadSoloMuteState(controller()->trackSoloMuteState(instrumentTrackId));
 
-    playback()->inputParams(trackId)
-    .onResolve(this, [this, trackId](AudioInputParams inParams) {
+    playback()->params(trackId)
+    .onResolve(this, [this, trackId, instrumentTrackId](const TrackParams& params) {
         if (MixerChannelItem* item = findChannelItem(trackId)) {
-            item->loadInputParams(std::move(inParams));
+            item->loadInputParams(std::move(params.source));
+
+            AudioOutputParams outParams = audioSettings()->trackOutputParams(instrumentTrackId);
+            outParams.fxChain = params.fxChain;
+            outParams.auxSends = params.auxSends;
+            outParams.setControl(params.control);
+            loadOutputParams(item, std::move(outParams));
         }
     })
     .onReject(this, [](int errCode, std::string text) {
@@ -433,17 +443,6 @@ MixerChannelItem* MixerPanelModel::buildInstrumentChannelItem(const TrackId trac
         }
     });
 
-    playback()->outputParams(trackId)
-    .onResolve(this, [this, trackId](AudioOutputParams outParams) {
-        if (MixerChannelItem* item = findChannelItem(trackId)) {
-            loadOutputParams(item, std::move(outParams));
-        }
-    })
-    .onReject(this, [](int errCode, std::string text) {
-        LOGE() << "unable to get track output parameters, error code: " << errCode
-               << ", " << text;
-    });
-
     playback()->signalChanges(trackId)
     .onResolve(this, [this, trackId](AudioSignalChanges signalChanges) {
         if (MixerChannelItem* item = findChannelItem(trackId)) {
@@ -456,11 +455,19 @@ MixerChannelItem* MixerPanelModel::buildInstrumentChannelItem(const TrackId trac
     });
 
     connect(item, &MixerChannelItem::inputParamsChanged, this, [this, trackId](const AudioInputParams& params) {
-        playback()->setInputParams(trackId, params);
+        playback()->setSourceParams(trackId, params);
     });
 
-    connect(item, &MixerChannelItem::outputParamsChanged, this, [this, trackId](const AudioOutputParams& params) {
-        playback()->setOutputParams(trackId, params);
+    connect(item, &MixerChannelItem::controlParamsChanged, this, [this, trackId](const AudioOutputParams& params) {
+        playback()->setControlParams(trackId, params.control());
+    });
+
+    connect(item, &MixerChannelItem::fxChainParamsChanged, this, [this, trackId](const AudioOutputParams& params) {
+        playback()->setFxChainParams(trackId, params.fxChain);
+    });
+
+    connect(item, &MixerChannelItem::auxSendsParamsChanged, this, [this, trackId](const AudioOutputParams& params) {
+        playback()->setAuxSendsParams(trackId, params.auxSends);
     });
 
     connect(item, &MixerChannelItem::auxSendItemListChanged, this, [this, item]() {
@@ -495,16 +502,10 @@ MixerChannelItem* MixerPanelModel::buildAuxChannelItem(aux_channel_idx_t index, 
         }
     });
 
-    playback()->outputParams(trackId)
-    .onResolve(this, [this, trackId](AudioOutputParams outParams) {
-        if (MixerChannelItem* item = findChannelItem(trackId)) {
-            loadOutputParams(item, std::move(outParams));
-        }
-    })
-    .onReject(this, [](int errCode, std::string text) {
-        LOGE() << "unable to get track output parameters, error code: " << errCode
-               << ", " << text;
-    });
+    AudioOutputParams outParams = audioSettings()->auxOutputParams(index);
+    if (MixerChannelItem* item = findChannelItem(trackId)) {
+        loadOutputParams(item, std::move(outParams));
+    }
 
     playback()->signalChanges(trackId)
     .onResolve(this, [this, trackId](AudioSignalChanges signalChanges) {
@@ -517,8 +518,14 @@ MixerChannelItem* MixerPanelModel::buildAuxChannelItem(aux_channel_idx_t index, 
                << ", " << text;
     });
 
-    connect(item, &MixerChannelItem::outputParamsChanged, this, [this, trackId](const AudioOutputParams& params) {
-        playback()->setOutputParams(trackId, params);
+    connect(item, &MixerChannelItem::controlParamsChanged, this, [this, trackId](const AudioOutputParams& params) {
+        playback()->setControlParams(trackId, params.control());
+    });
+    connect(item, &MixerChannelItem::fxChainParamsChanged, this, [this, trackId](const AudioOutputParams& params) {
+        playback()->setFxChainParams(trackId, params.fxChain);
+    });
+    connect(item, &MixerChannelItem::auxSendsParamsChanged, this, [this, trackId](const AudioOutputParams& params) {
+        playback()->setAuxSendsParams(trackId, params.auxSends);
     });
 
     connect(item, &MixerChannelItem::soloMuteStateChanged, this,
@@ -535,16 +542,10 @@ MixerChannelItem* MixerPanelModel::buildMasterChannelItem()
     item->setPanelSection(m_navigationSection);
     item->setTitle(muse::qtrc("playback", "Master"));
 
-    playback()->masterOutputParams()
-    .onResolve(this, [this, item](AudioOutputParams outParams) {
-        if (m_masterChannelItem && item == m_masterChannelItem) {
-            loadOutputParams(item, std::move(outParams));
-        }
-    })
-    .onReject(this, [](int errCode, std::string text) {
-        LOGE() << "unable to get master output parameters, error code: " << errCode
-               << ", " << text;
-    });
+    AudioOutputParams outParams = audioSettings()->masterAudioOutputParams();
+    if (m_masterChannelItem && item == m_masterChannelItem) {
+        loadOutputParams(item, std::move(outParams));
+    }
 
     playback()->masterSignalChanges()
     .onResolve(this, [this, item](AudioSignalChanges signalChanges) {
@@ -557,8 +558,16 @@ MixerChannelItem* MixerPanelModel::buildMasterChannelItem()
                << ", " << text;
     });
 
-    connect(item, &MixerChannelItem::outputParamsChanged, this, [this](const AudioOutputParams& params) {
-        playback()->setMasterOutputParams(params);
+    connect(item, &MixerChannelItem::controlParamsChanged, this, [this](const AudioOutputParams& params) {
+        playback()->setMasterControlParams(params.control());
+    });
+
+    connect(item, &MixerChannelItem::fxChainParamsChanged, this, [this](const AudioOutputParams& params) {
+        playback()->setMasterFxChainParams(params.fxChain);
+    });
+
+    connect(item, &MixerChannelItem::auxSendsParamsChanged, this, [this](const AudioOutputParams& params) {
+        playback()->setMasterAuxSendsParams(params.auxSends);
     });
 
     return item;

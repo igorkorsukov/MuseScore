@@ -40,8 +40,8 @@ public:
     float volume() const;
     void setPan(float pan);
     float pan() const;
-    void setMute(bool mute);
-    bool mute() const;
+    void setMuted(bool muted);
+    bool muted() const;
 
 protected:
 
@@ -54,7 +54,6 @@ protected:
 
     float m_volume = 1.0f;
     float m_pan = 0.0f;
-    bool m_mute = false;
 };
 
 using ControlNodePtr = std::shared_ptr<ControlNode>;

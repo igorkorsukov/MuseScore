@@ -32,6 +32,7 @@
 #include "audio/main/iplayback.h"
 #include "context/iglobalcontext.h"
 #include "playback/iplaybackconfiguration.h"
+#include "project/iprojectaudiosettings.h"
 #include "ui/qml/Muse/Ui/navigationsection.h"
 
 #include "iplaybackcontroller.h"
@@ -106,7 +107,7 @@ private:
 
     MixerChannelItem* findChannelItem(const muse::audio::TrackId& trackId) const;
 
-    void loadOutputParams(MixerChannelItem* item, muse::audio::AudioOutputParams&& params);
+    void loadOutputParams(MixerChannelItem* item, project::AudioOutputParams&& params);
     void updateOutputResourceItemCount();
 
     project::INotationProjectPtr currentProject() const;

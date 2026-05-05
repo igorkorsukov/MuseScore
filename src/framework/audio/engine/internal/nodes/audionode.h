@@ -28,6 +28,16 @@
 
 #include "audio/common/audiotypes.h"
 
+#include "log.h"
+
+// #define AUDIONODE_LOGGING_ENABLED
+
+#ifdef AUDIONODE_LOGGING_ENABLED
+#define ANODE_LOG(name) LOGDA() << "[" << name << "] "
+#else
+#define ANODE_LOG(name) LOGN()
+#endif
+
 //! NOTE Nodes are in the engine de facto namespace,
 // but the engine is not specified here only
 // so that the class names are shorter when
@@ -167,7 +177,11 @@ void AudioNode<T>::setOutputSpec(const OutputSpec& spec)
         return;
     }
     m_outputSpec = spec;
+    ANODE_LOG(name()) << "onOutputSpecChanged: " << spec.dump();
     onOutputSpecChanged(spec);
+    if (m_input) {
+        m_input->setOutputSpec(spec);
+    }
 }
 
 template<typename T>
@@ -177,11 +191,8 @@ const OutputSpec& AudioNode<T>::outputSpec() const
 }
 
 template<typename T>
-void AudioNode<T>::onOutputSpecChanged(const OutputSpec& spec)
+void AudioNode<T>::onOutputSpecChanged(const OutputSpec& /*spec*/)
 {
-    if (m_input) {
-        m_input->setOutputSpec(spec);
-    }
 }
 
 template<typename T>
@@ -191,7 +202,11 @@ void AudioNode<T>::setMode(const ProcessMode mode)
         return;
     }
     m_mode = mode;
+    ANODE_LOG(name()) << "onModeChanged: " << to_string(mode);
     onModeChanged(mode);
+    if (m_input) {
+        m_input->setMode(mode);
+    }
 }
 
 template<typename T>
@@ -201,11 +216,8 @@ ProcessMode AudioNode<T>::mode() const
 }
 
 template<typename T>
-void AudioNode<T>::onModeChanged(const ProcessMode mode)
+void AudioNode<T>::onModeChanged(const ProcessMode /*mode*/)
 {
-    if (m_input) {
-        m_input->setMode(mode);
-    }
 }
 
 template<typename T>
@@ -215,7 +227,11 @@ void AudioNode<T>::setEnabled(bool enabled)
         return;
     }
     m_enabled = enabled;
+    ANODE_LOG(name()) << "onEnabledChanged: " << m_enabled;
     onEnabledChanged(enabled);
+    if (m_input) {
+        m_input->setEnabled(enabled);
+    }
 }
 
 template<typename T>
@@ -225,11 +241,8 @@ bool AudioNode<T>::enabled() const
 }
 
 template<typename T>
-void AudioNode<T>::onEnabledChanged(bool enabled)
+void AudioNode<T>::onEnabledChanged(bool /*enabled*/)
 {
-    if (m_input) {
-        m_input->setEnabled(enabled);
-    }
 }
 
 template<typename T>
@@ -239,6 +252,7 @@ void AudioNode<T>::setBypassed(bool bypassed)
         return;
     }
     m_bypassed = bypassed;
+    ANODE_LOG(name()) << "onBypassedChanged: " << m_bypassed;
     onBypassedChanged(bypassed);
 }
 
@@ -262,6 +276,7 @@ IAudioNode* AudioNode<T>::connect(std::shared_ptr<IAudioNode> other)
     bool ok = other->doAddNode(shared_from_this());
     if (ok) {
         m_connectedTo.push_back(other);
+        ANODE_LOG(name()) << "connected to: " << other->name();
     }
     return this;
 }
@@ -275,6 +290,7 @@ IAudioNode* AudioNode<T>::disconnect(std::shared_ptr<IAudioNode> other)
     bool ok = other->doRemoveNode(shared_from_this());
     if (ok) {
         muse::remove(m_connectedTo, other);
+        ANODE_LOG(name()) << "disconnected from: " << other->name();
     }
     return this;
 }
@@ -282,7 +298,8 @@ IAudioNode* AudioNode<T>::disconnect(std::shared_ptr<IAudioNode> other)
 template<typename T>
 void AudioNode<T>::disconnectAll()
 {
-    for (auto& connectedTo : m_connectedTo) {
+    auto copy = m_connectedTo;
+    for (auto& connectedTo : copy) {
         disconnect(connectedTo);
     }
 }

@@ -60,7 +60,7 @@ private:
         rpc::Msg msg;
         TrackName trackName;
         mpe::PlaybackData playbackData;
-        AudioParams params;
+        TrackParams params;
     };
 
     std::map<std::string /*sfname*/, std::vector<PendingTrack> > m_pendingTracks;
