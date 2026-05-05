@@ -26,11 +26,10 @@ using namespace muse;
 using namespace muse::audio;
 using namespace muse::audio::engine;
 
-TrackChain::TrackChain(TrackId trackId)
-    : m_trackId(trackId)
+TrackChain::TrackChain(TrackId trackId, const std::string& trackName)
+    : m_trackId(trackId), m_trackName(trackName)
 {
-    std::string tname = trackId == INVALID_TRACK_ID ? "master" : std::to_string(trackId);
-    setName(std::string(TrackChainTag::name) + "[" + tname + "]");
+    setName(std::string(TrackChainTag::name) + "[" + m_trackName + "]");
 }
 
 void TrackChain::rebuild()
@@ -56,6 +55,11 @@ void TrackChain::rebuild()
 TrackId TrackChain::trackId() const
 {
     return m_trackId;
+}
+
+const std::string& TrackChain::trackName() const
+{
+    return m_trackName;
 }
 
 void TrackChain::setSource(IAudioNodePtr source)

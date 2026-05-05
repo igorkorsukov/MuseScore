@@ -49,7 +49,7 @@ AudioContext::AudioContext(const AudioCtxId& ctxId)
     m_masterTrack.id = INVALID_TRACK_ID;
     m_masterTrack.type = TrackType::Master_track;
     m_masterTrack.name = "Master";
-    m_masterTrack.chain = std::make_shared<TrackChain>(INVALID_TRACK_ID);
+    m_masterTrack.chain = std::make_shared<TrackChain>(INVALID_TRACK_ID, "Master");
 }
 
 AudioCtxId AudioContext::id() const
@@ -114,7 +114,6 @@ void AudioContext::onModeChanged(const ProcessMode mode)
     if (mode == ProcessMode::Idle) {
         m_mixer->setTracksToProcessWhenIdle(m_tracksToProcessWhenIdle);
     }
-    m_mixer->setIsIdle(mode == ProcessMode::Idle);
     m_playheadNode->setMode(mode);
     // mixer will be notified about the mode change via the playhead node
 }
@@ -213,7 +212,7 @@ RetVal2<TrackId, AudioParams> AudioContext::addTrack(const std::string& trackNam
         onShouldProcessDuringSilenceChanged(trackId, shouldProcess);
     });
 
-    TrackChainPtr trackChain = std::make_shared<TrackChain>(trackId);
+    TrackChainPtr trackChain = std::make_shared<TrackChain>(trackId, trackName);
     trackChain->setOutputSpec(outputSpec());
     trackChain->setMode(mode());
     trackChain->setSource(source.val);
@@ -222,7 +221,7 @@ RetVal2<TrackId, AudioParams> AudioContext::addTrack(const std::string& trackNam
     trackChain->setSignal(std::make_shared<SignalNode>());
     trackChain->rebuild();
 
-    Ret ret = m_mixer->addChannel(trackChain, params.out.auxSends);
+    Ret ret = m_mixer->addTrack(trackChain, params.out.auxSends);
     if (!ret) {
         return RetType::make_ret(ret);
     }
@@ -265,7 +264,7 @@ RetVal2<TrackId, AudioOutputParams> AudioContext::addAuxTrack(const std::string&
         onShouldProcessDuringSilenceChanged(trackId, shouldProcess);
     });
 
-    TrackChainPtr trackChain = std::make_shared<TrackChain>(trackId);
+    TrackChainPtr trackChain = std::make_shared<TrackChain>(trackId, trackName);
     trackChain->setOutputSpec(outputSpec());
     trackChain->setMode(mode());
     trackChain->setFxChain(fxChain);
@@ -273,7 +272,7 @@ RetVal2<TrackId, AudioOutputParams> AudioContext::addAuxTrack(const std::string&
     trackChain->setSignal(std::make_shared<SignalNode>());
     trackChain->rebuild();
 
-    Ret ret = m_mixer->addAuxChannel(trackChain);
+    Ret ret = m_mixer->addAuxTrack(trackChain);
     if (!ret) {
         return RetType::make_ret(ret);
     }
@@ -411,7 +410,7 @@ void AudioContext::removeTrack(const TrackId trackId)
         source->inputParamsChanged().disconnect(this);
     }
 
-    m_mixer->removeChannel(trackId);
+    m_mixer->removeTrack(trackId);
     m_tracks.erase(it);
     muse::remove(m_tracksToProcessWhenIdle, trackId);
 
@@ -696,7 +695,7 @@ async::Promise<Ret> AudioContext::prepareToPlay()
 
 void AudioContext::play(const secs_t delay)
 {
-    LOGD() << m_playheadNode->dump();
+    LOGD() << "\nAudioContext chain: " << m_playheadNode->dump();
 
     ONLY_AUDIO_ENGINE_THREAD;
     m_player->play(delay);

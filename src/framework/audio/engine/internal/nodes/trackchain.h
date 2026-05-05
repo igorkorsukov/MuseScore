@@ -42,9 +42,10 @@ class TrackChain : public ChainNode<TrackChainTag>
 {
 public:
 
-    TrackChain(TrackId trackId);
+    TrackChain(TrackId trackId, const std::string& trackName);
 
     TrackId trackId() const;
+    const std::string& trackName() const;
 
     void setSource(IAudioNodePtr source);
     IAudioNodePtr source() const;
@@ -65,6 +66,7 @@ protected:
     void doSelfProcess(float*, samples_t) override {}
 
     TrackId m_trackId = INVALID_TRACK_ID;
+    std::string m_trackName;
 
     IAudioNodePtr m_source;
     FxChainPtr m_fxChain;

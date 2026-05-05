@@ -71,6 +71,16 @@ AudioFxType VstFxProcessor::type() const
     return muse::audio::AudioFxType::VstFx;
 }
 
+std::string VstFxProcessor::name() const
+{
+    std::string pname;
+    if (!m_pluginPtr) {
+        pname = m_pluginPtr->name();
+    }
+
+    return "Vst/" + pname;
+}
+
 const AudioFxParams& VstFxProcessor::params() const
 {
     return m_params;

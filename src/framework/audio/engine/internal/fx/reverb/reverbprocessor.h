@@ -40,6 +40,7 @@ public:
     void init(const OutputSpec& spec);
 
     AudioFxType type() const override;
+    std::string name() const override;
     const AudioFxParams& params() const override;
     async::Channel<audio::AudioFxParams> paramsChanged() const override;
     void setOutputSpec(const OutputSpec& spec) override;

@@ -33,6 +33,7 @@ public:
     virtual ~IFxProcessor() = default;
 
     virtual AudioFxType type() const = 0;
+    virtual std::string name() const = 0;
 
     virtual const AudioFxParams& params() const = 0;
     virtual async::Channel<audio::AudioFxParams> paramsChanged() const = 0;

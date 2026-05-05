@@ -56,15 +56,16 @@ public:
 
     void init();
 
-    Ret addChannel(TrackChainPtr trackChain, const AuxSendsParams& auxSends);
-    Ret addAuxChannel(TrackChainPtr trackChain);
-    Ret removeChannel(const TrackId trackId);
+    Ret addTrack(TrackChainPtr trackChain, const AuxSendsParams& auxSends);
+    Ret addAuxTrack(TrackChainPtr trackChain);
+    Ret removeTrack(const TrackId trackId);
 
-    void setIsIdle(bool idle);
     void setTracksToProcessWhenIdle(const std::unordered_set<TrackId>& trackIds);
     void setNonMutedTrackCount(size_t count);
 
     void process(float* buffer, samples_t samplesPerChannel) override;
+
+    std::string dump() const override;
 
 private:
 
@@ -74,7 +75,7 @@ private:
     void doSelfProcess(float*, samples_t) override {}
 
     void processTrackChannels(size_t outBufferSize, size_t samplesPerChannel);
-    void mixOutputFromChannel(float* outBuffer, const float* inBuffer, unsigned int samplesCount) const;
+    void mixOutputFromChannel(float* outBuffer, const float* inBuffer, size_t bufferSize) const;
     void prepareAuxBuffers(size_t outBufferSize);
     void writeTrackToAuxBuffers(const float* trackBuffer, size_t outBufferSize, const AuxSendsParams& auxSends);
     void processAuxChannels(float* buffer, samples_t samplesPerChannel);
@@ -96,7 +97,6 @@ private:
 
     size_t m_nonMutedTrackCount = 0;
     std::unordered_set<TrackId> m_tracksToProcessWhenIdle;
-    bool m_isIdle = false;
 };
 
 using MixerPtr = std::shared_ptr<Mixer>;

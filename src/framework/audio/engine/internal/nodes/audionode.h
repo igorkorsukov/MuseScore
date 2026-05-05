@@ -64,7 +64,7 @@ public:
 
     virtual void process(float* buffer, samples_t samplesPerChannel) = 0;
 
-    virtual std::string dump(int indent = 0) const = 0;
+    virtual std::string dump() const = 0;
 
 protected:
 
@@ -116,7 +116,7 @@ public:
     // to reduce the stack count for easier debugging.
     virtual void process(float* buffer, samples_t samplesPerChannel) override;
 
-    std::string dump(int indent = 0) const override;
+    std::string dump() const override;
 
 protected:
 
@@ -338,12 +338,12 @@ void AudioNode<T>::process(float* buffer, samples_t samplesPerChannel)
 }
 
 template<typename T>
-std::string AudioNode<T>::dump(int indent) const
+std::string AudioNode<T>::dump() const
 {
     std::stringstream ss;
-    ss << std::string(indent, ' ') << name();
+    ss << name();
     if (m_input) {
-        ss << " <--" << m_input->dump(indent);
+        ss << " <-- " << m_input->dump();
     }
     return ss.str();
 }

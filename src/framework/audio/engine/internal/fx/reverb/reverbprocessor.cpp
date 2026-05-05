@@ -304,6 +304,11 @@ AudioFxType ReverbProcessor::type() const
     return AudioFxType::MuseFx;
 }
 
+std::string ReverbProcessor::name() const
+{
+    return "Muse/Reverb";
+}
+
 const AudioFxParams& ReverbProcessor::params() const
 {
     return m_params;

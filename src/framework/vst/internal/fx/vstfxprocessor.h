@@ -40,6 +40,7 @@ public:
     void init(const audio::OutputSpec& spec);
 
     muse::audio::AudioFxType type() const override;
+    std::string name() const override;
 
     const muse::audio::AudioFxParams& params() const override;
     async::Channel<muse::audio::AudioFxParams> paramsChanged() const override;

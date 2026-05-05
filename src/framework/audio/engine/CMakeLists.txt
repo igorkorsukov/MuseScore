@@ -81,7 +81,6 @@ else()
         internal/transporteventsdispatcher.h
 
         # Nodes
-        internal/nodes/audionode.cpp
         internal/nodes/audionode.h
         internal/nodes/audiosourcenode.cpp
         internal/nodes/audiosourcenode.h
