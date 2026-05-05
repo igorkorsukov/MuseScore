@@ -82,7 +82,7 @@ void FxChain::setFxChainSpec(const AudioFxChain& fxChainSpec)
     };
 
     m_fxChainSpec = fxChainSpec;
-    for (auto it = fxChainSpec.begin(); it != fxChainSpec.end();) {
+    for (auto it = m_fxChainSpec.begin(); it != m_fxChainSpec.end();) {
         if (FxNodePtr fx = findFxNode(*it)) {
             fx->setBypassed(!it->second.active);
             ++it;
