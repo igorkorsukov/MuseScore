@@ -19,14 +19,15 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-#ifndef MUSE_AUDIO_AUDIOSANITIZER_H
-#define MUSE_AUDIO_AUDIOSANITIZER_H
+#pragma once
 
 //! NOTE This is dev tools
 
 #include <cassert>
 #include <set>
 #include <thread>
+
+#include "audio/engine/internal/iexecoperation.h"
 
 #include "muse_framework_config.h"
 
@@ -43,10 +44,14 @@ public:
     static void setMixerThreads(const std::set<std::thread::id>& threadIdSet);
     static std::thread::id engineThread();
     static bool isEngineThread();
+
+    static void setOperationType(engine::OperationType type);
+    static bool isOperationExec();
 };
 }
 
 #define AUDIO_SANITIZER_ENABLED
+#define AUDIO_SANITIZER_OPERATION_ENABLED
 
 #ifdef Q_OS_WASM
 #undef AUDIO_SANITIZER_ENABLED
@@ -73,4 +78,8 @@ public:
 #define ONLY_AUDIO_MAIN_OR_ENGINE_THREAD
 #endif
 
-#endif // MUSE_AUDIO_AUDIOSANITIZER_H
+#ifdef AUDIO_SANITIZER_OPERATION_ENABLED
+#define ONLY_ON_OPERATION_EXEC assert(muse::audio::AudioSanitizer::isOperationExec())
+#else
+#define ONLY_ON_OPERATION_EXEC
+#endif

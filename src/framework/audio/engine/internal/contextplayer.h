@@ -66,6 +66,8 @@ public:
 
 private:
 
+    void exec(OperationType type, const Operation& func);
+
     void onStatusChanged(const PlaybackStatus status);
 
     // Processing thread functions
