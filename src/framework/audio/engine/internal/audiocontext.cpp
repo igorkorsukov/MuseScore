@@ -38,10 +38,11 @@ using namespace muse;
 using namespace muse::audio;
 using namespace muse::audio::engine;
 
-AudioContext::AudioContext(const AudioCtxId& ctxId)
+AudioContext::AudioContext(const AudioCtxId& ctxId, IExecOperation* execOperation)
     : m_ctxId(ctxId)
+    , m_execOperation(execOperation)
 {
-    m_player = std::make_shared<ContextPlayer>(this);
+    m_player = std::make_shared<ContextPlayer>(this, execOperation);
 
     m_playheadNode = std::make_shared<PlayheadNode>(std::static_pointer_cast<IPlayhead>(m_player));
     m_mixer = std::make_shared<Mixer>();
@@ -73,10 +74,6 @@ Ret AudioContext::init()
     m_masterTrack.chain->connect(m_playheadNode);
 
     LOGD() << "Master track chain: " << m_playheadNode->dump();
-
-    OutputSpec outputSpec = audioEngine()->outputSpec();
-    setOutputSpec(outputSpec);
-    setMode(ProcessMode::Idle);
 
     m_player->isActiveChanged().onReceive(this, [this](bool isActive) {
         setMode(isActive ? ProcessMode::Playing : ProcessMode::Idle);
@@ -916,11 +913,16 @@ Ret AudioContext::doSaveSoundTrack(io::IODevice& dstDevice, const SoundTrackForm
     //! NOTE Restore source (mixer) state
     // Changes to the source and audio engine state
     // must be performed via execOperation - so that synchronization with the audio driver process works
-    IAudioEngine::Operation func = [this]() {
-        m_mixer->setOutputSpec(audioEngine()->outputSpec());
+    Operation func = [this]() {
+        m_mixer->setOutputSpec(outputSpec());
         setMode(ProcessMode::Idle);
     };
-    audioEngine()->execOperation(OperationType::LongOperation, func);
+
+    if (m_execOperation) {
+        m_execOperation->execOperation(OperationType::LongOperation, func);
+    } else {
+        func();
+    }
 
     m_player->seek(TimePosition::zero(m_outputSpec.sampleRate));
 

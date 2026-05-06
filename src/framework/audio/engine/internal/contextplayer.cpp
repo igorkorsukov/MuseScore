@@ -32,8 +32,9 @@ using namespace muse::audio;
 using namespace muse::audio::engine;
 using namespace muse::async;
 
-ContextPlayer::ContextPlayer(IGetTrackSource* getTracks)
+ContextPlayer::ContextPlayer(IGetTrackSource* getTracks, IExecOperation* execOperation)
     : m_trackSource(getTracks)
+    , m_execOperation(execOperation)
 {
     m_status.set(PlaybackStatus::Stopped);
     m_isActive.set(false);
@@ -124,15 +125,30 @@ const TimePosition& ContextPlayer::currentPosition() const
 void ContextPlayer::onTimeEvent(const TimeEvent event)
 {
     ONLY_AUDIO_ENGINE_THREAD;
+
+    auto exec = [this](OperationType type, const Operation& func) {
+        if (m_execOperation) {
+            m_execOperation->execOperation(type, func);
+        } else {
+            func();
+        }
+    };
+
     switch (event.type) {
     case TimeEventType::CountDownEnded:
-        m_isActive.set(m_status.val == PlaybackStatus::Running);
+        exec(OperationType::QuickOperation, [this]() {
+            m_isActive.set(m_status.val == PlaybackStatus::Running);
+        });
         break;
     case TimeEventType::LoopEnded:
-        seekAllTracks(event.position);
+        exec(OperationType::LongOperation, [this, event]() {
+            seekAllTracks(event.position);
+        });
         break;
     case TimeEventType::PlaybackEnded:
-        pause();
+        exec(OperationType::LongOperation, [this]() {
+            pause();
+        });
         break;
     default:
         break;

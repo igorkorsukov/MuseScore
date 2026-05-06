@@ -52,6 +52,7 @@ else()
         internal/iaudiocontext.h
         internal/iaudiofactory.h
         internal/igettracksource.h
+        internal/iexecoperation.h
         internal/audioengine.cpp
         internal/audioengine.h
         internal/audiocontext.cpp

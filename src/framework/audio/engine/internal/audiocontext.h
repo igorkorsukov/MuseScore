@@ -27,10 +27,10 @@
 #include "global/async/asyncable.h"
 
 #include "modularity/ioc.h"
-#include "iaudioengine.h"
 #include "iaudiofactory.h"
 #include "../iaudioengineconfiguration.h"
 
+#include "iexecoperation.h"
 #include "igettracksource.h"
 #include "mixer.h"
 #include "nodes/playheadnode.h"
@@ -47,12 +47,11 @@ namespace muse::audio::engine {
 class ContextPlayer;
 class AudioContext : public AudioNode<AudioContextTag>, public IAudioContext, public IGetTrackSource, public async::Asyncable
 {
-    GlobalInject<IAudioEngine> audioEngine;
     GlobalInject<IAudioFactory> audioFactory;
     GlobalInject<IAudioEngineConfiguration> configuration;
 
 public:
-    AudioContext(const AudioCtxId& ctxId);
+    AudioContext(const AudioCtxId& ctxId, IExecOperation* execOperation);
 
     AudioCtxId id() const override;
 
@@ -171,6 +170,7 @@ private:
     Ret doSaveSoundTrack(io::IODevice& dstDevice, const SoundTrackFormat& format);
 
     AudioCtxId m_ctxId = 0;
+    IExecOperation* m_execOperation = nullptr;
 
     std::shared_ptr<ContextPlayer> m_player;
     PlayheadNodePtr m_playheadNode;

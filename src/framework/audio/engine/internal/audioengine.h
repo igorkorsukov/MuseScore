@@ -27,6 +27,7 @@
 #include <mutex>
 
 #include "iaudioengine.h"
+#include "iexecoperation.h"
 
 #include "global/types/ret.h"
 
@@ -34,7 +35,7 @@
 
 namespace muse::audio::engine {
 class AudioContext;
-class AudioEngine : public IAudioEngine
+class AudioEngine : public IAudioEngine, public IExecOperation
 {
 public:
     AudioEngine();
@@ -51,10 +52,10 @@ public:
     OutputSpec outputSpec() const override;
     async::Channel<OutputSpec> outputSpecChanged() const override;
 
-    void execOperation(OperationType type, const Operation& func) override;
-    OperationType operation() const override;
-
     samples_t process(float* buffer, samples_t samplesPerChannel) override;
+
+    // IExecOperation
+    void execOperation(OperationType type, const Operation& func) override;
 
 private:
 

@@ -31,6 +31,7 @@
 #include "audio/common/rpc/rpcpacker.h"
 
 #include "enginerpccontroller.h"
+#include "audioengine.h"
 
 #include "log.h"
 
@@ -63,10 +64,15 @@ EngineController::EngineController(std::shared_ptr<rpc::IRpcChannel> rpcChannel)
 
 void EngineController::onStartRunning()
 {
+    AudioEngine* aengine = dynamic_cast<AudioEngine*>(audioEngine().get());
+    IF_ASSERT_FAILED(aengine) {
+        return;
+    }
+
     //! NOTE After sending a EngineRunning,
     //! we may receive RPC messages, such as for example load a soundfont.
     //! Therefore, we need to subscribe to RPC messages.
-    m_rpcController = std::make_shared<EngineRpcController>();
+    m_rpcController = std::make_shared<EngineRpcController>(aengine);
     m_rpcController->init();
 
     //! NOTE We inform that the engine is running and can receive messages

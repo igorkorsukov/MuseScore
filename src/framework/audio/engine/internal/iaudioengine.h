@@ -50,10 +50,6 @@ public:
     virtual OutputSpec outputSpec() const = 0;
     virtual async::Channel<OutputSpec> outputSpecChanged() const = 0;
 
-    using Operation = std::function<void ()>;
-    virtual void execOperation(OperationType type, const Operation& func) = 0;
-    virtual OperationType operation() const = 0;
-
     virtual samples_t process(float* buffer, samples_t samplesPerChannel) = 0;
 };
 }

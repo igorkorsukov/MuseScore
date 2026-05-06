@@ -45,6 +45,14 @@
 using namespace muse::audio::engine;
 using namespace muse::audio::rpc;
 
+EngineRpcController::EngineRpcController(IExecOperation* execOperation)
+    : m_execOperation(execOperation)
+{
+    IF_ASSERT_FAILED(m_execOperation) {
+        return;
+    }
+}
+
 std::shared_ptr<IAudioContext> EngineRpcController::audioContext(rpc::CtxId ctxId) const
 {
     IF_ASSERT_FAILED(ctxId > 0) {
@@ -154,11 +162,19 @@ void EngineRpcController::init()
             }
 
             RpcStreamExec mainExec = [this](const std::function<void()>& func) {
-                audioEngine()->execOperation(OperationType::QuickOperation, func);
+                IF_ASSERT_FAILED(m_execOperation) {
+                    func();
+                    return;
+                }
+                m_execOperation->execOperation(OperationType::QuickOperation, func);
             };
 
             RpcStreamExec offExec = [this](const std::function<void()>& func) {
-                audioEngine()->execOperation(OperationType::QuickOperation, func);
+                IF_ASSERT_FAILED(m_execOperation) {
+                    func();
+                    return;
+                }
+                m_execOperation->execOperation(OperationType::QuickOperation, func);
             };
 
             channel()->addReceiveStream(StreamName::PlaybackDataMainStream, mainStreamId, playbackData.mainStream, mainExec);
@@ -824,7 +840,7 @@ void EngineRpcController::onRequest(OperationType type, rpc::CtxId ctxId, rpc::M
 
     channel()->onRequest(ctxId, code, [this, type, code, handler](const Msg& msg) -> Msg {
         Msg resp;
-        IAudioEngine::Operation func = [this, code, handler, msg, &resp]() {
+        Operation func = [this, code, handler, msg, &resp]() {
             if (m_terminated) {
                 return;
             }
@@ -834,7 +850,12 @@ void EngineRpcController::onRequest(OperationType type, rpc::CtxId ctxId, rpc::M
             resp = handler(msg);
             END_METHOD_DURATION(code);
         };
-        audioEngine()->execOperation(type, func);
+
+        IF_ASSERT_FAILED(m_execOperation) {
+            func();
+        } else {
+            m_execOperation->execOperation(type, func);
+        }
         return resp;
     });
 }

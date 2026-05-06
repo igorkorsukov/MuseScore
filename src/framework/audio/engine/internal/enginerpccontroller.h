@@ -30,6 +30,7 @@
 #include "../iaudioengineconfiguration.h"
 
 #include "iaudiocontext.h"
+#include "iexecoperation.h"
 
 namespace muse::audio::engine {
 class EngineRpcController : public async::Asyncable
@@ -40,7 +41,7 @@ class EngineRpcController : public async::Asyncable
     GlobalInject<IAudioEngine> audioEngine;
 
 public:
-    EngineRpcController() = default;
+    EngineRpcController(IExecOperation* execOperation);
 
     void init();
     void deinit();
@@ -52,6 +53,8 @@ private:
     void onLongRequest(rpc::CtxId ctxId, rpc::MsgCode code, const rpc::RequestHandler& h);
     void onQuickRequest(rpc::CtxId ctxId, rpc::MsgCode code, const rpc::RequestHandler& h);
     void onRequest(OperationType type, rpc::CtxId ctxId, rpc::MsgCode code, const rpc::RequestHandler& h);
+
+    IExecOperation* m_execOperation = nullptr;
 
     std::vector<rpc::MsgKey> m_usedRequests;
     std::atomic<bool> m_terminated = false;
