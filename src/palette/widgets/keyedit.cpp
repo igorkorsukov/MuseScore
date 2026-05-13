@@ -235,7 +235,10 @@ void KeyCanvas::dragEnterEvent(QDragEnterEvent* event)
         }
 
         event->acceptProposedAction();
-        dragElement = static_cast<Accidental*>(Factory::createItem(type, paletteScoreProvider()->paletteScore()->dummy()));
+        dragElement
+            = static_cast<Accidental*>(Factory::createItem(type,
+                                                           paletteScoreProvider()->paletteScore()->
+                                                           dummy()));
         dragElement->resetExplicitParent();
 
         rw::RWRegister::reader()->readItem(dragElement, e);
@@ -296,7 +299,8 @@ void KeyCanvas::snap(Accidental* a)
     // take default xposition unless Control is pressed
     int i = accidentals.indexOf(a);
     if (i > 0) {
-        qreal accidentalGap = DefaultStyle::baseStyle().styleS(Sid::keysigAccidentalDistance).val() * _spatium;
+        qreal accidentalGap
+            = DefaultStyle::baseStyle().styleS(Sid::keysigAccidentalDistance).val() * _spatium;
         Accidental* prev = accidentals[i - 1];
         double prevX = prev->ldata()->pos().x();
         qreal prevWidth = prev->symWidth(prev->symId());
@@ -345,7 +349,9 @@ KeyEditor::KeyEditor(QWidget* parent)
     m_accidentalsPaletteWidget = new PaletteWidget(this, true /*setIocContext*/);
     m_accidentalsPaletteWidget->setPalette(PaletteCreator(iocContext()).newAccidentalsPalette());
     qreal adj = m_accidentalsPaletteWidget->mag();
-    m_accidentalsPaletteWidget->setGridSize(m_accidentalsPaletteWidget->gridWidth() / adj, m_accidentalsPaletteWidget->gridHeight() / adj);
+    m_accidentalsPaletteWidget->setGridSize(
+        m_accidentalsPaletteWidget->gridWidth() / adj,
+        m_accidentalsPaletteWidget->gridHeight() / adj);
     m_accidentalsPaletteWidget->setMag(1.0);
 
     PaletteScrollArea* accidentalsPaletteArea = new PaletteScrollArea(m_accidentalsPaletteWidget);
@@ -399,10 +405,12 @@ void KeyEditor::addClicked()
             Accidental* prev = al[i - 1];
             PointF prevPos = prev->ldata()->pos();
             qreal prevWidth = prev->symWidth(prev->symId());
-            c.xAlt -= Spatium::fromAbsolute(prevPos.x() - xoff + prevWidth, spatium) + accidentalGap;
+            c.xAlt
+                -= Spatium::fromAbsolute(prevPos.x() - xoff + prevWidth, spatium) + accidentalGap;
         }
         int line = static_cast<int>(round((pos.y() / spatium) * 2));
-        bool flat = std::string(SymNames::nameForSymId(c.sym).ascii()).find("Flat") != std::string::npos;
+        bool flat = std::string(SymNames::nameForSymId(c.sym).ascii()).find("Flat")
+                    != std::string::npos;
         c.degree = (3 - line) % 7;
         c.degree += (c.degree < 0) ? 7 : 0;
         line += flat ? -1 : 1; // top accidentals in treble clef are gis (#), or es (b)

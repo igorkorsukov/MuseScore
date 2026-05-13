@@ -32,7 +32,8 @@ static const std::unordered_map<AutomationType, muse::String> AUTOMATION_TYPE_TO
     { AutomationType::Dynamics, u"Dynamics" },
 };
 
-static const std::unordered_map<AutomationPoint::InterpolationType, muse::String> INTERPOLATION_TYPE_TO_STRING {
+static const std::unordered_map<AutomationPoint::InterpolationType,
+                                muse::String> INTERPOLATION_TYPE_TO_STRING {
     { AutomationPoint::InterpolationType::Linear, u"Linear" },
     { AutomationPoint::InterpolationType::Exponential, u"Exponential" },
 };
@@ -53,7 +54,9 @@ const AutomationPoint& Automation::activePoint(const AutomationCurveKey& key, in
     const AutomationCurve& curve = this->curve(key);
     auto it = muse::findLessOrEqual(curve, utick);
     if (it == curve.cend()) {
-        static const AutomationPoint MIDPOINT { 0.5, 0.5, AutomationPoint::InterpolationType::Linear, std::nullopt };
+        static const AutomationPoint MIDPOINT { 0.5, 0.5,
+                                                AutomationPoint::InterpolationType::Linear,
+                                                std::nullopt };
         return MIDPOINT;
     }
 
@@ -210,7 +213,8 @@ void Automation::read(const muse::ByteArray& json)
     for (size_t i = 0; i < rootArray.size(); ++i) {
         const muse::JsonObject curveObj = rootArray.at(i).toObject();
         AutomationCurveKey key;
-        key.type = muse::key(AUTOMATION_TYPE_TO_STRING, curveObj.value("type").toString(), AutomationType::Unknown);
+        key.type = muse::key(AUTOMATION_TYPE_TO_STRING, curveObj.value(
+                                 "type").toString(), AutomationType::Unknown);
         key.staffId = static_cast<uint64_t>(curveObj.value("staffId").toInt());
 
         if (curveObj.contains("voiceId")) {
@@ -230,8 +234,10 @@ void Automation::read(const muse::ByteArray& json)
             AutomationPoint point;
             point.inValue = pointObj.value("inValue").toDouble();
             point.outValue = pointObj.value("outValue").toDouble();
-            point.interpolation = muse::key(INTERPOLATION_TYPE_TO_STRING, pointObj.value("interpolation").toString(),
-                                            AutomationPoint::InterpolationType::Linear);
+            point.interpolation
+                = muse::key(INTERPOLATION_TYPE_TO_STRING, pointObj.value(
+                                "interpolation").toString(),
+                            AutomationPoint::InterpolationType::Linear);
 
             const int tick = pointObj.value("tick").toInt();
             curve.insert_or_assign(tick, point);
@@ -263,7 +269,8 @@ muse::ByteArray Automation::toJson() const
             pointObj["tick"] = utick;
             pointObj["inValue"] = point.inValue;
             pointObj["outValue"] = point.outValue;
-            pointObj["interpolation"] = muse::value(INTERPOLATION_TYPE_TO_STRING, point.interpolation);
+            pointObj["interpolation"] = muse::value(INTERPOLATION_TYPE_TO_STRING,
+                                                    point.interpolation);
             pointArray << pointObj;
         }
 

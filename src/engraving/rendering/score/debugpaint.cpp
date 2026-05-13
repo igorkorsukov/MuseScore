@@ -66,7 +66,9 @@ static Color colorForPointer(const void* ptr)
 void DebugPaint::paintElementDebug(Painter& painter, const EngravingItem* item)
 {
     // Elements tree
-    bool isDiagnosticSelected = item->score()->elementsProvider() ? item->score()->elementsProvider()->isSelected(item) : false;
+    bool isDiagnosticSelected
+        = item->score()->elementsProvider() ? item->score()->elementsProvider()->isSelected(item) :
+          false;
 
     PointF pos(item->pagePos());
     painter.translate(pos);
@@ -118,13 +120,16 @@ void DebugPaint::paintElementDebug(Painter& painter, const EngravingItem* item)
             double radius = 0.1 * item->spatium();
             for (const LineAttachPoint& lap : toNote(item)->lineAttachPoints()) {
                 PointF point = lap.pos();
-                painter.drawEllipse(RectF(point.x() - radius, point.y() - radius, 2 * radius, 2 * radius));
+                painter.drawEllipse(RectF(point.x() - radius, point.y() - radius, 2 * radius,
+                                          2 * radius));
             }
         }
 
         // Draw bbox
-        if (isDiagnosticSelected || item->configuration()->debuggingOptions().showElementBoundingRects) {
-            double scaling = painter.worldTransform().m11() / item->contextConfiguration()->guiScaling();
+        if (isDiagnosticSelected
+            || item->configuration()->debuggingOptions().showElementBoundingRects) {
+            double scaling = painter.worldTransform().m11()
+                             / item->contextConfiguration()->guiScaling();
             Pen borderPen(DEBUG_ELTREE_SELECTED_COLOR, (item->selected() ? 2.0 : 1.0) / scaling);
 
             painter.setPen(borderPen);
@@ -136,7 +141,8 @@ void DebugPaint::paintElementDebug(Painter& painter, const EngravingItem* item)
     painter.translate(-pos);
 }
 
-void DebugPaint::paintPageDebug(Painter& painter, const Page* page, const std::vector<EngravingItem*>& items)
+void DebugPaint::paintPageDebug(Painter& painter, const Page* page,
+                                const std::vector<EngravingItem*>& items)
 {
     if (items.empty()) {
         return;
@@ -157,7 +163,8 @@ void DebugPaint::paintPageDebug(Painter& painter, const Page* page, const std::v
         return;
     }
 
-    double scaling = painter.worldTransform().m11() / items.front()->contextConfiguration()->guiScaling();
+    double scaling = painter.worldTransform().m11()
+                     / items.front()->contextConfiguration()->guiScaling();
 
     painter.save();
 
@@ -289,7 +296,8 @@ void DebugPaint::paintPageDebug(Painter& painter, const Page* page, const std::v
                     painter.setBrush(fillColor);
                     painter.setPen(PenStyle::NoPen);
 
-                    painter.drawRect(m->staffPageBoundingRect(staffIdx).adjusted(0, -_spatium, 0, _spatium));
+                    painter.drawRect(m->staffPageBoundingRect(staffIdx).adjusted(0, -_spatium, 0,
+                                                                                 _spatium));
                 }
             }
         }
@@ -310,7 +318,8 @@ void DebugPaint::paintPageDebug(Painter& painter, const Page* page, const std::v
                 const Measure* m = toMeasure(mb);
                 for (size_t staffIdx = 0; staffIdx < score->nstaves(); staffIdx++) {
                     if (m->corrupted(staffIdx)) {
-                        painter.drawRect(m->staffPageBoundingRect(staffIdx).adjusted(0, -_spatium, 0, _spatium));
+                        painter.drawRect(m->staffPageBoundingRect(staffIdx).adjusted(0, -_spatium,
+                                                                                     0, _spatium));
                     }
                 }
             }

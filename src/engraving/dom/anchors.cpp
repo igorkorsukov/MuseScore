@@ -52,8 +52,10 @@ void EditTimeTickAnchors::updateAnchors(const EngravingItem* item)
         return;
     }
 
-    Fraction startTickMainRegion = item->isSpannerSegment() ? toSpannerSegment(item)->spanner()->tick() : item->tick();
-    Fraction endTickMainRegion = item->isSpannerSegment() ? toSpannerSegment(item)->spanner()->tick2() : item->tick();
+    Fraction startTickMainRegion
+        = item->isSpannerSegment() ? toSpannerSegment(item)->spanner()->tick() : item->tick();
+    Fraction endTickMainRegion
+        = item->isSpannerSegment() ? toSpannerSegment(item)->spanner()->tick2() : item->tick();
 
     Score* score = item->score();
     Measure* startMeasure = score->tick2measure(startTickMainRegion);
@@ -64,7 +66,8 @@ void EditTimeTickAnchors::updateAnchors(const EngravingItem* item)
 
     staff_idx_t staff = item->staffIdx();
     Measure* startOneBefore = startMeasure->prevMeasure();
-    for (MeasureBase* mb = startOneBefore ? startOneBefore : startMeasure; mb && mb->tick() <= endMeasure->tick(); mb = mb->next()) {
+    for (MeasureBase* mb = startOneBefore ? startOneBefore : startMeasure;
+         mb && mb->tick() <= endMeasure->tick(); mb = mb->next()) {
         if (!mb->isMeasure()) {
             continue;
         }
@@ -73,16 +76,19 @@ void EditTimeTickAnchors::updateAnchors(const EngravingItem* item)
 
     Fraction startTickExtendedRegion = startMeasure->tick();
     Fraction endTickExtendedRegion = endMeasure->endTick();
-    voice_idx_t voiceIdx =  item->hasVoiceAssignmentProperties() && item->getProperty(Pid::VOICE_ASSIGNMENT).value<VoiceAssignment>()
+    voice_idx_t voiceIdx =  item->hasVoiceAssignmentProperties() && item->getProperty(
+        Pid::VOICE_ASSIGNMENT).value<VoiceAssignment>()
                            != VoiceAssignment::CURRENT_VOICE_ONLY ? VOICES : item->voice();
 
-    score->setShowAnchors(ShowAnchors(voiceIdx, staff, startTickMainRegion, endTickMainRegion, startTickExtendedRegion,
+    score->setShowAnchors(ShowAnchors(voiceIdx, staff, startTickMainRegion, endTickMainRegion,
+                                      startTickExtendedRegion,
                                       endTickExtendedRegion));
 
     item->triggerLayout();
 }
 
-void EditTimeTickAnchors::updateAnchors(Measure* measure, staff_idx_t staffIdx, const std::set<Fraction>& additionalAnchorRelTicks)
+void EditTimeTickAnchors::updateAnchors(Measure* measure, staff_idx_t staffIdx,
+                                        const std::set<Fraction>& additionalAnchorRelTicks)
 {
     Fraction startTick = Fraction(0, 1);
     Fraction endTick = measure->ticks();
@@ -110,7 +116,8 @@ void EditTimeTickAnchors::updateAnchors(Measure* measure, staff_idx_t staffIdx, 
     updateLayout(measure);
 }
 
-TimeTickAnchor* EditTimeTickAnchors::createTimeTickAnchor(Measure* measure, Fraction relTick, staff_idx_t staffIdx)
+TimeTickAnchor* EditTimeTickAnchors::createTimeTickAnchor(Measure* measure, Fraction relTick,
+                                                          staff_idx_t staffIdx)
 {
     TimeTickAnchor* returnAnchor = nullptr;
 
@@ -125,7 +132,9 @@ TimeTickAnchor* EditTimeTickAnchors::createTimeTickAnchor(Measure* measure, Frac
         }
 
         Staff* linkedStaff = toStaff(linkedObj);
-        Measure* linkedMeasure = linkedObj == staff ? measure : linkedStaff->score()->tick2measureMM(measure->tick());
+        Measure* linkedMeasure = linkedObj
+                                 == staff ? measure : linkedStaff->score()->tick2measureMM(
+            measure->tick());
         if (!linkedMeasure) {
             continue;
         }
@@ -157,9 +166,11 @@ void EditTimeTickAnchors::updateLayout(Measure* measure)
     MeasureLayout::layoutTimeTickAnchors(measure, ctx);
 }
 
-void MoveElementAnchors::moveElementAnchors(EngravingItem* element, KeyboardKey key, KeyboardModifier mod)
+void MoveElementAnchors::moveElementAnchors(EngravingItem* element, KeyboardKey key,
+                                            KeyboardModifier mod)
 {
-    Segment* segment = element->parentItem() && element->parentItem()->isSegment() ? toSegment(element->parentItem()) : nullptr;
+    Segment* segment = element->parentItem() && element->parentItem()->isSegment() ? toSegment(
+        element->parentItem()) : nullptr;
     if (!segment) {
         return;
     }
@@ -173,7 +184,8 @@ void MoveElementAnchors::moveElementAnchors(EngravingItem* element, KeyboardKey 
         element->undoChangeProperty(Pid::ANCHOR_TO_END_OF_PREVIOUS, !anchorToEndOfPrevious,
                                     element->propertyFlags(Pid::ANCHOR_TO_END_OF_PREVIOUS));
 
-        bool needMoveSeg = (key == Key_Left && anchorToEndOfPrevious) || (key == Key_Right && !anchorToEndOfPrevious);
+        bool needMoveSeg = (key == Key_Left && anchorToEndOfPrevious)
+                           || (key == Key_Right && !anchorToEndOfPrevious);
         if (!needMoveSeg) {
             checkMeasureBoundariesAndMoveIfNeed(element);
             return;
@@ -215,7 +227,8 @@ void MoveElementAnchors::checkMeasureBoundariesAndMoveIfNeed(EngravingItem* elem
     if (needMoveToPrevious) {
         newSeg = prevMeasure->findSegment(SegmentType::TimeTick, curSeg->tick());
         if (!newSeg) {
-            TimeTickAnchor* anchor = EditTimeTickAnchors::createTimeTickAnchor(prevMeasure, curTick - prevMeasure->tick(),
+            TimeTickAnchor* anchor = EditTimeTickAnchors::createTimeTickAnchor(prevMeasure,
+                                                                               curTick - prevMeasure->tick(),
                                                                                element->staffIdx());
             EditTimeTickAnchors::updateLayout(prevMeasure);
             newSeg = anchor->segment();
@@ -231,7 +244,8 @@ void MoveElementAnchors::checkMeasureBoundariesAndMoveIfNeed(EngravingItem* elem
 
 void MoveElementAnchors::moveElementAnchorsOnDrag(EngravingItem* element, EditData& ed)
 {
-    Segment* segment = element->explicitParent() && element->parent()->isSegment() ? toSegment(element->parent()) : nullptr;
+    Segment* segment = element->explicitParent() && element->parent()->isSegment() ? toSegment(
+        element->parent()) : nullptr;
     if (!segment) {
         return;
     }
@@ -252,7 +266,8 @@ void MoveElementAnchors::moveElementAnchorsOnDrag(EngravingItem* element, EditDa
     }
 }
 
-Segment* MoveElementAnchors::findNewAnchorableSegmentFromDrag(EngravingItem* element, Segment* curSeg)
+Segment* MoveElementAnchors::findNewAnchorableSegmentFromDrag(EngravingItem* element,
+                                                              Segment* curSeg)
 {
     const System* system = curSeg->system();
     if (!system) {
@@ -275,12 +290,14 @@ Segment* MoveElementAnchors::findNewAnchorableSegmentFromDrag(EngravingItem* ele
     }
 
     Segment* newSeg = nullptr;
-    dragPositionToSegment(element->canvasPos(), newMeasure, element->staffIdx(), &newSeg, 0.5, true);
+    dragPositionToSegment(element->canvasPos(), newMeasure, element->staffIdx(), &newSeg, 0.5,
+                          true);
 
     return newSeg;
 }
 
-Segment* MoveElementAnchors::findNewAnchorSegmentForLine(LineSegment* lineSegment, const EditData& ed, const Segment* curSeg)
+Segment* MoveElementAnchors::findNewAnchorSegmentForLine(LineSegment* lineSegment,
+                                                         const EditData& ed, const Segment* curSeg)
 {
     SLine* line = lineSegment->line();
     Score* score = lineSegment->score();
@@ -307,7 +324,8 @@ Segment* MoveElementAnchors::findNewAnchorSegmentForLine(LineSegment* lineSegmen
     switch (ed.key) {
     case Key_Left: {
         if (ed.modifiers & ControlModifier) {
-            Measure* m = curSeg->rtick().isZero() ? curSeg->measure()->prevMeasure() : curSeg->measure();
+            Measure* m
+                = curSeg->rtick().isZero() ? curSeg->measure()->prevMeasure() : curSeg->measure();
             return m ? m->findFirstR(SegmentType::ChordRest, Fraction(0, 1)) : nullptr;
         }
         return findNewAnchorableSegment(curSeg, /*forward*/ false);
@@ -372,11 +390,14 @@ Segment* MoveElementAnchors::getNewSegment(EngravingItem* element, Segment* curS
 
 Segment* MoveElementAnchors::findNewAnchorableSegment(const Segment* curSeg, bool forward)
 {
-    Segment* newSeg = forward ? curSeg->next1(Segment::CHORD_REST_OR_TIME_TICK_TYPE) : curSeg->prev1(Segment::CHORD_REST_OR_TIME_TICK_TYPE);
+    Segment* newSeg
+        = forward ? curSeg->next1(Segment::CHORD_REST_OR_TIME_TICK_TYPE) : curSeg->prev1(
+              Segment::CHORD_REST_OR_TIME_TICK_TYPE);
 
     // Continue until we get to a different tick than where we are
     while (newSeg && newSeg->tick() == curSeg->tick()) {
-        newSeg = forward ? newSeg->next1(Segment::CHORD_REST_OR_TIME_TICK_TYPE) : newSeg->prev1(Segment::CHORD_REST_OR_TIME_TICK_TYPE);
+        newSeg = forward ? newSeg->next1(Segment::CHORD_REST_OR_TIME_TICK_TYPE) : newSeg->prev1(
+            Segment::CHORD_REST_OR_TIME_TICK_TYPE);
     }
     if (!newSeg) {
         return nullptr;
@@ -384,7 +405,8 @@ Segment* MoveElementAnchors::findNewAnchorableSegment(const Segment* curSeg, boo
 
     // Always prefer ChordRest segment if one exists at the same tick
     if (newSeg->segmentType() != SegmentType::ChordRest) {
-        Segment* newChordRestSeg = forward ? newSeg->next1(SegmentType::ChordRest) : newSeg->prev1(SegmentType::ChordRest);
+        Segment* newChordRestSeg = forward ? newSeg->next1(SegmentType::ChordRest) : newSeg->prev1(
+            SegmentType::ChordRest);
         if (newChordRestSeg && newChordRestSeg->tick() == newSeg->tick()) {
             newSeg = newChordRestSeg;
         }
@@ -430,7 +452,8 @@ void MoveElementAnchors::doMoveSegment(EngravingItem* element, Segment* newSeg, 
         if (linkedElement == element) {
             continue;
         }
-        Measure* linkedParentMeasure = toMeasure(toEngravingItem(linkedElement)->findAncestor(ElementType::MEASURE));
+        Measure* linkedParentMeasure
+            = toMeasure(toEngravingItem(linkedElement)->findAncestor(ElementType::MEASURE));
         bool linkedParentMeasureIsMMrest = linkedParentMeasure && linkedParentMeasure->isMMRest();
         if (linkedParentMeasureIsMMrest != parentMeasureIsMMRest) {
             for (EngravingObject* child : linkedElement->children()) {
@@ -464,9 +487,12 @@ void MoveElementAnchors::doMoveSegment(FiguredBass* element, Segment* newSeg, Fr
     if (newSeg->tick() > oldSeg->tick()) {
         FiguredBass* nextFB = nullptr;
         Fraction endTick = newSeg->tick() + element->ticks();
-        for (Segment* seg = newSeg->next1(Segment::CHORD_REST_OR_TIME_TICK_TYPE); seg && seg->tick() <= endTick;
+        for (Segment* seg = newSeg->next1(Segment::CHORD_REST_OR_TIME_TICK_TYPE);
+             seg && seg->tick() <= endTick;
              seg = seg->next1(Segment::CHORD_REST_OR_TIME_TICK_TYPE)) {
-            nextFB = toFiguredBass(seg->findAnnotation(ElementType::FIGURED_BASS, startTrack, endTrack));
+            nextFB
+                = toFiguredBass(seg->findAnnotation(ElementType::FIGURED_BASS, startTrack,
+                                                    endTrack));
             if (nextFB) {
                 break;
             }
@@ -479,9 +505,12 @@ void MoveElementAnchors::doMoveSegment(FiguredBass* element, Segment* newSeg, Fr
     // Shorten previous if needed
     if (newSeg->tick() < oldSeg->tick()) {
         FiguredBass* prevFB = nullptr;
-        for (Segment* seg = newSeg->prev1(Segment::CHORD_REST_OR_TIME_TICK_TYPE); seg && seg->measure()->isAfterOrEqual(newSeg->measure());
+        for (Segment* seg = newSeg->prev1(Segment::CHORD_REST_OR_TIME_TICK_TYPE);
+             seg && seg->measure()->isAfterOrEqual(newSeg->measure());
              seg = seg->prev1(Segment::CHORD_REST_OR_TIME_TICK_TYPE)) {
-            prevFB = (FiguredBass*)(seg->findAnnotation(ElementType::FIGURED_BASS, startTrack, endTrack));
+            prevFB
+                = (FiguredBass*)(seg->findAnnotation(ElementType::FIGURED_BASS, startTrack,
+                                                     endTrack));
             if (prevFB) {
                 break;
             }
@@ -492,7 +521,8 @@ void MoveElementAnchors::doMoveSegment(FiguredBass* element, Segment* newSeg, Fr
     }
 }
 
-void MoveElementAnchors::doMoveHarmonyOrFretDiagramSegment(EngravingItem* element, Segment* newSeg, Fraction tickDiff)
+void MoveElementAnchors::doMoveHarmonyOrFretDiagramSegment(EngravingItem* element, Segment* newSeg,
+                                                           Fraction tickDiff)
 {
     for (EngravingObject* item : element->linkList()) {
         Score* score = item->score();
@@ -519,7 +549,8 @@ void MoveElementAnchors::doMoveHarmonyOrFretDiagramSegment(EngravingItem* elemen
     }
 }
 
-void MoveElementAnchors::moveSnappedItems(EngravingItem* element, Segment* newSeg, Fraction tickDiff)
+void MoveElementAnchors::moveSnappedItems(EngravingItem* element, Segment* newSeg,
+                                          Fraction tickDiff)
 {
     if (EngravingItem* itemAfter = element->mutldata()->itemSnappedAfter()) {
         if (itemAfter->isTextBase() && itemAfter->parent() != newSeg) {
@@ -546,7 +577,8 @@ void MoveElementAnchors::moveSnappedItems(EngravingItem* element, Segment* newSe
     }
 }
 
-void MoveElementAnchors::rebaseOffsetOnMoveSegment(EngravingItem* element, const PointF& curOffset, Segment* newSeg, Segment* oldSeg)
+void MoveElementAnchors::rebaseOffsetOnMoveSegment(EngravingItem* element, const PointF& curOffset,
+                                                   Segment* newSeg, Segment* oldSeg)
 {
     PointF offsetShift = newSeg->pagePos() - oldSeg->pagePos();
     element->setOffset(curOffset - offsetShift);
@@ -583,8 +615,10 @@ TimeTickAnchor::DrawRegion TimeTickAnchor::drawRegion() const
     const staff_idx_t thisStaffIdx = staffIdx();
     const Fraction thisTick = segment()->tick();
 
-    const bool trackOutOfRange = thisStaffIdx < showAnchors.staffIdx || thisStaffIdx >= showAnchors.endStaffIdx;
-    const bool tickOutOfRange = thisTick < showAnchors.startTickExtendedRegion || thisTick >= showAnchors.endTickExtendedRegion;
+    const bool trackOutOfRange = thisStaffIdx < showAnchors.staffIdx
+                                 || thisStaffIdx >= showAnchors.endStaffIdx;
+    const bool tickOutOfRange = thisTick < showAnchors.startTickExtendedRegion
+                                || thisTick >= showAnchors.endTickExtendedRegion;
     if (trackOutOfRange || tickOutOfRange) {
         return DrawRegion::OUT_OF_RANGE;
     }

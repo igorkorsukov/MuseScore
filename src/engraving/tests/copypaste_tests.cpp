@@ -58,7 +58,9 @@ public:
 
 void Engraving_CopyPasteTests::copypaste(const char* idx)
 {
-    MasterScore* score = ScoreRW::readScore(COPYPASTE_DATA_DIR + String(u"copypaste%1.mscx").arg(String::fromUtf8(idx)));
+    MasterScore* score
+        = ScoreRW::readScore(COPYPASTE_DATA_DIR
+                             + String(u"copypaste%1.mscx").arg(String::fromUtf8(idx)));
     EXPECT_TRUE(score);
 
     Measure* m1 = score->firstMeasure();
@@ -90,8 +92,11 @@ void Engraving_CopyPasteTests::copypaste(const char* idx)
     score->cmdPaste(&ma, 0);
     score->endCmd();
 
-    EXPECT_TRUE(ScoreComp::saveCompareScore(score, String(u"copypaste%1.mscx").arg(String::fromUtf8(idx)),
-                                            COPYPASTE_DATA_DIR + String(u"copypaste%1-ref.mscx").arg(String::fromUtf8(idx))));
+    EXPECT_TRUE(ScoreComp::saveCompareScore(score,
+                                            String(u"copypaste%1.mscx").arg(String::fromUtf8(idx)),
+                                            COPYPASTE_DATA_DIR
+                                            + String(u"copypaste%1-ref.mscx").arg(String::fromUtf8(
+                                                                                      idx))));
     delete score;
 }
 
@@ -196,7 +201,9 @@ TEST_F(Engraving_CopyPasteTests, copypaste27)
 
 void Engraving_CopyPasteTests::copypastevoice(const char* idx, int voice)
 {
-    MasterScore* score = ScoreRW::readScore(COPYPASTE_DATA_DIR + String(u"copypaste%1.mscx").arg(String::fromUtf8(idx)));
+    MasterScore* score
+        = ScoreRW::readScore(COPYPASTE_DATA_DIR
+                             + String(u"copypaste%1.mscx").arg(String::fromUtf8(idx)));
     EXPECT_TRUE(score);
 
     Measure* m1 = score->firstMeasure();
@@ -226,8 +233,11 @@ void Engraving_CopyPasteTests::copypastevoice(const char* idx, int voice)
     score->cmdPaste(&ma, 0);
     score->endCmd();
 
-    EXPECT_TRUE(ScoreComp::saveCompareScore(score, String(u"copypaste%1.mscx").arg(String::fromUtf8(idx)),
-                                            COPYPASTE_DATA_DIR + String(u"copypaste%1-ref.mscx").arg(String::fromUtf8(idx))));
+    EXPECT_TRUE(ScoreComp::saveCompareScore(score,
+                                            String(u"copypaste%1.mscx").arg(String::fromUtf8(idx)),
+                                            COPYPASTE_DATA_DIR
+                                            + String(u"copypaste%1-ref.mscx").arg(String::fromUtf8(
+                                                                                      idx))));
     delete score;
 }
 
@@ -293,7 +303,8 @@ TEST_F(Engraving_CopyPasteTests, copypaste2Voice5)
     score->cmdDeleteSelection();   //cut
 
     //paste to quarter rest
-    EngravingItem* dest = m1->first()->next(segTypeCR)->next(segTypeCR)->next(segTypeCR)->element(0);
+    EngravingItem* dest
+        = m1->first()->next(segTypeCR)->next(segTypeCR)->next(segTypeCR)->element(0);
     EXPECT_TRUE(dest->isRest());
     EXPECT_EQ(toChordRest(dest)->durationType(), DurationType::V_QUARTER);
     score->select(dest);
@@ -331,7 +342,9 @@ TEST_F(Engraving_CopyPasteTests, copypaste2Voice6)
     mimeData->setData(mimeType, score->selection().mimeData().toQByteArray());
 
     //paste to 16th rest
-    EngravingItem* dest = m1->first(segTypeCR)->next(segTypeCR)->next(segTypeCR)->next(segTypeCR)->next(segTypeCR)->element(0);
+    EngravingItem* dest
+        = m1->first(segTypeCR)->next(segTypeCR)->next(segTypeCR)->next(segTypeCR)->next(segTypeCR)->
+          element(0);
 
     EXPECT_TRUE(dest->isRest());
     EXPECT_EQ(toChordRest(dest)->durationType(), DurationType::V_16TH);
@@ -389,7 +402,9 @@ TEST_F(Engraving_CopyPasteTests, copypasteOnlySecondVoice)
 
 void Engraving_CopyPasteTests::copypastestaff(const char* idx)
 {
-    MasterScore* score = ScoreRW::readScore(COPYPASTE_DATA_DIR + String("copypaste%1.mscx").arg(String::fromUtf8(idx)));
+    MasterScore* score
+        = ScoreRW::readScore(COPYPASTE_DATA_DIR
+                             + String("copypaste%1.mscx").arg(String::fromUtf8(idx)));
     EXPECT_TRUE(score);
 
     Measure* m1 = score->firstMeasure();
@@ -414,8 +429,11 @@ void Engraving_CopyPasteTests::copypastestaff(const char* idx)
     score->cmdPaste(&ma, 0);
     score->endCmd();
 
-    EXPECT_TRUE(ScoreComp::saveCompareScore(score, String("copypaste%1.mscx").arg(String::fromUtf8(idx)),
-                                            COPYPASTE_DATA_DIR + String("copypaste%1-ref.mscx").arg(String::fromUtf8(idx))));
+    EXPECT_TRUE(ScoreComp::saveCompareScore(score,
+                                            String("copypaste%1.mscx").arg(String::fromUtf8(idx)),
+                                            COPYPASTE_DATA_DIR
+                                            + String("copypaste%1-ref.mscx").arg(String::fromUtf8(
+                                                                                     idx))));
     delete score;
 }
 
@@ -426,7 +444,8 @@ TEST_F(Engraving_CopyPasteTests, copypastestaff50)
 
 TEST_F(Engraving_CopyPasteTests, copypastePartial)
 {
-    MasterScore* score = ScoreRW::readScore(COPYPASTE_DATA_DIR + String("copypaste_partial_01.mscx"));
+    MasterScore* score
+        = ScoreRW::readScore(COPYPASTE_DATA_DIR + String("copypaste_partial_01.mscx"));
     EXPECT_TRUE(score);
 
     Measure* m1 = score->firstMeasure();
@@ -452,13 +471,16 @@ TEST_F(Engraving_CopyPasteTests, copypastePartial)
     score->endCmd();
 
     EXPECT_TRUE(ScoreComp::saveCompareScore(score, String("copypaste_partial_01.mscx"),
-                                            COPYPASTE_DATA_DIR + String("copypaste_partial_01-ref.mscx")));
+                                            COPYPASTE_DATA_DIR
+                                            + String("copypaste_partial_01-ref.mscx")));
     delete score;
 }
 
 void Engraving_CopyPasteTests::copypastetuplet(const char* idx)
 {
-    MasterScore* score = ScoreRW::readScore(COPYPASTE_DATA_DIR + String("copypaste_tuplet_%1.mscx").arg(String::fromUtf8(idx)));
+    MasterScore* score = ScoreRW::readScore(COPYPASTE_DATA_DIR + String(
+                                                "copypaste_tuplet_%1.mscx").arg(String::fromUtf8(
+                                                                                    idx)));
     EXPECT_TRUE(score);
 
     Measure* m1 = score->firstMeasure();
@@ -485,8 +507,13 @@ void Engraving_CopyPasteTests::copypastetuplet(const char* idx)
     score->cmdPaste(&ma, 0);
     score->endCmd();
 
-    EXPECT_TRUE(ScoreComp::saveCompareScore(score, String("copypaste_tuplet_%1.mscx").arg(String::fromUtf8(idx)),
-                                            COPYPASTE_DATA_DIR + String("copypaste_tuplet_%1-ref.mscx").arg(String::fromUtf8(idx))));
+    EXPECT_TRUE(ScoreComp::saveCompareScore(score,
+                                            String("copypaste_tuplet_%1.mscx").arg(String::fromUtf8(
+                                                                                       idx)),
+                                            COPYPASTE_DATA_DIR
+                                            + String("copypaste_tuplet_%1-ref.mscx").arg(String::
+                                                                                         fromUtf8(
+                                                                                             idx))));
     delete score;
 }
 
@@ -522,7 +549,8 @@ void Engraving_CopyPasteTests::copypastenote(const String& idx, Fraction scale)
     score->cmdPaste(&ma, 0, scale);
     score->endCmd();
     EXPECT_TRUE(ScoreComp::saveCompareScore(score, "copypasteNote" + idx + ".mscx",
-                                            COPYPASTE_DATA_DIR + "copypasteNote" + idx + "-ref.mscx"));
+                                            COPYPASTE_DATA_DIR + "copypasteNote" + idx
+                                            + "-ref.mscx"));
 }
 
 TEST_F(Engraving_CopyPasteTests, copypasteQtrNoteOntoWholeRest)
@@ -758,7 +786,8 @@ TEST_F(Engraving_CopyPasteTests, DISABLED_copypastetremolo)
     score->endCmd();
 
     EXPECT_TRUE(ScoreComp::saveCompareScore(score, String("copypaste_tremolo.mscx"),
-                                            COPYPASTE_DATA_DIR + String("copypaste_tremolo-ref.mscx")));
+                                            COPYPASTE_DATA_DIR
+                                            + String("copypaste_tremolo-ref.mscx")));
     delete score;
 }
 
@@ -801,14 +830,16 @@ TEST_F(Engraving_CopyPasteTests, copypasteparts)
     score->endCmd();
 
     EXPECT_TRUE(ScoreComp::saveCompareScore(score, String("copypaste_parts.mscx"),
-                                            COPYPASTE_DATA_DIR + String("copypaste_parts-ref.mscx")));
+                                            COPYPASTE_DATA_DIR
+                                            + String("copypaste_parts-ref.mscx")));
 }
 
 // Use "repeat list selection" on the first chord in every measure of this score...
 TEST_F(Engraving_CopyPasteTests, repeatListSelection)
 {
     //! [GIVEN] A score with a variation of ChordRests at the start of each measure...
-    MasterScore* score = ScoreRW::readScore(COPYPASTE_DATA_DIR + String("copypaste_repeatListSelection.mscx"));
+    MasterScore* score
+        = ScoreRW::readScore(COPYPASTE_DATA_DIR + String("copypaste_repeatListSelection.mscx"));
     EXPECT_TRUE(score);
 
     //! --
@@ -919,7 +950,8 @@ TEST_F(Engraving_CopyPasteTests, repeatListSelection)
 
     //! [THEN] The result matches our expectations...
     EXPECT_TRUE(ScoreComp::saveCompareScore(score, String("copypaste_repeatListSelection.mscx"),
-                                            COPYPASTE_DATA_DIR + String("copypaste_repeatListSelection-ref.mscx")));
+                                            COPYPASTE_DATA_DIR
+                                            + String("copypaste_repeatListSelection-ref.mscx")));
 
     delete score;
 }

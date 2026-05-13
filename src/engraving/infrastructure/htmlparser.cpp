@@ -137,7 +137,8 @@ muse::String HtmlParser::parse(const muse::String& in_html)
     replaceSym(text, 0xee8488 /*0xe108*/, "<sym>metNote32ndUp</sym>");            // note32_Sym
     replaceSym(text, 0xee8489 /*0xe109*/, "<sym>metNote64thUp</sym>");            // note64_Sym
     replaceSym(text, 0xee848a /*0xe10a*/, "<sym>metAugmentationDot</sym>");       // dot
-    replaceSym(text, 0xee848b /*0xe10b*/, "<sym>metAugmentationDot</sym><sym>space</sym><sym>metAugmentationDot</sym>");          // dotdot
+    replaceSym(text, 0xee848b /*0xe10b*/,
+               "<sym>metAugmentationDot</sym><sym>space</sym><sym>metAugmentationDot</sym>");                                     // dotdot
     replaceSym(text, 0xee85a7 /*0xe167*/, "<sym>segno</sym>");                    // segno
     replaceSym(text, 0xee85a8 /*0xe168*/, "<sym>coda</sym>");                     // coda
     replaceSym(text, 0xee85a9 /*0xe169*/, "<sym>codaSquare</sym>");               // varcoda

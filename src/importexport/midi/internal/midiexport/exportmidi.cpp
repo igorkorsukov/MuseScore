@@ -213,7 +213,8 @@ void ExportMidi::writeHeader(const CompatMidiRendererInternal::Context& context)
 //    from mscore->synthesizerState() as the synthState parameter.
 //---------------------------------------------------------
 
-bool ExportMidi::write(QIODevice* device, bool midiExpandRepeats, bool exportRPNs, const SynthesizerState& synthState)
+bool ExportMidi::write(QIODevice* device, bool midiExpandRepeats, bool exportRPNs,
+                       const SynthesizerState& synthState)
 {
     m_midiFile.setDivision(Constants::DIVISION);
     m_midiFile.setFormat(1);
@@ -276,12 +277,16 @@ bool ExportMidi::write(QIODevice* device, bool midiExpandRepeats, bool exportRPN
                     }
 
                     if (ch->program() != -1) {
-                        track.insert(0, MidiEvent(ME_CONTROLLER, channel, CTRL_PROGRAM, ch->program()));
+                        track.insert(0,
+                                     MidiEvent(ME_CONTROLLER, channel, CTRL_PROGRAM,
+                                               ch->program()));
                     }
                     track.insert(0, MidiEvent(ME_CONTROLLER, channel, CTRL_VOLUME, ch->volume()));
                     track.insert(0, MidiEvent(ME_CONTROLLER, channel, CTRL_PANPOT, ch->pan()));
-                    track.insert(0, MidiEvent(ME_CONTROLLER, channel, CTRL_REVERB_SEND, ch->reverb()));
-                    track.insert(0, MidiEvent(ME_CONTROLLER, channel, CTRL_CHORUS_SEND, ch->chorus()));
+                    track.insert(0, MidiEvent(ME_CONTROLLER, channel, CTRL_REVERB_SEND,
+                                              ch->reverb()));
+                    track.insert(0, MidiEvent(ME_CONTROLLER, channel, CTRL_CHORUS_SEND,
+                                              ch->chorus()));
                 }
 
                 // Export port to MIDI META event
@@ -303,8 +308,10 @@ bool ExportMidi::write(QIODevice* device, bool midiExpandRepeats, bool exportRPN
                         }
                         if (event.discard() == staffIdx + 1 && event.velo() > 0) {
                             // turn note off so we can restrike it in another track
-                            track.insert(CompatMidiRender::tick(context, item.first), MidiEvent(ME_NOTEON, channel,
-                                                                                                event.pitch(), 0));
+                            track.insert(CompatMidiRender::tick(context, item.first),
+                                         MidiEvent(ME_NOTEON, channel,
+                                                   event
+                                                   .pitch(), 0));
                         }
 
                         staff_idx_t equivalentStaffIdx = staffIdx;
@@ -337,20 +344,30 @@ bool ExportMidi::write(QIODevice* device, bool midiExpandRepeats, bool exportRPN
                         if (event.type() == ME_NOTEON) {
                             // use the note values instead of the event values if portamento is suppressed
                             if (!exportRPNs && event.portamento()) {
-                                track.insert(CompatMidiRender::tick(context, item.first), MidiEvent(ME_NOTEON, channel,
-                                                                                                    event.note()->pitch(),
-                                                                                                    event.velo()));
+                                track.insert(CompatMidiRender::tick(context, item.first),
+                                             MidiEvent(ME_NOTEON, channel,
+                                                       event
+                                                       .note()->pitch(),
+                                                       event
+                                                       .velo()));
                             } else {
-                                track.insert(CompatMidiRender::tick(context, item.first), MidiEvent(ME_NOTEON, channel,
-                                                                                                    event.pitch(), event.velo()));
+                                track.insert(CompatMidiRender::tick(context, item.first),
+                                             MidiEvent(ME_NOTEON, channel,
+                                                       event
+                                                       .pitch(), event.velo()));
                             }
                         } else if (event.type() == ME_CONTROLLER) {
-                            track.insert(CompatMidiRender::tick(context, item.first), MidiEvent(ME_CONTROLLER, channel,
-                                                                                                event.controller(),
-                                                                                                event.value()));
+                            track.insert(CompatMidiRender::tick(context, item.first),
+                                         MidiEvent(ME_CONTROLLER, channel,
+                                                   event
+                                                   .controller(),
+                                                   event
+                                                   .value()));
                         } else if (event.type() == ME_PITCHBEND) {
-                            track.insert(CompatMidiRender::tick(context, item.first), MidiEvent(ME_PITCHBEND, channel,
-                                                                                                event.dataA(), event.dataB()));
+                            track.insert(CompatMidiRender::tick(context, item.first),
+                                         MidiEvent(ME_PITCHBEND, channel,
+                                                   event
+                                                   .dataA(), event.dataB()));
                         } else {
                             LOGD("writeMidi: unknown midi event 0x%02x", event.type());
                         }
@@ -366,20 +383,23 @@ bool ExportMidi::write(QIODevice* device, bool midiExpandRepeats, bool exportRPN
 
             // export Lyrics
             SegmentType st = SegmentType::ChordRest;
-            for (Segment* seg = rs->firstMeasure()->first(st); seg && seg->tick().ticks() < endTick; seg = seg->next1(st)) {
+            for (Segment* seg = rs->firstMeasure()->first(st); seg && seg->tick().ticks() < endTick;
+                 seg = seg->next1(st)) {
                 for (track_idx_t i = part->startTrack(); i < part->endTrack(); ++i) {
                     ChordRest* cr = toChordRest(seg->element(i));
                     if (cr) {
                         for (const auto& lyric : cr->lyrics()) {
                             LyricsSyllabic syllabic = lyric->syllabic();
                             muse::ByteArray lyricText = lyric->plainText().toUtf8();
-                            if ((syllabic == LyricsSyllabic::SINGLE || syllabic == LyricsSyllabic::END)
+                            if ((syllabic == LyricsSyllabic::SINGLE
+                                 || syllabic == LyricsSyllabic::END)
                                 && (lyricText.empty() || lyricText[lyricText.size() - 1] != ' ')) {
                                 lyricText.push_back(' ');
                             }
 
                             size_t len = lyricText.size() + 1;
-                            std::vector<unsigned char> data(lyricText.constData(), lyricText.constData() + len);
+                            std::vector<unsigned char> data(lyricText.constData(),
+                                                            lyricText.constData() + len);
 
                             MidiEvent ev;
                             ev.setType(ME_META);
@@ -396,7 +416,8 @@ bool ExportMidi::write(QIODevice* device, bool midiExpandRepeats, bool exportRPN
 
             // export RehearsalMarks only for first track
             if (staffIdx == 0) {
-                for (Segment* seg = rs->firstMeasure()->first(Segment::CHORD_REST_OR_TIME_TICK_TYPE);
+                for (Segment* seg =
+                         rs->firstMeasure()->first(Segment::CHORD_REST_OR_TIME_TICK_TYPE);
                      seg && seg->tick().ticks() < endTick;
                      seg = seg->next1(Segment::CHORD_REST_OR_TIME_TICK_TYPE)) {
                     for (EngravingItem* e : seg->annotations()) {
@@ -404,7 +425,8 @@ bool ExportMidi::write(QIODevice* device, bool midiExpandRepeats, bool exportRPN
                             RehearsalMark* r = toRehearsalMark(e);
                             muse::ByteArray rText = r->plainText().toUtf8();
                             size_t len = rText.size() + 1;
-                            std::vector<unsigned char> data(rText.constData(), rText.constData() + len);
+                            std::vector<unsigned char> data(rText.constData(),
+                                                            rText.constData() + len);
 
                             MidiEvent ev;
                             ev.setType(ME_META);
@@ -424,7 +446,8 @@ bool ExportMidi::write(QIODevice* device, bool midiExpandRepeats, bool exportRPN
     return !m_midiFile.write(device);
 }
 
-bool ExportMidi::write(const QString& name, bool midiExpandRepeats, bool exportRPNs, const SynthesizerState& synthState)
+bool ExportMidi::write(const QString& name, bool midiExpandRepeats, bool exportRPNs,
+                       const SynthesizerState& synthState)
 {
     m_file.setFileName(name);
     if (!m_file.open(QIODevice::WriteOnly)) {

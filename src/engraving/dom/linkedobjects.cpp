@@ -49,7 +49,8 @@ EngravingObject* LinkedObjects::mainElement()
     MasterScore* ms = front()->score()->masterScore();
     const bool elements = front()->isEngravingItem();
     const bool staves = front()->isStaff();
-    return *std::min_element(begin(), end(), [ms, elements, staves](EngravingObject* s1, EngravingObject* s2) {
+    return *std::min_element(begin(), end(),
+                             [ms, elements, staves](EngravingObject* s1, EngravingObject* s2) {
         if (s1->score() == ms && s2->score() != ms) {
             return true;
         }

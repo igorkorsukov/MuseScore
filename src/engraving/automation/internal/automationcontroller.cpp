@@ -70,15 +70,20 @@ static const std::unordered_map<DynamicType, double> SINGLE_NOTE_DYNAMIC_VALUES 
 };
 
 static const std::unordered_map<DynamicType, std::pair<double, double> > COMPOUND_DYNAMIC_VALUES {
-    { DynamicType::FP, { ORDINARY_DYNAMIC_VALUES.at(DynamicType::F), ORDINARY_DYNAMIC_VALUES.at(DynamicType::P) } },
-    { DynamicType::PF, { ORDINARY_DYNAMIC_VALUES.at(DynamicType::P), ORDINARY_DYNAMIC_VALUES.at(DynamicType::F) } },
-    { DynamicType::SFP, { ORDINARY_DYNAMIC_VALUES.at(DynamicType::F), ORDINARY_DYNAMIC_VALUES.at(DynamicType::P) } },
-    { DynamicType::SFPP, { ORDINARY_DYNAMIC_VALUES.at(DynamicType::F), ORDINARY_DYNAMIC_VALUES.at(DynamicType::PP) } },
+    { DynamicType::FP, { ORDINARY_DYNAMIC_VALUES.at(DynamicType::F), ORDINARY_DYNAMIC_VALUES.at(
+                             DynamicType::P) } },
+    { DynamicType::PF, { ORDINARY_DYNAMIC_VALUES.at(DynamicType::P), ORDINARY_DYNAMIC_VALUES.at(
+                             DynamicType::F) } },
+    { DynamicType::SFP, { ORDINARY_DYNAMIC_VALUES.at(DynamicType::F), ORDINARY_DYNAMIC_VALUES.at(
+                              DynamicType::P) } },
+    { DynamicType::SFPP, { ORDINARY_DYNAMIC_VALUES.at(DynamicType::F), ORDINARY_DYNAMIC_VALUES.at(
+                               DynamicType::PP) } },
 };
 
 static std::vector<AutomationCurveKey> resolveKeys(const EngravingItem* item, AutomationType type)
 {
-    const VoiceAssignment voiceAssignment = item->getProperty(Pid::VOICE_ASSIGNMENT).value<VoiceAssignment>();
+    const VoiceAssignment voiceAssignment
+        = item->getProperty(Pid::VOICE_ASSIGNMENT).value<VoiceAssignment>();
 
     std::vector<AutomationCurveKey> result;
     AutomationCurveKey key;
@@ -276,7 +281,8 @@ void AutomationController::addDynamicPoints(const Dynamic* dynamic, int tickOffs
     }
 }
 
-void AutomationController::addDynamicPoints(const Dynamic* dynamic, int tickOffset, const AutomationCurveKey& key)
+void AutomationController::addDynamicPoints(const Dynamic* dynamic, int tickOffset,
+                                            const AutomationCurveKey& key)
 {
     IF_ASSERT_FAILED(key.isValid()) {
         return;
@@ -294,7 +300,8 @@ void AutomationController::addDynamicPoints(const Dynamic* dynamic, int tickOffs
     if (muse::contains(ORDINARY_DYNAMIC_VALUES, dynamicType)) {
         AutomationPoint point;
         point.outValue = muse::value(ORDINARY_DYNAMIC_VALUES, dynamicType);
-        const bool isHairpinEnd = isEndDynamicOfHairpin(dynamic, point.outValue, prevPoint.outValue);
+        const bool isHairpinEnd
+            = isEndDynamicOfHairpin(dynamic, point.outValue, prevPoint.outValue);
         point.inValue = isHairpinEnd ? point.outValue : prevPoint.outValue;
         point.itemId = eid;
         m_automation->addPoint(key, dynamicUTick, point);
@@ -304,7 +311,8 @@ void AutomationController::addDynamicPoints(const Dynamic* dynamic, int tickOffs
     if (muse::contains(SINGLE_NOTE_DYNAMIC_VALUES, dynamicType)) {
         AutomationPoint point;
         point.outValue = muse::value(SINGLE_NOTE_DYNAMIC_VALUES, dynamicType);
-        const bool isHairpinEnd = isEndDynamicOfHairpin(dynamic, point.outValue, prevPoint.outValue);
+        const bool isHairpinEnd
+            = isEndDynamicOfHairpin(dynamic, point.outValue, prevPoint.outValue);
         point.inValue = isHairpinEnd ? point.outValue : prevPoint.outValue;
         point.itemId = eid;
         m_automation->addPoint(key, dynamicUTick, point);
@@ -323,7 +331,8 @@ void AutomationController::addDynamicPoints(const Dynamic* dynamic, int tickOffs
 
         AutomationPoint startPoint;
         startPoint.outValue = values.first;
-        const bool isHairpinEnd = isEndDynamicOfHairpin(dynamic, startPoint.outValue, prevPoint.outValue);
+        const bool isHairpinEnd = isEndDynamicOfHairpin(dynamic, startPoint.outValue,
+                                                        prevPoint.outValue);
         startPoint.inValue = isHairpinEnd ? startPoint.outValue : prevPoint.outValue;
         startPoint.interpolation = AutomationPoint::InterpolationType::Exponential;
         startPoint.itemId = eid;
@@ -339,7 +348,8 @@ void AutomationController::addDynamicPoints(const Dynamic* dynamic, int tickOffs
     }
 }
 
-void AutomationController::addSpannerPoints(const Score* score, int repeatStartTick, int repeatEndTick, int tickOffset)
+void AutomationController::addSpannerPoints(const Score* score, int repeatStartTick,
+                                            int repeatEndTick, int tickOffset)
 {
     const SpannerMap& spannerMap = score->spannerMap();
     if (spannerMap.empty()) {
@@ -361,7 +371,8 @@ void AutomationController::addSpannerPoints(const Score* score, int repeatStartT
     }
 }
 
-void AutomationController::addHairpinPoints(const Hairpin* hairpin, int tickOffset, const AutomationCurveKey& key)
+void AutomationController::addHairpinPoints(const Hairpin* hairpin, int tickOffset,
+                                            const AutomationCurveKey& key)
 {
     const int hairpinFrom = hairpin->tick().ticks() + tickOffset;
     const int hairpinTo = hairpinFrom + hairpin->ticks().ticks();
@@ -396,7 +407,8 @@ void AutomationController::addHairpinPoints(const Hairpin* hairpin, int tickOffs
 
         const AutomationPoint& prevPoint = m_automation->activePoint(key, hairpinFrom);
         AutomationPoint point;
-        point.outValue = prevPoint.outValue + (hairpin->isCrescendo() ? DYNAMIC_STEP : -DYNAMIC_STEP);
+        point.outValue = prevPoint.outValue
+                         + (hairpin->isCrescendo() ? DYNAMIC_STEP : -DYNAMIC_STEP);
         point.inValue = point.outValue;
         point.itemId = eid;
         m_automation->addPoint(key, hairpinTo, point);

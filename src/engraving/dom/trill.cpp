@@ -52,7 +52,8 @@ static const ElementStyle trillStyle {
 };
 
 TrillSegment::TrillSegment(Trill* sp, System* parent)
-    : LineSegment(ElementType::TRILL_SEGMENT, sp, parent, ElementFlag::MOVABLE | ElementFlag::ON_STAFF)
+    : LineSegment(ElementType::TRILL_SEGMENT, sp, parent,
+                  ElementFlag::MOVABLE | ElementFlag::ON_STAFF)
 {
 }
 
@@ -298,7 +299,8 @@ PointF Trill::trillLinePos(const SLine* line, Grip grip, System** system)
             const GraceNotesGroup* graceGroup = toGraceNotesGroup(preAppendedItem);
             for (const Chord* graceChord : *graceGroup) {
                 leftMostGraceChord = leftMostGraceChord
-                                     && leftMostGraceChord->x() < graceChord->x() ? leftMostGraceChord : graceChord;
+                                     && leftMostGraceChord->x()
+                                     < graceChord->x() ? leftMostGraceChord : graceChord;
             }
             if (leftMostGraceChord) {
                 graceOffset = segment->pageX() - leftMostGraceChord->pageX();
@@ -440,6 +442,8 @@ Sid Trill::defaultPosSid() const
 
 void Trill::doComputeEndElement()
 {
-    setEndElement(score()->findChordRestEndingBeforeTickInStaffAndVoice(tick2(), track2staff(track2()), voice()));
+    setEndElement(score()->findChordRestEndingBeforeTickInStaffAndVoice(tick2(),
+                                                                        track2staff(track2()),
+                                                                        voice()));
 }
 }

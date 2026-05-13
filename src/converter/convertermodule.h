@@ -32,7 +32,8 @@ public:
     std::string moduleName() const override;
     void registerApi() override;
 
-    muse::modularity::IContextSetup* newContext(const muse::modularity::ContextPtr& ctx) const override;
+    muse::modularity::IContextSetup* newContext(const muse::modularity::ContextPtr& ctx) const
+    override;
 };
 
 class ConverterModuleContext : public muse::modularity::IContextSetup

@@ -29,7 +29,8 @@
 using namespace mu::inspector;
 using namespace mu::engraving;
 
-GeneralSettingsModel::GeneralSettingsModel(QObject* parent, const muse::modularity::ContextPtr& iocCtx,
+GeneralSettingsModel::GeneralSettingsModel(QObject* parent,
+                                           const muse::modularity::ContextPtr& iocCtx,
                                            IElementRepositoryService* repository)
     : AbstractInspectorModel(parent, iocCtx, repository)
 {
@@ -47,11 +48,14 @@ GeneralSettingsModel::GeneralSettingsModel(QObject* parent, const muse::modulari
 
 void GeneralSettingsModel::createProperties()
 {
-    m_isVisible = buildPropertyItem(Pid::VISIBLE, [this](const mu::engraving::Pid, const QVariant& newValue) {
-        onVisibleChanged(newValue.toBool());
+    m_isVisible
+        = buildPropertyItem(Pid::VISIBLE, [this](const mu::engraving::Pid, const QVariant& newValue) {
+        onVisibleChanged(
+            newValue.toBool());
     });
 
-    m_isSmall = buildPropertyItem(Pid::SMALL, [this](const mu::engraving::Pid, const QVariant& newValue) {
+    m_isSmall
+        = buildPropertyItem(Pid::SMALL, [this](const mu::engraving::Pid, const QVariant& newValue) {
         setPropertyValue(m_elementsForIsSmallProperty, Pid::SMALL, newValue);
     });
 
@@ -121,7 +125,8 @@ void GeneralSettingsModel::resetProperties()
     m_isSmall->resetToDefault();
 }
 
-void GeneralSettingsModel::onNotationChanged(const PropertyIdSet& changedPropertyIdSet, const StyleIdSet&)
+void GeneralSettingsModel::onNotationChanged(const PropertyIdSet& changedPropertyIdSet,
+                                             const StyleIdSet&)
 {
     loadProperties(changedPropertyIdSet);
 }
@@ -159,8 +164,10 @@ void GeneralSettingsModel::onCurrentNotationChanged()
 void GeneralSettingsModel::onVisibleChanged(bool visible)
 {
     const muse::TranslatableString actionName = visible
-                                                ? TranslatableString("undoableAction", "Make element(s) visible")
-                                                : TranslatableString("undoableAction", "Make element(s) invisible");
+                                                ? TranslatableString("undoableAction",
+                                                                     "Make element(s) visible")
+                                                : TranslatableString("undoableAction",
+                                                                     "Make element(s) invisible");
 
     beginCommand(actionName);
 

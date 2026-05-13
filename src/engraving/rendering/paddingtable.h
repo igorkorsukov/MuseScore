@@ -36,8 +36,14 @@ template<typename T>
 struct PaddingVector : std::array<T, TOT_ELEMENT_TYPES>
 {
     T& operator [](size_t i) { return std::array<T, TOT_ELEMENT_TYPES>::operator [](i); }
-    T& operator [](ElementType et) { return std::array<T, TOT_ELEMENT_TYPES>::operator [](static_cast<size_t>(et)); }
-    const T& at(ElementType et) const { return std::array<T, TOT_ELEMENT_TYPES>::at(static_cast<size_t>(et)); }
+    T& operator [](ElementType et)
+    {
+        return std::array<T, TOT_ELEMENT_TYPES>::operator [](static_cast<size_t>(et));
+    }
+    const T& at(ElementType et) const
+    {
+        return std::array<T, TOT_ELEMENT_TYPES>::at(static_cast<size_t>(et));
+    }
 };
 
 struct PaddingTable : public PaddingVector<PaddingVector<double> >

@@ -27,7 +27,8 @@
 using namespace mu::inspector;
 using namespace mu::engraving;
 
-HorizontalFrameSettingsModel::HorizontalFrameSettingsModel(QObject* parent, const muse::modularity::ContextPtr& iocCtx,
+HorizontalFrameSettingsModel::HorizontalFrameSettingsModel(QObject* parent,
+                                                           const muse::modularity::ContextPtr& iocCtx,
                                                            IElementRepositoryService* repository)
     : AbstractInspectorModel(parent, iocCtx, repository)
 {
@@ -73,7 +74,8 @@ void HorizontalFrameSettingsModel::resetProperties()
     m_isSizeSpatiumDependent->resetToDefault();
 }
 
-void HorizontalFrameSettingsModel::onNotationChanged(const PropertyIdSet& changedPropertyIdSet, const StyleIdSet&)
+void HorizontalFrameSettingsModel::onNotationChanged(const PropertyIdSet& changedPropertyIdSet,
+                                                     const StyleIdSet&)
 {
     loadProperties(changedPropertyIdSet);
 }

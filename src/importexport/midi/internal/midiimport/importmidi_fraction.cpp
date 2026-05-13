@@ -375,6 +375,7 @@ ReducedFraction toMuseScoreTicks(int tick, int oldDivision, bool isDivisionInTps
     Q_ASSERT_X(!isAdditionOverflow(tmp / oldDivision, integral * engraving::Constants::DIVISION),
                "ReducedFraction::toMuseScoreTicks", "Addition overflow");
 #endif
-    return ReducedFraction::fromTicks(tmp / oldDivision + integral * engraving::Constants::DIVISION);
+    return ReducedFraction::fromTicks(tmp / oldDivision + integral
+                                      * engraving::Constants::DIVISION);
 }
 } // namespace mu::iex::midi

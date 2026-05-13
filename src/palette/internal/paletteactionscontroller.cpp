@@ -28,16 +28,21 @@ using namespace muse::ui;
 using namespace muse::actions;
 
 static const muse::UriQuery MASTER_PALETTE_URI("musescore://palette/masterpalette?modal=false");
-static const muse::UriQuery SPECIAL_CHARACTERS_URI("musescore://palette/specialcharacters?modal=false");
-static const muse::UriQuery TIME_SIGNATURE_PROPERTIES_URI("musescore://palette/timesignatureproperties");
+static const muse::UriQuery SPECIAL_CHARACTERS_URI(
+    "musescore://palette/specialcharacters?modal=false");
+static const muse::UriQuery TIME_SIGNATURE_PROPERTIES_URI(
+    "musescore://palette/timesignatureproperties");
 static const muse::UriQuery CUSTOMIZE_KIT_URI("musescore://palette/customizekit");
 
 void PaletteActionsController::init()
 {
     dispatcher()->reg(this, "masterpalette", this, &PaletteActionsController::toggleMasterPalette);
-    dispatcher()->reg(this, "show-keys", this, &PaletteActionsController::toggleSpecialCharactersDialog);
-    dispatcher()->reg(this, "time-signature-properties", this, &PaletteActionsController::openTimeSignaturePropertiesDialog);
-    dispatcher()->reg(this, "customize-kit", this, &PaletteActionsController::openCustomizeKitDialog);
+    dispatcher()->reg(this, "show-keys", this,
+                      &PaletteActionsController::toggleSpecialCharactersDialog);
+    dispatcher()->reg(this, "time-signature-properties", this,
+                      &PaletteActionsController::openTimeSignaturePropertiesDialog);
+    dispatcher()->reg(this, "customize-kit", this,
+                      &PaletteActionsController::openCustomizeKitDialog);
 
     interactive()->currentUri().ch.onReceive(this, [this](const Uri& uri) {
         //! NOTE If MasterPalette are not open, then it is reasonably to compare with the current uri,
@@ -72,7 +77,8 @@ void PaletteActionsController::toggleMasterPalette(const ActionData& args)
             interactive()->open(MASTER_PALETTE_URI);
         } else {
             std::string selectedPaletteName = args.arg<std::string>(0);
-            interactive()->open(MASTER_PALETTE_URI.addingParam("selectedPaletteName", Val(selectedPaletteName)));
+            interactive()->open(MASTER_PALETTE_URI.addingParam("selectedPaletteName",
+                                                               Val(selectedPaletteName)));
         }
     }
 }
@@ -91,7 +97,8 @@ void PaletteActionsController::toggleSpecialCharactersDialog()
 
 void PaletteActionsController::openTimeSignaturePropertiesDialog()
 {
-    const engraving::EngravingItem* element = interaction() ? interaction()->hitElementContext().element : nullptr;
+    const engraving::EngravingItem* element
+        = interaction() ? interaction()->hitElementContext().element : nullptr;
     if (!element || !element->isTimeSig()) {
         return;
     }

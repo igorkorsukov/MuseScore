@@ -38,8 +38,10 @@ enum class Pid : short;
 class Location
 {
 public:
-    constexpr Location(int staff, int voice, int measure, Fraction frac, int graceIndex, int note, bool rel)
-        : m_staff(staff), m_voice(voice), m_measure(measure), m_frac(frac), m_graceIndex(graceIndex), m_note(note), m_rel(rel)
+    constexpr Location(int staff, int voice, int measure, Fraction frac, int graceIndex, int note,
+                       bool rel)
+        : m_staff(staff), m_voice(voice), m_measure(measure), m_frac(frac),
+        m_graceIndex(graceIndex), m_note(note), m_rel(rel)
     {
     }
 
@@ -48,7 +50,10 @@ public:
         return Location(INT_MIN, INT_MIN, INT_MIN, Fraction(INT_MIN, 1), INT_MIN, INT_MIN, false);
     }
 
-    static constexpr Location relative() { return Location(0, 0, 0, Fraction(0, 1), INT_MIN, 0, true); }
+    static constexpr Location relative()
+    {
+        return Location(0, 0, 0, Fraction(0, 1), INT_MIN, 0, true);
+    }
 
     void toAbsolute(const Location& ref);
     void toRelative(const Location& ref);
@@ -75,7 +80,8 @@ public:
     void fillPositionForElement(const EngravingItem* e, bool absfrac = true);
     static Location forElement(const EngravingItem* e, bool absfrac = true);
     static Location positionForElement(const EngravingItem* e, bool absfrac = true);
-    static PropertyValue getLocationProperty(Pid pid, const EngravingItem* start, const EngravingItem* end);
+    static PropertyValue getLocationProperty(Pid pid, const EngravingItem* start,
+                                             const EngravingItem* end);
 
     void setIsTimeTick(bool v) { m_isTimeTick = v; }
     bool isTimeTick() const { return m_isTimeTick; }

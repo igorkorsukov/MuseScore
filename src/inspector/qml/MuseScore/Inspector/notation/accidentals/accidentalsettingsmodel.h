@@ -37,11 +37,14 @@ class AccidentalSettingsModel : public AbstractInspectorModel
     Q_PROPERTY(bool isSmallAvailable READ isSmallAvailable NOTIFY isSmallAvailableChanged)
 
     Q_PROPERTY(mu::inspector::PropertyItem * stackingOrderOffset READ stackingOrderOffset CONSTANT)
-    Q_PROPERTY(bool isStackingOrderAvailable READ isStackingOrderAvailable NOTIFY isStackingOrderAvailableChanged)
-    Q_PROPERTY(bool isStackingOrderEnabled READ isStackingOrderEnabled NOTIFY isStackingOrderEnabledChanged)
+    Q_PROPERTY(
+        bool isStackingOrderAvailable READ isStackingOrderAvailable NOTIFY isStackingOrderAvailableChanged)
+    Q_PROPERTY(
+        bool isStackingOrderEnabled READ isStackingOrderEnabled NOTIFY isStackingOrderEnabledChanged)
 
 public:
-    explicit AccidentalSettingsModel(QObject* parent, const muse::modularity::ContextPtr& iocCtx, IElementRepositoryService* repository);
+    explicit AccidentalSettingsModel(QObject* parent, const muse::modularity::ContextPtr& iocCtx,
+                                     IElementRepositoryService* repository);
 
     void createProperties() override;
     void requestElements() override;

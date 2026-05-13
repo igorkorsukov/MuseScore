@@ -94,7 +94,8 @@ bool ScoreOrder::readBoolAttribute(XmlReader& reader, const char* attrName, bool
     } else if (attr.toLower() == "true") {
         return true;
     }
-    LOGD("invalid value \"%s\" for attribute \"%s\", using default \"%d\"", muPrintable(attr), attrName, defvalue);
+    LOGD("invalid value \"%s\" for attribute \"%s\", using default \"%d\"", muPrintable(
+             attr), attrName, defvalue);
     return defvalue;
 }
 
@@ -218,7 +219,8 @@ bool ScoreOrder::isCustom() const
 
 TranslatableString ScoreOrder::getName() const
 {
-    return customized ? TranslatableString("engraving/scoreorder", "%1 (Customized)").arg(name) : name;
+    return customized ? TranslatableString("engraving/scoreorder",
+                                           "%1 (Customized)").arg(name) : name;
 }
 
 //---------------------------------------------------------
@@ -311,7 +313,10 @@ int ScoreOrder::instrumentSortingIndex(const String& instrumentId, bool isSolois
         return 0;
     }
 
-    String family = muse::contains(instrumentMap, instrumentId) ? instrumentMap.at(instrumentId).id : ii.instrTemplate->familyId();
+    String family
+        = muse::contains(instrumentMap,
+                         instrumentId) ? instrumentMap.at(instrumentId).id : ii.instrTemplate->
+          familyId();
 
     size_t index = groups.size();
 
@@ -418,7 +423,8 @@ void ScoreOrder::setBracketsAndBarlines(Score* score)
                     braceSpan = std::max(braceSpan, bi->bracketSpan() - 1);
                 }
                 if (!braceSpan) {
-                    score->undo(new RemoveBracket(staff, bi->column(), bi->bracketType(), bi->bracketSpan()));
+                    score->undo(new RemoveBracket(staff, bi->column(), bi->bracketType(),
+                                                  bi->bracketSpan()));
                 }
             }
             if (!braceSpan) {
@@ -461,7 +467,9 @@ void ScoreOrder::setBracketsAndBarlines(Score* score)
                     thnBracketSpan += static_cast<int>(part->nstaves());
                 }
                 if (prvStaff) {
-                    const bool newBarlineSpan = prvBarLineSpan && (!prvSection.isEmpty() && (sg.section == prvSection));
+                    const bool newBarlineSpan = prvBarLineSpan
+                                                && (!prvSection.isEmpty()
+                                                    && (sg.section == prvSection));
                     prvStaff->undoChangeProperty(Pid::STAFF_BARLINE_SPAN, newBarlineSpan);
                 }
                 prvStaff = staff;

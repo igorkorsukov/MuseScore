@@ -35,17 +35,21 @@ class AdditionalInfoModel : public QObject
 {
     Q_OBJECT
 
-    Q_PROPERTY(QVariantMap keySignature READ keySignature WRITE setKeySignature NOTIFY keySignatureChanged)
+    Q_PROPERTY(
+        QVariantMap keySignature READ keySignature WRITE setKeySignature NOTIFY keySignatureChanged)
 
     Q_PROPERTY(QVariantMap timeSignature READ timeSignature NOTIFY timeSignatureChanged)
-    Q_PROPERTY(int timeSignatureType READ timeSignatureType WRITE setTimeSignatureType NOTIFY timeSignatureChanged)
+    Q_PROPERTY(
+        int timeSignatureType READ timeSignatureType WRITE setTimeSignatureType NOTIFY timeSignatureChanged)
 
     Q_PROPERTY(bool withTempo READ withTempo WRITE setWithTempo NOTIFY withTempoChanged)
     Q_PROPERTY(QVariantMap tempo READ tempo WRITE setTempo NOTIFY tempoChanged)
     Q_PROPERTY(int currentTempoNoteIndex READ currentTempoNoteIndex NOTIFY tempoChanged)
 
-    Q_PROPERTY(QVariantMap pickupTimeSignature READ pickupTimeSignature NOTIFY pickupTimeSignatureChanged)
-    Q_PROPERTY(bool withPickupMeasure READ withPickupMeasure WRITE setWithPickupMeasure NOTIFY withPickupMeasureChanged)
+    Q_PROPERTY(
+        QVariantMap pickupTimeSignature READ pickupTimeSignature NOTIFY pickupTimeSignatureChanged)
+    Q_PROPERTY(
+        bool withPickupMeasure READ withPickupMeasure WRITE setWithPickupMeasure NOTIFY withPickupMeasureChanged)
     Q_PROPERTY(int measureCount READ measureCount WRITE setMeasureCount NOTIFY measureCountChanged)
 
     QML_ELEMENT
@@ -69,7 +73,8 @@ public:
     QVariantMap timeSignature() const;
     int timeSignatureType() const;
 
-    Q_INVOKABLE QString timeSignatureAccessibleName(int timeSignatureType, int numerator = 0, int denominator = 1) const;
+    Q_INVOKABLE QString timeSignatureAccessibleName(int timeSignatureType, int numerator = 0,
+                                                    int denominator = 1) const;
 
     Q_INVOKABLE void setTimeSignatureNumerator(int numerator);
     Q_INVOKABLE void setTimeSignatureDenominator(int denominator);
@@ -125,7 +130,8 @@ private:
 
         KeySignature() = default;
         KeySignature(const QVariantMap& map);
-        KeySignature(const QString& titleMajor, const QString& titleMinor, muse::ui::IconCode::Code icon, notation::Key key);
+        KeySignature(const QString& titleMajor, const QString& titleMinor,
+                     muse::ui::IconCode::Code icon, notation::Key key);
 
         QVariantMap toMap() const;
     };

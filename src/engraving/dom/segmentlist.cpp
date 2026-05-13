@@ -108,7 +108,8 @@ void SegmentList::check()
         case SegmentType::TimeTick:
             break;
         default:
-            ASSERT_X(String(u"SegmentList::check: invalid segment type: %1").arg(int(s->segmentType())));
+            ASSERT_X(String(u"SegmentList::check: invalid segment type: %1").arg(
+                         int(s->segmentType())));
             break;
         }
         Segment* ss = s->next();

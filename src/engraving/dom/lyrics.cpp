@@ -133,7 +133,8 @@ bool Lyrics::isMelisma() const
 
     // hyphenated?
     // if so, it is a melisma only if there is no lyric in same verse on next CR
-    if (m_separator && (m_syllabic == LyricsSyllabic::BEGIN || m_syllabic == LyricsSyllabic::MIDDLE)) {
+    if (m_separator
+        && (m_syllabic == LyricsSyllabic::BEGIN || m_syllabic == LyricsSyllabic::MIDDLE)) {
         // find next CR and check for existence of lyric in same verse and placement (in any voice)
         const ChordRest* cr = chordRest();
         if (cr) {
@@ -146,7 +147,9 @@ bool Lyrics::isMelisma() const
                 const ChordRest* trackNextCR = s ? s->nextChordRest(track) : nullptr;
                 if (trackNextCR) {
                     if (lyrTrack != track && lyrVoiceNextCR
-                        && !lyrVoiceNextCR->lyrics(m_verse, placement()) && lyrVoiceNextCR->tick() < trackNextCR->tick()) {
+                        && !lyrVoiceNextCR->lyrics(m_verse,
+                                                   placement())
+                        && lyrVoiceNextCR->tick() < trackNextCR->tick()) {
                         // There is an intermediary note in a different voice, this is a melisma
                         return true;
                     }
@@ -325,7 +328,8 @@ void Lyrics::setNeedRemoveInvalidSegments()
     // Allow "invalid" segments when there is a following repeat item
 
     const Measure* meas = measure();
-    const ChordRest* separatorEndChord = m_separator ? toChordRest(m_separator->endElement()) : nullptr;
+    const ChordRest* separatorEndChord
+        = m_separator ? toChordRest(m_separator->endElement()) : nullptr;
     const ChordRest* lastChordRest = meas ? meas->lastChordRest(track()) : nullptr;
     const bool endChordIsLastInMeasure = separatorEndChord == lastChordRest;
     const bool hasFollowingJump = lastChordRest ? lastChordRest->hasFollowingJumpItem() : false;
@@ -539,7 +543,8 @@ void Lyrics::setYRelativeToStaff(double y)
 
 void Score::forAllLyrics(std::function<void(Lyrics*)> f)
 {
-    for (Segment* s = firstSegment(SegmentType::ChordRest); s; s = s->next1(SegmentType::ChordRest)) {
+    for (Segment* s = firstSegment(SegmentType::ChordRest); s;
+         s = s->next1(SegmentType::ChordRest)) {
         for (EngravingItem* e : s->elist()) {
             if (e) {
                 for (Lyrics* l : toChordRest(e)->lyrics()) {

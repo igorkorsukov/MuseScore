@@ -376,7 +376,8 @@ public:
     void setMark(bool v) const { m_mark = v; }
     void setScore(Score* s) override;
 
-    static SymId noteHead(int direction, NoteHeadGroup, NoteHeadType, int tpc, Key key, NoteHeadScheme scheme);
+    static SymId noteHead(int direction, NoteHeadGroup, NoteHeadType, int tpc, Key key,
+                          NoteHeadScheme scheme);
     static SymId noteHead(int direction, NoteHeadGroup, NoteHeadType);
     NoteVal noteVal() const;
 
@@ -406,7 +407,8 @@ public:
     SlideType slideToType() const { return m_slideToType; }
     SlideType slideFromType() const { return m_slideFromType; }
 
-    void setParenthesesMode(const ParenthesesMode& v, bool addToLinked = true, bool generated = false) override;
+    void setParenthesesMode(const ParenthesesMode& v, bool addToLinked = true,
+                            bool generated = false) override;
 
     const NoteParenthesisInfo* parenthesisInfo() const;
 
@@ -423,8 +425,14 @@ public:
 
     std::vector<LineAttachPoint>& lineAttachPoints() { return m_lineAttachPoints; }
     const std::vector<LineAttachPoint>& lineAttachPoints() const { return m_lineAttachPoints; }
-    void addStartLineAttachPoint(PointF point, EngravingItem* line) { addLineAttachPoint(point, line, true); }
-    void addEndLineAttachPoint(PointF point, EngravingItem* line) { addLineAttachPoint(point, line, false); }
+    void addStartLineAttachPoint(PointF point, EngravingItem* line)
+    {
+        addLineAttachPoint(point, line, true);
+    }
+    void addEndLineAttachPoint(PointF point, EngravingItem* line)
+    {
+        addLineAttachPoint(point, line, false);
+    }
 
     PointF posInStaffCoordinates();
 
@@ -481,7 +489,8 @@ private:
 
     void normalizeLeftDragDelta(Segment* seg, EditData& ed, NoteEditData* ned);
 
-    void getNoteListForDots(std::vector<Note*>& topDownNotes, std::vector<Note*>& bottomUpNotes, std::vector<int>& anchoredDots);
+    void getNoteListForDots(std::vector<Note*>& topDownNotes, std::vector<Note*>& bottomUpNotes,
+                            std::vector<int>& anchoredDots);
 
     void addLineAttachPoint(PointF point, EngravingItem* line, bool start);
 

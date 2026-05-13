@@ -80,10 +80,12 @@ extern int pitch2tpc(int pitch, Key, Prefer prefer);
 
 extern int computeWindow(const std::vector<Note*>& notes, int start, int end);
 extern int tpc(int idx, int pitch, int opt);
-extern String tpc2name(int tpc, NoteSpellingType spelling, NoteCaseType noteCase, bool explicitAccidental = false, bool full = false);
-extern void tpc2name(int tpc, NoteSpellingType noteSpelling, NoteCaseType noteCase, String& s, String& acc, bool explicitAccidental = false,
-                     bool full = false);
-extern void tpc2name(int tpc, NoteSpellingType noteSpelling, NoteCaseType noteCase, String& s, AccidentalVal& acc);
+extern String tpc2name(int tpc, NoteSpellingType spelling, NoteCaseType noteCase,
+                       bool explicitAccidental = false, bool full = false);
+extern void tpc2name(int tpc, NoteSpellingType noteSpelling, NoteCaseType noteCase, String& s,
+                     String& acc, bool explicitAccidental = false, bool full = false);
+extern void tpc2name(int tpc, NoteSpellingType noteSpelling, NoteCaseType noteCase, String& s,
+                     AccidentalVal& acc);
 extern String tpcUserName(int tpc, int pitch, bool explicitAccidental = false, bool full = false);
 extern int step2tpc(const String& stepName, AccidentalVal alter);
 extern int step2tpc(int step);
@@ -102,7 +104,8 @@ extern String tpc2Function(int tpc, Key key);
 extern void tpc2Function(int tpc, Key key, String& accName, String& stepName);
 extern int function2Tpc(const String& s, Key key);
 extern int function2Tpc(const String& s, Key key, size_t& idx);
-extern int convertNote(const String& s, NoteSpellingType noteSpelling, NoteCaseType& noteCase, size_t& idx);
+extern int convertNote(const String& s, NoteSpellingType noteSpelling, NoteCaseType& noteCase,
+                       size_t& idx);
 extern int clampEnharmonic(int tpc, bool useDoubleSharpsFlats = true);
 extern int clampPitch(int pitch, bool octaved = false);
 extern Key clampKey(Key key, PreferSharpFlat prefer = PreferSharpFlat::NONE);

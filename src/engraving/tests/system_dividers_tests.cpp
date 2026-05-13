@@ -65,7 +65,8 @@ TEST_F(Engraving_SystemLocksTests, createAndSaveLocks)
     score->endCmd();
 
     ScoreComp::saveCompareScore(score, String("dividers.mscx"),
-                                ScoreRW::rootPath() + u"/" + SYSTEM_LOCKS_DATA_DIR + u"systemDividers-1-ref.mscx");
+                                ScoreRW::rootPath() + u"/" + SYSTEM_LOCKS_DATA_DIR
+                                + u"systemDividers-1-ref.mscx");
 
     delete score;
 }

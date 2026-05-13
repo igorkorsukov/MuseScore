@@ -196,25 +196,32 @@ void TLayout::layoutItem(EngravingItem* item, LayoutContext& ctx)
 
     switch (item->type()) {
     case ElementType::ACCIDENTAL:
-        layoutAccidental(item_cast<const Accidental*>(item), static_cast<Accidental::LayoutData*>(ldata), ctx.conf());
+        layoutAccidental(item_cast<const Accidental*>(item),
+                         static_cast<Accidental::LayoutData*>(ldata), ctx.conf());
         break;
     case ElementType::ACTION_ICON:
-        layoutActionIcon(item_cast<const ActionIcon*>(item), static_cast<ActionIcon::LayoutData*>(ldata));
+        layoutActionIcon(item_cast<const ActionIcon*>(item),
+                         static_cast<ActionIcon::LayoutData*>(ldata));
         break;
     case ElementType::AMBITUS:
-        layoutAmbitus(item_cast<const Ambitus*>(item), static_cast<Ambitus::LayoutData*>(ldata), ctx);
+        layoutAmbitus(item_cast<const Ambitus*>(item), static_cast<Ambitus::LayoutData*>(ldata),
+                      ctx);
         break;
     case ElementType::ARPEGGIO:
-        layoutArpeggio(item_cast<const Arpeggio*>(item), static_cast<Arpeggio::LayoutData*>(ldata), ctx.conf());
+        layoutArpeggio(item_cast<const Arpeggio*>(
+                           item), static_cast<Arpeggio::LayoutData*>(ldata), ctx.conf());
         break;
     case ElementType::CHORD_BRACKET:
-        layoutChordBracket(item_cast<const ChordBracket*>(item), static_cast<ChordBracket::LayoutData*>(ldata), ctx.conf());
+        layoutChordBracket(item_cast<const ChordBracket*>(item),
+                           static_cast<ChordBracket::LayoutData*>(ldata), ctx.conf());
         break;
     case ElementType::ARTICULATION:
-        layoutArticulation(item_cast<Articulation*>(item), static_cast<Articulation::LayoutData*>(ldata));
+        layoutArticulation(item_cast<Articulation*>(item),
+                           static_cast<Articulation::LayoutData*>(ldata));
         break;
     case ElementType::BAR_LINE:
-        layoutBarLine(item_cast<const BarLine*>(item), static_cast<BarLine::LayoutData*>(ldata), ctx);
+        layoutBarLine(item_cast<const BarLine*>(item), static_cast<BarLine::LayoutData*>(ldata),
+                      ctx);
         break;
     case ElementType::BEAM:             layoutBeam(item_cast<Beam*>(item), ctx);
         break;
@@ -234,15 +241,18 @@ void TLayout::layoutItem(EngravingItem* item, LayoutContext& ctx)
         layoutTBox(item_cast<const TBox*>(item), static_cast<TBox::LayoutData*>(ldata), ctx);
         break;
     case ElementType::BRACKET:
-        layoutBracket(item_cast<const Bracket*>(item), static_cast<Bracket::LayoutData*>(ldata), ctx.conf());
+        layoutBracket(item_cast<const Bracket*>(
+                          item), static_cast<Bracket::LayoutData*>(ldata), ctx.conf());
         break;
     case ElementType::BREATH:
-        layoutBreath(item_cast<const Breath*>(item), static_cast<Breath::LayoutData*>(ldata), ctx.conf());
+        layoutBreath(item_cast<const Breath*>(
+                         item), static_cast<Breath::LayoutData*>(ldata), ctx.conf());
         break;
     case ElementType::CHORD:            layoutChord(item_cast<Chord*>(item), ctx);
         break;
     case ElementType::CHORDLINE:
-        layoutChordLine(item_cast<const ChordLine*>(item), static_cast<ChordLine::LayoutData*>(ldata), ctx.conf());
+        layoutChordLine(item_cast<const ChordLine*>(
+                            item), static_cast<ChordLine::LayoutData*>(ldata), ctx.conf());
         break;
     case ElementType::CLEF:
         layoutClef(item_cast<const Clef*>(item), static_cast<Clef::LayoutData*>(ldata), ctx.conf());
@@ -251,57 +261,73 @@ void TLayout::layoutItem(EngravingItem* item, LayoutContext& ctx)
         layoutCapo(item_cast<const Capo*>(item), static_cast<Capo::LayoutData*>(ldata), ctx);
         break;
     case ElementType::DEAD_SLAPPED:
-        layoutDeadSlapped(item_cast<const DeadSlapped*>(item), static_cast<DeadSlapped::LayoutData*>(ldata));
+        layoutDeadSlapped(item_cast<const DeadSlapped*>(
+                              item), static_cast<DeadSlapped::LayoutData*>(ldata));
         break;
     case ElementType::DYNAMIC:
-        layoutDynamic(item_cast<Dynamic*>(item), static_cast<Dynamic::LayoutData*>(ldata), ctx.conf());
+        layoutDynamic(item_cast<Dynamic*>(item), static_cast<Dynamic::LayoutData*>(ldata),
+                      ctx.conf());
         break;
     case ElementType::EXPRESSION:
-        layoutExpression(item_cast<const Expression*>(item), static_cast<Expression::LayoutData*>(ldata));
+        layoutExpression(item_cast<const Expression*>(item),
+                         static_cast<Expression::LayoutData*>(ldata));
         break;
     case ElementType::FERMATA:
         layoutFermata(item_cast<const Fermata*>(item), static_cast<Fermata::LayoutData*>(ldata));
         break;
     case ElementType::FIGURED_BASS:
-        layoutFiguredBass(item_cast<const FiguredBass*>(item), static_cast<FiguredBass::LayoutData*>(ldata), ctx);
+        layoutFiguredBass(item_cast<const FiguredBass*>(
+                              item), static_cast<FiguredBass::LayoutData*>(ldata), ctx);
         break;
     case ElementType::FINGERING:
-        layoutFingering(item_cast<const Fingering*>(item), static_cast<Fingering::LayoutData*>(ldata));
+        layoutFingering(item_cast<const Fingering*>(
+                            item), static_cast<Fingering::LayoutData*>(ldata));
         break;
     case ElementType::FRET_DIAGRAM:
-        layoutFretDiagram(item_cast<const FretDiagram*>(item), static_cast<FretDiagram::LayoutData*>(ldata), ctx);
+        layoutFretDiagram(item_cast<const FretDiagram*>(
+                              item), static_cast<FretDiagram::LayoutData*>(ldata), ctx);
         break;
     case ElementType::GLISSANDO:        layoutGlissando(item_cast<Glissando*>(item), ctx);
         break;
-    case ElementType::GLISSANDO_SEGMENT: layoutGlissandoSegment(item_cast<GlissandoSegment*>(item), ctx);
+    case ElementType::GLISSANDO_SEGMENT: layoutGlissandoSegment(item_cast<GlissandoSegment*>(
+                                                                    item), ctx);
         break;
-    case ElementType::GRADUAL_TEMPO_CHANGE: layoutGradualTempoChange(item_cast<GradualTempoChange*>(item), ctx);
+    case ElementType::GRADUAL_TEMPO_CHANGE: layoutGradualTempoChange(item_cast<GradualTempoChange*>(
+                                                                         item), ctx);
         break;
-    case ElementType::GRADUAL_TEMPO_CHANGE_SEGMENT: layoutGradualTempoChangeSegment(item_cast<GradualTempoChangeSegment*>(item), ctx);
+    case ElementType::GRADUAL_TEMPO_CHANGE_SEGMENT: layoutGradualTempoChangeSegment(item_cast<GradualTempoChangeSegment*>(
+                                                                                        item), ctx);
         break;
     case ElementType::GUITAR_BEND: layoutGuitarBend(item_cast<GuitarBend*>(item), ctx);
         break;
-    case ElementType::GUITAR_BEND_SEGMENT: layoutGuitarBendSegment(item_cast<GuitarBendSegment*>(item), ctx);
+    case ElementType::GUITAR_BEND_SEGMENT: layoutGuitarBendSegment(item_cast<GuitarBendSegment*>(
+                                                                       item), ctx);
         break;
-    case ElementType::GUITAR_BEND_HOLD_SEGMENT: GuitarBendLayout::layoutHoldLine(item_cast<GuitarBendHoldSegment*>(item));
+    case ElementType::GUITAR_BEND_HOLD_SEGMENT: GuitarBendLayout::layoutHoldLine(item_cast<GuitarBendHoldSegment*>(
+                                                                                     item));
         break;
     case ElementType::HAIRPIN:          layoutHairpin(item_cast<Hairpin*>(item), ctx);
         break;
     case ElementType::HAIRPIN_SEGMENT:  layoutHairpinSegment(item_cast<HairpinSegment*>(item), ctx);
         break;
-    case ElementType::HAMMER_ON_PULL_OFF: layoutHammerOnPullOff(item_cast<HammerOnPullOff*>(item), ctx);
+    case ElementType::HAMMER_ON_PULL_OFF: layoutHammerOnPullOff(item_cast<HammerOnPullOff*>(
+                                                                    item), ctx);
         break;
-    case ElementType::HAMMER_ON_PULL_OFF_SEGMENT: layoutHammerOnPullOffSegment(item_cast<HammerOnPullOffSegment*>(item), ctx);
+    case ElementType::HAMMER_ON_PULL_OFF_SEGMENT: layoutHammerOnPullOffSegment(item_cast<HammerOnPullOffSegment*>(
+                                                                                   item), ctx);
         break;
-    case ElementType::HAMMER_ON_PULL_OFF_TEXT: layoutHammerOnPullOffText(item_cast<HammerOnPullOffText*>(item), ctx);
+    case ElementType::HAMMER_ON_PULL_OFF_TEXT: layoutHammerOnPullOffText(item_cast<HammerOnPullOffText*>(
+                                                                             item), ctx);
         break;
     case ElementType::HARP_DIAGRAM:
-        layoutHarpPedalDiagram(item_cast<const HarpPedalDiagram*>(item), static_cast<HarpPedalDiagram::LayoutData*>(ldata));
+        layoutHarpPedalDiagram(item_cast<const HarpPedalDiagram*>(item),
+                               static_cast<HarpPedalDiagram::LayoutData*>(ldata));
         break;
     case ElementType::HARMONY:
         layoutHarmony(item_cast<Harmony*>(item), static_cast<Harmony::LayoutData*>(ldata), ctx);
         break;
-    case ElementType::HARMONIC_MARK_SEGMENT: layoutHarmonicMarkSegment(item_cast<HarmonicMarkSegment*>(item), ctx);
+    case ElementType::HARMONIC_MARK_SEGMENT: layoutHarmonicMarkSegment(item_cast<HarmonicMarkSegment*>(
+                                                                           item), ctx);
         break;
     case ElementType::HOOK:
         layoutHook(item_cast<const Hook*>(item), static_cast<Hook::LayoutData*>(ldata));
@@ -310,26 +336,31 @@ void TLayout::layoutItem(EngravingItem* item, LayoutContext& ctx)
         layoutImage(item_cast<const Image*>(item), static_cast<Image::LayoutData*>(ldata));
         break;
     case ElementType::INSTRUMENT_CHANGE:
-        layoutInstrumentChange(item_cast<const InstrumentChange*>(item), static_cast<InstrumentChange::LayoutData*>(ldata));
+        layoutInstrumentChange(item_cast<const InstrumentChange*>(item),
+                               static_cast<InstrumentChange::LayoutData*>(ldata));
         break;
     case ElementType::INSTRUMENT_NAME:
-        layoutInstrumentName(item_cast<const InstrumentName*>(item), static_cast<InstrumentName::LayoutData*>(ldata));
+        layoutInstrumentName(item_cast<const InstrumentName*>(item),
+                             static_cast<InstrumentName::LayoutData*>(ldata));
         break;
     case ElementType::JUMP:
         layoutJump(item_cast<const Jump*>(item), static_cast<Jump::LayoutData*>(ldata));
         break;
     case ElementType::KEYSIG:
-        layoutKeySig(item_cast<const KeySig*>(item), static_cast<KeySig::LayoutData*>(ldata), ctx.conf());
+        layoutKeySig(item_cast<const KeySig*>(
+                         item), static_cast<KeySig::LayoutData*>(ldata), ctx.conf());
         break;
     case ElementType::LAISSEZ_VIB:
         layoutLaissezVib(item_cast<LaissezVib*>(item));
         break;
     case ElementType::LAYOUT_BREAK:
-        layoutLayoutBreak(item_cast<const LayoutBreak*>(item), static_cast<LayoutBreak::LayoutData*>(ldata));
+        layoutLayoutBreak(item_cast<const LayoutBreak*>(
+                              item), static_cast<LayoutBreak::LayoutData*>(ldata));
         break;
     // TODO: case ElementType::STAFF_VISIBILTY_INDICATOR:
     case ElementType::SYSTEM_LOCK_INDICATOR:
-        layoutIndicatorIcon(item_cast<const IndicatorIcon*>(item), static_cast<IndicatorIcon::LayoutData*>(ldata));
+        layoutIndicatorIcon(item_cast<const IndicatorIcon*>(item),
+                            static_cast<IndicatorIcon::LayoutData*>(ldata));
         break;
     case ElementType::LET_RING:         layoutLetRing(item_cast<LetRing*>(item), ctx);
         break;
@@ -339,24 +370,29 @@ void TLayout::layoutItem(EngravingItem* item, LayoutContext& ctx)
         break;
     case ElementType::LYRICS:           layoutLyrics(item_cast<Lyrics*>(item), ctx);
         break;
-    case ElementType::LYRICSLINE_SEGMENT: layoutLyricsLineSegment(item_cast<LyricsLineSegment*>(item), ctx);
+    case ElementType::LYRICSLINE_SEGMENT: layoutLyricsLineSegment(item_cast<LyricsLineSegment*>(
+                                                                      item), ctx);
         break;
-    case ElementType::PARTIAL_LYRICSLINE_SEGMENT: layoutLyricsLineSegment(item_cast<LyricsLineSegment*>(item), ctx);
+    case ElementType::PARTIAL_LYRICSLINE_SEGMENT: layoutLyricsLineSegment(item_cast<LyricsLineSegment*>(
+                                                                              item), ctx);
         break;
     case ElementType::MARKER:
         layoutMarker(item_cast<Marker*>(item), static_cast<Marker::LayoutData*>(ldata), ctx);
         break;
     case ElementType::MEASURE_NUMBER:
-        layoutMeasureNumber(item_cast<MeasureNumber*>(item), static_cast<MeasureNumber::LayoutData*>(ldata), ctx);
+        layoutMeasureNumber(item_cast<MeasureNumber*>(
+                                item), static_cast<MeasureNumber::LayoutData*>(ldata), ctx);
         break;
     case ElementType::MEASURE_REPEAT:
-        layoutMeasureRepeat(item_cast<const MeasureRepeat*>(item), static_cast<MeasureRepeat::LayoutData*>(ldata), ctx);
+        layoutMeasureRepeat(item_cast<const MeasureRepeat*>(item),
+                            static_cast<MeasureRepeat::LayoutData*>(ldata), ctx);
         break;
     case ElementType::MMREST:
         layoutMMRest(item_cast<const MMRest*>(item), static_cast<MMRest::LayoutData*>(ldata), ctx);
         break;
     case ElementType::MMREST_RANGE:
-        layoutMMRestRange(item_cast<MMRestRange*>(item), static_cast<MMRestRange::LayoutData*>(ldata), ctx);
+        layoutMMRestRange(item_cast<MMRestRange*>(
+                              item), static_cast<MMRestRange::LayoutData*>(ldata), ctx);
         break;
     case ElementType::NOTE:
         layoutNote(item_cast<const Note*>(item), static_cast<Note::LayoutData*>(ldata));
@@ -365,7 +401,8 @@ void TLayout::layoutItem(EngravingItem* item, LayoutContext& ctx)
         layoutNoteDot(item_cast<const NoteDot*>(item), static_cast<NoteDot::LayoutData*>(ldata));
         break;
     case ElementType::NOTEHEAD:
-        layoutSymbol(item_cast<const NoteHead*>(item), static_cast<NoteHead::LayoutData*>(ldata), ctx);
+        layoutSymbol(item_cast<const NoteHead*>(
+                         item), static_cast<NoteHead::LayoutData*>(ldata), ctx);
         break;
     case ElementType::NOTELINE:
         layoutNoteLine(item_cast<NoteLine*>(item), ctx);
@@ -374,7 +411,8 @@ void TLayout::layoutItem(EngravingItem* item, LayoutContext& ctx)
         layoutNoteLineSegment(item_cast<NoteLineSegment*>(item), ctx);
         break;
     case ElementType::ORNAMENT:
-        layoutOrnament(item_cast<const Ornament*>(item), static_cast<Ornament::LayoutData*>(ldata), ctx.conf());
+        layoutOrnament(item_cast<const Ornament*>(
+                           item), static_cast<Ornament::LayoutData*>(ldata), ctx.conf());
         break;
     case ElementType::OTTAVA:           layoutOttava(item_cast<Ottava*>(item), ctx);
         break;
@@ -382,26 +420,35 @@ void TLayout::layoutItem(EngravingItem* item, LayoutContext& ctx)
         break;
     case ElementType::PALM_MUTE:        layoutPalmMute(item_cast<PalmMute*>(item), ctx);
         break;
-    case ElementType::PALM_MUTE_SEGMENT: layoutPalmMuteSegment(item_cast<PalmMuteSegment*>(item), ctx);
+    case ElementType::PALM_MUTE_SEGMENT: layoutPalmMuteSegment(item_cast<PalmMuteSegment*>(
+                                                                   item), ctx);
         break;
-    case ElementType::PARENTHESIS:      layoutParenthesis(item_cast<Parenthesis*>(item), static_cast<Parenthesis::LayoutData*>(ldata), ctx);
+    case ElementType::PARENTHESIS:      layoutParenthesis(item_cast<Parenthesis*>(
+                                                              item),
+                                                          static_cast<Parenthesis::LayoutData*>(
+                                                              ldata), ctx);
         break;
     case ElementType::PEDAL:            layoutPedal(item_cast<Pedal*>(item), ctx);
         break;
     case ElementType::PEDAL_SEGMENT:    layoutPedalSegment(item_cast<PedalSegment*>(item), ctx);
         break;
-    case ElementType::PICK_SCRAPE_SEGMENT: layoutPickScrapeSegment(item_cast<PickScrapeSegment*>(item), ctx);
+    case ElementType::PICK_SCRAPE_SEGMENT: layoutPickScrapeSegment(item_cast<PickScrapeSegment*>(
+                                                                       item), ctx);
         break;
     case ElementType::PLAY_COUNT_TEXT:
-        layoutPlayCountText(item_cast<PlayCountText*>(item), static_cast<PlayCountText::LayoutData*>(ldata));
+        layoutPlayCountText(item_cast<PlayCountText*>(
+                                item), static_cast<PlayCountText::LayoutData*>(ldata));
         break;
     case ElementType::PLAYTECH_ANNOTATION:
-        layoutPlayTechAnnotation(item_cast<const PlayTechAnnotation*>(item), static_cast<PlayTechAnnotation::LayoutData*>(ldata));
+        layoutPlayTechAnnotation(item_cast<const PlayTechAnnotation*>(item),
+                                 static_cast<PlayTechAnnotation::LayoutData*>(ldata));
         break;
-    case ElementType::RASGUEADO_SEGMENT: layoutRasgueadoSegment(item_cast<RasgueadoSegment*>(item), ctx);
+    case ElementType::RASGUEADO_SEGMENT: layoutRasgueadoSegment(item_cast<RasgueadoSegment*>(
+                                                                    item), ctx);
         break;
     case ElementType::REHEARSAL_MARK:
-        layoutRehearsalMark(item_cast<const RehearsalMark*>(item), static_cast<RehearsalMark::LayoutData*>(ldata));
+        layoutRehearsalMark(item_cast<const RehearsalMark*>(item),
+                            static_cast<RehearsalMark::LayoutData*>(ldata));
         break;
     case ElementType::REST:
         layoutRest(item_cast<const Rest*>(item), static_cast<Rest::LayoutData*>(ldata), ctx);
@@ -413,22 +460,27 @@ void TLayout::layoutItem(EngravingItem* item, LayoutContext& ctx)
     case ElementType::SPACER:           layoutSpacer(item_cast<Spacer*>(item), ctx);
         break;
     case ElementType::STAFF_STATE:
-        layoutStaffState(item_cast<const StaffState*>(item), static_cast<StaffState::LayoutData*>(ldata));
+        layoutStaffState(item_cast<const StaffState*>(item),
+                         static_cast<StaffState::LayoutData*>(ldata));
         break;
     case ElementType::STAFF_TEXT:
-        layoutStaffText(item_cast<const StaffText*>(item), static_cast<StaffText::LayoutData*>(ldata));
+        layoutStaffText(item_cast<const StaffText*>(
+                            item), static_cast<StaffText::LayoutData*>(ldata));
         break;
     case ElementType::STAFFTYPE_CHANGE:
-        layoutStaffTypeChange(item_cast<const StaffTypeChange*>(item), static_cast<StaffTypeChange::LayoutData*>(ldata), ctx.conf());
+        layoutStaffTypeChange(item_cast<const StaffTypeChange*>(item),
+                              static_cast<StaffTypeChange::LayoutData*>(ldata), ctx.conf());
         break;
     case ElementType::SOUND_FLAG:
-        layoutSoundFlag(item_cast<const SoundFlag*>(item), static_cast<SoundFlag::LayoutData*>(ldata));
+        layoutSoundFlag(item_cast<const SoundFlag*>(
+                            item), static_cast<SoundFlag::LayoutData*>(ldata));
         break;
     case ElementType::STEM:
         layoutStem(item_cast<const Stem*>(item), static_cast<Stem::LayoutData*>(ldata), ctx.conf());
         break;
     case ElementType::STEM_SLASH:
-        layoutStemSlash(item_cast<const StemSlash*>(item), static_cast<StemSlash::LayoutData*>(ldata), ctx.conf());
+        layoutStemSlash(item_cast<const StemSlash*>(
+                            item), static_cast<StemSlash::LayoutData*>(ldata), ctx.conf());
         break;
     case ElementType::STICKING:
         layoutSticking(item_cast<const Sticking*>(item), static_cast<Sticking::LayoutData*>(ldata));
@@ -443,10 +495,12 @@ void TLayout::layoutItem(EngravingItem* item, LayoutContext& ctx)
         layoutFSymbol(item_cast<const FSymbol*>(item), static_cast<FSymbol::LayoutData*>(ldata));
         break;
     case ElementType::SYSTEM_DIVIDER:
-        layoutSystemDivider(item_cast<const SystemDivider*>(item), static_cast<SystemDivider::LayoutData*>(ldata), ctx);
+        layoutSystemDivider(item_cast<const SystemDivider*>(item),
+                            static_cast<SystemDivider::LayoutData*>(ldata), ctx);
         break;
     case ElementType::SYSTEM_TEXT:
-        layoutSystemText(item_cast<const SystemText*>(item), static_cast<SystemText::LayoutData*>(ldata));
+        layoutSystemText(item_cast<const SystemText*>(item),
+                         static_cast<SystemText::LayoutData*>(ldata));
         break;
     case ElementType::TAPPING:
         layoutTapping(toTapping(item), static_cast<Tapping::LayoutData*>(ldata), ctx);
@@ -455,35 +509,42 @@ void TLayout::layoutItem(EngravingItem* item, LayoutContext& ctx)
         layoutTappingHalfSlur(toTappingHalfSlur(item));
         break;
     case ElementType::TEMPO_TEXT:
-        layoutTempoText(item_cast<const TempoText*>(item), static_cast<TempoText::LayoutData*>(ldata));
+        layoutTempoText(item_cast<const TempoText*>(
+                            item), static_cast<TempoText::LayoutData*>(ldata));
         break;
     case ElementType::TEXT:
         layoutText(item_cast<const Text*>(item), static_cast<Text::LayoutData*>(ldata));
         break;
     case ElementType::TEXTLINE:         layoutTextLine(item_cast<TextLine*>(item), ctx);
         break;
-    case ElementType::TEXTLINE_SEGMENT: layoutTextLineSegment(item_cast<TextLineSegment*>(item), ctx);
+    case ElementType::TEXTLINE_SEGMENT: layoutTextLineSegment(item_cast<TextLineSegment*>(item),
+                                                              ctx);
         break;
     case ElementType::TIE:              layoutTie(item_cast<Tie*>(item), ctx);
         break;
     case ElementType::TIMESIG:
-        layoutTimeSig(item_cast<const TimeSig*>(item), static_cast<TimeSig::LayoutData*>(ldata), ctx);
+        layoutTimeSig(item_cast<const TimeSig*>(item), static_cast<TimeSig::LayoutData*>(ldata),
+                      ctx);
         break;
-    case ElementType::TIME_TICK_ANCHOR: layoutTimeTickAnchor(static_cast<TimeTickAnchor*>(item), ctx);
+    case ElementType::TIME_TICK_ANCHOR: layoutTimeTickAnchor(static_cast<TimeTickAnchor*>(item),
+                                                             ctx);
         break;
-    case ElementType::TREMOLO_SINGLECHORD: layoutTremoloSingle(item_cast<TremoloSingleChord*>(item), ctx);
+    case ElementType::TREMOLO_SINGLECHORD: layoutTremoloSingle(item_cast<TremoloSingleChord*>(
+                                                                   item), ctx);
         break;
     case ElementType::TREMOLO_TWOCHORD:    layoutTremoloTwo(item_cast<TremoloTwoChord*>(item), ctx);
         break;
     case ElementType::TREMOLOBAR:
-        layoutTremoloBar(item_cast<const TremoloBar*>(item), static_cast<TremoloBar::LayoutData*>(ldata));
+        layoutTremoloBar(item_cast<const TremoloBar*>(item),
+                         static_cast<TremoloBar::LayoutData*>(ldata));
         break;
     case ElementType::TRILL:            layoutTrill(item_cast<Trill*>(item), ctx);
         break;
     case ElementType::TRILL_SEGMENT:    layoutTrillSegment(item_cast<TrillSegment*>(item), ctx);
         break;
     case ElementType::TRIPLET_FEEL:
-        layoutTripletFeel(item_cast<const TripletFeel*>(item), static_cast<TripletFeel::LayoutData*>(ldata));
+        layoutTripletFeel(item_cast<const TripletFeel*>(
+                              item), static_cast<TripletFeel::LayoutData*>(ldata));
         break;
     case ElementType::TUPLET:           layoutTuplet(item_cast<Tuplet*>(item), ctx);
         break;
@@ -497,7 +558,8 @@ void TLayout::layoutItem(EngravingItem* item, LayoutContext& ctx)
         break;
     case ElementType::WHAMMY_BAR:       layoutLine(item_cast<WhammyBar*>(item), ctx);
         break;
-    case ElementType::WHAMMY_BAR_SEGMENT: layoutWhammyBarSegment(item_cast<WhammyBarSegment*>(item), ctx);
+    case ElementType::WHAMMY_BAR_SEGMENT: layoutWhammyBarSegment(item_cast<WhammyBarSegment*>(
+                                                                     item), ctx);
         break;
     default:
         LOGE() << "not found in layout types item: " << item->typeName();
@@ -505,7 +567,8 @@ void TLayout::layoutItem(EngravingItem* item, LayoutContext& ctx)
     }
 }
 
-void TLayout::layoutAccidental(const Accidental* item, Accidental::LayoutData* ldata, const LayoutConfiguration& conf)
+void TLayout::layoutAccidental(const Accidental* item, Accidental::LayoutData* ldata,
+                               const LayoutConfiguration& conf)
 {
     LAYOUT_CALL_ITEM(item);
     LD_INDEPENDENT;
@@ -536,7 +599,8 @@ void TLayout::layoutAccidental(const Accidental* item, Accidental::LayoutData* l
         // if the accidental is standard (doubleflat, flat, natural, sharp or double sharp)
         // and it has either no bracket or parentheses, then we have glyphs straight from smufl.
 
-        if (item->bracket() == AccidentalBracket::PARENTHESIS && !item->parentNoteHasParentheses()) {
+        if (item->bracket() == AccidentalBracket::PARENTHESIS
+            && !item->parentNoteHasParentheses()) {
             switch (item->accidentalType()) {
             case AccidentalType::FLAT:      return SymId::accidentalFlatParens;
             case AccidentalType::FLAT2:     return SymId::accidentalDoubleFlatParens;
@@ -553,9 +617,12 @@ void TLayout::layoutAccidental(const Accidental* item, Accidental::LayoutData* l
     auto accidentalBracketSyms = [](AccidentalBracket type) -> std::pair<SymId, SymId>
     {
         switch (type) {
-        case AccidentalBracket::PARENTHESIS: return { SymId::accidentalParensLeft, SymId::accidentalParensRight };
-        case AccidentalBracket::BRACKET: return { SymId::accidentalBracketLeft, SymId::accidentalBracketRight };
-        case AccidentalBracket::BRACE: return { SymId::accidentalCombiningOpenCurlyBrace, SymId::accidentalCombiningCloseCurlyBrace };
+        case AccidentalBracket::PARENTHESIS: return { SymId::accidentalParensLeft,
+                                                      SymId::accidentalParensRight };
+        case AccidentalBracket::BRACKET: return { SymId::accidentalBracketLeft,
+                                                  SymId::accidentalBracketRight };
+        case AccidentalBracket::BRACE: return { SymId::accidentalCombiningOpenCurlyBrace,
+                                                SymId::accidentalCombiningCloseCurlyBrace };
         case AccidentalBracket::NONE: return { SymId::noSym, SymId::noSym };
         }
         return { SymId::noSym, SymId::noSym };
@@ -577,7 +644,8 @@ void TLayout::layoutAccidental(const Accidental* item, Accidental::LayoutData* l
         double x = 0.0;
 
         std::pair<SymId, SymId> bracketSyms;
-        bool isNeedBracket = item->bracket() != AccidentalBracket::NONE && !item->parentNoteHasParentheses();
+        bool isNeedBracket = item->bracket() != AccidentalBracket::NONE
+                             && !item->parentNoteHasParentheses();
         if (isNeedBracket) {
             bracketSyms = accidentalBracketSyms(item->bracket());
         }
@@ -585,7 +653,9 @@ void TLayout::layoutAccidental(const Accidental* item, Accidental::LayoutData* l
         // Left
         if (bracketSyms.first != SymId::noSym) {
             Accidental::LayoutData::Sym ls(bracketSyms.first, 0.0,
-                                           item->bracket() == AccidentalBracket::BRACE ? item->spatium() * 0.4 : 0.0);
+                                           item->bracket()
+                                           == AccidentalBracket::BRACE ? item->spatium()
+                                           * 0.4 : 0.0);
             ldata->syms.push_back(ls);
             shape.add(item->symBbox(bracketSyms.first), item);
 
@@ -603,7 +673,9 @@ void TLayout::layoutAccidental(const Accidental* item, Accidental::LayoutData* l
             x += item->symAdvance(mainSym) + margin;
 
             Accidental::LayoutData::Sym rs(bracketSyms.second, x,
-                                           item->bracket() == AccidentalBracket::BRACE ? item->spatium() * 0.4 : 0.0);
+                                           item->bracket()
+                                           == AccidentalBracket::BRACE ? item->spatium()
+                                           * 0.4 : 0.0);
             ldata->syms.push_back(rs);
             shape.add(item->symBbox(bracketSyms.second).translated(x, 0.0), item);
         }
@@ -626,7 +698,8 @@ void TLayout::layoutActionIcon(const ActionIcon* item, ActionIcon::LayoutData* l
     ldata->setPos(PointF());
 }
 
-void TLayout::layoutAmbitus(const Ambitus* item, Ambitus::LayoutData* ldata, const LayoutContext& ctx)
+void TLayout::layoutAmbitus(const Ambitus* item, Ambitus::LayoutData* ldata,
+                            const LayoutContext& ctx)
 {
     LAYOUT_CALL_ITEM(item);
     LD_INDEPENDENT;
@@ -687,14 +760,16 @@ void TLayout::layoutAmbitus(const Ambitus* item, Ambitus::LayoutData* ldata, con
     // Note: manages colliding accidentals
     //
     {
-        double accNoteDist = item->absoluteFromSpatium(ctx.conf().styleS(Sid::accidentalNoteDistance));
+        double accNoteDist = item->absoluteFromSpatium(ctx.conf().styleS(
+                                                           Sid::accidentalNoteDistance));
         double xAccidOffTop = topAccData->bbox().width() + accNoteDist;
         double xAccidOffBottom = bottomAccData->bbox().width() + accNoteDist;
 
         // if top accidental extends down more than bottom accidental extends up,
         // AND ambitus is not leaning right, bottom accidental needs to be displaced
         bool collision = (item->direction() != DirectionH::RIGHT)
-                         && (topAccData->pos().y() + topAccData->bbox().y() + topAccData->bbox().height()
+                         && (topAccData->pos().y() + topAccData->bbox().y()
+                             + topAccData->bbox().height()
                              > bottomAccData->pos().y() + bottomAccData->bbox().y());
         if (collision) {
             // displace bottom accidental (also attempting to 'undercut' flats)
@@ -702,7 +777,8 @@ void TLayout::layoutAmbitus(const Ambitus* item, Ambitus::LayoutData* ldata, con
             xAccidOffBottom = xAccidOffTop + ((bottomAccType == AccidentalType::FLAT
                                                || bottomAccType == AccidentalType::FLAT2
                                                || bottomAccType == AccidentalType::NATURAL)
-                                              ? bottomAccData->bbox().width() * 0.5 : bottomAccData->bbox().width());
+                                              ? bottomAccData->bbox().width()
+                                              * 0.5 : bottomAccData->bbox().width());
         }
 
         switch (item->direction()) {
@@ -754,13 +830,15 @@ void TLayout::layoutAmbitus(const Ambitus* item, Ambitus::LayoutData* ldata, con
     // BBOX
     {
         RectF headRect(0, -0.5 * spatium, headWdt, 1 * spatium);
-        ldata->setBbox(headRect.translated(ldata->topPos).united(headRect.translated(ldata->bottomPos))
+        ldata->setBbox(headRect.translated(ldata->topPos).united(headRect.translated(ldata->
+                                                                                     bottomPos))
                        .united(topAccData->bbox().translated(topAccData->pos()))
                        .united(bottomAccData->bbox().translated(bottomAccData->pos())));
     }
 }
 
-void TLayout::layoutArpeggio(const Arpeggio* item, Arpeggio::LayoutData* ldata, const LayoutConfiguration& conf)
+void TLayout::layoutArpeggio(const Arpeggio* item, Arpeggio::LayoutData* ldata,
+                             const LayoutConfiguration& conf)
 {
     LAYOUT_CALL_ITEM(item);
 
@@ -793,7 +871,9 @@ void TLayout::layoutArpeggio(const Arpeggio* item, Arpeggio::LayoutData* ldata, 
     LD_CONDITION(parentChord->upNote()->ldata()->isSetPos());
     LD_CONDITION(parentChord->downNote()->ldata()->isSetPos());
 
-    auto symbolLine = [](const std::shared_ptr<const IEngravingFont>& f, Arpeggio::LayoutData* data, SymId end, SymId fill)
+    auto symbolLine
+        = [](const std::shared_ptr<const IEngravingFont>& f, Arpeggio::LayoutData* data, SymId end,
+             SymId fill)
     {
         data->symbols.clear();
 
@@ -820,21 +900,24 @@ void TLayout::layoutArpeggio(const Arpeggio* item, Arpeggio::LayoutData* ldata, 
         symbolLine(font, ldata, SymId::wiggleArpeggiatoUp, SymId::wiggleArpeggiatoUp);
         // string is rotated -90 degrees
         ldata->symsBBox = font->bbox(ldata->symbols, ldata->magS);
-        ldata->setBbox(RectF(0.0, -ldata->symsBBox.x() + ldata->top, ldata->symsBBox.height(), ldata->symsBBox.width()));
+        ldata->setBbox(RectF(0.0, -ldata->symsBBox.x() + ldata->top, ldata->symsBBox.height(),
+                             ldata->symsBBox.width()));
     } break;
 
     case ArpeggioType::UP: {
         symbolLine(font, ldata, SymId::wiggleArpeggiatoUpArrow, SymId::wiggleArpeggiatoUp);
         // string is rotated -90 degrees
         ldata->symsBBox = font->bbox(ldata->symbols, ldata->magS);
-        ldata->setBbox(RectF(0.0, -ldata->symsBBox.x() + ldata->top, ldata->symsBBox.height(), ldata->symsBBox.width()));
+        ldata->setBbox(RectF(0.0, -ldata->symsBBox.x() + ldata->top, ldata->symsBBox.height(),
+                             ldata->symsBBox.width()));
     } break;
 
     case ArpeggioType::DOWN: {
         symbolLine(font, ldata, SymId::wiggleArpeggiatoUpArrow, SymId::wiggleArpeggiatoUp);
         // string is rotated +90 degrees (so that UpArrow turns into a DownArrow)
         ldata->symsBBox = font->bbox(ldata->symbols, ldata->magS);
-        ldata->setBbox(RectF(0.0, ldata->symsBBox.x() + ldata->top, ldata->symsBBox.height(), ldata->symsBBox.width()));
+        ldata->setBbox(RectF(0.0, ldata->symsBBox.x() + ldata->top, ldata->symsBBox.height(),
+                             ldata->symsBBox.width()));
     } break;
 
     case ArpeggioType::UP_STRAIGHT: {
@@ -867,7 +950,8 @@ void TLayout::layoutArpeggio(const Arpeggio* item, Arpeggio::LayoutData* ldata, 
     }
 }
 
-void TLayout::layoutChordBracket(const ChordBracket* item, Arpeggio::LayoutData* ldata, const LayoutConfiguration& conf)
+void TLayout::layoutChordBracket(const ChordBracket* item, Arpeggio::LayoutData* ldata,
+                                 const LayoutConfiguration& conf)
 {
     double spatium = item->spatium();
     ldata->arpeggioHeight = ArpeggioLayout::computeHeight(item);
@@ -888,7 +972,8 @@ void TLayout::layoutChordBracket(const ChordBracket* item, Arpeggio::LayoutData*
     ldata->setMag(item->staff() ? item->staff()->staffMag(item->tick()) : item->mag());
     ldata->magS = conf.magS(ldata->mag());
 
-    ldata->setShape(Shape(RectF(0.0, ldata->top, item->absoluteFromSpatium(item->hookLength()), ldata->bottom), item));
+    ldata->setShape(Shape(RectF(0.0, ldata->top, item->absoluteFromSpatium(item->hookLength()),
+                                ldata->bottom), item));
 
     const Note* upnote = item->chord()->upNote();
     ldata->setPosY(upnote->y() + upnote->ldata()->bbox().top());
@@ -1021,14 +1106,17 @@ static double barLineWidth(const BarLine* item, const MStyle& style, double dotW
     return w;
 }
 
-void TLayout::layoutBarLine(const BarLine* item, BarLine::LayoutData* ldata, const LayoutContext& ctx)
+void TLayout::layoutBarLine(const BarLine* item, BarLine::LayoutData* ldata,
+                            const LayoutContext& ctx)
 {
     LAYOUT_CALL_ITEM(item);
 
     // barlines hidden on this staff
     if (item->staff() && item->segment()) {
-        if ((!item->staff()->staffTypeForElement(item)->showBarlines() && item->segment()->segmentType() == SegmentType::EndBarLine)
-            || (item->staff()->hideSystemBarLine() && item->segment()->segmentType() == SegmentType::BeginBarLine)) {
+        if ((!item->staff()->staffTypeForElement(item)->showBarlines()
+             && item->segment()->segmentType() == SegmentType::EndBarLine)
+            || (item->staff()->hideSystemBarLine()
+                && item->segment()->segmentType() == SegmentType::BeginBarLine)) {
             ldata->setPos(PointF());
             ldata->setBbox(RectF());
             ldata->setIsSkipDraw(true);
@@ -1062,7 +1150,8 @@ void TLayout::layoutBarLine(const BarLine* item, BarLine::LayoutData* ldata, con
         }
     }
 
-    ldata->setMag(ctx.conf().styleB(Sid::scaleBarlines) && item->staff() ? item->staff()->staffMag(item->tick()) : 1.0);
+    ldata->setMag(ctx.conf().styleB(Sid::scaleBarlines)
+                  && item->staff() ? item->staff()->staffMag(item->tick()) : 1.0);
     // Note: the true values of y1 and y2 are computed in layout2() (can be done only
     // after staff distances are known). This is a temporary layout.
     const double spatium = item->spatium();
@@ -1073,7 +1162,9 @@ void TLayout::layoutBarLine(const BarLine* item, BarLine::LayoutData* ldata, con
     const IEngravingFontPtr font = ctx.engravingFont();
     const double magS = ctx.conf().magS(ldata->mag());
 
-    double w = barLineWidth(item, ctx.conf().style(), font->width(SymId::repeatDot, magS)) * ldata->mag();
+    double w
+        = barLineWidth(item, ctx.conf().style(),
+                       font->width(SymId::repeatDot, magS)) * ldata->mag();
     RectF r(0.0, ldata->y1, w, ldata->y2 - ldata->y1);
 
     if (ctx.conf().styleB(Sid::repeatBarTips)) {
@@ -1135,12 +1226,15 @@ void TLayout::layoutBarLine(const BarLine* item, BarLine::LayoutData* ldata, con
         return;
     }
 
-    if (Fermata* fermata = toFermata(item->segment()->findAnnotation(ElementType::FERMATA, item->track(), item->track() + VOICES))) {
+    if (Fermata* fermata
+            = toFermata(item->segment()->findAnnotation(ElementType::FERMATA, item->track(),
+                                                        item->track() + VOICES))) {
         layoutFermata(fermata, fermata->mutldata());
     }
 }
 
-void TLayout::updateBarlineShape(const BarLine* item, BarLine::LayoutData* ldata, const LayoutContext& ctx)
+void TLayout::updateBarlineShape(const BarLine* item, BarLine::LayoutData* ldata,
+                                 const LayoutContext& ctx)
 {
     LAYOUT_CALL_ITEM(item);
 
@@ -1370,7 +1464,8 @@ void TLayout::layoutTBox(const TBox* item, TBox::LayoutData* ldata, const Layout
     BoxLayout::layoutTBox(item, ldata, ctx);
 }
 
-void TLayout::layoutBracket(const Bracket* item, Bracket::LayoutData* ldata, const LayoutConfiguration& conf)
+void TLayout::layoutBracket(const Bracket* item, Bracket::LayoutData* ldata,
+                            const LayoutConfiguration& conf)
 {
     LAYOUT_CALL_ITEM(item);
     LD_CONDITION(ldata->bracketHeight.has_value());
@@ -1437,10 +1532,13 @@ void TLayout::layoutBracket(const Bracket* item, Bracket::LayoutData* ldata, con
 
         Shape shape = RectF(-w, -bd, w * 2, 2 * (ldata->bracketHeight * 0.5 + bd));
         shape.add(item->symBbox(SymId::bracketTop).translated(PointF(-w, -bd)));
-        shape.add(item->symBbox(SymId::bracketBottom).translated(PointF(-w, bd + ldata->bracketHeight)));
+        shape.add(item->symBbox(SymId::bracketBottom).translated(PointF(-w,
+                                                                        bd
+                                                                        + ldata->bracketHeight)));
         ldata->setShape(shape);
 
-        ldata->bracketWidth = conf.styleAbsolute(Sid::bracketWidth) + conf.styleAbsolute(Sid::bracketDistance);
+        ldata->bracketWidth = conf.styleAbsolute(Sid::bracketWidth) + conf.styleAbsolute(
+            Sid::bracketDistance);
     }
     break;
     case BracketType::SQUARE:
@@ -1466,7 +1564,8 @@ void TLayout::layoutBracket(const Bracket* item, Bracket::LayoutData* ldata, con
         ldata->setBbox(RectF(x, y, w, h));
         ldata->shape.add(ldata->bbox());
 
-        ldata->bracketWidth = 0.67 * conf.styleAbsolute(Sid::bracketWidth) + conf.styleAbsolute(Sid::bracketDistance);
+        ldata->bracketWidth = 0.67 * conf.styleAbsolute(Sid::bracketWidth) + conf.styleAbsolute(
+            Sid::bracketDistance);
     }
     break;
     case BracketType::GROUP:
@@ -1477,7 +1576,8 @@ void TLayout::layoutBracket(const Bracket* item, Bracket::LayoutData* ldata, con
     }
 }
 
-void TLayout::layoutGroupBracket(const Bracket* item, Bracket::LayoutData* ldata, const LayoutConfiguration& conf)
+void TLayout::layoutGroupBracket(const Bracket* item, Bracket::LayoutData* ldata,
+                                 const LayoutConfiguration& conf)
 {
     BracketItem* bracketItem = item->bracketItem();
 
@@ -1506,7 +1606,8 @@ void TLayout::layoutGroupBracket(const Bracket* item, Bracket::LayoutData* ldata
     text->setAlign(Align(text->align().horizontal, AlignV::VCENTER));
     text->setPosition(AlignH::HCENTER);
 
-    Orientation textOrientation = conf.styleV(Sid::groupBracketTextOrientation).value<Orientation>();
+    Orientation textOrientation
+        = conf.styleV(Sid::groupBracketTextOrientation).value<Orientation>();
     text->setTextAngle(textOrientation == Orientation::VERTICAL ? -90.0 : 0.0);
 
     double textPadding = 0.5 * item->spatium();
@@ -1514,7 +1615,8 @@ void TLayout::layoutGroupBracket(const Bracket* item, Bracket::LayoutData* ldata
     double minHeight = bracketHeight - 6 * textPadding;
 
     if (textOrientation == Orientation::HORIZONTAL) {
-        text->setXmlText(item->system()->ldata()->useLongNames() ? bracketItem->longName() : bracketItem->shortName());
+        text->setXmlText(
+            item->system()->ldata()->useLongNames() ? bracketItem->longName() : bracketItem->shortName());
         layoutText(text, text->mutldata());
     } else {
         text->setXmlText(bracketItem->longName());
@@ -1548,7 +1650,8 @@ void TLayout::layoutGroupBracket(const Bracket* item, Bracket::LayoutData* ldata
     ldata->setShape(shape);
 }
 
-void TLayout::layoutBreath(const Breath* item, Breath::LayoutData* ldata, const LayoutConfiguration& conf)
+void TLayout::layoutBreath(const Breath* item, Breath::LayoutData* ldata,
+                           const LayoutConfiguration& conf)
 {
     LAYOUT_CALL_ITEM(item);
     LD_INDEPENDENT;
@@ -1565,11 +1668,14 @@ void TLayout::layoutBreath(const Breath* item, Breath::LayoutData* ldata, const 
         } else {
             ldata->setPosY(item->symHeight(item->symId()) / 2 + voiceOffset);
         }
-    } else if ((conf.styleSt(Sid::musicalSymbolFont) == "Emmentaler") && (item->symId() == SymId::breathMarkComma)) {
-        const double shift = item->placeBelow() ? -0.5 * item->spatium() + item->symHeight(item->symId()) : 0.5 * item->spatium();
+    } else if ((conf.styleSt(Sid::musicalSymbolFont) == "Emmentaler")
+               && (item->symId() == SymId::breathMarkComma)) {
+        const double shift = item->placeBelow() ? -0.5 * item->spatium() + item->symHeight(
+            item->symId()) : 0.5 * item->spatium();
         ldata->setPosY(shift + voiceOffset);
     } else {
-        const double shift = item->placeBelow() ? 0.5 * item->spatium() + item->symHeight(item->symId()) : -0.5 * item->spatium();
+        const double shift = item->placeBelow() ? 0.5 * item->spatium() + item->symHeight(
+            item->symId()) : -0.5 * item->spatium();
         ldata->setPosY(shift + voiceOffset);
     }
 
@@ -1584,7 +1690,8 @@ void TLayout::layoutChord(Chord* item, LayoutContext& ctx)
     ChordLayout::layout(item, ctx);
 }
 
-void TLayout::layoutChordLine(const ChordLine* item, ChordLine::LayoutData* ldata, const LayoutConfiguration& conf)
+void TLayout::layoutChordLine(const ChordLine* item, ChordLine::LayoutData* ldata,
+                              const LayoutConfiguration& conf)
 {
     LAYOUT_CALL_ITEM(item);
     IF_ASSERT_FAILED(item->explicitParent()) {
@@ -1657,13 +1764,17 @@ void TLayout::layoutChordLine(const ChordLine* item, ChordLine::LayoutData* ldat
         return false;
     });
 
-    const RectF r = item->isWavy() ? conf.engravingFont()->bbox(item->waveSym(), item->magS()) : ldata->path.boundingRect();
+    const RectF r
+        = item->isWavy() ? conf.engravingFont()->bbox(item->waveSym(),
+                                                      item->magS()) : ldata->path.boundingRect();
 
     y += item->isBelow() ? vertOffset : -vertOffset;
 
     const double yBelow = y + r.height();
     double chordEdge
-        = item->isToTheLeft() ? chordShape.leftMostEdgeAtHeight(y, yBelow) : chordShape.rightMostEdgeAtHeight(y, yBelow);
+        = item->isToTheLeft() ? chordShape.leftMostEdgeAtHeight(y,
+                                                                yBelow) : chordShape.
+          rightMostEdgeAtHeight(y, yBelow);
 
     if (!item->isToTheLeft()) {
         // Always place lines to the right of dots
@@ -1724,17 +1835,23 @@ void TLayout::layoutClef(const Clef* item, Clef::LayoutData* ldata, const Layout
         bool show = stVisibility->genClef();            // check staff type allows clef display
 
         const bool endOfMeasureClef = clefSeg->rtick() == clefSeg->measure()->ticks();
-        const Fraction tick = endOfMeasureClef && !item->isTrailer() ? item->tick() : clefSeg->measure()->tick();
+        const Fraction tick = endOfMeasureClef
+                              && !item->isTrailer() ? item->tick() : clefSeg->measure()->tick();
 
         const Fraction tickPrev = tick - Fraction::eps();
         const StaffType* st = item->staff()->staffType(tick);
-        const StaffType* stPrev = !tickPrev.negative() ? item->staff()->staffType(tickPrev) : nullptr;
+        const StaffType* stPrev
+            = !tickPrev.negative() ? item->staff()->staffType(tickPrev) : nullptr;
         StaffGroup staffGroup = st->group();
-        const bool hideClef = st->isTabStaff() ? conf.styleB(Sid::hideTabClefAfterFirst) : !conf.styleB(Sid::genClef);
+        const bool hideClef
+            = st->isTabStaff() ? conf.styleB(Sid::hideTabClefAfterFirst) : !conf.styleB(Sid::genClef);
 
         // if not tab, use instrument->useDrumset to set staffGroup (to allow pitched to unpitched in same staff)
         if (staffGroup != StaffGroup::TAB) {
-            staffGroup = item->staff()->part()->instrument(item->tick())->useDrumset() ? StaffGroup::PERCUSSION : StaffGroup::STANDARD;
+            staffGroup
+                = item->staff()->part()->instrument(item->tick())->useDrumset() ? StaffGroup::
+                  PERCUSSION
+                  : StaffGroup::STANDARD;
         }
 
         // check clef is compatible with staff type group:
@@ -1753,7 +1870,8 @@ void TLayout::layoutClef(const Clef* item, Clef::LayoutData* ldata, const Layout
             ldata->setBbox(RectF());
             ldata->symId = SymId::noSym;
             LOGD("invisible clef at tick %d(%d) staff %zu",
-                 item->segment()->tick().ticks(), item->segment()->tick().ticks() / 1920, item->staffIdx());
+                 item->segment()->tick().ticks(),
+                 item->segment()->tick().ticks() / 1920, item->staffIdx());
             return;
         }
         lines      = st->lines();             // init values from staff type
@@ -1761,7 +1879,9 @@ void TLayout::layoutClef(const Clef* item, Clef::LayoutData* ldata, const Layout
         stepOffset = st->stepOffset();
 
         const Spatium stOffset = st->yoffset();
-        const Spatium stPrevOffset = stPrev && clefSeg->rtick() != Fraction(0, 1) ? stPrev->yoffset() : 0.0_sp;
+        const Spatium stPrevOffset = stPrev
+                                     && clefSeg->rtick()
+                                     != Fraction(0, 1) ? stPrev->yoffset() : 0.0_sp;
         staffOffsetY = item->isHeader() ? 0.0_sp : stOffset - stPrevOffset;
     }
 
@@ -1803,7 +1923,8 @@ void TLayout::layoutClef(const Clef* item, Clef::LayoutData* ldata, const Layout
     Shape shape(item->symShapeWithCutouts(ldata->symId));
     bool isMidMeasureClef = item->isMidMeasureClef();
     double x = isMidMeasureClef ? -shape.right() : 0.0;
-    ldata->setPos(PointF(x, (yoff + (Spatium(stepOffset) * 0.5) + staffOffsetY).toAbsolute(_spatium)));
+    ldata->setPos(PointF(x, (yoff + (Spatium(stepOffset) * 0.5) + staffOffsetY).toAbsolute(
+                             _spatium)));
     if (item->isMidMeasureClef()) {
         ldata->setShape(shape);
     } else {
@@ -1817,7 +1938,8 @@ void TLayout::layoutCapo(const Capo* item, Capo::LayoutData* ldata, const Layout
     //! NOTE Looks like it doesn't belong here
     if (item->shouldAutomaticallyGenerateText() || item->empty()) {
         if (const Part* part = item->part()) {
-            if (const StringData* stringData = part->stringData(item->tick(), item->staff()->idx())) {
+            if (const StringData* stringData
+                    = part->stringData(item->tick(), item->staff()->idx())) {
                 String text = item->generateText(stringData->strings());
                 const_cast<Capo*>(item)->setXmlText(text);
             }
@@ -1883,7 +2005,8 @@ void TLayout::layoutDeadSlapped(const DeadSlapped* item, DeadSlapped::LayoutData
     }
 }
 
-void TLayout::layoutDynamic(Dynamic* item, Dynamic::LayoutData* ldata, const LayoutConfiguration& conf)
+void TLayout::layoutDynamic(Dynamic* item, Dynamic::LayoutData* ldata,
+                            const LayoutConfiguration& conf)
 {
     DynamicsLayout::layoutDynamic(item, ldata, conf);
 }
@@ -1896,7 +2019,8 @@ void TLayout::layoutExpression(const Expression* item, Expression::LayoutData* l
     }
 
     const_cast<Expression*>(item)->setPlacementBasedOnVoiceAssignment(item->style().styleV(
-                                                                          Sid::dynamicsHairpinVoiceBasedPlacement).value<DirectionV>());
+                                                                          Sid::
+                                                                          dynamicsHairpinVoiceBasedPlacement).value<DirectionV>());
 
     TextLayout::layoutBaseTextBase(item, ldata);
 
@@ -1935,12 +2059,17 @@ void TLayout::layoutExpression(const Expression* item, Expression::LayoutData* l
     LD_CONDITION(m->ldata()->isSetPos());
     LD_CONDITION(s->ldata()->isSetPos());
 
-    Dynamic* dynamic = toDynamic(segment->findAnnotation(ElementType::DYNAMIC, item->track(), item->track()));
+    Dynamic* dynamic
+        = toDynamic(segment->findAnnotation(ElementType::DYNAMIC, item->track(), item->track()));
     if (!dynamic) {
         Segment* timeTickSeg = m->findSegmentR(SegmentType::TimeTick, s->rtick());
-        dynamic = timeTickSeg ? toDynamic(timeTickSeg->findAnnotation(ElementType::DYNAMIC, item->track(), item->track())) : nullptr;
+        dynamic
+            = timeTickSeg ? toDynamic(timeTickSeg->findAnnotation(ElementType::DYNAMIC,
+                                                                  item->track(),
+                                                                  item->track())) : nullptr;
     }
-    if (!dynamic || dynamic->placeAbove() != item->placeAbove() || dynamic->voiceAssignment() != item->voiceAssignment()
+    if (!dynamic || dynamic->placeAbove() != item->placeAbove()
+        || dynamic->voiceAssignment() != item->voiceAssignment()
         || !dynamic->visible()) {
         Autoplace::autoplaceSegmentElement(item, ldata);
         return;
@@ -1967,7 +2096,8 @@ void TLayout::layoutFermata(const Fermata* item, Fermata::LayoutData* ldata)
 {
     LAYOUT_CALL_ITEM(item);
     const StaffType* stType = item->staffType();
-    if (stType && stType->isHiddenElementOnTab(Sid::fermataShowTabCommon, Sid::fermataShowTabSimple)) {
+    if (stType
+        && stType->isHiddenElementOnTab(Sid::fermataShowTabCommon, Sid::fermataShowTabSimple)) {
         ldata->setIsSkipDraw(true);
         return;
     }
@@ -1990,7 +2120,8 @@ void TLayout::layoutFermata(const Fermata* item, Fermata::LayoutData* ldata)
             const Rest* rest = toRest(e);
             x = rest->x() + rest->centerX();
         } else {
-            x = e->x() - e->shape().left() + e->width() * item->staff()->staffMag(Fraction(0, 1)) * .5;
+            x = e->x() - e->shape().left() + e->width()
+                * item->staff()->staffMag(Fraction(0, 1)) * .5;
         }
     }
 
@@ -1998,12 +2129,14 @@ void TLayout::layoutFermata(const Fermata* item, Fermata::LayoutData* ldata)
     if (item->placeAbove()) {
         if (name.endsWith(u"Below")) {
             //! NOTE It is not clear whether SymId is layout data or given data.
-            const_cast<Fermata*>(item)->setSymId(SymNames::symIdByName(name.left(name.size() - 5) + u"Above"));
+            const_cast<Fermata*>(item)->setSymId(SymNames::symIdByName(name.left(name.size() - 5)
+                                                                       + u"Above"));
         }
     } else {
         if (name.endsWith(u"Above")) {
             //! NOTE It is not clear whether SymId is layout data or given data.
-            const_cast<Fermata*>(item)->setSymId(SymNames::symIdByName(name.left(name.size() - 5) + u"Below"));
+            const_cast<Fermata*>(item)->setSymId(SymNames::symIdByName(name.left(name.size() - 5)
+                                                                       + u"Below"));
         }
     }
 
@@ -2031,7 +2164,8 @@ void TLayout::layoutFermata(const Fermata* item, Fermata::LayoutData* ldata)
 //    creates the display text (set as element text) and computes
 //    the horiz. offset needed to align the right part as well as the vert. offset
 //---------------------------------------------------------
-void TLayout::layoutFiguredBassItem(const FiguredBassItem* item, FiguredBassItem::LayoutData* ldata, const LayoutContext& ctx)
+void TLayout::layoutFiguredBassItem(const FiguredBassItem* item, FiguredBassItem::LayoutData* ldata,
+                                    const LayoutContext& ctx)
 {
     LAYOUT_CALL_ITEM(item);
     // construct font metrics
@@ -2040,7 +2174,8 @@ void TLayout::layoutFiguredBassItem(const FiguredBassItem* item, FiguredBassItem
 
     // font size in pixels, scaled according to spatium()
     // (use the same font selection as used in draw() below)
-    double m = ctx.conf().styleD(Sid::figuredBassFontSize) * item->spatium() / item->defaultSpatium();
+    double m = ctx.conf().styleD(Sid::figuredBassFontSize) * item->spatium()
+               / item->defaultSpatium();
     f.setPointSizeF(m);
     FontMetrics fm(f);
 
@@ -2085,8 +2220,14 @@ void TLayout::layoutFiguredBassItem(const FiguredBassItem* item, FiguredBassItem
                 || item->suffix() == FiguredBassItem::Modifier::BACKSLASH
                 || item->suffix() == FiguredBassItem::Modifier::SLASH)
             && item->parenth3() == FiguredBassItem::Parenthesis::NONE) {
-            str.append(FiguredBass::FBFonts().at(font).displayDigit[style][item->digit()][int(item->suffix())
-                                                                                          - (int(FiguredBassItem::Modifier::CROSS)
+            str.append(FiguredBass::FBFonts().at(font).displayDigit[style][item->digit()][int(item->
+                                                                                              suffix())
+                                                                                          - (int(
+                                                                                                 FiguredBassItem
+                                                                                                 ::
+                                                                                                 Modifier
+                                                                                                 ::
+                                                                                                 CROSS)
                                                                                              - 1)]);
         }
         // if several digits or no shape combination, convert _digit to font styled chars
@@ -2094,7 +2235,8 @@ void TLayout::layoutFiguredBassItem(const FiguredBassItem* item, FiguredBassItem
             String digits;
             int digit = item->digit();
             while (true) {
-                digits.prepend(FiguredBass::FBFonts().at(font).displayDigit[style][(digit % 10)][0]);
+                digits.prepend(FiguredBass::FBFonts().at(font).displayDigit[style][(digit
+                                                                                    % 10)][0]);
                 digit /= 10;
                 if (digit == 0) {
                     break;
@@ -2159,7 +2301,8 @@ void TLayout::layoutFiguredBassItem(const FiguredBassItem* item, FiguredBassItem
 //    lays out the duration indicator line(s), filling the _lineLengths array
 //    and the length of printed lines (used by continuation lines)
 
-static void layoutLines(const FiguredBass* item, FiguredBass::LayoutData* ldata, const LayoutContext& ctx)
+static void layoutLines(const FiguredBass* item, FiguredBass::LayoutData* ldata,
+                        const LayoutContext& ctx)
 {
     std::vector<double> lineLengths = ldata->lineLengths;
     if (item->ticks() <= Fraction(0, 1) || !item->segment()) {
@@ -2215,7 +2358,8 @@ static void layoutLines(const FiguredBass* item, FiguredBass::LayoutData* ldata,
 
     // get length of printed lines from horiz. page position of lastCR
     // (enter a bit 'into' the ChordRest for clarity)
-    double printedLineLength = lastCR ? lastCR->pageX() - item->pageX() + 1.5 * item->spatium() : 3 * item->spatium();
+    double printedLineLength = lastCR ? lastCR->pageX() - item->pageX() + 1.5
+                               * item->spatium() : 3 * item->spatium();
     ldata->printedLineLength = printedLineLength;
 
     // get duration indicator line(s) from page position of nextSegm
@@ -2270,7 +2414,8 @@ static void layoutLines(const FiguredBass* item, FiguredBass::LayoutData* ldata,
     ldata->lineLengths = lineLengths;
 }
 
-void TLayout::layoutFiguredBass(const FiguredBass* item, FiguredBass::LayoutData* ldata, const LayoutContext& ctx)
+void TLayout::layoutFiguredBass(const FiguredBass* item, FiguredBass::LayoutData* ldata,
+                                const LayoutContext& ctx)
 {
     LAYOUT_CALL_ITEM(item);
     // VERTICAL POSITION:
@@ -2305,7 +2450,8 @@ void TLayout::layoutFingering(const Fingering* item, Fingering::LayoutData* ldat
     Fraction tick = item->parentItem()->tick();
     const Staff* st = item->staff();
     if (st && st->isTabStaff(tick)
-        && (!st->staffType(tick)->showTabFingering() || item->textStyleType() == TextStyleType::STRING_NUMBER)) {
+        && (!st->staffType(tick)->showTabFingering()
+            || item->textStyleType() == TextStyleType::STRING_NUMBER)) {
         ldata->setIsSkipDraw(true);
         return;
     }
@@ -2318,8 +2464,10 @@ void TLayout::layoutFingering(const Fingering* item, Fingering::LayoutData* ldat
         const Note* note  = item->note();
         const Chord* chord = note->chord();
 
-        bool voices  = chord->measure()->hasVoices(chord->staffIdx(), chord->tick(), chord->actualTicks());
-        bool tight   = voices && chord->notes().size() == 1 && !chord->beam() && item->textStyleType() != TextStyleType::STRING_NUMBER;
+        bool voices  = chord->measure()->hasVoices(chord->staffIdx(),
+                                                   chord->tick(), chord->actualTicks());
+        bool tight   = voices && chord->notes().size() == 1 && !chord->beam()
+                       && item->textStyleType() != TextStyleType::STRING_NUMBER;
 
         double headWidth = note->bboxRightPos();
 
@@ -2369,7 +2517,8 @@ void TLayout::layoutFingering(const Fingering* item, Fingering::LayoutData* ldat
                     }
                     ldata->moveY(-1.5 * sp);
                 } else {
-                    RectF r = ldata->bbox().translated(measure->pos() + segment->pos() + chord->pos() + note->pos() + item->pos());
+                    RectF r = ldata->bbox().translated(
+                        measure->pos() + segment->pos() + chord->pos() + note->pos() + item->pos());
                     SkylineLine sk(false);
                     sk.add(r, const_cast<Fingering*>(item));
                     double d = sk.minDistance(ss->skyline().north());
@@ -2386,15 +2535,18 @@ void TLayout::layoutFingering(const Fingering* item, Fingering::LayoutData* ldat
                         top = std::min(0.0, un->y() + un->ldata()->bbox().top());
                     }
                     top -= md;
-                    double diff = (ldata->bbox().bottom() + ldata->pos().y() + yd + note->y()) - top;
+                    double diff = (ldata->bbox().bottom() + ldata->pos().y() + yd + note->y())
+                                  - top;
                     if (diff > 0.0) {
                         yd -= diff;
                     }
                     if (ldata->offsetChanged() != OffsetChange::NONE) {
                         // user moved element within the skyline
                         // we may need to adjust minDistance, yd, and/or offset
-                        bool inStaff = above ? r.bottom() + rebase > 0.0 : r.top() + rebase < item->staff()->staffHeight(item->tick());
-                        Autoplace::rebaseMinDistance(item, ldata, md, yd, sp, rebase, above, inStaff);
+                        bool inStaff = above ? r.bottom() + rebase > 0.0 : r.top() + rebase
+                                       < item->staff()->staffHeight(item->tick());
+                        Autoplace::rebaseMinDistance(item, ldata, md, yd, sp, rebase, above,
+                                                     inStaff);
                     }
                     ldata->moveY(yd);
                 }
@@ -2405,7 +2557,8 @@ void TLayout::layoutFingering(const Fingering* item, Fingering::LayoutData* ldat
                     }
                     ldata->moveY(1.5 * sp);
                 } else {
-                    RectF r = ldata->bbox().translated(measure->pos() + segment->pos() + chord->pos() + note->pos() + item->pos());
+                    RectF r = ldata->bbox().translated(
+                        measure->pos() + segment->pos() + chord->pos() + note->pos() + item->pos());
                     SkylineLine sk(true);
                     sk.add(r, const_cast<Fingering*>(item));
                     double d = ss->skyline().south().minDistance(sk);
@@ -2419,18 +2572,22 @@ void TLayout::layoutFingering(const Fingering* item, Fingering::LayoutData* ldat
                         bottom = stem->y() + stem->ldata()->bbox().bottom();
                     } else {
                         const Note* dn = chord->downNote();
-                        bottom = std::max(vStaff->staffHeight(item->tick()), dn->y() + dn->ldata()->bbox().bottom());
+                        bottom = std::max(vStaff->staffHeight(item->tick()),
+                                          dn->y() + dn->ldata()->bbox().bottom());
                     }
                     bottom += md;
-                    double diff = bottom - (ldata->bbox().top() + ldata->pos().y() + yd + note->y());
+                    double diff = bottom
+                                  - (ldata->bbox().top() + ldata->pos().y() + yd + note->y());
                     if (diff > 0.0) {
                         yd += diff;
                     }
                     if (ldata->offsetChanged() != OffsetChange::NONE) {
                         // user moved element within the skyline
                         // we may need to adjust minDistance, yd, and/or offset
-                        bool inStaff = above ? r.bottom() + rebase > 0.0 : r.top() + rebase < item->staff()->staffHeight(item->tick());
-                        Autoplace::rebaseMinDistance(item, ldata, md, yd, sp, rebase, above, inStaff);
+                        bool inStaff = above ? r.bottom() + rebase > 0.0 : r.top() + rebase
+                                       < item->staff()->staffHeight(item->tick());
+                        Autoplace::rebaseMinDistance(item, ldata, md, yd, sp, rebase, above,
+                                                     inStaff);
                     }
                     ldata->moveY(yd);
                 }
@@ -2455,7 +2612,8 @@ void TLayout::layoutFingering(const Fingering* item, Fingering::LayoutData* ldat
     Autoplace::setOffsetChanged(item, ldata, false);
 }
 
-void TLayout::layoutFretDiagram(const FretDiagram* item, FretDiagram::LayoutData* ldata, const LayoutContext& ctx)
+void TLayout::layoutFretDiagram(const FretDiagram* item, FretDiagram::LayoutData* ldata,
+                                const LayoutContext& ctx)
 {
     LAYOUT_CALL_ITEM(item);
     double spatium  = item->spatium() * item->userMag();
@@ -2475,7 +2633,8 @@ void TLayout::layoutFretDiagram(const FretDiagram* item, FretDiagram::LayoutData
 
     double shapeMarginAboveDiagram = ldata->fretDist * 1.5;
     double w = ldata->stringDist * (item->strings() - 1) + ldata->markerSize;
-    double h = item->frets() * ldata->fretDist + ldata->stringExtendBottom + 0.5 * ldata->stringLineWidth + shapeMarginAboveDiagram;
+    double h = item->frets() * ldata->fretDist + ldata->stringExtendBottom + 0.5
+               * ldata->stringLineWidth + shapeMarginAboveDiagram;
     double y = -shapeMarginAboveDiagram;
     double x = -(ldata->markerSize * .5);
 
@@ -2490,7 +2649,8 @@ void TLayout::layoutFretDiagram(const FretDiagram* item, FretDiagram::LayoutData
                 continue;
             }
             if ((barre.startString == 0 && item->numPos() == 0)
-                || ((barre.endString == -1 || barre.endString == item->strings() - 1) && item->numPos() == 1)) {
+                || ((barre.endString == -1 || barre.endString == item->strings() - 1)
+                    && item->numPos() == 1)) {
                 padding += 0.20 * ldata->dotDiameter * ctx.conf().styleD(Sid::barreLineWidth);
                 break;
             }
@@ -2539,10 +2699,15 @@ void TLayout::layoutFretDiagram(const FretDiagram* item, FretDiagram::LayoutData
             double width = fontMetrics.width(fingerS);
             double digitHeight = fontMetrics.tightBoundingRect(fingerS).height();
             double xOff = -0.5 * width;
-            double fingerX = isVertical ? (item->strings() - i - 1) * ldata->stringDist + xOff : x + w + padding;
-            double fingerY = isVertical ? y + h + fontHeight + padding : i * ldata->stringDist + 0.5 * digitHeight;
-            ldata->fingeringItems.push_back(FretDiagram::FingeringItem(fingerS, PointF(fingerX, fingerY)));
-            shape.add(ShapeElement(fontMetrics.tightBoundingRect(fingerS).translated(PointF(fingerX, fingerY)), item));
+            double fingerX = isVertical ? (item->strings() - i - 1) * ldata->stringDist + xOff : x
+                             + w + padding;
+            double fingerY = isVertical ? y + h + fontHeight + padding : i * ldata->stringDist
+                             + 0.5 * digitHeight;
+            ldata->fingeringItems.push_back(FretDiagram::FingeringItem(fingerS,
+                                                                       PointF(fingerX, fingerY)));
+            shape.add(ShapeElement(fontMetrics.tightBoundingRect(fingerS).translated(PointF(fingerX,
+                                                                                            fingerY)),
+                                   item));
         }
     }
 
@@ -2554,7 +2719,8 @@ void TLayout::layoutFretDiagram(const FretDiagram* item, FretDiagram::LayoutData
         double noteheadWidth = 0.0;
         if (pSeg->isChordRestType()) {
             staff_idx_t idx = item->staff()->idx();
-            for (EngravingItem* e = pSeg->firstElementOfSegment(idx); e; e = pSeg->nextElementOfSegment(e, idx)) {
+            for (EngravingItem* e = pSeg->firstElementOfSegment(idx); e;
+                 e = pSeg->nextElementOfSegment(e, idx)) {
                 if (e->isRest()) {
                     const Rest* r = toRest(e);
                     LD_CONDITION(r->ldata()->sym.has_value());
@@ -2572,14 +2738,16 @@ void TLayout::layoutFretDiagram(const FretDiagram* item, FretDiagram::LayoutData
             noteheadWidth = item->symWidth(SymId::noteheadBlack);
         }
 
-        ldata->setPos((noteheadWidth - item->mainWidth()) / 2, -(ldata->shape().bottom() + item->styleP(Sid::fretY)));
+        ldata->setPos((noteheadWidth - item->mainWidth()) / 2,
+                      -(ldata->shape().bottom() + item->styleP(Sid::fretY)));
     }
 
     Harmony* harmony = item->harmony();
     if (harmony) {
         TLayout::layoutHarmony(harmony, harmony->mutldata(), ctx);
         if (item->visible() && harmony->autoplace()) {
-            double vertDist = ldata->bbox().top() - harmony->ldata()->bbox().translated(harmony->pos()).bottom();
+            double vertDist = ldata->bbox().top() - harmony->ldata()->bbox().translated(
+                harmony->pos()).bottom();
             double diff = vertDist - harmony->minDistance().val() * item->spatium();
             if (diff < 0) {
                 harmony->mutldata()->moveY(diff);
@@ -2606,12 +2774,14 @@ void TLayout::layoutFretDiagram(const FretDiagram* item, FretDiagram::LayoutData
         }
         int length = endString - startString;
         double insetX = (length < 2 ? 1.25 : 2) * ldata->stringLineWidth;
-        double insetY = fret == 1 ? ldata->nutLineWidth + ldata->stringLineWidth : length < 2 ? 2 * ldata->stringLineWidth : insetX;
+        double insetY = fret == 1 ? ldata->nutLineWidth + ldata->stringLineWidth : length
+                        < 2 ? 2 * ldata->stringLineWidth : insetX;
         double startX = startString * ldata->stringDist + insetX;
         double endX = (endString) * ldata->stringDist - insetX;
         double shoulderXoffset = 0.2 * (endX - startX);
         double startEndY = (fret - 1) * ldata->fretDist - insetY;
-        double shoulderY = startEndY - (length < 2 ? 0.3 : length < 3 ? 0.4 : 0.5) * ldata->fretDist;
+        double shoulderY = startEndY
+                           - (length < 2 ? 0.3 : length < 3 ? 0.4 : 0.5) * ldata->fretDist;
         double slurThickness = (length < 2 ? 0.08 : 0.1) * item->spatium() * item->userMag();
         double shoulderYfor = shoulderY - slurThickness;
         double shoulderYback = shoulderY + slurThickness;
@@ -2705,7 +2875,8 @@ void TLayout::layoutGraceNotesGroup(GraceNotesGroup* item, LayoutContext& ctx)
         if (staff->links()) {
             for (EngravingObject* linkedSt : *staff->links()) {
                 Staff* linkedStaff = toStaff(linkedSt);
-                if (linkedStaff->score() == staff->score() && !linkedStaff->staffType()->isTabStaff()
+                if (linkedStaff->score() == staff->score()
+                    && !linkedStaff->staffType()->isTabStaff()
                     && linkedStaff->idx() < staff->idx()) {
                     // HACK: align grace notes in TAB to their linked notation staff.
                     // CAUTION: Works only if notation staff is above the TAB.
@@ -2730,12 +2901,15 @@ void TLayout::layoutGraceNotesGroup(GraceNotesGroup* item, LayoutContext& ctx)
             return false;
         });
         double offset;
-        offset = -std::max(HorizontalSpacing::minHorizontalDistance(graceShape, groupShape, grace->spatium()), 0.0);
+        offset
+            = -std::max(HorizontalSpacing::minHorizontalDistance(graceShape, groupShape,
+                                                                 grace->spatium()), 0.0);
         // Adjust spacing for cross-beam situations
         if (i < item->size() - 1 && grace->stem()) {
             Chord* prevGrace = item->at(i + 1);
             if (prevGrace->up() != grace->up()) {
-                double crossCorrection = grace->notes().front()->headWidth() - grace->stem()->width();
+                double crossCorrection = grace->notes().front()->headWidth()
+                                         - grace->stem()->width();
                 if (prevGrace->up() && !grace->up()) {
                     offset += crossCorrection;
                 } else {
@@ -2764,7 +2938,10 @@ void TLayout::layoutGraceNotesGroup(GraceNotesGroup* item, LayoutContext& ctx)
     // If the parent chord is cross-staff, also check against shape in the other staff and take the minimum
     if (item->parent()->staffMove() != 0) {
         double xPosCross = -HorizontalSpacing::minHorizontalDistance(_shape,
-                                                                     appendedSeg->staffShape(item->parent()->vStaffIdx()),
+                                                                     appendedSeg->staffShape(item->
+                                                                                             parent()
+                                                                                             ->
+                                                                                             vStaffIdx()),
                                                                      _shapeSpatium);
         xPos = std::min(xPos, xPosCross);
     }
@@ -2772,12 +2949,17 @@ void TLayout::layoutGraceNotesGroup(GraceNotesGroup* item, LayoutContext& ctx)
     Chord* firstGN = item->back();
     if (firstGN->staffMove() != 0) {
         double xPosCross = -HorizontalSpacing::minHorizontalDistance(_shape,
-                                                                     appendedSeg->staffShape(firstGN->vStaffIdx()),
+                                                                     appendedSeg->staffShape(firstGN
+                                                                                             ->
+                                                                                             vStaffIdx()),
                                                                      _shapeSpatium);
         xPos = std::min(xPos, xPosCross);
     }
     // Safety net in case the shape checks don't succeed
-    xPos = std::min(xPos, -double(ctx.conf().styleAbsolute(Sid::graceToMainNoteDist) + firstGN->notes().front()->headWidth() / 2));
+    xPos
+        = std::min(xPos,
+                   -double(ctx.conf().styleAbsolute(Sid::graceToMainNoteDist)
+                           + firstGN->notes().front()->headWidth() / 2));
 
     item->setPos(xPos, 0.0);
 
@@ -2786,7 +2968,8 @@ void TLayout::layoutGraceNotesGroup(GraceNotesGroup* item, LayoutContext& ctx)
     }
 }
 
-void TLayout::layoutGraceNotesGroup2(const GraceNotesGroup* item, GraceNotesGroup::LayoutData* ldata)
+void TLayout::layoutGraceNotesGroup2(const GraceNotesGroup* item,
+                                     GraceNotesGroup::LayoutData* ldata)
 {
     LAYOUT_CALL_ITEM(item);
     //! NOTE A lot of spam
@@ -2869,8 +3052,10 @@ void TLayout::doLayoutGradualTempoChangeSegment(GradualTempoChangeSegment* item,
     if (ldata->itemSnappedAfter() && ldata->itemSnappedAfter()->isTempoText()) {
         TempoText* tempoTextSnappedAfter = toTempoText(ldata->itemSnappedAfter());
         extendLineToSnappedItemAfter(tempoTextSnappedAfter);
-    } else if (ldata->itemSnappedAfter() && ldata->itemSnappedAfter()->isGradualTempoChangeSegment()) {
-        GradualTempoChangeSegment* tempoChangeSegmentSnappedAfter = toGradualTempoChangeSegment(ldata->itemSnappedAfter());
+    } else if (ldata->itemSnappedAfter()
+               && ldata->itemSnappedAfter()->isGradualTempoChangeSegment()) {
+        GradualTempoChangeSegment* tempoChangeSegmentSnappedAfter = toGradualTempoChangeSegment(
+            ldata->itemSnappedAfter());
         extendLineToSnappedItemAfter(tempoChangeSegmentSnappedAfter);
     }
 
@@ -2919,13 +3104,17 @@ void TLayout::layoutGuitarBendSegment(GuitarBendSegment* item, LayoutContext& ct
 
     SysStaff* staff = item->system()->staff(item->staffIdx());
     Skyline& skyline = staff->skyline();
-    SkylineLine& skylineLine = tabStaff ? skyline.north() : (item->guitarBend()->ldata()->up() ? skyline.north() : skyline.south());
+    SkylineLine& skylineLine
+        = tabStaff ? skyline.north() : (item->guitarBend()->ldata()->up() ? skyline.north() :
+                                        skyline.
+                                        south());
     skylineLine.add(item->shape().translate(item->pos()));
 
     fillGuitarBendSegmentShape(item, item->mutldata());
 }
 
-void TLayout::fillGuitarBendSegmentShape(const GuitarBendSegment* item, GuitarBendSegment::LayoutData* ldata)
+void TLayout::fillGuitarBendSegmentShape(const GuitarBendSegment* item,
+                                         GuitarBendSegment::LayoutData* ldata)
 {
     LAYOUT_CALL_ITEM(item);
     Shape shape;
@@ -2943,7 +3132,8 @@ void TLayout::layoutHairpinSegment(HairpinSegment* item, LayoutContext& ctx)
 
     const StaffType* stType = item->staffType();
 
-    if (stType && stType->isHiddenElementOnTab(Sid::hairpinShowTabCommon, Sid::hairpinShowTabSimple)) {
+    if (stType
+        && stType->isHiddenElementOnTab(Sid::hairpinShowTabCommon, Sid::hairpinShowTabSimple)) {
         ldata->setIsSkipDraw(true);
         return;
     }
@@ -3056,9 +3246,11 @@ void TLayout::layoutHairpinSegment(HairpinSegment* item, LayoutContext& ctx)
 
         ldata->joinedHairpin.clear();
         if (item->spannerSegmentType() != SpannerSegmentType::MIDDLE) {
-            if (type == HairpinType::DIM_HAIRPIN && item->spannerSegmentType() != SpannerSegmentType::BEGIN) {
+            if (type == HairpinType::DIM_HAIRPIN
+                && item->spannerSegmentType() != SpannerSegmentType::BEGIN) {
                 ldata->joinedHairpin << ldata->points[0] << ldata->points[1] << ldata->points[2]; // [top-left, joint, bottom-left]
-            } else if (type == HairpinType::CRESC_HAIRPIN && item->spannerSegmentType() != SpannerSegmentType::END) {
+            } else if (type == HairpinType::CRESC_HAIRPIN
+                       && item->spannerSegmentType() != SpannerSegmentType::END) {
                 ldata->joinedHairpin << ldata->points[1] << ldata->points[0] << ldata->points[3]; // [top-right, joint, bottom-right]
             }
         }
@@ -3068,7 +3260,9 @@ void TLayout::layoutHairpinSegment(HairpinSegment* item, LayoutContext& ctx)
             r.unite(item->text()->ldata()->bbox());
         }
         if (!item->endText()->empty()) {
-            r.unite(item->endText()->ldata()->bbox().translated(x + item->endText()->ldata()->bbox().width(), 0.0));
+            r.unite(item->endText()->ldata()->bbox().translated(x
+                                                                + item->endText()->ldata()->bbox().
+                                                                width(), 0.0));
         }
         double w  = item->absoluteFromSpatium(ctx.conf().styleS(Sid::hairpinLineWidth));
         item->setbbox(r.adjusted(-w * .5, -w * .5, w, w));
@@ -3107,7 +3301,8 @@ void TLayout::manageHairpinSnapping(HairpinSegment* item, LayoutContext& ctx)
 
     bool doSnapBefore = possibleSnapBeforeElement && item->hairpin()->snapToItemBefore();
     if (doSnapBefore && possibleSnapBeforeElement->isHairpinSegment()) {
-        doSnapBefore = doSnapBefore && toHairpinSegment(possibleSnapBeforeElement)->hairpin()->snapToItemAfter()
+        doSnapBefore = doSnapBefore
+                       && toHairpinSegment(possibleSnapBeforeElement)->hairpin()->snapToItemAfter()
                        && possibleSnapBeforeElement->ldata()->itemSnappedBefore() != item;
     }
 
@@ -3117,7 +3312,8 @@ void TLayout::manageHairpinSnapping(HairpinSegment* item, LayoutContext& ctx)
 
     bool doSnapAfter = possibleSnapAfterElement && item->hairpin()->snapToItemAfter();
     if (doSnapAfter && possibleSnapAfterElement->isHairpinSegment()) {
-        doSnapAfter = doSnapAfter && toHairpinSegment(possibleSnapAfterElement)->hairpin()->snapToItemBefore()
+        doSnapAfter = doSnapAfter
+                      && toHairpinSegment(possibleSnapAfterElement)->hairpin()->snapToItemBefore()
                       && possibleSnapAfterElement->ldata()->itemSnappedAfter() != item;
     }
 
@@ -3127,12 +3323,14 @@ void TLayout::manageHairpinSnapping(HairpinSegment* item, LayoutContext& ctx)
 
     // In case of dynamics/expressions before or after, make space for them horizontally
     double mag = item->staff()->staffMag(item);
-    double hairpinDistToDynOrExpr = ctx.conf().style().styleAbsolute(Sid::autoplaceHairpinDynamicsDistance) * mag;
+    double hairpinDistToDynOrExpr = ctx.conf().style().styleAbsolute(
+        Sid::autoplaceHairpinDynamicsDistance) * mag;
 
     bool makeSpaceBefore = (doSnapBefore && possibleSnapBeforeElement->isTextBase())
                            || (possibleSnapBeforeElement && possibleSnapBeforeElement->isDynamic());
 
-    if (makeSpaceBefore && possibleSnapBeforeElement->findAncestor(ElementType::SYSTEM) == item->system()) {
+    if (makeSpaceBefore
+        && possibleSnapBeforeElement->findAncestor(ElementType::SYSTEM) == item->system()) {
         double xItemPos = possibleSnapBeforeElement->pageX() - item->system()->pageX();
         double itemRightEdge = xItemPos + possibleSnapBeforeElement->ldata()->bbox().right();
         double xMinHairpinStart = itemRightEdge + hairpinDistToDynOrExpr;
@@ -3146,7 +3344,8 @@ void TLayout::manageHairpinSnapping(HairpinSegment* item, LayoutContext& ctx)
     bool makeSpaceAfter = (doSnapAfter && possibleSnapAfterElement->isTextBase())
                           || (possibleSnapAfterElement && possibleSnapAfterElement->isDynamic());
 
-    if (makeSpaceAfter && possibleSnapAfterElement->findAncestor(ElementType::SYSTEM) == item->system()) {
+    if (makeSpaceAfter
+        && possibleSnapAfterElement->findAncestor(ElementType::SYSTEM) == item->system()) {
         double xItemPos = possibleSnapAfterElement->pageX() - item->system()->pageX();
         double itemLeftEdge = xItemPos + possibleSnapAfterElement->ldata()->bbox().left();
         double xMaxHairpinEnd = itemLeftEdge - hairpinDistToDynOrExpr;
@@ -3202,7 +3401,8 @@ void TLayout::layoutHammerOnPullOffSegment(HammerOnPullOffSegment* item, LayoutC
             Segment* endSeg = system->lastMeasure()->last(SegmentType::BarLineType);
             endX = endSeg ? endSeg->systemPos().x() : endX;
         }
-        if (startChord->stem() && endChord->stem() && startChord->up() == above && endChord->up() == above) {
+        if (startChord->stem() && endChord->stem() && startChord->up() == above
+            && endChord->up() == above) {
             // Mid-way between centered on the notes and centered on the stems
             endX += (above ? 0.5 : -0.5) * endChord->upNote()->headWidth();
         }
@@ -3215,9 +3415,13 @@ void TLayout::layoutHammerOnPullOffSegment(HammerOnPullOffSegment* item, LayoutC
             return el.item() && el.item()->isArticulationFamily();
         });
 
-        double y = above ? -skyline.minDistanceToShapeAbove(hopoTextShape) : skyline.minDistanceToShapeBelow(hopoTextShape);
+        double y
+            = above ? -skyline.minDistanceToShapeAbove(hopoTextShape) : skyline.
+              minDistanceToShapeBelow(
+                  hopoTextShape);
         y += above ? -vertPadding : vertPadding;
-        y = above ? std::min(y, -vertPadding) : std::max(y, item->staff()->staffHeight(item->tick()) + vertPadding);
+        y = above ? std::min(y, -vertPadding) : std::max(y, item->staff()->staffHeight(
+                                                             item->tick()) + vertPadding);
 
         Note* startNote = above ? startChord->upNote() : startChord->downNote();
         Note* endNote = above ? endChord->upNote() : endChord->downNote();
@@ -3244,7 +3448,8 @@ void TLayout::layoutHammerOnPullOffText(HammerOnPullOffText* item, LayoutContext
     TextLayout::layoutBaseTextBase(item, ctx);
 }
 
-void TLayout::layoutHarpPedalDiagram(const HarpPedalDiagram* item, HarpPedalDiagram::LayoutData* ldata)
+void TLayout::layoutHarpPedalDiagram(const HarpPedalDiagram* item,
+                                     HarpPedalDiagram::LayoutData* ldata)
 {
     LAYOUT_CALL_ITEM(item);
     const_cast<HarpPedalDiagram*>(item)->updateDiagramText();
@@ -3270,7 +3475,8 @@ void TLayout::layoutHarmonicMarkSegment(HarmonicMarkSegment* item, LayoutContext
     const StaffType* stType = item->staffType();
     if (stType
         && (!stType->isTabStaff()
-            || stType->isHiddenElementOnTab(Sid::harmonicMarkShowTabCommon, Sid::harmonicMarkShowTabSimple))) {
+            || stType->isHiddenElementOnTab(Sid::harmonicMarkShowTabCommon,
+                                            Sid::harmonicMarkShowTabSimple))) {
         ldata->setIsSkipDraw(true);
         return;
     }
@@ -3344,7 +3550,8 @@ void TLayout::layoutImage(const Image* item, Image::LayoutData* ldata)
     ldata->setBbox(RectF(PointF(), item->size2pixel(imageSize)));
 }
 
-void TLayout::layoutInstrumentChange(const InstrumentChange* item, InstrumentChange::LayoutData* ldata)
+void TLayout::layoutInstrumentChange(const InstrumentChange* item,
+                                     InstrumentChange::LayoutData* ldata)
 {
     LAYOUT_CALL_ITEM(item);
     TextLayout::layoutBaseTextBase(item, ldata);
@@ -3393,11 +3600,13 @@ void TLayout::layoutJump(const Jump* item, Jump::LayoutData* ldata)
         staff_idx_t blAboveIdx = item->staffIdx() - 1;
 
         const double fontSizeScaleFactor = item->size() / 10.0;
-        double padding = (startRepeat || endRepeat) ? 0.0 : 0.5 * item->spatium() * fontSizeScaleFactor;
+        double padding
+            = (startRepeat || endRepeat) ? 0.0 : 0.5 * item->spatium() * fontSizeScaleFactor;
 
         if (position == AlignH::LEFT) {
             const BarLine* blAbove = startRepeat || !measure->prevMeasure()
-                                     ? measure->startBarLine(blAboveIdx) : measure->prevMeasure()->endBarLine(blAboveIdx);
+                                     ? measure->startBarLine(blAboveIdx) : measure->prevMeasure()->
+                                     endBarLine(blAboveIdx);
             double blWidth = startRepeat ? blAbove->width() : 0.0;
             xAdj += padding + blWidth;
         } else if (position == AlignH::RIGHT) {
@@ -3416,10 +3625,13 @@ void TLayout::layoutJump(const Jump* item, Jump::LayoutData* ldata)
     Autoplace::autoplaceMeasureElement(item, ldata);
 }
 
-static void keySigAddLayout(const KeySig* item, const LayoutConfiguration& conf, SymId sym, int line, KeySig::LayoutData* ldata)
+static void keySigAddLayout(const KeySig* item, const LayoutConfiguration& conf, SymId sym,
+                            int line, KeySig::LayoutData* ldata)
 {
     double _spatium = item->spatium();
-    double step = _spatium * (item->staff() ? item->staff()->staffTypeForElement(item)->lineDistance().val() * 0.5 : 0.5);
+    double step = _spatium
+                  * (item->staff() ? item->staff()->staffTypeForElement(item)->lineDistance().val()
+                     * 0.5 : 0.5);
     KeySym ks;
     ks.sym = sym;
     Spatium x = 0.0_sp;
@@ -3434,12 +3646,16 @@ static void keySigAddLayout(const KeySig* item, const LayoutConfiguration& conf,
         Spatium previousWidth = Spatium::fromAbsolute(item->symWidth(previous.sym), _spatium);
         x = previous.xPos + previousWidth + accidentalGap;
         bool isAscending = line < previous.line;
-        SmuflAnchorId currentCutout = isAscending ? SmuflAnchorId::cutOutSW : SmuflAnchorId::cutOutNW;
-        SmuflAnchorId previousCutout = isAscending ? SmuflAnchorId::cutOutNE : SmuflAnchorId::cutOutSE;
+        SmuflAnchorId currentCutout
+            = isAscending ? SmuflAnchorId::cutOutSW : SmuflAnchorId::cutOutNW;
+        SmuflAnchorId previousCutout
+            = isAscending ? SmuflAnchorId::cutOutNE : SmuflAnchorId::cutOutSE;
         PointF cutout = item->symSmuflAnchor(sym, currentCutout);
         double currentCutoutY = line * step + cutout.y();
-        double previousCutoutY = previous.line * step + item->symSmuflAnchor(previous.sym, previousCutout).y();
-        if ((isAscending && currentCutoutY < previousCutoutY) || (!isAscending && currentCutoutY > previousCutoutY)) {
+        double previousCutoutY = previous.line * step + item->symSmuflAnchor(previous.sym,
+                                                                             previousCutout).y();
+        if ((isAscending && currentCutoutY < previousCutoutY)
+            || (!isAscending && currentCutoutY > previousCutoutY)) {
             x -= Spatium::fromAbsolute(cutout.x(), _spatium);
         }
     }
@@ -3448,7 +3664,8 @@ static void keySigAddLayout(const KeySig* item, const LayoutConfiguration& conf,
     ldata->keySymbols.push_back(ks);
 }
 
-void TLayout::layoutKeySig(const KeySig* item, KeySig::LayoutData* ldata, const LayoutConfiguration& conf)
+void TLayout::layoutKeySig(const KeySig* item, KeySig::LayoutData* ldata,
+                           const LayoutConfiguration& conf)
 {
     LAYOUT_CALL_ITEM(item);
     LD_INDEPENDENT;
@@ -3479,9 +3696,11 @@ void TLayout::layoutKeySig(const KeySig* item, KeySig::LayoutData* ldata, const 
         // Look for a clef before the key signature at the same tick
         Clef* c = nullptr;
         if (s) {
-            for (Segment* seg = s->prev1(); !c && seg && seg->tick() == item->tick(); seg = seg->prev1()) {
+            for (Segment* seg = s->prev1(); !c && seg && seg->tick() == item->tick();
+                 seg = seg->prev1()) {
                 const bool isClefSeg = seg->isClefType() || seg->isHeaderClefType()
-                                       || (seg->isClefRepeatAnnounceType() && s->isKeySigRepeatAnnounceType());
+                                       || (seg->isClefRepeatAnnounceType()
+                                           && s->isKeySigRepeatAnnounceType());
                 if (seg->enabled() && isClefSeg) {
                     c = toClef(seg->element(track));
                 }
@@ -3514,7 +3733,8 @@ void TLayout::layoutKeySig(const KeySig* item, KeySig::LayoutData* ldata, const 
                 ks.line = lines[lineIndexOffset + i];
                 if (!ldata->keySymbols.empty()) {
                     const KeySym& previous = ldata->keySymbols.back();
-                    Spatium previousWidth = Spatium::fromAbsolute(item->symWidth(previous.sym), spatium);
+                    Spatium previousWidth = Spatium::fromAbsolute(item->symWidth(
+                                                                      previous.sym), spatium);
                     ks.xPos = previous.xPos + previousWidth + accidentalGap;
                 } else {
                     ks.xPos = 0_sp;
@@ -3526,14 +3746,16 @@ void TLayout::layoutKeySig(const KeySig* item, KeySig::LayoutData* ldata, const 
         for (const CustDef& cd : item->customKeyDefs()) {
             SymId sym = item->symInKey(cd.sym, cd.degree);
             int degree = item->degInKey(cd.degree);
-            bool flat = std::string(SymNames::nameForSymId(sym).ascii()).find("Flat") != std::string::npos;
+            bool flat = std::string(SymNames::nameForSymId(sym).ascii()).find("Flat")
+                        != std::string::npos;
             int accIdx = (degree * 2 + 1) % 7; // C D E F ... index to F C G D index
             accIdx = flat ? 13 - accIdx : accIdx;
             int line = lines[accIdx] + cd.octAlt * 7;
             Spatium xpos = cd.xAlt;
             if (!ldata->keySymbols.empty()) {
                 const KeySym& previous = ldata->keySymbols.back();
-                Spatium previousWidth = Spatium::fromAbsolute(item->symWidth(previous.sym), spatium);
+                Spatium previousWidth
+                    = Spatium::fromAbsolute(item->symWidth(previous.sym), spatium);
                 xpos += previous.xPos + previousWidth + accidentalGap;
             }
             // if translated symbol if out of range, add key accidental followed by untranslated symbol
@@ -3579,24 +3801,30 @@ void TLayout::layoutKeySig(const KeySig* item, KeySig::LayoutData* ldata, const 
         // AND we're not force hiding naturals (continuous mode)
         // AND key sig is CMaj/Amin OR style says they are on
         const Measure* pm = item->measure() ? item->measure()->prevMeasureMM() : nullptr;
-        const bool isCourtesy = s && (s->isType(SegmentType::CourtesyKeySigType) || !s->rtick().isZero());
-        const bool prevTrailerCourtesy = pm && !pm->sectionBreak() && (!pm->trailer() || !pm->hasCourtesyKeySig());
+        const bool isCourtesy = s
+                                && (s->isType(SegmentType::CourtesyKeySigType)
+                                    || !s->rtick().isZero());
+        const bool prevTrailerCourtesy = pm && !pm->sectionBreak()
+                                         && (!pm->trailer() || !pm->hasCourtesyKeySig());
         if (!item->hideNaturals() && track != muse::nidx
             && (conf.styleI(Sid::keySigNaturals) != int(KeySigNatural::NONE) || (t1 == 0))
             && (isCourtesy || prevTrailerCourtesy)) {
-            KeySigEvent prevKsEvent = item->staff() ? item->staff()->keySigEvent(item->tick() - Fraction::eps()) : KeySigEvent();
+            KeySigEvent prevKsEvent = item->staff() ? item->staff()->keySigEvent(
+                item->tick() - Fraction::eps()) : KeySigEvent();
             int t2 = int(prevKsEvent.key());
 
             // Handle naturals in continuation courtesy
             if (pm && s && s->isType(SegmentType::KeySigStartRepeatAnnounce)) {
-                Segment* prevCourtesySeg = pm->findSegmentR(SegmentType::KeySigRepeatAnnounce, pm->ticks());
+                Segment* prevCourtesySeg = pm->findSegmentR(SegmentType::KeySigRepeatAnnounce,
+                                                            pm->ticks());
                 if (prevCourtesySeg && prevCourtesySeg->element(track)) {
                     t2 = int(toKeySig(prevCourtesySeg->element(track))->key());
                 }
             }
             // Don't show naturals when going from sharps to flats, if style says so
             const bool sameAccidentals = t1 * t2 >= 0;
-            if (t2 != 0 && (sameAccidentals || conf.styleB(Sid::keySigShowNaturalsChangingSharpsFlats))) {
+            if (t2 != 0
+                && (sameAccidentals || conf.styleB(Sid::keySigShowNaturalsChangingSharpsFlats))) {
                 auto key2accidentals = [](int key) -> int {
                     switch (std::abs(key)) {
                     case 7: return 0x7f;
@@ -3622,13 +3850,15 @@ void TLayout::layoutKeySig(const KeySig* item, KeySig::LayoutData* ldata, const 
                     int lineIndexOffset = t2 > 0 ? 0 : 7;
                     for (int i = 0; i < 7; ++i) {
                         if (naturals & (1 << i)) {
-                            keySigAddLayout(item, conf, SymId::accidentalNatural, lines[i + lineIndexOffset], ldata);
+                            keySigAddLayout(item, conf, SymId::accidentalNatural,
+                                            lines[i + lineIndexOffset], ldata);
                         }
                     }
                 };
                 // Naturals should go BEFORE accidentals if style says so
                 // or going from sharps to flats or vice versa (i.e. t1 & t2 have opposite signs)
-                if (conf.styleI(Sid::keySigNaturals) == int(KeySigNatural::BEFORE) || !sameAccidentals) {
+                if (conf.styleI(Sid::keySigNaturals) == int(KeySigNatural::BEFORE)
+                    || !sameAccidentals) {
                     layoutNaturals();
                     layoutSharpsFlats();
                 } else {
@@ -3637,14 +3867,17 @@ void TLayout::layoutKeySig(const KeySig* item, KeySig::LayoutData* ldata, const 
                 }
             } else if (prevKsEvent.custom()) {
                 Fraction prevKeyTick = Fraction::fromTicks(item->staff()->keyList()->currentKeyTick(
-                                                               (item->tick() - Fraction::eps()).ticks()));
-                Segment* prevKsSeg = item->score()->tick2segment(prevKeyTick, true, SegmentType::KeySig);
+                                                               (item->tick()
+                                                                - Fraction::eps()).ticks()));
+                Segment* prevKsSeg = item->score()->tick2segment(prevKeyTick, true,
+                                                                 SegmentType::KeySig);
                 if (prevKsSeg) {
                     KeySig* prevCustomKeySig = toKeySig(prevKsSeg->element(item->track()));
                     if (prevCustomKeySig) {
                         for (KeySym keySym : prevCustomKeySig->ldata()->keySymbols) {
                             if (keySym.sym != SymId::accidentalNatural) {
-                                keySigAddLayout(item, conf, SymId::accidentalNatural, keySym.line, ldata);
+                                keySigAddLayout(item, conf, SymId::accidentalNatural, keySym.line,
+                                                ldata);
                             }
                         }
                     }
@@ -3734,7 +3967,8 @@ void TLayout::layoutIndicatorIcon(const IndicatorIcon* item, IndicatorIcon::Layo
     double xOffset = endMB->x() + endMB->width();
     for (EngravingItem* el : endMB->el()) {
         if (el->isLayoutBreak()) {
-            xOffset = std::min(xOffset, endMB->x() + el->x() + el->ldata()->bbox().left() - spatium);
+            xOffset
+                = std::min(xOffset, endMB->x() + el->x() + el->ldata()->bbox().left() - spatium);
         }
     }
 
@@ -3753,7 +3987,8 @@ void TLayout::layoutIndicatorIcon(const IndicatorIcon* item, IndicatorIcon::Layo
     const_cast<IndicatorIcon*>(item)->setZ(-100);
 }
 
-static void _layoutLedgerLine(const LedgerLine* item, const LayoutContext& ctx, LedgerLine::LayoutData* ldata)
+static void _layoutLedgerLine(const LedgerLine* item, const LayoutContext& ctx,
+                              LedgerLine::LayoutData* ldata)
 {
     double chordMag = item->chord()->mag();
     ldata->setMag(chordMag);
@@ -3789,7 +4024,8 @@ void TLayout::layoutLetRingSegment(LetRingSegment* item, LayoutContext& ctx)
 
     const StaffType* stType = item->staffType();
 
-    if (stType && stType->isHiddenElementOnTab(Sid::letRingShowTabCommon, Sid::letRingShowTabSimple)) {
+    if (stType
+        && stType->isHiddenElementOnTab(Sid::letRingShowTabCommon, Sid::letRingShowTabSimple)) {
         ldata->setIsSkipDraw(true);
         return;
     }
@@ -3836,7 +4072,8 @@ void TLayout::layoutMeasureBase(MeasureBase* item, LayoutContext& ctx)
     layoutItem(item, ctx);
 }
 
-void TLayout::layoutBaseMeasureBase(const MeasureBase* item, MeasureBase::LayoutData* ldata, const LayoutContext& ctx)
+void TLayout::layoutBaseMeasureBase(const MeasureBase* item, MeasureBase::LayoutData* ldata,
+                                    const LayoutContext& ctx)
 {
     LD_CONDITION(ldata->isSetBbox());
 
@@ -3862,12 +4099,14 @@ void TLayout::layoutBaseMeasureBase(const MeasureBase* item, MeasureBase::Layout
     }
 }
 
-void TLayout::layoutMeasureNumber(MeasureNumber* item, MeasureNumber::LayoutData* ldata, const LayoutContext& ctx)
+void TLayout::layoutMeasureNumber(MeasureNumber* item, MeasureNumber::LayoutData* ldata,
+                                  const LayoutContext& ctx)
 {
     MeasureNumberLayout::layoutMeasureNumber(item,  ldata, ctx);
 }
 
-void TLayout::layoutMeasureRepeat(const MeasureRepeat* item, MeasureRepeat::LayoutData* ldata, const LayoutContext& ctx)
+void TLayout::layoutMeasureRepeat(const MeasureRepeat* item, MeasureRepeat::LayoutData* ldata,
+                                  const LayoutContext& ctx)
 {
     LAYOUT_CALL_ITEM(item);
 
@@ -3947,13 +4186,17 @@ void TLayout::layoutMeasureRepeat(const MeasureRepeat* item, MeasureRepeat::Layo
         const StaffType* staffType = item->staffType();
 
         // Only need to set y position here; x position is handled in MeasureLayout::layoutMeasureElements()
-        ldata->setPos(0, std::floor(staffType->middleLine() / 2.0) * staffType->lineDistance().val() * item->spatium() + offset);
+        ldata->setPos(0, std::floor(
+                          staffType->middleLine() / 2.0) * staffType->lineDistance().val() * item->spatium()
+                      + offset);
     }
 
     ChordLayout::fillShape(item, ldata, ctx.conf());
 }
 
-void TLayout::layoutMeasureRepeatExtender(const MeasureRepeat* item, MeasureRepeat::LayoutData* ldata, const LayoutContext& ctx)
+void TLayout::layoutMeasureRepeatExtender(const MeasureRepeat* item,
+                                          MeasureRepeat::LayoutData* ldata,
+                                          const LayoutContext& ctx)
 {
     ldata->extenderLineLeft = LineF();
     ldata->extenderLineRight = LineF();
@@ -3979,10 +4222,16 @@ void TLayout::layoutMeasureRepeatExtender(const MeasureRepeat* item, MeasureRepe
     // Reuse the function that calculates start and end pos for mmRests,
     // except start and end point are on different measures
     staff_idx_t staffIdx = item->staffIdx();
-    double xStart = MeasureLayout::getMeasureStartEndPos(startMeasure, startMeasure->first(SegmentType::ChordRest), staffIdx,
-                                                         /*needHeaderException*/ startMeasure->header(), /*modernMMrest*/ true, ctx).x1;
-    double xEnd = MeasureLayout::getMeasureStartEndPos(endMeasure, endMeasure->first(SegmentType::ChordRest), staffIdx,
-                                                       /*needHeaderException*/ false, /*modernMRest*/ true, ctx).x2;
+    double xStart
+        = MeasureLayout::getMeasureStartEndPos(startMeasure, startMeasure->first(
+                                                   SegmentType::ChordRest), staffIdx,
+                                               /*needHeaderException*/ startMeasure->header(), /*modernMMrest*/ true,
+                                               ctx).x1;
+    double xEnd
+        = MeasureLayout::getMeasureStartEndPos(endMeasure, endMeasure->first(
+                                                   SegmentType::ChordRest), staffIdx,
+                                               /*needHeaderException*/ false, /*modernMRest*/ true,
+                                               ctx).x2;
 
     double margin = ctx.conf().styleAbsolute(Sid::multiMeasureRestMargin);
     xStart += margin;
@@ -4082,7 +4331,8 @@ void TLayout::layoutMMRest(const MMRest* item, MMRest::LayoutData* ldata, const 
     ChordLayout::fillShape(item, ldata, ctx.conf());
 }
 
-void TLayout::layoutMMRestRange(MMRestRange* item, MMRestRange::LayoutData* ldata, const LayoutContext& ctx)
+void TLayout::layoutMMRestRange(MMRestRange* item, MMRestRange::LayoutData* ldata,
+                                const LayoutContext& ctx)
 {
     MeasureNumberLayout::layoutMMRestRange(item, ldata, ctx);
 }
@@ -4111,16 +4361,21 @@ void TLayout::layoutNote(const Note* item, Note::LayoutData* ldata)
         if (item->fixed()) {
             const_cast<Note*>(item)->setFretString(u"/");
         } else {
-            const_cast<Note*>(item)->setFretString(tab->fretString(std::fabs(item->fret()), item->string(), item->deadNote()));
+            const_cast<Note*>(item)->setFretString(tab->fretString(std::fabs(item->fret()),
+                                                                   item->string(),
+                                                                   item->deadNote()));
 
             if (item->negativeFretUsed() && !item->deadNote()) {
                 const_cast<Note*>(item)->setFretString(u"-" + item->fretString());
             }
 
             if (item->displayFret() == Note::DisplayFretOption::ArtificialHarmonic) {
-                const_cast<Note*>(item)->setFretString(String(u"%1 <%2>").arg(item->fretString(), String::number(item->harmonicFret())));
+                const_cast<Note*>(item)->setFretString(String(u"%1 <%2>").arg(item->fretString(),
+                                                                              String::number(item->
+                                                                                             harmonicFret())));
             } else if (item->displayFret() == Note::DisplayFretOption::NaturalHarmonic) {
-                const_cast<Note*>(item)->setFretString(String(u"<%1>").arg(String::number(item->harmonicFret())));
+                const_cast<Note*>(item)->setFretString(String(u"<%1>").arg(String::number(item->
+                                                                                          harmonicFret())));
             }
         }
 
@@ -4142,7 +4397,9 @@ void TLayout::layoutNote(const Note* item, Note::LayoutData* ldata)
 
         if (item->isNoteName()) {
             ldata->cachedSymNull.set_value(SymId::noteEmptyBlack);
-            NoteHeadType ht = item->headType() == NoteHeadType::HEAD_AUTO ? item->chord()->durationType().headType() : item->headType();
+            NoteHeadType ht = item->headType()
+                              == NoteHeadType::HEAD_AUTO ? item->chord()->durationType().headType()
+                              : item->headType();
             if (ht == NoteHeadType::HEAD_WHOLE) {
                 ldata->cachedSymNull.set_value(SymId::noteEmptyWhole);
             } else if (ht == NoteHeadType::HEAD_HALF) {
@@ -4181,7 +4438,8 @@ void TLayout::fillNoteShape(const Note* item, Note::LayoutData* ldata)
     const LaissezVib* lv = item->laissezVib();
     const LaissezVibSegment* lvSeg = lv && !lv->segmentsEmpty() ? lv->frontSegment() : nullptr;
     if (lvSeg && lvSeg->addToSkyline()) {
-        const PointF cornerClosestToNote = lv->up() ? lvSeg->shape().bbox().bottomLeft() : lvSeg->shape().bbox().topLeft();
+        const PointF cornerClosestToNote
+            = lv->up() ? lvSeg->shape().bbox().bottomLeft() : lvSeg->shape().bbox().topLeft();
         const PointF pos = lvSeg->ldata()->posRelativeToNote.value() - cornerClosestToNote;
         shape.add(lvSeg->shape().translate(pos));
     }
@@ -4198,7 +4456,8 @@ void TLayout::fillNoteShape(const Note* item, Note::LayoutData* ldata)
     Part* part = item->part();
     if (part && part->instrument()->hasStrings()) {
         GuitarBend* bend = item->bendFor();
-        if (bend && bend->addToSkyline() && bend->bendType() == GuitarBendType::SLIGHT_BEND && !bend->segmentsEmpty()) {
+        if (bend && bend->addToSkyline() && bend->bendType() == GuitarBendType::SLIGHT_BEND
+            && !bend->segmentsEmpty()) {
             GuitarBendSegment* bendSeg = toGuitarBendSegment(bend->frontSegment());
             // Semi-hack: the relative position of note and bend
             // isn't fully known yet, so we use an approximation
@@ -4229,7 +4488,8 @@ void TLayout::layoutNoteDot(const NoteDot* item, NoteDot::LayoutData* ldata)
     ldata->setBbox(item->symBbox(SymId::augmentationDot));
 }
 
-void TLayout::layoutOrnament(const Ornament* item, Ornament::LayoutData* ldata, const LayoutConfiguration& conf)
+void TLayout::layoutOrnament(const Ornament* item, Ornament::LayoutData* ldata,
+                             const LayoutConfiguration& conf)
 {
     LAYOUT_CALL_ITEM(item);
     LD_CONDITION(ldata->symId.has_value());
@@ -4307,14 +4567,18 @@ void TLayout::layoutOrnamentCueNote(Ornament* item, LayoutContext& ctx)
 
     Shape noteShape = cueNoteChord->shape();
     Shape parentChordShape = parentChord->shape();
-    double minDist = HorizontalSpacing::minHorizontalDistance(parentChordShape, noteShape, parentChord->spatium());
+    double minDist = HorizontalSpacing::minHorizontalDistance(parentChordShape, noteShape,
+                                                              parentChord->spatium());
     // Check for possible other chords in same segment
     staff_idx_t startStaff = staff2track(parentChord->staffIdx());
     for (staff_idx_t staff = startStaff; staff < startStaff + VOICES; ++staff) {
         Segment* segment = parentChord->segment();
         ChordRest* cr = segment->element(staff) ? toChordRest(segment->element(staff)) : nullptr;
         if (cr) {
-            minDist = std::max(minDist, HorizontalSpacing::minHorizontalDistance(cr->shape(), noteShape, cr->spatium()));
+            minDist
+                = std::max(minDist,
+                           HorizontalSpacing::minHorizontalDistance(cr->shape(), noteShape,
+                                                                    cr->spatium()));
         }
     }
     cueNoteChord->mutldata()->setPosX(minDist);
@@ -4349,7 +4613,8 @@ void TLayout::layoutPalmMuteSegment(PalmMuteSegment* item, LayoutContext& ctx)
 
     const StaffType* stType = item->staffType();
 
-    if (stType && stType->isHiddenElementOnTab(Sid::palmMuteShowTabCommon, Sid::palmMuteShowTabSimple)) {
+    if (stType
+        && stType->isHiddenElementOnTab(Sid::palmMuteShowTabCommon, Sid::palmMuteShowTabSimple)) {
         ldata->setIsSkipDraw(true);
         return;
     }
@@ -4360,7 +4625,8 @@ void TLayout::layoutPalmMuteSegment(PalmMuteSegment* item, LayoutContext& ctx)
     Autoplace::autoplaceSpannerSegment(item, ldata, ctx.conf().spatium());
 }
 
-void TLayout::layoutParenthesis(Parenthesis* item, Parenthesis::LayoutData* ldata, const LayoutContext& ctx)
+void TLayout::layoutParenthesis(Parenthesis* item, Parenthesis::LayoutData* ldata,
+                                const LayoutContext& ctx)
 {
     ParenthesisLayout::layoutParenthesis(item, ldata, ctx);
 }
@@ -4388,7 +4654,9 @@ void TLayout::layoutPedalSegment(PedalSegment* item, LayoutContext& ctx)
         }
         endText->mutldata()->setPosX(xEndText);
 
-        double lineTextGap = item->absoluteFromSpatium(item->getProperty(Pid::GAP_BETWEEN_TEXT_AND_LINE).value<Spatium>());
+        double lineTextGap
+            = item->absoluteFromSpatium(item->getProperty(
+                                            Pid::GAP_BETWEEN_TEXT_AND_LINE).value<Spatium>());
         PointF& endOfLine = ldata->points.at(ldata->npoints - 1);
         endOfLine.setX(xEndText - lineTextGap);
 
@@ -4418,7 +4686,8 @@ void TLayout::layoutPlayCountText(PlayCountText* item, TextBase::LayoutData* lda
 
     // Avoid incoming barlines from above
     double xAdj = 0.0;
-    BarLine* blAbove = item->staffIdx() != 0 ? toBarLine(seg->element(staff2track(item->staffIdx() - 1))) : nullptr;
+    BarLine* blAbove = item->staffIdx()
+                       != 0 ? toBarLine(seg->element(staff2track(item->staffIdx() - 1))) : nullptr;
     if (blAbove && blAbove->spanStaff()) {
         xAdj = blAbove->width();
     }
@@ -4428,7 +4697,8 @@ void TLayout::layoutPlayCountText(PlayCountText* item, TextBase::LayoutData* lda
     ldata->moveX(-diff);
 }
 
-void TLayout::layoutPlayTechAnnotation(const PlayTechAnnotation* item, PlayTechAnnotation::LayoutData* ldata)
+void TLayout::layoutPlayTechAnnotation(const PlayTechAnnotation* item,
+                                       PlayTechAnnotation::LayoutData* ldata)
 {
     LAYOUT_CALL_ITEM(item);
     TextLayout::layoutBaseTextBase(item, ldata);
@@ -4471,7 +4741,8 @@ void TLayout::layoutRasgueadoSegment(RasgueadoSegment* item, LayoutContext& ctx)
     RasgueadoSegment::LayoutData* ldata = item->mutldata();
     const StaffType* stType = item->staffType();
 
-    if (stType && stType->isHiddenElementOnTab(Sid::rasgueadoShowTabCommon, Sid::rasgueadoShowTabSimple)) {
+    if (stType
+        && stType->isHiddenElementOnTab(Sid::rasgueadoShowTabCommon, Sid::rasgueadoShowTabSimple)) {
         ldata->setIsSkipDraw(true);
         return;
     }
@@ -4544,13 +4815,15 @@ void TLayout::layoutRehearsalMark(const RehearsalMark* item, RehearsalMark::Layo
 
 void TLayout::checkRehearsalMarkVSBigTimeSig(const RehearsalMark* item, TextBase::LayoutData* ldata)
 {
-    if (item->score()->style().styleV(Sid::timeSigPlacement).value<TimeSigPlacement>() != TimeSigPlacement::ABOVE_STAVES) {
+    if (item->score()->style().styleV(Sid::timeSigPlacement).value<TimeSigPlacement>()
+        != TimeSigPlacement::ABOVE_STAVES) {
         return;
     }
 
     const Segment* s = item->segment();
     TimeSig* bigTimeSig = nullptr;
-    for (const Segment* segment = s; segment && segment->tick() == s->tick(); segment = segment->prevActive()) {
+    for (const Segment* segment = s; segment && segment->tick() == s->tick();
+         segment = segment->prevActive()) {
         if (!segment->isType(SegmentType::TimeSigType)) {
             continue;
         }
@@ -4565,8 +4838,9 @@ void TLayout::checkRehearsalMarkVSBigTimeSig(const RehearsalMark* item, TextBase
         return;
     }
 
-    double timeSigRightEdge = bigTimeSig->ldata()->bbox().translated(bigTimeSig->ldata()->pos()).right()
-                              + bigTimeSig->segment()->x() - s->x();
+    double timeSigRightEdge
+        = bigTimeSig->ldata()->bbox().translated(bigTimeSig->ldata()->pos()).right()
+          + bigTimeSig->segment()->x() - s->x();
     double rehMarkLeftEdge = ldata->bbox().translated(item->ldata()->pos()).left();
     double distance = rehMarkLeftEdge - timeSigRightEdge;
     const double margin = 0.5 * item->fontMetrics().xHeight();
@@ -4609,7 +4883,8 @@ void TLayout::layoutShadowNote(ShadowNote* item, LayoutContext& ctx)
     }
 
     RectF newBbox;
-    newBbox.setRect(noteheadBbox.x(), noteheadBbox.y(), noteheadBbox.width() + dotWidth, noteheadBbox.height());
+    newBbox.setRect(noteheadBbox.x(), noteheadBbox.y(),
+                    noteheadBbox.width() + dotWidth, noteheadBbox.height());
 
     // Layout stem and flag
     if (item->hasStem()) {
@@ -4618,7 +4893,8 @@ void TLayout::layoutShadowNote(ShadowNote* item, LayoutContext& ctx)
 
         double stemWidth = ctx.conf().styleAbsolute(Sid::stemWidth);
         double stemLength = (up ? -3.5 : 3.5) * _spatium;
-        double stemAnchor = item->symSmuflAnchor(item->noteheadSymbol(), up ? SmuflAnchorId::stemUpSE : SmuflAnchorId::stemDownNW).y();
+        double stemAnchor = item->symSmuflAnchor(
+            item->noteheadSymbol(), up ? SmuflAnchorId::stemUpSE : SmuflAnchorId::stemDownNW).y();
 
         newBbox |= RectF(up ? x + w - stemWidth : x,
                          stemAnchor,
@@ -4661,7 +4937,8 @@ void TLayout::layoutShadowNote(ShadowNote* item, LayoutContext& ctx)
     SymId acc = Accidental::subtype2symbol(item->accidentalType());
     if (acc != SymId::noSym) {
         RectF symRect = item->symBbox(acc);
-        double accWidth = symRect.width() + ctx.conf().styleAbsolute(Sid::accidentalNoteDistance) * mag;
+        double accWidth = symRect.width() + ctx.conf().styleAbsolute(Sid::accidentalNoteDistance)
+                          * mag;
         double dh = 0.0;
 
         if (symRect.y() < newBbox.y()) {
@@ -4721,7 +4998,8 @@ void TLayout::layoutShadowNote(ShadowNote* item, LayoutContext& ctx)
             String articName = Articulation::symId2ArticulationName(artic);
             const double symH = item->symHeight(artic);
             bool isMarcato = Articulation::symId2ArticulationName(artic).contains(u"marcato");
-            bool isLv = artic == SymId::articLaissezVibrerAbove || artic == SymId::articLaissezVibrerBelow;
+            bool isLv = artic == SymId::articLaissezVibrerAbove
+                        || artic == SymId::articLaissezVibrerBelow;
             if (articName == u"staccato" || articName == u"tenuto") {
                 continue;
             } else {
@@ -4732,7 +5010,8 @@ void TLayout::layoutShadowNote(ShadowNote* item, LayoutContext& ctx)
                 }
             }
             if (isLv) {
-                const double width = item->symWidth(artic) - item->symWidth(item->noteheadSymbol()) / 2;
+                const double width = item->symWidth(artic)
+                                     - item->symWidth(item->noteheadSymbol()) / 2;
                 newBbox.setWidth(newBbox.width() + width);
             }
         }
@@ -4771,7 +5050,9 @@ void TLayout::layoutLine(SLine* item, LayoutContext& ctx)
     int segCount = int(item->spannerSegments().size());
 
     if (segmentsNeeded != segCount) {
-        item->fixupSegments(segmentsNeeded, [item](System* parent) { return item->createLineSegment(parent); });
+        item->fixupSegments(segmentsNeeded, [item](System* parent) {
+            return item->createLineSegment(parent);
+        });
         if (segmentsNeeded > segCount) {
             for (int i = segCount; i < segmentsNeeded; ++i) {
                 LineSegment* lineSegm = item->segmentAt(i);
@@ -4831,7 +5112,8 @@ void TLayout::layoutLine(SLine* item, LayoutContext& ctx)
     }
 }
 
-void TLayout::layoutNoteAnchoredLine(SLine* item, EngravingItem::LayoutData* ldata, LayoutContext& ctx)
+void TLayout::layoutNoteAnchoredLine(SLine* item, EngravingItem::LayoutData* ldata,
+                                     LayoutContext& ctx)
 {
     double _spatium = item->spatium();
     Note* startAnchor = toNote(item->startElement());
@@ -4870,7 +5152,10 @@ void TLayout::layoutNoteAnchoredLine(SLine* item, EngravingItem::LayoutData* lda
         endTune = Accidental::subtype2centOffset(endAcc);
     }
 
-    int upDown = (0 < (endAnchor->ppitch() - startAnchor->ppitch())) - ((endAnchor->ppitch() - startAnchor->ppitch()) < 0);
+    int upDown
+        = (0
+           < (endAnchor->ppitch() - startAnchor->ppitch()))
+          - ((endAnchor->ppitch() - startAnchor->ppitch()) < 0);
     // same note, so compare tunings
     if (upDown == 0) {
         upDown = (0 < (endTune - startTune)) - ((endTune - startTune) < 0);
@@ -4938,9 +5223,11 @@ void TLayout::layoutNoteAnchoredLine(SLine* item, EngravingItem::LayoutData* lda
         }
     });
 
-    double startYAbove = startAnchor->ldata()->pos().y() + startAnchor->ldata()->bbox().topRight().y();
+    double startYAbove = startAnchor->ldata()->pos().y()
+                         + startAnchor->ldata()->bbox().topRight().y();
     double startYBelow = startYAbove + startAnchor->ldata()->bbox().height();
-    startOffset.rx() += startCRShape.rightMostEdgeAtHeight(startYAbove, startYBelow) - startAnchor->pos().x();
+    startOffset.rx()
+        += startCRShape.rightMostEdgeAtHeight(startYAbove, startYBelow) - startAnchor->pos().x();
     if (!endChord->staff()->isTabStaff(endChord->tick())) {
         double endYAbove = endAnchor->ldata()->pos().y() + endAnchor->ldata()->bbox().topLeft().y();
         double endYBelow = endYAbove + endAnchor->ldata()->bbox().height();
@@ -4953,7 +5240,8 @@ void TLayout::layoutNoteAnchoredLine(SLine* item, EngravingItem::LayoutData* lda
             endYBelow = upDown == 1 ? endYBelow : noteMiddle + llWidth;
         }
 
-        endOffset.rx() -= endAnchor->pos().x() - endChord->shape().leftMostEdgeAtHeight(endYAbove, endYBelow);
+        endOffset.rx() -= endAnchor->pos().x() - endChord->shape().leftMostEdgeAtHeight(endYAbove,
+                                                                                        endYBelow);
     }
     // Add note distance
     const double lineNoteDist = 0.25 * item->spatium(); // TODO: style
@@ -4961,7 +5249,8 @@ void TLayout::layoutNoteAnchoredLine(SLine* item, EngravingItem::LayoutData* lda
     endOffset.rx() -= lineNoteDist;
 
     // apply offsets: shorten first segment by x1 (and proportionally y) and adjust its length accordingly
-    startOffset.ry() = startSeg->ipos2().y() * muse::divide(startOffset.x(), startSeg->ipos2().x(), 1.0);
+    startOffset.ry() = startSeg->ipos2().y() * muse::divide(startOffset.x(),
+                                                            startSeg->ipos2().x(), 1.0);
     startSeg->setPos(startSeg->ldata()->pos() + startOffset);
     startSeg->setPos2(startSeg->ipos2() - startOffset);
     // adjust last segment length by x2 (and proportionally y)
@@ -4982,7 +5271,8 @@ void TLayout::layoutNoteAnchoredLine(SLine* item, EngravingItem::LayoutData* lda
     }
 
     PointF endAnchorSystPos = endAnchorPagePos - endSystemPagePos;
-    RectF r = RectF(endAnchorSystPos - endSeg->pos(), endAnchorSystPos - endSeg->pos() - endSeg->pos2()).normalized();
+    RectF r = RectF(endAnchorSystPos - endSeg->pos(),
+                    endAnchorSystPos - endSeg->pos() - endSeg->pos2()).normalized();
     double lw = item->absoluteFromSpatium(item->lineWidth()) * .5;
     ldata->setBbox(r.adjusted(-lw, -lw, lw, lw));
 }
@@ -5034,7 +5324,10 @@ void TLayout::layoutSpacer(Spacer* item, LayoutContext&)
     PainterPath path = PainterPath();
     double w = spatium;
     double b = w * .5;
-    double h = item->explicitParent() ? item->absoluteGap() : item->absoluteFromSpatium(std::min(item->gap(), 4.0_sp));        // limit length for palette
+    double h
+        = item->explicitParent() ? item->absoluteGap() : item->absoluteFromSpatium(std::min(item->
+                                                                                            gap(),
+                                                                                            4.0_sp));                          // limit length for palette
 
     switch (item->spacerType()) {
     case SpacerType::DOWN:
@@ -5203,15 +5496,18 @@ void TLayout::layoutStaffText(const StaffText* item, StaffText::LayoutData* ldat
     }
 }
 
-void TLayout::layoutStaffTypeChange(const StaffTypeChange* item, StaffTypeChange::LayoutData* ldata, const LayoutConfiguration& conf)
+void TLayout::layoutStaffTypeChange(const StaffTypeChange* item, StaffTypeChange::LayoutData* ldata,
+                                    const LayoutConfiguration& conf)
 {
     LAYOUT_CALL_ITEM(item);
     LD_INDEPENDENT;
 
     double spatium = conf.spatium();
-    ldata->setBbox(RectF(-item->lw() * .5, -item->lw() * .5, spatium * 2.5 + item->lw(), spatium * 2.5 + item->lw()));
+    ldata->setBbox(RectF(-item->lw() * .5, -item->lw() * .5, spatium * 2.5 + item->lw(),
+                         spatium * 2.5 + item->lw()));
     if (item->measure()) {
-        double y = -1.5 * spatium - ldata->bbox().height() + item->measure()->system()->staff(item->staffIdx())->y();
+        double y = -1.5 * spatium - ldata->bbox().height() + item->measure()->system()->staff(
+            item->staffIdx())->y();
         ldata->setPos(spatium * .8, y);
     } else {
         ldata->setPos(0.0, 0.0);
@@ -5244,7 +5540,8 @@ void TLayout::layoutStem(const Stem* item, Stem::LayoutData* ldata, const Layout
             if (staffType->stemThrough()) {
                 // if stems through staves, gets Y pos. of stem-side note relative to chord other side
                 const double staffLinesDistance = staffType->lineDistance().val() * item->spatium();
-                y1 = (item->chord()->downString() - item->chord()->upString()) * _up * staffLinesDistance;
+                y1 = (item->chord()->downString() - item->chord()->upString()) * _up
+                     * staffLinesDistance;
 
                 // if fret marks above lines, raise stem beginning by 1/2 line distance
                 if (!staffType->onLines()) {
@@ -5258,7 +5555,8 @@ void TLayout::layoutStem(const Stem* item, Stem::LayoutData* ldata, const Layout
         } else { // non-TAB
             // move stem start to note attach point
             Note* note = up ? item->chord()->downNote() : item->chord()->upNote();
-            if ((up && !note->ldata()->mirror.value(LD_ACCESS::BAD)) || (!up && note->ldata()->mirror.value(LD_ACCESS::BAD))) {
+            if ((up && !note->ldata()->mirror.value(LD_ACCESS::BAD))
+                || (!up && note->ldata()->mirror.value(LD_ACCESS::BAD))) {
                 y1 = note->stemUpSE().y();
             } else {
                 y1 = note->stemDownNW().y();
@@ -5289,7 +5587,8 @@ void TLayout::layoutStem(const Stem* item, Stem::LayoutData* ldata, const Layout
     ldata->setBbox(rect.normalized().adjusted(-lineWidthCorrection, 0, lineWidthCorrection, 0));
 }
 
-void TLayout::layoutStemSlash(const StemSlash* item, StemSlash::LayoutData* ldata, const LayoutConfiguration& conf)
+void TLayout::layoutStemSlash(const StemSlash* item, StemSlash::LayoutData* ldata,
+                              const LayoutConfiguration& conf)
 {
     LAYOUT_CALL_ITEM(item);
     IF_ASSERT_FAILED(item->explicitParent()) {
@@ -5330,7 +5629,8 @@ void TLayout::layoutStemSlash(const StemSlash* item, StemSlash::LayoutData* ldat
         auto musicFont = conf.styleSt(Sid::musicalSymbolFont);
         // HACK: adjust slash angle for fonts with "fat" hooks. In future, we must use smufl cutOut
         if (c->beams() >= 2 && !straight
-            && (musicFont == "Bravura" || musicFont == "Finale Maestro" || musicFont == "Gonville")) {
+            && (musicFont == "Bravura" || musicFont == "Finale Maestro"
+                || musicFont == "Gonville")) {
             angle *= angleIncrease;
         }
         endX = hook->ldata()->bbox().translated(hook->ldata()->pos()).right(); // always ends at the right bbox margin of the hook
@@ -5357,7 +5657,8 @@ void TLayout::layoutStemSlash(const StemSlash* item, StemSlash::LayoutData* ldat
     ldata->stemWidth = conf.styleAbsolute(Sid::stemSlashThickness) * graceNoteMag;
 
     RectF bbox = RectF(ldata->line.p1(), ldata->line.p2()).normalized();
-    bbox = bbox.adjusted(-ldata->stemWidth / 2, -ldata->stemWidth / 2, ldata->stemWidth, ldata->stemWidth);
+    bbox = bbox.adjusted(-ldata->stemWidth / 2, -ldata->stemWidth / 2, ldata->stemWidth,
+                         ldata->stemWidth);
     ldata->setBbox(bbox);
 }
 
@@ -5528,7 +5829,8 @@ void TLayout::layoutFSymbol(const FSymbol* item, FSymbol::LayoutData* ldata)
     ldata->setBbox(FontMetrics::boundingRect(item->font(), item->toString()));
 }
 
-void TLayout::layoutSystemDivider(const SystemDivider* item, SystemDivider::LayoutData* ldata, const LayoutContext& ctx)
+void TLayout::layoutSystemDivider(const SystemDivider* item, SystemDivider::LayoutData* ldata,
+                                  const LayoutContext& ctx)
 {
     LAYOUT_CALL_ITEM(item);
     LD_INDEPENDENT;
@@ -5555,7 +5857,8 @@ void TLayout::layoutSystemText(const SystemText* item, SystemText::LayoutData* l
     Autoplace::autoplaceSegmentElement(item, ldata);
 }
 
-void TLayout::layoutTabDurationSymbol(const TabDurationSymbol* item, TabDurationSymbol::LayoutData* ldata)
+void TLayout::layoutTabDurationSymbol(const TabDurationSymbol* item,
+                                      TabDurationSymbol::LayoutData* ldata)
 {
     LAYOUT_CALL_ITEM(item);
     LD_INDEPENDENT;
@@ -5571,7 +5874,8 @@ void TLayout::layoutTabDurationSymbol(const TabDurationSymbol* item, TabDuration
     double xpos, ypos;           // position coords
 
     ldata->beamGrid = TabBeamGrid::NONE;
-    Chord* chord = item->explicitParent() && item->explicitParent()->isChord() ? toChord(item->explicitParent()) : nullptr;
+    Chord* chord = item->explicitParent() && item->explicitParent()->isChord() ? toChord(
+        item->explicitParent()) : nullptr;
 // if no chord (shouldn't happens...) or not a special beam mode, layout regular symbol
     if (!chord || !chord->isChord()
         || (chord->beamMode() != BeamMode::BEGIN && chord->beamMode() != BeamMode::MID
@@ -5602,8 +5906,11 @@ void TLayout::layoutTabDurationSymbol(const TabDurationSymbol* item, TabDuration
             ldata->beamGrid = TabBeamGrid::INITIAL;
             ldata->beamLength = 0.0;
         } else if (chord->beamMode() == BeamMode::MID || chord->beamMode() == BeamMode::END) {
-            ldata->beamLevel = (static_cast<int>(chord->durationType().type()) - static_cast<int>(font.zeroBeamLevel));
-            ldata->beamGrid = (ldata->beamLevel < 1 ? TabBeamGrid::INITIAL : TabBeamGrid::MEDIALFINAL);
+            ldata->beamLevel
+                = (static_cast<int>(chord->durationType().type())
+                   - static_cast<int>(font.zeroBeamLevel));
+            ldata->beamGrid
+                = (ldata->beamLevel < 1 ? TabBeamGrid::INITIAL : TabBeamGrid::MEDIALFINAL);
             // _beamLength and bbox x and width will be set in layout2(),
             // once horiz. positions of chords are known
         }
@@ -5645,8 +5952,11 @@ void TLayout::layoutTempoText(const TempoText* item, TempoText::LayoutData* ldat
     // tempo text on first chordrest of measure should align over time sig if present, unless time sig is above staff
     Segment* s = item->segment();
 
-    RehearsalMark* rehearsalMark = toRehearsalMark(s->findAnnotation(ElementType::REHEARSAL_MARK, item->track(), item->track()));
-    RectF rehearsalMarkBbox = rehearsalMark ? rehearsalMark->ldata()->bbox().translated(rehearsalMark->pos()) : RectF();
+    RehearsalMark* rehearsalMark
+        = toRehearsalMark(s->findAnnotation(ElementType::REHEARSAL_MARK, item->track(),
+                                            item->track()));
+    RectF rehearsalMarkBbox = rehearsalMark ? rehearsalMark->ldata()->bbox().translated(
+        rehearsalMark->pos()) : RectF();
     RectF thisBbox = ldata->bbox().translated(item->pos());
 
     if (s->rtick().isZero()) {
@@ -5655,7 +5965,8 @@ void TLayout::layoutTempoText(const TempoText* item, TempoText::LayoutData* ldat
             ldata->moveX(-(s->x() - p->x()));
             EngravingItem* e = p->element(item->staffIdx() * VOICES);
             if (e) {
-                ldata->moveX(p->hasTimeSigAboveStaves() ? e->x() + e->width() + e->spatium() : e->x());
+                ldata->moveX(
+                    p->hasTimeSigAboveStaves() ? e->x() + e->width() + e->spatium() : e->x());
             }
         }
     }
@@ -5663,10 +5974,12 @@ void TLayout::layoutTempoText(const TempoText* item, TempoText::LayoutData* ldat
     if (rehearsalMark) {
         const bool sameSide = item->placeAbove() == rehearsalMark->placeAbove();
         const bool collision
-            = item->placeAbove() ? muse::RealIsEqualOrMore(rehearsalMarkBbox.bottom(), thisBbox.top()) : muse::RealIsEqualOrLess(
+            = item->placeAbove() ? muse::RealIsEqualOrMore(rehearsalMarkBbox.bottom(),
+                                                           thisBbox.top()) : muse::RealIsEqualOrLess(
                   rehearsalMarkBbox.top(), thisBbox.bottom());
 
-        if (sameSide && collision && item->getProperty(Pid::TEMPO_ALIGN_RIGHT_OF_REHEARSAL_MARK).toBool()) {
+        if (sameSide && collision
+            && item->getProperty(Pid::TEMPO_ALIGN_RIGHT_OF_REHEARSAL_MARK).toBool()) {
             double rightEdge = rehearsalMarkBbox.right();
             const double fontSizeScaleFactor = item->size() / 10.0;
             const double padding = 0.5 * item->spatium() * fontSizeScaleFactor;
@@ -5686,16 +5999,20 @@ Shape TLayout::recalculateTextLineBaseSegmentShape(const TextLineBaseSegment* it
         shape.add(item->text()->ldata()->bbox().translated(item->text()->pos()), item->text());
     }
     if (!item->endText()->empty()) {
-        shape.add(item->endText()->ldata()->bbox().translated(item->endText()->pos()), item->endText());
+        shape.add(item->endText()->ldata()->bbox().translated(item->endText()->pos()),
+                  item->endText());
     }
     double lw2 = 0.5 * item->absoluteFromSpatium(item->lineWidth());
     bool isDottedLine = item->textLineBase()->lineStyle() == LineType::DOTTED;
     if (item->twoLines()) {     // hairpins
-        shape.add(TextLineBaseSegment::boundingBoxOfLine(ldata->points[0], ldata->points[1], lw2, isDottedLine), item);
-        shape.add(TextLineBaseSegment::boundingBoxOfLine(ldata->points[2], ldata->points[3], lw2, isDottedLine), item);
+        shape.add(TextLineBaseSegment::boundingBoxOfLine(ldata->points[0], ldata->points[1], lw2,
+                                                         isDottedLine), item);
+        shape.add(TextLineBaseSegment::boundingBoxOfLine(ldata->points[2], ldata->points[3], lw2,
+                                                         isDottedLine), item);
     } else {
         for (int i = 0; i < ldata->npoints - 1; ++i) {
-            shape.add(TextLineBaseSegment::boundingBoxOfLine(ldata->points[i], ldata->points[i + 1], lw2, isDottedLine), item,
+            shape.add(TextLineBaseSegment::boundingBoxOfLine(ldata->points[i], ldata->points[i + 1],
+                                                             lw2, isDottedLine), item,
                       !item->textLineBase()->lineVisible());
         }
     }
@@ -5731,7 +6048,8 @@ void TLayout::layoutTextLineSegment(TextLineSegment* item, LayoutContext& ctx)
 // Assumes that l1p2 == l2p1 is the intersection between the lines.
 // If checkAngle is false, assumes that the lines are perpendicular,
 // and some calculations are saved.
-static inline void extendLines(const PointF& l1p1, PointF& l1p2, PointF& l2p1, const PointF& l2p2, double lineWidth, bool checkAngle)
+static inline void extendLines(const PointF& l1p1, PointF& l1p2, PointF& l2p1, const PointF& l2p2,
+                               double lineWidth, bool checkAngle)
 {
     PointF l1UnitVector = (l1p2 - l1p1).normalized();
     PointF l2UnitVector = (l2p1 - l2p2).normalized();
@@ -5750,23 +6068,32 @@ static inline void extendLines(const PointF& l1p1, PointF& l1p2, PointF& l2p1, c
     l2p1 += l2UnitVector * addedLength;
 }
 
-static PolygonF createArrow(bool start, bool filled, PointF& startPoint, PointF& endPoint, const TextLineBase* tl)
+static PolygonF createArrow(bool start, bool filled, PointF& startPoint, PointF& endPoint,
+                            const TextLineBase* tl)
 {
     double arrowWidth = 0.0;
     double arrowHeight = 0.0;
     if (filled) {
-        arrowWidth = tl->absoluteFromSpatium(start ? tl->beginFilledArrowWidth() : tl->endFilledArrowWidth());
-        arrowHeight = tl->absoluteFromSpatium(start ? tl->beginFilledArrowHeight() : tl->endFilledArrowHeight());
+        arrowWidth = tl->absoluteFromSpatium(
+            start ? tl->beginFilledArrowWidth() : tl->endFilledArrowWidth());
+        arrowHeight = tl->absoluteFromSpatium(
+            start ? tl->beginFilledArrowHeight() : tl->endFilledArrowHeight());
     } else {
-        arrowWidth = tl->absoluteFromSpatium(start ? tl->beginLineArrowWidth() : tl->endLineArrowWidth());
-        arrowHeight = tl->absoluteFromSpatium(start ? tl->beginLineArrowHeight() : tl->endLineArrowHeight());
+        arrowWidth = tl->absoluteFromSpatium(
+            start ? tl->beginLineArrowWidth() : tl->endLineArrowWidth());
+        arrowHeight = tl->absoluteFromSpatium(
+            start ? tl->beginLineArrowHeight() : tl->endLineArrowHeight());
     }
 
     PolygonF arrow;
     if (start) {
-        arrow << PointF(0.0, -arrowHeight / 2) << PointF(-arrowWidth, 0.0) << PointF(0.0, arrowHeight / 2);  // left
+        arrow << PointF(0.0, -arrowHeight / 2) << PointF(-arrowWidth, 0.0) << PointF(0.0,
+                                                                                     arrowHeight
+                                                                                     / 2);                   // left
     } else {
-        arrow << PointF(0.0, -arrowHeight / 2) << PointF(arrowWidth, 0.0) << PointF(0.0, arrowHeight / 2);  // right
+        arrow << PointF(0.0, -arrowHeight / 2) << PointF(arrowWidth, 0.0) << PointF(0.0,
+                                                                                    arrowHeight
+                                                                                    / 2);                   // right
     }
 
     PointF arrowAdjust = PointF(arrowWidth, 0.0);
@@ -5895,7 +6222,8 @@ void TLayout::layoutTextLineBaseSegment(TextLineBaseSegment* item, LayoutContext
 
     if (!item->textLineBase()->textSizeSpatiumDependent()) {
         item->text()->setSize(item->text()->size() * item->defaultSpatium() / item->spatium());
-        item->endText()->setSize(item->endText()->size() * item->defaultSpatium() / item->spatium());
+        item->endText()->setSize(item->endText()->size() * item->defaultSpatium()
+                                 / item->spatium());
     }
 
     PointF defaultPos = tl->defaultPos();
@@ -5913,7 +6241,8 @@ void TLayout::layoutTextLineBaseSegment(TextLineBaseSegment* item, LayoutContext
         ldata->points[1] = pp2;
         ldata->lineLength = sqrt(PointF::dotProduct(pp2 - pp1, pp2 - pp1));
 
-        item->setbbox(TextLineBaseSegment::boundingBoxOfLine(pp1, pp2, lineWidth / 2, isDottedLine));
+        item->setbbox(TextLineBaseSegment::boundingBoxOfLine(pp1, pp2, lineWidth / 2,
+                                                             isDottedLine));
         return;
     }
 
@@ -5921,9 +6250,12 @@ void TLayout::layoutTextLineBaseSegment(TextLineBaseSegment* item, LayoutContext
     double l2 = 0.0;
     const double gapBetweenTextAndLine = spatium * tl->gapBetweenTextAndLine().val();
 
-    const bool alignBeginText = tl->beginTextPlace() == TextPlace::LEFT || tl->beginTextPlace() == TextPlace::AUTO;
-    const bool alignContinueText = tl->continueTextPlace() == TextPlace::LEFT || tl->continueTextPlace() == TextPlace::AUTO;
-    const bool alignEndText = tl->endTextPlace() == TextPlace::LEFT || tl->endTextPlace() == TextPlace::AUTO;
+    const bool alignBeginText = tl->beginTextPlace() == TextPlace::LEFT
+                                || tl->beginTextPlace() == TextPlace::AUTO;
+    const bool alignContinueText = tl->continueTextPlace() == TextPlace::LEFT
+                                   || tl->continueTextPlace() == TextPlace::AUTO;
+    const bool alignEndText = tl->endTextPlace() == TextPlace::LEFT
+                              || tl->endTextPlace() == TextPlace::AUTO;
     const bool hasBeginText = !item->text()->empty() && isSingleOrBegin;
     const bool hasContinueText = !item->text()->empty() && !isSingleOrBegin;
     const bool hasEndText = !item->endText()->empty() && isSingleOrEnd;
@@ -5980,8 +6312,10 @@ void TLayout::layoutTextLineBaseSegment(TextLineBaseSegment* item, LayoutContext
             alignBaseLine(item->endText(), pp1, pp2);
         }
 
-        const double beginHookHeight = (tl->placeBelow() ? -1.0 : 1.0) * tl->beginHookHeight().val() * spatium;
-        const double endHookHeight = (tl->placeBelow() ? -1.0 : 1.0) * tl->endHookHeight().val() * spatium;
+        const double beginHookHeight = (tl->placeBelow() ? -1.0 : 1.0)
+                                       * tl->beginHookHeight().val() * spatium;
+        const double endHookHeight = (tl->placeBelow() ? -1.0 : 1.0) * tl->endHookHeight().val()
+                                     * spatium;
 
         double beginHookWidth = 0.0;
         double endHookWidth = 0.0;
@@ -6003,8 +6337,11 @@ void TLayout::layoutTextLineBaseSegment(TextLineBaseSegment* item, LayoutContext
         }
 
         const bool beginArrow = isSingleOrBegin
-                                && (tl->beginHookType() == HookType::ARROW_FILLED || tl->beginHookType() == HookType::ARROW);
-        const bool endArrow = isSingleOrEnd && (tl->endHookType() == HookType::ARROW_FILLED || tl->endHookType() == HookType::ARROW);
+                                && (tl->beginHookType() == HookType::ARROW_FILLED
+                                    || tl->beginHookType() == HookType::ARROW);
+        const bool endArrow = isSingleOrEnd
+                              && (tl->endHookType() == HookType::ARROW_FILLED
+                                  || tl->endHookType() == HookType::ARROW);
 
         if (beginArrow) {
             const bool filled = tl->beginHookType() == HookType::ARROW_FILLED;
@@ -6040,11 +6377,13 @@ void TLayout::layoutTextLineBaseSegment(TextLineBaseSegment* item, LayoutContext
         if (beginHook) {
             // We use the term "endpoint" for the point that does not touch the main line.
             const PointF& beginHookEndpoint = ldata->points[ldata->npoints++]
-                                                  = PointF(pp1.x() - beginHookWidth, pp1.y() + beginHookHeight);
+                                                  = PointF(pp1.x() - beginHookWidth,
+                                                           pp1.y() + beginHookHeight);
             if (tl->beginHookType() == HookType::HOOK_90T) {
                 // A T-hook needs to be drawn separately, so we add an extra point
                 beginHookDrawnSeparately = true;
-                ldata->points[ldata->npoints++] = PointF(pp1.x() - beginHookWidth, pp1.y() - beginHookHeight);
+                ldata->points[ldata->npoints++] = PointF(pp1.x() - beginHookWidth,
+                                                         pp1.y() - beginHookHeight);
             } else if (tl->lineStyle() != LineType::SOLID) {
                 // For non-solid lines, we also draw the hook separately,
                 // so that we can distribute the dashes/dots for each linepiece individually
@@ -6055,7 +6394,8 @@ void TLayout::layoutTextLineBaseSegment(TextLineBaseSegment* item, LayoutContext
                     // For dashes lines, we extend the lines somewhat,
                     // so that the corner between them gets filled
                     bool checkAngle = tl->beginHookType() == HookType::HOOK_45 || tl->diagonal();
-                    extendLines(beginHookEndpoint, beginHookStartpoint, pp1, pp2, lineWidth, checkAngle);
+                    extendLines(beginHookEndpoint, beginHookStartpoint, pp1, pp2, lineWidth,
+                                checkAngle);
                 }
             }
         }
@@ -6068,7 +6408,8 @@ void TLayout::layoutTextLineBaseSegment(TextLineBaseSegment* item, LayoutContext
             if (tl->endHookType() == HookType::HOOK_90T) {
                 // A T-hook needs to be drawn separately, so we add an extra point
                 endHookDrawnSeparately = true;
-                ldata->points[ldata->npoints++] = PointF(pp2.x() + endHookWidth, pp2.y() - endHookHeight);
+                ldata->points[ldata->npoints++] = PointF(pp2.x() + endHookWidth,
+                                                         pp2.y() - endHookHeight);
             } else if (tl->lineStyle() != LineType::SOLID) {
                 // For non-solid lines, we also draw the hook separately,
                 // so that we can distribute the dashes/dots for each linepiece individually
@@ -6079,7 +6420,8 @@ void TLayout::layoutTextLineBaseSegment(TextLineBaseSegment* item, LayoutContext
                     // For dashes lines, we extend the lines somewhat,
                     // so that the corner between them gets filled
                     bool checkAngle = tl->endHookType() == HookType::HOOK_45 || tl->diagonal();
-                    extendLines(pp1, pp22, endHookStartpoint, endHookEndpoint, lineWidth, checkAngle);
+                    extendLines(pp1, pp22, endHookStartpoint, endHookEndpoint, lineWidth,
+                                checkAngle);
                 }
             }
 
@@ -6095,19 +6437,23 @@ void TLayout::layoutTextLineBaseSegment(TextLineBaseSegment* item, LayoutContext
         if (beginHookDrawnSeparately) {
             PointF& p1 = ldata->points[start++];
             PointF& p2 = ldata->points[start++];
-            shape.add(TextLineBaseSegment::boundingBoxOfLine(p1, p2, lineWidth / 2, isDottedLine), item);
+            shape.add(TextLineBaseSegment::boundingBoxOfLine(p1, p2, lineWidth / 2,
+                                                             isDottedLine), item);
         }
 
         int end = ldata->npoints;
         if (endHookDrawnSeparately) {
             PointF& p1 = ldata->points[--end];
             PointF& p2 = ldata->points[--end];
-            shape.add(TextLineBaseSegment::boundingBoxOfLine(p1, p2, lineWidth / 2, isDottedLine), item);
+            shape.add(TextLineBaseSegment::boundingBoxOfLine(p1, p2, lineWidth / 2,
+                                                             isDottedLine), item);
         }
 
         for (int i = start; i < end - 1; ++i) {
-            shape.add(TextLineBaseSegment::boundingBoxOfLine(ldata->points[i], ldata->points[i + 1], lineWidth / 2,
-                                                             isDottedLine), item, !tl->lineVisible());
+            shape.add(TextLineBaseSegment::boundingBoxOfLine(ldata->points[i], ldata->points[i + 1],
+                                                             lineWidth / 2,
+                                                             isDottedLine), item,
+                      !tl->lineVisible());
         }
     }
 
@@ -6119,7 +6465,8 @@ void TLayout::layoutTie(Tie* item, LayoutContext&)
     UNUSED(item);
 }
 
-void TLayout::layoutTimeSig(const TimeSig* item, TimeSig::LayoutData* ldata, const LayoutContext& ctx)
+void TLayout::layoutTimeSig(const TimeSig* item, TimeSig::LayoutData* ldata,
+                            const LayoutContext& ctx)
 {
     LAYOUT_CALL_ITEM(item);
     LD_INDEPENDENT;
@@ -6135,7 +6482,8 @@ void TLayout::layoutTimeSig(const TimeSig* item, TimeSig::LayoutData* ldata, con
     ldata->pointLargeRightParen = PointF();
 
     const MStyle& style = item->style();
-    TimeSigPlacement timeSigPlacement = style.styleV(Sid::timeSigPlacement).value<TimeSigPlacement>();
+    TimeSigPlacement timeSigPlacement
+        = style.styleV(Sid::timeSigPlacement).value<TimeSigPlacement>();
     if (timeSigPlacement == TimeSigPlacement::NORMAL) {
         const_cast<TimeSig*>(item)->setSystemFlag(false);
     } else {
@@ -6271,9 +6619,11 @@ void TLayout::layoutTimeSig(const TimeSig* item, TimeSig::LayoutData* ldata, con
         shape.add(numRect.translated(ldata->pz), item);       // translate bounding boxes to actual string positions
         shape.add(denRect.translated(ldata->pn), item);
         if (item->largeParentheses()) {
-            shape.add(RectF(ldata->pointLargeLeftParen.x(), ldata->pointLargeLeftParen.y() - denRect.height(), spatium / 2,
+            shape.add(RectF(ldata->pointLargeLeftParen.x(),
+                            ldata->pointLargeLeftParen.y() - denRect.height(), spatium / 2,
                             numRect.height() + denRect.height()), item);
-            shape.add(RectF(ldata->pointLargeRightParen.x(), ldata->pointLargeRightParen.y() - denRect.height(),  spatium / 2,
+            shape.add(RectF(ldata->pointLargeRightParen.x(),
+                            ldata->pointLargeRightParen.y() - denRect.height(),  spatium / 2,
                             numRect.height() + denRect.height()), item);
         }
     }
@@ -6386,13 +6736,15 @@ void TLayout::layoutTrillSegment(TrillSegment* item, LayoutContext& ctx)
         if (item->isSingleBeginType()) {
             TLayout::layoutOrnament(ornament, ornament->mutldata(), ctx.conf());
         }
-        trill->setAccidental(accidentalGoesBelow ? ornament->accidentalBelow() : ornament->accidentalAbove());
+        trill->setAccidental(
+            accidentalGoesBelow ? ornament->accidentalBelow() : ornament->accidentalAbove());
         trill->setCueNoteChord(ornament->cueNoteChord());
         ArticulationAnchor anchor = ornament->anchor();
         if (anchor == ArticulationAnchor::AUTO) {
             trill->setPlacement(trill->track() % 2 ? PlacementV::BELOW : PlacementV::ABOVE);
         } else {
-            trill->setPlacement(anchor == ArticulationAnchor::TOP ? PlacementV::ABOVE : PlacementV::BELOW);
+            trill->setPlacement(
+                anchor == ArticulationAnchor::TOP ? PlacementV::ABOVE : PlacementV::BELOW);
         }
         trill->setPropertyFlags(Pid::PLACEMENT, PropertyFlags::STYLED); // Ensures that the property isn't written (it is written by the ornamnent)
     }
@@ -6407,11 +6759,13 @@ void TLayout::layoutTrillSegment(TrillSegment* item, LayoutContext& ctx)
             break;
         case TrillType::UPPRALL_LINE:
             item->symbolLine(SymId::ornamentBottomLeftConcaveStroke,
-                             SymId::ornamentZigZagLineNoRightEnd, SymId::ornamentZigZagLineWithRightEnd);
+                             SymId::ornamentZigZagLineNoRightEnd,
+                             SymId::ornamentZigZagLineWithRightEnd);
             break;
         case TrillType::DOWNPRALL_LINE:
             item->symbolLine(SymId::ornamentLeftVerticalStroke,
-                             SymId::ornamentZigZagLineNoRightEnd, SymId::ornamentZigZagLineWithRightEnd);
+                             SymId::ornamentZigZagLineNoRightEnd,
+                             SymId::ornamentZigZagLineWithRightEnd);
             break;
         }
         Accidental* a = trill->accidental();
@@ -6437,7 +6791,8 @@ void TLayout::layoutTrillSegment(TrillSegment* item, LayoutContext& ctx)
         case TrillType::UPPRALL_LINE:
         case TrillType::DOWNPRALL_LINE:
             item->symbolLine(SymId::ornamentZigZagLineNoRightEnd,
-                             SymId::ornamentZigZagLineNoRightEnd, SymId::ornamentZigZagLineWithRightEnd);
+                             SymId::ornamentZigZagLineNoRightEnd,
+                             SymId::ornamentZigZagLineWithRightEnd);
             break;
         }
     }
@@ -6445,7 +6800,8 @@ void TLayout::layoutTrillSegment(TrillSegment* item, LayoutContext& ctx)
     Autoplace::autoplaceSpannerSegment(item, ldata, ctx.conf().spatium());
 }
 
-void TLayout::fillTrillSegmentShape(const TrillSegment* item, TrillSegment::LayoutData* ldata, const LayoutConfiguration& conf)
+void TLayout::fillTrillSegmentShape(const TrillSegment* item, TrillSegment::LayoutData* ldata,
+                                    const LayoutConfiguration& conf)
 {
     LAYOUT_CALL_ITEM(item);
     std::shared_ptr<const IEngravingFont> font = conf.engravingFont();
@@ -6481,7 +6837,8 @@ void TLayout::fillTupletShape(const Tuplet* item, Tuplet::LayoutData* ldata)
     LAYOUT_CALL_ITEM(item);
     Shape s;
     if (item->hasBracket()) {
-        auto tupletRect = [](const PointF& p1, const PointF& p2, double height, const Tuplet* item) {
+        auto tupletRect
+            = [](const PointF& p1, const PointF& p2, double height, const Tuplet* item) {
             Shape shape;
             double xLength = p2.x() - p1.x();
             int nSteps = 2 * std::ceil(xLength / item->spatium());
@@ -6665,7 +7022,8 @@ SpannerSegment* TLayout::layoutSystemSLine(SLine* line, System* system, LayoutCo
     Fraction stick = system->firstMeasure()->tick();
     Fraction etick = system->lastMeasure()->endTick();
 
-    LineSegment* lineSegm = toLineSegment(TLayout::getNextLayoutSystemSegment(line, system, [line](System* parent) {
+    LineSegment* lineSegm
+        = toLineSegment(TLayout::getNextLayoutSystemSegment(line, system, [line](System* parent) {
         return line->createLineSegment(parent);
     }));
 
@@ -6689,10 +7047,13 @@ SpannerSegment* TLayout::layoutSystemSLine(SLine* line, System* system, LayoutCo
             sst = SpannerSegmentType::BEGIN;
         }
         if (line->hasVoiceAssignmentProperties()) {
-            line->setPlacementBasedOnVoiceAssignment(ctx.conf().styleV(Sid::dynamicsHairpinVoiceBasedPlacement).value<DirectionV>());
+            line->setPlacementBasedOnVoiceAssignment(ctx.conf().styleV(Sid::
+                                                                       dynamicsHairpinVoiceBasedPlacement).value<DirectionV>());
         }
     } else if (line->tick() < stick
-               && (line->tick2() > etick || (line->tick2() == etick && line->isPedal() && toPedal(line)->connect45HookToNext()))) {
+               && (line->tick2() > etick
+                   || (line->tick2() == etick && line->isPedal()
+                       && toPedal(line)->connect45HookToNext()))) {
         sst = SpannerSegmentType::MIDDLE;
     } else {
         //
@@ -6790,7 +7151,9 @@ SpannerSegment* TLayout::layoutSystem(LyricsLine* line, System* system, LayoutCo
     Fraction stick = system->firstMeasure()->tick();
     Fraction etick = system->lastMeasure()->endTick();
 
-    LyricsLineSegment* lineSegm = toLyricsLineSegment(TLayout::getNextLayoutSystemSegment(line, system, [line](System* parent) {
+    LyricsLineSegment* lineSegm
+        = toLyricsLineSegment(TLayout::getNextLayoutSystemSegment(line, system,
+                                                                  [line](System* parent) {
         return line->createLineSegment(parent);
     }));
 

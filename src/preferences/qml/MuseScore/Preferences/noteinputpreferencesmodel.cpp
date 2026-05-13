@@ -35,8 +35,10 @@ void NoteInputPreferencesModel::load()
         emit defaultNoteInputMethodChanged(defaultNoteInputMethod());
     });
 
-    notationConfiguration()->addAccidentalDotsArticulationsToNextNoteEnteredChanged().onNotify(this, [this]() {
-        emit addAccidentalDotsArticulationsToNextNoteEnteredChanged(addAccidentalDotsArticulationsToNextNoteEntered());
+    notationConfiguration()->addAccidentalDotsArticulationsToNextNoteEnteredChanged().onNotify(this,
+                                                                                               [this]() {
+        emit addAccidentalDotsArticulationsToNextNoteEnteredChanged(
+            addAccidentalDotsArticulationsToNextNoteEntered());
     });
 
     notationConfiguration()->useNoteInputCursorInInputByDurationChanged().onNotify(this, [this]() {
@@ -47,8 +49,10 @@ void NoteInputPreferencesModel::load()
         emit midiInputEnabledChanged(midiInputEnabled());
     });
 
-    notationConfiguration()->startNoteInputAtSelectedNoteRestWhenPressingMidiKeyChanged().onNotify(this, [this]() {
-        emit startNoteInputAtSelectedNoteRestWhenPressingMidiKeyChanged(startNoteInputAtSelectedNoteRestWhenPressingMidiKey());
+    notationConfiguration()->startNoteInputAtSelectedNoteRestWhenPressingMidiKeyChanged().onNotify(
+        this, [this]() {
+        emit startNoteInputAtSelectedNoteRestWhenPressingMidiKeyChanged(
+            startNoteInputAtSelectedNoteRestWhenPressingMidiKey());
     });
 
     playbackConfiguration()->playNotesWhenEditingChanged().onNotify(this, [this]() {
@@ -71,31 +75,43 @@ void NoteInputPreferencesModel::load()
         emit playPreviewNotesWithScoreDynamicsChanged(playPreviewNotesWithScoreDynamics());
     });
 
-    notationConfiguration()->useMidiVelocityAndDurationDuringNoteInputChanged().onReceive(this, [this](bool value) {
-        emit useMidiVelocityAndDurationDuringNoteInputChanged(value);
+    notationConfiguration()->useMidiVelocityAndDurationDuringNoteInputChanged().onReceive(this,
+                                                                                          [this](
+                                                                                              bool
+                                                                                              value) {
+        emit useMidiVelocityAndDurationDuringNoteInputChanged(
+            value);
     });
 
     notationConfiguration()->isPlayPreviewNotesInInputByDurationChanged().onNotify(this, [this]() {
         emit playPreviewNotesInInputByDurationChanged(playPreviewNotesInInputByDuration());
     });
 
-    midiRemoteConfiguration()->advanceToNextNoteOnKeyReleaseChanged().onReceive(this, [this](bool value) {
+    midiRemoteConfiguration()->advanceToNextNoteOnKeyReleaseChanged().onReceive(this,
+                                                                                [this](bool value) {
         emit advanceToNextNoteOnKeyReleaseChanged(value);
     });
 
-    notationConfiguration()->delayBetweenNotesInRealTimeModeMillisecondsChanged().onReceive(this, [this](int value) {
-        emit delayBetweenNotesInRealTimeModeMillisecondsChanged(value);
+    notationConfiguration()->delayBetweenNotesInRealTimeModeMillisecondsChanged().onReceive(this,
+                                                                                            [this](
+                                                                                                int
+                                                                                                value) {
+        emit delayBetweenNotesInRealTimeModeMillisecondsChanged(
+            value);
     });
 
     notationConfiguration()->notePlayDurationMillisecondsChanged().onReceive(this, [this](int value) {
-        emit notePlayDurationMillisecondsChanged(value);
+        emit notePlayDurationMillisecondsChanged(
+            value);
     });
 
     engravingConfiguration()->dynamicsApplyToAllVoicesChanged().onReceive(this, [this](bool value) {
         emit dynamicsApplyToAllVoicesChanged(value);
     });
 
-    notationConfiguration()->colorNotesOutsideOfUsablePitchRangeChanged().onReceive(this, [this](bool value) {
+    notationConfiguration()->colorNotesOutsideOfUsablePitchRangeChanged().onReceive(this,
+                                                                                    [this](bool
+                                                                                           value) {
         emit colorNotesOutsideOfUsablePitchRangeChanged(value);
     });
 
@@ -104,7 +120,8 @@ void NoteInputPreferencesModel::load()
     });
 
     engravingConfiguration()->autoUpdateFretboardDiagramsChanged().onReceive(this, [this](bool value) {
-        emit autoUpdateFretboardDiagramsChanged(value);
+        emit autoUpdateFretboardDiagramsChanged(
+            value);
     });
 }
 
@@ -228,7 +245,8 @@ void NoteInputPreferencesModel::setDefaultNoteInputMethod(int value)
         return;
     }
 
-    notationConfiguration()->setDefaultNoteInputMethod(static_cast<mu::notation::NoteInputMethod>(value));
+    notationConfiguration()->setDefaultNoteInputMethod(static_cast<mu::notation::NoteInputMethod>(
+                                                           value));
 }
 
 void NoteInputPreferencesModel::setAddAccidentalDotsArticulationsToNextNoteEntered(bool value)

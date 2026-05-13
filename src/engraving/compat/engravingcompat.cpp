@@ -75,7 +75,8 @@ void EngravingCompat::correctPedalEndPoints(MasterScore* score)
     for (auto pair : score->spanner()) {
         Spanner* spanner = pair.second;
         if (spanner->isPedal() && toPedal(spanner)->endHookType() == HookType::HOOK_45) {
-            ChordRest* endCR = score->findChordRestEndingBeforeTickInStaff(spanner->tick2(), track2staff(spanner->track()));
+            ChordRest* endCR = score->findChordRestEndingBeforeTickInStaff(
+                spanner->tick2(), track2staff(spanner->track()));
             if (endCR) {
                 for (EngravingObject* item : spanner->linkList()) {
                     toSpanner(item)->setTick2(endCR->tick());
@@ -127,8 +128,10 @@ void EngravingCompat::migrateDynamicPosOnVocalStaves(MasterScore* masterScore)
         Part* part = staff ? staff->part() : nullptr;
         Instrument* instrument = part ? part->instrument() : nullptr;
         const bool isVocalInstrument = instrument && instrument->isVocalInstrument();
-        const bool directionIsDefault = item->getProperty(Pid::DIRECTION) == item->propertyDefault(Pid::DIRECTION);
-        const PlacementV defaultPlacement = masterScore->style().styleV(item->getPropertyStyle(Pid::PLACEMENT)).value<PlacementV>();
+        const bool directionIsDefault = item->getProperty(Pid::DIRECTION) == item->propertyDefault(
+            Pid::DIRECTION);
+        const PlacementV defaultPlacement
+            = masterScore->style().styleV(item->getPropertyStyle(Pid::PLACEMENT)).value<PlacementV>();
         const bool defaultIsBelow = defaultPlacement == PlacementV::BELOW;
 
         if (isVocalInstrument && directionIsDefault && defaultIsBelow) {
@@ -168,8 +171,10 @@ void EngravingCompat::resetMarkerLeftFontSize(MasterScore* masterScore)
     // Reset the new incorrect 4.4.0 - 4.4.2 default size of 11 to the previous correct size of 18
     const double INCORRECT_DEFAULT_SIZE = 11.0;
     const double CORRECT_DEFAULT_SIZE = 18.0;
-    bool needsAdjustMarkerSize = masterScore->mscoreVersion().contains(u"4.4") && masterScore->mscoreVersion() != u"4.4.3";
-    if (!needsAdjustMarkerSize || masterScore->style().styleD(Sid::repeatLeftFontSize) != INCORRECT_DEFAULT_SIZE) {
+    bool needsAdjustMarkerSize = masterScore->mscoreVersion().contains(u"4.4")
+                                 && masterScore->mscoreVersion() != u"4.4.3";
+    if (!needsAdjustMarkerSize
+        || masterScore->style().styleD(Sid::repeatLeftFontSize) != INCORRECT_DEFAULT_SIZE) {
         return;
     }
     masterScore->style().set(Sid::repeatLeftFontSize, CORRECT_DEFAULT_SIZE);
@@ -185,7 +190,8 @@ void EngravingCompat::resetMarkerLeftFontSize(MasterScore* masterScore)
                     continue;
                 }
                 Marker* marker = toMarker(item);
-                if (marker->textStyleType() != TextStyleType::REPEAT_LEFT || marker->size() != INCORRECT_DEFAULT_SIZE) {
+                if (marker->textStyleType() != TextStyleType::REPEAT_LEFT
+                    || marker->size() != INCORRECT_DEFAULT_SIZE) {
                     continue;
                 }
                 marker->setSize(CORRECT_DEFAULT_SIZE);
@@ -255,7 +261,8 @@ void EngravingCompat::pre470TextCompat(MasterScore* masterScore)
         TextBase* text = toTextBase(item);
 
         if (!text->isStyled(Pid::FRAME_ROUND)) {
-            text->setFrameRound(compat::CompatUtils::convertPre470FrameRadius(text->frameRound().val()));
+            text->setFrameRound(compat::CompatUtils::convertPre470FrameRadius(
+                                    text->frameRound().val()));
         }
 
         // Staff text, system text, and harp pedal diagrams are the only types which are attached to notes and weren't already
@@ -267,10 +274,12 @@ void EngravingCompat::pre470TextCompat(MasterScore* masterScore)
 
             switch (text->position()) {
             case AlignH::HCENTER:
-                text->setProperty(Pid::OFFSET, PointF(text->offset().x() - xAdj / 2, text->offset().y()));
+                text->setProperty(Pid::OFFSET,
+                                  PointF(text->offset().x() - xAdj / 2, text->offset().y()));
                 break;
             case AlignH::RIGHT:
-                text->setProperty(Pid::OFFSET, PointF(text->offset().x() - xAdj, text->offset().y()));
+                text->setProperty(Pid::OFFSET,
+                                  PointF(text->offset().x() - xAdj, text->offset().y()));
                 break;
             default:
                 break;
@@ -293,7 +302,8 @@ void EngravingCompat::migrateNoteParens(MasterScore* masterScore)
 static void doMigrateOffset500(EngravingItem* item)
 {
     if (item->offset().isNull()
-        || (!item->isTextBase() && !item->isSpanner() && !item->isSpannerSegment()) || !item->hasVoiceAssignmentProperties()) {
+        || (!item->isTextBase() && !item->isSpanner() && !item->isSpannerSegment())
+        || !item->hasVoiceAssignmentProperties()) {
         return;
     }
 
@@ -307,7 +317,8 @@ void EngravingCompat::migrateOffset500(MasterScore* masterScore)
             if (!sp->hasVoiceAssignmentProperties()) {
                 continue;
             }
-            sp->setPlacementBasedOnVoiceAssignment(sp->style().styleV(Sid::dynamicsHairpinVoiceBasedPlacement).value<DirectionV>());
+            sp->setPlacementBasedOnVoiceAssignment(sp->style().styleV(Sid::
+                                                                      dynamicsHairpinVoiceBasedPlacement).value<DirectionV>());
             doMigrateOffset500(sp);
             for (SpannerSegment* seg : sp->spannerSegments()) {
                 doMigrateOffset500(seg);

@@ -89,7 +89,8 @@ const AudioOutputParams& ProjectAudioSettings::auxOutputParams(aux_channel_idx_t
     return _dummy;
 }
 
-void ProjectAudioSettings::setAuxOutputParams(aux_channel_idx_t index, const AudioOutputParams& params)
+void ProjectAudioSettings::setAuxOutputParams(aux_channel_idx_t index,
+                                              const AudioOutputParams& params)
 {
     auto it = m_auxOutputParams.find(index);
     if (it != m_auxOutputParams.end() && it->second == params) {
@@ -105,7 +106,8 @@ const TrackInputParamsMap& ProjectAudioSettings::allTrackInputParams() const
     return m_trackInputParamsMap;
 }
 
-const AudioInputParams& ProjectAudioSettings::trackInputParams(const InstrumentTrackId& partId) const
+const AudioInputParams& ProjectAudioSettings::trackInputParams(const InstrumentTrackId& partId)
+const
 {
     auto it = m_trackInputParamsMap.find(partId);
     if (it == m_trackInputParamsMap.end()) {
@@ -116,7 +118,8 @@ const AudioInputParams& ProjectAudioSettings::trackInputParams(const InstrumentT
     return it->second;
 }
 
-void ProjectAudioSettings::setTrackInputParams(const InstrumentTrackId& partId, const AudioInputParams& params)
+void ProjectAudioSettings::setTrackInputParams(const InstrumentTrackId& partId,
+                                               const AudioInputParams& params)
 {
     auto it = m_trackInputParamsMap.find(partId);
     if (it != m_trackInputParamsMap.end() && it->second == params) {
@@ -144,7 +147,8 @@ void ProjectAudioSettings::clearTrackInputParams()
     m_settingsChanged.notify();
 }
 
-muse::async::Channel<mu::engraving::InstrumentTrackId> ProjectAudioSettings::trackInputParamsChanged() const
+muse::async::Channel<mu::engraving::InstrumentTrackId> ProjectAudioSettings::trackInputParamsChanged()
+const
 {
     return m_trackInputParamsChanged;
 }
@@ -154,7 +158,8 @@ bool ProjectAudioSettings::trackHasExistingOutputParams(const InstrumentTrackId&
     return muse::contains(m_trackOutputParamsMap, partId);
 }
 
-const AudioOutputParams& ProjectAudioSettings::trackOutputParams(const InstrumentTrackId& partId) const
+const AudioOutputParams& ProjectAudioSettings::trackOutputParams(const InstrumentTrackId& partId)
+const
 {
     auto search = m_trackOutputParamsMap.find(partId);
 
@@ -166,7 +171,8 @@ const AudioOutputParams& ProjectAudioSettings::trackOutputParams(const Instrumen
     return search->second;
 }
 
-void ProjectAudioSettings::setTrackOutputParams(const InstrumentTrackId& partId, const AudioOutputParams& params)
+void ProjectAudioSettings::setTrackOutputParams(const InstrumentTrackId& partId,
+                                                const AudioOutputParams& params)
 {
     auto it = m_trackOutputParamsMap.find(partId);
     bool paramsChanged = it == m_trackOutputParamsMap.cend();
@@ -185,7 +191,8 @@ void ProjectAudioSettings::setTrackOutputParams(const InstrumentTrackId& partId,
     }
 }
 
-const IProjectAudioSettings::SoloMuteState& ProjectAudioSettings::auxSoloMuteState(aux_channel_idx_t index) const
+const IProjectAudioSettings::SoloMuteState& ProjectAudioSettings::auxSoloMuteState(
+    aux_channel_idx_t index) const
 {
     auto it = m_auxSoloMuteStatesMap.find(index);
     if (it == m_auxSoloMuteStatesMap.end()) {
@@ -208,7 +215,9 @@ void ProjectAudioSettings::setAuxSoloMuteState(aux_channel_idx_t index, const So
     m_settingsChanged.notify();
 }
 
-muse::async::Channel<aux_channel_idx_t, IProjectAudioSettings::SoloMuteState> ProjectAudioSettings::auxSoloMuteStateChanged() const
+muse::async::Channel<aux_channel_idx_t,
+                     IProjectAudioSettings::SoloMuteState> ProjectAudioSettings::
+auxSoloMuteStateChanged() const
 {
     return m_auxSoloMuteStateChanged;
 }
@@ -266,7 +275,8 @@ Ret ProjectAudioSettings::read(const engraving::MscReader& reader)
         QJsonObject auxObject = auxArray[i].toObject();
 
         AudioOutputParams outParams = outputParamsFromJson(auxObject.value("out").toObject());
-        SoloMuteState soloMuteState = soloMuteStateFromJson(auxObject.value("soloMuteState").toObject());
+        SoloMuteState soloMuteState = soloMuteStateFromJson(auxObject.value(
+                                                                "soloMuteState").toObject());
 
         m_auxOutputParams.emplace(i, std::move(outParams));
         m_auxSoloMuteStatesMap.emplace(i, std::move(soloMuteState));
@@ -301,7 +311,8 @@ Ret ProjectAudioSettings::read(const engraving::MscReader& reader)
     return make_ret(Ret::Code::Ok);
 }
 
-Ret ProjectAudioSettings::write(engraving::MscWriter& writer, notation::INotationSoloMuteStatePtr masterSoloMuteStatePtr)
+Ret ProjectAudioSettings::write(engraving::MscWriter& writer,
+                                notation::INotationSoloMuteStatePtr masterSoloMuteStatePtr)
 {
     QJsonObject rootObj;
     rootObj["master"] = outputParamsToJson(m_masterOutputParams);
@@ -352,7 +363,8 @@ AudioOutputParams ProjectAudioSettings::outputParamsFromJson(const QJsonObject& 
     return result;
 }
 
-IProjectAudioSettings::SoloMuteState ProjectAudioSettings::soloMuteStateFromJson(const QJsonObject& object) const
+IProjectAudioSettings::SoloMuteState ProjectAudioSettings::soloMuteStateFromJson(
+    const QJsonObject& object) const
 {
     SoloMuteState result;
     result.mute = object.value("mute").toBool();
@@ -380,7 +392,8 @@ AudioFxParams ProjectAudioSettings::fxParamsFromJson(const QJsonObject& object) 
     result.chainOrder = static_cast<AudioFxChainOrder>(object.value("chainOrder").toInt());
     result.resourceMeta = resourceMetaFromJson(object.value("resourceMeta").toObject());
     result.configuration = unitConfigFromJson(object.value("unitConfiguration").toObject());
-    result.categories = audioFxCategoriesFromString(result.resourceMeta.attributeVal(audio::CATEGORIES_ATTRIBUTE));
+    result.categories
+        = audioFxCategoriesFromString(result.resourceMeta.attributeVal(audio::CATEGORIES_ATTRIBUTE));
 
     return result;
 }
@@ -532,7 +545,8 @@ QJsonObject ProjectAudioSettings::unitConfigToJson(const AudioUnitConfig& config
     QJsonObject result;
 
     for (const auto& pair : config) {
-        QByteArray byteArray = QByteArray::fromRawData(pair.second.c_str(), static_cast<int>(pair.second.size()));
+        QByteArray byteArray
+            = QByteArray::fromRawData(pair.second.c_str(), static_cast<int>(pair.second.size()));
         result.insert(QString::fromStdString(pair.first), QString(byteArray.toBase64()));
     }
 
@@ -583,7 +597,8 @@ QString ProjectAudioSettings::sourceTypeToString(const AudioSourceType& type) co
     return SOURCE_TYPE_MAP.at(AudioSourceType::Undefined);
 }
 
-QJsonObject ProjectAudioSettings::buildAuxObject(aux_channel_idx_t index, const AudioOutputParams& params) const
+QJsonObject ProjectAudioSettings::buildAuxObject(aux_channel_idx_t index,
+                                                 const AudioOutputParams& params) const
 {
     QJsonObject result;
 
@@ -597,8 +612,9 @@ QJsonObject ProjectAudioSettings::buildAuxObject(aux_channel_idx_t index, const 
     return result;
 }
 
-QJsonObject ProjectAudioSettings::buildTrackObject(notation::INotationSoloMuteStatePtr masterSoloMuteStatePtr,
-                                                   const InstrumentTrackId& id) const
+QJsonObject ProjectAudioSettings::buildTrackObject(
+    notation::INotationSoloMuteStatePtr masterSoloMuteStatePtr,
+    const InstrumentTrackId& id) const
 {
     QJsonObject result;
 

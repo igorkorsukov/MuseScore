@@ -36,6 +36,7 @@ public:
     static void readMeasure(Measure* measure, XmlReader& xml, ReadContext& ctx, int staffIdx);
 
 private:
-    static void readVoice(Measure* measure, XmlReader& e, ReadContext& ctx, int staffIdx, bool irregular);
+    static void readVoice(Measure* measure, XmlReader& e, ReadContext& ctx, int staffIdx,
+                          bool irregular);
 };
 }

@@ -79,7 +79,10 @@ public:
         int speed{ -1 };
     };
 
-    void addProperties(std::unordered_set<std::unique_ptr<INoteProperty> >&& pr) { _properties.swap(pr); }
+    void addProperties(std::unordered_set<std::unique_ptr<INoteProperty> >&& pr)
+    {
+        _properties.swap(pr);
+    }
     void setTieType(GPNote::TieType t) { _tie = t; }
 
     void setMidi(int m) { _midiPitch.midi = m; }
@@ -159,7 +162,10 @@ public:
     void setId(int id) { _id = id; }
     int id() const { return _id; }
 
-    const std::unordered_set<std::unique_ptr<INoteProperty> >& properties() const { return _properties; }
+    const std::unordered_set<std::unique_ptr<INoteProperty> >& properties() const
+    {
+        return _properties;
+    }
     static constexpr int invalidAccidental = -10;
 
 private:

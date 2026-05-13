@@ -28,7 +28,8 @@ using namespace mu::engraving;
 using namespace muse;
 using namespace muse::mpe;
 
-void AnnotationsMetaParser::doParse(const EngravingItem* item, const RenderingContext& ctx, mpe::ArticulationMap& result)
+void AnnotationsMetaParser::doParse(const EngravingItem* item, const RenderingContext& ctx,
+                                    mpe::ArticulationMap& result)
 {
     IF_ASSERT_FAILED(item) {
         return;
@@ -62,5 +63,6 @@ void AnnotationsMetaParser::doParse(const EngravingItem* item, const RenderingCo
         return;
     }
 
-    appendArticulationData(mpe::ArticulationMeta(type, pattern, ctx.nominalTimestamp, ctx.nominalDuration), result);
+    appendArticulationData(mpe::ArticulationMeta(type, pattern, ctx.nominalTimestamp,
+                                                 ctx.nominalDuration), result);
 }

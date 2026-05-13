@@ -27,7 +27,8 @@
 using namespace mu::inspector;
 using namespace mu::notation;
 
-ScoreDisplaySettingsModel::ScoreDisplaySettingsModel(QObject* parent, const muse::modularity::ContextPtr& iocCtx,
+ScoreDisplaySettingsModel::ScoreDisplaySettingsModel(QObject* parent,
+                                                     const muse::modularity::ContextPtr& iocCtx,
                                                      IElementRepositoryService* repository)
     : AbstractInspectorModel(parent, iocCtx, repository)
 {
@@ -41,7 +42,8 @@ void ScoreDisplaySettingsModel::onCurrentNotationChanged()
     updateAll();
 
     if (auto notation = currentNotation()) {
-        notation->interaction()->scoreConfigChanged().onReceive(this, [this](ScoreConfigType configType) {
+        notation->interaction()->scoreConfigChanged().onReceive(this,
+                                                                [this](ScoreConfigType configType) {
             updateFromConfig(configType);
         }, Asyncable::Mode::SetReplace);
     }

@@ -58,16 +58,19 @@ void TappingLayout::layoutTapping(Tapping* item, Tapping::LayoutData* ldata, Lay
 
     if (tabStaff) {
         // Slightly increase vertical padding on TAB staves
-        item->setMinDistance(item->staff()->lineDistance(item->tick()) * style.styleS(Sid::articulationMinDistance));
+        item->setMinDistance(item->staff()->lineDistance(item->tick())
+                             * style.styleS(Sid::articulationMinDistance));
     }
 }
 
-void TappingLayout::layoutLeftHandTapping(Tapping* item, Tapping::LayoutData* ldata, const MStyle& style, bool tabStaff, LayoutContext& ctx)
+void TappingLayout::layoutLeftHandTapping(Tapping* item, Tapping::LayoutData* ldata,
+                                          const MStyle& style, bool tabStaff, LayoutContext& ctx)
 {
     updateHalfSlurs(item, style, tabStaff, ctx);
 
-    LHTappingSymbol lhSym = tabStaff ? style.styleV(Sid::lhTappingSymbolTab).value<LHTappingSymbol>()
-                            : style.styleV(Sid::lhTappingSymbolNormalStave).value<LHTappingSymbol>();
+    LHTappingSymbol lhSym
+        = tabStaff ? style.styleV(Sid::lhTappingSymbolTab).value<LHTappingSymbol>()
+          : style.styleV(Sid::lhTappingSymbolNormalStave).value<LHTappingSymbol>();
 
     bool dontShowSymbols = item->lhShowItems() == LHTappingShowItems::HALF_SLUR;
 
@@ -104,7 +107,8 @@ void TappingLayout::layoutLeftHandTapping(Tapping* item, Tapping::LayoutData* ld
     }
 }
 
-void TappingLayout::updateHalfSlurs(Tapping* item, const MStyle& style, bool tabStaff, LayoutContext& ctx)
+void TappingLayout::updateHalfSlurs(Tapping* item, const MStyle& style, bool tabStaff,
+                                    LayoutContext& ctx)
 {
     Chord* chord = item->parent() && item->parent()->isChord() ? toChord(item->parent()) : nullptr;
     if (!chord) {
@@ -137,7 +141,8 @@ void TappingLayout::updateHalfSlurs(Tapping* item, const MStyle& style, bool tab
         item->setHalfSlurAbove(nullptr);
     }
 
-    bool showHalfSlurBelow = tabStaff && showHalfSlurAbove && style.styleB(Sid::lhTappingSlurTopAndBottomNoteOnTab)
+    bool showHalfSlurBelow = tabStaff && showHalfSlurAbove && style.styleB(
+        Sid::lhTappingSlurTopAndBottomNoteOnTab)
                              && toChord(item->parent())->notes().size() > 1;
     if (showHalfSlurBelow) {
         TappingHalfSlur* halfSlurBelow = item->halfSlurBelow();
@@ -170,7 +175,8 @@ void TappingLayout::layoutHalfSlur(Tapping* item, TappingHalfSlur* slur, LayoutC
     }
 
     Skyline& skyline = system->staff(item->staffIdx())->skyline();
-    TappingHalfSlurSegment* slurSeg = toTappingHalfSlurSegment(SlurTieLayout::layoutSystem(slur, system, ctx));
+    TappingHalfSlurSegment* slurSeg
+        = toTappingHalfSlurSegment(SlurTieLayout::layoutSystem(slur, system, ctx));
 
     Shape segShape = slurSeg->shape();
 
@@ -192,11 +198,13 @@ void TappingLayout::layoutHalfSlur(Tapping* item, TappingHalfSlur* slur, LayoutC
     skyline.add(maskedShape.translated(slurSeg->pos()));
 }
 
-void TappingLayout::layoutRightHandTapping(Tapping* item, Tapping::LayoutData* ldata, const MStyle& style, bool tabStaff,
+void TappingLayout::layoutRightHandTapping(Tapping* item, Tapping::LayoutData* ldata,
+                                           const MStyle& style, bool tabStaff,
                                            LayoutContext& ctx)
 {
-    RHTappingSymbol rhSym = tabStaff ? style.styleV(Sid::rhTappingSymbolTab).value<RHTappingSymbol>()
-                            : style.styleV(Sid::rhTappingSymbolNormalStave).value<RHTappingSymbol>();
+    RHTappingSymbol rhSym
+        = tabStaff ? style.styleV(Sid::rhTappingSymbolTab).value<RHTappingSymbol>()
+          : style.styleV(Sid::rhTappingSymbolNormalStave).value<RHTappingSymbol>();
 
     if (rhSym != RHTappingSymbol::PLUS) {
         ldata->symId = SymId::noSym;

@@ -51,18 +51,24 @@ public:
     std::vector<UnitType> supportedUnitTypes() const override;
     bool supportsUnitType(UnitType unitType) const override;
 
-    muse::Ret write(notation::INotationPtr notation, muse::io::IODevice& device, const Options& options = Options()) override;
-    muse::Ret writeList(const INotationPtrList& notations, muse::io::IODevice& device, const Options& options = Options()) override;
+    muse::Ret write(notation::INotationPtr notation, muse::io::IODevice& device,
+                    const Options& options = Options()) override;
+    muse::Ret writeList(const INotationPtrList& notations, muse::io::IODevice& device,
+                        const Options& options = Options()) override;
 
 private:
     qreal pngDpiResolution() const;
     QHash<void*, int> elementIds(const mu::engraving::Score* score) const;
 
-    void writeElementsPositions(muse::XmlStreamWriter& writer, const mu::engraving::Score* score) const;
-    void writeSegmentsPositions(muse::XmlStreamWriter& writer, const mu::engraving::Score* score) const;
-    void writeMeasuresPositions(muse::XmlStreamWriter& writer, const mu::engraving::Score* score) const;
+    void writeElementsPositions(muse::XmlStreamWriter& writer,
+                                const mu::engraving::Score* score) const;
+    void writeSegmentsPositions(muse::XmlStreamWriter& writer,
+                                const mu::engraving::Score* score) const;
+    void writeMeasuresPositions(muse::XmlStreamWriter& writer,
+                                const mu::engraving::Score* score) const;
 
-    void writeEventsPositions(muse::XmlStreamWriter& writer, const mu::engraving::Score* score) const;
+    void writeEventsPositions(muse::XmlStreamWriter& writer,
+                              const mu::engraving::Score* score) const;
 
     ElementType m_elementType = ElementType::SEGMENT;
 };

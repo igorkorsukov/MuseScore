@@ -171,7 +171,9 @@ bool Read400::readScoreTag(Score* score, XmlReader& e, ReadContext& ctx)
                 ctx.setOriginalSpatium(score->style().spatium());
                 score->style().set(Sid::spatium, sp);
             }
-            score->m_engravingFont = score->engravingFonts()->fontByName(score->style().styleSt(Sid::musicalSymbolFont).toStdString());
+            score->m_engravingFont
+                = score->engravingFonts()->fontByName(score->style().styleSt(
+                                                          Sid::musicalSymbolFont).toStdString());
         } else if (tag == "copyright" || tag == "rights") {
             score->setMetaTag(u"copyright", Text::readXmlText(e, score));
         } else if (tag == "movement-number") {
@@ -406,8 +408,9 @@ bool Read400::pasteStaff(XmlReader& e, Segment* dst, staff_idx_t dstStaff, Fract
             for (Measure* m = dst->measure(); m && m->tick() < oEndTick; m = m->nextMeasure()) {
                 Fraction mTimeStretch = dst->score()->staff(dstStaffIdx)->timeStretch(m->tick());
                 if (mTimeStretch != Fraction(1, 1)) {
-                    LOGD("Can't paste due to different time stretch ratios (src time stretch: 1/1, dst time stretch: %d/%d)",
-                         mTimeStretch.numerator(), mTimeStretch.denominator());
+                    LOGD(
+                        "Can't paste due to different time stretch ratios (src time stretch: 1/1, dst time stretch: %d/%d)",
+                        mTimeStretch.numerator(), mTimeStretch.denominator());
                     MScore::setError(MsError::DEST_LOCAL_TIME_SIGNATURE);
                     return false;
                 }
@@ -433,7 +436,8 @@ bool Read400::pasteStaff(XmlReader& e, Segment* dst, staff_idx_t dstStaff, Fract
                         voiceOffset[voiceId] = Fraction::fromTicks(e.readInt());
                     }
                     if (!score->makeGap1(dstTick, dstStaffIdx, tickLen, voiceOffset)) {
-                        LOGD() << "cannot make gap in staff " << dstStaffIdx << " at tick " << dstTick.ticks();
+                        LOGD() << "cannot make gap in staff " << dstStaffIdx << " at tick " <<
+                        dstTick.ticks();
                         done = true;             // break main loop, cannot make gap
                         break;
                     }
@@ -451,7 +455,8 @@ bool Read400::pasteStaff(XmlReader& e, Segment* dst, staff_idx_t dstStaff, Fract
                     if (doScale) {
                         Fraction ticksScaled = tuplet->ticks() * scale;
                         if (!TDuration(ticksScaled).isValid()) {
-                            LOGD("Can't paste: invalid duration %d/%d", ticksScaled.numerator(), ticksScaled.denominator());
+                            LOGD("Can't paste: invalid duration %d/%d",
+                                 ticksScaled.numerator(), ticksScaled.denominator());
                             return false;
                         }
                         tuplet->setTicks(ticksScaled);
@@ -473,7 +478,8 @@ bool Read400::pasteStaff(XmlReader& e, Segment* dst, staff_idx_t dstStaff, Fract
                     }
                 } else if (tag == "endTuplet") {
                     if (!tuplet) {
-                        LOGD("Score::pasteStaff: encountered <endTuplet/> when no tuplet was started");
+                        LOGD(
+                            "Score::pasteStaff: encountered <endTuplet/> when no tuplet was started");
                         e.skipCurrentElement();
                         continue;
                     }
@@ -496,7 +502,8 @@ bool Read400::pasteStaff(XmlReader& e, Segment* dst, staff_idx_t dstStaff, Fract
                     cr->setSelected(false);
                     Fraction tick = doScale ? (ctx.tick() - dstTick) * scale + dstTick : ctx.tick();
                     if (score->tick2measure(tick)->isMeasureRepeatGroup(dstStaffIdx)) {
-                        MeasureRepeat* mr = score->tick2measure(tick)->measureRepeatElement(dstStaffIdx);
+                        MeasureRepeat* mr = score->tick2measure(tick)->measureRepeatElement(
+                            dstStaffIdx);
                         score->deleteItem(mr);    // resets any measures related to mr
                     }
                     if (startingBeam) {
@@ -513,7 +520,8 @@ bool Read400::pasteStaff(XmlReader& e, Segment* dst, staff_idx_t dstStaff, Fract
                         if (doScale) {
                             Fraction ticksScaled = cr->ticks() * scale;
                             if (!TDuration(ticksScaled).isValid()) {
-                                LOGD("Can't paste: invalid duration %d/%d", ticksScaled.numerator(), ticksScaled.denominator());
+                                LOGD("Can't paste: invalid duration %d/%d",
+                                     ticksScaled.numerator(), ticksScaled.denominator());
                                 return false;
                             }
                             cr->setTicks(ticksScaled);
@@ -532,7 +540,8 @@ bool Read400::pasteStaff(XmlReader& e, Segment* dst, staff_idx_t dstStaff, Fract
                                 if (doScale) {
                                     Fraction ticksScaled = t->durationType().ticks() * scale;
                                     if (!TDuration(ticksScaled).isValid()) {
-                                        LOGD("Can't paste: invalid duration %d/%d", ticksScaled.numerator(), ticksScaled.denominator());
+                                        LOGD("Can't paste: invalid duration %d/%d",
+                                             ticksScaled.numerator(), ticksScaled.denominator());
                                         return false;
                                     }
                                     t->setDurationType(ticksScaled);
@@ -625,8 +634,10 @@ bool Read400::pasteStaff(XmlReader& e, Segment* dst, staff_idx_t dstStaff, Fract
 
                     // remove pre-existing chords on this track
                     // but be sure not to remove any we just added
-                    for (EngravingItem* el : seg->findAnnotations(ElementType::HARMONY, ctx.track(), ctx.track())) {
-                        if (std::find(pastedHarmony.begin(), pastedHarmony.end(), el) == pastedHarmony.end()) {
+                    for (EngravingItem* el :
+                         seg->findAnnotations(ElementType::HARMONY, ctx.track(), ctx.track())) {
+                        if (std::find(pastedHarmony.begin(), pastedHarmony.end(),
+                                      el) == pastedHarmony.end()) {
                             score->undoRemoveElement(el);
                         }
                     }
@@ -688,7 +699,8 @@ bool Read400::pasteStaff(XmlReader& e, Segment* dst, staff_idx_t dstStaff, Fract
                     Segment* segment = m->undoGetSegment(SegmentType::Breath, tick);
                     Breath* breath = Factory::createBreath(segment);
                     breath->setTrack(ctx.track());
-                    breath->setPlacement(breath->track() & 1 ? PlacementV::BELOW : PlacementV::ABOVE);
+                    breath->setPlacement(breath->track()
+                                         & 1 ? PlacementV::BELOW : PlacementV::ABOVE);
                     TRead::read(breath, e, ctx);
                     breath->setParent(segment);
                     score->undoChangeElement(segment->element(ctx.track()), breath);
@@ -741,7 +753,8 @@ bool Read400::pasteStaff(XmlReader& e, Segment* dst, staff_idx_t dstStaff, Fract
                     continue;
                 }
                 // CHORD and NOTE spanners are normally handled already
-                if (sp->anchor() == Spanner::Anchor::CHORD || sp->anchor() == Spanner::Anchor::NOTE) {
+                if (sp->anchor() == Spanner::Anchor::CHORD
+                    || sp->anchor() == Spanner::Anchor::NOTE) {
                     continue;
                 }
                 // skip if present originally
@@ -881,7 +894,8 @@ void Read400::pasteSymbols(XmlReader& e, ChordRest* dst)
                         harmSegm = nullptr;
                     } else if (!harmSegm || harmSegm->tick() > destTick) {
                         Measure* meas     = score->tick2measure(destTick);
-                        harmSegm          = meas ? meas->undoGetSegment(SegmentType::ChordRest, destTick) : nullptr;
+                        harmSegm          = meas ? meas->undoGetSegment(SegmentType::ChordRest,
+                                                                        destTick) : nullptr;
                     }
                     if (destTrack >= maxTrack || harmSegm == nullptr) {
                         LOGD("PasteSymbols: no track or segment for %s", tag.ascii());
@@ -966,7 +980,8 @@ void Read400::pasteSymbols(XmlReader& e, ChordRest* dst)
                         } else {
                             score->undoAddElement(el);
                         }
-                    } else if (tag == "StaffText" || tag == "PlayTechAnnotation" || tag == "Sticking" || tag == "HarpPedalDiagram") {
+                    } else if (tag == "StaffText" || tag == "PlayTechAnnotation"
+                               || tag == "Sticking" || tag == "HarpPedalDiagram") {
                         EngravingItem* el = Factory::createItemByName(tag, score->dummy());
                         TRead::readItem(el, e, ctx);
                         el->setTrack(destTrack);
@@ -1031,9 +1046,11 @@ void Read400::pasteSymbols(XmlReader& e, ChordRest* dst)
                                 nextSegm = nextSegm->next1(SegmentType::ChordRest);
                             }
                             if (!nextSegm || nextSegm->tick() > destTick1) {                    // no ChordRest segm at this tick
-                                nextSegm = Factory::createSegment(prevSegm->measure(), SegmentType::ChordRest, destTick1);
+                                nextSegm = Factory::createSegment(
+                                    prevSegm->measure(), SegmentType::ChordRest, destTick1);
                                 if (!nextSegm) {
-                                    LOGD("PasteSymbols: can't find or create destination segment for FiguredBass");
+                                    LOGD(
+                                        "PasteSymbols: can't find or create destination segment for FiguredBass");
                                     delete el;
                                     continue;
                                 }

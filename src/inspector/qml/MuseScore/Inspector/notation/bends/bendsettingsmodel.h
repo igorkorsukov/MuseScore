@@ -40,8 +40,10 @@ class BendSettingsModel : public AbstractInspectorModel
     Q_PROPERTY(mu::inspector::PropertyItem * dipVibratoType READ dipVibratoType CONSTANT)
     Q_PROPERTY(mu::inspector::PropertyItem * lineStyle READ lineStyle CONSTANT)
 
-    Q_PROPERTY(bool isShowHoldLineAvailable READ isShowHoldLineAvailable NOTIFY isShowHoldLineAvailableChanged)
-    Q_PROPERTY(bool isDiveTabPosAvailable READ isDiveTabPosAvailable NOTIFY isDiveTabPosAvailableChanged)
+    Q_PROPERTY(
+        bool isShowHoldLineAvailable READ isShowHoldLineAvailable NOTIFY isShowHoldLineAvailableChanged)
+    Q_PROPERTY(
+        bool isDiveTabPosAvailable READ isDiveTabPosAvailable NOTIFY isDiveTabPosAvailableChanged)
     Q_PROPERTY(bool isTabStaff READ isTabStaff NOTIFY isTabStaffChanged)
     Q_PROPERTY(bool isDive READ isDive NOTIFY isDiveChanged)
     Q_PROPERTY(bool isDip READ isDip NOTIFY isDipChanged)
@@ -50,10 +52,12 @@ class BendSettingsModel : public AbstractInspectorModel
     Q_PROPERTY(bool isBendCurveEnabled READ isBendCurveEnabled NOTIFY isBendCurveEnabledChanged)
     Q_PROPERTY(QVariantList bendCurve READ bendCurve WRITE setBendCurve NOTIFY bendCurveChanged)
 
-    Q_PROPERTY(bool areSettingsAvailable READ areSettingsAvailable NOTIFY areSettingsAvailableChanged)
+    Q_PROPERTY(
+        bool areSettingsAvailable READ areSettingsAvailable NOTIFY areSettingsAvailableChanged)
 
 public:
-    explicit BendSettingsModel(QObject* parent, const muse::modularity::ContextPtr& iocCtx, IElementRepositoryService* repository);
+    explicit BendSettingsModel(QObject* parent, const muse::modularity::ContextPtr& iocCtx,
+                               IElementRepositoryService* repository);
 
     void createProperties() override;
     void requestElements() override;

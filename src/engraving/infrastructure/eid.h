@@ -38,8 +38,14 @@ public:
 
     bool isValid() const { return m_first != INVALID || m_second != INVALID; }
 
-    inline bool operator ==(const EID& other) const { return m_first == other.m_first && m_second == other.m_second; }
-    inline bool operator !=(const EID& other) const { return m_first != other.m_first || m_second != other.m_second; }
+    inline bool operator ==(const EID& other) const
+    {
+        return m_first == other.m_first && m_second == other.m_second;
+    }
+    inline bool operator !=(const EID& other) const
+    {
+        return m_first != other.m_first || m_second != other.m_second;
+    }
 
     char* toChars(char* first, char* last) const;
     std::string toStdString() const;

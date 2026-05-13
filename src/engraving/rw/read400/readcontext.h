@@ -97,7 +97,10 @@ public:
 
     double spatium() const;
     void setSpatium(double v);
-    void setPropertiesToSkip(const PropertyIdSet& propertiesToSkip) { m_propertiesToSkip = propertiesToSkip; }
+    void setPropertiesToSkip(const PropertyIdSet& propertiesToSkip)
+    {
+        m_propertiesToSkip = propertiesToSkip;
+    }
     bool shouldSkipProperty(Pid pid) const { return muse::contains(m_propertiesToSkip, pid); }
     double originalSpatium() const { return m_originalSpatium; }
     void setOriginalSpatium(double v) { m_originalSpatium = v; }
@@ -200,7 +203,8 @@ private:
     std::unordered_map<staff_idx_t, size_t> m_staffBarLineSpanValues;
     std::unordered_map<const BarLine*, size_t> m_barLineSpanValues;
 
-    std::map<int /*staffIndex*/, std::vector<std::pair<LinkedObjects*, Location> > > m_staffLinkedElements; // one list per staff
+    std::map<int /*staffIndex*/,
+             std::vector<std::pair<LinkedObjects*, Location> > > m_staffLinkedElements;                     // one list per staff
     LinksIndexer m_linksIndexer;
 
     std::vector<std::shared_ptr<read400::ConnectorInfoReader> > _connectors;

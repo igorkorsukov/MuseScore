@@ -39,7 +39,8 @@ using namespace muse;
 using namespace mu::engraving::compat;
 using namespace mu::engraving;
 
-static int readStyleDefaultsVersion(MasterScore* score, const ByteArray& scoreData, const String& completeBaseName)
+static int readStyleDefaultsVersion(MasterScore* score, const ByteArray& scoreData,
+                                    const String& completeBaseName)
 {
     XmlReader e(scoreData);
     e.setDocName(completeBaseName);
@@ -54,7 +55,8 @@ static int readStyleDefaultsVersion(MasterScore* score, const ByteArray& scoreDa
     return ReadStyleHook::styleDefaultByMscVersion(score->mscVersion());
 }
 
-ReadStyleHook::ReadStyleHook(Score* score, const ByteArray& scoreData, const String& completeBaseName)
+ReadStyleHook::ReadStyleHook(Score* score, const ByteArray& scoreData,
+                             const String& completeBaseName)
     : m_score(score), m_scoreData(scoreData), m_completeBaseName(completeBaseName)
 {
 }
@@ -93,7 +95,8 @@ void ReadStyleHook::setupDefaultStyle()
 
     int defaultsVersion = -1;
     if (m_score->isMaster()) {
-        defaultsVersion = readStyleDefaultsVersion(m_score->masterScore(), m_scoreData, m_completeBaseName);
+        defaultsVersion = readStyleDefaultsVersion(
+            m_score->masterScore(), m_scoreData, m_completeBaseName);
     } else {
         defaultsVersion = m_score->masterScore()->style().defaultStyleVersion();
     }

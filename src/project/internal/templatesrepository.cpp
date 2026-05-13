@@ -89,7 +89,8 @@ Templates TemplatesRepository::readTemplates(const muse::io::path_t& dirPath) co
     return templates;
 }
 
-Templates TemplatesRepository::readTemplates(const io::paths_t& files, const QString& category, bool isCustom,
+Templates TemplatesRepository::readTemplates(const io::paths_t& files, const QString& category,
+                                             bool isCustom,
                                              const muse::io::path_t& dirPath) const
 {
     TRACEFUNC;

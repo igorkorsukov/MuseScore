@@ -54,7 +54,8 @@ namespace mu::engraving {
 class MasterScore;
 class MStyle;
 
-class EngravingProject : public std::enable_shared_from_this<EngravingProject>, public muse::Contextable
+class EngravingProject : public std::enable_shared_from_this<EngravingProject>,
+    public muse::Contextable
 {
 public:
     muse::ContextInject<IEngravingElementsProvider> engravingElementsProvider = { this };
@@ -63,7 +64,8 @@ public:
     ~EngravingProject();
 
     static std::shared_ptr<EngravingProject> create(const muse::modularity::ContextPtr& iocCtx);
-    static std::shared_ptr<EngravingProject> create(const MStyle& style, const muse::modularity::ContextPtr& iocCtx);
+    static std::shared_ptr<EngravingProject> create(const MStyle& style,
+                                                    const muse::modularity::ContextPtr& iocCtx);
 
     IFileInfoProviderPtr fileInfoProvider() const;
     void setFileInfoProvider(IFileInfoProviderPtr fileInfoProvider);
@@ -78,7 +80,8 @@ public:
     muse::Ret setupMasterScore(bool forceMode);
 
     muse::Ret loadMscz(const MscReader& msc, rw::ReadInOutData* data, bool ignoreVersionError);
-    bool writeMscz(MscWriter& writer, bool createThumbnail, const write::WriteContext* ctx = nullptr);
+    bool writeMscz(MscWriter& writer, bool createThumbnail,
+                   const write::WriteContext* ctx = nullptr);
 
     bool isCorruptedUponLoading() const;
     muse::Ret checkCorrupted() const;

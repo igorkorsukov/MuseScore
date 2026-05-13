@@ -129,7 +129,8 @@ QVariantList NotationAutomation::linesDataForSystem(const System* system) const
         }
 
         const muse::RectF staffCanvasRect = sysStaff->bbox().translated(system->canvasPos());
-        const QVariantList staffLinesData = linesDataForSysStaff(staff, staffCanvasRect, systemStartTick, systemEndTick);
+        const QVariantList staffLinesData = linesDataForSysStaff(staff, staffCanvasRect,
+                                                                 systemStartTick, systemEndTick);
         if (staffLinesData.isEmpty()) {
             staffIdx = system->nextVisibleStaff(staffIdx);
             continue;
@@ -151,7 +152,8 @@ QVariantList NotationAutomation::linesDataForSystem(const System* system) const
     return lines;
 }
 
-QVariantList NotationAutomation::linesDataForSysStaff(const Staff* staff, const muse::RectF& sysStaffCanvasRect,
+QVariantList NotationAutomation::linesDataForSysStaff(const Staff* staff,
+                                                      const muse::RectF& sysStaffCanvasRect,
                                                       int startTick, int endTick) const
 {
     QVariantList points;
@@ -168,7 +170,8 @@ QVariantList NotationAutomation::linesDataForSysStaff(const Staff* staff, const 
         return points;
     }
 
-    const mu::engraving::AutomationCurveKey key { mu::engraving::AutomationType::Dynamics, staff->id(), std::nullopt };
+    const mu::engraving::AutomationCurveKey key { mu::engraving::AutomationType::Dynamics,
+                                                  staff->id(), std::nullopt };
     for (auto& point : automation()->curve(key)) {
         const int tick = point.first;
         if (tick < startTick || tick > endTick) {
@@ -219,7 +222,8 @@ mu::engraving::IAutomation* NotationAutomation::automation() const
     return score() ? score()->automation() : nullptr;
 }
 
-void NotationAutomation::requestChangeAutomationPoint(qsizetype lineIdx, qsizetype pointIdx, qreal x, qreal y)
+void NotationAutomation::requestChangeAutomationPoint(qsizetype lineIdx, qsizetype pointIdx,
+                                                      qreal x, qreal y)
 {
     IF_ASSERT_FAILED(automation() && lineIdx < m_automationLinesData.size()) {
         return;
@@ -254,7 +258,8 @@ void NotationAutomation::requestChangeAutomationPoint(qsizetype lineIdx, qsizety
     }
 
     const PointType pointType = static_cast<PointType>(pointTypeRaw);
-    const mu::engraving::AutomationCurveKey key { mu::engraving::AutomationType::Dynamics, staff->id(), std::nullopt };
+    const mu::engraving::AutomationCurveKey key { mu::engraving::AutomationType::Dynamics,
+                                                  staff->id(), std::nullopt };
 
     // Point in/out values are always between 0 and 1 - higher value == lower Y...
     const double newValue = 1.0 - y;

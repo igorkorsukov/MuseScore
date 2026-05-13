@@ -33,22 +33,36 @@ class MeasureNumbersPageModel : public AbstractStyleDialogModel
     Q_PROPERTY(mu::notation::StyleItem * showMeasureNumberOne READ showMeasureNumberOne CONSTANT)
     Q_PROPERTY(mu::notation::StyleItem * measureNumberInterval READ measureNumberInterval CONSTANT)
     Q_PROPERTY(mu::notation::StyleItem * measureNumberSystem READ measureNumberSystem CONSTANT)
-    Q_PROPERTY(mu::notation::StyleItem * measureNumberVPlacement READ measureNumberVPlacement CONSTANT)
-    Q_PROPERTY(mu::notation::StyleItem * measureNumberHPlacement READ measureNumberHPlacement CONSTANT)
-    Q_PROPERTY(mu::notation::StyleItem * measureNumberPlacementMode READ measureNumberPlacementMode CONSTANT)
-    Q_PROPERTY(mu::notation::StyleItem * measureNumberPosAbove READ measureNumberPosAbove NOTIFY measureNumberPosAboveChanged FINAL)
-    Q_PROPERTY(mu::notation::StyleItem * measureNumberPosBelow READ measureNumberPosBelow NOTIFY measureNumberPosBelowChanged FINAL)
-    Q_PROPERTY(mu::notation::StyleItem * measureNumberAlignToBarline READ measureNumberAlignToBarline CONSTANT)
+    Q_PROPERTY(
+        mu::notation::StyleItem * measureNumberVPlacement READ measureNumberVPlacement CONSTANT)
+    Q_PROPERTY(
+        mu::notation::StyleItem * measureNumberHPlacement READ measureNumberHPlacement CONSTANT)
+    Q_PROPERTY(
+        mu::notation::StyleItem
+        * measureNumberPlacementMode READ measureNumberPlacementMode CONSTANT)
+    Q_PROPERTY(
+        mu::notation::StyleItem
+        * measureNumberPosAbove READ measureNumberPosAbove NOTIFY measureNumberPosAboveChanged FINAL)
+    Q_PROPERTY(
+        mu::notation::StyleItem
+        * measureNumberPosBelow READ measureNumberPosBelow NOTIFY measureNumberPosBelowChanged FINAL)
+    Q_PROPERTY(
+        mu::notation::StyleItem
+        * measureNumberAlignToBarline READ measureNumberAlignToBarline CONSTANT)
 
-    Q_PROPERTY(mu::notation::StyleItem * mmRestShowMeasureNumberRange READ mmRestShowMeasureNumberRange CONSTANT)
-    Q_PROPERTY(mu::notation::StyleItem * mmRestRangeBracketType READ mmRestRangeBracketType CONSTANT)
+    Q_PROPERTY(
+        mu::notation::StyleItem
+        * mmRestShowMeasureNumberRange READ mmRestShowMeasureNumberRange CONSTANT)
+    Q_PROPERTY(mu::notation::StyleItem
+               * mmRestRangeBracketType READ mmRestRangeBracketType CONSTANT)
     Q_PROPERTY(mu::notation::StyleItem * mmRestRangePosAbove READ mmRestRangePosAbove CONSTANT)
     Q_PROPERTY(mu::notation::StyleItem * mmRestRangePosBelow READ mmRestRangePosBelow CONSTANT)
     Q_PROPERTY(mu::notation::StyleItem * mmRestRangeVPlacement READ mmRestRangeVPlacement CONSTANT)
     Q_PROPERTY(mu::notation::StyleItem * mmRestRangeHPlacement READ mmRestRangeHPlacement CONSTANT)
 
     Q_PROPERTY(QVariantList textStyles READ textStyles CONSTANT)
-    Q_PROPERTY(mu::notation::StyleItem * measureNumberTextStyle READ measureNumberTextStyle CONSTANT)
+    Q_PROPERTY(mu::notation::StyleItem
+               * measureNumberTextStyle READ measureNumberTextStyle CONSTANT)
     Q_PROPERTY(mu::notation::StyleItem * mmRestRangeTextStyle READ mmRestRangeTextStyle CONSTANT)
 
     QML_ELEMENT

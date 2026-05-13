@@ -76,16 +76,21 @@ private:
     static void avoidPreBendsOnTab(const Chord* sc, const Chord* ec, SlurTiePos* sp);
     static void fixArticulations(Slur* item, PointF& pt, Chord* c, double up, bool stemSide);
     static void adjustEndPoints(SlurSegment* slurSeg);
-    static void adjustSlurFloatingEndPointAngles(SlurSegment* slurSeg, PointF& p1, PointF& p2, bool incomingPartial, bool outgoingPartial);
+    static void adjustSlurFloatingEndPointAngles(SlurSegment* slurSeg, PointF& p1, PointF& p2,
+                                                 bool incomingPartial, bool outgoingPartial);
 
     static void layoutSegment(SlurSegment* item, const PointF& p1, const PointF& p2);
-    static void avoidCollisions(SlurSegment* slurSeg, PointF& pp1, PointF& p2, PointF& p3, PointF& p4,
-                                muse::draw::Transform& toSystemCoordinates, double& slurAngle);
+    static void avoidCollisions(SlurSegment* slurSeg, PointF& pp1, PointF& p2, PointF& p3,
+                                PointF& p4, muse::draw::Transform& toSystemCoordinates,
+                                double& slurAngle);
     static Shape getSegmentShapes(SlurSegment* slurSeg, ChordRest* startCR, ChordRest* endCR);
-    static Shape getSegmentShape(SlurSegment* slurSeg, Segment* seg, ChordRest* startCR, ChordRest* endCR);
-    static void addMinClearanceToShapes(Shape& segShapes, double spatium, bool slurUp, const ChordRest* startCR, const ChordRest* endCR);
+    static Shape getSegmentShape(SlurSegment* slurSeg, Segment* seg, ChordRest* startCR,
+                                 ChordRest* endCR);
+    static void addMinClearanceToShapes(Shape& segShapes, double spatium, bool slurUp,
+                                        const ChordRest* startCR, const ChordRest* endCR);
     static double computeArcClearance(double spatium, double slurLength, double slurAngle);
-    static void computeAdjustmentBalance(SlurSegment* slurSeg, const ChordRest* startCR, const ChordRest* endCR, double& leftBalance,
+    static void computeAdjustmentBalance(SlurSegment* slurSeg, const ChordRest* startCR,
+                                         const ChordRest* endCR, double& leftBalance,
                                          double& rightBalance);
     static bool hasArticulationAbove(SlurSegment* slurSeg, const ChordRest* chordRest);
     static double computeAdjustmentStep(int upSign, double spatium, double slurLength);
@@ -93,7 +98,8 @@ private:
     static bool stemSideStartForBeam(Slur* slur) { return stemSideForBeam(slur, true); }
     static bool stemSideEndForBeam(Slur* slur) { return stemSideForBeam(slur, false); }
     static bool isOverBeams(Slur* slur);
-    static double computeShoulderHeight(SlurSegment* slurSeg, double slurLengthInSp, PointF shoulderOffset);
+    static double computeShoulderHeight(SlurSegment* slurSeg, double slurLengthInSp,
+                                        PointF shoulderOffset);
 
     static bool tieSegmentShouldBeSkipped(const Tie* item);
     static void computeStartAndEndSystem(Tie* item, SlurTiePos& slurTiePos);
@@ -101,8 +107,9 @@ private:
     static void correctForCrossStaff(Tie* tie, SlurTiePos& sPos, SpannerSegmentType type);
     static void forceHorizontal(Tie* tie, SlurTiePos& sPos);
     static void adjustX(TieSegment* tieSegment, SlurTiePos& sPos, Grip startOrEnd);
-    static void adjustXforLedgerLines(TieSegment* tieSegment, bool start, Chord* chord, Note* note, const PointF& chordSystemPos,
-                                      double padding, double& resultingX);
+    static void adjustXforLedgerLines(TieSegment* tieSegment, bool start, Chord* chord, Note* note,
+                                      const PointF& chordSystemPos, double padding,
+                                      double& resultingX);
     static void adjustYforLedgerLines(TieSegment* tieSegment, SlurTiePos& sPos);
     static void adjustY(TieSegment* tieSegment);
     static bool hasEndPointAboveNote(TieSegment* tieSegment);

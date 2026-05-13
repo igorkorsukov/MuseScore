@@ -258,11 +258,16 @@ void StartupScenario::showStartupDialogsIfNeed(StartupModeType modeType)
         }
 
         const bool shouldCheckForMuseSamplerUpdate = modeType == StartupModeType::StartEmpty
-                                                     || modeType == StartupModeType::StartWithNewScore;
+                                                     || modeType
+                                                     == StartupModeType::StartWithNewScore;
 
         if (shouldShowWelcomeDialog(modeType)) {
-            interactive()->open(WELCOME_DIALOG_URI).onResolve(this, [this, shouldCheckForMuseSamplerUpdate](const Val&) {
-                configuration()->setWelcomeDialogLastShownVersion(configuration()->museScoreVersion());
+            interactive()->open(WELCOME_DIALOG_URI).onResolve(this,
+                                                              [this,
+                                                               shouldCheckForMuseSamplerUpdate](
+                                                                  const Val&) {
+                configuration()->setWelcomeDialogLastShownVersion(
+                    configuration()->museScoreVersion());
 
                 if (shouldCheckForMuseSamplerUpdate) {
                     checkAndShowMuseSamplerUpdateIfNeed();
@@ -307,21 +312,26 @@ bool StartupScenario::shouldShowWelcomeDialog(StartupModeType modeType) const
 
 void StartupScenario::checkAndShowMuseSamplerUpdateIfNeed()
 {
-    if (museSamplerCheckForUpdateScenario() && !museSamplerCheckForUpdateScenario()->alreadyChecked()) {
+    if (museSamplerCheckForUpdateScenario()
+        && !museSamplerCheckForUpdateScenario()->alreadyChecked()) {
         museSamplerCheckForUpdateScenario()->checkAndShowUpdateIfNeed();
     }
 }
 
 void StartupScenario::openScore(const project::ProjectFile& file)
 {
-    dispatcher()->dispatch("file-open", ActionData::make_arg2<QUrl, QString>(file.url, file.displayNameOverride));
+    dispatcher()->dispatch("file-open",
+                           ActionData::make_arg2<QUrl, QString>(file.url,
+                                                                file.displayNameOverride));
 }
 
 void StartupScenario::restoreLastSession()
 {
-    auto promise = interactive()->question(muse::trc("appshell", "The previous session quit unexpectedly."),
-                                           muse::trc("appshell", "Do you want to restore the session?"),
-                                           { IInteractive::Button::No, IInteractive::Button::Yes });
+    auto promise
+        = interactive()->question(muse::trc("appshell", "The previous session quit unexpectedly."),
+                                  muse::trc("appshell",
+                                            "Do you want to restore the session?"),
+                                  { IInteractive::Button::No, IInteractive::Button::Yes });
 
     promise.onResolve(this, [this](const IInteractive::Result& res) {
         if (res.isButton(IInteractive::Button::Yes)) {

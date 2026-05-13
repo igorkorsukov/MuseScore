@@ -101,7 +101,8 @@ private:
     };
 
     std::vector<HopoTextRegion> computeHopoTextRegions(Chord* startChord, Chord* endChord);
-    void resolveStartEndNotes(Note** startNote, Note** endNote, Chord* startChord, Chord* endChord, bool isTabStaff);
+    void resolveStartEndNotes(Note** startNote, Note** endNote, Chord* startChord, Chord* endChord,
+                              bool isTabStaff);
 
     std::vector<HammerOnPullOffText*> m_hopoText;
 };
@@ -113,7 +114,10 @@ class HammerOnPullOff final : public Slur
 
 public:
     HammerOnPullOff* clone() const override { return new HammerOnPullOff(*this); }
-    SlurTieSegment* newSlurTieSegment(System* parent) override { return new HammerOnPullOffSegment(parent); }
+    SlurTieSegment* newSlurTieSegment(System* parent) override
+    {
+        return new HammerOnPullOffSegment(parent);
+    }
 
     friend class Factory;
 

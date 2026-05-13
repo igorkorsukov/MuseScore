@@ -106,7 +106,10 @@ public:
     TappingHalfSlur(EngravingItem* parent);
     TappingHalfSlur(const TappingHalfSlur&);
     TappingHalfSlur* clone() const override { return new TappingHalfSlur(*this); }
-    TappingHalfSlurSegment* newSlurTieSegment(System* parent) override { return new TappingHalfSlurSegment(parent); }
+    TappingHalfSlurSegment* newSlurTieSegment(System* parent) override
+    {
+        return new TappingHalfSlurSegment(parent);
+    }
 
     Tapping* tapping() const { return toTapping(parent()); }
 

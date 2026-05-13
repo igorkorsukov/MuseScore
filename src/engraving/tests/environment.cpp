@@ -55,12 +55,15 @@ static muse::testing::SuiteEnvironment engraving_se(
     using ECMock = ::testing::NiceMock<mu::engraving::EngravingConfigurationMock>;
 
     std::shared_ptr<ECMock> configurator(new ECMock(), [](ECMock*) {}); // no delete
-    ON_CALL(*configurator, defaultColor()).WillByDefault(::testing::Return(muse::draw::Color::BLACK));
+    ON_CALL(*configurator, defaultColor()).WillByDefault(::testing::Return(
+                                                             muse::draw::Color::BLACK));
     ON_CALL(*configurator, debuggingOptions()).WillByDefault(::testing::ReturnRef(debugOpt));
-    ON_CALL(*configurator, allowReadingImagesFromOutsideMscz()).WillByDefault(::testing::Return(true));
+    ON_CALL(*configurator,
+            allowReadingImagesFromOutsideMscz()).WillByDefault(::testing::Return(true));
 
     muse::modularity::globalIoc()->unregister<mu::engraving::IEngravingConfiguration>("utests");
-    muse::modularity::globalIoc()->registerExport<mu::engraving::IEngravingConfiguration>("utests", configurator);
+    muse::modularity::globalIoc()->registerExport<mu::engraving::IEngravingConfiguration>("utests",
+                                                                                          configurator);
 },
 
     []() {

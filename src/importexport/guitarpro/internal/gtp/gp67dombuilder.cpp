@@ -49,7 +49,8 @@ void GP67DomBuilder::buildGPDomModel(XmlDomElement* domElem)
         }
     };
 
-    for (XmlDomNode current = domElem->firstChild(); !current.isNull(); current = current.nextSibling()) {
+    for (XmlDomNode current = domElem->firstChild(); !current.isNull();
+         current = current.nextSibling()) {
         assignMap(current);
     }
 
@@ -284,7 +285,8 @@ std::vector<GPMasterTracks::Automation> GP67DomBuilder::readTempoMap(XmlDomNode*
                 String str = currentAutomation.firstChildElement("Value").toElement().text();
                 StringList tempoValue = str.split(u' ');
                 tempo.value = tempoValue[0].toDouble();
-                tempo.tempoUnit = tempoValue.size() > 1 ? static_cast<int>(tempoValue[1].toDouble()) : 0;
+                tempo.tempoUnit = tempoValue.size()
+                                  > 1 ? static_cast<int>(tempoValue[1].toDouble()) : 0;
                 tempo.bar = currentAutomation.firstChildElement("Bar").text().toInt();
                 tempo.position = currentAutomation.firstChildElement("Position").text().toFloat();
                 tempo.linear = (ln.toElement().text() == u"true");
@@ -948,7 +950,8 @@ void GP67DomBuilder::readNoteProperties(XmlDomNode* propertiesNode, GPNote* note
                     };
 
                     String accidentalName = innerNode.toElement().text();
-                    if (!accidentalName.isEmpty() && accidentals.find(accidentalName) != accidentals.end()) {
+                    if (!accidentalName.isEmpty()
+                        && accidentals.find(accidentalName) != accidentals.end()) {
                         note->setAccidental(accidentals[accidentalName]);
                     } else {
                         note->setAccidental(0);
@@ -1024,7 +1027,9 @@ void GP67DomBuilder::readBeatXProperties(const XmlDomNode& propertiesNode, GPBea
 
         if (propertyId == 687931393 || propertyId == 687935489) {
             // arpeggio/brush ticks
-            beat->setArpeggioStretch(propertyNode.firstChild().toElement().text().toDouble() / mu::engraving::Constants::DIVISION);
+            beat->setArpeggioStretch(
+                propertyNode.firstChild().toElement().text().toDouble()
+                / mu::engraving::Constants::DIVISION);
         } else if (propertyId == 1124204546) {
             int beamData = propertyNode.firstChild().toElement().text().toInt();
 
@@ -1215,7 +1220,8 @@ void GP67DomBuilder::readBeatProperties(const XmlDomNode& propertiesNode, GPBeat
     }
 }
 
-void GP67DomBuilder::readTrackProperties(XmlDomNode* propertiesNode, GPTrack* track, bool ignoreTuningFlats) const
+void GP67DomBuilder::readTrackProperties(XmlDomNode* propertiesNode, GPTrack* track,
+                                         bool ignoreTuningFlats) const
 {
     GPTrack::StaffProperties properties;
     properties.ignoreFlats = ignoreTuningFlats;
@@ -1398,7 +1404,8 @@ std::vector<GPMasterBar::Fermata> GP67DomBuilder::readFermatas(XmlDomNode* ferma
     return fermatas;
 }
 
-std::vector<GPMasterBar::Direction> GP67DomBuilder::readRepeatsJumps(XmlDomNode* repeatsJumpsNode) const
+std::vector<GPMasterBar::Direction> GP67DomBuilder::readRepeatsJumps(XmlDomNode* repeatsJumpsNode)
+const
 {
     std::vector<GPMasterBar::Direction> repeatsJumps;
 
@@ -1406,7 +1413,9 @@ std::vector<GPMasterBar::Direction> GP67DomBuilder::readRepeatsJumps(XmlDomNode*
 
     while (!innerNode.isNull()) {
         GPMasterBar::Direction repeatJump;
-        repeatJump.type = (innerNode.nodeName() == "Jump" ? GPMasterBar::Direction::Type::Jump : GPMasterBar::Direction::Type::Repeat);
+        repeatJump.type
+            = (innerNode.nodeName()
+               == "Jump" ? GPMasterBar::Direction::Type::Jump : GPMasterBar::Direction::Type::Repeat);
         repeatJump.name = innerNode.toElement().text();
 
         // GP encodes "To Coda" instructions as Jumps, but MuseScore uses Markers for that

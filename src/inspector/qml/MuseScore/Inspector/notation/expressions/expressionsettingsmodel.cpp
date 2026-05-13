@@ -25,7 +25,8 @@
 
 using namespace mu::inspector;
 
-ExpressionSettingsModel::ExpressionSettingsModel(QObject* parent, const muse::modularity::ContextPtr& iocCtx,
+ExpressionSettingsModel::ExpressionSettingsModel(QObject* parent,
+                                                 const muse::modularity::ContextPtr& iocCtx,
                                                  IElementRepositoryService* repository)
     : InspectorModelWithVoiceAndPositionOptions(parent, iocCtx, repository)
 {

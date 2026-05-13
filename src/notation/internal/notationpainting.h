@@ -55,7 +55,8 @@ public:
     muse::SizeF pageSizeInch() const override;
     muse::SizeF pageSizeInch(const Options& opt) const override;
 
-    void paintView(muse::draw::Painter* painter, const muse::RectF& frameRect, bool isPrinting, bool isAutomation) override;
+    void paintView(muse::draw::Painter* painter, const muse::RectF& frameRect, bool isPrinting,
+                   bool isAutomation) override;
     void paintPdf(muse::draw::Painter* painter, const Options& opt) override;
     void paintPrint(muse::draw::Painter* painter, const Options& opt) override;
     void paintPng(muse::draw::Painter* painter, const Options& opt) override;
@@ -66,8 +67,8 @@ private:
     bool isPaintPageBorder() const;
     void doPaint(muse::draw::Painter* painter, const Options& opt);
     void paintPageBorder(muse::draw::Painter* painter, const mu::engraving::Page* page) const;
-    void paintPageSheet(muse::draw::Painter* painter, const engraving::Page* page, const muse::RectF& pageRect,
-                        bool printPageBackground) const;
+    void paintPageSheet(muse::draw::Painter* painter, const engraving::Page* page,
+                        const muse::RectF& pageRect, bool printPageBackground) const;
 
     Notation* m_notation = nullptr;
 

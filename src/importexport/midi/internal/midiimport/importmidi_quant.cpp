@@ -121,7 +121,9 @@ MidiOperations::QuantValue fractionToQuantValue(const ReducedFraction& fraction)
 
 MidiOperations::QuantValue defaultQuantValueFromPreferences()
 {
-    auto conf = muse::modularity::globalIoc()->resolve<mu::iex::midi::IMidiImportExportConfiguration>("iex_midi");
+    auto conf
+        = muse::modularity::globalIoc()->resolve<mu::iex::midi::IMidiImportExportConfiguration>(
+              "iex_midi");
     int ticks = conf ? conf->midiShortestNote() : (Constants::DIVISION / 4);
     const auto fraction = ReducedFraction::fromTicks(ticks);
     MidiOperations::QuantValue quantValue = fractionToQuantValue(fraction);
@@ -846,7 +848,8 @@ void findMetricalLevels(
     const ReducedFraction& barFraction)
 {
     const auto divsInfo = (tupletQuant != ReducedFraction(-1, 1))
-                          ? Meter::divisionInfo(barFraction, { (*chords.begin())->second.tuplet->second })
+                          ? Meter::divisionInfo(barFraction,
+                                                { (*chords.begin())->second.tuplet->second })
                           : Meter::divisionInfo(barFraction, {});
 
     for (QuantData& d: data) {

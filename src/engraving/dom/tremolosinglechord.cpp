@@ -44,7 +44,8 @@ using namespace mu::engraving;
 
 namespace mu::engraving {
 TremoloSingleChord::TremoloSingleChord(Chord* parent)
-    : EngravingItem(ElementType::TREMOLO_SINGLECHORD, parent, ElementFlag::MOVABLE | ElementFlag::ON_STAFF)
+    : EngravingItem(ElementType::TREMOLO_SINGLECHORD, parent,
+                    ElementFlag::MOVABLE | ElementFlag::ON_STAFF)
 {
 }
 

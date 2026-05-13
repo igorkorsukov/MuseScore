@@ -35,8 +35,10 @@ class PaintedEngravingItem : public QQuickPaintedItem
 {
     Q_OBJECT
 
-    Q_PROPERTY(QVariant engravingItem READ engravingItemVariant WRITE setEngravingItemVariant NOTIFY engravingItemVariantChanged)
-    Q_PROPERTY(int numStaffLines READ numStaffLines WRITE setNumStaffLines NOTIFY numStaffLinesChanged)
+    Q_PROPERTY(
+        QVariant engravingItem READ engravingItemVariant WRITE setEngravingItemVariant NOTIFY engravingItemVariantChanged)
+    Q_PROPERTY(
+        int numStaffLines READ numStaffLines WRITE setNumStaffLines NOTIFY numStaffLinesChanged)
 
     Q_PROPERTY(double spatium READ spatium WRITE setSpatium NOTIFY spatiumChanged)
 

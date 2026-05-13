@@ -96,7 +96,8 @@ bool Smufl::loadGlyphNamesJson()
             LOGD() << "could not read codepoint for glyph " << name;
         }
 
-        char32_t alernativeCode = symObj.value("alternateCodepoint").toString().mid(2).toUInt(&ok, 16);
+        char32_t alernativeCode = symObj.value("alternateCodepoint").toString().mid(2).toUInt(&ok,
+                                                                                              16);
         if (ok) {
             s_symIdCodes[i].musicSymBlockCode = alernativeCode;
         } else if (MScore::debugMode) {

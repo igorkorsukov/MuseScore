@@ -294,14 +294,17 @@ QVariantList NotationSwitchListModel::contextMenuItems(int index) const
         QVariantMap { { "id", "close-tab" }, { "title", muse::qtrc("notation", "Close tab") } },
     };
 
-    bool canCloseOtherTabs = rowCount() > 2 || (rowCount() == 2 && isMasterNotation(m_notations[index]));
+    bool canCloseOtherTabs = rowCount() > 2
+                             || (rowCount() == 2 && isMasterNotation(m_notations[index]));
     if (canCloseOtherTabs) {
-        result << QVariantMap { { "id", "close-other-tabs" }, { "title", muse::qtrc("notation", "Close other tabs") } };
+        result << QVariantMap { { "id", "close-other-tabs" }, { "title", muse::qtrc("notation",
+                                                                                    "Close other tabs") } };
     }
 
     bool canCloseAllTabs = rowCount() > 1;
     if (canCloseAllTabs) {
-        result << QVariantMap { { "id", "close-all-tabs" }, { "title", muse::qtrc("notation", "Close all tabs") } };
+        result << QVariantMap { { "id", "close-all-tabs" }, { "title", muse::qtrc("notation",
+                                                                                  "Close all tabs") } };
     }
 
     return result;

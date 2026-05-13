@@ -69,7 +69,8 @@ static EngravingItem* chordRestAtBeat(Score* score, int beat, int half = 0)
 {
     int division = Constants::DIVISION;
     int tick = beat * division + half * division / 2;
-    return score->tick2segment(Fraction::fromTicks(tick), false, SegmentType::ChordRest, false)->element(0);
+    return score->tick2segment(Fraction::fromTicks(tick), false, SegmentType::ChordRest,
+                               false)->element(0);
 }
 
 /**
@@ -96,14 +97,16 @@ TEST_F(Engraving_SelectionRangeTests, selRangeAndSpanners)
 
         // Setup: Find all the spanners in this measure...
         std::unordered_set<const Spanner*> spannersInMeasure;
-        auto spanners = spannerMap.findContained(measure->tick().ticks(), measure->endTick().ticks());
+        auto spanners
+            = spannerMap.findContained(measure->tick().ticks(), measure->endTick().ticks());
         for (auto i : spanners) {
             const Spanner* sp = i.value;
             spannersInMeasure.emplace(sp);
         }
 
         // Setup: Find start/end notes to make our range selection...
-        for (Segment* segment = measure->first(SegmentType::ChordRest); segment; segment = segment->next(SegmentType::ChordRest)) {
+        for (Segment* segment = measure->first(SegmentType::ChordRest); segment;
+             segment = segment->next(SegmentType::ChordRest)) {
             mu::engraving::EngravingItem* element = segment->element(0);
             if (!element || !element->isChord()) {
                 continue;
@@ -133,7 +136,8 @@ TEST_F(Engraving_SelectionRangeTests, selRangeAndSpanners)
         }
 
         //! [GIVEN] Start/end notes for our range selection, and spanner(s) in the same measure...
-        IF_ASSERT_FAILED(startNote && endNote && !spannersInMeasure.empty() && spannersInMeasure.size() < 3) {
+        IF_ASSERT_FAILED(
+            startNote && endNote && !spannersInMeasure.empty() && spannersInMeasure.size() < 3) {
             delete score;
             return;
         }
@@ -147,7 +151,8 @@ TEST_F(Engraving_SelectionRangeTests, selRangeAndSpanners)
         for (const Spanner* spanner : spannersInMeasure) {
             EXPECT_EQ(spanner->selected(), shouldBeSelected);
             if (spanner->selected() != shouldBeSelected) {
-                LOGD() << "INCORRECT SPANNER SELECTION STATE IN MEASURE " << measure->measureNumber() + 1;
+                LOGD() << "INCORRECT SPANNER SELECTION STATE IN MEASURE " <<
+                    measure->measureNumber() + 1;
             }
         }
     }
@@ -232,13 +237,15 @@ TEST_F(Engraving_SelectionRangeTests, deleteSegmentWithSpanner)
 
 void Engraving_SelectionRangeTests::deleteVoice(int voice, String idx)
 {
-    MasterScore* score = ScoreRW::readScore(SELRANGE_DATA_DIR + String("selectionrangedelete%1.mscx").arg(idx));
+    MasterScore* score = ScoreRW::readScore(SELRANGE_DATA_DIR + String(
+                                                "selectionrangedelete%1.mscx").arg(idx));
     EXPECT_TRUE(score);
 
     Measure* m1 = score->firstMeasure();
     EXPECT_TRUE(m1);
 
-    VoicesSelectionFilterTypes voiceFilterType = VoicesSelectionFilterTypes((int)VoicesSelectionFilterTypes::FIRST_VOICE + voice);
+    VoicesSelectionFilterTypes voiceFilterType = VoicesSelectionFilterTypes(
+        (int)VoicesSelectionFilterTypes::FIRST_VOICE + voice);
     score->selectionFilter().setFiltered(voiceFilterType, false);
     score->select(m1, SelectType::RANGE);
 
@@ -249,7 +256,8 @@ void Engraving_SelectionRangeTests::deleteVoice(int voice, String idx)
     score->doLayout();
 
     EXPECT_TRUE(ScoreComp::saveCompareScore(score, String(u"selectionrangedelete%1.mscx").arg(idx),
-                                            SELRANGE_DATA_DIR + String(u"selectionrangedelete%1-ref.mscx").arg(idx)));
+                                            SELRANGE_DATA_DIR
+                                            + String(u"selectionrangedelete%1-ref.mscx").arg(idx)));
     delete score;
 }
 
@@ -265,13 +273,15 @@ TEST_F(Engraving_SelectionRangeTests, deleteVoice2)
 
 TEST_F(Engraving_SelectionRangeTests, deleteSkipAnnotations)
 {
-    MasterScore* score = ScoreRW::readScore(SELRANGE_DATA_DIR + String(u"selectionrangedelete05.mscx"));
+    MasterScore* score
+        = ScoreRW::readScore(SELRANGE_DATA_DIR + String(u"selectionrangedelete05.mscx"));
     EXPECT_TRUE(score);
 
     Measure* m1 = score->firstMeasure();
     EXPECT_TRUE(m1);
 
-    ElementsSelectionFilterTypes annotationFilterType = ElementsSelectionFilterTypes((int)ElementsSelectionFilterTypes::CHORD_SYMBOL);
+    ElementsSelectionFilterTypes annotationFilterType = ElementsSelectionFilterTypes(
+        (int)ElementsSelectionFilterTypes::CHORD_SYMBOL);
     score->selectionFilter().setFiltered(annotationFilterType, false);
 
     score->startCmd(TranslatableString::untranslatable("Selection range delete tests"));
@@ -282,7 +292,8 @@ TEST_F(Engraving_SelectionRangeTests, deleteSkipAnnotations)
     score->doLayout();
 
     EXPECT_TRUE(ScoreComp::saveCompareScore(score, String(u"selectionrangedelete05.mscx"),
-                                            SELRANGE_DATA_DIR + String(u"selectionrangedelete05-ref.mscx")));
+                                            SELRANGE_DATA_DIR
+                                            + String(u"selectionrangedelete05-ref.mscx")));
     delete score;
 }
 
@@ -292,7 +303,9 @@ TEST_F(Engraving_SelectionRangeTests, deletePartialNestedTuplets)
     // In each measure, some notes have the 'x' notehead.
     // We make a range selection consisting of those 'x' noteheads, and delete the selection.
 
-    MasterScore* score = ScoreRW::readScore(SELRANGE_DATA_DIR + String(u"selectionrangedelete06_partialnestedtuplets.mscx"));
+    MasterScore* score
+        = ScoreRW::readScore(SELRANGE_DATA_DIR + String(
+                                 u"selectionrangedelete06_partialnestedtuplets.mscx"));
     ASSERT_TRUE(score);
 
     for (Measure* measure = score->firstMeasure(); measure; measure = measure->nextMeasure()) {
@@ -300,7 +313,8 @@ TEST_F(Engraving_SelectionRangeTests, deletePartialNestedTuplets)
 
         score->deselectAll();
 
-        for (Segment* segment = measure->first(SegmentType::ChordRest); segment; segment = segment->next(SegmentType::ChordRest)) {
+        for (Segment* segment = measure->first(SegmentType::ChordRest); segment;
+             segment = segment->next(SegmentType::ChordRest)) {
             mu::engraving::EngravingItem* element = segment->element(0);
             if (!element || !element->isChord()) {
                 continue;
@@ -324,8 +338,12 @@ TEST_F(Engraving_SelectionRangeTests, deletePartialNestedTuplets)
         }
     }
 
-    EXPECT_TRUE(ScoreComp::saveCompareScore(score, String(u"selectionrangedelete06_partialnestedtuplets.mscx"),
-                                            SELRANGE_DATA_DIR + String(u"selectionrangedelete06_partialnestedtuplets-ref.mscx")));
+    EXPECT_TRUE(ScoreComp::saveCompareScore(score,
+                                            String(
+                                                u"selectionrangedelete06_partialnestedtuplets.mscx"),
+                                            SELRANGE_DATA_DIR
+                                            + String(
+                                                u"selectionrangedelete06_partialnestedtuplets-ref.mscx")));
 }
 
 TEST_F(Engraving_SelectionRangeTests, deleteSelectionListElements)

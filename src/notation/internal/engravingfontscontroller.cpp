@@ -56,7 +56,8 @@ void EngravingFontsController::scanAllDirectories() const
     };
 #elif defined(Q_OS_MACOS)
     // MacOS is correctly handled by Qt
-    QStringList globalFontsPaths = QStandardPaths::standardLocations(QStandardPaths::GenericDataLocation).first(2);
+    QStringList globalFontsPaths = QStandardPaths::standardLocations(
+        QStandardPaths::GenericDataLocation).first(2);
 #elif defined(Q_OS_LINUX) || defined(Q_OS_FREEBSD)
     // On Unix systems, we want $XDG_DATA_HOME (user-specific) and $XDG_DATA_DIRS (system-wide)
     QStringList globalFontsPaths { qgetenv("XDG_DATA_HOME") };
@@ -162,14 +163,16 @@ void EngravingFontsController::scanDirectory(const muse::io::path_t& path, bool 
                << "\n    metadata path: " << metadataPath;
 
         muse::String fontNameStr = muse::String::fromQString(fontName);
-        engravingFonts()->addExternalFont(fontName.toStdString(), fontFamily.toStdString(), symbolFontPath, metadataPath);
+        engravingFonts()->addExternalFont(fontName.toStdString(),
+                                          fontFamily.toStdString(), symbolFontPath, metadataPath);
         fdb->addFont(FontDataKey(fontNameStr), symbolFontPath);
         fdb->addFont(FontDataKey(fontNameStr + u" Text"), textFontPath);
         fdb->insertSubstitution(fontNameStr + u" Text", u"Leland Text");
     }
 }
 
-muse::io::path_t EngravingFontsController::findFontPathPrivate(const QString& metadataDir, const QString& fontName) const
+muse::io::path_t EngravingFontsController::findFontPathPrivate(const QString& metadataDir,
+                                                               const QString& fontName) const
 {
     // Search in the folder where the metadata lives
 

@@ -28,7 +28,9 @@
 using namespace mu::inspector;
 using namespace mu::engraving;
 
-MMRestSettingsModel::MMRestSettingsModel(QObject* parent, const muse::modularity::ContextPtr& iocCtx, IElementRepositoryService* repository)
+MMRestSettingsModel::MMRestSettingsModel(QObject* parent,
+                                         const muse::modularity::ContextPtr& iocCtx,
+                                         IElementRepositoryService* repository)
     : AbstractInspectorModel(parent, iocCtx, repository)
 {
     setModelType(InspectorModelType::TYPE_MMREST);

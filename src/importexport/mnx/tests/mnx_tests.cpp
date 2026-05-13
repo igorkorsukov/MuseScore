@@ -142,9 +142,11 @@ public:
     MasterScore* readMnxScore(const String& fileName, bool isAbsolutePath = false);
     std::string exportMnxJson(Score* score);
     MasterScore* importMnxFromJson(const std::string& json, const String& virtualPath);
-    MasterScore* roundTripMnxScore(const String& sourceFile, const String& exportedFile, bool isAbsolutePath = false);
+    MasterScore* roundTripMnxScore(const String& sourceFile, const String& exportedFile,
+                                   bool isAbsolutePath = false);
 
-    bool compareWithMscxReference(Score* score, const String& referencePath, const char* testName = nullptr);
+    bool compareWithMscxReference(Score* score, const String& referencePath,
+                                  const char* testName = nullptr);
     bool importReferenceExample(const String& baseName);
     void runProjectFileTest(const char* name);
     void runW3cExampleTest(const char* name);
@@ -189,9 +191,11 @@ MasterScore* Mnx_Tests::readMnxScore(const String& fileName, bool isAbsolutePath
 
 std::string Mnx_Tests::exportMnxJson(Score* score)
 {
-    auto mnxConfiguration = muse::modularity::globalIoc()->resolve<mu::iex::mnxio::IMnxConfiguration>("iex_mnx");
+    auto mnxConfiguration
+        = muse::modularity::globalIoc()->resolve<mu::iex::mnxio::IMnxConfiguration>("iex_mnx");
     const bool exportBeams = mnxConfiguration ? mnxConfiguration->mnxExportBeams() : true;
-    const bool exportRestPositions = mnxConfiguration ? mnxConfiguration->mnxExportRestPositions() : false;
+    const bool exportRestPositions
+        = mnxConfiguration ? mnxConfiguration->mnxExportRestPositions() : false;
     LOGI() << "MNX export initiated; exportBeams=" << (exportBeams ? "true" : "false")
            << " exportRestPositions=" << (exportRestPositions ? "true" : "false");
     MnxExporter exporter(score, exportBeams, exportRestPositions);
@@ -207,7 +211,8 @@ MasterScore* Mnx_Tests::importMnxFromJson(const std::string& json, const String&
 {
     auto score = std::unique_ptr<MasterScore>(
         compat::ScoreAccess::createMasterScoreWithBaseStyle(nullptr));
-    score->setFileInfoProvider(std::make_shared<LocalFileInfoProvider>(muse::io::path_t(virtualPath)));
+    score->setFileInfoProvider(std::make_shared<LocalFileInfoProvider>(muse::io::path_t(
+                                                                           virtualPath)));
 
     try {
         auto doc = mnx::Document::create(json.data(), json.size());
@@ -229,7 +234,8 @@ MasterScore* Mnx_Tests::importMnxFromJson(const std::string& json, const String&
     return score.release();
 }
 
-MasterScore* Mnx_Tests::roundTripMnxScore(const String& sourceFile, const String& exportedFile, bool isAbsolutePath)
+MasterScore* Mnx_Tests::roundTripMnxScore(const String& sourceFile, const String& exportedFile,
+                                          bool isAbsolutePath)
 {
     std::unique_ptr<MasterScore> score(readMnxScore(sourceFile, isAbsolutePath));
     if (!score) {
@@ -253,7 +259,8 @@ MasterScore* Mnx_Tests::roundTripMnxScore(const String& sourceFile, const String
     return roundTrip;
 }
 
-bool Mnx_Tests::compareWithMscxReference(Score* score, const String& referencePath, const char* testName)
+bool Mnx_Tests::compareWithMscxReference(Score* score, const String& referencePath,
+                                         const char* testName)
 {
 #if MUE_MNX_WRITE_REFS
     const String referenceAbsPath = ScoreRW::rootPath() + u"/" + referencePath;
@@ -291,7 +298,8 @@ bool Mnx_Tests::compareWithMscxReference(Score* score, const String& referencePa
            << (testName ? testName : "unnamed test");
 
     const std::string outputText = normalizeMscxText(
-        std::string(reinterpret_cast<const char*>(buffer.data().constData()), buffer.data().size()), normalizeBeamMode);
+        std::string(reinterpret_cast<const char*>(buffer.data().constData()),
+                    buffer.data().size()), normalizeBeamMode);
 
     ByteArray referenceData;
     const String referenceAbsPath = ScoreRW::rootPath() + u"/" + referencePath;
@@ -417,7 +425,8 @@ bool Mnx_Tests::importReferenceExample(const String& baseName)
 
 void Mnx_Tests::runProjectFileTest(const char* name)
 {
-    ScopedMnxBoolSetting exactValidationGuard(true, &IMnxConfiguration::mnxRequireExactSchemaValidation,
+    ScopedMnxBoolSetting exactValidationGuard(true,
+                                              &IMnxConfiguration::mnxRequireExactSchemaValidation,
                                               &IMnxConfiguration::setMnxRequireExactSchemaValidation);
     const String baseName = String::fromUtf8(name);
     const String sourcePath = MNX_DATA_DIR + baseName + u".mnx";
@@ -450,10 +459,12 @@ void Mnx_Tests::runW3cExampleTest(const char* name)
 {
     const String baseName = mnxBaseNameFromMacro(name);
     const std::string baseNameUtf8 = baseName.toStdString();
-    ScopedMnxBoolSetting exactValidationGuard(true, &IMnxConfiguration::mnxRequireExactSchemaValidation,
+    ScopedMnxBoolSetting exactValidationGuard(true,
+                                              &IMnxConfiguration::mnxRequireExactSchemaValidation,
                                               &IMnxConfiguration::setMnxRequireExactSchemaValidation);
     ScopedMnxBoolSetting exportBeamsGuard(exportBeamsEnabledForW3c(baseNameUtf8),
-                                          &IMnxConfiguration::mnxExportBeams, &IMnxConfiguration::setMnxExportBeams);
+                                          &IMnxConfiguration::mnxExportBeams,
+                                          &IMnxConfiguration::setMnxExportBeams);
     ScopedMnxBoolSetting exportRestPositionsGuard(exportRestPositionsEnabledForW3c(baseNameUtf8),
                                                   &IMnxConfiguration::mnxExportRestPositions,
                                                   &IMnxConfiguration::setMnxExportRestPositions);

@@ -34,8 +34,9 @@ class StringData;
 class EditCapo
 {
 public:
-    static void updateNotationForCapoChange(const CapoParams& oldParams, const CapoParams& newParams, const Staff* staff, int startTick,
-                                            int endTick);
+    static void updateNotationForCapoChange(const CapoParams& oldParams,
+                                            const CapoParams& newParams, const Staff* staff,
+                                            int startTick, int endTick);
 
 private:
     struct UpdateCtx {
@@ -50,9 +51,13 @@ private:
     static void update(Note* note, const UpdateCtx& ctx);
     static void updateString(Note* note, const UpdateCtx& ctx);
 
-    static void handleModeChange(const CapoParams& oldParams, const CapoParams& newParams, int startTick, int endTick, UpdateCtx& ctx);
-    static void handleFretChange(const CapoParams& oldParams, const CapoParams& newParams, int startTick, int endTick, UpdateCtx& ctx);
-    static void handleStringChanged(const CapoParams& newParams, int startTick, int endTick, UpdateCtx& ctx);
-    static void handleActiveChanged(const CapoParams& newParams, int startTick, int endTick, UpdateCtx& ctx);
+    static void handleModeChange(const CapoParams& oldParams, const CapoParams& newParams,
+                                 int startTick, int endTick, UpdateCtx& ctx);
+    static void handleFretChange(const CapoParams& oldParams, const CapoParams& newParams,
+                                 int startTick, int endTick, UpdateCtx& ctx);
+    static void handleStringChanged(const CapoParams& newParams, int startTick, int endTick,
+                                    UpdateCtx& ctx);
+    static void handleActiveChanged(const CapoParams& newParams, int startTick, int endTick,
+                                    UpdateCtx& ctx);
 };
 } // namespace mu::engraving

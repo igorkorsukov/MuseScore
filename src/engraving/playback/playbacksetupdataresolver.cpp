@@ -37,7 +37,8 @@ static const PlaybackSetupData PIANO_SETUP_DATA = {
     SoundId::Piano, SoundCategory::Keyboards
 };
 
-void PlaybackSetupDataResolver::resolveSetupData(const Instrument* instrument, PlaybackSetupData& result) const
+void PlaybackSetupDataResolver::resolveSetupData(const Instrument* instrument,
+                                                 PlaybackSetupData& result) const
 {
     if (!instrument->soundId().empty()) {
         result = PlaybackSetupData::fromString(instrument->soundId());
@@ -72,7 +73,8 @@ void PlaybackSetupDataResolver::resolveSetupData(const Instrument* instrument, P
     result = PIANO_SETUP_DATA;
 }
 
-void PlaybackSetupDataResolver::resolveChordSymbolsSetupData(const Instrument* instrument, PlaybackSetupData& result) const
+void PlaybackSetupDataResolver::resolveChordSymbolsSetupData(const Instrument* instrument,
+                                                             PlaybackSetupData& result) const
 {
     if (instrument->hasStrings()) {
         static const PlaybackSetupData GUITAR_SETUP_DATA = {

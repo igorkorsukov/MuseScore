@@ -35,7 +35,8 @@ public:
 
     std::string moduleName() const override;
 
-    muse::modularity::IContextSetup* newContext(const muse::modularity::ContextPtr& ctx) const override;
+    muse::modularity::IContextSetup* newContext(const muse::modularity::ContextPtr& ctx) const
+    override;
 };
 
 class ContextModuleContext : public muse::modularity::IContextSetup

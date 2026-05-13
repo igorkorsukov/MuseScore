@@ -203,7 +203,8 @@ void MuseData::readChord(Part*, QStringView s)
 //   openSlur
 //---------------------------------------------------------
 
-void MuseData::openSlur(int idx, const Fraction& tick, Staff* staff, int voc, EngravingItem* startChord)
+void MuseData::openSlur(int idx, const Fraction& tick, Staff* staff, int voc,
+                        EngravingItem* startChord)
 {
     staff_idx_t staffIdx = staff->idx();
     if (slur[idx]) {
@@ -221,7 +222,8 @@ void MuseData::openSlur(int idx, const Fraction& tick, Staff* staff, int voc, En
 //   closeSlur
 //---------------------------------------------------------
 
-void MuseData::closeSlur(int idx, const Fraction& tick, Staff* staff, int voc, engraving::EngravingItem* endChord)
+void MuseData::closeSlur(int idx, const Fraction& tick, Staff* staff, int voc,
+                         engraving::EngravingItem* endChord)
 {
     staff_idx_t staffIdx = staff->idx();
     if (slur[idx]) {
@@ -281,7 +283,9 @@ void MuseData::readNote(Part* part, QStringView s)
     if (pitch > 127) {
         pitch = 127;
     }
-    Fraction ticks = Fraction::fromTicks((s.mid(5, 3).toInt() * Constants::DIVISION + _division / 2) / _division);
+    Fraction ticks = Fraction::fromTicks((s.mid(5,
+                                                3).toInt() * Constants::DIVISION + _division / 2)
+                                         / _division);
     Fraction tick  = curTick;
     curTick  += ticks;
 
@@ -482,7 +486,9 @@ QString MuseData::diacritical(QStringView s)
 
 void MuseData::readRest(Part* part, QStringView s)
 {
-    Fraction ticks = Fraction::fromTicks((s.mid(5, 3).toInt() * Constants::DIVISION + _division / 2) / _division);
+    Fraction ticks = Fraction::fromTicks((s.mid(5,
+                                                3).toInt() * Constants::DIVISION + _division / 2)
+                                         / _division);
 
     Fraction tick  = curTick;
     curTick  += ticks;
@@ -526,7 +532,9 @@ void MuseData::readRest(Part* part, QStringView s)
 
 void MuseData::readBackup(QStringView s)
 {
-    Fraction ticks = Fraction::fromTicks((s.mid(5, 3).toInt() * Constants::DIVISION + _division / 2) / _division);
+    Fraction ticks = Fraction::fromTicks((s.mid(5,
+                                                3).toInt() * Constants::DIVISION + _division / 2)
+                                         / _division);
     if (s[0] == 'b') {
         curTick -= ticks;
     } else {

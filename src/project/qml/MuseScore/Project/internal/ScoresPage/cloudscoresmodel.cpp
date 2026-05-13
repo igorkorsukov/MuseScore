@@ -53,7 +53,8 @@ void CloudScoresModel::load()
 
     authorized.ch.onReceive(this, onUserAuthorizedChanged);
 
-    connect(this, &CloudScoresModel::desiredRowCountChanged, this, &CloudScoresModel::loadItemsIfNecessary);
+    connect(this, &CloudScoresModel::desiredRowCountChanged, this,
+            &CloudScoresModel::loadItemsIfNecessary);
 }
 
 void CloudScoresModel::reload()
@@ -122,7 +123,8 @@ void CloudScoresModel::loadItemsIfNecessary()
 
         m_isWaitingForPromise = true;
 
-        museScoreComService()->downloadScoresList(BATCH_SIZE, static_cast<int>(m_items.size()) / BATCH_SIZE + 1)
+        museScoreComService()->downloadScoresList(BATCH_SIZE,
+                                                  static_cast<int>(m_items.size()) / BATCH_SIZE + 1)
         .onResolve(this, [this](const cloud::ScoresList& scoresList) {
             if (!scoresList.items.empty()) {
                 beginInsertRows(QModelIndex(), static_cast<int>(m_items.size()),
@@ -134,10 +136,14 @@ void CloudScoresModel::loadItemsIfNecessary()
                     obj[NAME_KEY] = item.title;
                     obj[PATH_KEY] = configuration()->cloudProjectPath(item.id).toQString();
                     obj[SUFFIX_KEY] = "";
-                    obj[FILE_SIZE_KEY] = (item.fileSize > 0) ? DataFormatter::formatFileSize(item.fileSize).toQString() : QString();
+                    obj[FILE_SIZE_KEY]
+                        = (item.fileSize > 0) ? DataFormatter::formatFileSize(
+                              item.fileSize).toQString() : QString();
                     obj[IS_CLOUD_KEY] = true;
                     obj[CLOUD_SCORE_ID_KEY] = item.id;
-                    obj[TIME_SINCE_MODIFIED_KEY] = DataFormatter::formatTimeSince(Date::fromQDate(item.lastModified.date())).toQString();
+                    obj[TIME_SINCE_MODIFIED_KEY]
+                        = DataFormatter::formatTimeSince(Date::fromQDate(
+                                                             item.lastModified.date())).toQString();
                     obj[THUMBNAIL_URL_KEY] = item.thumbnailUrl;
                     obj[IS_CREATE_NEW_KEY] = false;
                     obj[IS_NO_RESULTS_FOUND_KEY] = false;

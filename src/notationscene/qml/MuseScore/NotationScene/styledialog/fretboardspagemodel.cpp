@@ -46,17 +46,53 @@ FretboardsPageModel::FretboardsPageModel(QObject* parent)
 }
 
 StyleItem* FretboardsPageModel::fretY() const { return styleItem(StyleId::fretY); }
-StyleItem* FretboardsPageModel::fretMinDistance() const { return styleItem(StyleId::fretMinDistance); }
+StyleItem* FretboardsPageModel::fretMinDistance() const
+{
+    return styleItem(StyleId::fretMinDistance);
+}
 StyleItem* FretboardsPageModel::fretMag() const { return styleItem(StyleId::fretMag); }
-StyleItem* FretboardsPageModel::fretOrientation() const { return styleItem(StyleId::fretOrientation); }
-StyleItem* FretboardsPageModel::fretNutThickness() const { return styleItem(StyleId::fretNutThickness); }
+StyleItem* FretboardsPageModel::fretOrientation() const
+{
+    return styleItem(StyleId::fretOrientation);
+}
+StyleItem* FretboardsPageModel::fretNutThickness() const
+{
+    return styleItem(StyleId::fretNutThickness);
+}
 StyleItem* FretboardsPageModel::fretNumPos() const { return styleItem(StyleId::fretNumPos); }
-StyleItem* FretboardsPageModel::fretUseCustomSuffix() const { return styleItem(StyleId::fretUseCustomSuffix); }
-StyleItem* FretboardsPageModel::fretCustomSuffix() const { return styleItem(StyleId::fretCustomSuffix); }
-StyleItem* FretboardsPageModel::fretDotSpatiumSize() const { return styleItem(StyleId::fretDotSpatiumSize); }
-StyleItem* FretboardsPageModel::barreAppearanceSlur() const { return styleItem(StyleId::barreAppearanceSlur); }
-StyleItem* FretboardsPageModel::barreLineWidth() const { return styleItem(StyleId::barreLineWidth); }
-StyleItem* FretboardsPageModel::fretShowFingerings() const { return styleItem(StyleId::fretShowFingerings); }
-StyleItem* FretboardsPageModel::fretStyleExtended() const { return styleItem(StyleId::fretStyleExtended); }
-StyleItem* FretboardsPageModel::fretStringSpacing() const { return styleItem(StyleId::fretStringSpacing); }
-StyleItem* FretboardsPageModel::fretFretSpacing() const { return styleItem(StyleId::fretFretSpacing); }
+StyleItem* FretboardsPageModel::fretUseCustomSuffix() const
+{
+    return styleItem(StyleId::fretUseCustomSuffix);
+}
+StyleItem* FretboardsPageModel::fretCustomSuffix() const
+{
+    return styleItem(StyleId::fretCustomSuffix);
+}
+StyleItem* FretboardsPageModel::fretDotSpatiumSize() const
+{
+    return styleItem(StyleId::fretDotSpatiumSize);
+}
+StyleItem* FretboardsPageModel::barreAppearanceSlur() const
+{
+    return styleItem(StyleId::barreAppearanceSlur);
+}
+StyleItem* FretboardsPageModel::barreLineWidth() const
+{
+    return styleItem(StyleId::barreLineWidth);
+}
+StyleItem* FretboardsPageModel::fretShowFingerings() const
+{
+    return styleItem(StyleId::fretShowFingerings);
+}
+StyleItem* FretboardsPageModel::fretStyleExtended() const
+{
+    return styleItem(StyleId::fretStyleExtended);
+}
+StyleItem* FretboardsPageModel::fretStringSpacing() const
+{
+    return styleItem(StyleId::fretStringSpacing);
+}
+StyleItem* FretboardsPageModel::fretFretSpacing() const
+{
+    return styleItem(StyleId::fretFretSpacing);
+}

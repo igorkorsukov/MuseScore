@@ -34,6 +34,7 @@ struct PaintOptions
     bool isPrinting = false;
     bool invertColors = false;
 
-    std::function<muse::Color(const EngravingItem* item, muse::Color defaultColor)> overrideItemColor;
+    std::function<muse::Color(const EngravingItem* item,
+                              muse::Color defaultColor)> overrideItemColor;
 };
 }

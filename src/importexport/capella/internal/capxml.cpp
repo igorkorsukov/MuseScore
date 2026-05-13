@@ -176,10 +176,11 @@ void BasicDurationalObj::readCapx(XmlReader& e, unsigned int& fullm)
             e.unknown();
         }
     }
-    CAPELLA_TRACE("DurationObj ndots %d nodur %d postgr %d bsm %d inv %d notbl %d t %d hsh %d den %d trp %d ispro %d fullm %d",
-                  nDots, noDuration, postGrace, bSmall, invisible, notBlack, int(t), horizontalShift, tupletDenominator, tripartite,
-                  isProlonging, fullm
-                  );
+    CAPELLA_TRACE(
+        "DurationObj ndots %d nodur %d postgr %d bsm %d inv %d notbl %d t %d hsh %d den %d trp %d ispro %d fullm %d",
+        nDots, noDuration, postGrace, bSmall, invisible, notBlack, int(t), horizontalShift, tupletDenominator, tripartite,
+        isProlonging, fullm
+        );
 }
 
 //---------------------------------------------------------
@@ -251,7 +252,8 @@ void CapClef::readCapx(XmlReader& e)
         line = ClefLine::L2;
         oct = Oct::OCT_NULL;
     }
-    CAPELLA_TRACE("Clef::read '%s' -> form %d line %d oct %d", qPrintable(clef), int(form), int(line), int(oct));
+    CAPELLA_TRACE("Clef::read '%s' -> form %d line %d oct %d", qPrintable(
+                      clef), int(form), int(line), int(oct));
     e.readNext();
 }
 
@@ -321,7 +323,8 @@ static void qstring2timesig(QString& time, uchar& numerator, int& log2Denom, boo
         }
     }
     // TODO: recovery required if decoding the timesig failed ?
-    CAPELLA_TRACE("Meter '%s' res %d %d/%d allaBreve %d", qPrintable(time), res, numerator, log2Denom, allaBreve);
+    CAPELLA_TRACE("Meter '%s' res %d %d/%d allaBreve %d", qPrintable(
+                      time), res, numerator, log2Denom, allaBreve);
 }
 
 //---------------------------------------------------------
@@ -675,8 +678,9 @@ void VoltaObj::readCapx(XmlReader& e)
         to   = (lastNumber == 0) ? firstNumber : lastNumber;
     }
     CAPELLA_TRACE("VoltaObj::read firstNumber %d lastNumber %d", firstNumber, lastNumber);
-    CAPELLA_TRACE("VoltaObj::read x0 %d x1 %d y %d bLeft %d bRight %d bDotted %d allNumbers %d from %d to %d",
-                  x0, x1, y, bLeft, bRight, bDotted, allNumbers, from, to);
+    CAPELLA_TRACE(
+        "VoltaObj::read x0 %d x1 %d y %d bLeft %d bRight %d bDotted %d allNumbers %d from %d to %d",
+        x0, x1, y, bLeft, bRight, bDotted, allNumbers, from, to);
     e.readNext();
 }
 
@@ -869,11 +873,13 @@ void Capella::readCapxVoice(XmlReader& e, CapStaff* cs, int idx)
                                       1 + tupletCounter, tupletTicks.ticks());
                     } else if (tupletCounter > 0) {
                         if (!tupletObj) {
-                            LOGE("     !!! chord with tupletCounter %d without tupletObj", tupletCounter);
+                            LOGE("     !!! chord with tupletCounter %d without tupletObj",
+                                 tupletCounter);
                         } else {
                             tupletTicks += chord->ticks();
                             if (chord->tupletDenominator == 0) {
-                                LOGE("     !!! (C) chord with tupletCounter %d outside tuplet", tupletCounter);
+                                LOGE("     !!! (C) chord with tupletCounter %d outside tuplet",
+                                     tupletCounter);
                                 chord->tupletDenominator = tupletObj->tupletDenominator;  // copy denominator from the tuplet object
                             }
                             --tupletCounter;
@@ -881,10 +887,12 @@ void Capella::readCapxVoice(XmlReader& e, CapStaff* cs, int idx)
                                 chord->tupletEnd = true;
                                 tupletObj->tupletTicks = tupletTicks;      // set total ticks to the tuplet object
                                 tupletObj = nullptr;      // reset tuplet object
-                                CAPELLA_TRACE("     ==| end of tuplet, total ticks %d", tupletTicks.ticks());
+                                CAPELLA_TRACE("     ==| end of tuplet, total ticks %d",
+                                              tupletTicks.ticks());
                             } else {
-                                CAPELLA_TRACE("     ==> chord with tupletCounter %d inside tuplet, ticks now %d",
-                                              tupletCounter, tupletTicks.ticks());
+                                CAPELLA_TRACE(
+                                    "     ==> chord with tupletCounter %d inside tuplet, ticks now %d",
+                                    tupletCounter, tupletTicks.ticks());
                             }
                         }
                     }
@@ -900,12 +908,14 @@ void Capella::readCapxVoice(XmlReader& e, CapStaff* cs, int idx)
                                       1 + tupletCounter, tupletTicks.ticks());
                     } else if (tupletCounter > 0) {
                         if (!tupletObj) {
-                            LOGE("     !!! rest with tupletCounter %d without tupletObj", tupletCounter);
+                            LOGE("     !!! rest with tupletCounter %d without tupletObj",
+                                 tupletCounter);
                         } else {
                             // add the rest ticks to the tuplet ticks
                             tupletTicks += rest->ticks();
                             if (rest->tupletDenominator == 0) {
-                                LOGE("     !!! rest with tupletCounter %d outside tuplet", tupletCounter);
+                                LOGE("     !!! rest with tupletCounter %d outside tuplet",
+                                     tupletCounter);
                                 rest->tupletDenominator = tupletObj->tupletDenominator;  // copy denominator from the tuplet object
                             }
                             --tupletCounter;
@@ -913,10 +923,12 @@ void Capella::readCapxVoice(XmlReader& e, CapStaff* cs, int idx)
                                 rest->tupletEnd = true;
                                 tupletObj->tupletTicks = tupletTicks;      // set total ticks to the tuplet object
                                 tupletObj = nullptr;      // reset tuplet object
-                                CAPELLA_TRACE("     ==| end of tuplet, total ticks %d", tupletTicks.ticks());
+                                CAPELLA_TRACE("     ==| end of tuplet, total ticks %d",
+                                              tupletTicks.ticks());
                             } else {
-                                CAPELLA_TRACE("     ==> rest with tupletCounter %d inside tuplet, ticks now %d",
-                                              tupletCounter, tupletTicks.ticks());
+                                CAPELLA_TRACE(
+                                    "     ==> rest with tupletCounter %d inside tuplet, ticks now %d",
+                                    tupletCounter, tupletTicks.ticks());
                             }
                         }
                     }
@@ -1227,7 +1239,8 @@ static void capxLayoutBrackets(XmlReader& e, QList<CapBracket>& bracketList)
 //   capxLayoutDistances -- read the capx <Distances> element (when child of <layout)
 //---------------------------------------------------------
 
-static void capxLayoutDistances(XmlReader& e, double& smallLineDist, double& normalLineDist, int& topDist)
+static void capxLayoutDistances(XmlReader& e, double& smallLineDist, double& normalLineDist,
+                                int& topDist)
 {
     while (e.readNextStartElement()) {
         const AsciiStringView tag(e.name());

@@ -47,7 +47,8 @@ SearchCommandsParser::SearchData SearchCommandsParser::parse(const QString& sear
     return data;
 }
 
-SearchCommandsParser::SearchData SearchCommandsParser::parseMeasureCommand(const QString& searchCommand)
+SearchCommandsParser::SearchData SearchCommandsParser::parseMeasureCommand(
+    const QString& searchCommand)
 {
     QStringList parts = searchCommand.split(u'-', Qt::SkipEmptyParts);
 
@@ -72,7 +73,8 @@ SearchCommandsParser::SearchData SearchCommandsParser::parseMeasureCommand(const
     return SearchData{};
 }
 
-SearchCommandsParser::SearchData SearchCommandsParser::parsePageCommand(const QString& searchCommand)
+SearchCommandsParser::SearchData SearchCommandsParser::parsePageCommand(
+    const QString& searchCommand)
 {
     QString qsearchCommand = searchCommand.toLower();
 
@@ -94,11 +96,13 @@ SearchCommandsParser::SearchData SearchCommandsParser::parsePageCommand(const QS
     return SearchData{};
 }
 
-SearchCommandsParser::SearchData SearchCommandsParser::parseRehearsalMarkCommand(const QString& searchCommand)
+SearchCommandsParser::SearchData SearchCommandsParser::parseRehearsalMarkCommand(
+    const QString& searchCommand)
 {
     QString qsearchCommand = searchCommand.toLower();
 
-    if (qsearchCommand.startsWith(REHEARSAL_MARK_CODE) && qsearchCommand.size() > REHEARSAL_MARK_CODE.size()) {
+    if (qsearchCommand.startsWith(REHEARSAL_MARK_CODE)
+        && qsearchCommand.size() > REHEARSAL_MARK_CODE.size()) {
         return SearchData::makeRehearsalMark(qsearchCommand.mid(REHEARSAL_MARK_CODE.size()));
     }
 

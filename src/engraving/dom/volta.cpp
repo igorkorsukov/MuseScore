@@ -79,7 +79,8 @@ static const ElementStyle voltaStyle {
 //---------------------------------------------------------
 
 VoltaSegment::VoltaSegment(Volta* sp, System* parent)
-    : TextLineBaseSegment(ElementType::VOLTA_SEGMENT, sp, parent, ElementFlag::MOVABLE | ElementFlag::ON_STAFF | ElementFlag::SYSTEM)
+    : TextLineBaseSegment(ElementType::VOLTA_SEGMENT, sp, parent,
+                          ElementFlag::MOVABLE | ElementFlag::ON_STAFF | ElementFlag::SYSTEM)
 {
     m_text->setTextStyleType(propertyDefault(Pid::TEXT_STYLE).value<TextStyleType>());
     m_endText->setTextStyleType(propertyDefault(Pid::TEXT_STYLE).value<TextStyleType>());
@@ -342,17 +343,23 @@ PointF Volta::linePos(Grip grip, System** system) const
 {
     bool start = grip == Grip::START;
 
-    Segment* segment = score()->tick2leftSegment(start ? tick() : tick2(), true,
-                                                 SegmentType::ChordRest | SegmentType::StartRepeatBarLine | SegmentType::EndBarLine);
+    Segment* segment = score()->tick2leftSegment(
+        start ? tick() : tick2(), true,
+        SegmentType::ChordRest | SegmentType::StartRepeatBarLine
+        | SegmentType::EndBarLine);
     if (!segment) {
         return PointF();
     }
 
     const Measure* measure = segment->measure();
-    bool isAtSystemStart = segment->rtick().isZero() && measure && measure->system() && measure->isFirstInSystem();
-    bool searchForPrevBarline = start ? segment->rtick().isZero() && (measure->repeatStart() || !isAtSystemStart) : true;
+    bool isAtSystemStart = segment->rtick().isZero() && measure && measure->system()
+                           && measure->isFirstInSystem();
+    bool searchForPrevBarline = start ? segment->rtick().isZero()
+                                && (measure->repeatStart() || !isAtSystemStart) : true;
 
-    SegmentType barlineType = start ? (SegmentType::StartRepeatBarLine | SegmentType::EndBarLine) : SegmentType::EndBarLine;
+    SegmentType barlineType
+        = start ? (SegmentType::StartRepeatBarLine
+                   | SegmentType::EndBarLine) : SegmentType::EndBarLine;
 
     if (searchForPrevBarline) {
         Segment* prev = segment;
@@ -365,7 +372,8 @@ PointF Volta::linePos(Grip grip, System** system) const
         }
     }
 
-    if (start && !segment->isType(SegmentType::BarLineType) && style().styleB(Sid::voltaAlignStartBeforeKeySig)) {
+    if (start && !segment->isType(SegmentType::BarLineType)
+        && style().styleB(Sid::voltaAlignStartBeforeKeySig)) {
         Segment* prev = segment;
         while (prev && !prev->isType(SegmentType::KeySig) && prev->tick() == segment->tick()) {
             prev = prev->prev1MMenabled();
@@ -386,7 +394,9 @@ PointF Volta::linePos(Grip grip, System** system) const
             KeySig* sig = toKeySig(segment->element(track()));
             if (sig && !sig->ldata()->keySymbols.empty()) {
                 KeySym keySym = sig->ldata()->keySymbols.front();
-                PointF cutoutNW = score()->engravingFont()->smuflAnchor(keySym.sym, SmuflAnchorId::cutOutNW, 1.0);
+                PointF cutoutNW = score()->engravingFont()->smuflAnchor(keySym.sym,
+                                                                        SmuflAnchorId::cutOutNW,
+                                                                        1.0);
                 x += cutoutNW.x();
             }
         } else if (segment->segmentType() & SegmentType::BarLineType && !isAtSystemStart) {
@@ -398,7 +408,8 @@ PointF Volta::linePos(Grip grip, System** system) const
                 x -= style().styleAbsolute(Sid::endBarWidth);
             }
         }
-        x += (isAtSystemStart || alignLeftOfRepeatBarLine ? 0.5 : -0.5) * absoluteFromSpatium(lineWidth());
+        x += (isAtSystemStart || alignLeftOfRepeatBarLine ? 0.5 : -0.5) * absoluteFromSpatium(
+            lineWidth());
     } else {
         if ((*system) && segment->tick() == (*system)->endTick()) {
             staff_idx_t si = backSegment()->effectiveStaffIdx();
@@ -409,8 +420,10 @@ PointF Volta::linePos(Grip grip, System** system) const
             x -= 0.5 * absoluteFromSpatium(lineWidth());
         } else if (segment->segmentType() & SegmentType::BarLineType) {
             BarLine* barLine = toBarLine(segment->element(track()));
-            if (barLine->barLineType() == BarLineType::END_REPEAT || barLine->barLineType() == BarLineType::END_START_REPEAT) {
-                x += symWidth(SymId::repeatDot) + style().styleAbsolute(Sid::repeatBarlineDotSeparation);
+            if (barLine->barLineType() == BarLineType::END_REPEAT
+                || barLine->barLineType() == BarLineType::END_START_REPEAT) {
+                x += symWidth(SymId::repeatDot) + style().styleAbsolute(
+                    Sid::repeatBarlineDotSeparation);
             }
             x += 0.5 * absoluteFromSpatium(lineWidth());
         }

@@ -75,9 +75,11 @@ private:
     void load();
 
     // Convert between mu::engraving::PedalPosition and internal qml safe Position enums
-    void setPopupPedalState(std::array<mu::engraving::PedalPosition, mu::engraving::HARP_STRING_NO> pos);
+    void setPopupPedalState(std::array<mu::engraving::PedalPosition,
+                                       mu::engraving::HARP_STRING_NO> pos);
 
-    void setPopupPedalState(std::array<HarpPedalPopupModel::Position, mu::engraving::HARP_STRING_NO> pos);
+    void setPopupPedalState(std::array<HarpPedalPopupModel::Position,
+                                       mu::engraving::HARP_STRING_NO> pos);
 
     std::array<mu::engraving::PedalPosition, mu::engraving::HARP_STRING_NO> getPopupPedalState();
 

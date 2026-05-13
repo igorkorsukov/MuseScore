@@ -49,8 +49,10 @@ OnlineSoundsController::OnlineSoundsController(const muse::modularity::ContextPt
 
 void OnlineSoundsController::regActions()
 {
-    dispatcher()->reg(this, "process-online-sounds", this, &OnlineSoundsController::processOnlineSounds);
-    dispatcher()->reg(this, "clear-online-sounds-cache", this, &OnlineSoundsController::clearOnlineSoundsCache);
+    dispatcher()->reg(this, "process-online-sounds", this,
+                      &OnlineSoundsController::processOnlineSounds);
+    dispatcher()->reg(this, "clear-online-sounds-cache", this,
+                      &OnlineSoundsController::clearOnlineSoundsCache);
 }
 
 void OnlineSoundsController::reset()
@@ -116,7 +118,8 @@ void OnlineSoundsController::listenProcessingProgress(const TrackId trackId)
         inputProgress.processedChannel.onReceive(this, [this, trackId]
                                                  (const InputProcessingProgress::StatusInfo& status,
                                                   const InputProcessingProgress::ChunkInfoList& /*chunks*/,
-                                                  const InputProcessingProgress::ProgressInfo& progress)
+                                                  const InputProcessingProgress::ProgressInfo&
+                                                  progress)
         {
             switch (status.status) {
                 case InputProcessingProgress::Undefined:
@@ -139,7 +142,8 @@ void OnlineSoundsController::listenProcessingProgress(const TrackId trackId)
 
                     if (status.errorCode != 0 && status.errorCode != (int)Ret::Code::Cancel) {
                         m_onlineSoundsProcessingRet = retFromProcessingStatus(status);
-                        LOGE() << "Error during online sounds processing: " << status.errorText << ", track: " << trackId;
+                        LOGE() << "Error during online sounds processing: " << status.errorText <<
+                        ", track: " << trackId;
 
                         if (status.errorCode == (int)Err::OnlineSoundsLimitReached) {
                             showLimitReachedErrorIfNeed(status);
@@ -157,7 +161,8 @@ void OnlineSoundsController::listenProcessingProgress(const TrackId trackId)
 
 bool OnlineSoundsController::shouldShowOnlineSoundsProcessingError(bool isPlaying) const
 {
-    if (m_onlineSounds.empty() || !configuration()->shouldShowOnlineSoundsProcessingError() || isPlaying) {
+    if (m_onlineSounds.empty() || !configuration()->shouldShowOnlineSoundsProcessingError()
+        || isPlaying) {
         return false;
     }
 
@@ -177,9 +182,12 @@ void OnlineSoundsController::showOnlineSoundsProcessingError(const std::function
                                                     "<a href=\"%1\">Learn more here</a>.")
                              .arg(configuration()->onlineSoundsHandbookUrl()).toStdString();
 
-    auto promise = interactive()->warning(muse::trc("playback", "Some online sounds aren’t ready yet"), text,
-                                          { IInteractive::Button::Ok }, IInteractive::Button::Ok,
-                                          IInteractive::Option::WithIcon | IInteractive::Option::WithDontShowAgainCheckBox);
+    auto promise
+        = interactive()->warning(muse::trc("playback",
+                                           "Some online sounds aren’t ready yet"), text,
+                                 { IInteractive::Button::Ok }, IInteractive::Button::Ok,
+                                 IInteractive::Option::WithIcon
+                                 | IInteractive::Option::WithDontShowAgainCheckBox);
 
     promise.onResolve(this, [this, onShown](const IInteractive::Result& res) {
         if (!res.showAgain()) {
@@ -192,7 +200,8 @@ void OnlineSoundsController::showOnlineSoundsProcessingError(const std::function
     });
 }
 
-void OnlineSoundsController::showLimitReachedErrorIfNeed(const InputProcessingProgress::StatusInfo& status)
+void OnlineSoundsController::showLimitReachedErrorIfNeed(
+    const InputProcessingProgress::StatusInfo& status)
 {
     IF_ASSERT_FAILED(status.errorCode == (int)audio::Err::OnlineSoundsLimitReached) {
         return;
@@ -236,8 +245,9 @@ void OnlineSoundsController::clearOnlineSoundsCache()
 {
     auto promise = interactive()->warning(
         muse::trc("playback", "Are you sure you want to clear online sounds cache?"),
-        muse::trc("playback", "This will delete online sounds data stored on your computer for this score. "
-                              "Online sounds processing will try to restart immediately."),
+        muse::trc("playback",
+                  "This will delete online sounds data stored on your computer for this score. "
+                  "Online sounds processing will try to restart immediately."),
         { IInteractive::Button::Ok, IInteractive::Button::Cancel },
         IInteractive::Button::Ok);
 

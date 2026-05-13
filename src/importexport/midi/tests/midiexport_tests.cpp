@@ -73,7 +73,8 @@ static void exportAndCompareWithRef(const std::string& name)
 
     {
         const std::string scoreFileName = name + ".mscx";
-        std::unique_ptr<MasterScore> score(ScoreRW::readScore(MIDI_EXPORT_DATA_DIR + u'/' + String::fromUtf8(scoreFileName)));
+        std::unique_ptr<MasterScore> score(ScoreRW::readScore(MIDI_EXPORT_DATA_DIR + u'/'
+                                                              + String::fromUtf8(scoreFileName)));
         ASSERT_TRUE(score);
         score->doLayout();
         score->rebuildMidiMapping();
@@ -82,7 +83,8 @@ static void exportAndCompareWithRef(const std::string& name)
     }
 
     const std::string midiRefFileName = name + "-ref.mid";
-    const String midiRefPath = ScoreRW::rootPath() + u'/' + MIDI_EXPORT_DATA_DIR + u'/' + String::fromUtf8(midiRefFileName);
+    const String midiRefPath = ScoreRW::rootPath() + u'/' + MIDI_EXPORT_DATA_DIR + u'/'
+                               + String::fromUtf8(midiRefFileName);
     if (ScoreComp::compareFiles(midiRefPath, String::fromUtf8(midiFileName))) {
         return;
     }
@@ -101,7 +103,8 @@ static void exportAndCompareWithRef(const std::string& name)
 class MidiExportTests : public ::testing::Test
 {
 protected:
-    static void testTimeStretchFermata(MasterScore* score, const String& file, const String& testName)
+    static void testTimeStretchFermata(MasterScore* score, const String& file,
+                                       const String& testName)
     {
         const String writeFile = String(u"%1-%2-test-%3.mid").arg(file).arg(testName);
         const String reference(MIDI_EXPORT_DATA_DIR + file + u"-ref.mid");
@@ -120,12 +123,14 @@ protected:
     }
 
     /// see the issue https://musescore.org/node/290997
-    static void testTimeStretchFermataTempoEdit(MasterScore* score, const String& file, const String& testName)
+    static void testTimeStretchFermataTempoEdit(MasterScore* score, const String& file,
+                                                const String& testName)
     {
         const String writeFile = String(u"%1-%2-test-%3.mid").arg(file).arg(testName);
         const QString reference(MIDI_EXPORT_DATA_DIR + file + u"-%1-ref.mid");
 
-        EngravingItem* tempo = score->firstSegment(SegmentType::ChordRest)->findAnnotation(ElementType::TEMPO_TEXT, 0, 3);
+        EngravingItem* tempo = score->firstSegment(SegmentType::ChordRest)->findAnnotation(
+            ElementType::TEMPO_TEXT, 0, 3);
         ASSERT_TRUE(tempo && tempo->isTempoText());
 
         const int scoreTempo = 200;
@@ -161,13 +166,15 @@ protected:
     static void midiExportTestRef(const String& file)
     {
         MScore::debugMode = true;
-        std::unique_ptr<MasterScore> score { ScoreRW::readScore(MIDI_EXPORT_DATA_DIR + u"/" + file + u".mscx") };
+        std::unique_ptr<MasterScore> score { ScoreRW::readScore(
+                                                 MIDI_EXPORT_DATA_DIR + u"/" + file + u".mscx") };
         ASSERT_TRUE(score);
 
         score->doLayout();
         score->rebuildMidiMapping();
 
-        testMidiExport(score.get(), file + u".mid", MIDI_EXPORT_DATA_DIR + u"/" + file + "-ref.mid");
+        testMidiExport(score.get(), file + u".mid",
+                       MIDI_EXPORT_DATA_DIR + u"/" + file + "-ref.mid");
     }
 
     static void testMidiExport(MasterScore* score, const String& writeFile, const String& refFile)
@@ -311,7 +318,8 @@ TEST_F(MidiExportTests, DISABLED_midiSingleNoteDynamics)
 }
 
 // TODO: move to midirenderer_tests.cpp
-class MidiExportEventsTests : public MidiExportTests, public ::testing::WithParamInterface<std::string_view>
+class MidiExportEventsTests : public MidiExportTests,
+    public ::testing::WithParamInterface<std::string_view>
 {
 };
 

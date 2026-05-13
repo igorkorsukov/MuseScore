@@ -223,7 +223,8 @@ EngravingUndoStackModel::Item* EngravingUndoStackModel::createItem(
     return item;
 }
 
-EngravingUndoStackModel::Item* EngravingUndoStackModel::itemByModelIndex(const QModelIndex& index) const
+EngravingUndoStackModel::Item* EngravingUndoStackModel::itemByModelIndex(const QModelIndex& index)
+const
 {
     return m_allItems.value(index.internalId(), nullptr);
 }

@@ -125,21 +125,30 @@ void MixerPanelContextMenuModel::load()
 {
     AbstractMenuModel::load();
 
-    dispatcher()->reg(this, TOGGLE_MIXER_SECTION_ACTION, this, &MixerPanelContextMenuModel::toggleMixerSection);
-    dispatcher()->reg(this, TOGGLE_AUX_SEND_ACTION, this, &MixerPanelContextMenuModel::toggleAuxSend);
-    dispatcher()->reg(this, TOGGLE_AUX_CHANNEL_ACTION, this, &MixerPanelContextMenuModel::toggleAuxChannel);
+    dispatcher()->reg(this, TOGGLE_MIXER_SECTION_ACTION, this,
+                      &MixerPanelContextMenuModel::toggleMixerSection);
+    dispatcher()->reg(this, TOGGLE_AUX_SEND_ACTION, this,
+                      &MixerPanelContextMenuModel::toggleAuxSend);
+    dispatcher()->reg(this, TOGGLE_AUX_CHANNEL_ACTION, this,
+                      &MixerPanelContextMenuModel::toggleAuxChannel);
 
-    configuration()->isAuxSendVisibleChanged().onReceive(this, [this](aux_channel_idx_t auxSendIndex, bool newVisibilityValue) {
+    configuration()->isAuxSendVisibleChanged().onReceive(this,
+                                                         [this](aux_channel_idx_t auxSendIndex,
+                                                                bool newVisibilityValue) {
         setViewMenuItemChecked(auxSendVisibleMenuItemId(auxSendIndex), newVisibilityValue);
 
         emit auxSendsSectionVisibleChanged();
     });
 
-    configuration()->isAuxChannelVisibleChanged().onReceive(this, [this](aux_channel_idx_t auxChannelIndex, bool newVisibilityValue) {
+    configuration()->isAuxChannelVisibleChanged().onReceive(this,
+                                                            [this](aux_channel_idx_t auxChannelIndex,
+                                                                   bool newVisibilityValue) {
         setViewMenuItemChecked(auxChannelVisibleMenuItemId(auxChannelIndex), newVisibilityValue);
     });
 
-    configuration()->isMixerSectionVisibleChanged().onReceive(this, [this](MixerSectionType sectionType, bool newVisibilityValue) {
+    configuration()->isMixerSectionVisibleChanged().onReceive(this,
+                                                              [this](MixerSectionType sectionType,
+                                                                     bool newVisibilityValue) {
         setViewMenuItemChecked(QString::number(static_cast<int>(sectionType)), newVisibilityValue);
 
         emitMixerSectionVisibilityChanged(sectionType);

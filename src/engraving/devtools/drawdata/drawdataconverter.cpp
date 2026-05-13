@@ -37,7 +37,8 @@ using namespace muse::draw;
 static const Color REF_COLOR("#999999");
 static const Color ADDED_COLOR("#ff0000");
 
-Ret DrawDataConverter::drawDataToPng(const muse::io::path_t& dataFile, const muse::io::path_t& outFile)
+Ret DrawDataConverter::drawDataToPng(const muse::io::path_t& dataFile,
+                                     const muse::io::path_t& outFile)
 {
     RetVal<DrawDataPtr> drawData = DrawDataRW::readData(dataFile);
     if (!drawData.ret) {
@@ -47,7 +48,9 @@ Ret DrawDataConverter::drawDataToPng(const muse::io::path_t& dataFile, const mus
     return saveAsPng(drawData.val, outFile);
 }
 
-Ret DrawDataConverter::drawDiffToPng(const muse::io::path_t& diffFile, const muse::io::path_t& refFile, const muse::io::path_t& outFile)
+Ret DrawDataConverter::drawDiffToPng(const muse::io::path_t& diffFile,
+                                     const muse::io::path_t& refFile,
+                                     const muse::io::path_t& outFile)
 {
     RetVal<Diff> diff = DrawDataRW::readDiff(diffFile);
     if (!diff.ret) {
@@ -62,7 +65,8 @@ Ret DrawDataConverter::drawDiffToPng(const muse::io::path_t& diffFile, const mus
         }
     }
 
-    Pixmap px(std::lrint(diff.val.dataAdded->viewport.width()), std::lrint(diff.val.dataAdded->viewport.height()));
+    Pixmap px(std::lrint(diff.val.dataAdded->viewport.width()),
+              std::lrint(diff.val.dataAdded->viewport.height()));
     if (refData.val) {
         drawOnPixmap(px, refData.val, REF_COLOR);
     }

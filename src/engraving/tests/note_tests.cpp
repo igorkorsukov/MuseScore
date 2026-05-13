@@ -342,7 +342,8 @@ TEST_F(Engraving_NoteTests, grace)
 //      QVERIFY(c->articulations().size() == 1);
 //      delete c;
 
-    EXPECT_TRUE(ScoreComp::saveCompareScore(score, u"grace-test.mscx", NOTE_DATA_DIR + u"grace-ref.mscx"));
+    EXPECT_TRUE(ScoreComp::saveCompareScore(score, u"grace-test.mscx",
+                                            NOTE_DATA_DIR + u"grace-ref.mscx"));
 }
 
 //---------------------------------------------------------
@@ -364,7 +365,8 @@ TEST_F(Engraving_NoteTests, graceAfterSlashSave)
 
     EXPECT_TRUE(gc->showStemSlash());
 
-    EXPECT_TRUE(ScoreComp::saveCompareScore(score, u"graceAfterSlashSave-test.mscx", NOTE_DATA_DIR + u"graceAfterSlashSave-ref.mscx"));
+    EXPECT_TRUE(ScoreComp::saveCompareScore(score, u"graceAfterSlashSave-test.mscx",
+                                            NOTE_DATA_DIR + u"graceAfterSlashSave-ref.mscx"));
 }
 
 //---------------------------------------------------------
@@ -377,7 +379,8 @@ TEST_F(Engraving_NoteTests, tpc)
     MasterScore* score = ScoreRW::readScore(NOTE_DATA_DIR + u"tpc.mscx");
 
     score->inputState().setTrack(0);
-    score->inputState().setSegment(score->tick2segment(Fraction(0, 1), false, SegmentType::ChordRest));
+    score->inputState().setSegment(score->tick2segment(Fraction(0,
+                                                                1), false, SegmentType::ChordRest));
     score->inputState().setDuration(DurationType::V_QUARTER);
     score->inputState().setNoteEntryMode(true);
     int octave = 5 * 7;
@@ -392,7 +395,8 @@ TEST_F(Engraving_NoteTests, tpc)
 
     score->cmdConcertPitchChanged(true);
 
-    EXPECT_TRUE(ScoreComp::saveCompareScore(score, u"tpc-test.mscx", NOTE_DATA_DIR + u"tpc-ref.mscx"));
+    EXPECT_TRUE(ScoreComp::saveCompareScore(score, u"tpc-test.mscx",
+                                            NOTE_DATA_DIR + u"tpc-ref.mscx"));
 }
 
 //---------------------------------------------------------
@@ -420,7 +424,8 @@ TEST_F(Engraving_NoteTests, tpcTranspose)
     score->cmdConcertPitchChanged(true);
     score->endCmd();
 
-    EXPECT_TRUE(ScoreComp::saveCompareScore(score, u"tpc-transpose-test.mscx", NOTE_DATA_DIR + u"tpc-transpose-ref.mscx"));
+    EXPECT_TRUE(ScoreComp::saveCompareScore(score, u"tpc-transpose-test.mscx",
+                                            NOTE_DATA_DIR + u"tpc-transpose-ref.mscx"));
 }
 
 //---------------------------------------------------------
@@ -433,7 +438,8 @@ TEST_F(Engraving_NoteTests, tpcTranspose2)
     MasterScore* score = ScoreRW::readScore(NOTE_DATA_DIR + u"tpc-transpose2.mscx");
 
     score->inputState().setTrack(0);
-    score->inputState().setSegment(score->tick2segment(Fraction(0, 1), false, SegmentType::ChordRest));
+    score->inputState().setSegment(score->tick2segment(Fraction(0,
+                                                                1), false, SegmentType::ChordRest));
     score->inputState().setDuration(DurationType::V_QUARTER);
     score->inputState().setNoteEntryMode(true);
     int octave = 5 * 7;
@@ -445,7 +451,8 @@ TEST_F(Engraving_NoteTests, tpcTranspose2)
 
     printf("================\n");
 
-    EXPECT_TRUE(ScoreComp::saveCompareScore(score, u"tpc-transpose2-test.mscx", NOTE_DATA_DIR + u"tpc-transpose2-ref.mscx"));
+    EXPECT_TRUE(ScoreComp::saveCompareScore(score, u"tpc-transpose2-test.mscx",
+                                            NOTE_DATA_DIR + u"tpc-transpose2-ref.mscx"));
 }
 
 //---------------------------------------------------------
@@ -457,7 +464,8 @@ TEST_F(Engraving_NoteTests, noteLimits)
     MasterScore* score = ScoreRW::readScore(NOTE_DATA_DIR + u"empty.mscx");
 
     score->inputState().setTrack(0);
-    score->inputState().setSegment(score->tick2segment(Fraction(0, 1), false, SegmentType::ChordRest));
+    score->inputState().setSegment(score->tick2segment(Fraction(0,
+                                                                1), false, SegmentType::ChordRest));
     score->inputState().setDuration(DurationType::V_QUARTER);
     score->inputState().setNoteEntryMode(true);
 
@@ -489,7 +497,8 @@ TEST_F(Engraving_NoteTests, noteLimits)
         score->addInterval(8, nl);
         score->endCmd();
     }
-    EXPECT_TRUE(ScoreComp::saveCompareScore(score, u"notelimits-test.mscx", NOTE_DATA_DIR + u"notelimits-ref.mscx"));
+    EXPECT_TRUE(ScoreComp::saveCompareScore(score, u"notelimits-test.mscx",
+                                            NOTE_DATA_DIR + u"notelimits-ref.mscx"));
 }
 
 TEST_F(Engraving_NoteTests, tpcDegrees)
@@ -508,11 +517,19 @@ TEST_F(Engraving_NoteTests, alteredUnison)
     MasterScore* score = ScoreRW::readScore(NOTE_DATA_DIR + u"altered-unison.mscx");
     Measure* m = score->firstMeasure();
     Chord* c = m->findChord(Fraction(0, 1), 0);
-    EXPECT_TRUE(c->downNote()->accidental() && c->downNote()->accidental()->accidentalType() == AccidentalType::FLAT);
-    EXPECT_TRUE(c->upNote()->accidental() && c->upNote()->accidental()->accidentalType() == AccidentalType::NATURAL);
+    EXPECT_TRUE(
+        c->downNote()->accidental()
+        && c->downNote()->accidental()->accidentalType() == AccidentalType::FLAT);
+    EXPECT_TRUE(
+        c->upNote()->accidental()
+        && c->upNote()->accidental()->accidentalType() == AccidentalType::NATURAL);
     c = m->findChord(Fraction(1, 4), 0);
-    EXPECT_TRUE(c->downNote()->accidental() && c->downNote()->accidental()->accidentalType() == AccidentalType::NATURAL);
-    EXPECT_TRUE(c->upNote()->accidental() && c->upNote()->accidental()->accidentalType() == AccidentalType::SHARP);
+    EXPECT_TRUE(
+        c->downNote()->accidental()
+        && c->downNote()->accidental()->accidentalType() == AccidentalType::NATURAL);
+    EXPECT_TRUE(
+        c->upNote()->accidental()
+        && c->upNote()->accidental()->accidentalType() == AccidentalType::SHARP);
 }
 
 //---------------------------------------------------------
@@ -530,7 +547,8 @@ TEST_F(Engraving_NoteTests, LongNoteAfterShort_183746)
     score->doLayout();
 
     score->inputState().setTrack(0);
-    score->inputState().setSegment(score->tick2segment(Fraction(0, 1), false, SegmentType::ChordRest));
+    score->inputState().setSegment(score->tick2segment(Fraction(0,
+                                                                1), false, SegmentType::ChordRest));
     score->inputState().setDuration(DurationType::V_128TH);
     score->inputState().setNoteEntryMode(true);
 

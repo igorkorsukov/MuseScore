@@ -102,7 +102,8 @@ muse::Ret MnxExporter::exportMnx()
     if (!createParts()) {
         const String msg = muse::TranslatableString(
             "importexport/mnx",
-            "MNX export skipped because the score contains no exportable parts. (Tablature is not supported yet).").str;
+            "MNX export skipped because the score contains no exportable parts. (Tablature is not supported yet).")
+                           .str;
         return muse::make_ret(muse::Ret::Code::NotSupported, msg);
     }
     createLayout(m_exportedStaves, "full-score");

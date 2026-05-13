@@ -172,7 +172,8 @@ static bool doesClefBreakTie(const Staff* staff)
 
     for (size_t voice = 0; voice < VOICES; ++voice) {
         bool currentTie = false;
-        for (Segment* seg = staff->score()->firstSegment(SegmentType::All); seg; seg = seg->next1()) {
+        for (Segment* seg = staff->score()->firstSegment(SegmentType::All); seg;
+             seg = seg->next1()) {
             if (seg->segmentType() == SegmentType::ChordRest) {
                 if (MidiTie::isTiedBack(seg, strack, voice)) {
                     currentTie = false;

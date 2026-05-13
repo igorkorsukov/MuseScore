@@ -27,7 +27,8 @@
 using namespace mu::inspector;
 using namespace mu::engraving;
 
-GradualTempoChangePlaybackModel::GradualTempoChangePlaybackModel(QObject* parent, const muse::modularity::ContextPtr& iocCtx,
+GradualTempoChangePlaybackModel::GradualTempoChangePlaybackModel(QObject* parent,
+                                                                 const muse::modularity::ContextPtr& iocCtx,
                                                                  IElementRepositoryService* repository)
     : AbstractInspectorModel(parent, iocCtx, repository, ElementType::GRADUAL_TEMPO_CHANGE)
 {
@@ -50,9 +51,12 @@ PropertyItem* GradualTempoChangePlaybackModel::tempoEasingMethod() const
 QVariantList GradualTempoChangePlaybackModel::possibleEasingMethods() const
 {
     QVariantList methods {
-        object(ChangeMethod::NORMAL, muse::qtrc("inspector", "Normal", "gradual tempo change method")),
-        object(ChangeMethod::EASE_IN, muse::qtrc("inspector", "Ease in", "gradual tempo change method")),
-        object(ChangeMethod::EASE_OUT, muse::qtrc("inspector", "Ease out", "gradual tempo change method"))
+        object(ChangeMethod::NORMAL, muse::qtrc("inspector", "Normal",
+                                                "gradual tempo change method")),
+        object(ChangeMethod::EASE_IN,
+               muse::qtrc("inspector", "Ease in", "gradual tempo change method")),
+        object(ChangeMethod::EASE_OUT,
+               muse::qtrc("inspector", "Ease out", "gradual tempo change method"))
     };
 
     return methods;
@@ -60,8 +64,10 @@ QVariantList GradualTempoChangePlaybackModel::possibleEasingMethods() const
 
 void GradualTempoChangePlaybackModel::createProperties()
 {
-    m_tempoChangeFactor = buildPropertyItem(Pid::TEMPO_CHANGE_FACTOR, [this](const Pid pid, const QVariant& newValue) {
-        onPropertyValueChanged(pid, newValue.toDouble() / 100);
+    m_tempoChangeFactor
+        = buildPropertyItem(Pid::TEMPO_CHANGE_FACTOR, [this](const Pid pid, const QVariant& newValue) {
+        onPropertyValueChanged(pid,
+                               newValue.toDouble() / 100);
     });
 
     m_tempoEasingMethod = buildPropertyItem(Pid::TEMPO_EASING_METHOD);
@@ -70,7 +76,8 @@ void GradualTempoChangePlaybackModel::createProperties()
 void GradualTempoChangePlaybackModel::loadProperties()
 {
     loadPropertyItem(m_tempoChangeFactor, [](const QVariant& elementPropertyValue) -> QVariant {
-        return static_cast<int>(muse::DataFormatter::roundDouble(elementPropertyValue.toDouble() * 100.0));
+        return static_cast<int>(muse::DataFormatter::roundDouble(elementPropertyValue.toDouble()
+                                                                 * 100.0));
     });
 
     loadPropertyItem(m_tempoEasingMethod);

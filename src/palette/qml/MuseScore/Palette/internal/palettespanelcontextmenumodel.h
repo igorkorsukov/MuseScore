@@ -30,7 +30,8 @@
 #include "actions/iactionsdispatcher.h"
 
 namespace mu::palette {
-class PalettesPanelContextMenuModel : public muse::uicomponents::AbstractMenuModel, public muse::actions::Actionable
+class PalettesPanelContextMenuModel : public muse::uicomponents::AbstractMenuModel,
+    public muse::actions::Actionable
 {
     Q_OBJECT
 

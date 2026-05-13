@@ -63,9 +63,11 @@ public:
     bool isNull() const;
 
     void        set(const StringData& src);
-    bool        convertPitch(int pitch, int pitchOffset, int* string, int* fret, const CapoParams& capo = {}) const;
+    bool        convertPitch(int pitch, int pitchOffset, int* string, int* fret,
+                             const CapoParams& capo = {}) const;
     bool        convertPitch(int pitch, Staff* staff, int* string, int* fret) const;
-    bool        convertPitch(int pitch, Staff* staff, const Fraction& tick, int* string, int* fret) const;
+    bool        convertPitch(int pitch, Staff* staff, const Fraction& tick, int* string,
+                             int* fret) const;
     int         fret(int pitch, int string, const Staff* staff) const;
     int         fret(int pitch, int string, const Staff* staff, const Fraction& tick) const;
     void        fretChords(Chord* chord) const;
@@ -81,7 +83,10 @@ public:
     std::vector<instrString>& stringList() { return m_stringTable; }
     int         frets() const { return m_frets; }
     void        setFrets(int val) { m_frets = val; }
-    bool operator==(const StringData& d) const { return d.m_frets == m_frets && d.m_stringTable == m_stringTable; }
+    bool operator==(const StringData& d) const
+    {
+        return d.m_frets == m_frets && d.m_stringTable == m_stringTable;
+    }
     void        configBanjo5thString();
     int         adjustBanjo5thFret(int fret) const;
     bool        isFiveStringBanjo() const;
@@ -90,9 +95,11 @@ public:
 private:
 
     int         fret(int pitch, int string, int pitchOffset) const;
-    void        sortChordNotes(std::map<int, Note*>& sortedNotes, const Chord* chord, int* count) const;
+    void        sortChordNotes(std::map<int, Note*>& sortedNotes, const Chord* chord,
+                               int* count) const;
     void        sortChordNotesUseSameString(const Chord* chord) const;
-    bool        tryResolveStringConflictWithOutOfRangeFret(const Note* note, int numStrings, std::vector<int>& bUsed, int& nNewString,
+    bool        tryResolveStringConflictWithOutOfRangeFret(const Note* note, int numStrings,
+                                                           std::vector<int>& bUsed, int& nNewString,
                                                            int& nNewFret) const;
 
     //      std::vector<int>  stringTable { 40, 45, 50, 55, 59, 64 };   // guitar is default

@@ -265,9 +265,11 @@ void Tie::updatePossibleJumpPoints()
         }
         const Segment* endNoteSegment = endChord ? endChord->segment() : nullptr;
         const ChordRest* finalCROfMeasure = measure->lastChordRest(track());
-        const bool finalCRHasFollowingJump = finalCROfMeasure ? finalCROfMeasure->hasFollowingJumpItem() : false;
+        const bool finalCRHasFollowingJump
+            = finalCROfMeasure ? finalCROfMeasure->hasFollowingJumpItem() : false;
         const bool segsAreAdjacent = segmentsAreAdjacent(segment, endNoteSegment);
-        const bool segsAreInDifferentRepeatSegments = segmentsAreInDifferentRepeatSegments(segment, endNoteSegment);
+        const bool segsAreInDifferentRepeatSegments = segmentsAreInDifferentRepeatSegments(segment,
+                                                                                           endNoteSegment);
 
         if (!(finalCRHasFollowingJump && segsAreAdjacent) || !segsAreInDifferentRepeatSegments) {
             return;
@@ -287,7 +289,8 @@ void Tie::updatePossibleJumpPoints()
     }
 
     for (Measure* jumpMeasure : findFollowingRepeatMeasures(measure)) {
-        const Segment* firstCrSeg = jumpMeasure ? jumpMeasure->first(SegmentType::ChordRest) : nullptr;
+        const Segment* firstCrSeg
+            = jumpMeasure ? jumpMeasure->first(SegmentType::ChordRest) : nullptr;
         if (!firstCrSeg) {
             continue;
         }
@@ -296,7 +299,8 @@ void Tie::updatePossibleJumpPoints()
 
         if (nextNote) {
             bool hasIncomingTie = nextNote->tieBack();
-            TieJumpPoint* jumpPoint = new TieJumpPoint(nextNote, hasIncomingTie, jumpPointIdx, false);
+            TieJumpPoint* jumpPoint
+                = new TieJumpPoint(nextNote, hasIncomingTie, jumpPointIdx, false);
             tieJumpPoints()->add(jumpPoint);
             jumpPointIdx++;
         }
@@ -442,7 +446,8 @@ double Tie::scalingFactor() const
     }
 
     if (hasBothNotes) {
-        return 0.5 * (primaryNote->chord()->intrinsicMag() + secondaryNote->chord()->intrinsicMag());
+        return 0.5
+               * (primaryNote->chord()->intrinsicMag() + secondaryNote->chord()->intrinsicMag());
     }
 
     return primaryNote->chord()->intrinsicMag();
@@ -494,7 +499,8 @@ bool Tie::hasTiedSecondInside() const
     const int secondInsideLine = up() ? line + 1 : line - 1;
 
     for (const Note* otherNote : chord->notes()) {
-        if (otherNote->line() == secondInsideLine && otherNote->tieFor() && otherNote->tieFor()->up() == up()) {
+        if (otherNote->line() == secondInsideLine && otherNote->tieFor()
+            && otherNote->tieFor()->up() == up()) {
             return true;
         }
     }
@@ -524,7 +530,9 @@ void Tie::changeTieType(Tie* oldTie, Note* endNote)
         return;
     }
 
-    Tie* newTie = addPartialTie ? Factory::createPartialTie(score->dummy()->note()) : Factory::createTie(score->dummy()->note());
+    Tie* newTie
+        = addPartialTie ? Factory::createPartialTie(score->dummy()->note()) : Factory::createTie(
+              score->dummy()->note());
 
     score->undoRemoveElement(oldTie);
 

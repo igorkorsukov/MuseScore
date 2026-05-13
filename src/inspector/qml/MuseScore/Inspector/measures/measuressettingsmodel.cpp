@@ -30,7 +30,8 @@ using namespace mu::notation;
 using namespace muse::actions;
 using namespace mu::engraving;
 
-MeasuresSettingsModel::MeasuresSettingsModel(QObject* parent, const muse::modularity::ContextPtr& iocCtx,
+MeasuresSettingsModel::MeasuresSettingsModel(QObject* parent,
+                                             const muse::modularity::ContextPtr& iocCtx,
                                              IElementRepositoryService* repository)
     : AbstractInspectorModel(parent, iocCtx, repository)
 {
@@ -51,7 +52,8 @@ bool MeasuresSettingsModel::shouldUpdateOnEmptyPropertyAndStyleIdSets() const
     return true;
 }
 
-void MeasuresSettingsModel::onNotationChanged(const engraving::PropertyIdSet&, const engraving::StyleIdSet&)
+void MeasuresSettingsModel::onNotationChanged(const engraving::PropertyIdSet&,
+                                              const engraving::StyleIdSet&)
 {
     loadProperties();
 }
@@ -198,7 +200,8 @@ void MeasuresSettingsModel::updateIsMakeIntoSystemAvailable()
     }
 
     bool available = true;
-    if (startMB->isStartOfSystemLock() && endMB->isEndOfSystemLock() && startMB->systemLock() == endMB->systemLock()) {
+    if (startMB->isStartOfSystemLock() && endMB->isEndOfSystemLock()
+        && startMB->systemLock() == endMB->systemLock()) {
         available = false;
     }
 

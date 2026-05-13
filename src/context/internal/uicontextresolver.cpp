@@ -136,7 +136,8 @@ UiContext UiContextResolver::resolveCurrentUiContext() const
     return globalContext()->currentNotation() ? context::UiCtxProjectOpened : context::UiCtxUnknown;
 }
 
-bool UiContextResolver::match(const muse::ui::UiContext& currentCtx, const muse::ui::UiContext& actCtx) const
+bool UiContextResolver::match(const muse::ui::UiContext& currentCtx,
+                              const muse::ui::UiContext& actCtx) const
 {
     if (actCtx == context::UiCtxAny) {
         return true;
@@ -219,7 +220,8 @@ bool UiContextResolver::isShortcutContextAllowed(const std::string& scContext) c
             return false;
         }
         auto noteInput = notation->interaction()->noteInput();
-        return !noteInput->isNoteInputMode() || noteInput->state().staffGroup() != mu::engraving::StaffGroup::TAB;
+        return !noteInput->isNoteInputMode()
+               || noteInput->state().staffGroup() != mu::engraving::StaffGroup::TAB;
     } else if (CTX_NOTATION_NOTE_INPUT_STAFF_TAB == scContext) {
         if (!matchWithCurrent(context::UiCtxProjectFocused)) {
             return false;
@@ -229,7 +231,8 @@ bool UiContextResolver::isShortcutContextAllowed(const std::string& scContext) c
             return false;
         }
         auto noteInput = notation->interaction()->noteInput();
-        return noteInput->isNoteInputMode() && noteInput->state().staffGroup() == mu::engraving::StaffGroup::TAB;
+        return noteInput->isNoteInputMode()
+               && noteInput->state().staffGroup() == mu::engraving::StaffGroup::TAB;
     } else if (CTX_NOTATION_TEXT_EDITING == scContext) {
         if (!matchWithCurrent(context::UiCtxProjectFocused)) {
             return false;

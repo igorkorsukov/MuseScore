@@ -38,7 +38,8 @@ using namespace mu::engraving;
 
 std::shared_ptr<EngravingProject> EngravingProject::create(const modularity::ContextPtr& iocCtx)
 {
-    std::shared_ptr<EngravingProject> p = std::shared_ptr<EngravingProject>(new EngravingProject(iocCtx));
+    std::shared_ptr<EngravingProject> p
+        = std::shared_ptr<EngravingProject>(new EngravingProject(iocCtx));
     if (p->engravingElementsProvider()) {
         p->engravingElementsProvider()->clearStatistic();
     }
@@ -46,9 +47,11 @@ std::shared_ptr<EngravingProject> EngravingProject::create(const modularity::Con
     return p;
 }
 
-std::shared_ptr<EngravingProject> EngravingProject::create(const MStyle& style, const modularity::ContextPtr& iocCtx)
+std::shared_ptr<EngravingProject> EngravingProject::create(const MStyle& style,
+                                                           const modularity::ContextPtr& iocCtx)
 {
-    std::shared_ptr<EngravingProject> p = std::shared_ptr<EngravingProject>(new EngravingProject(iocCtx));
+    std::shared_ptr<EngravingProject> p
+        = std::shared_ptr<EngravingProject>(new EngravingProject(iocCtx));
     if (p->engravingElementsProvider()) {
         p->engravingElementsProvider()->clearStatistic();
     }
@@ -142,7 +145,8 @@ MasterScore* EngravingProject::masterScore() const
     return m_masterScore;
 }
 
-Ret EngravingProject::loadMscz(const MscReader& msc, rw::ReadInOutData* data, bool ignoreVersionError)
+Ret EngravingProject::loadMscz(const MscReader& msc, rw::ReadInOutData* data,
+                               bool ignoreVersionError)
 {
     TRACEFUNC;
 
@@ -152,7 +156,8 @@ Ret EngravingProject::loadMscz(const MscReader& msc, rw::ReadInOutData* data, bo
     return loader.loadMscz(m_masterScore, msc, data, ignoreVersionError);
 }
 
-bool EngravingProject::writeMscz(MscWriter& writer, bool createThumbnail, const write::WriteContext* ctx)
+bool EngravingProject::writeMscz(MscWriter& writer, bool createThumbnail,
+                                 const write::WriteContext* ctx)
 {
     TRACEFUNC;
 

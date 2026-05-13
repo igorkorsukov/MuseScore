@@ -27,7 +27,8 @@ extern mu::engraving::Err importOve(mu::engraving::MasterScore*, const QString& 
 
 using namespace mu::iex::ove;
 
-muse::Ret OveReader::read(mu::engraving::MasterScore* score, const muse::io::path_t& path, const Options&)
+muse::Ret OveReader::read(mu::engraving::MasterScore* score, const muse::io::path_t& path,
+                          const Options&)
 {
     mu::engraving::Err err = importOve(score, path.toQString());
     return mu::engraving::make_ret(err, path);

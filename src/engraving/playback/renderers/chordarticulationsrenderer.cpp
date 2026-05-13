@@ -53,7 +53,9 @@ const mpe::ArticulationTypeSet& ChordArticulationsRenderer::supportedTypes()
     return SUPPORTED_TYPES;
 }
 
-void ChordArticulationsRenderer::doRender(const EngravingItem* item, const mpe::ArticulationType /*type*/, const RenderingContext& ctx,
+void ChordArticulationsRenderer::doRender(const EngravingItem* item,
+                                          const mpe::ArticulationType /*type*/,
+                                          const RenderingContext& ctx,
                                           mpe::PlaybackEventList& result)
 {
     IF_ASSERT_FAILED(item->isChord()) {
@@ -70,7 +72,8 @@ void ChordArticulationsRenderer::doRender(const EngravingItem* item, const mpe::
     renderChord(toChord(item), ctx, result);
 }
 
-void ChordArticulationsRenderer::renderChord(const Chord* chord, const RenderingContext& ctx, muse::mpe::PlaybackEventList& result)
+void ChordArticulationsRenderer::renderChord(const Chord* chord, const RenderingContext& ctx,
+                                             muse::mpe::PlaybackEventList& result)
 {
     if (renderChordArticulations(chord, ctx, result)) {
         return;
@@ -87,7 +90,8 @@ void ChordArticulationsRenderer::renderChord(const Chord* chord, const Rendering
     }
 }
 
-void ChordArticulationsRenderer::renderChordWithGraceChords(const Chord* chord, const muse::mpe::ArticulationType type,
+void ChordArticulationsRenderer::renderChordWithGraceChords(const Chord* chord,
+                                                            const muse::mpe::ArticulationType type,
                                                             const RenderingContext& ctx,
                                                             muse::mpe::PlaybackEventList& result)
 {
@@ -106,7 +110,8 @@ void ChordArticulationsRenderer::renderChordWithGraceChords(const Chord* chord, 
     }
 }
 
-bool ChordArticulationsRenderer::renderChordArticulations(const Chord* chord, const RenderingContext& ctx,
+bool ChordArticulationsRenderer::renderChordArticulations(const Chord* chord,
+                                                          const RenderingContext& ctx,
                                                           mpe::PlaybackEventList& result)
 {
     for (const auto& pair : ctx.commonArticulations) {

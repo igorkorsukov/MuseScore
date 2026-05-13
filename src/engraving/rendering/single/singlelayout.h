@@ -260,8 +260,10 @@ private:
     static void layout(WhammyBarSegment* item, const Context& ctx);
 
     static void layout(Text* item, const Context& ctx);
-    static void layoutTextBase(const TextBase* item, const Context& ctx, TextBase::LayoutData* ldata);
-    static void layout1TextBase(const TextBase* item, const Context& ctx, TextBase::LayoutData* ldata);
+    static void layoutTextBase(const TextBase* item, const Context& ctx,
+                               TextBase::LayoutData* ldata);
+    static void layout1TextBase(const TextBase* item, const Context& ctx,
+                                TextBase::LayoutData* ldata);
 
     static void layoutLine(SLine* item, const Context& ctx);
     static void layoutLineSegment(LineSegment* item, const Context& ctx);

@@ -436,6 +436,9 @@ public:
     Q_INVOKABLE apiv1::Drumset* cloneDrumset();
 
     /// Checks whether two instruments represent the same object.
-    Q_INVOKABLE bool is(apiv1::Instrument* other) { return other && instrument() == other->instrument(); }
+    Q_INVOKABLE bool is(apiv1::Instrument* other)
+    {
+        return other && instrument() == other->instrument();
+    }
 };
 }

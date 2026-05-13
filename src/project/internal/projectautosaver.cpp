@@ -60,7 +60,8 @@ void ProjectAutoSaver::init()
     globalContext()->currentProjectChanged().onNotify(this, [this]() {
         if (auto project = currentProject()) {
             if (project->isNewlyCreated() && !project->isImported()) {
-                Ret ret = project->save(configuration()->newProjectTemporaryPath(), SaveMode::AutoSave);
+                Ret ret
+                    = project->save(configuration()->newProjectTemporaryPath(), SaveMode::AutoSave);
                 if (!ret) {
                     LOGE() << "[autosave] failed to save project, err: " << ret.toString();
                     return;
@@ -101,7 +102,8 @@ bool ProjectAutoSaver::isAutosaveOfNewlyCreatedProject(const muse::io::path_t& p
     return projectPath == configuration()->newProjectTemporaryPath();
 }
 
-muse::io::path_t ProjectAutoSaver::projectOriginalPath(const muse::io::path_t& projectAutoSavePath) const
+muse::io::path_t ProjectAutoSaver::projectOriginalPath(const muse::io::path_t& projectAutoSavePath)
+const
 {
     IF_ASSERT_FAILED(io::suffix(projectAutoSavePath) == AUTOSAVE_SUFFIX) {
         return engraving::mainFilePath(projectAutoSavePath);
@@ -109,7 +111,8 @@ muse::io::path_t ProjectAutoSaver::projectOriginalPath(const muse::io::path_t& p
 
     muse::io::path_t withoutAutosaveSuffix = io::filename(projectAutoSavePath, false);
 
-    return engraving::mainFilePath(io::absoluteDirpath(projectAutoSavePath).appendingComponent(withoutAutosaveSuffix));
+    return engraving::mainFilePath(io::absoluteDirpath(projectAutoSavePath).appendingComponent(
+                                       withoutAutosaveSuffix));
 }
 
 muse::io::path_t ProjectAutoSaver::projectAutoSavePath(const muse::io::path_t& projectPath) const
@@ -168,7 +171,8 @@ void ProjectAutoSaver::onTrySave()
     }
 
     muse::io::path_t projectPath = this->projectPath(project);
-    muse::io::path_t savePath = project->isNewlyCreated() ? projectPath : projectAutoSavePath(projectPath);
+    muse::io::path_t savePath = project->isNewlyCreated() ? projectPath : projectAutoSavePath(
+        projectPath);
 
     Ret ret = project->save(savePath, SaveMode::AutoSave);
     if (!ret) {

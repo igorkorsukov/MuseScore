@@ -44,7 +44,8 @@ class Engraving_AutomationTests : public ::testing::Test
 {
 };
 
-static void checkCurvesMatch(const AutomationCurve& actualCurve, const AutomationCurve& expectedCurve)
+static void checkCurvesMatch(const AutomationCurve& actualCurve,
+                             const AutomationCurve& expectedCurve)
 {
     EXPECT_EQ(actualCurve.size(), expectedCurve.size());
 

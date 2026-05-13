@@ -119,7 +119,10 @@ public:
     int subtype() const override { return int(clefType()); }
     TranslatableString subtypeUserName() const override;
 
-    void setForInstrumentChange(bool forInstrumentChange) { m_forInstrumentChange = forInstrumentChange; }
+    void setForInstrumentChange(bool forInstrumentChange)
+    {
+        m_forInstrumentChange = forInstrumentChange;
+    }
     bool forInstrumentChange() const { return m_forInstrumentChange; }
 
     ClefTypeList clefTypeList() const { return m_clefTypes; }
@@ -141,7 +144,10 @@ public:
 
     void changeClefToBarlinePos(ClefToBarlinePosition newPos);
 
-    void undoChangeProperty(Pid id, const PropertyValue& v) { EngravingObject::undoChangeProperty(id, v); }
+    void undoChangeProperty(Pid id, const PropertyValue& v)
+    {
+        EngravingObject::undoChangeProperty(id, v);
+    }
     void undoChangeProperty(Pid id, const PropertyValue& v, PropertyFlags ps) override;
 
     ClefToBarlinePosition clefToBarlinePosition() const { return m_clefToBarlinePosition; }

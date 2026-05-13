@@ -33,7 +33,8 @@ class ProjectUiActions : public muse::ui::IUiActionsModule, public muse::Context
     muse::ContextInject<context::IUiContextResolver> uicontextResolver = { this };
 public:
 
-    ProjectUiActions(std::shared_ptr<ProjectActionsController> controller, const muse::modularity::ContextPtr& iocCtx);
+    ProjectUiActions(std::shared_ptr<ProjectActionsController> controller,
+                     const muse::modularity::ContextPtr& iocCtx);
 
     const muse::ui::UiActionList& actionsList() const override;
 

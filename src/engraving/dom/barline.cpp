@@ -211,7 +211,8 @@ static size_t nextVisibleSpannedStaff(const BarLine* bl)
                 }
                 // ...or next measure is both visible and in the same system
                 Measure* nm = bl->measure()->nextMeasure();
-                if ((nm ? nm->visible(i) : false) && (nm ? nm->system() == bl->measure()->system() : false)) {
+                if ((nm ? nm->visible(i) : false)
+                    && (nm ? nm->system() == bl->measure()->system() : false)) {
                     return i;
                 }
             }
@@ -322,7 +323,8 @@ void BarLine::calcY()
                 }
 
                 if (!spanStaff) {
-                    double y2Next = offsetNext + (staffType1Next->lines() * 2 - 2 + to) * lineDistanceNext * .5 + lineWidthNext;
+                    double y2Next = offsetNext + (staffType1Next->lines() * 2 - 2 + to)
+                                    * lineDistanceNext * .5 + lineWidthNext;
                     if (y2Next > y2) {
                         y2 = y2Next;
                     }
@@ -410,7 +412,8 @@ EngravingItem* BarLine::drop(EditData& data)
             undoChangeProperty(Pid::BARLINE_SPAN_TO, bl->spanTo());
         } else {
             // check if the new property can apply to this single bar line
-            BarLineType bt = BarLineType::START_REPEAT | BarLineType::END_REPEAT | BarLineType::END_START_REPEAT;
+            BarLineType bt = BarLineType::START_REPEAT | BarLineType::END_REPEAT
+                             | BarLineType::END_START_REPEAT;
             bool oldRepeat = barLineType() & bt;
             bool newRepeat = bl->barLineType() & bt;
 
@@ -577,7 +580,8 @@ bool BarLine::edit(EditData& ed)
         return false;
     }
 
-    bool local = ed.control() || segment()->isBarLineType() || spanStaff() != score()->staff(staffIdx())->barLineSpan();
+    bool local = ed.control() || segment()->isBarLineType() || spanStaff() != score()->staff(
+        staffIdx())->barLineSpan();
     if ((ed.key == Key_Up && spanStaff()) || (ed.key == Key_Down && !spanStaff())) {
         if (local) {
             BarLine* b = toBarLine(segment()->element(staffIdx() * VOICES));
@@ -673,7 +677,8 @@ void BarLine::endDragGrip(EditData& ed)
     int newSpanFrom = 0;
     int newSpanTo = 0;
 
-    bool localDrag = ed.control() || segment()->isBarLineType() || spanStaff() != score()->staff(staffIdx())->barLineSpan();
+    bool localDrag = ed.control() || segment()->isBarLineType() || spanStaff() != score()->staff(
+        staffIdx())->barLineSpan();
     if (localDrag) {
         Segment* s = segment();
         bool breakLast = staffIdx1 == staffIdx2;
@@ -876,7 +881,9 @@ PlayCountText* BarLine::playCountText() const
     if (!endBarSeg) {
         return nullptr;
     }
-    PlayCountText* playCountText = toPlayCountText(endBarSeg->findAnnotation(ElementType::PLAY_COUNT_TEXT, track(), track()));
+    PlayCountText* playCountText
+        = toPlayCountText(endBarSeg->findAnnotation(ElementType::PLAY_COUNT_TEXT, track(),
+                                                    track()));
 
     return playCountText;
 }
@@ -955,7 +962,8 @@ muse::TranslatableString BarLine::subtypeUserName() const
 
 String BarLine::accessibleInfo() const
 {
-    return String(u"%1: %2").arg(EngravingItem::accessibleInfo(), BarLine::translatedUserTypeName(barLineType()));
+    return String(u"%1: %2").arg(EngravingItem::accessibleInfo(),
+                                 BarLine::translatedUserTypeName(barLineType()));
 }
 
 //---------------------------------------------------------

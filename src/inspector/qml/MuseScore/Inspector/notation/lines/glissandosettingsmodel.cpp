@@ -26,7 +26,8 @@
 
 using namespace mu::inspector;
 
-GlissandoSettingsModel::GlissandoSettingsModel(QObject* parent, const muse::modularity::ContextPtr& iocCtx,
+GlissandoSettingsModel::GlissandoSettingsModel(QObject* parent,
+                                               const muse::modularity::ContextPtr& iocCtx,
                                                IElementRepositoryService* repository)
     : AbstractInspectorModel(parent, iocCtx, repository, mu::engraving::ElementType::GLISSANDO)
 {
@@ -95,18 +96,22 @@ QVariantList GlissandoSettingsModel::possibleLineTypes() const
 
 void GlissandoSettingsModel::createProperties()
 {
-    auto applyPropertyValueAndUpdateAvailability = [this](const mu::engraving::Pid pid, const QVariant& newValue) {
+    auto applyPropertyValueAndUpdateAvailability
+        = [this](const mu::engraving::Pid pid, const QVariant& newValue) {
         onPropertyValueChanged(pid, newValue);
         onUpdateGlissPropertiesAvailability();
     };
 
-    m_lineType = buildPropertyItem(mu::engraving::Pid::GLISS_TYPE, applyPropertyValueAndUpdateAvailability);
+    m_lineType = buildPropertyItem(mu::engraving::Pid::GLISS_TYPE,
+                                   applyPropertyValueAndUpdateAvailability);
     m_showText = buildPropertyItem(mu::engraving::Pid::GLISS_SHOW_TEXT);
-    m_text = buildPropertyItem(mu::engraving::Pid::GLISS_TEXT, applyPropertyValueAndUpdateAvailability);
+    m_text = buildPropertyItem(mu::engraving::Pid::GLISS_TEXT,
+                               applyPropertyValueAndUpdateAvailability);
 
     m_thickness = buildPropertyItem(mu::engraving::Pid::LINE_WIDTH);
 
-    m_lineStyle = buildPropertyItem(mu::engraving::Pid::LINE_STYLE, applyPropertyValueAndUpdateAvailability);
+    m_lineStyle = buildPropertyItem(mu::engraving::Pid::LINE_STYLE,
+                                    applyPropertyValueAndUpdateAvailability);
     m_dashLineLength = buildPropertyItem(mu::engraving::Pid::DASH_LINE_LEN);
     m_dashGapLength = buildPropertyItem(mu::engraving::Pid::DASH_GAP_LEN);
 }
@@ -139,7 +144,8 @@ void GlissandoSettingsModel::resetProperties()
 
 void GlissandoSettingsModel::onUpdateGlissPropertiesAvailability()
 {
-    bool isStraightLine = m_lineType->value().value<mu::engraving::GlissandoType>() == mu::engraving::GlissandoType::STRAIGHT;
+    bool isStraightLine = m_lineType->value().value<mu::engraving::GlissandoType>()
+                          == mu::engraving::GlissandoType::STRAIGHT;
     m_lineStyle->setIsEnabled(isStraightLine);
     m_thickness->setIsEnabled(isStraightLine);
 

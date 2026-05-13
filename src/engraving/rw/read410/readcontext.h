@@ -85,7 +85,10 @@ public:
 
     double spatium() const;
     void setSpatium(double v);
-    void setPropertiesToSkip(const PropertyIdSet& propertiesToSkip) { m_propertiesToSkip = propertiesToSkip; }
+    void setPropertiesToSkip(const PropertyIdSet& propertiesToSkip)
+    {
+        m_propertiesToSkip = propertiesToSkip;
+    }
     bool shouldSkipProperty(Pid pid) const { return muse::contains(m_propertiesToSkip, pid); }
 
     bool forcePageMode() const { return m_forcePageMode; }
@@ -151,7 +154,8 @@ private:
     bool _pasteMode = false;  // modifies read behaviour on paste operation
     bool m_forcePageMode = false;
 
-    std::map<int /*staffIndex*/, std::vector<std::pair<LinkedObjects*, Location> > > m_staffLinkedElements; // one list per staff
+    std::map<int /*staffIndex*/,
+             std::vector<std::pair<LinkedObjects*, Location> > > m_staffLinkedElements;                     // one list per staff
     LinksIndexer m_linksIndexer;
 
     std::vector<std::shared_ptr<ConnectorInfoReader> > _connectors;

@@ -33,7 +33,8 @@ class StaffTextBase;
 }
 
 namespace mu::notation {
-class StaffTextPropertiesDialog : public muse::ui::WidgetDialog, private Ui::StaffTextPropertiesDialog
+class StaffTextPropertiesDialog : public muse::ui::WidgetDialog,
+    private Ui::StaffTextPropertiesDialog
 {
     Q_OBJECT
 

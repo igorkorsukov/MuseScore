@@ -53,7 +53,8 @@ HammerOnPullOffSegment::HammerOnPullOffSegment(const HammerOnPullOffSegment& oth
 Color HammerOnPullOffSegment::curColor(const rendering::PaintOptions& opt) const
 {
     if (!opt.isPrinting && MScore::warnGuitarBends && !isValid()) {
-        return selected() ? configuration()->criticalSelectedColor() : configuration()->criticalColor();
+        return selected() ? configuration()->criticalSelectedColor() : configuration()->
+               criticalColor();
     }
 
     return SlurSegment::curColor(opt);
@@ -104,7 +105,8 @@ void HammerOnPullOffSegment::updateHopoText()
         // If the segment doesn't end in this system, the endChord is the first chord of next system
         ChordRest* lastCR = system()->lastChordRest(track());
         if (lastCR) {
-            lastCR = toChordRest(lastCR->segment()->next1WithElemsOnTrack(track())->element(track()));
+            lastCR
+                = toChordRest(lastCR->segment()->next1WithElemsOnTrack(track())->element(track()));
         }
         endChord = lastCR && lastCR->isChord() ? toChord(lastCR) : nullptr;
     }
@@ -136,7 +138,9 @@ void HammerOnPullOffSegment::updateHopoText()
         curHopoText->setTrack(track());
         curHopoText->setIsValid(curRegion.isValid);
         curHopoText->setIsHammerOn(curRegion.isHammerOn);
-        curHopoText->setXmlText(style().styleB(Sid::hopoUpperCase) ? (curRegion.isHammerOn ? "H" : "P") : (curRegion.isHammerOn ? "h" : "p"));
+        curHopoText->setXmlText(style().styleB(Sid::hopoUpperCase) ? (curRegion.isHammerOn ? "H" :
+                                                                      "P") : (curRegion.isHammerOn ?
+                                                                              "h" : "p"));
         curHopoText->setStartChord(curRegion.startChord);
         curHopoText->setEndChord(curRegion.endChord);
     }
@@ -151,11 +155,13 @@ void HammerOnPullOffSegment::updateHopoText()
     }
 }
 
-std::vector<HammerOnPullOffSegment::HopoTextRegion> HammerOnPullOffSegment::computeHopoTextRegions(Chord* startChord, Chord* endChord)
+std::vector<HammerOnPullOffSegment::HopoTextRegion> HammerOnPullOffSegment::computeHopoTextRegions(
+    Chord* startChord, Chord* endChord)
 {
     std::vector<HopoTextRegion> result;
     bool isTabStaff = staffType()->isTabStaff();
-    if ((isTabStaff && !style().styleB(Sid::hopoShowOnTabStaves)) || (!isTabStaff && !style().styleB(Sid::hopoShowOnStandardStaves))) {
+    if ((isTabStaff && !style().styleB(Sid::hopoShowOnTabStaves))
+        || (!isTabStaff && !style().styleB(Sid::hopoShowOnStandardStaves))) {
         return result;
     }
 
@@ -173,10 +179,13 @@ std::vector<HammerOnPullOffSegment::HopoTextRegion> HammerOnPullOffSegment::comp
         Note* nextNote = nullptr;
         resolveStartEndNotes(&curNote, &nextNote, curChord, nextChord, isTabStaff);
 
-        bool isValid = isTabStaff ? nextNote->string() == curNote->string() : nextNote->pitch() != curNote->pitch();
-        bool isHammerOn = isTabStaff ? nextNote->fret() > curNote->fret() : nextNote->pitch() > curNote->pitch();
+        bool isValid = isTabStaff ? nextNote->string() == curNote->string() : nextNote->pitch()
+                       != curNote->pitch();
+        bool isHammerOn = isTabStaff ? nextNote->fret() > curNote->fret() : nextNote->pitch()
+                          > curNote->pitch();
 
-        bool startNewRegion = result.empty() || style().styleB(Sid::hopoShowAll) || result.back().isHammerOn != isHammerOn;
+        bool startNewRegion = result.empty() || style().styleB(Sid::hopoShowAll)
+                              || result.back().isHammerOn != isHammerOn;
 
         if (startNewRegion) {
             HopoTextRegion region;
@@ -197,7 +206,9 @@ std::vector<HammerOnPullOffSegment::HopoTextRegion> HammerOnPullOffSegment::comp
     return result;
 }
 
-void HammerOnPullOffSegment::resolveStartEndNotes(Note** startNote, Note** endNote, Chord* startChord, Chord* endChord, bool isTabStaff)
+void HammerOnPullOffSegment::resolveStartEndNotes(Note** startNote, Note** endNote,
+                                                  Chord* startChord, Chord* endChord,
+                                                  bool isTabStaff)
 {
     // In future we need the ability to draw slurs between individual notes. For now, slurs are
     // attached to chords so we just try to guess which notes to consider for this HOPO
@@ -289,7 +300,8 @@ std::vector<LineF> HammerOnPullOffText::dragAnchorLines() const
     HammerOnPullOffSegment* hopoSeg = toHammerOnPullOffSegment(parent());
     const Shape& hopoSegShape = hopoSeg->ldata()->shape();
     double x = ldata()->pos().x();// + hopoSegShape.bbox().x();
-    double y = hopoSeg->hammerOnPullOff()->up() ? hopoSegShape.topAtX(x) : hopoSegShape.bottomAtX(x);
+    double y
+        = hopoSeg->hammerOnPullOff()->up() ? hopoSegShape.topAtX(x) : hopoSegShape.bottomAtX(x);
 
     PointF p2 = PointF(x, y) + hopoSeg->canvasPos();
 
@@ -312,7 +324,8 @@ bool HammerOnPullOffText::isUserModified() const
 Color HammerOnPullOffText::curColor(const rendering::PaintOptions& opt) const
 {
     if (!isValid() && MScore::warnGuitarBends && !opt.isPrinting) {
-        return selected() ? configuration()->criticalSelectedColor() : configuration()->criticalColor();
+        return selected() ? configuration()->criticalSelectedColor() : configuration()->
+               criticalColor();
     }
 
     return TextBase::curColor(opt);

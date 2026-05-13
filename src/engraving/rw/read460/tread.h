@@ -251,7 +251,8 @@ public:
     static void read(Hook* h, XmlReader& xml, ReadContext& ctx);
 
     static void read(Instrument* item, XmlReader& xml, ReadContext& ctx, Part* part);
-    static void read(InstrChannel* item, XmlReader& e, ReadContext& ctx, Part* part, const InstrumentTrackId& instrId);
+    static void read(InstrChannel* item, XmlReader& e, ReadContext& ctx, Part* part,
+                     const InstrumentTrackId& instrId);
     static void read(InstrumentChange* c, XmlReader& xml, ReadContext& ctx);
 
     static void read(KeyList* item, XmlReader& xml, ReadContext& ctx);
@@ -339,9 +340,11 @@ public:
     // temp compat
 
     static PropertyValue readPropertyValue(Pid type, XmlReader& e, ReadContext& ctx);
-    static bool readProperty(EngravingItem* item, const AsciiStringView&, XmlReader&, ReadContext&, Pid);
+    static bool readProperty(EngravingItem* item, const AsciiStringView&, XmlReader&, ReadContext&,
+                             Pid);
     static void readProperty(EngravingItem* item, XmlReader&, ReadContext&, Pid);
-    static bool readStyledProperty(EngravingItem* item, const AsciiStringView& tag, XmlReader& xml, ReadContext& ctx);
+    static bool readStyledProperty(EngravingItem* item, const AsciiStringView& tag, XmlReader& xml,
+                                   ReadContext& ctx);
 
     static bool readItemProperties(EngravingItem* item, XmlReader& xml, ReadContext& ctx);
     static bool readBoxProperties(Box* b, XmlReader& xml, ReadContext& ctx);
@@ -356,9 +359,11 @@ public:
     static bool readProperties(Clef* c, XmlReader& xml, ReadContext& ctx);
     static bool readProperties(Fermata* f, XmlReader& xml, ReadContext& ctx);
 
-    static bool readProperties(GuitarBendSegment* g, const AsciiStringView& tag, XmlReader& xml, ReadContext&);
+    static bool readProperties(GuitarBendSegment* g, const AsciiStringView& tag, XmlReader& xml,
+                               ReadContext&);
 
-    static bool readProperties(Instrument* item, XmlReader& xml, ReadContext& ctx, Part* part, bool* customDrumset);
+    static bool readProperties(Instrument* item, XmlReader& xml, ReadContext& ctx, Part* part,
+                               bool* customDrumset);
 
     static bool readProperties(LedgerLine* l, XmlReader& xml, ReadContext& ctx);
     static bool readProperties(LineSegment* l, XmlReader& xml, ReadContext& ctx);
@@ -386,7 +391,8 @@ public:
     static bool readProperties(TextLineBase* b, XmlReader& e, ReadContext& ctx);
     static bool readProperties(Volta* v, XmlReader& e, ReadContext& ctx);
 
-    static void readSpanner(XmlReader& e, ReadContext& ctx, EngravingItem* current, track_idx_t track);
+    static void readSpanner(XmlReader& e, ReadContext& ctx, EngravingItem* current,
+                            track_idx_t track);
     static void readSpanner(XmlReader& e, ReadContext& ctx, Score* current, track_idx_t track);
 
     static void readSystemLocks(Score* score, XmlReader& e);
@@ -404,7 +410,8 @@ private:
 
     static void readSystemLock(Score* score, XmlReader& e);
 
-    static void readHopoText(HammerOnPullOffSegment* hopoSeg, XmlReader& xml, ReadContext& ctx, int idx);
+    static void readHopoText(HammerOnPullOffSegment* hopoSeg, XmlReader& xml, ReadContext& ctx,
+                             int idx);
 
     static String lineBreakFromTag(const String& str);
 

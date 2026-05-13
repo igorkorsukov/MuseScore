@@ -36,8 +36,10 @@ static const ElementStyle annotationStyle {
     { Sid::staffTextMinDistance, Pid::MIN_DISTANCE },
 };
 
-PlayTechAnnotation::PlayTechAnnotation(Segment* parent, PlayingTechniqueType techniqueType, TextStyleType tid)
-    : StaffTextBase(ElementType::PLAYTECH_ANNOTATION, parent, tid, ElementFlag::MOVABLE | ElementFlag::ON_STAFF),
+PlayTechAnnotation::PlayTechAnnotation(Segment* parent, PlayingTechniqueType techniqueType,
+                                       TextStyleType tid)
+    : StaffTextBase(ElementType::PLAYTECH_ANNOTATION, parent, tid,
+                    ElementFlag::MOVABLE | ElementFlag::ON_STAFF),
     m_techniqueType(techniqueType)
 {
     initElementStyle(&annotationStyle);
@@ -66,8 +68,10 @@ TranslatableString PlayTechAnnotation::subtypeUserName() const
 
 bool PlayTechAnnotation::isHandbellsSymbol() const
 {
-    return static_cast<int>(m_techniqueType) >= static_cast<int>(PlayingTechniqueType::HandbellsSwing)
-           && static_cast<int>(m_techniqueType) <= static_cast<int>(PlayingTechniqueType::HandbellsR);
+    return static_cast<int>(m_techniqueType)
+           >= static_cast<int>(PlayingTechniqueType::HandbellsSwing)
+           && static_cast<int>(m_techniqueType)
+           <= static_cast<int>(PlayingTechniqueType::HandbellsR);
 }
 
 PropertyValue PlayTechAnnotation::getProperty(Pid id) const

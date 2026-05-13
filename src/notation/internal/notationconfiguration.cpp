@@ -37,10 +37,14 @@ using namespace muse::ui;
 
 static const std::string module_name("notation");
 
-static const Settings::Key LIGHT_SCORE_BACKGROUND_COLOR(module_name, "ui/canvas/background/lightTheme_score_background_color");
-static const Settings::Key DARK_SCORE_BACKGROUND_COLOR(module_name, "ui/canvas/background/darkTheme_score_background_color");
-static const Settings::Key HC_BLACK_SCORE_BACKGROUND_COLOR(module_name, "ui/canvas/background/hc_black_score_background_color");
-static const Settings::Key HC_WHITE_SCORE_BACKGROUND_COLOR(module_name, "ui/canvas/background/hc_white_score_background_color");
+static const Settings::Key LIGHT_SCORE_BACKGROUND_COLOR(module_name,
+                                                        "ui/canvas/background/lightTheme_score_background_color");
+static const Settings::Key DARK_SCORE_BACKGROUND_COLOR(module_name,
+                                                       "ui/canvas/background/darkTheme_score_background_color");
+static const Settings::Key HC_BLACK_SCORE_BACKGROUND_COLOR(module_name,
+                                                           "ui/canvas/background/hc_black_score_background_color");
+static const Settings::Key HC_WHITE_SCORE_BACKGROUND_COLOR(module_name,
+                                                           "ui/canvas/background/hc_white_score_background_color");
 static const Settings::Key BACKGROUND_WALLPAPER_PATH(module_name, "ui/canvas/background/wallpaper");
 static const Settings::Key BACKGROUND_USE_COLOR(module_name, "ui/canvas/background/useColor");
 
@@ -50,7 +54,8 @@ static const Settings::Key FOREGROUND_USE_COLOR(module_name, "ui/canvas/foregrou
 
 // TODO(5.0): replace "engraving" with module_name
 static const Settings::Key INVERT_SCORE_COLOR("engraving", "engraving/scoreColorInversion");
-static const Settings::Key ONLY_INVERT_IN_DARK_THEME(module_name, "ui/canvas/onlyInvertInDarkTheme");
+static const Settings::Key ONLY_INVERT_IN_DARK_THEME(module_name,
+                                                     "ui/canvas/onlyInvertInDarkTheme");
 
 static const Settings::Key NOTE_INPUT_PREVIEW_COLOR(module_name, "ui/canvas/noteInputPreviewColor");
 
@@ -78,29 +83,39 @@ static const Settings::Key IS_MIDI_INPUT_ENABLED(module_name, "io/midi/enableInp
 static const Settings::Key START_NOTE_INPUT_AT_SELECTED_NOTE_REST_WHEN_PRESSING_MIDI_KEY(module_name,
                                                                                          "score/startNoteInputAtSelectionWhenPressingMidiKey");
 static const Settings::Key USE_MIDI_INPUT_WRITTEN_PITCH(module_name, "io/midi/useWrittenPitch");
-static const Settings::Key IS_AUTOMATICALLY_PAN_ENABLED(module_name, "application/playback/panPlayback");
+static const Settings::Key IS_AUTOMATICALLY_PAN_ENABLED(module_name,
+                                                        "application/playback/panPlayback");
 static const Settings::Key IS_PLAY_REPEATS_ENABLED(module_name, "application/playback/playRepeats");
-static const Settings::Key IS_PLAY_CHORD_SYMBOLS_ENABLED(module_name, "application/playback/playChordSymbols");
+static const Settings::Key IS_PLAY_CHORD_SYMBOLS_ENABLED(module_name,
+                                                         "application/playback/playChordSymbols");
 static const Settings::Key IS_PLAY_PREVIEW_NOTES_IN_INPUT_BY_DURATION_ENABLED(module_name,
                                                                               "application/playback/playPreviewNotesInInputByDuration");
-static const Settings::Key PLAY_PREVIEW_NOTES_WITH_SCORE_DYNAMICS(module_name, "application/playback/playPreviewNotesWithScoreDynamics");
-static const Settings::Key IS_METRONOME_ENABLED(module_name, "application/playback/metronomeEnabled");
+static const Settings::Key PLAY_PREVIEW_NOTES_WITH_SCORE_DYNAMICS(module_name,
+                                                                  "application/playback/playPreviewNotesWithScoreDynamics");
+static const Settings::Key IS_METRONOME_ENABLED(module_name,
+                                                "application/playback/metronomeEnabled");
 static const Settings::Key IS_COUNT_IN_ENABLED(module_name, "application/playback/countInEnabled");
 
-static const Settings::Key IS_CANVAS_ORIENTATION_VERTICAL_KEY(module_name, "ui/canvas/scroll/verticalOrientation");
+static const Settings::Key IS_CANVAS_ORIENTATION_VERTICAL_KEY(module_name,
+                                                              "ui/canvas/scroll/verticalOrientation");
 
-static const Settings::Key COLOR_NOTES_OUTSIDE_OF_USABLE_PITCH_RANGE(module_name, "score/note/warnPitchRange");
+static const Settings::Key COLOR_NOTES_OUTSIDE_OF_USABLE_PITCH_RANGE(module_name,
+                                                                     "score/note/warnPitchRange");
 static const Settings::Key WARN_GUITAR_BENDS(module_name, "score/note/warnGuitarBends");
 static const Settings::Key REALTIME_DELAY(module_name, "io/midi/realtimeDelay");
 static const Settings::Key USE_MIDI_VELOCITY_AND_DURATION_DURING_NOTE_INPUT(module_name,
                                                                             "io/midi/useMidiVelocityAndDurationDuringNoteInput");
-static const Settings::Key NOTE_DEFAULT_PLAY_DURATION(module_name, "score/note/defaultPlayDuration");
+static const Settings::Key NOTE_DEFAULT_PLAY_DURATION(module_name,
+                                                      "score/note/defaultPlayDuration");
 
 static const Settings::Key USER_INSTRUMENTS_PATH(module_name, "application/paths/userInstruments");
 
-static const Settings::Key IS_SNAPPED_TO_VERTICAL_GRID_KEY(module_name,  "ui/application/raster/isSnappedToVerticalGrid");
-static const Settings::Key IS_SNAPPED_TO_HORIZONTAL_GRID_KEY(module_name,  "ui/application/raster/isSnappedToHorizontalGrid");
-static const Settings::Key HORIZONTAL_GRID_SIZE_KEY(module_name,  "ui/application/raster/horizontal");
+static const Settings::Key IS_SNAPPED_TO_VERTICAL_GRID_KEY(module_name,
+                                                           "ui/application/raster/isSnappedToVerticalGrid");
+static const Settings::Key IS_SNAPPED_TO_HORIZONTAL_GRID_KEY(module_name,
+                                                             "ui/application/raster/isSnappedToHorizontalGrid");
+static const Settings::Key HORIZONTAL_GRID_SIZE_KEY(module_name,
+                                                    "ui/application/raster/horizontal");
 static const Settings::Key VERTICAL_GRID_SIZE_KEY(module_name,  "ui/application/raster/vertical");
 
 static const Settings::Key STYLE_FILE_IMPORT_PATH_KEY(module_name, "import/style/styleFile");
@@ -181,10 +196,12 @@ void NotationConfiguration::init()
 
     settings()->setDefaultValue(NOTE_INPUT_PREVIEW_COLOR, Val(selectionColor()));
     settings()->setCanBeManuallyEdited(NOTE_INPUT_PREVIEW_COLOR, true);
-    settings()->setDescription(NOTE_INPUT_PREVIEW_COLOR, muse::trc("notation", "Note input preview note color"));
+    settings()->setDescription(NOTE_INPUT_PREVIEW_COLOR,
+                               muse::trc("notation", "Note input preview note color"));
 
     settings()->setDefaultValue(USE_NOTE_INPUT_CURSOR_IN_INPUT_BY_DURATION, Val(false));
-    settings()->valueChanged(USE_NOTE_INPUT_CURSOR_IN_INPUT_BY_DURATION).onReceive(nullptr, [this](const Val&) {
+    settings()->valueChanged(USE_NOTE_INPUT_CURSOR_IN_INPUT_BY_DURATION).onReceive(nullptr,
+                                                                                   [this](const Val&) {
         m_useNoteInputCursorInInputByDurationChanged.notify();
     });
 
@@ -209,7 +226,8 @@ void NotationConfiguration::init()
         m_mouseZoomPrecisionChanged.notify();
     });
 
-    settings()->setDefaultValue(USER_STYLES_PATH, Val(globalConfiguration()->userDataPath() + "/Styles"));
+    settings()->setDefaultValue(USER_STYLES_PATH,
+                                Val(globalConfiguration()->userDataPath() + "/Styles"));
     settings()->valueChanged(USER_STYLES_PATH).onReceive(nullptr, [this](const Val& val) {
         m_userStylesPathChanged.send(val.toPath());
     });
@@ -240,7 +258,11 @@ void NotationConfiguration::init()
     });
 
     settings()->setDefaultValue(ADD_ACCIDENTAL_ARTICULATIONS_DOTS_TO_NEXT_NOTE_ENTERED, Val(true));
-    settings()->valueChanged(ADD_ACCIDENTAL_ARTICULATIONS_DOTS_TO_NEXT_NOTE_ENTERED).onReceive(this, [this](const Val&) {
+    settings()->valueChanged(ADD_ACCIDENTAL_ARTICULATIONS_DOTS_TO_NEXT_NOTE_ENTERED).onReceive(this,
+                                                                                               [this](
+                                                                                                   const
+                                                                                                   Val
+                                                                                                   &) {
         m_addAccidentalDotsArticulationsToNextNoteEnteredChanged.notify();
     });
 
@@ -254,8 +276,10 @@ void NotationConfiguration::init()
         m_isMidiInputEnabledChanged.notify();
     });
 
-    settings()->setDefaultValue(START_NOTE_INPUT_AT_SELECTED_NOTE_REST_WHEN_PRESSING_MIDI_KEY, Val(true));
-    settings()->valueChanged(START_NOTE_INPUT_AT_SELECTED_NOTE_REST_WHEN_PRESSING_MIDI_KEY).onReceive(this, [this](const Val&) {
+    settings()->setDefaultValue(START_NOTE_INPUT_AT_SELECTED_NOTE_REST_WHEN_PRESSING_MIDI_KEY,
+                                Val(true));
+    settings()->valueChanged(START_NOTE_INPUT_AT_SELECTED_NOTE_REST_WHEN_PRESSING_MIDI_KEY).
+    onReceive(this, [this](const Val&) {
         m_startNoteInputAtSelectedNoteRestWhenPressingMidiKeyChanged.notify();
     });
 
@@ -279,22 +303,29 @@ void NotationConfiguration::init()
     });
 
     settings()->setDefaultValue(IS_PLAY_PREVIEW_NOTES_IN_INPUT_BY_DURATION_ENABLED, Val(true));
-    settings()->valueChanged(IS_PLAY_PREVIEW_NOTES_IN_INPUT_BY_DURATION_ENABLED).onReceive(nullptr, [this](const Val&) {
+    settings()->valueChanged(IS_PLAY_PREVIEW_NOTES_IN_INPUT_BY_DURATION_ENABLED).onReceive(nullptr,
+                                                                                           [this](
+                                                                                               const
+                                                                                               Val&) {
         m_isPlayNotesPreviewInInputByDurationChanged.notify();
     });
 
     settings()->setDefaultValue(PLAY_PREVIEW_NOTES_WITH_SCORE_DYNAMICS, Val(true));
-    settings()->valueChanged(PLAY_PREVIEW_NOTES_WITH_SCORE_DYNAMICS).onReceive(nullptr, [this](const Val&) {
+    settings()->valueChanged(PLAY_PREVIEW_NOTES_WITH_SCORE_DYNAMICS).onReceive(nullptr,
+                                                                               [this](const Val&) {
         m_playPreviewNotesWithScoreDynamicsChanged.notify();
     });
 
     settings()->setDefaultValue(IS_CANVAS_ORIENTATION_VERTICAL_KEY, Val(false));
-    settings()->valueChanged(IS_CANVAS_ORIENTATION_VERTICAL_KEY).onReceive(nullptr, [this](const Val&) {
+    settings()->valueChanged(IS_CANVAS_ORIENTATION_VERTICAL_KEY).onReceive(nullptr,
+                                                                           [this](const Val&) {
         m_canvasOrientationChanged.send(canvasOrientation().val);
     });
 
     settings()->setDefaultValue(COLOR_NOTES_OUTSIDE_OF_USABLE_PITCH_RANGE, Val(true));
-    settings()->valueChanged(COLOR_NOTES_OUTSIDE_OF_USABLE_PITCH_RANGE).onReceive(this, [this](const Val& val) {
+    settings()->valueChanged(COLOR_NOTES_OUTSIDE_OF_USABLE_PITCH_RANGE).onReceive(this,
+                                                                                  [this](const Val&
+                                                                                         val) {
         m_colorNotesOutsideOfUsablePitchRangeChanged.send(val.toBool());
     });
     settings()->setDefaultValue(WARN_GUITAR_BENDS, Val(true));
@@ -307,8 +338,13 @@ void NotationConfiguration::init()
     });
 
     settings()->setDefaultValue(USE_MIDI_VELOCITY_AND_DURATION_DURING_NOTE_INPUT, Val(true));
-    settings()->valueChanged(USE_MIDI_VELOCITY_AND_DURATION_DURING_NOTE_INPUT).onReceive(this, [this](const Val& val) {
-        m_useMidiVelocityAndDurationDuringNoteInputChanged.send(val.toBool());
+    settings()->valueChanged(USE_MIDI_VELOCITY_AND_DURATION_DURING_NOTE_INPUT).onReceive(this,
+                                                                                         [this](
+                                                                                             const
+                                                                                             Val&
+                                                                                             val) {
+        m_useMidiVelocityAndDurationDuringNoteInputChanged.send(
+            val.toBool());
     });
 
     settings()->setDefaultValue(NOTE_DEFAULT_PLAY_DURATION, Val(500));
@@ -418,14 +454,20 @@ void NotationConfiguration::setBackgroundUseColor(bool value)
 
 void NotationConfiguration::resetBackground()
 {
-    settings()->setSharedValue(LIGHT_SCORE_BACKGROUND_COLOR, settings()->defaultValue(LIGHT_SCORE_BACKGROUND_COLOR));
-    settings()->setSharedValue(DARK_SCORE_BACKGROUND_COLOR, settings()->defaultValue(DARK_SCORE_BACKGROUND_COLOR));
-    settings()->setSharedValue(HC_BLACK_SCORE_BACKGROUND_COLOR, settings()->defaultValue(HC_BLACK_SCORE_BACKGROUND_COLOR));
-    settings()->setSharedValue(HC_WHITE_SCORE_BACKGROUND_COLOR, settings()->defaultValue(HC_WHITE_SCORE_BACKGROUND_COLOR));
+    settings()->setSharedValue(LIGHT_SCORE_BACKGROUND_COLOR,
+                               settings()->defaultValue(LIGHT_SCORE_BACKGROUND_COLOR));
+    settings()->setSharedValue(DARK_SCORE_BACKGROUND_COLOR,
+                               settings()->defaultValue(DARK_SCORE_BACKGROUND_COLOR));
+    settings()->setSharedValue(HC_BLACK_SCORE_BACKGROUND_COLOR,
+                               settings()->defaultValue(HC_BLACK_SCORE_BACKGROUND_COLOR));
+    settings()->setSharedValue(HC_WHITE_SCORE_BACKGROUND_COLOR,
+                               settings()->defaultValue(HC_WHITE_SCORE_BACKGROUND_COLOR));
 
-    settings()->setSharedValue(BACKGROUND_USE_COLOR, settings()->defaultValue(BACKGROUND_USE_COLOR));
+    settings()->setSharedValue(BACKGROUND_USE_COLOR,
+                               settings()->defaultValue(BACKGROUND_USE_COLOR));
 
-    settings()->setSharedValue(BACKGROUND_WALLPAPER_PATH, settings()->defaultValue(BACKGROUND_WALLPAPER_PATH));
+    settings()->setSharedValue(BACKGROUND_WALLPAPER_PATH,
+                               settings()->defaultValue(BACKGROUND_WALLPAPER_PATH));
 }
 
 muse::async::Notification NotationConfiguration::backgroundChanged() const
@@ -488,10 +530,13 @@ void NotationConfiguration::setForegroundUseColor(bool value)
 void NotationConfiguration::resetForeground()
 {
     settings()->setSharedValue(FOREGROUND_COLOR, settings()->defaultValue(FOREGROUND_COLOR));
-    settings()->setSharedValue(FOREGROUND_USE_COLOR, settings()->defaultValue(FOREGROUND_USE_COLOR));
-    settings()->setSharedValue(FOREGROUND_WALLPAPER_PATH, settings()->defaultValue(FOREGROUND_WALLPAPER_PATH));
+    settings()->setSharedValue(FOREGROUND_USE_COLOR,
+                               settings()->defaultValue(FOREGROUND_USE_COLOR));
+    settings()->setSharedValue(FOREGROUND_WALLPAPER_PATH,
+                               settings()->defaultValue(FOREGROUND_WALLPAPER_PATH));
     settings()->setSharedValue(INVERT_SCORE_COLOR, settings()->defaultValue(INVERT_SCORE_COLOR));
-    settings()->setSharedValue(ONLY_INVERT_IN_DARK_THEME, settings()->defaultValue(ONLY_INVERT_IN_DARK_THEME));
+    settings()->setSharedValue(ONLY_INVERT_IN_DARK_THEME,
+                               settings()->defaultValue(ONLY_INVERT_IN_DARK_THEME));
 }
 
 muse::async::Notification NotationConfiguration::foregroundChanged() const
@@ -778,7 +823,8 @@ void NotationConfiguration::setAddAccidentalDotsArticulationsToNextNoteEntered(b
     settings()->setSharedValue(ADD_ACCIDENTAL_ARTICULATIONS_DOTS_TO_NEXT_NOTE_ENTERED, Val(value));
 }
 
-muse::async::Notification NotationConfiguration::addAccidentalDotsArticulationsToNextNoteEnteredChanged() const
+muse::async::Notification NotationConfiguration::
+addAccidentalDotsArticulationsToNextNoteEnteredChanged() const
 {
     return m_addAccidentalDotsArticulationsToNextNoteEnteredChanged;
 }
@@ -805,10 +851,12 @@ bool NotationConfiguration::startNoteInputAtSelectedNoteRestWhenPressingMidiKey(
 
 void NotationConfiguration::setStartNoteInputAtSelectedNoteRestWhenPressingMidiKey(bool value)
 {
-    settings()->setSharedValue(START_NOTE_INPUT_AT_SELECTED_NOTE_REST_WHEN_PRESSING_MIDI_KEY, Val(value));
+    settings()->setSharedValue(START_NOTE_INPUT_AT_SELECTED_NOTE_REST_WHEN_PRESSING_MIDI_KEY,
+                               Val(value));
 }
 
-async::Notification NotationConfiguration::startNoteInputAtSelectedNoteRestWhenPressingMidiKeyChanged() const
+async::Notification NotationConfiguration::
+startNoteInputAtSelectedNoteRestWhenPressingMidiKeyChanged() const
 {
     return m_startNoteInputAtSelectedNoteRestWhenPressingMidiKeyChanged;
 }
@@ -974,7 +1022,8 @@ void NotationConfiguration::setDelayBetweenNotesInRealTimeModeMilliseconds(int d
     settings()->setSharedValue(REALTIME_DELAY, Val(delayMs));
 }
 
-async::Channel<int> NotationConfiguration::delayBetweenNotesInRealTimeModeMillisecondsChanged() const
+async::Channel<int> NotationConfiguration::delayBetweenNotesInRealTimeModeMillisecondsChanged()
+const
 {
     return m_delayBetweenNotesInRealTimeModeMillisecondsChanged;
 }
@@ -989,7 +1038,8 @@ void NotationConfiguration::setUseMidiVelocityAndDurationDuringNoteInput(bool us
     settings()->setSharedValue(USE_MIDI_VELOCITY_AND_DURATION_DURING_NOTE_INPUT, Val(use));
 }
 
-muse::async::Channel<bool> NotationConfiguration::useMidiVelocityAndDurationDuringNoteInputChanged() const
+muse::async::Channel<bool> NotationConfiguration::useMidiVelocityAndDurationDuringNoteInputChanged()
+const
 {
     return m_useMidiVelocityAndDurationDuringNoteInputChanged;
 }
@@ -1041,7 +1091,8 @@ muse::io::paths_t NotationConfiguration::userInstrumentsAndScoreOrdersPaths() co
     // Scan user instruments folder for XML files
     muse::io::path_t folder = userInstrumentsFolder();
     if (!folder.empty()) {
-        RetVal<io::paths_t> userFiles = fileSystem()->scanFiles(folder, { "*.xml" }, io::ScanMode::FilesInCurrentDir);
+        RetVal<io::paths_t> userFiles = fileSystem()->scanFiles(folder, { "*.xml" },
+                                                                io::ScanMode::FilesInCurrentDir);
         if (userFiles.ret) {
             for (const io::path_t& file : userFiles.val) {
                 paths.push_back(file);
@@ -1070,8 +1121,10 @@ muse::io::path_t NotationConfiguration::stringTuningsPresetsPath() const
 bool NotationConfiguration::isSnappedToGrid(muse::Orientation gridOrientation) const
 {
     switch (gridOrientation) {
-    case muse::Orientation::Horizontal: return settings()->value(IS_SNAPPED_TO_HORIZONTAL_GRID_KEY).toBool();
-    case muse::Orientation::Vertical: return settings()->value(IS_SNAPPED_TO_VERTICAL_GRID_KEY).toBool();
+    case muse::Orientation::Horizontal: return settings()->value(IS_SNAPPED_TO_HORIZONTAL_GRID_KEY).
+               toBool();
+    case muse::Orientation::Vertical: return settings()->value(IS_SNAPPED_TO_VERTICAL_GRID_KEY).
+               toBool();
     }
 
     return false;

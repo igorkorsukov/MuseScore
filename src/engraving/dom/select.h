@@ -142,8 +142,10 @@ public:
     Segment* endSegment() const { return m_endSegment; }
     void setStartSegment(Segment* s) { m_startSegment = s; }
     void setEndSegment(Segment* s) { m_endSegment = s; }
-    void setRange(Segment* startSegment, Segment* endSegment, staff_idx_t staffStart, staff_idx_t staffEnd);
-    void setRangeTicks(const Fraction& tick1, const Fraction& tick2, staff_idx_t staffStart, staff_idx_t staffEnd);
+    void setRange(Segment* startSegment, Segment* endSegment, staff_idx_t staffStart,
+                  staff_idx_t staffEnd);
+    void setRangeTicks(const Fraction& tick1, const Fraction& tick2, staff_idx_t staffStart,
+                       staff_idx_t staffEnd);
     Segment* activeSegment() const { return m_activeSegment; }
     void setActiveSegment(Segment* s) { m_activeSegment = s; }
     ChordRest* activeCR() const;
@@ -162,7 +164,8 @@ public:
     void updateSelectedElements();
     bool measureRange(Measure** m1, Measure** m2) const;
     void extendRangeSelection(ChordRest* cr);
-    void extendRangeSelection(Segment* seg, Segment* segAfter, staff_idx_t staffIdx, const Fraction& tick, const Fraction& etick);
+    void extendRangeSelection(Segment* seg, Segment* segAfter, staff_idx_t staffIdx,
+                              const Fraction& tick, const Fraction& etick);
     bool rangeContainsMultiNoteChords() const;
 
 private:
@@ -170,7 +173,8 @@ private:
     muse::ByteArray symbolListMimeData() const;
     SelectionFilter selectionFilter() const;
     bool canSelect(const EngravingItem* e) const { return selectionFilter().canSelect(e); }
-    bool canSelectNoteIdx(size_t noteIdx, size_t totalNotesInChord, bool rangeContainsMultiNoteChords) const;
+    bool canSelectNoteIdx(size_t noteIdx, size_t totalNotesInChord,
+                          bool rangeContainsMultiNoteChords) const;
     bool canSelectVoice(track_idx_t track) const { return selectionFilter().canSelectVoice(track); }
     void appendFiltered(EngravingItem* e);
     void appendFiltered(const std::unordered_set<EngravingItem*>& elems);

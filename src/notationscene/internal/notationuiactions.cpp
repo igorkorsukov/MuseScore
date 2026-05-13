@@ -66,11 +66,13 @@ static const TranslatableString noteB = TranslatableString("action", "B");
 
 static const TranslatableString Enter_note_X = TranslatableString("action", "Enter note %1");
 static const TranslatableString Add_X_to_chord = TranslatableString("action", "Add %1 to chord");
-static const TranslatableString Add_note_X_to_chord = TranslatableString("action", "Add note %1 to chord");
+static const TranslatableString Add_note_X_to_chord = TranslatableString("action",
+                                                                         "Add note %1 to chord");
 static const TranslatableString Insert_X = TranslatableString("action", "Insert %1");
 
 static const TranslatableString fret_X_TAB = TranslatableString("action", "Fret %1 (TAB)");
-static const TranslatableString enter_TAB_fret_X = TranslatableString("action", "Enter TAB: fret %1");
+static const TranslatableString enter_TAB_fret_X
+    = TranslatableString("action", "Enter TAB: fret %1");
 
 //: Addition to the name of an action to indicate that this action only applies to tablature notation.
 //: '%1' is the name of the action.
@@ -1674,8 +1676,10 @@ const UiActionList NotationUiActions::s_actions = {
     UiAction("enh-both",
              mu::context::UiCtxProjectOpened,
              mu::context::CTX_NOTATION_OPENED,
-             TranslatableString("action", "Change enharmonic spelling (concert and transposed &pitch)"),
-             TranslatableString("action", "Change enharmonic spelling (concert and transposed pitch)"),
+             TranslatableString("action",
+                                "Change enharmonic spelling (concert and transposed &pitch)"),
+             TranslatableString("action",
+                                "Change enharmonic spelling (concert and transposed pitch)"),
              IconCode::Code::NONE
              ),
     UiAction("enh-current",
@@ -1750,7 +1754,8 @@ const UiActionList NotationUiActions::s_actions = {
     UiAction("advance-1",
              mu::context::UiCtxProjectFocused,
              mu::context::CTX_NOTATION_OPENED,
-             TranslatableString("action", "Advance cursor: whole note (chord symbols/figured bass)"),
+             TranslatableString("action",
+                                "Advance cursor: whole note (chord symbols/figured bass)"),
              TranslatableString("action", "Advance cursor: whole note (chord symbols/figured bass)")
              ),
     UiAction("advance-2",
@@ -1762,14 +1767,18 @@ const UiActionList NotationUiActions::s_actions = {
     UiAction("advance-4",
              mu::context::UiCtxProjectFocused,
              mu::context::CTX_NOTATION_OPENED,
-             TranslatableString("action", "Advance cursor: quarter note (chord symbols/figured bass)"),
-             TranslatableString("action", "Advance cursor: quarter note (chord symbols/figured bass)")
+             TranslatableString("action",
+                                "Advance cursor: quarter note (chord symbols/figured bass)"),
+             TranslatableString("action",
+                                "Advance cursor: quarter note (chord symbols/figured bass)")
              ),
     UiAction("advance-8",
              mu::context::UiCtxProjectFocused,
              mu::context::CTX_NOTATION_OPENED,
-             TranslatableString("action", "Advance cursor: eighth note (chord symbols/figured bass)"),
-             TranslatableString("action", "Advance cursor: eighth note (chord symbols/figured bass)")
+             TranslatableString("action",
+                                "Advance cursor: eighth note (chord symbols/figured bass)"),
+             TranslatableString("action",
+                                "Advance cursor: eighth note (chord symbols/figured bass)")
              ),
     UiAction("advance-16",
              mu::context::UiCtxProjectFocused,
@@ -2173,7 +2182,8 @@ const UiActionList NotationUiActions::s_actions = {
              mu::context::UiCtxProjectOpened,
              mu::context::CTX_NOTATION_OPENED,
              TranslatableString("action", "Insert"),
-             TranslatableString("action", "Toggle note input mode: insert (increases measure duration)"),
+             TranslatableString("action",
+                                "Toggle note input mode: insert (increases measure duration)"),
              IconCode::Code::NOTE_PLUS
              ),
     UiAction("realtime-advance",
@@ -2774,7 +2784,8 @@ const UiActionList NotationUiActions::s_engravingDebuggingActions = {
              )
 };
 
-NotationUiActions::NotationUiActions(std::shared_ptr<NotationActionController> controller, const muse::modularity::ContextPtr& iocCtx)
+NotationUiActions::NotationUiActions(std::shared_ptr<NotationActionController> controller,
+                                     const muse::modularity::ContextPtr& iocCtx)
     : muse::Contextable(iocCtx), m_controller(controller)
 {
 }
@@ -2871,7 +2882,8 @@ const UiActionList& NotationUiActions::actionsList() const
         alist.insert(alist.end(), s_actions.begin(), s_actions.end());
         alist.insert(alist.end(), s_undoRedoActions.begin(), s_undoRedoActions.end());
         alist.insert(alist.end(), s_scoreConfigActions.begin(), s_scoreConfigActions.end());
-        alist.insert(alist.end(), s_engravingDebuggingActions.begin(), s_engravingDebuggingActions.end());
+        alist.insert(alist.end(),
+                     s_engravingDebuggingActions.begin(), s_engravingDebuggingActions.end());
     }
     return alist;
 }
@@ -2970,9 +2982,12 @@ bool NotationUiActions::actionChecked(const UiAction& act) const
         }
     }
 
-    auto engravingDebuggingActionsSearch = NotationActionController::engravingDebuggingActions.find(act.code);
-    if (engravingDebuggingActionsSearch != NotationActionController::engravingDebuggingActions.cend()) {
-        return engravingConfiguration()->debuggingOptions().*(engravingDebuggingActionsSearch->second);
+    auto engravingDebuggingActionsSearch = NotationActionController::engravingDebuggingActions.find(
+        act.code);
+    if (engravingDebuggingActionsSearch
+        != NotationActionController::engravingDebuggingActions.cend()) {
+        return engravingConfiguration()->debuggingOptions().*(engravingDebuggingActionsSearch->
+                                                              second);
     }
 
     return false;

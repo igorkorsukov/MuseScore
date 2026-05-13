@@ -155,7 +155,8 @@ String Instrument::recognizeMusicXmlId() const
     nameList.push_back(m_instrumentLabel.longName());
     nameList.push_back(m_instrumentLabel.shortName());
 
-    const InstrumentTemplate* tmplByName = mu::engraving::searchTemplateForInstrNameList(nameList, m_useDrumset);
+    const InstrumentTemplate* tmplByName = mu::engraving::searchTemplateForInstrNameList(nameList,
+                                                                                         m_useDrumset);
 
     if (tmplByName && !tmplByName->musicXmlId.isEmpty()) {
         return tmplByName->musicXmlId;
@@ -167,8 +168,10 @@ String Instrument::recognizeMusicXmlId() const
         return defaultMusicXmlId;
     }
 
-    const InstrumentTemplate* tmplMidiProgram = mu::engraving::searchTemplateForMidiProgram(channel->bank(), channel->program(),
-                                                                                            m_useDrumset);
+    const InstrumentTemplate* tmplMidiProgram = mu::engraving::searchTemplateForMidiProgram(
+        channel->bank(),
+        channel->program(),
+        m_useDrumset);
 
     if (tmplMidiProgram && !tmplMidiProgram->musicXmlId.isEmpty()) {
         return tmplMidiProgram->musicXmlId;
@@ -252,7 +255,8 @@ String Instrument::recognizeId() const
                     if (bestMatchStrength == perfectMatchStrength) {
                         break;     // stop looking for matches
                     }
-                } else if ((matchStrength == bestMatchStrength) && (it->id.size() < fallback.size())) {
+                } else if ((matchStrength == bestMatchStrength)
+                           && (it->id.size() < fallback.size())) {
                     // Update fallback ID because we've found a shorter one that is equally good.
                     // Shorter IDs tend to correspond to more generic instruments (e.g. "piano"
                     // vs. "grand-piano") so it's better to use a shorter one if unsure.
@@ -605,7 +609,8 @@ void InstrChannel::removeListener(ChannelListener* l)
 //   PartChannelSettingsLink
 //---------------------------------------------------------
 
-PartChannelSettingsLink::PartChannelSettingsLink(InstrChannel* main, InstrChannel* bound, bool excerpt)
+PartChannelSettingsLink::PartChannelSettingsLink(InstrChannel* main, InstrChannel* bound,
+                                                 bool excerpt)
     : m_main(main), m_bound(bound), m_excerpt(excerpt)
 {
     // Maybe it would be good to assign common properties if the link
@@ -656,7 +661,8 @@ void swap(PartChannelSettingsLink& l1, PartChannelSettingsLink& l2)
 //   PartChannelSettingsLink::applyProperty
 //---------------------------------------------------------
 
-void PartChannelSettingsLink::applyProperty(InstrChannel::Prop p, const InstrChannel* from, InstrChannel* to)
+void PartChannelSettingsLink::applyProperty(InstrChannel::Prop p, const InstrChannel* from,
+                                            InstrChannel* to)
 {
     switch (p) {
     case InstrChannel::Prop::VOLUME:
@@ -758,7 +764,8 @@ void Instrument::updateGateTime(int* gateTime, const String& name) const
 //   switchExpressive
 //---------------------------------------------------------
 
-void Instrument::switchExpressive(MasterScore* score, Synthesizer* synth, bool expressive, bool force /* = false */)
+void Instrument::switchExpressive(MasterScore* score, Synthesizer* synth, bool expressive,
+                                  bool force /* = false */)
 {
     // Only switch to expressive where necessary
     if (!synth || (expressive && !singleNoteDynamics())) {

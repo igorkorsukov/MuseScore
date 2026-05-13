@@ -27,7 +27,8 @@
 #include "interactive/iinteractive.h"
 
 namespace mu::appshell {
-class StartupScenario : public IStartupScenario, public muse::Contextable, public muse::async::Asyncable
+class StartupScenario : public IStartupScenario, public muse::Contextable,
+    public muse::async::Asyncable
 {
     muse::ContextInject<muse::IInteractive> interactive = { this };
 

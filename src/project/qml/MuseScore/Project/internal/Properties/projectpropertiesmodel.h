@@ -33,7 +33,8 @@
 #include "context/iglobalcontext.h"
 
 namespace mu::project {
-class ProjectPropertiesModel : public QAbstractListModel, public QQmlParserStatus, public muse::Contextable
+class ProjectPropertiesModel : public QAbstractListModel, public QQmlParserStatus,
+    public muse::Contextable
 {
     Q_OBJECT
     Q_INTERFACES(QQmlParserStatus)

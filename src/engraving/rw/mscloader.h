@@ -42,11 +42,13 @@ class MscLoader
 public:
     MscLoader() = default;
 
-    muse::Ret loadMscz(MasterScore* score, const MscReader& mscReader, rw::ReadInOutData* out, bool ignoreVersionError);
+    muse::Ret loadMscz(MasterScore* score, const MscReader& mscReader, rw::ReadInOutData* out,
+                       bool ignoreVersionError);
 
 private:
     friend class MasterScore;
-    muse::Ret readMasterScore(MasterScore* score, XmlReader&, bool ignoreVersionError, rw::ReadInOutData* out = nullptr,
+    muse::Ret readMasterScore(MasterScore* score, XmlReader&, bool ignoreVersionError,
+                              rw::ReadInOutData* out = nullptr,
                               compat::ReadStyleHook* styleHook = nullptr);
 };
 }

@@ -30,8 +30,12 @@ class GlissandoSectionModel : public AbstractStyleDialogModel
     Q_OBJECT
 
     Q_PROPERTY(mu::notation::StyleItem * glissandoLineStyle READ glissandoLineStyle CONSTANT)
-    Q_PROPERTY(mu::notation::StyleItem * glissandoLineStyleDashSize READ glissandoLineStyleDashSize CONSTANT)
-    Q_PROPERTY(mu::notation::StyleItem * glissandoLineStyleGapSize READ glissandoLineStyleGapSize CONSTANT)
+    Q_PROPERTY(
+        mu::notation::StyleItem
+        * glissandoLineStyleDashSize READ glissandoLineStyleDashSize CONSTANT)
+    Q_PROPERTY(
+        mu::notation::StyleItem
+        * glissandoLineStyleGapSize READ glissandoLineStyleGapSize CONSTANT)
     Q_PROPERTY(mu::notation::StyleItem * glissandoLineWidth READ glissandoLineWidth CONSTANT)
     Q_PROPERTY(mu::notation::StyleItem * glissandoShowText READ glissandoShowText CONSTANT)
     Q_PROPERTY(mu::notation::StyleItem * glissandoText READ glissandoText CONSTANT)

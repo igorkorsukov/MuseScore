@@ -144,7 +144,8 @@ void XmlReader::unknown()
         LOGD("%s ", muPrintable(errorString()));
     }
     if (!m_docName.isEmpty()) {
-        LOGD() << "tag in <" << m_docName << "> byte offset " << byteOffset() + m_byteOffsetAdjustment << ": " << name();
+        LOGD() << "tag in <" << m_docName << "> byte offset " <<
+            byteOffset() + m_byteOffsetAdjustment << ": " << name();
     } else {
         LOGD() << "byte offset " << byteOffset() + m_byteOffsetAdjustment << ": " << name();
     }
@@ -213,7 +214,8 @@ String XmlReader::readXml()
 {
     String s;
     int level = 1;
-    for (XmlStreamReader::TokenType t = readNext(); t != XmlStreamReader::EndElement; t = readNext()) {
+    for (XmlStreamReader::TokenType t = readNext(); t != XmlStreamReader::EndElement;
+         t = readNext()) {
         switch (t) {
         case XmlStreamReader::StartElement:
             htmlToString(level, &s);

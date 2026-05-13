@@ -42,7 +42,8 @@ class IWriter
 public:
     virtual ~IWriter() = default;
 
-    virtual bool writeScore(Score* score, muse::io::IODevice* device, WriteInOutData* out = nullptr) = 0;
+    virtual bool writeScore(Score* score, muse::io::IODevice* device,
+                            WriteInOutData* out = nullptr) = 0;
 
     using Supported = std::variant<std::monostate
                                    >;
@@ -50,7 +51,9 @@ public:
     template<typename T>
     static void check_supported_static(T item)
     {
-        if constexpr (std::is_same<T, const EngravingItem*>::value || std::is_same<T, EngravingItem*>::value) {
+        if constexpr (std::is_same<T, const EngravingItem*>::value || std::is_same<T,
+                                                                                   EngravingItem*>::
+                      value) {
             // supported
         } else {
             Supported check(item);
@@ -67,8 +70,9 @@ public:
         doWriteItem(static_cast<const EngravingItem*>(item), xml);
     }
 
-    virtual void writeSegments(XmlWriter& xml, SelectionFilter* filter, track_idx_t st, track_idx_t et, Segment* sseg, Segment* eseg, bool,
-                               bool, Fraction& curTick) = 0;
+    virtual void writeSegments(XmlWriter& xml, SelectionFilter* filter, track_idx_t st,
+                               track_idx_t et, Segment* sseg, Segment* eseg, bool, bool,
+                               Fraction& curTick) = 0;
 
 private:
     virtual void doWriteItem(const EngravingItem* item, XmlWriter& xml) = 0;

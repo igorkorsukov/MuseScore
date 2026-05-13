@@ -74,11 +74,20 @@ public:
     void setEndElement(EngravingItem*) override;
 
     LaissezVibSegment* frontSegment() { return toLaissezVibSegment(Spanner::frontSegment()); }
-    const LaissezVibSegment* frontSegment() const { return toLaissezVibSegment(Spanner::frontSegment()); }
+    const LaissezVibSegment* frontSegment() const
+    {
+        return toLaissezVibSegment(Spanner::frontSegment());
+    }
     LaissezVibSegment* backSegment() { return toLaissezVibSegment(Spanner::backSegment()); }
-    const LaissezVibSegment* backSegment() const { return toLaissezVibSegment(Spanner::backSegment()); }
+    const LaissezVibSegment* backSegment() const
+    {
+        return toLaissezVibSegment(Spanner::backSegment());
+    }
     LaissezVibSegment* segmentAt(int n) { return toLaissezVibSegment(Spanner::segmentAt(n)); }
-    const LaissezVibSegment* segmentAt(int n) const { return toLaissezVibSegment(Spanner::segmentAt(n)); }
+    const LaissezVibSegment* segmentAt(int n) const
+    {
+        return toLaissezVibSegment(Spanner::segmentAt(n));
+    }
 private:
     Spatium m_minLength = 2.0_sp;
 };

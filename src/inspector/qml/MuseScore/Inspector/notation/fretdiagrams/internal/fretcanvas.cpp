@@ -29,7 +29,8 @@
 using namespace mu::inspector;
 
 FretCanvas::FretCanvas(QQuickItem* parent)
-    : muse::uicomponents::QuickPaintedView(parent), muse::Contextable(muse::iocCtxForQmlObject(this))
+    : muse::uicomponents::QuickPaintedView(parent),
+    muse::Contextable(muse::iocCtxForQmlObject(this))
 {
     setAcceptedMouseButtons(Qt::AllButtons);
     setAcceptHoverEvents(true);
@@ -157,7 +158,8 @@ void FretCanvas::draw(QPainter* painter)
             qreal newX2 = endString == -1 ? x2 : stringDist * endString;
 
             qreal y    = fretDist * (fret - 1) + fretDist * .5;
-            pen.setWidthF(dotd * m_diagram->score()->style().styleD(mu::engraving::Sid::barreLineWidth));      // don't use style barreLineWidth - why not?
+            pen.setWidthF(dotd
+                          * m_diagram->score()->style().styleD(mu::engraving::Sid::barreLineWidth));           // don't use style barreLineWidth - why not?
             pen.setCapStyle(Qt::RoundCap);
             painter->setPen(pen);
             painter->drawLine(QLineF(x1, y, newX2, y));
@@ -197,7 +199,8 @@ void FretCanvas::draw(QPainter* painter)
     if (m_diagram->showFingering()) {
         // Copy-pasted from layout and drawing code. Needs cleanup in future. (M.S.)
         const double padding = 0.2 * _spatium;
-        muse::draw::FontMetrics fontMetrics(muse::draw::Font::fromQFont(font, muse::draw::Font::Type::Text));
+        muse::draw::FontMetrics fontMetrics(muse::draw::Font::fromQFont(font,
+                                                                        muse::draw::Font::Type::Text));
         double fontHeight = fontMetrics.capHeight();
         for (size_t i = 0; i < m_diagram->fingering().size(); ++i) {
             int finger = m_diagram->fingering()[i];
@@ -216,7 +219,8 @@ void FretCanvas::draw(QPainter* painter)
     }
 }
 
-void FretCanvas::paintDotSymbol(QPainter* p, QPen& pen, qreal x, qreal y, qreal dotd, mu::engraving::FretDotType dtype)
+void FretCanvas::paintDotSymbol(QPainter* p, QPen& pen, qreal x, qreal y, qreal dotd,
+                                mu::engraving::FretDotType dtype)
 {
     switch (dtype) {
     case mu::engraving::FretDotType::CROSS:
@@ -270,7 +274,9 @@ void FretCanvas::mousePressEvent(QMouseEvent* ev)
         return;
     }
 
-    globalContext()->currentNotation()->undoStack()->prepareChanges(muse::TranslatableString("undoableAction", "Edit fretboard diagram"));
+    globalContext()->currentNotation()->undoStack()->prepareChanges(muse::TranslatableString(
+                                                                        "undoableAction",
+                                                                        "Edit fretboard diagram"));
 
     // Click above the fret diagram, so change the open/closed string marker
     if (fret == 0) {
@@ -379,7 +385,9 @@ void FretCanvas::setFretDiagram(QVariant fd)
 
 void FretCanvas::clear()
 {
-    globalContext()->currentNotation()->undoStack()->prepareChanges(muse::TranslatableString("undoableAction", "Clear fretboard diagram"));
+    globalContext()->currentNotation()->undoStack()->prepareChanges(muse::TranslatableString(
+                                                                        "undoableAction",
+                                                                        "Clear fretboard diagram"));
     m_diagram->undoFretClear();
     globalContext()->currentNotation()->undoStack()->commitChanges();
     update();
@@ -419,7 +427,8 @@ QColor FretCanvas::color() const
 
 void FretCanvas::setCurrentFretDotType(int currentFretDotType)
 {
-    mu::engraving::FretDotType newDotType = static_cast<mu::engraving::FretDotType>(currentFretDotType);
+    mu::engraving::FretDotType newDotType
+        = static_cast<mu::engraving::FretDotType>(currentFretDotType);
 
     if (m_currentDtype == newDotType) {
         return;

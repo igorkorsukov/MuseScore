@@ -33,7 +33,8 @@ using namespace muse::io;
 using namespace mu::project;
 using namespace mu::notation;
 
-std::vector<INotationWriter::UnitType> ExportProjectScenario::supportedUnitTypes(const ExportType& exportType) const
+std::vector<INotationWriter::UnitType> ExportProjectScenario::supportedUnitTypes(
+    const ExportType& exportType) const
 {
     IF_ASSERT_FAILED(!exportType.suffixes.isEmpty()) {
         return {};
@@ -47,8 +48,10 @@ std::vector<INotationWriter::UnitType> ExportProjectScenario::supportedUnitTypes
     return writer->supportedUnitTypes();
 }
 
-RetVal<muse::io::path_t> ExportProjectScenario::askExportPath(const INotationPtrList& notations, const ExportType& exportType,
-                                                              INotationWriter::UnitType unitType, muse::io::path_t defaultPath) const
+RetVal<muse::io::path_t> ExportProjectScenario::askExportPath(const INotationPtrList& notations,
+                                                              const ExportType& exportType,
+                                                              INotationWriter::UnitType unitType,
+                                                              muse::io::path_t defaultPath) const
 {
     INotationProjectPtr project = context()->currentProject();
 
@@ -62,7 +65,8 @@ RetVal<muse::io::path_t> ExportProjectScenario::askExportPath(const INotationPtr
     bool isExportingOnlyOneScore = notations.size() == 1;
 
     if (unitType == INotationWriter::UnitType::MULTI_PART && !isExportingOnlyOneScore) {
-        bool containsMaster = std::find_if(notations.cbegin(), notations.cend(), [this](INotationPtr notation) {
+        bool containsMaster
+            = std::find_if(notations.cbegin(), notations.cend(), [this](INotationPtr notation) {
             return isMainNotation(notation);
         }) != notations.cend();
 
@@ -85,19 +89,24 @@ RetVal<muse::io::path_t> ExportProjectScenario::askExportPath(const INotationPtr
     }
 
     if (defaultPath == "") {
-        defaultPath = configuration()->defaultSavingFilePath(project, filenameAddition, exportType.suffixes.front().toStdString());
+        defaultPath = configuration()->defaultSavingFilePath(project, filenameAddition,
+                                                             exportType.suffixes.front().toStdString());
     }
 
     RetVal<muse::io::path_t> exportPath;
-    exportPath.val = interactive()->selectSavingFileSync(muse::trc("project/export", "Export"), defaultPath,
-                                                         exportType.filter(), isCreatingOnlyOneFile);
+    exportPath.val = interactive()->selectSavingFileSync(muse::trc("project/export",
+                                                                   "Export"), defaultPath,
+                                                         exportType.filter(),
+                                                         isCreatingOnlyOneFile);
     exportPath.ret = !exportPath.val.empty();
 
     return exportPath;
 }
 
-bool ExportProjectScenario::exportScores(notation::INotationPtrList notations, const muse::io::path_t destinationPath,
-                                         INotationWriter::UnitType unitType, bool openDestinationFolderOnExport) const
+bool ExportProjectScenario::exportScores(notation::INotationPtrList notations,
+                                         const muse::io::path_t destinationPath,
+                                         INotationWriter::UnitType unitType,
+                                         bool openDestinationFolderOnExport) const
 {
     std::string suffix = io::suffix(destinationPath);
     INotationWriterPtr writer = writers()->writer(suffix);
@@ -119,7 +128,9 @@ bool ExportProjectScenario::exportScores(notation::INotationPtrList notations, c
     ExcerptNotationList potentialExcerpts = masterNotation()->potentialExcerpts();
 
     for (const INotationPtr& notation : notations) {
-        auto it = std::find_if(potentialExcerpts.cbegin(), potentialExcerpts.cend(), [notation](const IExcerptNotationPtr& excerpt) {
+        auto it
+            = std::find_if(potentialExcerpts.cbegin(), potentialExcerpts.cend(),
+                           [notation](const IExcerptNotationPtr& excerpt) {
             return excerpt->notation() == notation;
         });
 
@@ -150,8 +161,12 @@ bool ExportProjectScenario::exportScores(notation::INotationPtrList notations, c
         showExportProgress(isAudioExport(suffix));
         m_exportProgress.start();
 
-        writerProgress->progressChanged().onReceive(this, [this, &currentFileNum, fileCount](int64_t current, int64_t total,
-                                                                                             const std::string& status) {
+        writerProgress->progressChanged().onReceive(this,
+                                                    [this, &currentFileNum,
+                                                     fileCount](int64_t current, int64_t total,
+                                                                const
+                                                                std::string&
+                                                                status) {
             m_exportProgress.progress(currentFileNum * total + current, fileCount * total, status);
         }, async::Asyncable::Mode::SetReplace);
 
@@ -174,7 +189,8 @@ bool ExportProjectScenario::exportScores(notation::INotationPtrList notations, c
     // If isCreatingOnlyOneFile, the save dialog has already asked whether to replace
     // any existing files. If the user cancels, the filepath will be empty, so we would
     // not reach this point. But if we do, existing files should be overridden.
-    m_fileConflictPolicy = isCreatingOnlyOneFile ? FileConflictPolicy::ReplaceAll : FileConflictPolicy::Undefined;
+    m_fileConflictPolicy
+        = isCreatingOnlyOneFile ? FileConflictPolicy::ReplaceAll : FileConflictPolicy::Undefined;
 
     INotationWriter::Options options {
         { INotationWriter::OptionKey::UNIT_TYPE, Val(unitType) },
@@ -191,7 +207,9 @@ bool ExportProjectScenario::exportScores(notation::INotationPtrList notations, c
 
                 muse::io::path_t definitivePath = isCreatingOnlyOneFile
                                                   ? destinationPath
-                                                  : completeExportPath(destinationPath, notation, isMain, isExportingOnlyOneScore,
+                                                  : completeExportPath(destinationPath, notation,
+                                                                       isMain,
+                                                                       isExportingOnlyOneScore,
                                                                        static_cast<int>(page));
 
                 auto exportFunction = [writer, notation, options](io::IODevice& destinationDevice) {
@@ -212,7 +230,8 @@ bool ExportProjectScenario::exportScores(notation::INotationPtrList notations, c
             muse::io::path_t definitivePath = isCreatingOnlyOneFile
                                               ? destinationPath
                                               : completeExportPath(destinationPath, notation, isMainNotation(
-                                                                       notation), isExportingOnlyOneScore);
+                                                                       notation),
+                                                                   isExportingOnlyOneScore);
 
             auto exportFunction = [writer, notation, options](IODevice& destinationDevice) {
                     return writer->write(notation, destinationDevice, options);
@@ -266,7 +285,9 @@ bool ExportProjectScenario::guessIsCreatingOnlyOneFile(const notation::INotation
             // Check if it is not a potential (not-yet-initialized) excerpt
             ExcerptNotationList potentialExcerpts = masterNotation()->potentialExcerpts();
 
-            auto it = std::find_if(potentialExcerpts.cbegin(), potentialExcerpts.cend(), [notation](const IExcerptNotationPtr& excerpt) {
+            auto it
+                = std::find_if(potentialExcerpts.cbegin(), potentialExcerpts.cend(),
+                               [notation](const IExcerptNotationPtr& excerpt) {
                     return excerpt->notation() == notation;
                 });
 
@@ -293,7 +314,8 @@ bool ExportProjectScenario::guessIsCreatingOnlyOneFile(const notation::INotation
     return false;
 }
 
-size_t ExportProjectScenario::exportFileCount(const INotationPtrList& notations, INotationWriter::UnitType unitType) const
+size_t ExportProjectScenario::exportFileCount(const INotationPtrList& notations,
+                                              INotationWriter::UnitType unitType) const
 {
     switch (unitType) {
     case INotationWriter::UnitType::PER_PAGE: {
@@ -324,8 +346,10 @@ IMasterNotationPtr ExportProjectScenario::masterNotation() const
     return context()->currentMasterNotation();
 }
 
-muse::io::path_t ExportProjectScenario::completeExportPath(const muse::io::path_t& basePath, INotationPtr notation, bool isMain,
-                                                           bool isExportingOnlyOneScore, int pageIndex) const
+muse::io::path_t ExportProjectScenario::completeExportPath(const muse::io::path_t& basePath,
+                                                           INotationPtr notation, bool isMain,
+                                                           bool isExportingOnlyOneScore,
+                                                           int pageIndex) const
 {
     muse::io::path_t result = io::dirpath(basePath) + "/" + io::completeBasename(basePath);
 
@@ -357,7 +381,8 @@ bool ExportProjectScenario::shouldReplaceFile(const QString& filename) const
 
         IInteractive::Result result = interactive()->questionSync(
             muse::trc("project/export", "File already exists"),
-            muse::qtrc("project/export", "A file already exists with the filename %1. Do you want to replace it?")
+            muse::qtrc("project/export",
+                       "A file already exists with the filename %1. Do you want to replace it?")
             .arg(filename).toStdString(), {
                 IInteractive::ButtonData(Replace, muse::trc("project/export", "Replace")),
                 IInteractive::ButtonData(ReplaceAll, muse::trc("project/export", "Replace all")),
@@ -386,13 +411,15 @@ bool ExportProjectScenario::askForRetry(const QString& filename) const
 {
     IInteractive::Result result = interactive()->questionSync(
         muse::trc("project/export", "Error"),
-        muse::qtrc("project/export", "An error occurred while writing the file %1. Do you want to retry?")
+        muse::qtrc("project/export",
+                   "An error occurred while writing the file %1. Do you want to retry?")
         .arg(filename).toStdString(), { IInteractive::Button::Retry, IInteractive::Button::Abort });
 
     return result.standardButton() == IInteractive::Button::Retry;
 }
 
-Ret ExportProjectScenario::doExportLoop(const muse::io::path_t& scorePath, std::function<Ret(io::IODevice&)> exportFunction) const
+Ret ExportProjectScenario::doExportLoop(const muse::io::path_t& scorePath,
+                                        std::function<Ret(io::IODevice&)> exportFunction) const
 {
     IF_ASSERT_FAILED(exportFunction) {
         return make_ret(Ret::Code::InternalError);
@@ -457,7 +484,8 @@ Ret ExportProjectScenario::doExportLoop(const muse::io::path_t& scorePath, std::
 
 void ExportProjectScenario::showExportProgress(bool isAudioExport) const
 {
-    std::string title = isAudioExport ? muse::trc("project/export", "Exporting audio…") : muse::trc("project/export", "Exporting…");
+    std::string title = isAudioExport ? muse::trc("project/export", "Exporting audio…") : muse::trc(
+        "project/export", "Exporting…");
 
     interactive()->showProgress(title, m_exportProgress);
 }
@@ -471,7 +499,8 @@ void ExportProjectScenario::openFolder(const muse::io::path_t& path) const
     }
 }
 
-std::vector<ViewMode> ExportProjectScenario::viewModes(const notation::INotationPtrList& notations) const
+std::vector<ViewMode> ExportProjectScenario::viewModes(const notation::INotationPtrList& notations)
+const
 {
     std::vector<ViewMode> modes;
     for (const INotationPtr& notation : notations) {
@@ -493,7 +522,8 @@ void ExportProjectScenario::setViewModes(const notation::INotationPtrList& notat
     }
 }
 
-void ExportProjectScenario::setViewModes(const notation::INotationPtrList& notations, ViewMode viewMode) const
+void ExportProjectScenario::setViewModes(const notation::INotationPtrList& notations,
+                                         ViewMode viewMode) const
 {
     std::vector<notation::ViewMode> modes(notations.size(), viewMode);
     setViewModes(notations, modes);

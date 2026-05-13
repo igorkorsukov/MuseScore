@@ -69,13 +69,15 @@ bool NotationPlaybackStub::isChordSymbolsTrack(const engraving::InstrumentTrackI
     return false;
 }
 
-const muse::mpe::PlaybackData& NotationPlaybackStub::trackPlaybackData(const engraving::InstrumentTrackId&) const
+const muse::mpe::PlaybackData& NotationPlaybackStub::trackPlaybackData(
+    const engraving::InstrumentTrackId&) const
 {
     static const muse::mpe::PlaybackData dummy;
     return dummy;
 }
 
-void NotationPlaybackStub::triggerEventsForItems(const std::vector<const EngravingItem*>&, muse::mpe::duration_t, bool)
+void NotationPlaybackStub::triggerEventsForItems(const std::vector<const EngravingItem*>&,
+                                                 muse::mpe::duration_t, bool)
 {
 }
 
@@ -87,7 +89,8 @@ void NotationPlaybackStub::triggerCountIn(muse::midi::tick_t, muse::secs_t&)
 {
 }
 
-void NotationPlaybackStub::triggerControllers(const muse::mpe::ControllerChangeEventList&, notation::staff_idx_t, int)
+void NotationPlaybackStub::triggerControllers(const muse::mpe::ControllerChangeEventList&,
+                                              notation::staff_idx_t, int)
 {
 }
 
@@ -136,7 +139,8 @@ RetVal<muse::midi::tick_t> NotationPlaybackStub::playPositionTickByRawTick(muse:
     return RetVal<muse::midi::tick_t>::make_ok(0);
 }
 
-RetVal<muse::midi::tick_t> NotationPlaybackStub::playPositionTickByElement(const EngravingItem*) const
+RetVal<muse::midi::tick_t> NotationPlaybackStub::playPositionTickByElement(const EngravingItem*)
+const
 {
     return RetVal<muse::midi::tick_t>::make_ok(0);
 }

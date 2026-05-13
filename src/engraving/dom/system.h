@@ -131,7 +131,8 @@ public:
     void removeStaff(int);
     void adjustStavesNumber(size_t nstaves);
 
-    staff_idx_t searchStaff(double y, staff_idx_t preferredStaff = muse::nidx, double spacingFactor = 0.5) const;
+    staff_idx_t searchStaff(double y, staff_idx_t preferredStaff = muse::nidx,
+                            double spacingFactor = 0.5) const;
     Fraction snap(const Fraction& tick, const PointF p) const;
     Fraction snapNote(const Fraction& tick, const PointF p, int staff) const;
 
@@ -193,7 +194,8 @@ public:
 
     staff_idx_t firstSysStaffOfPart(const Part* part) const;
     staff_idx_t firstVisibleSysStaffOfPart(const Part* part) const;
-    staff_idx_t firstVisibleSysStaffWithInstrument(const String& instrumentId, staff_idx_t startFrom);
+    staff_idx_t firstVisibleSysStaffWithInstrument(const String& instrumentId,
+                                                   staff_idx_t startFrom);
     staff_idx_t lastSysStaffOfPart(const Part* part) const;
     staff_idx_t lastVisibleSysStaffOfPart(const Part* part) const;
     std::vector<staff_idx_t> visibleStavesOfPart(const Part* part) const;
@@ -207,7 +209,10 @@ public:
 
     void resetShortestLongestChordRest();
 
-    StaffVisibilityIndicator* staffVisibilityIndicator() const { return m_staffVisibilityIndicator; }
+    StaffVisibilityIndicator* staffVisibilityIndicator() const
+    {
+        return m_staffVisibilityIndicator;
+    }
     void setHasStaffVisibilityIndicator(bool has);
 
     bool isLocked() const;
@@ -231,8 +236,14 @@ public:
         double totalNamesWidth() const { return m_totalNamesWidth; }
         void setTotalNamesWidth(double v) { m_totalNamesWidth = v; }
 
-        const std::unordered_map<staff_idx_t, double>& groupBracketsWidth() const { return m_groupBracketsWidth; }
-        void setGroupBracketsWidthAtStaffIdx(staff_idx_t i, double w) { m_groupBracketsWidth[i] = w; }
+        const std::unordered_map<staff_idx_t, double>& groupBracketsWidth() const
+        {
+            return m_groupBracketsWidth;
+        }
+        void setGroupBracketsWidthAtStaffIdx(staff_idx_t i, double w)
+        {
+            m_groupBracketsWidth[i] = w;
+        }
         double groupBracketsWidthAtStaffIdx(staff_idx_t i) const
         {
             return m_groupBracketsWidth.count(i) ? m_groupBracketsWidth.at(i) : 0.0;
@@ -240,8 +251,14 @@ public:
 
         void clearGroupBracketsWidth() { m_groupBracketsWidth.clear(); }
 
-        const std::unordered_map<Part*, InstrumentName*>& partsWithGroupName() const { return m_partsWithGroupName; }
-        void addPartWithGroupNames(Part* p, InstrumentName* n) { m_partsWithGroupName.emplace(p, n); }
+        const std::unordered_map<Part*, InstrumentName*>& partsWithGroupName() const
+        {
+            return m_partsWithGroupName;
+        }
+        void addPartWithGroupNames(Part* p, InstrumentName* n)
+        {
+            m_partsWithGroupName.emplace(p, n);
+        }
         void clearPartsWithGroupNames() { m_partsWithGroupName.clear(); }
 
     private:

@@ -150,7 +150,8 @@ class BBFile
 
     int timesigZ() { return styles[_style].timesigZ; }
     int timesigN() { return styles[_style].timesigN; }
-    engraving::Fraction processPendingNotes(engraving::Score*, QList<MNote*>* notes, const engraving::Fraction&, int);
+    engraving::Fraction processPendingNotes(engraving::Score*, QList<MNote*>* notes,
+                                            const engraving::Fraction&, int);
 
 public:
     BBFile();

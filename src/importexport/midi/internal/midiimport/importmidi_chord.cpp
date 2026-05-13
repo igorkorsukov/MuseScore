@@ -183,7 +183,8 @@ void removeOverlappingNotes(std::multimap<int, MTrack>& tracks)
             continue;
         }
 #ifdef QT_DEBUG
-        Q_ASSERT_X(MidiTuplet::areTupletRangesOk(chords, track.second.tuplets),
+        Q_ASSERT_X(MidiTuplet::areTupletRangesOk(chords,
+                                                 track.second.tuplets),
                    "MChord::removeOverlappingNotes", "Tuplet chord/note is outside tuplet "
                                                      "or non-tuplet chord/note is inside tuplet before overlaps remove");
 #endif
@@ -239,7 +240,8 @@ void removeOverlappingNotes(std::multimap<int, MTrack>& tracks)
 
         MidiTuplet::removeEmptyTuplets(track.second);
 #ifdef QT_DEBUG
-        Q_ASSERT_X(MidiTuplet::areTupletRangesOk(chords, track.second.tuplets),
+        Q_ASSERT_X(MidiTuplet::areTupletRangesOk(chords,
+                                                 track.second.tuplets),
                    "MChord::removeOverlappingNotes", "Tuplet chord/note is outside tuplet "
                                                      "or non-tuplet chord/note is inside tuplet after overlaps remove");
 #endif

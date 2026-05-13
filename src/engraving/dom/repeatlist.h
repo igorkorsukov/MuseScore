@@ -64,13 +64,22 @@ public:
     int endTick() const;
     void popMeasure();
 
-    Measure const* firstMeasure() const { return m_measureList.empty() ? nullptr : m_measureList.front(); }
-    Measure const* lastMeasure() const { return m_measureList.empty() ? nullptr : m_measureList.back(); }
+    Measure const* firstMeasure() const
+    {
+        return m_measureList.empty() ? nullptr : m_measureList.front();
+    }
+    Measure const* lastMeasure() const
+    {
+        return m_measureList.empty() ? nullptr : m_measureList.back();
+    }
 
     const std::vector<const Measure*>& measureList() const;
 
     friend bool operator==(const RepeatSegment& lhs, const RepeatSegment& rhs);
-    inline friend bool operator!=(const RepeatSegment& lhs, const RepeatSegment& rhs) { return !(lhs == rhs); }
+    inline friend bool operator!=(const RepeatSegment& lhs, const RepeatSegment& rhs)
+    {
+        return !(lhs == rhs);
+    }
 
     friend class RepeatList;
 private:
@@ -106,13 +115,15 @@ public:
 
 private:
     void collectRepeatListElements();
-    std::pair<std::vector<RepeatListElementList>::const_iterator, RepeatListElementList::const_iterator> findMarker(
+    std::pair<std::vector<RepeatListElementList>::const_iterator,
+              RepeatListElementList::const_iterator> findMarker(
         muse::String label, std::vector<RepeatListElementList>::const_iterator referenceSectionIt,
         RepeatListElementList::const_iterator referenceRepeatListElementIt) const;
 
     void performJump(std::vector<RepeatListElementList>::const_iterator sectionIt,
-                     RepeatListElementList::const_iterator repeatListElementTargetIt, bool withRepeats, int* const playbackCount,
-                     Volta const** const activeVolta, RepeatListElement const** const startRepeatReference) const;
+                     RepeatListElementList::const_iterator repeatListElementTargetIt,
+                     bool withRepeats, int* const playbackCount, Volta const** const activeVolta,
+                     RepeatListElement const** const startRepeatReference) const;
     void unwind();
     void flatten();
 

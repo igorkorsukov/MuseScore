@@ -32,12 +32,21 @@ struct BeatsPerMinute // beats per minute
     constexpr BeatsPerMinute(double v)
         : val(v) {}
 
-    inline bool operator ==(const BeatsPerMinute& other) const { return muse::RealIsEqual(val, other.val); }
+    inline bool operator ==(const BeatsPerMinute& other) const
+    {
+        return muse::RealIsEqual(val, other.val);
+    }
     inline bool operator !=(const BeatsPerMinute& other) const { return !operator ==(other); }
     inline bool operator >(const BeatsPerMinute& other) const { return val > other.val; }
 
-    inline BeatsPerMinute operator*(const BeatsPerMinute& v) const { return BeatsPerMinute(val * v.val); }
-    inline BeatsPerMinute operator/(const BeatsPerMinute& v) const { return BeatsPerMinute(val / v.val); }
+    inline BeatsPerMinute operator*(const BeatsPerMinute& v) const
+    {
+        return BeatsPerMinute(val * v.val);
+    }
+    inline BeatsPerMinute operator/(const BeatsPerMinute& v) const
+    {
+        return BeatsPerMinute(val / v.val);
+    }
     inline BeatsPerMinute operator*(const double& v) const { return BeatsPerMinute(val * v); }
     inline BeatsPerMinute operator/(const double& v) const { return BeatsPerMinute(val / v); }
 };
@@ -49,17 +58,29 @@ struct BeatsPerSecond // beats per second
     constexpr BeatsPerSecond(double v)
         : val(v) {}
 
-    inline bool operator ==(const BeatsPerSecond& other) const { return muse::RealIsEqual(val, other.val); }
+    inline bool operator ==(const BeatsPerSecond& other) const
+    {
+        return muse::RealIsEqual(val, other.val);
+    }
     inline bool operator !=(const BeatsPerSecond& other) const { return !operator ==(other); }
     inline bool operator >(const BeatsPerSecond& other) const { return val > other.val; }
 
-    inline BeatsPerSecond operator*(const BeatsPerSecond& v) const { return BeatsPerSecond(val * v.val); }
-    inline BeatsPerSecond operator/(const BeatsPerSecond& v) const { return BeatsPerSecond(val / v.val); }
+    inline BeatsPerSecond operator*(const BeatsPerSecond& v) const
+    {
+        return BeatsPerSecond(val * v.val);
+    }
+    inline BeatsPerSecond operator/(const BeatsPerSecond& v) const
+    {
+        return BeatsPerSecond(val / v.val);
+    }
     inline BeatsPerSecond operator*(const double& v) const { return BeatsPerSecond(val * v); }
     inline BeatsPerSecond operator/(const double& v) const { return BeatsPerSecond(val / v); }
 
     BeatsPerMinute toBPM() const { return BeatsPerMinute(val * 60.0); }
-    static BeatsPerSecond fromBPM(const BeatsPerMinute& bmp) { return BeatsPerSecond(bmp.val / 60.0); }
+    static BeatsPerSecond fromBPM(const BeatsPerMinute& bmp)
+    {
+        return BeatsPerSecond(bmp.val / 60.0);
+    }
 };
 }
 

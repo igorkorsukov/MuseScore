@@ -37,11 +37,15 @@ using namespace mu::notation;
 
 static const std::string module_name("appshell");
 
-static const Settings::Key HAS_COMPLETED_FIRST_LAUNCH_SETUP(module_name, "application/hasCompletedFirstLaunchSetup");
+static const Settings::Key HAS_COMPLETED_FIRST_LAUNCH_SETUP(module_name,
+                                                            "application/hasCompletedFirstLaunchSetup");
 
-static const Settings::Key WELCOME_DIALOG_SHOW_ON_STARTUP_KEY(module_name, "application/welcomeDialogShowOnStartup");
-static const Settings::Key WELCOME_DIALOG_LAST_SHOWN_VERSION_KEY(module_name, "application/welcomeDialogLastShownVersion");
-static const Settings::Key WELCOME_DIALOG_LAST_SHOWN_INDEX(module_name, "application/welcomeDialogLastShownIndex");
+static const Settings::Key WELCOME_DIALOG_SHOW_ON_STARTUP_KEY(module_name,
+                                                              "application/welcomeDialogShowOnStartup");
+static const Settings::Key WELCOME_DIALOG_LAST_SHOWN_VERSION_KEY(module_name,
+                                                                 "application/welcomeDialogLastShownVersion");
+static const Settings::Key WELCOME_DIALOG_LAST_SHOWN_INDEX(module_name,
+                                                           "application/welcomeDialogLastShownIndex");
 
 static const Settings::Key STARTUP_MODE_TYPE(module_name, "application/startup/modeStart");
 static const Settings::Key STARTUP_SCORE_PATH(module_name, "application/startup/startScore");
@@ -49,7 +53,8 @@ static const Settings::Key STARTUP_SCORE_PATH(module_name, "application/startup/
 static const std::string MUSESCORE_ONLINE_HANDBOOK_URL("https://handbook.musescore.org");
 
 static const std::string MUSESCORE_ASK_FOR_HELP_URL_PATH("/redirect/post/question");
-static const std::string MUSESCORE_ACCESSIBILITY_STATEMENT_URL_PATH("/about/musescore-studio-accessibility-statement");
+static const std::string MUSESCORE_ACCESSIBILITY_STATEMENT_URL_PATH(
+    "/about/musescore-studio-accessibility-statement");
 static const std::string MUSESCORE_FORUM_URL_PATH("/forum");
 static const std::string MUSESCORE_CONTRIBUTE_URL_PATH("/contribute");
 static const std::string MUSEHUB_FREE_MUSE_SOUNDS_URL("https://www.musehub.com/free-musesounds"
@@ -59,11 +64,13 @@ static const std::string MUSEHUB_FREE_MUSE_SOUNDS_URL("https://www.musehub.com/f
                                                       "&utm_id=mss-app-dialog");
 static const std::string MUSICXML_URL("https://w3.org");
 static const std::string MUSICXML_LICENSE_URL(MUSICXML_URL + "/community/about/process/final/");
-static const std::string MUSICXML_LICENSE_DEED_URL(MUSICXML_URL + "/community/about/process/fsa-deed/");
+static const std::string MUSICXML_LICENSE_DEED_URL(MUSICXML_URL
+                                                   + "/community/about/process/fsa-deed/");
 
 static const std::string UTM_MEDIUM_MENU("menu");
 
-static const Settings::Key SPLASH_SCREEN_VISIBLE_KEY(module_name, "ui/application/startup/showSplashScreen");
+static const Settings::Key SPLASH_SCREEN_VISIBLE_KEY(module_name,
+                                                     "ui/application/startup/showSplashScreen");
 
 static const muse::io::path_t SESSION_FILE("/session.json");
 static const std::string SESSION_RESOURCE_NAME("SESSION");
@@ -85,7 +92,8 @@ void AppShellConfiguration::init()
         m_startupModeTypeChanged.notify();
     });
 
-    settings()->setDefaultValue(STARTUP_SCORE_PATH, Val(projectConfiguration()->myFirstProjectPath().toStdString()));
+    settings()->setDefaultValue(STARTUP_SCORE_PATH,
+                                Val(projectConfiguration()->myFirstProjectPath().toStdString()));
     settings()->valueChanged(STARTUP_SCORE_PATH).onReceive(this, [this](const Val&) {
         m_startupScorePathChanged.notify();
     });
@@ -234,7 +242,8 @@ std::string AppShellConfiguration::musicXMLLicenseDeedUrl() const
 
 std::string AppShellConfiguration::museScoreVersion() const
 {
-    return String(application()->version().toString() + u"." + application()->build()).toStdString();
+    return String(application()->version().toString() + u"."
+                  + application()->build()).toStdString();
 }
 
 std::string AppShellConfiguration::museScoreRevision() const
@@ -277,7 +286,9 @@ void AppShellConfiguration::rollbackSettings()
     settings()->rollbackTransaction();
 }
 
-void AppShellConfiguration::revertToFactorySettings(bool keepDefaultSettings, bool notifyAboutChanges, bool notifyOtherInstances) const
+void AppShellConfiguration::revertToFactorySettings(bool keepDefaultSettings,
+                                                    bool notifyAboutChanges,
+                                                    bool notifyOtherInstances) const
 {
     settings()->reset(keepDefaultSettings, notifyAboutChanges, notifyOtherInstances);
 }

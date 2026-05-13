@@ -105,7 +105,8 @@ struct CreditWords {
     muse::String hAlign;
     muse::String vAlign;
     muse::String words;
-    CreditWords(int p, muse::String tp, double dx, double dy, double fs, muse::String j, muse::String ha, muse::String va, muse::String w)
+    CreditWords(int p, muse::String tp, double dx, double dy, double fs, muse::String j,
+                muse::String ha, muse::String va, muse::String w)
     {
         page = p;
         type = tp;
@@ -147,15 +148,15 @@ public:
     void defaults();
     void pageLayout(PageFormat& pf, const double conversion);
     void partList(MusicXmlPartGroupList& partGroupList);
-    void partGroup(const int scoreParts, MusicXmlPartGroupList& partGroupList, MusicXmlPartGroupMap& partGroups,
-                   muse::String& curPartGroupName);
+    void partGroup(const int scoreParts, MusicXmlPartGroupList& partGroupList,
+                   MusicXmlPartGroupMap& partGroups, muse::String& curPartGroupName);
     void scorePart(const muse::String& curPartGroupName);
     void scoreInstrument(const muse::String& partId, const muse::String& curPartGroupName);
     void setStyle(const muse::String& type, const double val);
     void midiInstrument(const muse::String& partId);
     void part();
-    void measure(const muse::String& partId, const engraving::Fraction cTime, engraving::Fraction& mdur, VoiceOverlapDetector& vod,
-                 const int measureNr);
+    void measure(const muse::String& partId, const engraving::Fraction cTime,
+                 engraving::Fraction& mdur, VoiceOverlapDetector& vod, const int measureNr);
     void print(const int measureNr);
     void attributes(const muse::String& partId, const engraving::Fraction cTime);
     void clef(const muse::String& partId);
@@ -163,14 +164,19 @@ public:
     void transpose(const muse::String& partId, const engraving::Fraction& tick);
     void divisions();
     void direction(const muse::String& partId, const engraving::Fraction& cTime);
-    void directionType(const engraving::Fraction cTime, std::vector<MusicXmlOctaveShiftDesc>& starts,
+    void directionType(const engraving::Fraction cTime,
+                       std::vector<MusicXmlOctaveShiftDesc>& starts,
                        std::vector<MusicXmlOctaveShiftDesc>& stops);
-    void handleOctaveShift(const engraving::Fraction& cTime, const muse::String& type, short size, MusicXmlOctaveShiftDesc& desc);
+    void handleOctaveShift(const engraving::Fraction& cTime, const muse::String& type, short size,
+                           MusicXmlOctaveShiftDesc& desc);
     void notations(MusicXmlStartStop& tupletStartStop);
-    void note(const muse::String& partId, const engraving::Fraction& cTime, engraving::Fraction& missingPrev, engraving::Fraction& dura,
-              engraving::Fraction& missingCurr, VoiceOverlapDetector& vod, MusicXmlTupletStates& tupletStates);
+    void note(const muse::String& partId, const engraving::Fraction& cTime,
+              engraving::Fraction& missingPrev, engraving::Fraction& dura,
+              engraving::Fraction& missingCurr, VoiceOverlapDetector& vod,
+              MusicXmlTupletStates& tupletStates);
     void notePrintSpacingNo(engraving::Fraction& dura);
-    engraving::Fraction calcTicks(const int& intTicks, const int& _divisions, const muse::XmlStreamReader* xmlReader);
+    engraving::Fraction calcTicks(const int& intTicks, const int& _divisions,
+                                  const muse::XmlStreamReader* xmlReader);
     engraving::Fraction calcTicks(const int& intTicks) { return calcTicks(intTicks, m_divs, &m_e); }
     void duration(engraving::Fraction& dura, muse::XmlStreamReader& e);
     void duration(engraving::Fraction& dura) { duration(dura, m_e); }
@@ -182,35 +188,56 @@ public:
     void skipLogCurrElem();
     bool determineMeasureLength(std::vector<engraving::Fraction>& ml) const;
     VoiceList getVoiceList(const muse::String& id) const;
-    bool determineStaffMoveVoice(const muse::String& id, const int mxStaff, const int& mxVoice, int& msMove, int& msTrack,
-                                 int& msVoice) const;
+    bool determineStaffMoveVoice(const muse::String& id, const int mxStaff, const int& mxVoice,
+                                 int& msMove, int& msTrack, int& msVoice) const;
     int voiceToInt(const muse::String& voice);
     engraving::track_idx_t trackForPart(const muse::String& id) const;
     bool hasPart(const muse::String& id) const;
     engraving::Part* getPart(const muse::String& id) const { return muse::value(m_partMap, id); }
     MusicXmlPart getMusicXmlPart(const muse::String& id) const { return muse::value(m_parts, id); }
     size_t nparts() const { return m_parts.size(); }
-    MusicXmlInstruments getInstruments(const muse::String& id) const { return muse::value(m_instruments, id); }
-    void setDrumsetDefault(const muse::String& id, const muse::String& instrId, const engraving::NoteHeadGroup hg, const int line,
+    MusicXmlInstruments getInstruments(const muse::String& id) const
+    {
+        return muse::value(m_instruments, id);
+    }
+    void setDrumsetDefault(const muse::String& id, const muse::String& instrId,
+                           const engraving::NoteHeadGroup hg, const int line,
                            const engraving::DirectionV sd);
     MusicXmlInstrList getInstrList(const muse::String& id) const;
     MusicXmlIntervalList getIntervals(const muse::String& id) const;
     engraving::Fraction getMeasureStart(const size_t i) const;
-    int octaveShift(const muse::String& id, const engraving::staff_idx_t staff, const engraving::Fraction& f) const;
+    int octaveShift(const muse::String& id, const engraving::staff_idx_t staff,
+                    const engraving::Fraction& f) const;
     const CreditWordsList& credits() const { return m_credits; }
     bool hasBeamingInfo() const { return m_hasBeamingInfo; }
-    bool isVocalStaff(const muse::String& partId) const { return m_parts.at(partId).isVocalStaff(); }
-    bool isPercussionStaff(const muse::String& partId) const { return m_parts.at(partId).isPercussionStaff(); }
-    static engraving::VBox* createAndAddVBoxForCreditWords(engraving::Score* score, engraving::Fraction tick);
+    bool isVocalStaff(const muse::String& partId) const
+    {
+        return m_parts.at(partId).isVocalStaff();
+    }
+    bool isPercussionStaff(const muse::String& partId) const
+    {
+        return m_parts.at(partId).isPercussionStaff();
+    }
+    static engraving::VBox* createAndAddVBoxForCreditWords(engraving::Score* score,
+                                                           engraving::Fraction tick);
     void createDefaultHeader(engraving::Score* const score);
-    void createMeasuresAndVboxes(engraving::Score* const score, const std::vector<engraving::Fraction>& ml,
-                                 const std::vector<engraving::Fraction>& ms, const std::set<int>& systemStartMeasureNrs,
-                                 const std::set<int>& pageStartMeasureNrs, const CreditWordsList& crWords, const muse::Size& pageSize);
+    void createMeasuresAndVboxes(engraving::Score* const score,
+                                 const std::vector<engraving::Fraction>& ml,
+                                 const std::vector<engraving::Fraction>& ms,
+                                 const std::set<int>& systemStartMeasureNrs,
+                                 const std::set<int>& pageStartMeasureNrs,
+                                 const CreditWordsList& crWords, const muse::Size& pageSize);
     void setHasInferredHeaderText(bool b) { m_hasInferredHeaderText = b; }
     bool hasInferredHeaderText() const { return m_hasInferredHeaderText; }
     int maxDiff() const { return m_maxDiff; }
-    void insertAdjustedDuration(engraving::Fraction key, engraving::Fraction value) { m_adjustedDurations.insert({ key, value }); }
-    std::map<engraving::Fraction, engraving::Fraction>& adjustedDurations() { return m_adjustedDurations; }
+    void insertAdjustedDuration(engraving::Fraction key, engraving::Fraction value)
+    {
+        m_adjustedDurations.insert({ key, value });
+    }
+    std::map<engraving::Fraction, engraving::Fraction>& adjustedDurations()
+    {
+        return m_adjustedDurations;
+    }
     void insertSeenDenominator(int val) { m_seenDenominators.emplace(val); }
     MusicXmlExporterSoftware exporterSoftware() const { return m_exporterSoftware; }
     bool sibOrDolet() const;

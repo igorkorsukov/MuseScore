@@ -28,7 +28,8 @@ using namespace mu::engraving;
 using namespace muse;
 using namespace muse::mpe;
 
-void ChordLineMetaParser::doParse(const EngravingItem* item, const RenderingContext& ctx, mpe::ArticulationMap& result)
+void ChordLineMetaParser::doParse(const EngravingItem* item, const RenderingContext& ctx,
+                                  mpe::ArticulationMap& result)
 {
     IF_ASSERT_FAILED(item) {
         return;
@@ -51,7 +52,8 @@ void ChordLineMetaParser::doParse(const EngravingItem* item, const RenderingCont
         return;
     }
 
-    appendArticulationData(mpe::ArticulationMeta(type, pattern, ctx.nominalTimestamp, ctx.nominalDuration), result);
+    appendArticulationData(mpe::ArticulationMeta(type, pattern, ctx.nominalTimestamp,
+                                                 ctx.nominalDuration), result);
 }
 
 ArticulationType ChordLineMetaParser::chordLineArticulationType(const ChordLineType chordLineType)

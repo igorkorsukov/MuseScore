@@ -120,7 +120,8 @@ void NotationPainting::doPaint(Painter* painter, const Options& opt)
 
     Options myopt = opt;
     bool printPageBackground = myopt.printPageBackground;
-    myopt.onPaintPageSheet = [this, printPageBackground](Painter* painter, const Page* page, const RectF& pageRect) {
+    myopt.onPaintPageSheet
+        = [this, printPageBackground](Painter* painter, const Page* page, const RectF& pageRect) {
         paintPageSheet(painter, page, pageRect, printPageBackground);
     };
 
@@ -135,7 +136,8 @@ void NotationPainting::doPaint(Painter* painter, const Options& opt)
     }
 }
 
-void NotationPainting::paintPageSheet(Painter* painter, const Page* page, const RectF& pageRect, bool printPageBackground) const
+void NotationPainting::paintPageSheet(Painter* painter, const Page* page, const RectF& pageRect,
+                                      bool printPageBackground) const
 {
     TRACEFUNC;
     if (score()->printing()) {
@@ -173,18 +175,21 @@ void NotationPainting::paintPageSheet(Painter* painter, const Page* page, const 
         return;
     }
 
-    RectF pageContentRect = page->ldata()->bbox().adjusted(page->lm(), page->tm(), -page->rm(), -page->bm());
+    RectF pageContentRect = page->ldata()->bbox().adjusted(page->lm(), page->tm(),
+                                                           -page->rm(), -page->bm());
 
     painter->setBrush(BrushStyle::NoBrush);
     painter->setPen(Pen(engravingConfiguration()->scoreGreyColor(), strokeWidth));
     painter->drawRect(pageContentRect);
 
     if (!page->isOdd()) {
-        painter->drawLine(pageContentRect.right(), 0.0, pageContentRect.right(), pageContentRect.bottom());
+        painter->drawLine(pageContentRect.right(), 0.0,
+                          pageContentRect.right(), pageContentRect.bottom());
     }
 }
 
-void NotationPainting::paintView(Painter* painter, const RectF& frameRect, bool isPrinting, bool isAutomation)
+void NotationPainting::paintView(Painter* painter, const RectF& frameRect, bool isPrinting,
+                                 bool isAutomation)
 {
     Options opt;
     opt.isSetViewport = false;

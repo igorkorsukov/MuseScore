@@ -44,7 +44,8 @@ ExportDialogModel::ExportDialogModel(QObject* parent)
     , m_selectionModel(new QItemSelectionModel(this))
     , m_selectedUnitType(DEFAULT_EXPORT_UNITTYPE)
 {
-    connect(m_selectionModel, &QItemSelectionModel::selectionChanged, this, &ExportDialogModel::selectionChanged);
+    connect(m_selectionModel, &QItemSelectionModel::selectionChanged, this,
+            &ExportDialogModel::selectionChanged);
 
     ExportTypeList musicXmlTypes {
         ExportType::makeWithSuffixes({ "mxl" },
@@ -56,7 +57,8 @@ ExportDialogModel::ExportDialogModel(QObject* parent)
                                      muse::qtrc("project/export", "Uncompressed MusicXML files"),
                                      "MusicXmlSettingsPage.qml"),
         ExportType::makeWithSuffixes({ "xml" },
-                                     muse::qtrc("project/export", "Uncompressed (outdated)") + " (*.xml)",
+                                     muse::qtrc("project/export",
+                                                "Uncompressed (outdated)") + " (*.xml)",
                                      muse::qtrc("project/export", "Uncompressed MusicXML files"),
                                      "MusicXmlSettingsPage.qml"),
     };
@@ -211,7 +213,8 @@ void ExportDialogModel::setSelected(int scoreIndex, bool selected)
     }
 
     QModelIndex modelIndex = index(scoreIndex);
-    m_selectionModel->select(modelIndex, selected ? QItemSelectionModel::Select : QItemSelectionModel::Deselect);
+    m_selectionModel->select(modelIndex,
+                             selected ? QItemSelectionModel::Select : QItemSelectionModel::Deselect);
 
     emit dataChanged(modelIndex, modelIndex, { RoleIsSelected });
 }
@@ -403,7 +406,8 @@ bool ExportDialogModel::exportScores()
     }
 
     RetVal<muse::io::path_t> exportPath
-        = exportProjectScenario()->askExportPath(notations, m_selectedExportType, m_selectedUnitType, defaultPath);
+        = exportProjectScenario()->askExportPath(notations, m_selectedExportType,
+                                                 m_selectedUnitType, defaultPath);
     if (!exportPath.ret) {
         return false;
     }
@@ -431,7 +435,8 @@ bool ExportDialogModel::exportScores()
     // because the async::processMessages is called deep within the functions,
     // and this can't be done in Async's callback.
     QTimer::singleShot(0, [scenario, params]() {
-        scenario->exportScores(params.notations, params.exportPath, params.selectedUnitType, params.openFolderOnExport);
+        scenario->exportScores(params.notations, params.exportPath, params.selectedUnitType,
+                               params.openFolderOnExport);
     });
 
     return true;
@@ -728,7 +733,8 @@ QVariantList ExportDialogModel::musicXmlLayoutTypes() const
         //: Specifies to which extent layout customizations should be exported to MusicXML.
         { MusicXmlLayoutType::AllBreaks, muse::qtrc("project/export", "System and page breaks") },
         //: Specifies to which extent layout customizations should be exported to MusicXML.
-        { MusicXmlLayoutType::ManualBreaks, muse::qtrc("project/export", "Manually added system and page breaks only") },
+        { MusicXmlLayoutType::ManualBreaks, muse::qtrc("project/export",
+                                                       "Manually added system and page breaks only") },
         //: Specifies to which extent layout customizations should be exported to MusicXML.
         { MusicXmlLayoutType::None, muse::qtrc("project/export", "No system or page breaks") },
     };
@@ -773,15 +779,18 @@ void ExportDialogModel::setMusicXmlLayoutType(MusicXmlLayoutType layoutType)
         break;
     case MusicXmlLayoutType::AllBreaks:
         musicXmlConfiguration()->setExportLayout(false);
-        musicXmlConfiguration()->setExportBreaksType(IMusicXmlConfiguration::MusicXmlExportBreaksType::All);
+        musicXmlConfiguration()->setExportBreaksType(
+            IMusicXmlConfiguration::MusicXmlExportBreaksType::All);
         break;
     case MusicXmlLayoutType::ManualBreaks:
         musicXmlConfiguration()->setExportLayout(false);
-        musicXmlConfiguration()->setExportBreaksType(IMusicXmlConfiguration::MusicXmlExportBreaksType::Manual);
+        musicXmlConfiguration()->setExportBreaksType(
+            IMusicXmlConfiguration::MusicXmlExportBreaksType::Manual);
         break;
     case MusicXmlLayoutType::None:
         musicXmlConfiguration()->setExportLayout(false);
-        musicXmlConfiguration()->setExportBreaksType(IMusicXmlConfiguration::MusicXmlExportBreaksType::No);
+        musicXmlConfiguration()->setExportBreaksType(
+            IMusicXmlConfiguration::MusicXmlExportBreaksType::No);
         break;
     }
     emit musicXmlLayoutTypeChanged(layoutType);
@@ -818,7 +827,8 @@ void ExportDialogModel::updateExportInfo()
 
 QVariantList ExportDialogModel::availableSampleFormats() const
 {
-    const auto& formats = audioExportConfiguration()->availableSampleFormats(m_selectedExportType.suffixes[0]);
+    const auto& formats = audioExportConfiguration()->availableSampleFormats(
+        m_selectedExportType.suffixes[0]);
     QVariantList result;
     for (const auto& format : formats) {
         QVariantMap obj;
@@ -841,6 +851,7 @@ void ExportDialogModel::setSelectedSampleFormat(int format)
         return;
     }
 
-    audioExportConfiguration()->setExportSampleFormat(m_selectedExportType.suffixes[0], audioFormat);
+    audioExportConfiguration()->setExportSampleFormat(m_selectedExportType.suffixes[0],
+                                                      audioFormat);
     emit selectedSampleFormatChanged();
 }

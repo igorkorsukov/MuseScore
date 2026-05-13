@@ -44,21 +44,28 @@ public:
 
     bool containsAuxOutputParams(muse::audio::aux_channel_idx_t index) const override;
     const AudioOutputParams& auxOutputParams(muse::audio::aux_channel_idx_t index) const override;
-    void setAuxOutputParams(muse::audio::aux_channel_idx_t index, const AudioOutputParams& params) override;
+    void setAuxOutputParams(muse::audio::aux_channel_idx_t index,
+                            const AudioOutputParams& params) override;
 
     const TrackInputParamsMap& allTrackInputParams() const override;
-    const AudioInputParams& trackInputParams(const engraving::InstrumentTrackId& partId) const override;
-    void setTrackInputParams(const engraving::InstrumentTrackId& partId, const AudioInputParams& params) override;
+    const AudioInputParams& trackInputParams(const engraving::InstrumentTrackId& partId) const
+    override;
+    void setTrackInputParams(const engraving::InstrumentTrackId& partId,
+                             const AudioInputParams& params) override;
     void clearTrackInputParams() override;
     muse::async::Channel<engraving::InstrumentTrackId> trackInputParamsChanged() const override;
 
     bool trackHasExistingOutputParams(const engraving::InstrumentTrackId& partId) const override;
-    const AudioOutputParams& trackOutputParams(const engraving::InstrumentTrackId& partId) const override;
-    void setTrackOutputParams(const engraving::InstrumentTrackId& partId, const AudioOutputParams& params) override;
+    const AudioOutputParams& trackOutputParams(const engraving::InstrumentTrackId& partId) const
+    override;
+    void setTrackOutputParams(const engraving::InstrumentTrackId& partId,
+                              const AudioOutputParams& params) override;
 
     const SoloMuteState& auxSoloMuteState(muse::audio::aux_channel_idx_t index) const override;
-    void setAuxSoloMuteState(muse::audio::aux_channel_idx_t index, const SoloMuteState& state) override;
-    muse::async::Channel<muse::audio::aux_channel_idx_t, SoloMuteState> auxSoloMuteStateChanged() const override;
+    void setAuxSoloMuteState(muse::audio::aux_channel_idx_t index,
+                             const SoloMuteState& state) override;
+    muse::async::Channel<muse::audio::aux_channel_idx_t,
+                         SoloMuteState> auxSoloMuteStateChanged() const override;
 
     void removeTrackParams(const engraving::InstrumentTrackId& partId) override;
 
@@ -68,7 +75,8 @@ public:
     muse::async::Notification settingsChanged() const override;
 
     muse::Ret read(const engraving::MscReader& reader);
-    muse::Ret write(engraving::MscWriter& writer, notation::INotationSoloMuteStatePtr masterSoloMuteStatePtr);
+    muse::Ret write(engraving::MscWriter& writer,
+                    notation::INotationSoloMuteStatePtr masterSoloMuteStatePtr);
 
     //! NOTE Used for new or imported project (score)
     void makeDefault();
@@ -105,8 +113,10 @@ private:
 
     QString sourceTypeToString(const muse::audio::AudioSourceType& type) const;
 
-    QJsonObject buildAuxObject(muse::audio::aux_channel_idx_t index, const AudioOutputParams& params) const;
-    QJsonObject buildTrackObject(notation::INotationSoloMuteStatePtr masterSoloMuteStatePtr, const engraving::InstrumentTrackId& id) const;
+    QJsonObject buildAuxObject(muse::audio::aux_channel_idx_t index,
+                               const AudioOutputParams& params) const;
+    QJsonObject buildTrackObject(notation::INotationSoloMuteStatePtr masterSoloMuteStatePtr,
+                                 const engraving::InstrumentTrackId& id) const;
 
     AudioOutputParams m_masterOutputParams;
 

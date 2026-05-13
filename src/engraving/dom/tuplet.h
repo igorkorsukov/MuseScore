@@ -98,7 +98,8 @@ public:
     void clear() { m_currentElements.clear(); }
     bool contains(const DurationElement* el) const
     {
-        return std::find(m_currentElements.begin(), m_currentElements.end(), el) != m_currentElements.end();
+        return std::find(m_currentElements.begin(), m_currentElements.end(),
+                         el) != m_currentElements.end();
     }
 
     void scanElements(std::function<void(EngravingItem*)> func) override;

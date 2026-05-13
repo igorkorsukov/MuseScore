@@ -82,7 +82,8 @@ signals:
 
 private:
     void updateCurrentFxParams(const muse::audio::AudioResourceMeta& newMeta);
-    void updateAvailableFxVendorsMap(const muse::audio::AudioResourceMetaList& availableFxResources);
+    void updateAvailableFxVendorsMap(
+        const muse::audio::AudioResourceMetaList& availableFxResources);
 
     std::map<muse::audio::AudioResourceVendor, muse::audio::AudioResourceMetaList> m_fxByVendorMap;
 

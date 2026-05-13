@@ -28,8 +28,8 @@ namespace mu::iex::guitarpro {
 class BendChordDurationSplitter
 {
 public:
-    static std::vector<mu::engraving::Fraction> findValidNoteSplit(const mu::engraving::Fraction& totalDuration,
-                                                                   const std::vector<mu::engraving::Fraction>& proportions,
-                                                                   int maxDenominator);
+    static std::vector<mu::engraving::Fraction> findValidNoteSplit(
+        const mu::engraving::Fraction& totalDuration,
+        const std::vector<mu::engraving::Fraction>& proportions, int maxDenominator);
 };
 } // mu::iex::guitarpro

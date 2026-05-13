@@ -39,7 +39,9 @@ void PlaybackLoadingModel::load()
         emit started();
     });
 
-    progress.progressChanged().onReceive(this, [this](int64_t current, int64_t total, const std::string& title) {
+    progress.progressChanged().onReceive(this,
+                                         [this](int64_t current, int64_t total,
+                                                const std::string& title) {
         setCurrentProgress(current);
         setTotalProgress(total);
         setProgressTitle(QString::fromStdString(title));

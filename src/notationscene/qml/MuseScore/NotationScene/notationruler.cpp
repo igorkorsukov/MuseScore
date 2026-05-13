@@ -103,11 +103,13 @@ void NotationRuler::paint(Painter* painter, const NoteInputState& state)
 
             if (nextIt != lineToSegment.end()) {
                 const size_t dist = nextIt->first - prevIt->first;
-                const double segmentWidth = (nextIt->second->x() - prevIt->second->x()) / static_cast<double>(dist);
+                const double segmentWidth = (nextIt->second->x() - prevIt->second->x())
+                                            / static_cast<double>(dist);
                 lineX = measurePos.x() + prevIt->second->x() + segmentWidth * (i % dist);
             } else {
                 const size_t dist = lineCount - prevIt->first;
-                const double segmentWidth = (measure->width() - prevIt->second->x()) / static_cast<double>(dist);
+                const double segmentWidth = (measure->width() - prevIt->second->x())
+                                            / static_cast<double>(dist);
                 lineX = measurePos.x() + prevIt->second->x() + segmentWidth * (i % dist);
             }
         } else {
@@ -135,7 +137,8 @@ NotationRuler::LineType NotationRuler::lineType(int lineTicks, int inputTicks, s
     return lineIdx % 2 == 0 ? LineType::MainBeat : LineType::Subdivision;
 }
 
-void NotationRuler::paintLine(Painter* painter, LineType type, const PointF& point, double spatium, voice_idx_t voiceIdx)
+void NotationRuler::paintLine(Painter* painter, LineType type, const PointF& point, double spatium,
+                              voice_idx_t voiceIdx)
 {
     muse::RectF rect;
     Color color = configuration()->selectionColor(voiceIdx);

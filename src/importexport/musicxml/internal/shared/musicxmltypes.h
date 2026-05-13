@@ -88,11 +88,15 @@ struct MusicXmlInstrument {
     muse::String toString() const;
 
     MusicXmlInstrument()        // required by std::map
-        : unpitched(-1), name(), midiChannel(-1), midiPort(-1), midiProgram(-1), midiVolume(100), midiPan(63),
-        notehead(engraving::NoteHeadGroup::HEAD_INVALID), line(0), stemDirection(engraving::DirectionV::AUTO) {}
+        : unpitched(-1), name(), midiChannel(-1), midiPort(-1), midiProgram(-1), midiVolume(100),
+        midiPan(63),
+        notehead(engraving::NoteHeadGroup::HEAD_INVALID), line(0), stemDirection(
+            engraving::DirectionV::AUTO) {}
     MusicXmlInstrument(muse::String s)
-        : unpitched(-1), name(s), midiChannel(-1), midiPort(-1), midiProgram(-1), midiVolume(100), midiPan(63),
-        notehead(engraving::NoteHeadGroup::HEAD_NORMAL), line(0), stemDirection(engraving::DirectionV::AUTO) {}
+        : unpitched(-1), name(s), midiChannel(-1), midiPort(-1), midiProgram(-1), midiVolume(100),
+        midiPan(63),
+        notehead(engraving::NoteHeadGroup::HEAD_NORMAL), line(0), stemDirection(
+            engraving::DirectionV::AUTO) {}
     /*
     MusicXmlInstrument(int p, String s, NoteHead::Group nh, int l, Direction d)
           : unpitched(p), name(s), midiChannel(-1), midiPort(-1), midiProgram(-1), midiVolume(100), midiPan(63),

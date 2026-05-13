@@ -40,11 +40,13 @@ class DrumsetLoader : public muse::async::Asyncable
     muse::GlobalInject<notation::IInstrumentsRepository> instrumentsRepository;
 
 public:
-    void loadDrumset(notation::INotationPtr notation, const mu::engraving::InstrumentTrackId& trackId,
+    void loadDrumset(notation::INotationPtr notation,
+                     const mu::engraving::InstrumentTrackId& trackId,
                      const muse::audio::AudioResourceMeta& resourceMeta);
 
 private:
-    void replaceDrumset(notation::INotationPtr notation, const mu::engraving::InstrumentTrackId& trackId,
+    void replaceDrumset(notation::INotationPtr notation,
+                        const mu::engraving::InstrumentTrackId& trackId,
                         const mu::engraving::Drumset& drumset);
 
     std::unordered_map<int /*instrumentId*/, std::optional<mu::engraving::Drumset> > m_drumsetCache;

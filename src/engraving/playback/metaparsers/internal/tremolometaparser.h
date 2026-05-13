@@ -31,7 +31,8 @@ class TremoloSingleMetaParser : public MetaParserBase<TremoloSingleMetaParser>
 protected:
     friend MetaParserBase;
 
-    static void doParse(const EngravingItem* item, const RenderingContext& ctx, muse::mpe::ArticulationMap& result);
+    static void doParse(const EngravingItem* item, const RenderingContext& ctx,
+                        muse::mpe::ArticulationMap& result);
 };
 
 class TremoloTwoMetaParser : public MetaParserBase<TremoloTwoMetaParser>
@@ -39,7 +40,8 @@ class TremoloTwoMetaParser : public MetaParserBase<TremoloTwoMetaParser>
 protected:
     friend MetaParserBase;
 
-    static void doParse(const EngravingItem* item, const RenderingContext& ctx, muse::mpe::ArticulationMap& result);
+    static void doParse(const EngravingItem* item, const RenderingContext& ctx,
+                        muse::mpe::ArticulationMap& result);
 };
 }
 

@@ -122,7 +122,8 @@ static UndoMacro::ChangesInfo changesInfo(const UndoStack* stack, bool undo = fa
     return actualMacro->changesInfo(undo);
 }
 
-static ScoreChanges buildScoreChanges(const CmdState& cmdState, const UndoMacro::ChangesInfo& changes)
+static ScoreChanges buildScoreChanges(const CmdState& cmdState,
+                                      const UndoMacro::ChangesInfo& changes)
 {
     int startTick = cmdState.startTick().ticks();
     int endTick = cmdState.endTick().ticks();
@@ -430,7 +431,8 @@ void Score::endCmd(bool rollback, bool layoutAllParts)
         changes = buildScoreChanges(cmdState(), changesInfo(undoStack()));
     }
 
-    LOGD() << "Undo stack current macro child count: " << undoStack()->activeCommand()->childCount();
+    LOGD() << "Undo stack current macro child count: " <<
+        undoStack()->activeCommand()->childCount();
 
     const bool isCurrentCommandEmpty = undoStack()->activeCommand()->empty(); // nothing to undo?
     undoStack()->endMacro(isCurrentCommandEmpty);
@@ -600,7 +602,8 @@ void Score::cmdAddSpanner(Spanner* spanner, const PointF& pos, bool systemStaves
 //    used when applying a spanner to a selection
 //---------------------------------------------------------
 
-void Score::cmdAddSpanner(Spanner* spanner, staff_idx_t staffIdx, Segment* startSegment, Segment* endSegment, bool ctrlModifier)
+void Score::cmdAddSpanner(Spanner* spanner, staff_idx_t staffIdx, Segment* startSegment,
+                          Segment* endSegment, bool ctrlModifier)
 {
     track_idx_t track = staffIdx * VOICES;
     spanner->setTrack(track);
@@ -725,7 +728,8 @@ void Score::addInterval(int val, const std::vector<Note*>& nl)
     });
 
     for (Note* currNote : _nl) {
-        for (Note* n = currNote; n && !muse::contains(tmpnl, n); n = n->tieFor() ? n->tieFor()->endNote() : nullptr) {
+        for (Note* n = currNote; n && !muse::contains(tmpnl, n);
+             n = n->tieFor() ? n->tieFor()->endNote() : nullptr) {
             if (selIsList && n->selected()) {
                 deselect(n);
             }
@@ -822,7 +826,10 @@ void Score::addInterval(int val, const std::vector<Note*>& nl)
 
         Tie* tieFor = on->tieFor();
         if (tieFor) {
-            Tie* tie = tieFor->isLaissezVib() ? Factory::createLaissezVib(this->dummy()->note()) : Factory::createTie(this->dummy());
+            Tie* tie
+                = tieFor->isLaissezVib() ? Factory::createLaissezVib(this->dummy()->note()) :
+                  Factory
+                  ::createTie(this->dummy());
             tie->setStartNote(note);
             tie->setTick(note->tick());
             tie->setTrack(note->track());
@@ -890,7 +897,8 @@ Note* Score::setGraceNote(Chord* ch, int pitch, NoteType type, int len)
     chord->setTicks(d.fraction());
     chord->setNoteType(type);
     chord->setShowStemSlashInAdvance();
-    chord->mutldata()->setMag(ch->staff()->staffMag(chord->tick()) * style().styleD(Sid::graceNoteMag));
+    chord->mutldata()->setMag(ch->staff()->staffMag(chord->tick())
+                              * style().styleD(Sid::graceNoteMag));
 
     undoAddElement(chord);
     return note;
@@ -925,7 +933,8 @@ GuitarBend* Score::addGuitarBend(GuitarBendType type, Note* note, Note* endNote)
 
     if (type == GuitarBendType::DIP) {
         for (Note* n : note->chord()->notes()) {
-            if (GuitarBend* bendFor = n->bendFor(); bendFor && bendFor->bendType() == GuitarBendType::DIP) {
+            if (GuitarBend* bendFor =
+                    n->bendFor(); bendFor && bendFor->bendType() == GuitarBendType::DIP) {
                 return nullptr; // Only one dip per chord
             }
         }
@@ -949,7 +958,8 @@ GuitarBend* Score::addGuitarBend(GuitarBendType type, Note* note, Note* endNote)
         bool suitableEndNote = endNote;
         if (endNote) {
             for (Spanner* sp : endNote->spannerBack()) {
-                if (sp->isTie() || sp->isGlissando() || (sp->isGuitarBend() && toGuitarBend(sp)->isDive() == isDive)) {
+                if (sp->isTie() || sp->isGlissando()
+                    || (sp->isGuitarBend() && toGuitarBend(sp)->isDive() == isDive)) {
                     suitableEndNote = false;
                     break;
                 }
@@ -971,7 +981,9 @@ GuitarBend* Score::addGuitarBend(GuitarBendType type, Note* note, Note* endNote)
     bend->setTrack(chord->track());
 
     if (type == GuitarBendType::BEND || type == GuitarBendType::DIVE) {
-        bend->setBendType(chord->isGrace() && type == GuitarBendType::BEND ? GuitarBendType::GRACE_NOTE_BEND : type);
+        bend->setBendType(
+            chord->isGrace()
+            && type == GuitarBendType::BEND ? GuitarBendType::GRACE_NOTE_BEND : type);
         bend->setStartElement(note);
         bend->setTick2(endNote->tick());
         bend->setTrack2(endNote->track());
@@ -985,12 +997,15 @@ GuitarBend* Score::addGuitarBend(GuitarBendType type, Note* note, Note* endNote)
         bend->setTick2(chord->tick());
         bend->setTrack2(chord->track());
 
-        if (type == GuitarBendType::PRE_BEND || type == GuitarBendType::GRACE_NOTE_BEND || type == GuitarBendType::PRE_DIVE) {
+        if (type == GuitarBendType::PRE_BEND || type == GuitarBendType::GRACE_NOTE_BEND
+            || type == GuitarBendType::PRE_DIVE) {
             const GraceNotesGroup& gracesBefore = chord->graceNotesBefore();
 
             // Create grace note
             Note* graceNote = gracesBefore.empty()
-                              ? setGraceNote(chord, note->pitch(), NoteType::APPOGGIATURA, Constants::DIVISION / 2)
+                              ? setGraceNote(chord,
+                                             note->pitch(), NoteType::APPOGGIATURA,
+                                             Constants::DIVISION / 2)
                               : addNote(gracesBefore.back(), note->noteVal());
             graceNote->transposeDiatonic(type == GuitarBendType::PRE_DIVE ? 1 : -1, true, false);
             GuitarBend::fixNotesFrettingForGraceBend(graceNote, note);
@@ -1006,7 +1021,8 @@ GuitarBend* Score::addGuitarBend(GuitarBendType type, Note* note, Note* endNote)
             bend->setParent(graceNote);
             bend->setStartElement(graceNote);
             bend->setEndElement(note);
-        } else if (type == GuitarBendType::SLIGHT_BEND || type == GuitarBendType::DIP || type == GuitarBendType::SCOOP) {
+        } else if (type == GuitarBendType::SLIGHT_BEND || type == GuitarBendType::DIP
+                   || type == GuitarBendType::SCOOP) {
             bend->setParent(note);
             bend->setStartElement(note);
             // Slight bends don't end on another note
@@ -1090,8 +1106,10 @@ void Score::createCRSequence(const Fraction& f, ChordRest* cr, const Fraction& t
 //    return segment of last created note/rest
 //---------------------------------------------------------
 
-Segment* Score::setNoteRest(Segment* segment, track_idx_t track, NoteVal nval, Fraction sd, DirectionV stemDirection,
-                            bool forceAccidental, const std::set<SymId>& articulationIds, bool rhythmic, InputState* externalInputState)
+Segment* Score::setNoteRest(Segment* segment, track_idx_t track, NoteVal nval, Fraction sd,
+                            DirectionV stemDirection,
+                            bool forceAccidental, const std::set<SymId>& articulationIds,
+                            bool rhythmic, InputState* externalInputState)
 {
     assert(segment->segmentType() == SegmentType::ChordRest);
     InputState& is = externalInputState ? (*externalInputState) : m_is;
@@ -1135,7 +1153,8 @@ Segment* Score::setNoteRest(Segment* segment, track_idx_t track, NoteVal nval, F
         Fraction timeStretch = staff(track2staff(track))->timeStretch(tick);
         std::vector<TDuration> dl;
         if (rhythmic) {
-            dl = toRhythmicDurationList(dd, isRest, segment->rtick() * timeStretch, sigmap()->timesig(
+            dl = toRhythmicDurationList(dd, isRest, segment->rtick() * timeStretch,
+                                        sigmap()->timesig(
                                             tick).nominal(), measure, 1, timeStretch);
         } else {
             dl = toDurationList(dd, true);
@@ -1278,7 +1297,8 @@ Segment* Score::setNoteRest(Segment* segment, track_idx_t track, NoteVal nval, F
                 for (EngravingObject* ee : chord->linkList()) {
                     EngravingItem* e = static_cast<EngravingItem*>(ee);
                     if (e->score() == slur->score() && e->track() == slur->track2()) {
-                        slur->score()->undo(new ChangeSpannerElements(slur, slur->startElement(), e));
+                        slur->score()->undo(new ChangeSpannerElements(slur, slur->startElement(),
+                                                                      e));
                         break;
                     }
                 }
@@ -1310,7 +1330,8 @@ Segment* Score::setNoteRest(Segment* segment, track_idx_t track, NoteVal nval, F
 //    return size of actual gap in local time
 //---------------------------------------------------------
 
-Fraction Score::makeGap(Segment* segment, track_idx_t track, const Fraction& _sd, Tuplet* tuplet, bool keepChord)
+Fraction Score::makeGap(Segment* segment, track_idx_t track, const Fraction& _sd, Tuplet* tuplet,
+                        bool keepChord)
 {
     assert(_sd.numerator());
 
@@ -1435,9 +1456,11 @@ Fraction Score::makeGap(Segment* segment, track_idx_t track, const Fraction& _sd
                 std::reverse(dList.begin(), dList.end());
             } else {
                 TimeSig* timeSig = stf->timeSig(tick);
-                TimeSigFrac refTimeSig = timeSig ? timeSig->sig() : sigmap()->timesig(tick).nominal();
+                TimeSigFrac refTimeSig
+                    = timeSig ? timeSig->sig() : sigmap()->timesig(tick).nominal();
                 Fraction rTickStart = (tick - measure->tick()) * stf->timeStretch(tick);
-                dList = toRhythmicDurationList(rd, true, rTickStart, refTimeSig, measure, 0, stf->timeStretch(tick));
+                dList = toRhythmicDurationList(rd, true, rTickStart, refTimeSig, measure, 0, stf->timeStretch(
+                                                   tick));
             }
             if (dList.empty()) {
                 break;
@@ -1462,7 +1485,8 @@ Fraction Score::makeGap(Segment* segment, track_idx_t track, const Fraction& _sd
     }
 
     const Fraction t1 = firstSegmentEnd;
-    const Fraction t2 = firstSegment->tick() + actualTicks(accumulated, tuplet, stf->timeStretch(firstSegment->tick()));
+    const Fraction t2 = firstSegment->tick()
+                        + actualTicks(accumulated, tuplet, stf->timeStretch(firstSegment->tick()));
     if (t1 < t2) {
         // Delete annotations that require an anchor to the previous segment
         Segment* s1 = tick2rightSegment(t1);
@@ -1471,7 +1495,8 @@ Fraction Score::makeGap(Segment* segment, track_idx_t track, const Fraction& _sd
             for (Segment* s = s1; s && s != s2; s = s->next1()) {
                 const auto annotations = s->annotations(); // make a copy since we alter the list
                 for (EngravingItem* annotation : annotations) {
-                    if (!annotation->systemFlag() && !annotation->allowTimeAnchor() && annotation->track() == track) {
+                    if (!annotation->systemFlag() && !annotation->allowTimeAnchor()
+                        && annotation->track() == track) {
                         deleteItem(annotation);
                     }
                 }
@@ -1495,7 +1520,8 @@ Fraction Score::makeGap(Segment* segment, track_idx_t track, const Fraction& _sd
 //    - len and voiceOffset are in local (stretched) time
 //---------------------------------------------------------
 
-bool Score::makeGap1(const Fraction& baseTick, staff_idx_t staffIdx, const Fraction& len, const Fraction voiceOffset[VOICES])
+bool Score::makeGap1(const Fraction& baseTick, staff_idx_t staffIdx, const Fraction& len,
+                     const Fraction voiceOffset[VOICES])
 {
     Measure* m = tick2measure(baseTick);
     if (!m) {
@@ -1508,7 +1534,8 @@ bool Score::makeGap1(const Fraction& baseTick, staff_idx_t staffIdx, const Fract
         if (!voiceOffset[track - strack].isValid()) {
             continue;
         }
-        Fraction tick = baseTick + actualTicks(voiceOffset[track - strack], nullptr, staff(staffIdx)->timeStretch(baseTick));
+        Fraction tick = baseTick + actualTicks(voiceOffset[track - strack], nullptr, staff(
+                                                   staffIdx)->timeStretch(baseTick));
         Measure* tm   = tick2measure(tick);
         if ((track % VOICES) && !tm->hasVoices(staffIdx)) {
             continue;
@@ -1518,13 +1545,15 @@ bool Score::makeGap1(const Fraction& baseTick, staff_idx_t staffIdx, const Fract
         assert(newLen.numerator() != 0);
 
         if (newLen > Fraction(0, 1)) {
-            const Fraction endTick = tick + actualTicks(newLen, nullptr, staff(staffIdx)->timeStretch(tick));
+            const Fraction endTick = tick + actualTicks(newLen, nullptr, staff(
+                                                            staffIdx)->timeStretch(tick));
 
             SelectionFilter filter;
             // chord symbols can exist without chord/rest so they should not be removed
             filter.setFiltered(ElementsSelectionFilterTypes::CHORD_SYMBOL, false);
 
-            deleteAnnotationsFromRange(tick2rightSegment(tick), tick2rightSegment(endTick), track, track + 1, filter);
+            deleteAnnotationsFromRange(tick2rightSegment(tick), tick2rightSegment(
+                                           endTick), track, track + 1, filter);
             deleteOrShortenOutSpannersFromRange(tick, endTick, track, track + 1, filter);
         }
 
@@ -1947,8 +1976,10 @@ void Score::moveUp(ChordRest* cr)
     const std::vector<Staff*>& staves = part->staves();
     // we know that staffMove+rstaff-1 index exists due to the previous condition.
     if (staff->staffType(cr->tick())->group() != StaffGroup::STANDARD
-        || staves.at(rstaff + staffMove - 1)->staffType(cr->tick())->group() != StaffGroup::STANDARD) {
-        LOGD("User attempted to move a note from/to a staff which does not use standard notation - ignoring.");
+        || staves.at(rstaff + staffMove - 1)->staffType(cr->tick())->group()
+        != StaffGroup::STANDARD) {
+        LOGD(
+            "User attempted to move a note from/to a staff which does not use standard notation - ignoring.");
     } else {
         // move the chord up a staff
         undo(new ChangeChordStaffMove(cr, staffMove - 1));
@@ -1976,8 +2007,10 @@ void Score::moveDown(ChordRest* cr)
     const std::vector<Staff*>& staves = part->staves();
     // we know that staffMove+rstaff+1 index exists due to the previous condition.
     if (staff->staffType(cr->tick())->group() != StaffGroup::STANDARD
-        || staves.at(staffMove + rstaff + 1)->staffType(cr->tick())->group() != StaffGroup::STANDARD) {
-        LOGD("User attempted to move a note from/to a staff which does not use standard notation - ignoring.");
+        || staves.at(staffMove + rstaff + 1)->staffType(cr->tick())->group()
+        != StaffGroup::STANDARD) {
+        LOGD(
+            "User attempted to move a note from/to a staff which does not use standard notation - ignoring.");
     } else {
         // move the chord down a staff
         undo(new ChangeChordStaffMove(cr, staffMove + 1));
@@ -2171,7 +2204,8 @@ void Score::cmdResetBeamMode()
     const Fraction endTick = selection().tickEnd();
     const SelectionFilter filter = selectionFilter();
 
-    for (Segment* seg = firstCr->segment(); seg && seg->tick() < endTick; seg = seg->next1(SegmentType::ChordRest)) {
+    for (Segment* seg = firstCr->segment(); seg && seg->tick() < endTick;
+         seg = seg->next1(SegmentType::ChordRest)) {
         for (track_idx_t track = trackStart; track < trackEnd; ++track) {
             if (!filter.canSelectVoice(track)) {
                 continue;
@@ -2626,7 +2660,10 @@ EngravingItem* Score::move(const String& cmd)
             if (style().styleB(Sid::createMultiMeasureRests) && ftm->hasMMRest()) {
                 ftm = ftm->coveringMMRestOrThis();
             }
-            el = !cr ? ftm->first()->nextChordRest(0, false) : ftm->first()->nextChordRest(trackZeroVoice(cr->track()), false);
+            el = !cr ? ftm->first()->nextChordRest(0, false) : ftm->first()->nextChordRest(trackZeroVoice(
+                                                                                               cr->
+                                                                                               track()),
+                                                                                           false);
         }
         // Note: Due to the nature of this command as being preparatory for input,
         // Note-Entry is activated from within ScoreView::cmd()
@@ -2782,14 +2819,18 @@ void Score::cmdIncDecDuration(int nSteps, bool stepDotted)
         }
         const muse::ByteArray mimeData(m_selection.mimeData());
         XmlReader e(mimeData);
-        deleteRange(m_selection.startSegment(), m_selection.endSegment(), staff2track(m_selection.staffStart()),
-                    staff2track(m_selection.staffEnd()), selectionFilter(), m_selection.rangeContainsMultiNoteChords());
+        deleteRange(m_selection.startSegment(), m_selection.endSegment(),
+                    staff2track(m_selection.staffStart()),
+                    staff2track(m_selection.staffEnd()),
+                    selectionFilter(), m_selection.rangeContainsMultiNoteChords());
         pasteStaff(e, m_selection.startSegment(), m_selection.staffStart(), scale);
     } else if (m_selection.isList()) {
         const std::vector<Note*> notes = m_selection.noteList();
         const std::set<ChordRest*> crsSet = getSelectedChordRests();
         std::vector<ChordRest*> crs(crsSet.begin(), crsSet.end());
-        std::sort(crs.begin(), crs.end(), [](const ChordRest* a, const ChordRest* b) { return a->tick() > b->tick(); });
+        std::sort(crs.begin(), crs.end(), [](const ChordRest* a, const ChordRest* b) {
+            return a->tick() > b->tick();
+        });
 
         for (ChordRest* cr : crs) {
             // if measure rest is selected as input, then the correct initialDuration will be the
@@ -2804,7 +2845,9 @@ void Score::cmdIncDecDuration(int nSteps, bool stepDotted)
                 }
             }
 
-            TDuration newDuration { stepDotted ? initialDuration.shiftRetainDots(nSteps, stepDotted) : initialDuration.shift(nSteps) };
+            TDuration newDuration { stepDotted ? initialDuration.shiftRetainDots(nSteps,
+                                                                                 stepDotted) :
+                                    initialDuration.shift(nSteps) };
             if (!newDuration.isValid()) {
                 continue;
             }
@@ -2840,13 +2883,15 @@ void Score::cmdExtendToNextNote()
 
     for (ChordRest* cr : getSelectedChordRests()) {
         ChordRest* ncr = nextChordRest(cr);
-        if (cr->isRest() || cr->isGrace() || cr->endTick() == this->endTick() || (ncr && ncr->isChord() && cr->endTick() == ncr->tick())) {
+        if (cr->isRest() || cr->isGrace() || cr->endTick() == this->endTick()
+            || (ncr && ncr->isChord() && cr->endTick() == ncr->tick())) {
             continue;
         }
         std::vector<Note*> chordNotes = toChord(cr)->notes();
         std::vector<Note*> selectedChordNotes;
         for (Note* n : chordNotes) {
-            if (std::find(initialSelection.begin(), initialSelection.end(), n) != initialSelection.end()) {
+            if (std::find(initialSelection.begin(), initialSelection.end(),
+                          n) != initialSelection.end()) {
                 selectedChordNotes.push_back(n);
                 toSelect.push_back(n);
                 if (LaissezVib* lv = n->laissezVib()) {
@@ -2862,7 +2907,9 @@ void Score::cmdExtendToNextNote()
             }
             if (!ncr || cr->endTick() != ncr->tick()  // if voices>0 have empty measures till end OR have empty measures between cr and ncr
                 || cr->tuplet() != ncr->tuplet() || !allNotesSelected) {
-                std::vector<Note*> notesToExtend = !allNotesSelected ? (allNotesSelected = true, selectedChordNotes) : toChord(cr)->notes();
+                std::vector<Note*> notesToExtend
+                    = !allNotesSelected ? (allNotesSelected = true,
+                                           selectedChordNotes) : toChord(cr)->notes();
                 m_is.setTrack(cr->track());
                 m_is.setSegment(cr->segment());
                 m_is.moveToNextInputPos();
@@ -2884,7 +2931,8 @@ void Score::cmdExtendToNextNote()
                     tie->setTrack(note->track());
                     tie->setTick(note->chord()->segment()->tick());
                     tie->setEndNote(nn);
-                    tie->setTicks(nn->chord()->segment()->tick() - note->chord()->segment()->tick());
+                    tie->setTicks(nn->chord()->segment()->tick()
+                                  - note->chord()->segment()->tick());
                     undoAddElement(tie);
                 }
                 cr = toChordRest(nn->chord());
@@ -2976,12 +3024,15 @@ static std::map<Chord*, std::set<Note*, NoteComparator> > getNotesByChord(std::l
 
         const std::vector<Note*>& chordNotes = chord->notes();
 
-        std::vector<Note*>::const_iterator firstNoteIt = std::find(chordNotes.begin(), chordNotes.end(), firstNote);
-        std::vector<Note*>::const_iterator secondNoteIt = std::find(chordNotes.begin(), chordNotes.end(), secondNote);
+        std::vector<Note*>::const_iterator firstNoteIt = std::find(
+            chordNotes.begin(), chordNotes.end(), firstNote);
+        std::vector<Note*>::const_iterator secondNoteIt = std::find(
+            chordNotes.begin(), chordNotes.end(), secondNote);
 
         assert(firstNoteIt != chordNotes.end() && secondNoteIt != chordNotes.end());
 
-        for (std::vector<Note*>::const_iterator chordNoteIt = firstNoteIt; chordNoteIt != std::next(secondNoteIt);
+        for (std::vector<Note*>::const_iterator chordNoteIt = firstNoteIt;
+             chordNoteIt != std::next(secondNoteIt);
              chordNoteIt = std::next(chordNoteIt)) {
             Note* note = *chordNoteIt;
             notesByChordIt->second.insert(note);
@@ -2998,7 +3049,8 @@ void Score::cmdToggleParenthesesOnNotes()
     bool add = false;
 
     for (Note* note : notes) {
-        if (note->getProperty(Pid::HAS_PARENTHESES).value<ParenthesesMode>() == ParenthesesMode::NONE) {
+        if (note->getProperty(Pid::HAS_PARENTHESES).value<ParenthesesMode>()
+            == ParenthesesMode::NONE) {
             add = true;
             break;
         }
@@ -3086,7 +3138,8 @@ void Score::cmdToggleParentheses(EngravingItem* el)
         TimeSig* ts = toTimeSig(el);
         ts->setLargeParentheses(true);
     } else {
-        ParenthesesMode p = el->leftParen() || el->rightParen() ? ParenthesesMode::NONE : ParenthesesMode::BOTH;
+        ParenthesesMode p = el->leftParen()
+                            || el->rightParen() ? ParenthesesMode::NONE : ParenthesesMode::BOTH;
         el->undoChangeProperty(Pid::HAS_PARENTHESES, p);
     }
 }
@@ -3145,8 +3198,10 @@ void Score::realtimeAdvance(bool allowTransposition)
     }
 
     Fraction ticks2measureEnd = is.segment()->measure()->ticks() - is.segment()->rtick();
-    if (!is.cr() || (is.cr()->ticks() != is.duration().fraction() && is.duration() < ticks2measureEnd)) {
-        setNoteRest(is.segment(), is.track(), NoteVal(), is.duration().fraction(), DirectionV::AUTO);
+    if (!is.cr()
+        || (is.cr()->ticks() != is.duration().fraction() && is.duration() < ticks2measureEnd)) {
+        setNoteRest(is.segment(), is.track(), NoteVal(), is.duration().fraction(),
+                    DirectionV::AUTO);
     }
 
     ChordRest* prevCR = toChordRest(is.cr());
@@ -3158,7 +3213,8 @@ void Score::realtimeAdvance(bool allowTransposition)
 
     std::list<MidiInputEvent>& midiPitches = activeMidiPitches();
     if (midiPitches.empty()) {
-        setNoteRest(is.segment(), is.track(), NoteVal(), is.duration().fraction(), DirectionV::AUTO);
+        setNoteRest(is.segment(), is.track(), NoteVal(), is.duration().fraction(),
+                    DirectionV::AUTO);
     } else {
         Chord* prevChord = prevCR->isChord() ? toChord(prevCR) : 0;
         bool partOfChord = false;
@@ -3170,7 +3226,8 @@ void Score::realtimeAdvance(bool allowTransposition)
 
     if (prevCR->measure() != is.segment()->measure()) {
         // just advanced across barline. Now simplify tied notes.
-        score()->regroupNotesAndRests(prevCR->measure()->tick(), is.segment()->measure()->tick(), is.track());
+        score()->regroupNotesAndRests(prevCR->measure()->tick(),
+                                      is.segment()->measure()->tick(), is.track());
     }
 
     return;
@@ -3251,7 +3308,8 @@ void Score::cmdAddMeasureRepeat(Measure* firstMeasure, int numMeasures, staff_id
     }
     // MeasureRepeat element will be positioned appropriately (in center of measure / on following barline)
     // when stretchMeasure() is called on measureWithElement
-    MeasureRepeat* mr = addMeasureRepeat(measureWithElement->tick(), staff2track(staffIdx), numMeasures);
+    MeasureRepeat* mr = addMeasureRepeat(measureWithElement->tick(), staff2track(
+                                             staffIdx), numMeasures);
     select(mr, SelectType::SINGLE, 0);
 }
 
@@ -3304,8 +3362,11 @@ bool Score::makeMeasureRepeatGroup(Measure* firstMeasure, int numMeasures, staff
     }
 
     if (!empty) {
-        auto b = MessageBox(iocContext()).warning(muse::trc("engraving", "Current contents of measures will be replaced"),
-                                                  muse::trc("engraving", "Continue with inserting measure repeat?"));
+        auto b
+            = MessageBox(iocContext()).warning(muse::trc("engraving",
+                                                         "Current contents of measures will be replaced"),
+                                               muse::trc("engraving",
+                                                         "Continue with inserting measure repeat?"));
         if (b == MessageBox::Button::Cancel) {
             return false;
         }
@@ -3404,7 +3465,8 @@ void Score::cmdSlashFill()
                     // no chordrest or ordinary rest == OK to use voice
                     // if there are nothing but rests for duration of measure / selection
                     bool ok = true;
-                    for (Segment* ns = s->next(SegmentType::ChordRest); ns && ns != endSegment; ns = ns->next(SegmentType::ChordRest)) {
+                    for (Segment* ns = s->next(SegmentType::ChordRest); ns && ns != endSegment;
+                         ns = ns->next(SegmentType::ChordRest)) {
                         ChordRest* ncr = toChordRest(ns->element(track + voice));
                         if (ncr && ncr->isChord()) {
                             ok = false;
@@ -3519,7 +3581,8 @@ void Score::cmdSlashRhythm()
 //    'dur' is in local (stretched) time
 //    return segment of last created chord
 //---------------------------------------------------------
-static Segment* setChord(Score* score, Segment* segment, track_idx_t track, const Chord* chordTemplate, Fraction dur)
+static Segment* setChord(Score* score, Segment* segment, track_idx_t track,
+                         const Chord* chordTemplate, Fraction dur)
 {
     assert(segment->segmentType() == SegmentType::ChordRest);
 
@@ -3701,9 +3764,12 @@ void Score::cmdRealizeChordSymbols(bool literal, Voicing voicing, HDuration dura
             continue;
         }
         const RealizedHarmony& r = h->getRealizedHarmony();
-        Segment* seg = h->explicitParent()->isSegment() ? toSegment(h->explicitParent()) : toSegment(h->explicitParent()->explicitParent());
+        Segment* seg
+            = h->explicitParent()->isSegment() ? toSegment(h->explicitParent()) : toSegment(
+                  h->explicitParent()->explicitParent());
         Fraction tick = seg->tick();
-        Fraction duration = r.getActualDuration(tick.ticks(), durationType) * h->staff()->timeStretch(tick);
+        Fraction duration
+            = r.getActualDuration(tick.ticks(), durationType) * h->staff()->timeStretch(tick);
         bool concertPitch = style().styleB(Sid::concertPitch);
 
         Chord* chord = Factory::createChord(this->dummy()->segment());     //chord template
@@ -3765,7 +3831,8 @@ void Score::cmdResequenceRehearsalMarks()
     }
 
     RehearsalMark* last = nullptr;
-    for (Segment* s = selection().startSegment(); s && s != selection().endSegment(); s = s->next1()) {
+    for (Segment* s = selection().startSegment(); s && s != selection().endSegment();
+         s = s->next1()) {
         for (EngravingItem* e : s->annotations()) {
             if (e->type() == ElementType::REHEARSAL_MARK) {
                 RehearsalMark* rm = toRehearsalMark(e);
@@ -3810,7 +3877,9 @@ void Score::cmdPitchUp()
     if (el && el->isLyrics()) {
         cmdMoveLyrics(toLyrics(el), DirectionV::UP);
     } else if (el && (el->isArticulationFamily() || el->isTextBase())) {
-        el->undoChangeProperty(Pid::OFFSET, el->offset() + PointF(0.0, -MScore::nudgeStep * el->spatium()), PropertyFlags::UNSTYLED);
+        el->undoChangeProperty(Pid::OFFSET,
+                               el->offset() + PointF(0.0, -MScore::nudgeStep * el->spatium()),
+                               PropertyFlags::UNSTYLED);
     } else if (el && el->isRest()) {
         cmdMoveRest(toRest(el), DirectionV::UP);
     } else {
@@ -3828,7 +3897,10 @@ void Score::cmdPitchDown()
     if (el && el->isLyrics()) {
         cmdMoveLyrics(toLyrics(el), DirectionV::DOWN);
     } else if (el && (el->isArticulationFamily() || el->isTextBase())) {
-        el->undoChangeProperty(Pid::OFFSET, PropertyValue::fromValue(el->offset() + PointF(0.0, MScore::nudgeStep * el->spatium())),
+        el->undoChangeProperty(Pid::OFFSET,
+                               PropertyValue::fromValue(el->offset()
+                                                        + PointF(0.0,
+                                                                 MScore::nudgeStep * el->spatium())),
                                PropertyFlags::UNSTYLED);
     } else if (el && el->isRest()) {
         cmdMoveRest(toRest(el), DirectionV::DOWN);
@@ -3846,7 +3918,10 @@ void Score::cmdPitchUpOctave()
     EngravingItem* el = selection().element();
     if (el && (el->isArticulationFamily() || el->isTextBase())) {
         el->undoChangeProperty(Pid::OFFSET,
-                               PropertyValue::fromValue(el->offset() + PointF(0.0, -MScore::nudgeStep10 * el->spatium())),
+                               PropertyValue::fromValue(el->offset()
+                                                        + PointF(0.0,
+                                                                 -MScore::nudgeStep10
+                                                                 * el->spatium())),
                                PropertyFlags::UNSTYLED);
     } else {
         EditNote::upDown(score(), true, UpDownMode::OCTAVE);
@@ -3861,7 +3936,9 @@ void Score::cmdPitchDownOctave()
 {
     EngravingItem* el = selection().element();
     if (el && (el->isArticulationFamily() || el->isTextBase())) {
-        el->undoChangeProperty(Pid::OFFSET, el->offset() + PointF(0.0, MScore::nudgeStep10 * el->spatium()), PropertyFlags::UNSTYLED);
+        el->undoChangeProperty(Pid::OFFSET,
+                               el->offset() + PointF(0.0, MScore::nudgeStep10 * el->spatium()),
+                               PropertyFlags::UNSTYLED);
     } else {
         EditNote::upDown(score(), false, UpDownMode::OCTAVE);
     }
@@ -4125,7 +4202,8 @@ void Score::cmdToggleHideEmpty()
     undoChangeStyleVal(Sid::hideEmptyStaves, val);
 }
 
-void Score::cmdSetHideStaffIfEmptyOverride(staff_idx_t staffIdx, System* system, engraving::AutoOnOff value)
+void Score::cmdSetHideStaffIfEmptyOverride(staff_idx_t staffIdx, System* system,
+                                           engraving::AutoOnOff value)
 {
     for (MeasureBase* mb : system->measures()) {
         if (!mb->isMeasure()) {
@@ -4184,7 +4262,8 @@ bool Score::resolveNoteInputParams(int note, bool addFlag, NoteInputParams& out)
         int curPitch = 60;
         if (is.segment()) {
             Staff* staff = Score::staff(is.track() / VOICES);
-            Segment* seg = is.segment()->prev1(SegmentType::ChordRest | SegmentType::Clef | SegmentType::HeaderClef);
+            Segment* seg = is.segment()->prev1(
+                SegmentType::ChordRest | SegmentType::Clef | SegmentType::HeaderClef);
             while (seg) {
                 if (seg->isChordRestType()) {
                     EngravingItem* p = seg->element(is.track());
@@ -4206,7 +4285,8 @@ bool Score::resolveNoteInputParams(int note, bool addFlag, NoteInputParams& out)
                         }
                     }
                 }
-                seg = seg->prev1MM(SegmentType::ChordRest | SegmentType::Clef | SegmentType::HeaderClef);
+                seg = seg->prev1MM(
+                    SegmentType::ChordRest | SegmentType::Clef | SegmentType::HeaderClef);
             }
             octave = curPitch / 12;
         }

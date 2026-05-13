@@ -40,13 +40,17 @@ class MuseSoundsDevToolsModel : public QObject, public muse::Contextable
     Q_OBJECT
     QML_ELEMENT
 
-    Q_PROPERTY(bool enableTestMode READ enableTestMode WRITE setEnableTestMode NOTIFY enableTestModeChanged)
+    Q_PROPERTY(
+        bool enableTestMode READ enableTestMode WRITE setEnableTestMode NOTIFY enableTestModeChanged)
     Q_PROPERTY(int version READ version WRITE setVersion NOTIFY versionChanged)
-    Q_PROPERTY(QString heroImagePath READ heroImagePath WRITE setHeroImagePath NOTIFY heroImagePathChanged)
+    Q_PROPERTY(
+        QString heroImagePath READ heroImagePath WRITE setHeroImagePath NOTIFY heroImagePathChanged)
     Q_PROPERTY(QString updateNotes READ updateNotes WRITE setUpdateNotes NOTIFY updateNotesChanged)
     Q_PROPERTY(QString ctaLink READ ctaLink WRITE setCtaLink NOTIFY ctaLinkChanged)
-    Q_PROPERTY(QString selectedLanguage READ selectedLanguage WRITE setSelectedLanguage NOTIFY selectedLanguageChanged)
-    Q_PROPERTY(QStringList availableLanguages READ availableLanguages NOTIFY availableLanguagesChanged)
+    Q_PROPERTY(
+        QString selectedLanguage READ selectedLanguage WRITE setSelectedLanguage NOTIFY selectedLanguageChanged)
+    Q_PROPERTY(
+        QStringList availableLanguages READ availableLanguages NOTIFY availableLanguagesChanged)
 
     Q_PROPERTY(
         QString currentUpdateData READ currentUpdateData_property WRITE setCurrentUpdateData_property NOTIFY currentUpdateDataChanged FINAL)

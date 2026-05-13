@@ -227,13 +227,17 @@ struct NoteInputParams {
 
 struct ShowAnchors {
     ShowAnchors() = default;
-    ShowAnchors(voice_idx_t vIdx, staff_idx_t stfIdx, const Fraction& sTickMain, const Fraction& eTickMain,
+    ShowAnchors(voice_idx_t vIdx, staff_idx_t stfIdx, const Fraction& sTickMain,
+                const Fraction& eTickMain,
                 const Fraction& sTickExt, const Fraction& eTickExt)
-        : voiceIdx(vIdx), staffIdx(stfIdx), endStaffIdx(stfIdx + 1), startTickMainRegion(sTickMain), endTickMainRegion(eTickMain),
+        : voiceIdx(vIdx), staffIdx(stfIdx), endStaffIdx(stfIdx + 1), startTickMainRegion(sTickMain),
+        endTickMainRegion(eTickMain),
         startTickExtendedRegion(sTickExt), endTickExtendedRegion(eTickExt) {}
-    ShowAnchors(voice_idx_t vIdx, staff_idx_t stfIdx, staff_idx_t endStfIdx, const Fraction& sTickMain, const Fraction& eTickMain,
+    ShowAnchors(voice_idx_t vIdx, staff_idx_t stfIdx, staff_idx_t endStfIdx,
+                const Fraction& sTickMain, const Fraction& eTickMain,
                 const Fraction& sTickExt, const Fraction& eTickExt)
-        : voiceIdx(vIdx), staffIdx(stfIdx), endStaffIdx(endStfIdx), startTickMainRegion(sTickMain), endTickMainRegion(eTickMain),
+        : voiceIdx(vIdx), staffIdx(stfIdx), endStaffIdx(endStfIdx), startTickMainRegion(sTickMain),
+        endTickMainRegion(eTickMain),
         startTickExtendedRegion(sTickExt), endTickExtendedRegion(eTickExt) {}
 
     void reset()
@@ -451,7 +455,8 @@ public:
     void cmdPadNoteDecreaseTAB();
     void cmdToggleMmrest();
     void cmdToggleHideEmpty();
-    void cmdSetHideStaffIfEmptyOverride(staff_idx_t staffIdx, System* system, engraving::AutoOnOff value);
+    void cmdSetHideStaffIfEmptyOverride(staff_idx_t staffIdx, System* system,
+                                        engraving::AutoOnOff value);
     void cmdSetVisible();
     void cmdUnsetVisible();
     void cmdMoveRest(Rest*, DirectionV);
@@ -480,15 +485,18 @@ public:
     const std::vector<Staff*>& systemObjectStaves() const { return m_systemObjectStaves; }
     const std::vector<Staff*> systemObjectStavesWithTopStaff() const;
 
-    Measure* pos2measure(const PointF&, staff_idx_t* staffIdx, int* pitch, Segment**, PointF* offset) const;
-    void dragPosition(const PointF&, staff_idx_t* staffIdx, Segment**, double spacingFactor = 0.5, bool allowTimeAnchor = false) const;
+    Measure* pos2measure(const PointF&, staff_idx_t* staffIdx, int* pitch, Segment**,
+                         PointF* offset) const;
+    void dragPosition(const PointF&, staff_idx_t* staffIdx, Segment**, double spacingFactor = 0.5,
+                      bool allowTimeAnchor = false) const;
 
-    void undoAddElement(EngravingItem* element, bool addToLinkedStaves = true, bool ctrlModifier = false,
-                        EngravingItem* elementToRelink = nullptr);
+    void undoAddElement(EngravingItem* element, bool addToLinkedStaves = true,
+                        bool ctrlModifier = false, EngravingItem* elementToRelink = nullptr);
     void undoAddCR(ChordRest* element, Measure*, const Fraction& tick);
     void undoRemoveElement(EngravingItem* element, bool removeLinked = true);
     void undoRemoveHopoText(HammerOnPullOffText* hopoText);
-    void undoChangeSpannerElements(Spanner* spanner, EngravingItem* startElement, EngravingItem* endElement);
+    void undoChangeSpannerElements(Spanner* spanner, EngravingItem* startElement,
+                                   EngravingItem* endElement);
     void undoChangeElement(EngravingItem* oldElement, EngravingItem* newElement);
     void spellNotelist(std::vector<Note*>& notes);
     void undoChangeChordRestLen(ChordRest* cr, const TDuration&);
@@ -498,13 +506,16 @@ public:
     void undoInsertStaff(Staff* staff, staff_idx_t idx, bool createRests=true);
     void undoChangeVisible(EngravingItem* item, bool visible);
     void undoChangeKeySig(Staff* ostaff, const Fraction& tick, KeySigEvent);
-    void undoChangeClef(Staff* ostaff, EngravingItem*, ClefType st, bool forInstrumentChange = false, Clef* clefToRelink = nullptr);
+    void undoChangeClef(Staff* ostaff, EngravingItem*, ClefType st,
+                        bool forInstrumentChange = false, Clef* clefToRelink = nullptr);
     bool undoPropertyChanged(EngravingItem* item, Pid propId, const PropertyValue& propValue,
                              PropertyFlags propFlags = PropertyFlags::NOSTYLE);
-    void undoPropertyChanged(EngravingObject*, Pid, const PropertyValue& v, PropertyFlags ps = PropertyFlags::NOSTYLE);
+    void undoPropertyChanged(EngravingObject*, Pid, const PropertyValue& v,
+                             PropertyFlags ps = PropertyFlags::NOSTYLE);
     virtual UndoStack* undoStack() const;
     void undo(UndoCommand*, EditData* = nullptr) const;
-    void undoRemoveMeasures(Measure*, Measure*, bool preserveTies = false, bool moveStaffTypeChanges = true);
+    void undoRemoveMeasures(Measure*, Measure*, bool preserveTies = false,
+                            bool moveStaffTypeChanges = true);
     void undoChangeMeasureRepeatCount(Measure* m, int count, staff_idx_t staffIdx);
     void undoAddBracket(Staff* staff, size_t level, BracketType type, size_t span);
     void undoRemoveBracket(Bracket*);
@@ -515,7 +526,8 @@ public:
     void undoChangeParent(EngravingItem* element, EngravingItem* parent, staff_idx_t _staff);
     void undoResetPlayCountTextSettings(BarLine* bl);
     void undoUpdatePlayCountText(Measure* m);
-    void undoChangeBarLineType(BarLine* bl, BarLineType barType, bool allStaves, bool replace = false);
+    void undoChangeBarLineType(BarLine* bl, BarLineType barType, bool allStaves,
+                               bool replace = false);
 
     void updateInstrumentChangeTranspositions(KeySigEvent& key, Staff* staff, const Fraction& tick);
 
@@ -523,15 +535,17 @@ public:
 
     GuitarBend* addGuitarBend(GuitarBendType type, Note* note, Note* endNote = nullptr);
 
-    Segment* setNoteRest(Segment*, track_idx_t track, NoteVal nval, Fraction, DirectionV stemDirection = DirectionV::AUTO,
-                         bool forceAccidental = false, const std::set<SymId>& articulationIds = {}, bool rhythmic = false,
+    Segment* setNoteRest(Segment*, track_idx_t track, NoteVal nval, Fraction,
+                         DirectionV stemDirection = DirectionV::AUTO, bool forceAccidental = false,
+                         const std::set<SymId>& articulationIds = {}, bool rhythmic = false,
                          InputState* externalInputState = nullptr);
     void changeCRlen(ChordRest* cr, const TDuration&);
     void changeCRlen(ChordRest* cr, const Fraction&, bool fillWithRest=true);
     void createCRSequence(const Fraction& f, ChordRest* cr, const Fraction& tick);
 
     Fraction makeGap(Segment*, track_idx_t track, const Fraction&, Tuplet*, bool keepChord = false);
-    bool makeGap1(const Fraction& baseTick, staff_idx_t staffIdx, const Fraction& len, const Fraction voiceOffset[VOICES]);
+    bool makeGap1(const Fraction& baseTick, staff_idx_t staffIdx, const Fraction& len,
+                  const Fraction voiceOffset[VOICES]);
     bool makeGapVoice(Segment* seg, track_idx_t track, Fraction len, const Fraction& tick);
 
     Rest* addRest(const Fraction& tick, track_idx_t track, TDuration, Tuplet*);
@@ -539,12 +553,14 @@ public:
     Chord* addChord(const Fraction& tick, TDuration d, Chord* oc, bool genTie, Tuplet* tuplet);
     MeasureRepeat* addMeasureRepeat(const Fraction& tick, track_idx_t track, int numMeasures);
 
-    Tuplet* addTuplet(ChordRest* destinationChordRest, Fraction ratio, TupletNumberType numberType, TupletBracketType bracketType);
+    Tuplet* addTuplet(ChordRest* destinationChordRest, Fraction ratio, TupletNumberType numberType,
+                      TupletBracketType bracketType);
 
     ChordRest* addClone(ChordRest* cr, const Fraction& tick, const TDuration& d);
-    Rest* setRest(const Fraction& tick, track_idx_t track, const Fraction&, bool useDots, Tuplet* tuplet, bool useFullMeasureRest = true);
-    std::vector<Rest*> setRests(const Fraction& tick, track_idx_t track, const Fraction& l, bool useDots, Tuplet* tuplet,
-                                bool useFullMeasureRest = true);
+    Rest* setRest(const Fraction& tick, track_idx_t track, const Fraction&, bool useDots,
+                  Tuplet* tuplet, bool useFullMeasureRest = true);
+    std::vector<Rest*> setRests(const Fraction& tick, track_idx_t track, const Fraction& l,
+                                bool useDots, Tuplet* tuplet, bool useFullMeasureRest = true);
 
     ChordRest* searchNote(const Fraction& tick, track_idx_t track) const;
 
@@ -556,7 +572,8 @@ public:
 
     Note* addPitch(NoteVal&, bool addFlag, InputState* externalInputState = nullptr);
     Note* addMidiPitch(int pitch, bool addFlag, bool allowTransposition);
-    Note* addNote(Chord*, const NoteVal& noteVal, bool forceAccidental = false, const std::set<SymId>& articulationIds = {},
+    Note* addNote(Chord*, const NoteVal& noteVal, bool forceAccidental = false,
+                  const std::set<SymId>& articulationIds = {},
                   InputState* externalInputState = nullptr);
 
     NoteVal noteVal(int pitch, staff_idx_t staffIdx, bool allowTransposition) const;
@@ -566,20 +583,24 @@ public:
     TextBase* addText(TextStyleType type, EngravingItem* destinationElement = nullptr);
 
     void deleteItem(EngravingItem*);
-    void deleteMeasures(MeasureBase* firstMeasure, MeasureBase* lastMeasure, bool preserveTies = false);
+    void deleteMeasures(MeasureBase* firstMeasure, MeasureBase* lastMeasure,
+                        bool preserveTies = false);
     void restoreInitialKeySigAndTimeSig();
     void reconnectSlurs(MeasureBase* mbStart, MeasureBase* mbLast);
     void cmdDeleteSelection();
-    std::vector<ChordRest*> deleteRange(Segment* segStart, Segment* segEnd, track_idx_t trackStart, track_idx_t trackEnd,
-                                        const SelectionFilter& filter, bool selectionContainsMultiNoteChords);
+    std::vector<ChordRest*> deleteRange(Segment* segStart, Segment* segEnd, track_idx_t trackStart,
+                                        track_idx_t trackEnd, const SelectionFilter& filter,
+                                        bool selectionContainsMultiNoteChords);
     void cmdFullMeasureRest();
 
     muse::Ret putNote(const PointF&, bool replace, bool insert);
     muse::Ret insertChordByInsertingTime(const Position&);
 
     muse::Ret repitchNote(const Position& pos, bool replace);
-    std::pair<Note*, Note*> repitchReplaceNote(Chord*, const NoteVal&, bool forceAccidental = false);   // returns new note and last tied note
-    void regroupNotesAndRests(const Fraction& startTick, const Fraction& endTick, track_idx_t track);
+    std::pair<Note*, Note*> repitchReplaceNote(Chord*, const NoteVal&,
+                                               bool forceAccidental = false);                           // returns new note and last tied note
+    void regroupNotesAndRests(const Fraction& startTick, const Fraction& endTick,
+                              track_idx_t track);
 
     void startCmd(const TranslatableString& actionName);             // start undoable command
     void endCmd(bool rollback = false, bool layoutAllParts = false); // end undoable command
@@ -595,7 +616,8 @@ public:
     virtual void setUpdateAll();
     void setLayoutAll(staff_idx_t staff = muse::nidx, const EngravingItem* e = nullptr);
     void setLayout(const Fraction& tick, staff_idx_t staff, const EngravingItem* e = nullptr);
-    void setLayout(const Fraction& tick1, const Fraction& tick2, staff_idx_t staff1, staff_idx_t staff2, const EngravingItem* e = nullptr);
+    void setLayout(const Fraction& tick1, const Fraction& tick2, staff_idx_t staff1,
+                   staff_idx_t staff2, const EngravingItem* e = nullptr);
     virtual CmdState& cmdState();
     virtual const CmdState& cmdState() const;
     virtual void addLayoutFlags(LayoutFlags);
@@ -623,7 +645,8 @@ public:
     bool hasSharedParts() const;
 
     using StaffAccepted = std::function<bool (const Staff&)>;
-    std::set<staff_idx_t> staffIdxSetFromRange(const track_idx_t trackFrom, const track_idx_t trackTo,
+    std::set<staff_idx_t> staffIdxSetFromRange(const track_idx_t trackFrom,
+                                               const track_idx_t trackTo,
                                                StaffAccepted staffAccepted = StaffAccepted()) const;
 
     void appendPart(const InstrumentTemplate*);
@@ -655,7 +678,8 @@ public:
     void getSelectedStartEndChordRests(ChordRest*& cr1, ChordRest*& cr2) const;
 
     void select(EngravingItem* item, SelectType = SelectType::SINGLE, staff_idx_t staff = 0);
-    void select(const std::vector<EngravingItem*>& items, SelectType = SelectType::SINGLE, staff_idx_t staff = 0);
+    void select(const std::vector<EngravingItem*>& items, SelectType = SelectType::SINGLE,
+                staff_idx_t staff = 0);
     void selectSimilar(EngravingItem* e, bool sameStaff);
     void selectSimilarInRange(EngravingItem* e);
     static void collectMatch(ElementPattern* p, EngravingItem* e);
@@ -674,15 +698,21 @@ public:
     Measure* tick2measure(const Fraction& tick) const;
     Measure* tick2measureMM(const Fraction& tick) const;
     MeasureBase* tick2measureBase(const Fraction& tick) const;
-    Segment* tick2segment(const Fraction& tick, bool first, SegmentType st, bool useMMrest = false) const;
+    Segment* tick2segment(const Fraction& tick, bool first, SegmentType st,
+                          bool useMMrest = false) const;
     Segment* tick2segment(const Fraction& tick) const;
     Segment* tick2segment(const Fraction& tick, bool first) const;
     Segment* tick2segmentMM(const Fraction& tick, bool first, SegmentType st) const;
     Segment* tick2segmentMM(const Fraction& tick) const;
     Segment* tick2segmentMM(const Fraction& tick, bool first) const;
-    Segment* tick2leftSegment(const Fraction& tick, bool useMMrest = false, SegmentType segType = SegmentType::ChordRest) const;
-    Segment* tick2rightSegment(const Fraction& tick, bool useMMrest = false, SegmentType segType = SegmentType::ChordRest) const;
-    Segment* tick2leftSegmentMM(const Fraction& tick) { return tick2leftSegment(tick, /* useMMRest */ true); }
+    Segment* tick2leftSegment(const Fraction& tick, bool useMMrest = false,
+                              SegmentType segType = SegmentType::ChordRest) const;
+    Segment* tick2rightSegment(const Fraction& tick, bool useMMrest = false,
+                               SegmentType segType = SegmentType::ChordRest) const;
+    Segment* tick2leftSegmentMM(const Fraction& tick)
+    {
+        return tick2leftSegment(tick, /* useMMRest */ true);
+    }
 
     void setUpTempoMapLater();
     void setUpTempoMap();
@@ -695,7 +725,11 @@ public:
     MeasureBase* getNextPrevSectionBreak(MeasureBase*, bool) const;
     EngravingItem* getScoreElementOfMeasureBase(MeasureBase*) const;
 
-    int fileDivision(int t) const { return static_cast<int>(((int64_t)t * Constants::DIVISION + m_fileDivision / 2) / m_fileDivision); }
+    int fileDivision(int t) const
+    {
+        return static_cast<int>(((int64_t)t * Constants::DIVISION + m_fileDivision / 2)
+                                / m_fileDivision);
+    }
     void setFileDivision(int t) { m_fileDivision = t; }
 
     bool dirty() const;
@@ -739,8 +773,14 @@ public:
     // These position are in ticks and not uticks
     Fraction loopInTick() const { return loopBoundaryTick(LoopBoundaryType::LoopIn); }
     Fraction loopOutTick() const { return loopBoundaryTick(LoopBoundaryType::LoopOut); }
-    void setLoopInTick(const Fraction& tick) { setLoopBoundaryTick(LoopBoundaryType::LoopIn, tick); }
-    void setLoopOutTick(const Fraction& tick) { setLoopBoundaryTick(LoopBoundaryType::LoopOut, tick); }
+    void setLoopInTick(const Fraction& tick)
+    {
+        setLoopBoundaryTick(LoopBoundaryType::LoopIn, tick);
+    }
+    void setLoopOutTick(const Fraction& tick)
+    {
+        setLoopBoundaryTick(LoopBoundaryType::LoopOut, tick);
+    }
 
     Fraction loopBoundaryTick(LoopBoundaryType type) const;
     void setLoopBoundaryTick(LoopBoundaryType type, Fraction tick);
@@ -757,11 +797,13 @@ public:
     bool cmdPaste(const IMimeData* ms, MuseScoreView* view, Fraction scale = Fraction(1, 1));
 
     // TODO: Not ideal that these are public but it's very convenient for testing purposes (a copy/paste refactor is coming soon)...
-    bool cmdPasteSymbol(muse::ByteArray& data, MuseScoreView* view, Fraction scale = Fraction(1, 1));
+    bool cmdPasteSymbol(muse::ByteArray& data, MuseScoreView* view, Fraction scale = Fraction(1,
+                                                                                              1));
     bool cmdPasteStaffList(muse::ByteArray& data, Fraction scale = Fraction(1, 1));
     bool cmdPasteSymbolList(muse::ByteArray& data);
 
-    bool pasteStaff(XmlReader&, Segment* dst, staff_idx_t staffIdx, Fraction scale = Fraction(1, 1));
+    bool pasteStaff(XmlReader&, Segment* dst, staff_idx_t staffIdx, Fraction scale = Fraction(1,
+                                                                                              1));
     void pasteSymbols(XmlReader& e, ChordRest* dst);
 
     bool cmdRepeatListSelection();
@@ -802,10 +844,11 @@ public:
     void lassoSelectEnd();
 
     Page* searchPage(const PointF&) const;
-    std::vector<System*> searchSystem(const PointF& p, const System* preferredSystem = nullptr, double spacingFactor = 0.5,
+    std::vector<System*> searchSystem(const PointF& p, const System* preferredSystem = nullptr,
+                                      double spacingFactor = 0.5,
                                       double preferredSpacingFactor = 1.0) const;
-    Measure* searchMeasure(const PointF& p, const System* preferredSystem = nullptr, double spacingFactor = 0.5,
-                           double preferredSpacingFactor = 1.0) const;
+    Measure* searchMeasure(const PointF& p, const System* preferredSystem = nullptr,
+                           double spacingFactor = 0.5, double preferredSpacingFactor = 1.0) const;
 
     bool getPosition(Position* pos, const PointF&, voice_idx_t voice) const;
 
@@ -956,8 +999,10 @@ public:
     void removeSpanner(Spanner*);
     void addSpanner(Spanner*, bool computeStartEnd = true);
     void cmdAddSpanner(Spanner* spanner, const PointF& pos, bool systemStavesOnly = false);
-    void cmdAddSpanner(Spanner* spanner, staff_idx_t staffIdx, Segment* startSegment, Segment* endSegment, bool ctrlModifier = false);
-    void checkSpanner(const Fraction& startTick, const Fraction& lastTick, bool removeOrphans = true);
+    void cmdAddSpanner(Spanner* spanner, staff_idx_t staffIdx, Segment* startSegment,
+                       Segment* endSegment, bool ctrlModifier = false);
+    void checkSpanner(const Fraction& startTick, const Fraction& lastTick,
+                      bool removeOrphans = true);
     const std::set<Spanner*>& unmanagedSpanners() const { return m_unmanagedSpanner; }
     void addUnmanagedSpanner(Spanner*);
     void removeUnmanagedSpanner(Spanner*);
@@ -969,9 +1014,13 @@ public:
     Hairpin* addHairpinToDynamicOnGripDrag(Dynamic* dynamic, bool isLeftGrip, const PointF& pos);
 
     ChordRest* findCR(Fraction tick, track_idx_t track) const;
-    ChordRest* findChordRestEndingBeforeTickInStaff(const Fraction& tick, staff_idx_t staffIdx) const;
-    ChordRest* findChordRestEndingBeforeTickInStaffAndVoice(const Fraction& tick, staff_idx_t staffIdx, voice_idx_t voice) const;
-    ChordRest* findChordRestEndingBeforeTickInTrack(const Fraction& tick, track_idx_t trackIdx) const;
+    ChordRest* findChordRestEndingBeforeTickInStaff(const Fraction& tick,
+                                                    staff_idx_t staffIdx) const;
+    ChordRest* findChordRestEndingBeforeTickInStaffAndVoice(const Fraction& tick,
+                                                            staff_idx_t staffIdx,
+                                                            voice_idx_t voice) const;
+    ChordRest* findChordRestEndingBeforeTickInTrack(const Fraction& tick,
+                                                    track_idx_t trackIdx) const;
     void insertTime(const Fraction& tickPos, const Fraction& tickLen);
 
     std::shared_ptr<IEngravingFont> engravingFont() const { return m_engravingFont; }
@@ -1009,7 +1058,8 @@ public:
     void cmdSlashRhythm();
     void cmdResequenceRehearsalMarks();
     void cmdRemoveEmptyTrailingMeasures();
-    void cmdRealizeChordSymbols(bool lit = true, Voicing v = Voicing(-1), HDuration durationType = HDuration(-1));
+    void cmdRealizeChordSymbols(bool lit = true, Voicing v = Voicing(-1),
+                                HDuration durationType = HDuration(-1));
 
     Measure* firstTrailingMeasure(ChordRest** cr = nullptr);
     ChordRest* cmdTopStaff(ChordRest* cr = nullptr);
@@ -1055,7 +1105,10 @@ public:
 
     void rebuildFretBox();
 
-    const std::map<size_t, std::array<SystemDivider*, 2> > systemDividers() const { return m_systemDividers; }
+    const std::map<size_t, std::array<SystemDivider*, 2> > systemDividers() const
+    {
+        return m_systemDividers;
+    }
     SystemDivider* systemDivider(size_t systemIdx, SystemDividerType type) const;
     void addSystemDivider(size_t systemIdx, SystemDivider* divider);
 
@@ -1093,7 +1146,8 @@ private:
     Note* getSelectedNote();
     ChordRest* nextTrack(ChordRest* cr, bool skipMeasureRepeatRests = true);
     ChordRest* prevTrack(ChordRest* cr, bool skipMeasureRepeatRests = true);
-    ChordRest* findChordRestEndingBeforeTickInStaffAndVoice(const Fraction& tick, staff_idx_t staffIdx, bool forceVoice,
+    ChordRest* findChordRestEndingBeforeTickInStaffAndVoice(const Fraction& tick,
+                                                            staff_idx_t staffIdx, bool forceVoice,
                                                             voice_idx_t voice) const;
 
     void checkScore();
@@ -1124,15 +1178,17 @@ private:
     void doUndoRemoveStaleTieJumpPoints(Tie* tie, bool undo = true);
     void doUndoResetPartialSlur(Slur* slur, bool undo);
 
-    void deleteOrShortenOutSpannersFromRange(const Fraction& t1, const Fraction& t2, track_idx_t trackStart, track_idx_t trackEnd,
+    void deleteOrShortenOutSpannersFromRange(const Fraction& t1, const Fraction& t2,
+                                             track_idx_t trackStart, track_idx_t trackEnd,
                                              const SelectionFilter& filter);
-    void deleteSlursFromRange(const Fraction& t1, const Fraction& t2, track_idx_t trackStart, track_idx_t trackEnd,
-                              const SelectionFilter& filter);
-    void deleteAnnotationsFromRange(Segment* segStart, Segment* segEnd, track_idx_t trackStart, track_idx_t trackEnd,
-                                    const SelectionFilter& filter);
+    void deleteSlursFromRange(const Fraction& t1, const Fraction& t2, track_idx_t trackStart,
+                              track_idx_t trackEnd, const SelectionFilter& filter);
+    void deleteAnnotationsFromRange(Segment* segStart, Segment* segEnd, track_idx_t trackStart,
+                                    track_idx_t trackEnd, const SelectionFilter& filter);
 
-    void deleteRangeAtTrack(std::vector<ChordRest*>& crsToSelect, const track_idx_t track, Segment* startSeg, const Fraction& endTick,
-                            Tuplet* currentTuplet, const SelectionFilter& filter, bool selectionContainsMultiNoteChords);
+    void deleteRangeAtTrack(std::vector<ChordRest*>& crsToSelect, const track_idx_t track,
+                            Segment* startSeg, const Fraction& endTick, Tuplet* currentTuplet,
+                            const SelectionFilter& filter, bool selectionContainsMultiNoteChords);
 
     void update(bool resetCmdState, bool layoutAllParts = false);
 
@@ -1144,9 +1200,11 @@ private:
 
     void updateStavesNumberForSystems();
 
-    Note* addPitchToChord(NoteVal&, Chord* chord, InputState* externalInputState = nullptr, bool forceAccidental = false);
+    Note* addPitchToChord(NoteVal&, Chord* chord, InputState* externalInputState = nullptr,
+                          bool forceAccidental = false);
     Note* addTiedMidiPitch(int pitch, bool addFlag, Chord* prevChord, bool allowTransposition);
-    Note* addNoteToTiedChord(Chord*, const NoteVal& noteVal, bool forceAccidental = false, const std::set<SymId>& articulationIds = {});
+    Note* addNoteToTiedChord(Chord*, const NoteVal& noteVal, bool forceAccidental = false,
+                             const std::set<SymId>& articulationIds = {});
 
     FBox* findFretBox() const;
 

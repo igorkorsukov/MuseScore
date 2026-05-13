@@ -39,7 +39,8 @@
 #include "iappshellconfiguration.h"
 
 namespace mu::appshell {
-class AppShellConfiguration : public IAppShellConfiguration, public muse::Contextable, public muse::async::Asyncable
+class AppShellConfiguration : public IAppShellConfiguration, public muse::Contextable,
+    public muse::async::Asyncable
 {
     muse::GlobalInject<muse::IGlobalConfiguration> globalConfiguration;
     muse::GlobalInject<muse::io::IFileSystem> fileSystem;

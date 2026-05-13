@@ -744,7 +744,8 @@ void Part::insertTime(const Fraction& tick, const Fraction& len)
         m_instruments.erase(si, ei);
 
         // remove harp pedal diagrams between tickpo >= tick
-        harpDiagrams.erase(harpDiagrams.lower_bound(tick.ticks()), harpDiagrams.lower_bound((tick - len).ticks()));
+        harpDiagrams.erase(harpDiagrams.lower_bound(tick.ticks()),
+                           harpDiagrams.lower_bound((tick - len).ticks()));
     }
 
     InstrumentList il;
@@ -928,7 +929,8 @@ int Part::harmonyCount() const
     int count = 0;
     for (const Segment* seg = firstM->first(st); seg; seg = seg->next1(st)) {
         for (const EngravingItem* e : seg->annotations()) {
-            if ((e->isHarmony() || (e->isFretDiagram() && toFretDiagram(e)->harmony())) && e->track() >= startTrack()
+            if ((e->isHarmony() || (e->isFretDiagram() && toFretDiagram(e)->harmony()))
+                && e->track() >= startTrack()
                 && e->track() < endTrack()) {
                 count++;
             }

@@ -54,12 +54,14 @@ private:
     void checkInputConnection();
     void checkOutputConnection();
 
-    void checkConnection(const muse::midi::MidiDeviceID& preferredDeviceId, const muse::midi::MidiDeviceID& currentDeviceId,
+    void checkConnection(const muse::midi::MidiDeviceID& preferredDeviceId,
+                         const muse::midi::MidiDeviceID& currentDeviceId,
                          const muse::midi::MidiDeviceList& availableDevices, const std::function<muse::Ret(
                                                                                                      const muse::midi::MidiDeviceID&)>& connectCallback);
 
     void onMidiEventReceived(const muse::midi::tick_t tick, const muse::midi::Event& event);
 
-    muse::midi::MidiDeviceID firstAvailableDeviceId(const muse::midi::MidiDeviceList& devices) const;
+    muse::midi::MidiDeviceID firstAvailableDeviceId(
+        const muse::midi::MidiDeviceList& devices) const;
 };
 }

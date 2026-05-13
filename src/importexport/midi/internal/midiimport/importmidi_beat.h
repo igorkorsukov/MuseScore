@@ -37,7 +37,8 @@ class MTrack;
 namespace MidiBeat {
 void removeEvery2ndBeat(std::set<ReducedFraction>& beatSet);
 void findBeatLocations(
-    const std::multimap<ReducedFraction, MidiChord>& allChords, engraving::TimeSigMap* sigmap, double ticksPerSec);
+    const std::multimap<ReducedFraction, MidiChord>& allChords, engraving::TimeSigMap* sigmap,
+    double ticksPerSec);
 
 void adjustChordsToBeats(std::multimap<int, MTrack>& tracks);
 void setTimeSignature(engraving::TimeSigMap* sigmap);

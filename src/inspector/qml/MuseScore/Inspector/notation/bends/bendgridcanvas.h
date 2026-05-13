@@ -38,7 +38,8 @@
 #include "uicomponents/qml/Muse/UiComponents/quickpaintedview.h"
 
 namespace mu::inspector {
-class BendGridCanvas : public muse::uicomponents::QuickPaintedView, public muse::async::Asyncable, public muse::Contextable
+class BendGridCanvas : public muse::uicomponents::QuickPaintedView, public muse::async::Asyncable,
+    public muse::Contextable
 {
     Q_OBJECT
     QML_ELEMENT;
@@ -48,10 +49,13 @@ class BendGridCanvas : public muse::uicomponents::QuickPaintedView, public muse:
     Q_PROPERTY(int rowCount READ rowCount WRITE setRowCount NOTIFY rowCountChanged)
     Q_PROPERTY(int columnCount READ columnCount WRITE setColumnCount NOTIFY columnCountChanged)
     Q_PROPERTY(int rowSpacing READ rowSpacing WRITE setRowSpacing NOTIFY rowSpacingChanged)
-    Q_PROPERTY(int columnSpacing READ columnSpacing WRITE setColumnSpacing NOTIFY columnSpacingChanged)
-    Q_PROPERTY(int topLineValue READ topLineValue WRITE setTopLineValue NOTIFY topLineValueChanged FINAL)
+    Q_PROPERTY(
+        int columnSpacing READ columnSpacing WRITE setColumnSpacing NOTIFY columnSpacingChanged)
+    Q_PROPERTY(
+        int topLineValue READ topLineValue WRITE setTopLineValue NOTIFY topLineValueChanged FINAL)
     Q_PROPERTY(bool showHalfs READ showHalfs WRITE setShowHalfs NOTIFY showHalfsChanged FINAL)
-    Q_PROPERTY(bool straightLines READ straightLines WRITE setStraightLines NOTIFY straightLinesChanged FINAL)
+    Q_PROPERTY(
+        bool straightLines READ straightLines WRITE setStraightLines NOTIFY straightLinesChanged FINAL)
 
     Q_PROPERTY(muse::ui::AccessibleItem
                * accessibleParent READ accessibleParent WRITE setAccessibleParent NOTIFY accessibleParentChanged)

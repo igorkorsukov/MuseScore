@@ -32,7 +32,8 @@ using namespace mu::inspector;
 using namespace mu::engraving;
 
 FretFrameChordListModel::FretFrameChordListModel(QObject* parent)
-    : muse::uicomponents::SelectableItemListModel(parent), muse::Contextable(muse::iocCtxForQmlObject(this))
+    : muse::uicomponents::SelectableItemListModel(parent), muse::Contextable(muse::iocCtxForQmlObject(
+                                                                                 this))
 {
 }
 
@@ -103,8 +104,10 @@ void FretFrameChordListModel::setChordVisible(int index, bool visible)
     }
 
     const muse::TranslatableString actionName = visible
-                                                ? muse::TranslatableString("undoableAction", "Make chord(s) visible")
-                                                : muse::TranslatableString("undoableAction", "Make chord(s) invisible");
+                                                ? muse::TranslatableString("undoableAction",
+                                                                           "Make chord(s) visible")
+                                                : muse::TranslatableString("undoableAction",
+                                                                           "Make chord(s) invisible");
 
     notation->undoStack()->prepareChanges(actionName);
 
@@ -132,7 +135,8 @@ void FretFrameChordListModel::moveSelectionUp()
 
     SelectableItemListModel::moveSelectionUp();
 
-    const muse::TranslatableString actionName = muse::TranslatableString("undoableAction", "Move chord(s) up");
+    const muse::TranslatableString actionName = muse::TranslatableString("undoableAction",
+                                                                         "Move chord(s) up");
     notation->undoStack()->prepareChanges(actionName);
 
     saveOrder();
@@ -154,7 +158,8 @@ void FretFrameChordListModel::moveSelectionDown()
 
     SelectableItemListModel::moveSelectionDown();
 
-    const muse::TranslatableString actionName = muse::TranslatableString("undoableAction", "Move chord(s) down");
+    const muse::TranslatableString actionName = muse::TranslatableString("undoableAction",
+                                                                         "Move chord(s) down");
     notation->undoStack()->prepareChanges(actionName);
 
     saveOrder();

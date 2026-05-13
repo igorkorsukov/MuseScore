@@ -52,7 +52,9 @@ bool ImplodeExplode::explode(Score* score)
     if (!endSegment) {
         endMeasure = score->lastMeasure();
     } else if (endSegment->tick() == endSegment->measure()->tick()) {
-        endMeasure = endSegment->measure()->prevMeasure() ? endSegment->measure()->prevMeasure() : score->firstMeasure();
+        endMeasure
+            = endSegment->measure()->prevMeasure() ? endSegment->measure()->prevMeasure() : score->
+              firstMeasure();
     } else {
         endMeasure = endSegment->measure();
     }
@@ -93,7 +95,8 @@ bool ImplodeExplode::explode(Score* score)
         // Check that all source and dest measures have the same time stretch - allows explode within a local time signature,
         // but don't yet support it between differing local time signatures.
         Fraction timeStretch(1, 0);
-        for (Measure* m = startMeasure; m && m->tick() <= endMeasure->tick(); m = m->nextMeasure()) {
+        for (Measure* m = startMeasure; m && m->tick() <= endMeasure->tick();
+             m = m->nextMeasure()) {
             for (size_t staffIdx = srcStaff; staffIdx < lastStaff; ++staffIdx) {
                 Fraction mTimeStretch = score->staff(staffIdx)->timeStretch(m->tick());
                 if (!timeStretch.isValid()) {
@@ -123,8 +126,11 @@ bool ImplodeExplode::explode(Score* score)
             size_t nnotes = notes.size();
             // keep note "i" from top, which is backwards from nnotes - 1
             // reuse notes if there are more instruments than notes
-            size_t stavesPerNote = std::max((lastStaff - srcStaff) / nnotes, static_cast<size_t>(1));
-            size_t keepIndex = static_cast<size_t>(std::max(static_cast<int>(nnotes) - 1 - static_cast<int>(i / stavesPerNote), 0));
+            size_t stavesPerNote
+                = std::max((lastStaff - srcStaff) / nnotes, static_cast<size_t>(1));
+            size_t keepIndex
+                = static_cast<size_t>(std::max(static_cast<int>(nnotes) - 1
+                                               - static_cast<int>(i / stavesPerNote), 0));
             Note* keepNote = c->notes()[keepIndex];
             for (Note* n : notes) {
                 if (n != keepNote) {
@@ -180,7 +186,8 @@ bool ImplodeExplode::explode(Score* score)
                         dTracks[full] = j;
                         break;
                     }
-                    for (Measure* m = seg->measure(); m && m->tick() < lTick; m = m->nextMeasure()) {
+                    for (Measure* m = seg->measure(); m && m->tick() < lTick;
+                         m = m->nextMeasure()) {
                         if (!m->hasVoice(j) || (m->hasVoice(j) && m->isOnlyRests(j))) {
                             dTracks[full] = j;
                         } else {
@@ -204,7 +211,8 @@ bool ImplodeExplode::explode(Score* score)
         // Check that all source and dest measures have the same time stretch - allows explode within a local time signature,
         // but don't yet support it between differing local time signatures.
         Fraction timeStretch(1, 0);
-        for (Measure* m = startMeasure; m && m->tick() <= endMeasure->tick(); m = m->nextMeasure()) {
+        for (Measure* m = startMeasure; m && m->tick() <= endMeasure->tick();
+             m = m->nextMeasure()) {
             for (size_t staffIdx = srcStaff; staffIdx < lastStaff; ++staffIdx) {
                 Fraction mTimeStretch = score->staff(staffIdx)->timeStretch(m->tick());
                 if (!timeStretch.isValid()) {
@@ -216,11 +224,13 @@ bool ImplodeExplode::explode(Score* score)
             }
         }
 
-        for (track_idx_t i = srcTrack, j = 0; i < lastStaff * VOICES && j < VOICES; i += VOICES, j++) {
+        for (track_idx_t i = srcTrack, j = 0; i < lastStaff * VOICES && j < VOICES;
+             i += VOICES, j++) {
             track_idx_t strack = sTracks[j % VOICES];
             track_idx_t dtrack = dTracks[j % VOICES];
             if (strack != muse::nidx && strack != dtrack && dtrack != muse::nidx) {
-                CloneVoice::cloneVoice(startSegment, lTick, startSegment, strack, dtrack, true, false);
+                CloneVoice::cloneVoice(startSegment, lTick, startSegment, strack, dtrack, true,
+                                       false);
             }
         }
     }
@@ -300,13 +310,16 @@ bool ImplodeExplode::implode(Score* score)
                             if (dstChord->findNote(nv.pitch)) {
                                 continue;
                             }
-                            bool forceAccidental = n->accidental() && n->accidental()->role() == AccidentalRole::USER;
+                            bool forceAccidental = n->accidental()
+                                                   && n->accidental()->role()
+                                                   == AccidentalRole::USER;
                             Note* nn = score->addNote(dstChord, nv, forceAccidental);
                             // add tie to this note if original chord was tied
                             if (tied) {
                                 // find note to tie to
                                 for (Note* tn : tied->notes()) {
-                                    if (nn->pitch() == tn->pitch() && nn->tpc() == tn->tpc() && !tn->tieFor()) {
+                                    if (nn->pitch() == tn->pitch() && nn->tpc() == tn->tpc()
+                                        && !tn->tieFor()) {
                                         // found note to tie
                                         Tie* tie = Factory::createTie(score->dummy());
                                         tie->setStartNote(tn);
@@ -364,7 +377,8 @@ bool ImplodeExplode::implode(Score* score)
         for (track_idx_t i = dstTrack; i < dstTrack + VOICES; i++) {
             track_idx_t strack = tracks[i % VOICES];
             if (strack != muse::nidx && strack != i) {
-                CloneVoice::cloneVoice(startSegment, endTick, startSegment, strack, i, false, false);
+                CloneVoice::cloneVoice(startSegment, endTick, startSegment, strack, i, false,
+                                       false);
             }
         }
     }

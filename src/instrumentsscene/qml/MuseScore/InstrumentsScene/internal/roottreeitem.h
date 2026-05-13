@@ -33,12 +33,15 @@ class RootTreeItem : public AbstractLayoutPanelTreeItem
     QML_UNCREATABLE("Must be created in C++ only")
 
 public:
-    RootTreeItem(notation::IMasterNotationPtr masterNotation, notation::INotationPtr notation, QObject* parent = nullptr);
+    RootTreeItem(notation::IMasterNotationPtr masterNotation, notation::INotationPtr notation,
+                 QObject* parent = nullptr);
 
-    MoveParams buildMoveParams(int sourceRow, int count, AbstractLayoutPanelTreeItem* destinationParent, int destinationRow) const override;
+    MoveParams buildMoveParams(int sourceRow, int count,
+                               AbstractLayoutPanelTreeItem* destinationParent,
+                               int destinationRow) const override;
 
-    void moveChildren(int sourceRow, int count, AbstractLayoutPanelTreeItem* destinationParent, int destinationRow,
-                      bool updateNotation) override;
+    void moveChildren(int sourceRow, int count, AbstractLayoutPanelTreeItem* destinationParent,
+                      int destinationRow, bool updateNotation) override;
 
     void moveChildrenOnScore(const MoveParams& params) override;
 
@@ -48,6 +51,8 @@ private:
     bool partsOrderWillBeChanged(int sourceRow, int count, int destinationRow) const;
 
     MoveParams buildSystemObjectsMoveParams(int sourceRow, int count, int destinationRow) const;
-    MoveParams buildPartsMoveParams(int sourceRow, int count, AbstractLayoutPanelTreeItem* destinationParent, int destinationRow) const;
+    MoveParams buildPartsMoveParams(int sourceRow, int count,
+                                    AbstractLayoutPanelTreeItem* destinationParent,
+                                    int destinationRow) const;
 };
 }

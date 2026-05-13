@@ -36,15 +36,22 @@ static const std::string module_name("notation");
 
 static const Settings::Key PLAYBACK_SMOOTH_PANNING(module_name, "application/playback/smoothPan");
 
-static const Settings::Key IS_LIMIT_CANVAS_SCROLL_AREA_KEY(module_name, "ui/canvas/scroll/limitScrollArea");
+static const Settings::Key IS_LIMIT_CANVAS_SCROLL_AREA_KEY(module_name,
+                                                           "ui/canvas/scroll/limitScrollArea");
 
-static const Settings::Key PIANO_KEYBOARD_NUMBER_OF_KEYS(module_name,  "pianoKeyboard/numberOfKeys");
+static const Settings::Key PIANO_KEYBOARD_NUMBER_OF_KEYS(module_name,
+                                                         "pianoKeyboard/numberOfKeys");
 
-static const Settings::Key PERCUSSION_PANEL_USE_NOTATION_PREVIEW_KEY(module_name,  "ui/percussionPanelUseNotationPreview");
-static const Settings::Key PERCUSSION_PANEL_AUTO_SHOW_MODE_KEY(module_name,  "ui/percussionPanelAutoShowMode");
-static const Settings::Key AUTO_CLOSE_PERCUSSION_PANEL_KEY(module_name, "ui/autoClosePercussionPanel");
-static const Settings::Key SHOW_PERCUSSION_PANEL_SWAP_DIALOG(module_name,  "ui/showPercussionPanelPadSwapDialog");
-static const Settings::Key PERCUSSION_PANEL_MOVE_MIDI_NOTES_AND_SHORTCUTS(module_name,  "ui/percussionPanelMoveMidiNotesAndShortcuts");
+static const Settings::Key PERCUSSION_PANEL_USE_NOTATION_PREVIEW_KEY(module_name,
+                                                                     "ui/percussionPanelUseNotationPreview");
+static const Settings::Key PERCUSSION_PANEL_AUTO_SHOW_MODE_KEY(module_name,
+                                                               "ui/percussionPanelAutoShowMode");
+static const Settings::Key AUTO_CLOSE_PERCUSSION_PANEL_KEY(module_name,
+                                                           "ui/autoClosePercussionPanel");
+static const Settings::Key SHOW_PERCUSSION_PANEL_SWAP_DIALOG(module_name,
+                                                             "ui/showPercussionPanelPadSwapDialog");
+static const Settings::Key PERCUSSION_PANEL_MOVE_MIDI_NOTES_AND_SHORTCUTS(module_name,
+                                                                          "ui/percussionPanelMoveMidiNotesAndShortcuts");
 
 NotationSceneConfiguration::NotationSceneConfiguration()
 {
@@ -71,11 +78,13 @@ void NotationSceneConfiguration::init()
     });
 
     settings()->setDefaultValue(PERCUSSION_PANEL_USE_NOTATION_PREVIEW_KEY, Val(false));
-    settings()->valueChanged(PERCUSSION_PANEL_USE_NOTATION_PREVIEW_KEY).onReceive(this, [this](const Val&) {
+    settings()->valueChanged(PERCUSSION_PANEL_USE_NOTATION_PREVIEW_KEY).onReceive(this,
+                                                                                  [this](const Val&) {
         m_percussionPanelUseNotationPreviewChanged.notify();
     });
 
-    settings()->setDefaultValue(PERCUSSION_PANEL_AUTO_SHOW_MODE_KEY, Val(PercussionPanelAutoShowMode::UNPITCHED_STAFF));
+    settings()->setDefaultValue(PERCUSSION_PANEL_AUTO_SHOW_MODE_KEY,
+                                Val(PercussionPanelAutoShowMode::UNPITCHED_STAFF));
     settings()->valueChanged(PERCUSSION_PANEL_AUTO_SHOW_MODE_KEY).onReceive(this, [this](const Val&) {
         m_percussionPanelAutoShowModeChanged.notify();
     });
@@ -91,7 +100,9 @@ void NotationSceneConfiguration::init()
     });
 
     settings()->setDefaultValue(PERCUSSION_PANEL_MOVE_MIDI_NOTES_AND_SHORTCUTS, Val(true));
-    settings()->valueChanged(PERCUSSION_PANEL_MOVE_MIDI_NOTES_AND_SHORTCUTS).onReceive(this, [this](const Val&) {
+    settings()->valueChanged(PERCUSSION_PANEL_MOVE_MIDI_NOTES_AND_SHORTCUTS).onReceive(this,
+                                                                                       [this](const
+                                                                                              Val&) {
         m_percussionPanelMoveMidiNotesAndShortcutsChanged.notify();
     });
 }
@@ -156,7 +167,8 @@ PercussionPanelAutoShowMode NotationSceneConfiguration::percussionPanelAutoShowM
     return settings()->value(PERCUSSION_PANEL_AUTO_SHOW_MODE_KEY).toEnum<PercussionPanelAutoShowMode>();
 }
 
-void NotationSceneConfiguration::setPercussionPanelAutoShowMode(PercussionPanelAutoShowMode autoShowMode)
+void NotationSceneConfiguration::setPercussionPanelAutoShowMode(
+    PercussionPanelAutoShowMode autoShowMode)
 {
     settings()->setSharedValue(PERCUSSION_PANEL_AUTO_SHOW_MODE_KEY, Val(autoShowMode));
 }

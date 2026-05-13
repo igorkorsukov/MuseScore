@@ -44,19 +44,30 @@ class RepeatSegment;
 class PlaybackContext
 {
 public:
-    muse::mpe::dynamic_level_t appliableDynamicLevel(const track_idx_t trackIdx, const int nominalPositionTick) const;
+    muse::mpe::dynamic_level_t appliableDynamicLevel(const track_idx_t trackIdx,
+                                                     const int nominalPositionTick) const;
 
-    std::pair<muse::mpe::timestamp_t, PlayingTechniqueType> playingTechnique(const Score* score, const int nominalPositionTick) const;
-    muse::mpe::timestamp_t findPlayingTechniqueTimestamp(const Score* score, PlayingTechniqueType type, const int startFromTick) const;
+    std::pair<muse::mpe::timestamp_t, PlayingTechniqueType> playingTechnique(const Score* score,
+                                                                             const int nominalPositionTick)
+    const;
+    muse::mpe::timestamp_t findPlayingTechniqueTimestamp(const Score* score,
+                                                         PlayingTechniqueType type,
+                                                         const int startFromTick) const;
 
-    std::map<muse::mpe::timestamp_t, muse::mpe::SoundPresetChangeEventList> soundPresets(const Score* score) const;
-    muse::mpe::SoundPresetChangeEventList soundPresets(const track_idx_t trackIdx, const int nominalPositionTick) const;
+    std::map<muse::mpe::timestamp_t, muse::mpe::SoundPresetChangeEventList> soundPresets(
+        const Score* score) const;
+    muse::mpe::SoundPresetChangeEventList soundPresets(const track_idx_t trackIdx,
+                                                       const int nominalPositionTick) const;
 
-    std::map<muse::mpe::timestamp_t, muse::mpe::TextArticulationEventList> textArticulations(const Score* score) const;
-    muse::mpe::TextArticulationEvent textArticulation(const track_idx_t trackIdx, const int nominalPositionTick) const;
+    std::map<muse::mpe::timestamp_t, muse::mpe::TextArticulationEventList> textArticulations(
+        const Score* score) const;
+    muse::mpe::TextArticulationEvent textArticulation(const track_idx_t trackIdx,
+                                                      const int nominalPositionTick) const;
 
-    std::map<muse::mpe::timestamp_t, muse::mpe::SyllableEventList> syllables(const Score* score) const;
-    muse::mpe::SyllableEvent syllable(const track_idx_t trackIdx, const int nominalPositionTick) const;
+    std::map<muse::mpe::timestamp_t,
+             muse::mpe::SyllableEventList> syllables(const Score* score) const;
+    muse::mpe::SyllableEvent syllable(const track_idx_t trackIdx,
+                                      const int nominalPositionTick) const;
 
     muse::mpe::DynamicLevelLayers dynamicLevelLayers(const Score* score) const;
 
@@ -74,35 +85,45 @@ private:
     using DynamicMap = std::map<int /*nominalPositionTick*/, DynamicInfo>;
     using DynamicsByTrack = std::map<track_idx_t, DynamicMap>;
 
-    using SoundPresetsMap = std::map<int /*nominalPositionTick*/, muse::mpe::SoundPresetChangeEventList>;
+    using SoundPresetsMap = std::map<int /*nominalPositionTick*/,
+                                     muse::mpe::SoundPresetChangeEventList>;
     using SoundPresetsByTrack = std::map<track_idx_t, SoundPresetsMap>;
 
-    using TextArticulationMap = std::map<int /*nominalPositionTick*/, muse::mpe::TextArticulationEvent>;
+    using TextArticulationMap = std::map<int /*nominalPositionTick*/,
+                                         muse::mpe::TextArticulationEvent>;
     using TextArticulationsByTrack = std::map<track_idx_t, TextArticulationMap>;
 
     using SyllableMap = std::map<int /*nominalPositionTick*/, muse::mpe::SyllableEvent>;
     using SyllablesByTrack = std::map<track_idx_t, SyllableMap>;
 
-    using PlayTechniquesMap = std::map<int /*nominalPositionTick*/, mu::engraving::PlayingTechniqueType>;
+    using PlayTechniquesMap = std::map<int /*nominalPositionTick*/,
+                                       mu::engraving::PlayingTechniqueType>;
 
     using SoundFlagMap = std::unordered_map<staff_idx_t, const SoundFlag*>;
 
-    muse::mpe::dynamic_level_t nominalDynamicLevel(const track_idx_t trackIdx, const int positionTick) const;
+    muse::mpe::dynamic_level_t nominalDynamicLevel(const track_idx_t trackIdx,
+                                                   const int positionTick) const;
 
-    void updateDynamicMap(const Dynamic* dynamic, const Segment* segment, const int segmentPositionTick);
+    void updateDynamicMap(const Dynamic* dynamic, const Segment* segment,
+                          const int segmentPositionTick);
     void updatePlayTechMap(const PlayTechAnnotation* annotation, const int segmentPositionTick);
-    void updateSoundPresetAndTextArticulationMap(const SoundFlagMap& flagsOnSegment, const int segmentPositionTick);
+    void updateSoundPresetAndTextArticulationMap(const SoundFlagMap& flagsOnSegment,
+                                                 const int segmentPositionTick);
     void updateSyllableMap(const TextBase* text, const int segmentPositionTick);
 
-    void handleSpanners(const ID partId, const Score* score, const int segmentStartTick, const int segmentEndTick,
-                        const int tickPositionOffset);
+    void handleSpanners(const ID partId, const Score* score, const int segmentStartTick,
+                        const int segmentEndTick, const int tickPositionOffset);
     void handleHairpin(const Hairpin* hairpin, const int tickPositionOffset);
-    void handleSegmentAnnotations(const ID partId, const Segment* segment, const int segmentPositionTick);
-    void handleSegmentElements(const RepeatSegment* repeat, const Segment* segment, const int segmentPositionTick,
+    void handleSegmentAnnotations(const ID partId, const Segment* segment,
+                                  const int segmentPositionTick);
+    void handleSegmentElements(const RepeatSegment* repeat, const Segment* segment,
+                               const int segmentPositionTick,
                                std::vector<const MeasureRepeat*>& foundMeasureRepeats);
-    void handleMeasureRepeats(const std::vector<const MeasureRepeat*>& measureRepeats, const int tickPositionOffset);
+    void handleMeasureRepeats(const std::vector<const MeasureRepeat*>& measureRepeats,
+                              const int tickPositionOffset);
 
-    void applyDynamic(const EngravingItem* dynamicItem, muse::mpe::dynamic_level_t dynamicLevel, const int positionTick);
+    void applyDynamic(const EngravingItem* dynamicItem, muse::mpe::dynamic_level_t dynamicLevel,
+                      const int positionTick);
 
     bool shouldSkipTrack(const track_idx_t trackIdx) const;
     bool hasOnlyOneLyricsVerse(const RepeatSegment* repeat, const track_idx_t track) const;

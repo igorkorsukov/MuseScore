@@ -1293,8 +1293,14 @@ class EngravingItem : public apiv1::ScoreElement
     qreal posY() const { return element()->pos().y() / element()->spatium(); }
 
     QPointF pos() const { return PointF(element()->pos() / element()->spatium()).toQPointF(); }
-    QPointF pagePos() const { return PointF(element()->pagePos() / element()->spatium()).toQPointF(); }
-    QPointF canvasPos() const { return PointF(element()->canvasPos() / element()->spatium()).toQPointF(); }
+    QPointF pagePos() const
+    {
+        return PointF(element()->pagePos() / element()->spatium()).toQPointF();
+    }
+    QPointF canvasPos() const
+    {
+        return PointF(element()->canvasPos() / element()->spatium()).toQPointF();
+    }
 
     apiv1::EngravingItem* parent() const { return wrap(element()->parentItem()); }
     Staff* staff() { return wrap<Staff>(element()->staff()); }
@@ -1341,9 +1347,15 @@ public:
     /// \endcond
 
     /// Create a copy of the element
-    Q_INVOKABLE apiv1::EngravingItem* clone() const { return wrap(element()->clone(), Ownership::PLUGIN); }
+    Q_INVOKABLE apiv1::EngravingItem* clone() const
+    {
+        return wrap(element()->clone(), Ownership::PLUGIN);
+    }
 
-    Q_INVOKABLE QString subtypeName() const { return element()->translatedSubtypeUserName().toQString(); }
+    Q_INVOKABLE QString subtypeName() const
+    {
+        return element()->translatedSubtypeUserName().toQString();
+    }
     /// Deprecated: same as ScoreElement::name. Left for compatibility purposes.
     Q_INVOKABLE QString _name() const { return name(); }
 
@@ -1360,7 +1372,8 @@ class Note : public EngravingItem
 {
     Q_OBJECT
     Q_PROPERTY(apiv1::EngravingItem * accidental READ accidental)
-    Q_PROPERTY(mu::engraving::AccidentalType accidentalType READ accidentalType WRITE setAccidentalType)
+    Q_PROPERTY(
+        mu::engraving::AccidentalType accidentalType READ accidentalType WRITE setAccidentalType)
     /// List of dots attached to this note
     Q_PROPERTY(QQmlListProperty<apiv1::EngravingItem> dots READ dots)
 //       Q_PROPERTY(int                            dotsCount         READ qmlDotsCount)
@@ -1466,9 +1479,18 @@ public:
     apiv1::Note* firstTiedNote() { return wrap<Note>(note()->firstTiedNote()); }
     apiv1::Note* lastTiedNote() { return wrap<Note>(note()->lastTiedNote()); }
 
-    QQmlListProperty<EngravingItem> dots() { return wrapContainerProperty<EngravingItem>(this, note()->dots()); }
-    QQmlListProperty<EngravingItem> elements() { return wrapContainerProperty<EngravingItem>(this, note()->el()); }
-    QQmlListProperty<PlayEvent> playEvents() { return wrapPlayEventsContainerProperty(this, note()->playEvents()); }
+    QQmlListProperty<EngravingItem> dots()
+    {
+        return wrapContainerProperty<EngravingItem>(this, note()->dots());
+    }
+    QQmlListProperty<EngravingItem> elements()
+    {
+        return wrapContainerProperty<EngravingItem>(this, note()->el());
+    }
+    QQmlListProperty<PlayEvent> playEvents()
+    {
+        return wrapPlayEventsContainerProperty(this, note()->playEvents());
+    }
 
     QQmlListProperty<EngravingItem> spannerFor()
     {
@@ -1492,7 +1514,10 @@ public:
 
     /// Creates a PlayEvent object for use in JavaScript.
     /// \since MuseScore 3.3
-    Q_INVOKABLE apiv1::PlayEvent* createPlayEvent() { return playEventWrap(new engraving::NoteEvent(), nullptr); }
+    Q_INVOKABLE apiv1::PlayEvent* createPlayEvent()
+    {
+        return playEventWrap(new engraving::NoteEvent(), nullptr);
+    }
 
     /// Add to a note's elements.
     /// \since MuseScore 3.3.3
@@ -1554,7 +1579,10 @@ public:
     Tuplet* parentTuplet();
     Tuplet* topTuplet() { return wrap<Tuplet>(durationElement()->topTuplet(), Ownership::SCORE); }
 
-    Measure* parentMeasure() { return wrap<Measure>(durationElement()->measure(), Ownership::SCORE); }
+    Measure* parentMeasure()
+    {
+        return wrap<Measure>(durationElement()->measure(), Ownership::SCORE);
+    }
     /// \endcond
 };
 
@@ -1613,7 +1641,10 @@ public:
     QPointF defaultP1() const { return PointF(tuplet()->p1() / tuplet()->spatium()).toQPointF(); }
     QPointF defaultP2() const { return PointF(tuplet()->p2() / tuplet()->spatium()).toQPointF(); }
 
-    QQmlListProperty<EngravingItem> elements() { return wrapContainerProperty<EngravingItem>(this, tuplet()->elements()); }
+    QQmlListProperty<EngravingItem> elements()
+    {
+        return wrapContainerProperty<EngravingItem>(this, tuplet()->elements());
+    }
     /// \endcond
 };
 
@@ -1656,12 +1687,18 @@ public:
     mu::engraving::ChordRest* chordRest() { return toChordRest(e); }
     const mu::engraving::ChordRest* chordRest() const { return toChordRest(e); }
 
-    QQmlListProperty<Lyrics> lyrics() { return wrapContainerProperty<Lyrics>(this, chordRest()->lyrics()); }
+    QQmlListProperty<Lyrics> lyrics()
+    {
+        return wrapContainerProperty<Lyrics>(this, chordRest()->lyrics());
+    }
     Beam* beam() { return wrap<Beam>(chordRest()->beam()); }
 
     bool isFullMeasureRest() { return chordRest()->isFullMeasureRest(); }
 
-    QQmlListProperty<EngravingItem> elements() { return wrapContainerProperty<EngravingItem>(this, chordRest()->el()); }
+    QQmlListProperty<EngravingItem> elements()
+    {
+        return wrapContainerProperty<EngravingItem>(this, chordRest()->el());
+    }
     /// \endcond
 
     /// The actual beam mode for this element, as determined by
@@ -1743,11 +1780,23 @@ public:
     mu::engraving::Chord* chord() { return toChord(e); }
     const mu::engraving::Chord* chord() const { return toChord(e); }
 
-    QQmlListProperty<Chord> graceNotes() { return wrapContainerProperty<Chord>(this, chord()->graceNotes()); }
-    QQmlListProperty<Chord> graceNotesBefore() { return wrapContainerProperty<Chord>(this, chord()->graceNotesBefore()); }
-    QQmlListProperty<Chord> graceNotesAfter() { return wrapContainerProperty<Chord>(this, chord()->graceNotesAfter()); }
+    QQmlListProperty<Chord> graceNotes()
+    {
+        return wrapContainerProperty<Chord>(this, chord()->graceNotes());
+    }
+    QQmlListProperty<Chord> graceNotesBefore()
+    {
+        return wrapContainerProperty<Chord>(this, chord()->graceNotesBefore());
+    }
+    QQmlListProperty<Chord> graceNotesAfter()
+    {
+        return wrapContainerProperty<Chord>(this, chord()->graceNotesAfter());
+    }
     QQmlListProperty<Note> notes() { return wrapContainerProperty<Note>(this, chord()->notes()); }
-    QQmlListProperty<EngravingItem> articulations() { return wrapContainerProperty<EngravingItem>(this, chord()->articulations()); }
+    QQmlListProperty<EngravingItem> articulations()
+    {
+        return wrapContainerProperty<EngravingItem>(this, chord()->articulations());
+    }
     EngravingItem* stem() { return wrap(chord()->stem()); }
     EngravingItem* stemSlash() { return wrap(chord()->stemSlash()); }
     EngravingItem* hook() { return wrap(chord()->hook()); }
@@ -1817,7 +1866,10 @@ public:
     int minCRMove() const { return beam()->minCRMove(); }
     int maxCRMove() const { return beam()->maxCRMove(); }
 
-    QQmlListProperty<ChordRest> elements() { return wrapContainerProperty<ChordRest>(this, beam()->elements()); }
+    QQmlListProperty<ChordRest> elements()
+    {
+        return wrapContainerProperty<ChordRest>(this, beam()->elements());
+    }
     /// \endcond
 };
 
@@ -1886,7 +1938,10 @@ public:
     Segment* nextInMeasure() { return wrap<Segment>(segment()->next()); }
     Segment* prevInScore() { return wrap<Segment>(segment()->prev1()); }
     Segment* prevInMeasure() { return wrap<Segment>(segment()->prev()); }
-    QQmlListProperty<EngravingItem> annotations() { return wrapContainerProperty<EngravingItem>(this, segment()->annotations()); }
+    QQmlListProperty<EngravingItem> annotations()
+    {
+        return wrapContainerProperty<EngravingItem>(this, segment()->annotations());
+    }
     /// \endcond
 
     /// \returns Element at the given \p track (null if there is no such an element)
@@ -1970,17 +2025,27 @@ public:
 
     Measure* prevMeasure() { return wrap<Measure>(measureBase()->prevMeasure(), Ownership::SCORE); }
     Measure* nextMeasure() { return wrap<Measure>(measureBase()->nextMeasure(), Ownership::SCORE); }
-    Measure* prevMeasureMM() { return wrap<Measure>(measureBase()->prevMeasureMM(), Ownership::SCORE); }
-    Measure* nextMeasureMM() { return wrap<Measure>(measureBase()->nextMeasureMM(), Ownership::SCORE); }
+    Measure* prevMeasureMM()
+    {
+        return wrap<Measure>(measureBase()->prevMeasureMM(), Ownership::SCORE);
+    }
+    Measure* nextMeasureMM()
+    {
+        return wrap<Measure>(measureBase()->nextMeasureMM(), Ownership::SCORE);
+    }
 
     MeasureBase* prev() { return wrap<MeasureBase>(measureBase()->prev(), Ownership::SCORE); }
     MeasureBase* next() { return wrap<MeasureBase>(measureBase()->next(), Ownership::SCORE); }
     MeasureBase* prevMM() { return wrap<MeasureBase>(measureBase()->prevMM(), Ownership::SCORE); }
     MeasureBase* nextMM() { return wrap<MeasureBase>(measureBase()->nextMM(), Ownership::SCORE); }
 
-    QQmlListProperty<EngravingItem> elements() { return wrapContainerProperty<EngravingItem>(this, measureBase()->el()); }
+    QQmlListProperty<EngravingItem> elements()
+    {
+        return wrapContainerProperty<EngravingItem>(this, measureBase()->el());
+    }
 
-    static void addInternal(mu::engraving::MeasureBase* measureBase, mu::engraving::EngravingItem* el);
+    static void addInternal(mu::engraving::MeasureBase* measureBase,
+                            mu::engraving::EngravingItem* el);
     /// \endcond
 
     /// Add to a MeasureBases's elements.
@@ -2112,7 +2177,10 @@ public:
     bool isMMRest() const { return measure()->isMMRest(); }
     Measure* mmRest() const { return wrap<Measure>(measure()->mmRest(), Ownership::SCORE); }
 
-    QQmlListProperty<Segment> segments() { return wrapContainerProperty<Segment>(this, measure()->segments()); }
+    QQmlListProperty<Segment> segments()
+    {
+        return wrapContainerProperty<Segment>(this, measure()->segments());
+    }
     /// \endcond
 
     /// Up spacer for a given staff.
@@ -2184,7 +2252,10 @@ public:
     mu::engraving::System* system() { return toSystem(e); }
     const mu::engraving::System* system() const { return toSystem(e); }
 
-    QQmlListProperty<MeasureBase> measures() { return wrapContainerProperty<MeasureBase>(this, system()->measures()); }
+    QQmlListProperty<MeasureBase> measures()
+    {
+        return wrapContainerProperty<MeasureBase>(this, system()->measures());
+    }
 
     Measure* firstMeasure() { return wrap<Measure>(system()->firstMeasure(), Ownership::SCORE); }
     Measure* lastMeasure() { return wrap<Measure>(system()->lastMeasure(), Ownership::SCORE); }
@@ -2193,8 +2264,14 @@ public:
     bool isLocked() { return system()->isLocked(); }
     void setIsLocked(bool locked);
     bool pageBreak() { return system()->pageBreak(); }
-    EngravingItem* systemDividerLeft() { return wrap<EngravingItem>(system()->systemDividerLeft(), Ownership::SCORE); }
-    EngravingItem* systemDividerRight() { return wrap<EngravingItem>(system()->systemDividerRight(), Ownership::SCORE); }
+    EngravingItem* systemDividerLeft()
+    {
+        return wrap<EngravingItem>(system()->systemDividerLeft(), Ownership::SCORE);
+    }
+    EngravingItem* systemDividerRight()
+    {
+        return wrap<EngravingItem>(system()->systemDividerRight(), Ownership::SCORE);
+    }
     /// \endcond
 
     /// Bounding box for a given staff.
@@ -2253,7 +2330,10 @@ public:
 
     int pageNumber() const;
 
-    QQmlListProperty<System> systems() { return wrapContainerProperty<System>(this, page()->systems()); }
+    QQmlListProperty<System> systems()
+    {
+        return wrapContainerProperty<System>(this, page()->systems());
+    }
     /// \endcond
 };
 
@@ -2287,8 +2367,14 @@ public:
     bool hasIntervalAbove() const { return ornament()->hasIntervalAbove(); }
     bool hasIntervalBelow() const { return ornament()->hasIntervalBelow(); }
     bool showCueNote() { return ornament()->showCueNote(); }
-    EngravingItem* accidentalAbove() const { return wrap<EngravingItem>(ornament()->accidentalAbove()); }
-    EngravingItem* accidentalBelow() const { return wrap<EngravingItem>(ornament()->accidentalBelow()); }
+    EngravingItem* accidentalAbove() const
+    {
+        return wrap<EngravingItem>(ornament()->accidentalAbove());
+    }
+    EngravingItem* accidentalBelow() const
+    {
+        return wrap<EngravingItem>(ornament()->accidentalBelow());
+    }
     /// \endcond
 };
 
@@ -2389,7 +2475,10 @@ public:
     int idx() { return int(staff()->idx()); }
     bool show() { return staff()->show(); }
     Staff* primaryStaff() { return wrap<Staff>(staff()->primaryStaff()); }
-    QQmlListProperty<EngravingItem> brackets() { return wrapContainerProperty<EngravingItem>(this, staff()->brackets()); }
+    QQmlListProperty<EngravingItem> brackets()
+    {
+        return wrapContainerProperty<EngravingItem>(this, staff()->brackets());
+    }
     /// \endcond
 
     /// The current clef type at a given tick in the score, one of
@@ -2544,7 +2633,10 @@ public:
 
     Spanner* spanner() { return wrap<Spanner>(spannerSegment()->spanner()); }
     int spannerSegmentType() { return int(spannerSegment()->spannerSegmentType()); }
-    QPointF pos2() const { return PointF(spannerSegment()->pos2() / spannerSegment()->spatium()).toQPointF(); }
+    QPointF pos2() const
+    {
+        return PointF(spannerSegment()->pos2() / spannerSegment()->spatium()).toQPointF();
+    }
 
     /// \endcond
 };
@@ -2795,7 +2887,8 @@ public:
      * @param {Number} dotType One of PluginAPI::PluginAPI::FretDotType values.
      * @since 4.7
      */
-    Q_INVOKABLE void setDot(int string, int fret, bool add = false, int dotType = int(mu::engraving::FretDotType::NORMAL));
+    Q_INVOKABLE void setDot(int string, int fret, bool add = false,
+                            int dotType = int(mu::engraving::FretDotType::NORMAL));
 
     /** APIDOC
      * Set the marker for a string (open circle / muted X / none). Undoable and

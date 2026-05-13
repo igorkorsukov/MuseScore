@@ -41,7 +41,8 @@ void ChangeSpannerElements::flip(EditData*)
     bool isPartialSpanner = spanner->isPartialTie() || spanner->isLaissezVib();
     if (spanner->anchor() == Spanner::Anchor::NOTE) {
         // be sure new spanner elements are of the right type
-        if (!isPartialSpanner && (!startElement || !startElement->isNote() || !endElement || !endElement->isNote())) {
+        if (!isPartialSpanner
+            && (!startElement || !startElement->isNote() || !endElement || !endElement->isNote())) {
             return;
         }
         Note* oldStartNote = toNote(oldStartElement);

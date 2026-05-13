@@ -58,7 +58,8 @@ public:
         double value = div(tupletAverageError, er.tupletAverageError)
                        - div(relativeUsedChordPlaces, er.relativeUsedChordPlaces)
                        + div(sumLengthOfRests.numerator() * 1.0 / sumLengthOfRests.denominator(),
-                             er.sumLengthOfRests.numerator() * 1.0 / er.sumLengthOfRests.denominator());
+                             er.sumLengthOfRests.numerator() * 1.0
+                             / er.sumLengthOfRests.denominator());
         if (value == 0) {
             value = div(voiceCount, er.voiceCount)
                     + div(tupletCount, er.tupletCount);
@@ -455,7 +456,8 @@ bool validateSelectedTuplets(Iter beginIt,
                 if (!isFirstChord) {
                     return false;
                 }
-                if (!isMoreTupletVoicesAllowed(static_cast<int>(fit->second), it->second->second.notes.size())) {
+                if (!isMoreTupletVoicesAllowed(static_cast<int>(fit->second),
+                                               it->second->second.notes.size())) {
                     return false;
                 }
                 ++(fit->second);

@@ -83,8 +83,10 @@ StaffType::StaffType()
     setFretPresetIdx(0);
 }
 
-StaffType::StaffType(StaffGroup sg, const String& xml, const String& name, int lines, int stpOff, double lineDist,
-                     bool genClef, bool showBarLines, bool stemless, bool genTimeSig, bool genKeySig, bool showLedgerLines, bool invisible,
+StaffType::StaffType(StaffGroup sg, const String& xml, const String& name, int lines, int stpOff,
+                     double lineDist,
+                     bool genClef, bool showBarLines, bool stemless, bool genTimeSig,
+                     bool genKeySig, bool showLedgerLines, bool invisible,
                      const Color& color)
     : m_group(sg), m_xmlName(xml), m_staffTypeName(name),
     m_invisible(invisible),
@@ -101,12 +103,17 @@ StaffType::StaffType(StaffGroup sg, const String& xml, const String& name, int l
 {
 }
 
-StaffType::StaffType(StaffGroup sg, const String& xml, const String& name, int lines, int stpOff, double lineDist,
-                     bool genClef, bool showBarLines, bool stemless, bool genTimesig, bool invisible, const Color& color,
-                     const String& durFontName, double durFontSize, double durFontUserY, double genDur, bool fretFontUseTextStyle,
+StaffType::StaffType(StaffGroup sg, const String& xml, const String& name, int lines, int stpOff,
+                     double lineDist,
+                     bool genClef, bool showBarLines, bool stemless, bool genTimesig,
+                     bool invisible, const Color& color,
+                     const String& durFontName, double durFontSize, double durFontUserY,
+                     double genDur, bool fretFontUseTextStyle,
                      const String& fretFontName, double fretFontSize, double fretFontUserY,
-                     TablatureSymbolRepeat symRepeat, bool linesThrough, TablatureMinimStyle minimStyle, bool onLines,
-                     bool showRests, bool stemsDown, bool stemThrough, bool upsideDown, bool showTabFingering, bool useNumbers,
+                     TablatureSymbolRepeat symRepeat, bool linesThrough,
+                     TablatureMinimStyle minimStyle, bool onLines,
+                     bool showRests, bool stemsDown, bool stemThrough, bool upsideDown,
+                     bool showTabFingering, bool useNumbers,
                      bool showBackTied)
 {
     UNUSED(invisible);
@@ -318,7 +325,8 @@ bool StaffType::isCommonTabStaff() const
 
 bool StaffType::isHiddenElementOnTab(Sid commonTabStyle, Sid simpleTabStyle) const
 {
-    return (isCommonTabStaff() && !style().styleB(commonTabStyle)) || (isSimpleTabStaff() && !style().styleB(simpleTabStyle));
+    return (isCommonTabStaff() && !style().styleB(
+                commonTabStyle)) || (isSimpleTabStaff() && !style().styleB(simpleTabStyle));
 }
 
 void StaffType::styleChanged()
@@ -434,7 +442,9 @@ void StaffType::setDurationMetrics()
     RectF bb(fm.tightBoundingRect(txt));
     // raise symbols by a default margin and, if marks are above lines, by half the line distance
     // (converted from spatium units to raster units)
-    m_durationGridYOffset = (TAB_DEFAULT_DUR_YOFFS - (m_onLines ? 0.0 : lineDistance().val() * 0.5)) * defaultSpatium();
+    m_durationGridYOffset
+        = (TAB_DEFAULT_DUR_YOFFS - (m_onLines ? 0.0 : lineDistance().val() * 0.5))
+          * defaultSpatium();
     // this is the bottomest point of any duration sign
     m_durationYOffset = m_durationGridYOffset;
     // move symbols so that the lowest margin 'sits' on the base line:
@@ -609,7 +619,8 @@ String StaffType::fretString(int fret, int string, bool deadNote) const
         return text
                + (m_useNumbers
                   ? (fret >= NUM_OF_DIGITFRETS ? unknownFret : m_fretFontInfo.displayDigit[fret])
-                  : (fret >= NUM_OF_LETTERFRETS ? unknownFret : m_fretFontInfo.displayLetter[fret]));
+                  : (fret
+                     >= NUM_OF_LETTERFRETS ? unknownFret : m_fretFontInfo.displayLetter[fret]));
     }
 }
 
@@ -760,7 +771,8 @@ TabDurationSymbol::TabDurationSymbol(ChordRest* parent)
     m_text       = String();
 }
 
-TabDurationSymbol::TabDurationSymbol(ChordRest* parent, const StaffType* tab, DurationType type, int dots)
+TabDurationSymbol::TabDurationSymbol(ChordRest* parent, const StaffType* tab, DurationType type,
+                                     int dots)
     : EngravingItem(ElementType::TAB_DURATION_SYMBOL, parent, ElementFlag::NOT_SELECTABLE)
 {
     setGenerated(true);
@@ -1042,7 +1054,8 @@ bool StaffType::tabFontData(bool bDuration, size_t nIdx, double& pSize, double& 
             return true;
         }
     } else {
-        TablatureFretFont f = nIdx < m_fretFonts.size() ? m_fretFonts.at(nIdx) : TablatureFretFont();
+        TablatureFretFont f = nIdx
+                              < m_fretFonts.size() ? m_fretFonts.at(nIdx) : TablatureFretFont();
         pSize = f.defSize;
         pYOff = f.defYOffset;
         return true;

@@ -47,7 +47,8 @@ public:
     bool supportsUnitType(UnitType) const override;
     muse::Ret write(notation::INotationPtr, muse::io::IODevice&, const Options&) override;
     void writeMetadata(muse::io::IODevice* device, const engraving::Score* score) const;
-    muse::Ret writeList(const notation::INotationPtrList&, muse::io::IODevice&, const Options&) override;
+    muse::Ret writeList(const notation::INotationPtrList&, muse::io::IODevice&,
+                        const Options&) override;
 
     bool writeScore(mu::engraving::Score* score, const muse::io::path_t& path, bool enhancedLrc);
 
@@ -57,6 +58,7 @@ private:
     // Core lyric functionality
     std::map<double, QString> collectLyrics(const mu::engraving::Score*);
     QString formatTimestamp(double ms) const;
-    void findTrackAndLyricToExport(const engraving::Score* score, mu::engraving::track_idx_t& trackNumber, int& lyricNumber);
+    void findTrackAndLyricToExport(const engraving::Score* score,
+                                   mu::engraving::track_idx_t& trackNumber, int& lyricNumber);
 };
 } // namespace mu::iex::lrcexport

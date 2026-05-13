@@ -32,7 +32,8 @@
 
 using namespace mu::engraving::rendering::score;
 
-void DynamicsLayout::layoutDynamic(Dynamic* item, TextBase::LayoutData* ldata, const LayoutConfiguration& conf)
+void DynamicsLayout::layoutDynamic(Dynamic* item, TextBase::LayoutData* ldata,
+                                   const LayoutConfiguration& conf)
 {
     doLayoutDynamic(item, ldata, conf);
 
@@ -45,23 +46,27 @@ void DynamicsLayout::layoutDynamic(Dynamic* item, TextBase::LayoutData* ldata, c
     }
 }
 
-void DynamicsLayout::doLayoutDynamic(Dynamic* item, Dynamic::LayoutData* ldata, const LayoutConfiguration& conf)
+void DynamicsLayout::doLayoutDynamic(Dynamic* item, Dynamic::LayoutData* ldata,
+                                     const LayoutConfiguration& conf)
 {
     ldata->disconnectSnappedItems();
 
-    HairpinSegment* snapBeforeHairpinAcrossSysBreak = item->findSnapBeforeHairpinAcrossSystemBreak();
+    HairpinSegment* snapBeforeHairpinAcrossSysBreak
+        = item->findSnapBeforeHairpinAcrossSystemBreak();
     if (snapBeforeHairpinAcrossSysBreak) {
         ldata->connectItemSnappedBefore(snapBeforeHairpinAcrossSysBreak);
     }
 
     const StaffType* stType = item->staffType();
-    if (stType && stType->isHiddenElementOnTab(Sid::dynamicsShowTabCommon, Sid::dynamicsShowTabSimple)) {
+    if (stType
+        && stType->isHiddenElementOnTab(Sid::dynamicsShowTabCommon, Sid::dynamicsShowTabSimple)) {
         ldata->setIsSkipDraw(true);
         return;
     }
     ldata->setIsSkipDraw(false);
 
-    item->setPlacementBasedOnVoiceAssignment(conf.styleV(Sid::dynamicsHairpinVoiceBasedPlacement).value<DirectionV>());
+    item->setPlacementBasedOnVoiceAssignment(conf.styleV(
+                                                 Sid::dynamicsHairpinVoiceBasedPlacement).value<DirectionV>());
 
     // If "Center on notehead" is on, override user position. Restore later
     AlignH userPosition = item->getProperty(Pid::POSITION).value<AlignH>();
@@ -96,7 +101,8 @@ void DynamicsLayout::doLayoutDynamic(Dynamic* item, Dynamic::LayoutData* ldata, 
     }
 }
 
-double DynamicsLayout::computeCustomTextOffset(Dynamic* item, Dynamic::LayoutData* ldata, const LayoutConfiguration& conf)
+double DynamicsLayout::computeCustomTextOffset(Dynamic* item, Dynamic::LayoutData* ldata,
+                                               const LayoutConfiguration& conf)
 {
     if (!item->centerOnNotehead() || item->dynamicType() == DynamicType::OTHER) {
         return 0.0;
@@ -146,13 +152,15 @@ void DynamicsLayout::layoutDynamicToEndOfPrevious(const Dynamic* item, TextBase:
         }
     }
 
-    double xDiff = curSegment->x() + curSegment->measure()->x() - (leftMostSegment->x() + leftMostSegment->measure()->x());
+    double xDiff = curSegment->x() + curSegment->measure()->x()
+                   - (leftMostSegment->x() + leftMostSegment->measure()->x());
     ldata->setPosX(-xDiff - ldata->bbox().right() - 0.50 * item->spatium());
 }
 
 void DynamicsLayout::manageBarlineCollisions(const Dynamic* item, TextBase::LayoutData* ldata)
 {
-    if (item->score()->nstaves() <= 1 || item->anchorToEndOfPrevious() || !item->offset().isNull()) {
+    if (item->score()->nstaves() <= 1 || item->anchorToEndOfPrevious()
+        || !item->offset().isNull()) {
         return;
     }
 
@@ -198,7 +206,8 @@ void DynamicsLayout::manageBarlineCollisions(const Dynamic* item, TextBase::Layo
 
     // Check barlines to the right
     Segment* rightBarLineSegment = nullptr;
-    for (Segment* segment = thisSegment; segment && segment->measure()->system() == system; segment = segment->next1enabled()) {
+    for (Segment* segment = thisSegment; segment && segment->measure()->system() == system;
+         segment = segment->next1enabled()) {
         if (segment->segmentType() & SegmentType::BarLineType) {
             rightBarLineSegment = segment;
             break;
@@ -209,7 +218,8 @@ void DynamicsLayout::manageBarlineCollisions(const Dynamic* item, TextBase::Layo
         EngravingItem* e = rightBarLineSegment->element(barLineStaff * VOICES);
         if (e) {
             double rightMargin = e->ldata()->bbox().translated(e->pagePos()).left()
-                                 - referenceBBox.translated(item->pagePos() - item->offset()).right()
+                                 - referenceBBox.translated(item->pagePos()
+                                                            - item->offset()).right()
                                  - minBarLineDistance;
             if (rightMargin < 0) {
                 ldata->moveX(rightMargin);
@@ -219,7 +229,8 @@ void DynamicsLayout::manageBarlineCollisions(const Dynamic* item, TextBase::Layo
 
     // Check barlines to the left
     Segment* leftBarLineSegment = nullptr;
-    for (Segment* segment = thisSegment; segment && segment->measure()->system() == system; segment = segment->prev1enabled()) {
+    for (Segment* segment = thisSegment; segment && segment->measure()->system() == system;
+         segment = segment->prev1enabled()) {
         if (segment->segmentType() & SegmentType::BarLineType) {
             leftBarLineSegment = segment;
             break;

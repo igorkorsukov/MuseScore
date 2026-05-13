@@ -51,7 +51,8 @@ public:
     void setEnabled(bool enabled);
 
     QString staffInfo() const;
-    void updateStaffInfo(const AccessibleItemWeakPtr newAccessibleItem, const AccessibleItemWeakPtr oldAccessibleItem,
+    void updateStaffInfo(const AccessibleItemWeakPtr newAccessibleItem,
+                         const AccessibleItemWeakPtr oldAccessibleItem,
                          bool voiceStaffInfoChange = true);
 
     bool isRangeSelection() const;

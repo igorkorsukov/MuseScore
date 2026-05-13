@@ -55,7 +55,8 @@ struct DrumInstrument {
     // if notehead = HEAD_CUSTOM, custom, use noteheads
     NoteHeadGroup notehead = NoteHeadGroup::HEAD_INVALID;   ///< notehead symbol set
     std::array<SymId, int(NoteHeadType::HEAD_TYPES)> noteheads
-        = { SymId::noteheadWhole, SymId::noteheadHalf, SymId::noteheadBlack, SymId::noteheadDoubleWhole };
+        = { SymId::noteheadWhole, SymId::noteheadHalf, SymId::noteheadBlack,
+            SymId::noteheadDoubleWhole };
 
     int line = 0;               ///< place notehead onto this line
     DirectionV stemDirection = DirectionV::AUTO;
@@ -70,7 +71,8 @@ struct DrumInstrument {
     DrumInstrument() {}
     DrumInstrument(const String& n, NoteHeadGroup nh, int l, DirectionV d,
                    int pr = -1, int pc = -1, int v = 0, String sc = String())
-        : name(n), notehead(nh), line(l), stemDirection(d), panelRow(pr), panelColumn(pc), voice(v), shortcut(sc) {}
+        : name(n), notehead(nh), line(l), stemDirection(d), panelRow(pr), panelColumn(pc), voice(v),
+        shortcut(sc) {}
 
     void addVariant(DrumInstrumentVariant v) { variants.push_back(v); }
 
@@ -109,7 +111,10 @@ public:
     const String& name(int pitch) const { return m_drums[pitch].name; }
     String translatedName(int pitch) const;
     String shortcut(int pitch) const { return m_drums[pitch].shortcut; }
-    const std::vector<DrumInstrumentVariant>& variants(int pitch) const { return m_drums[pitch].variants; }
+    const std::vector<DrumInstrumentVariant>& variants(int pitch) const
+    {
+        return m_drums[pitch].variants;
+    }
     int panelRow(int pitch) const { return m_drums[pitch].panelRow; }
     int panelColumn(int pitch) const { return m_drums[pitch].panelColumn; }
 
@@ -131,7 +136,8 @@ public:
     DrumInstrument& drum(int i) { return m_drums[i]; }
     const DrumInstrument& drum(int i) const { return m_drums[i]; }
     void setDrum(int pitch, const DrumInstrument& di) { m_drums[pitch] = di; }
-    DrumInstrumentVariant findVariant(int pitch, const std::vector<Articulation*>& articulations, TremoloType tremType) const;
+    DrumInstrumentVariant findVariant(int pitch, const std::vector<Articulation*>& articulations,
+                                      TremoloType tremType) const;
 
     static void initDrumset();
 

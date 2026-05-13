@@ -97,8 +97,14 @@ struct ChordSymbolParen : HarmonyRenderItem {
 
     double height() const override { return parenItem->height(); }
 
-    double leftPadding() const override { return parenItem->direction() == DirectionH::LEFT ? OUTER_PADDING : INNER_PADDING; }
-    double rightPadding() const override { return parenItem->direction() == DirectionH::LEFT ? INNER_PADDING : OUTER_PADDING; }
+    double leftPadding() const override
+    {
+        return parenItem->direction() == DirectionH::LEFT ? OUTER_PADDING : INNER_PADDING;
+    }
+    double rightPadding() const override
+    {
+        return parenItem->direction() == DirectionH::LEFT ? INNER_PADDING : OUTER_PADDING;
+    }
 
     HarmonyRenderItemType type() const override { return HarmonyRenderItemType::PAREN; }
 
@@ -156,7 +162,8 @@ class HarmonyInfo
 {
 public:
     HarmonyInfo(int id, int rootTpc, int bassTpc, String textName, ParsedChord* pc, Score* score)
-        : m_id(id), m_rootTpc(rootTpc), m_bassTpc(bassTpc), m_textName(textName), m_parsedChord(pc), m_score(score) {}
+        : m_id(id), m_rootTpc(rootTpc), m_bassTpc(bassTpc), m_textName(textName), m_parsedChord(pc),
+        m_score(score) {}
     HarmonyInfo(Score* score)
         : m_score(score) {}
     HarmonyInfo(const HarmonyInfo& h);
@@ -316,7 +323,8 @@ public:
 
     struct LayoutData : public TextBase::LayoutData {
         ld_field<double> harmonyHeight = { "[Harmony] harmonyHeight", 0.0 };    // used for calculating the height is frame while editing.
-        ld_field<std::vector<LineF> > polychordDividerLines = { "[Harmony] polychordDividerLine", std::vector<LineF>() };
+        ld_field<std::vector<LineF> > polychordDividerLines
+            = { "[Harmony] polychordDividerLine", std::vector<LineF>() };
         ld_field<double> polychordDividerOffset = { "[Harmony] polychordDividerOffset", 0.0 };
         ld_field<double> baseline = { "[Harmony] baseline", 0.0 };
         ld_field<std::vector<muse::draw::Font> > fontList = "[Harmony] fontList";          // temp values used in render()
@@ -327,8 +335,10 @@ public:
 private:
     std::vector<HarmonyInfo*> m_chords;
 
-    const std::vector<const ChordDescription*> parseHarmony(const String& s, bool syntaxOnly = false);
-    const ChordDescription* parseSingleHarmony(const String& s, HarmonyInfo* info, bool syntaxOnly = false);
+    const std::vector<const ChordDescription*> parseHarmony(const String& s,
+                                                            bool syntaxOnly = false);
+    const ChordDescription* parseSingleHarmony(const String& s, HarmonyInfo* info,
+                                               bool syntaxOnly = false);
 
     Sid getPropertyStyle(Pid) const override;
 

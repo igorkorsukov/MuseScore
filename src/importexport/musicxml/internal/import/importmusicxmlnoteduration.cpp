@@ -262,7 +262,8 @@ void MusicXmlNoteDuration::timeModification(muse::XmlStreamReader& e)
                 m_normalType.setType(TConv::fromXml(ba.constChar(), DurationType::V_INVALID));
             }
         } else {
-            m_logger->logDebugInfo(String(u"skipping '%1'").arg(String::fromAscii(e.name().ascii())), &e);
+            m_logger->logDebugInfo(String(u"skipping '%1'").arg(String::fromAscii(
+                                                                    e.name().ascii())), &e);
             e.skipCurrentElement();
         }
     }

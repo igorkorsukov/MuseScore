@@ -196,7 +196,8 @@ void ChangeInstrumentShort::flip(EditData*)
 //   ChangeInstrumentLong
 //---------------------------------------------------------
 
-ChangeInstrumentGroupOptions::ChangeInstrumentGroupOptions(const Fraction& _tick, Part* p, bool useCustom, const String& longName,
+ChangeInstrumentGroupOptions::ChangeInstrumentGroupOptions(const Fraction& _tick, Part* p,
+                                                           bool useCustom, const String& longName,
                                                            const String& shortName)
     : part(p), tick(_tick), useCustom(useCustom), longName(longName), shortName(shortName)
 {
@@ -245,7 +246,8 @@ void ChangeDrumset::flip(EditData*)
     drumset = d;
 
     if (part->staves().size() > 0) {
-        part->score()->setLayout(Fraction(0, 1), part->score()->endTick(), part->staves().front()->idx(), part->staves().back()->idx());
+        part->score()->setLayout(Fraction(0, 1), part->score()->endTick(),
+                                 part->staves().front()->idx(), part->staves().back()->idx());
     }
 }
 
@@ -255,7 +257,8 @@ void ChangeDrumset::flip(EditData*)
 
 void ChangeStringData::flip(EditData*)
 {
-    const StringData* stringData =  m_stringTunings ? m_stringTunings->stringData() : m_instrument->stringData();
+    const StringData* stringData
+        =  m_stringTunings ? m_stringTunings->stringData() : m_instrument->stringData();
     int frets = stringData->frets();
     std::vector<instrString> stringList = stringData->stringList();
 
@@ -337,7 +340,8 @@ static InstrumentChange* findInstrumentChange(Score* score, const Part* part, co
         return nullptr;
     }
 
-    EngravingItem* item = segment->findAnnotation(ElementType::INSTRUMENT_CHANGE, part->startTrack(), part->endTrack() - 1);
+    EngravingItem* item = segment->findAnnotation(ElementType::INSTRUMENT_CHANGE,
+                                                  part->startTrack(), part->endTrack() - 1);
     return item ? toInstrumentChange(item) : nullptr;
 }
 
@@ -372,7 +376,8 @@ void EditPart::replacePartInstrument(Score* score, Part* part, const Instrument&
         // Only update staff if clef type changes
         if (currentClefType != newClefType) {
             score->undo(new ChangeStaff(staff, visible, newClefType, userDist, cutaway,
-                                        hideSystemBarLine, mergeMatchingRests, reflectTransposition));
+                                        hideSystemBarLine, mergeMatchingRests,
+                                        reflectTransposition));
         }
 
         // Apply new staff type if provided
@@ -438,7 +443,8 @@ void EditPart::setInstrumentName(Score* score, Part* part, const Fraction& tick,
     score->undo(new ChangeInstrumentLong(tick, part, name));
 }
 
-void EditPart::setInstrumentAbbreviature(Score* score, Part* part, const Fraction& tick, const String& abbreviature)
+void EditPart::setInstrumentAbbreviature(Score* score, Part* part, const Fraction& tick,
+                                         const String& abbreviature)
 {
     if (!score || !part) {
         return;
@@ -447,7 +453,8 @@ void EditPart::setInstrumentAbbreviature(Score* score, Part* part, const Fractio
     score->undo(new ChangeInstrumentShort(tick, part, abbreviature));
 }
 
-void EditPart::setInstrumentGroupNameOptions(Score* score, Part* part, const Fraction& tick, bool useCustom, const String& longName,
+void EditPart::setInstrumentGroupNameOptions(Score* score, Part* part, const Fraction& tick,
+                                             bool useCustom, const String& longName,
                                              const String& shortName)
 {
     if (!score || !part) {
@@ -497,7 +504,8 @@ void EditPart::removeStaves(Score* score, const std::vector<Staff*>& staves)
     score->setBracketsAndBarlines();
 }
 
-void EditPart::moveParts(Score* score, const std::vector<Part*>& sourceParts, Part* destinationPart, bool insertAfter)
+void EditPart::moveParts(Score* score, const std::vector<Part*>& sourceParts, Part* destinationPart,
+                         bool insertAfter)
 {
     if (!score || sourceParts.empty() || !destinationPart) {
         return;
@@ -540,7 +548,8 @@ void EditPart::moveParts(Score* score, const std::vector<Part*>& sourceParts, Pa
     score->setBracketsAndBarlines();
 }
 
-void EditPart::moveStaves(Score* score, const std::vector<Staff*>& sourceStaves, Staff* destinationStaff, bool insertAfter)
+void EditPart::moveStaves(Score* score, const std::vector<Staff*>& sourceStaves,
+                          Staff* destinationStaff, bool insertAfter)
 {
     if (!score || sourceStaves.empty() || !destinationStaff) {
         return;
@@ -646,7 +655,8 @@ void EditPart::moveSystemObjects(Score* score, Staff* sourceStaff, Staff* destin
         return;
     }
 
-    const std::vector<EngravingItem*> systemObjects = collectSystemObjects(score, { sourceStaff, destinationStaff });
+    const std::vector<EngravingItem*> systemObjects = collectSystemObjects(score, { sourceStaff,
+                                                                                    destinationStaff });
     const staff_idx_t dstStaffIdx = destinationStaff->idx();
 
     score->undo(new RemoveSystemObjectStaff(sourceStaff));
@@ -656,7 +666,8 @@ void EditPart::moveSystemObjects(Score* score, Staff* sourceStaff, Staff* destin
         score->undoChangeStyleVal(Sid::systemObjectsBelowBottomStaff, false);
     }
 
-    AutoOnOff showMeasNumOnSrcStaff = sourceStaff->getProperty(Pid::SHOW_MEASURE_NUMBERS).value<AutoOnOff>();
+    AutoOnOff showMeasNumOnSrcStaff
+        = sourceStaff->getProperty(Pid::SHOW_MEASURE_NUMBERS).value<AutoOnOff>();
     if (showMeasNumOnSrcStaff != AutoOnOff::AUTO) {
         destinationStaff->undoChangeProperty(Pid::SHOW_MEASURE_NUMBERS, showMeasNumOnSrcStaff);
         sourceStaff->undoResetProperty(Pid::SHOW_MEASURE_NUMBERS);
@@ -786,7 +797,8 @@ void EditPart::replacePart(Score* score, Part* oldPart, const InstrumentTemplate
     insertPart(score, templ, partIndex);
 }
 
-void EditPart::replaceDrumset(Score* score, Part* part, const Fraction& tick, const Drumset& newDrumset)
+void EditPart::replaceDrumset(Score* score, Part* part, const Fraction& tick,
+                              const Drumset& newDrumset)
 {
     if (!score || !part) {
         return;

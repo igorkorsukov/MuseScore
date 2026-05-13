@@ -127,7 +127,8 @@ QHash<int, QByteArray> InstrumentListModel::roleNames() const
     return roles;
 }
 
-void InstrumentListModel::load(bool canSelectMultipleInstruments, const QString& currentInstrumentId)
+void InstrumentListModel::load(bool canSelectMultipleInstruments,
+                               const QString& currentInstrumentId)
 {
     TRACEFUNC;
 
@@ -314,7 +315,8 @@ void InstrumentListModel::sortInstruments(Instruments& instruments) const
 {
     TRACEFUNC;
 
-    std::sort(instruments.begin(), instruments.end(), [this](const CombinedInstrument& instrument1, const CombinedInstrument& instrument2) {
+    std::sort(instruments.begin(), instruments.end(),
+              [this](const CombinedInstrument& instrument1, const CombinedInstrument& instrument2) {
         QString instrumentName1 = instrument1.name.toLower();
         QString instrumentName2 = instrument2.name.toLower();
         QString searchText = m_searchText.toLower();
@@ -497,7 +499,8 @@ void InstrumentListModel::updateStateBySearch()
     m_saveCurrentGroup = false;
 }
 
-bool InstrumentListModel::isInstrumentAccepted(const InstrumentTemplate& instrument, bool compareWithCurrentGroup) const
+bool InstrumentListModel::isInstrumentAccepted(const InstrumentTemplate& instrument,
+                                               bool compareWithCurrentGroup) const
 {
     if (isSearching()) {
         return instrument.trackName.toQString().contains(m_searchText, Qt::CaseInsensitive);

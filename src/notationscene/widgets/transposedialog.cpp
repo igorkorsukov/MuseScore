@@ -41,8 +41,10 @@ TransposeDialog::TransposeDialog(QWidget* parent)
     setupUi(this);
     setWindowFlags(this->windowFlags() & ~Qt::WindowContextHelpButtonHint);
 
-    connect(transposeByKey,      &QGroupBox::clicked, this, &TransposeDialog::transposeByKeyToggled);
-    connect(transposeByInterval, &QGroupBox::clicked, this, &TransposeDialog::transposeByIntervalToggled);
+    connect(transposeByKey,      &QGroupBox::clicked, this,
+            &TransposeDialog::transposeByKeyToggled);
+    connect(transposeByInterval, &QGroupBox::clicked, this,
+            &TransposeDialog::transposeByIntervalToggled);
     connect(chromaticBox,        &QGroupBox::clicked, this, &TransposeDialog::chromaticBoxToggled);
     connect(diatonicBox,         &QGroupBox::clicked, this, &TransposeDialog::diatonicBoxToggled);
 }
@@ -60,7 +62,8 @@ void TransposeDialog::componentComplete()
     setEnableTransposeToKey(rangeSelection);
 
     const std::vector<EngravingItem*>& elements = selection()->elements();
-    bool hasChordNames = std::any_of(elements.cbegin(), elements.cend(), [](const EngravingItem* item) {
+    bool hasChordNames
+        = std::any_of(elements.cbegin(), elements.cend(), [](const EngravingItem* item) {
         return item->isHarmony() || item->isFretDiagram();
     });
     setEnableTransposeChordNames(hasChordNames);

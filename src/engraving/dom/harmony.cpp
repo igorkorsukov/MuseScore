@@ -183,7 +183,8 @@ String Harmony::displayText() const
             String t = textSeg->text();
             t.replace(u"\uE87C", u"/");
             name += t;
-        } else if (const ChordSymbolParen* parenSeg = dynamic_cast<const ChordSymbolParen*>(segment)) {
+        } else if (const ChordSymbolParen* parenSeg =
+                       dynamic_cast<const ChordSymbolParen*>(segment)) {
             name += parenSeg->parenItem->direction() == DirectionH::LEFT ? u"(" : u")";
         }
     }
@@ -213,7 +214,8 @@ String Harmony::harmonyName() const
         }
 
         if (m_harmonyType == HarmonyType::STANDARD && tpcIsValid(info->rootTpc())) {
-            NoteSpellingType spelling = style().styleV(Sid::chordSymbolSpelling).value<NoteSpellingType>();
+            NoteSpellingType spelling
+                = style().styleV(Sid::chordSymbolSpelling).value<NoteSpellingType>();
             r = tpc2name(info->rootTpc(), spelling, m_rootCase);
         } else if (m_harmonyType == HarmonyType::NASHVILLE && tpcIsValid(info->rootTpc())) {
             const Staff* st = staff();
@@ -249,7 +251,8 @@ String Harmony::harmonyName() const
         }
 
         if (tpcIsValid(info->bassTpc())) {
-            NoteSpellingType spelling = style().styleV(Sid::chordSymbolSpelling).value<NoteSpellingType>();
+            NoteSpellingType spelling
+                = style().styleV(Sid::chordSymbolSpelling).value<NoteSpellingType>();
             b = u"/" + tpc2name(info->bassTpc(), spelling, m_bassCase);
         }
 
@@ -326,7 +329,8 @@ const ElementStyle chordSymbolStyle {
 //---------------------------------------------------------
 
 Harmony::Harmony(EngravingItem* parent)
-    : TextBase(ElementType::HARMONY, parent, TextStyleType::HARMONY_A, ElementFlag::MOVABLE | ElementFlag::ON_STAFF)
+    : TextBase(ElementType::HARMONY, parent, TextStyleType::HARMONY_A,
+               ElementFlag::MOVABLE | ElementFlag::ON_STAFF)
 {
     assert(!parent || parent->isSegment() || parent->isFretDiagram());
 
@@ -475,17 +479,21 @@ const std::vector<const ChordDescription*> Harmony::parseHarmony(const String& s
     // pre-process for parentheses
     String s = ss.simplified();
     if (s.startsWith('(')) {
-        setParenthesesMode(rightParen() ? ParenthesesMode::BOTH : ParenthesesMode::LEFT, true, false);
+        setParenthesesMode(rightParen() ? ParenthesesMode::BOTH : ParenthesesMode::LEFT, true,
+                           false);
         s.remove(0, 1);
     } else {
-        setParenthesesMode(rightParen() ? ParenthesesMode::RIGHT : ParenthesesMode::NONE, true, false);
+        setParenthesesMode(
+            rightParen() ? ParenthesesMode::RIGHT : ParenthesesMode::NONE, true, false);
     }
 
     if (s.endsWith(')') && s.count('(') < s.count(')')) {
-        setParenthesesMode(leftParen() ? ParenthesesMode::BOTH : ParenthesesMode::RIGHT, true, false);
+        setParenthesesMode(leftParen() ? ParenthesesMode::BOTH : ParenthesesMode::RIGHT, true,
+                           false);
         s.remove(s.size() - 1, 1);
     } else {
-        setParenthesesMode(leftParen() ? ParenthesesMode::LEFT : ParenthesesMode::NONE, true, false);
+        setParenthesesMode(leftParen() ? ParenthesesMode::LEFT : ParenthesesMode::NONE, true,
+                           false);
     }
 
     if (parenthesesMode() == ParenthesesMode::BOTH) {
@@ -515,7 +523,8 @@ const std::vector<const ChordDescription*> Harmony::parseHarmony(const String& s
     return descriptions;
 }
 
-const ChordDescription* Harmony::parseSingleHarmony(const String& ss, HarmonyInfo* info, bool syntaxOnly)
+const ChordDescription* Harmony::parseSingleHarmony(const String& ss, HarmonyInfo* info,
+                                                    bool syntaxOnly)
 {
     String s = ss.simplified();
 
@@ -1392,7 +1401,10 @@ String Harmony::generateScreenReaderInfo() const
         }
         case HarmonyType::STANDARD:
         default:
-            rez = String(u"%1 %2").arg(rez, tpc2name(info->rootTpc(), NoteSpellingType::STANDARD, NoteCaseType::AUTO, true));
+            rez
+                = String(u"%1 %2").arg(rez,
+                                       tpc2name(info->rootTpc(), NoteSpellingType::STANDARD,
+                                                NoteCaseType::AUTO, true));
         }
 
         if (!info->textName().isEmpty()) {
@@ -1412,7 +1424,10 @@ String Harmony::generateScreenReaderInfo() const
         }
 
         if (tpcIsValid(info->bassTpc())) {
-            rez = String(u"%1 / %2").arg(rez, tpc2name(info->bassTpc(), NoteSpellingType::STANDARD, NoteCaseType::AUTO, true));
+            rez
+                = String(u"%1 / %2").arg(rez,
+                                         tpc2name(info->bassTpc(), NoteSpellingType::STANDARD,
+                                                  NoteCaseType::AUTO, true));
         }
     }
 
@@ -1480,7 +1495,8 @@ void Harmony::undoChangeProperty(Pid id, const PropertyValue& v, PropertyFlags p
             return;
         }
         for (EngravingItem* item : parentSeg->annotations()) {
-            if ((!item->isFretDiagram() && !item->isHarmony()) || item == this || track2staff(item->track()) != staffIdx()) {
+            if ((!item->isFretDiagram() && !item->isHarmony()) || item == this
+                || track2staff(item->track()) != staffIdx()) {
                 continue;
             }
 
@@ -1565,8 +1581,10 @@ bool Harmony::setProperty(Pid pid, const PropertyValue& v)
         setHarmony(v.value<String>());
         String newText = xmlText();
         if (newText != curText) {
-            FretDiagram* fretDiagram = explicitParent()->isFretDiagram() ? toFretDiagram(explicitParent()) : nullptr;
-            if (fretDiagram && !fretDiagram->isCustom(curText) && configuration()->autoUpdateFretboardDiagrams()) {
+            FretDiagram* fretDiagram = explicitParent()->isFretDiagram() ? toFretDiagram(
+                explicitParent()) : nullptr;
+            if (fretDiagram && !fretDiagram->isCustom(curText)
+                && configuration()->autoUpdateFretboardDiagrams()) {
                 fretDiagram->updateDiagram(plainText());
             }
             score()->rebuildFretBox();

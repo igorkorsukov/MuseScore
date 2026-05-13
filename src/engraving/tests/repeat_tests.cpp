@@ -53,7 +53,8 @@ void Engraving_RepeatTests::repeat(const char* path, const String& ref)
         int startTick = rs->tick;
         int endTick   = rs->endTick();
 
-        for (const Measure* m = score->tick2measure(Fraction::fromTicks(startTick)); m; m = m->nextMeasure()) {
+        for (const Measure* m = score->tick2measure(Fraction::fromTicks(startTick)); m;
+             m = m->nextMeasure()) {
             sl.append(String::number(m->measureNumber() + 1));
 
             if (m->endTick().ticks() >= endTick) {
@@ -187,7 +188,8 @@ TEST_F(Engraving_RepeatTests, repeat22) {
 
 TEST_F(Engraving_RepeatTests, repeat23) {
     // complex roadmap
-    repeat("repeat23.mscx", u"1;2; 1;2;3; 2;3;4;5;6;7; 6;7;8;9;10;11; 9;10; 12; 12;13;14; 13;14;15;16; 13;14");
+    repeat("repeat23.mscx",
+           u"1;2; 1;2;3; 2;3;4;5;6;7; 6;7;8;9;10;11; 9;10; 12; 12;13;14; 13;14;15;16; 13;14");
 }
 
 TEST_F(Engraving_RepeatTests, repeat24) {

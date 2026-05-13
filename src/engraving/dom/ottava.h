@@ -65,12 +65,18 @@ struct OttavaDefault {
 
 // order is important, should be the same as OttavaType
 static const OttavaDefault ottavaDefault[] = {
-    { OttavaType::OTTAVA_8VA,  12,  "8va",  TranslatableString("engraving/ottavatype", "8va alta") },
-    { OttavaType::OTTAVA_8VB,  -12, "8vb",  TranslatableString("engraving/ottavatype", "8va bassa") },
-    { OttavaType::OTTAVA_15MA, 24,  "15ma", TranslatableString("engraving/ottavatype", "15ma alta") },
-    { OttavaType::OTTAVA_15MB, -24, "15mb", TranslatableString("engraving/ottavatype", "15ma bassa") },
-    { OttavaType::OTTAVA_22MA, 36,  "22ma", TranslatableString("engraving/ottavatype", "22ma alta") },
-    { OttavaType::OTTAVA_22MB, -36, "22mb", TranslatableString("engraving/ottavatype", "22ma bassa") }
+    { OttavaType::OTTAVA_8VA,  12,  "8va",
+      TranslatableString("engraving/ottavatype", "8va alta") },
+    { OttavaType::OTTAVA_8VB,  -12, "8vb",
+      TranslatableString("engraving/ottavatype", "8va bassa") },
+    { OttavaType::OTTAVA_15MA, 24,  "15ma",
+      TranslatableString("engraving/ottavatype", "15ma alta") },
+    { OttavaType::OTTAVA_15MB, -24, "15mb",
+      TranslatableString("engraving/ottavatype", "15ma bassa") },
+    { OttavaType::OTTAVA_22MA, 36,  "22ma",
+      TranslatableString("engraving/ottavatype", "22ma alta") },
+    { OttavaType::OTTAVA_22MB, -36, "22mb",
+      TranslatableString("engraving/ottavatype", "22ma bassa") }
 };
 
 class Ottava;

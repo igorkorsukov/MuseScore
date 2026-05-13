@@ -39,11 +39,13 @@ class MeasuresSettingsModel : public AbstractInspectorModel
     Q_PROPERTY(QString shortcutMakeIntoSystem READ shortcutMakeIntoSystem CONSTANT)
     Q_PROPERTY(bool allSystemsAreLocked READ allSystemsAreLocked NOTIFY allSystemsAreLockedChanged)
     Q_PROPERTY(bool scoreIsInPageView READ scoreIsInPageView NOTIFY scoreIsInPageViewChanged)
-    Q_PROPERTY(bool isMakeIntoSystemAvailable READ isMakeIntoSystemAvailable NOTIFY isMakeIntoSystemAvailableChanged)
+    Q_PROPERTY(
+        bool isMakeIntoSystemAvailable READ isMakeIntoSystemAvailable NOTIFY isMakeIntoSystemAvailableChanged)
     Q_PROPERTY(int systemCount READ systemCount NOTIFY systemCountChanged)
 
 public:
-    explicit MeasuresSettingsModel(QObject* parent, const muse::modularity::ContextPtr& iocCtx, IElementRepositoryService* repository);
+    explicit MeasuresSettingsModel(QObject* parent, const muse::modularity::ContextPtr& iocCtx,
+                                   IElementRepositoryService* repository);
 
     void createProperties() override { }
     void loadProperties() override;
@@ -83,7 +85,8 @@ public:
     int systemCount() const;
 
 protected:
-    void onNotationChanged(const mu::engraving::PropertyIdSet&, const mu::engraving::StyleIdSet&) override;
+    void onNotationChanged(const mu::engraving::PropertyIdSet&,
+                           const mu::engraving::StyleIdSet&) override;
 
 private:
     void updateAllSystemsAreLocked();

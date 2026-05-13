@@ -65,7 +65,8 @@ const std::vector<Dyn> Dynamic::DYN_LIST = {
 
     { DynamicType::F,       96, 0,   false, "<sym>dynamicForte</sym>" },
     { DynamicType::FF,      112, 0,  false, "<sym>dynamicForte</sym><sym>dynamicForte</sym>" },
-    { DynamicType::FFF,     126, 0,  false, "<sym>dynamicForte</sym><sym>dynamicForte</sym><sym>dynamicForte</sym>" },
+    { DynamicType::FFF,     126, 0,  false,
+      "<sym>dynamicForte</sym><sym>dynamicForte</sym><sym>dynamicForte</sym>" },
     { DynamicType::FFFF,    127, 0,  false,
       "<sym>dynamicForte</sym><sym>dynamicForte</sym><sym>dynamicForte</sym><sym>dynamicForte</sym>" },
     { DynamicType::FFFFF,   127, 0,  false,
@@ -77,20 +78,25 @@ const std::vector<Dyn> Dynamic::DYN_LIST = {
     { DynamicType::PF,      49, 47,   true, "<sym>dynamicPiano</sym><sym>dynamicForte</sym>" },
 
     { DynamicType::SF,      112, -18, true, "<sym>dynamicSforzando</sym><sym>dynamicForte</sym>" },
-    { DynamicType::SFZ,     112, -18, true, "<sym>dynamicSforzando</sym><sym>dynamicForte</sym><sym>dynamicZ</sym>" },
-    { DynamicType::SFF,     126, -18, true, "<sym>dynamicSforzando</sym><sym>dynamicForte</sym><sym>dynamicForte</sym>" },
+    { DynamicType::SFZ,     112, -18, true,
+      "<sym>dynamicSforzando</sym><sym>dynamicForte</sym><sym>dynamicZ</sym>" },
+    { DynamicType::SFF,     126, -18, true,
+      "<sym>dynamicSforzando</sym><sym>dynamicForte</sym><sym>dynamicForte</sym>" },
     { DynamicType::SFFZ,    126, -18, true,
       "<sym>dynamicSforzando</sym><sym>dynamicForte</sym><sym>dynamicForte</sym><sym>dynamicZ</sym>" },
     { DynamicType::SFFF,    127, -18, true,
       "<sym>dynamicSforzando</sym><sym>dynamicForte</sym><sym>dynamicForte</sym><sym>dynamicForte</sym>" },
     { DynamicType::SFFFZ,   127, -18, true,
       "<sym>dynamicSforzando</sym><sym>dynamicForte</sym><sym>dynamicForte</sym><sym>dynamicForte</sym><sym>dynamicZ</sym>" },
-    { DynamicType::SFP,     112, -47, true, "<sym>dynamicSforzando</sym><sym>dynamicForte</sym><sym>dynamicPiano</sym>" },
+    { DynamicType::SFP,     112, -47, true,
+      "<sym>dynamicSforzando</sym><sym>dynamicForte</sym><sym>dynamicPiano</sym>" },
     { DynamicType::SFPP,    112, -79, true,
       "<sym>dynamicSforzando</sym><sym>dynamicForte</sym><sym>dynamicPiano</sym><sym>dynamicPiano</sym>" },
 
-    { DynamicType::RFZ,     112, -18, true, "<sym>dynamicRinforzando</sym><sym>dynamicForte</sym><sym>dynamicZ</sym>" },
-    { DynamicType::RF,      112, -18, true, "<sym>dynamicRinforzando</sym><sym>dynamicForte</sym>" },
+    { DynamicType::RFZ,     112, -18, true,
+      "<sym>dynamicRinforzando</sym><sym>dynamicForte</sym><sym>dynamicZ</sym>" },
+    { DynamicType::RF,      112, -18, true,
+      "<sym>dynamicRinforzando</sym><sym>dynamicForte</sym>" },
     { DynamicType::FZ,      112, -18, true, "<sym>dynamicForte</sym><sym>dynamicZ</sym>" },
 
     { DynamicType::M,       96, -16,  true, "<sym>dynamicMezzo</sym>" },
@@ -115,7 +121,8 @@ static const ElementStyle dynamicsStyle {
 //---------------------------------------------------------
 
 Dynamic::Dynamic(Segment* parent)
-    : TextBase(ElementType::DYNAMIC, parent, TextStyleType::DYNAMICS, ElementFlag::MOVABLE | ElementFlag::ON_STAFF)
+    : TextBase(ElementType::DYNAMIC, parent, TextStyleType::DYNAMICS,
+               ElementFlag::MOVABLE | ElementFlag::ON_STAFF)
 {
     m_velocity    = -1;
     m_dynamicType = DynamicType::OTHER;
@@ -150,7 +157,8 @@ int Dynamic::velocity() const
 
 int Dynamic::changeInVelocity() const
 {
-    return m_changeInVelocity >= 128 ? DYN_LIST[int(dynamicType())].changeInVelocity : m_changeInVelocity;
+    return m_changeInVelocity
+           >= 128 ? DYN_LIST[int(dynamicType())].changeInVelocity : m_changeInVelocity;
 }
 
 //---------------------------------------------------------
@@ -177,7 +185,8 @@ Fraction Dynamic::velocityChangeLength() const
         return Fraction::fromTicks(0);
     }
 
-    double ratio = score()->tempomap()->multipliedTempo(segment()->tick().ticks()).val / Constants::DEFAULT_TEMPO.val;
+    double ratio = score()->tempomap()->multipliedTempo(segment()->tick().ticks()).val
+                   / Constants::DEFAULT_TEMPO.val;
     double speedMult;
     switch (velChangeSpeed()) {
     case DynamicSpeed::SLOW:
@@ -276,7 +285,8 @@ HairpinSegment* Dynamic::findSnapBeforeHairpinAcrossSystemBreak() const
     Segment* seg = segment();
     Measure* measure = seg ? seg->measure() : nullptr;
     System* system = measure ? measure->system() : nullptr;
-    bool isOnFirstBeatOfSystem = system && system->firstMeasure() == measure && seg->rtick().isZero();
+    bool isOnFirstBeatOfSystem = system && system->firstMeasure() == measure
+                                 && seg->rtick().isZero();
     if (!isOnFirstBeatOfSystem) {
         return nullptr;
     }
@@ -288,7 +298,8 @@ HairpinSegment* Dynamic::findSnapBeforeHairpinAcrossSystemBreak() const
     }
 
     for (SpannerSegment* spannerSeg : prevSystem->spannerSegments()) {
-        if (!spannerSeg->isHairpinSegment() || spannerSeg->track() != track() || spannerSeg->spanner()->tick2() != tick()) {
+        if (!spannerSeg->isHairpinSegment() || spannerSeg->track() != track()
+            || spannerSeg->spanner()->tick2() != tick()) {
             continue;
         }
         HairpinSegment* hairpinSeg = toHairpinSegment(spannerSeg);
@@ -303,7 +314,8 @@ HairpinSegment* Dynamic::findSnapBeforeHairpinAcrossSystemBreak() const
 bool Dynamic::acceptDrop(EditData& ed) const
 {
     ElementType droppedType = ed.dropElement->type();
-    return droppedType == ElementType::DYNAMIC || droppedType == ElementType::EXPRESSION || droppedType == ElementType::HAIRPIN;
+    return droppedType == ElementType::DYNAMIC || droppedType == ElementType::EXPRESSION
+           || droppedType == ElementType::HAIRPIN;
 }
 
 EngravingItem* Dynamic::drop(EditData& ed)
@@ -378,7 +390,8 @@ void Dynamic::dragGrip(EditData& ed)
     const bool hasRightGrip = this->hasRightGrip();
 
     // Right grip (when two grips/when single grip)
-    if ((int(ed.curGrip) == 1 && hasLeftGrip && hasRightGrip) || (int(ed.curGrip) == 0 && !hasLeftGrip && hasRightGrip)) {
+    if ((int(ed.curGrip) == 1 && hasLeftGrip && hasRightGrip)
+        || (int(ed.curGrip) == 0 && !hasLeftGrip && hasRightGrip)) {
         m_rightDragOffset += ed.evtDelta.x();
         if (m_rightDragOffset < 0) {
             m_rightDragOffset = 0;
@@ -424,7 +437,8 @@ void Dynamic::reset()
 //   getDragGroup
 //---------------------------------------------------------
 
-std::unique_ptr<ElementGroup> Dynamic::getDragGroup(std::function<bool(const EngravingItem*)> isDragged)
+std::unique_ptr<ElementGroup> Dynamic::getDragGroup(
+    std::function<bool(const EngravingItem*)> isDragged)
 {
     if (auto g = HairpinWithDynamicsDragGroup::detectFor(this, isDragged)) {
         return g;
@@ -684,7 +698,8 @@ std::vector<PointF> Dynamic::gripsPositions(const EditData&) const
 {
     const RectF bbox = ldata()->bbox();
     const PointF pagePos = this->pagePos();
-    const double horizontalPadding = absoluteFromSpatium(score()->style().styleS(Sid::hairpinMinDistance));
+    const double horizontalPadding
+        = absoluteFromSpatium(score()->style().styleS(Sid::hairpinMinDistance));
 
     // Based on rendering::score::AlignmentLayout::yOpticalCenter
     const double yOpticalCenter = [&] {

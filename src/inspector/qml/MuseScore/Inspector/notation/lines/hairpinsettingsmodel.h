@@ -32,13 +32,15 @@ class HairpinSettingsModel : public HairpinLineSettingsModel
     QML_ELEMENT;
     QML_UNCREATABLE("Not creatable from QML")
 
-    Q_PROPERTY(mu::inspector::PropertyItem * isNienteCircleVisible READ isNienteCircleVisible CONSTANT)
+    Q_PROPERTY(
+        mu::inspector::PropertyItem * isNienteCircleVisible READ isNienteCircleVisible CONSTANT)
 
     Q_PROPERTY(mu::inspector::PropertyItem * height READ height CONSTANT)
     Q_PROPERTY(mu::inspector::PropertyItem * continuousHeight READ continuousHeight CONSTANT)
 
 public:
-    explicit HairpinSettingsModel(QObject* parent, const muse::modularity::ContextPtr& iocCtx, IElementRepositoryService* repository);
+    explicit HairpinSettingsModel(QObject* parent, const muse::modularity::ContextPtr& iocCtx,
+                                  IElementRepositoryService* repository);
 
     PropertyItem* isNienteCircleVisible() const;
 

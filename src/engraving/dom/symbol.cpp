@@ -87,7 +87,8 @@ AsciiStringView Symbol::symName() const
 
 String Symbol::accessibleInfo() const
 {
-    return String(u"%1: %2").arg(EngravingItem::accessibleInfo(), SymNames::userNameForSymId(m_sym).translated());
+    return String(u"%1: %2").arg(EngravingItem::accessibleInfo(), SymNames::userNameForSymId(
+                                     m_sym).translated());
 }
 
 //---------------------------------------------------------

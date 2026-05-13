@@ -64,7 +64,8 @@ public:
 
     virtual muse::RectF notationContentRect() const = 0;
     virtual qreal currentScaling() const = 0;
-    virtual void setScaling(qreal scaling, const muse::PointF& pos, bool overrideZoomType = true) = 0;
+    virtual void setScaling(qreal scaling, const muse::PointF& pos,
+                            bool overrideZoomType = true) = 0;
 
     virtual muse::PointF toLogical(const muse::PointF& p) const = 0;
     virtual muse::PointF toLogical(const QPointF& p) const = 0;
@@ -89,7 +90,8 @@ public:
     virtual QQuickItem* asItem() = 0;
 };
 
-class NotationViewInputController : public muse::actions::Actionable, public muse::Contextable, public muse::async::Asyncable
+class NotationViewInputController : public muse::actions::Actionable, public muse::Contextable,
+    public muse::async::Asyncable
 {
 public:
     muse::GlobalInject<muse::IGlobalConfiguration> globalConfiguration;
@@ -167,7 +169,8 @@ private:
     int currentZoomIndex() const;
     int currentZoomPercentage() const;
     muse::PointF findZoomFocusPoint() const;
-    void setScaling(qreal scaling, const muse::PointF& pos = muse::PointF(), bool overrideZoomType = true);
+    void setScaling(qreal scaling,
+                    const muse::PointF& pos = muse::PointF(), bool overrideZoomType = true);
     void setZoom(int zoomPercentage, const muse::PointF& pos = muse::PointF());
 
     qreal scalingFromZoomPercentage(int zoomPercentage) const;
@@ -195,7 +198,8 @@ private:
     bool mousePress_considerDragOutgoingElement(const ClickContext& ctx);
     void mousePress_considerSelect(const ClickContext& ctx);
     void mousePress_seekSelection(const ClickContext& ctx);
-    void cycleOverlappingHitElements(const std::vector<EngravingItem*>& hitElements, staff_idx_t hitStaffIndex);
+    void cycleOverlappingHitElements(const std::vector<EngravingItem*>& hitElements,
+                                     staff_idx_t hitStaffIndex);
     bool mousePress_considerDragOutgoingRange(const ClickContext& ctx);
     bool mousePress_considerStartPasteRangeOnRelease(const ClickContext& ctx);
     void handleLeftClick(const ClickContext& ctx);

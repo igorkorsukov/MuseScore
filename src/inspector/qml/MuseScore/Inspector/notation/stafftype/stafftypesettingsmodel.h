@@ -45,16 +45,22 @@ class StaffTypeSettingsModel : public AbstractInspectorModel
     Q_PROPERTY(mu::inspector::PropertyItem * noteheadSchemeType READ noteheadSchemeType CONSTANT)
     Q_PROPERTY(mu::inspector::PropertyItem * isStemless READ isStemless CONSTANT)
     Q_PROPERTY(mu::inspector::PropertyItem * shouldShowBarlines READ shouldShowBarlines CONSTANT)
-    Q_PROPERTY(mu::inspector::PropertyItem * shouldShowLedgerLines READ shouldShowLedgerLines CONSTANT)
+    Q_PROPERTY(
+        mu::inspector::PropertyItem * shouldShowLedgerLines READ shouldShowLedgerLines CONSTANT)
     Q_PROPERTY(mu::inspector::PropertyItem * shouldGenerateClefs READ shouldGenerateClefs CONSTANT)
-    Q_PROPERTY(mu::inspector::PropertyItem * shouldGenerateTimeSignatures READ shouldGenerateTimeSignatures CONSTANT)
-    Q_PROPERTY(mu::inspector::PropertyItem * shouldGenerateKeySignatures READ shouldGenerateKeySignatures CONSTANT)
+    Q_PROPERTY(
+        mu::inspector::PropertyItem
+        * shouldGenerateTimeSignatures READ shouldGenerateTimeSignatures CONSTANT)
+    Q_PROPERTY(
+        mu::inspector::PropertyItem
+        * shouldGenerateKeySignatures READ shouldGenerateKeySignatures CONSTANT)
 
     Q_PROPERTY(mu::inspector::PropertyItem * staffLongName READ staffLongName CONSTANT)
     Q_PROPERTY(mu::inspector::PropertyItem * staffShortName READ staffShortName CONSTANT)
 
 public:
-    explicit StaffTypeSettingsModel(QObject* parent, const muse::modularity::ContextPtr& iocCtx, IElementRepositoryService* repository);
+    explicit StaffTypeSettingsModel(QObject* parent, const muse::modularity::ContextPtr& iocCtx,
+                                    IElementRepositoryService* repository);
 
     void createProperties() override;
     void requestElements() override;

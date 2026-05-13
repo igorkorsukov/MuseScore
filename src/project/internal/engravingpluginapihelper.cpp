@@ -46,7 +46,8 @@ bool EngravingPluginAPIHelper::writeScore(const QString& name, const QString& ex
     }
 
     const QString outPath = name.endsWith(ext) ? name : (name + '.' + ext);
-    return exportProjectScenario()->exportScores({ notation }, outPath, *unitType, /* openDestinationFolderOnExport */ false);
+    return exportProjectScenario()->exportScores({ notation }, outPath, *unitType,
+                                                 /* openDestinationFolderOnExport */ false);
 }
 
 Score* EngravingPluginAPIHelper::readScore(const QString& name)
@@ -66,7 +67,8 @@ void EngravingPluginAPIHelper::closeScore()
     projectFilesController()->closeOpenedProject();
 }
 
-std::optional<INotationWriter::UnitType> EngravingPluginAPIHelper::determineWriterUnitType(const std::string& ext) const
+std::optional<INotationWriter::UnitType> EngravingPluginAPIHelper::determineWriterUnitType(
+    const std::string& ext) const
 {
     const INotationWriterPtr writer = writers()->writer(ext);
     if (!writer) {

@@ -30,7 +30,8 @@
 using namespace mu::inspector;
 using namespace mu::engraving;
 
-VerticalFrameSettingsModel::VerticalFrameSettingsModel(QObject* parent, const muse::modularity::ContextPtr& iocCtx,
+VerticalFrameSettingsModel::VerticalFrameSettingsModel(QObject* parent,
+                                                       const muse::modularity::ContextPtr& iocCtx,
                                                        IElementRepositoryService* repository)
     : AbstractInspectorModel(parent, iocCtx, repository)
 {
@@ -43,7 +44,9 @@ VerticalFrameSettingsModel::VerticalFrameSettingsModel(QObject* parent, const mu
 void VerticalFrameSettingsModel::createProperties()
 {
     m_frameHeight = buildPropertyItem(Pid::BOX_HEIGHT,
-                                      [this](const Pid pid, const QVariant& newValue) { onFrameHeightSet(pid, newValue); },
+                                      [this](const Pid pid, const QVariant& newValue) {
+        onFrameHeightSet(pid, newValue);
+    },
                                       nullptr,
                                       [this](const Pid pid) { onFrameHeightReset(pid); });
     m_gapAbove = buildPropertyItem(Pid::TOP_GAP);
@@ -150,7 +153,8 @@ void VerticalFrameSettingsModel::resetProperties()
     m_paddingToNotationBelow->resetToDefault();
 }
 
-void VerticalFrameSettingsModel::onNotationChanged(const PropertyIdSet& changedPropertyIdSet, const StyleIdSet&)
+void VerticalFrameSettingsModel::onNotationChanged(const PropertyIdSet& changedPropertyIdSet,
+                                                   const StyleIdSet&)
 {
     loadProperties(changedPropertyIdSet);
 }

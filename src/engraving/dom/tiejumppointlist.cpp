@@ -71,7 +71,8 @@ TranslatableString TieJumpPoint::menuTitle() const
     const int measureNo = measure ? measure->measureNumber() + 1 : 0;
 
     //: %1 represents the preceding jump item eg. coda. %2 represents the measure number
-    return TranslatableString("engraving", "Tie to %1 (m. %2)").arg(precedingJumpItemName(), String::number(measureNo));
+    return TranslatableString("engraving", "Tie to %1 (m. %2)").arg(
+        precedingJumpItemName(), String::number(measureNo));
 }
 
 String TieJumpPoint::precedingJumpItemName() const
@@ -96,7 +97,8 @@ String TieJumpPoint::precedingJumpItemName() const
             continue;
         }
 
-        if (marker->markerType() == MarkerType::CODA || marker->markerType() == MarkerType::VARCODA) {
+        if (marker->markerType() == MarkerType::CODA
+            || marker->markerType() == MarkerType::VARCODA) {
             //: Used at %1 in the string "Tie to %1 (m. %2)"
             return muse::mtrc("engraving", "coda", "partial tie menu");
         } else {
@@ -106,7 +108,8 @@ String TieJumpPoint::precedingJumpItemName() const
     }
 
     // Voltas
-    auto spanners = m_note->score()->spannerMap().findOverlapping(measure->tick().ticks(), measure->tick().ticks());
+    auto spanners = m_note->score()->spannerMap().findOverlapping(
+        measure->tick().ticks(), measure->tick().ticks());
     for (auto& spanner : spanners) {
         if (!spanner.value->isVolta() || Fraction::fromTicks(spanner.start) != startChord->tick()) {
             continue;
@@ -124,7 +127,8 @@ String TieJumpPoint::precedingJumpItemName() const
         return muse::mtrc("engraving", "start repeat", "partial tie menu");
     }
 
-    for (Segment* prevSeg = seg->prev(SegmentType::BarLineType); prevSeg && prevSeg->tick() == seg->tick();
+    for (Segment* prevSeg = seg->prev(SegmentType::BarLineType);
+         prevSeg && prevSeg->tick() == seg->tick();
          prevSeg = prevSeg->prev(SegmentType::BarLineType)) {
         EngravingItem* el = prevSeg->element(startChord->track());
         if (!el || !el->isBarLine()) {

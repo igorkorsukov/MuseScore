@@ -41,16 +41,25 @@ static const Settings::Key PLAY_NOTES_ON_MIDI_INPUT(moduleName, "score/note/play
 static const Settings::Key PLAY_CHORD_WHEN_EDITING(moduleName, "score/chord/playOnAddNote");
 static const Settings::Key PLAY_HARMONY_WHEN_EDITING(moduleName, "score/harmony/play/onedit");
 
-static const Settings::Key SOUND_PRESETS_MULTI_SELECTION_KEY(moduleName, "application/playback/soundPresetsMultiSelectionEnabled");
+static const Settings::Key SOUND_PRESETS_MULTI_SELECTION_KEY(moduleName,
+                                                             "application/playback/soundPresetsMultiSelectionEnabled");
 
-static const Settings::Key MIXER_LABELS_SECTION_VISIBLE_KEY(moduleName, "playback/mixer/labelsSectionVisible");
-static const Settings::Key MIXER_SOUND_SECTION_VISIBLE_KEY(moduleName, "playback/mixer/soundSectionVisible");
-static const Settings::Key MIXER_AUDIO_FX_SECTION_VISIBLE_KEY(moduleName, "playback/mixer/audioFxSectionVisible");
-static const Settings::Key MIXER_BALANCE_SECTION_VISIBLE_KEY(moduleName, "playback/mixer/balanceSectionVisible");
-static const Settings::Key MIXER_VOLUME_SECTION_VISIBLE_KEY(moduleName, "playback/mixer/volumeSectionVisible");
-static const Settings::Key MIXER_FADER_SECTION_VISIBLE_KEY(moduleName, "playback/mixer/faderSectionVisible");
-static const Settings::Key MIXER_MUTE_AND_SOLO_SECTION_VISIBLE_KEY(moduleName, "playback/mixer/muteAndSoloSectionVisible");
-static const Settings::Key MIXER_TITLE_SECTION_VISIBLE_KEY(moduleName, "playback/mixer/titleSectionVisible");
+static const Settings::Key MIXER_LABELS_SECTION_VISIBLE_KEY(moduleName,
+                                                            "playback/mixer/labelsSectionVisible");
+static const Settings::Key MIXER_SOUND_SECTION_VISIBLE_KEY(moduleName,
+                                                           "playback/mixer/soundSectionVisible");
+static const Settings::Key MIXER_AUDIO_FX_SECTION_VISIBLE_KEY(moduleName,
+                                                              "playback/mixer/audioFxSectionVisible");
+static const Settings::Key MIXER_BALANCE_SECTION_VISIBLE_KEY(moduleName,
+                                                             "playback/mixer/balanceSectionVisible");
+static const Settings::Key MIXER_VOLUME_SECTION_VISIBLE_KEY(moduleName,
+                                                            "playback/mixer/volumeSectionVisible");
+static const Settings::Key MIXER_FADER_SECTION_VISIBLE_KEY(moduleName,
+                                                           "playback/mixer/faderSectionVisible");
+static const Settings::Key MIXER_MUTE_AND_SOLO_SECTION_VISIBLE_KEY(moduleName,
+                                                                   "playback/mixer/muteAndSoloSectionVisible");
+static const Settings::Key MIXER_TITLE_SECTION_VISIBLE_KEY(moduleName,
+                                                           "playback/mixer/titleSectionVisible");
 
 static const Settings::Key MIXER_RESET_SOUND_FLAGS_WHEN_CHANGE_SOUND_WARNING(moduleName,
                                                                              "playback/mixer/needToShowAboutResetSoundFlagsWhwnChangeSoundWarning");
@@ -58,11 +67,14 @@ static const Settings::Key MIXER_RESET_SOUND_FLAGS_WHEN_CHANGE_PLAYBACK_PROFILE_
                                                                                         "playback/mixer/needToShowAboutResetSoundFlagsWhwnChangePlaybackProfileWarning");
 
 static const Settings::Key ONLINE_SOUNDS_SHOW_ERROR(moduleName, "playback/onlineSounds/showError");
-static const Settings::Key ONLINE_SOUNDS_SHOW_PROGRESS_BAR_MODE(moduleName, "playback/onlineSounds/showProgressBarMode");
+static const Settings::Key ONLINE_SOUNDS_SHOW_PROGRESS_BAR_MODE(moduleName,
+                                                                "playback/onlineSounds/showProgressBarMode");
 
-static const Settings::Key MUTE_HIDDEN_INSTRUMENTS(moduleName, "playback/mixer/muteHiddenInstruments");
+static const Settings::Key MUTE_HIDDEN_INSTRUMENTS(moduleName,
+                                                   "playback/mixer/muteHiddenInstruments");
 
-static const Settings::Key DEFAULT_SOUND_PROFILE_FOR_NEW_PROJECTS(moduleName, "playback/profiles/defaultProfileName");
+static const Settings::Key DEFAULT_SOUND_PROFILE_FOR_NEW_PROJECTS(moduleName,
+                                                                  "playback/profiles/defaultProfileName");
 static const SoundProfileName BASIC_PROFILE_NAME(u"MuseScore Basic");
 static const SoundProfileName MUSESOUNDS_PROFILE_NAME(u"MuseSounds");
 static const SoundProfileName COMPAT_MUSESOUNDS_PROFILE_NAME(u"Muse Sounds");
@@ -91,7 +103,8 @@ static Settings::Key auxSendVisibleKey(aux_channel_idx_t index)
 
 static Settings::Key auxChannelVisibleKey(aux_channel_idx_t index)
 {
-    return Settings::Key(moduleName, "playback/mixer/auxChannel" + std::to_string(index) + "Visible");
+    return Settings::Key(moduleName,
+                         "playback/mixer/auxChannel" + std::to_string(index) + "Visible");
 }
 
 void PlaybackConfiguration::init()
@@ -115,12 +128,18 @@ void PlaybackConfiguration::init()
     settings()->setDefaultValue(PLAYBACK_CURSOR_TYPE_KEY, Val(PlaybackCursorType::STEPPED));
     settings()->setDefaultValue(SOUND_PRESETS_MULTI_SELECTION_KEY, Val(false));
     settings()->setDefaultValue(MIXER_RESET_SOUND_FLAGS_WHEN_CHANGE_SOUND_WARNING, Val(true));
-    settings()->setDefaultValue(MIXER_RESET_SOUND_FLAGS_WHEN_CHANGE_PLAYBACK_PROFILE_WARNING, Val(true));
+    settings()->setDefaultValue(MIXER_RESET_SOUND_FLAGS_WHEN_CHANGE_PLAYBACK_PROFILE_WARNING,
+                                Val(true));
 
     for (MixerSectionType sectionType : allMixerSectionTypes()) {
         bool sectionEnabledByDefault = sectionType != MixerSectionType::Volume;
-        settings()->setDefaultValue(mixerSectionVisibleKey(sectionType), Val(sectionEnabledByDefault));
-        settings()->valueChanged(mixerSectionVisibleKey(sectionType)).onReceive(this, [this, sectionType](const Val& val) {
+        settings()->setDefaultValue(mixerSectionVisibleKey(sectionType), Val(
+                                        sectionEnabledByDefault));
+        settings()->valueChanged(mixerSectionVisibleKey(sectionType)).onReceive(this,
+                                                                                [this,
+                                                                                 sectionType](const
+                                                                                              Val&
+                                                                                              val) {
             m_isMixerSectionVisibleChanged.send(sectionType, val.toBool());
         });
     }
@@ -130,7 +149,8 @@ void PlaybackConfiguration::init()
         m_muteHiddenInstrumentsChanged.send(mute.toBool());
     });
 
-    settings()->setDefaultValue(DEFAULT_SOUND_PROFILE_FOR_NEW_PROJECTS, Val(fallbackSoundProfileStr().toStdString()));
+    settings()->setDefaultValue(DEFAULT_SOUND_PROFILE_FOR_NEW_PROJECTS,
+                                Val(fallbackSoundProfileStr().toStdString()));
 
     for (aux_channel_idx_t idx = 0; idx < AUX_CHANNEL_NUM; ++idx) {
         Settings::Key auxSendKey = auxSendVisibleKey(idx);
@@ -153,8 +173,10 @@ void PlaybackConfiguration::init()
         m_shouldShowOnlineSoundsProcessingErrorChanged.notify();
     });
 
-    settings()->setDefaultValue(ONLINE_SOUNDS_SHOW_PROGRESS_BAR_MODE, Val(static_cast<int>(OnlineSoundsShowProgressBarMode::Always)));
-    settings()->valueChanged(ONLINE_SOUNDS_SHOW_PROGRESS_BAR_MODE).onReceive(nullptr, [this](const Val&) {
+    settings()->setDefaultValue(ONLINE_SOUNDS_SHOW_PROGRESS_BAR_MODE,
+                                Val(static_cast<int>(OnlineSoundsShowProgressBarMode::Always)));
+    settings()->valueChanged(ONLINE_SOUNDS_SHOW_PROGRESS_BAR_MODE).onReceive(nullptr,
+                                                                             [this](const Val&) {
         m_onlineSoundsShowProgressBarModeChanged.notify();
     });
 }
@@ -234,7 +256,8 @@ void PlaybackConfiguration::setMixerSectionVisible(MixerSectionType sectionType,
     settings()->setSharedValue(mixerSectionVisibleKey(sectionType), Val(visible));
 }
 
-muse::async::Channel<MixerSectionType, bool> PlaybackConfiguration::isMixerSectionVisibleChanged() const
+muse::async::Channel<MixerSectionType,
+                     bool> PlaybackConfiguration::isMixerSectionVisibleChanged() const
 {
     return m_isMixerSectionVisibleChanged;
 }
@@ -264,12 +287,14 @@ void PlaybackConfiguration::setAuxChannelVisible(aux_channel_idx_t index, bool v
     settings()->setSharedValue(auxChannelVisibleKey(index), Val(visible));
 }
 
-muse::async::Channel<aux_channel_idx_t, bool> PlaybackConfiguration::isAuxChannelVisibleChanged() const
+muse::async::Channel<aux_channel_idx_t,
+                     bool> PlaybackConfiguration::isAuxChannelVisibleChanged() const
 {
     return m_isAuxChannelVisibleChanged;
 }
 
-gain_t PlaybackConfiguration::defaultAuxSendValue(aux_channel_idx_t index, AudioSourceType sourceType,
+gain_t PlaybackConfiguration::defaultAuxSendValue(aux_channel_idx_t index,
+                                                  AudioSourceType sourceType,
                                                   const muse::String& instrumentSoundId) const
 {
     TRACEFUNC;
@@ -320,7 +345,8 @@ const SoundProfileName& PlaybackConfiguration::compatMuseSoundsProfileName() con
 
 SoundProfileName PlaybackConfiguration::defaultProfileForNewProjects() const
 {
-    return muse::String::fromStdString(settings()->value(DEFAULT_SOUND_PROFILE_FOR_NEW_PROJECTS).toString());
+    return muse::String::fromStdString(settings()->value(
+                                           DEFAULT_SOUND_PROFILE_FOR_NEW_PROJECTS).toString());
 }
 
 void PlaybackConfiguration::setDefaultProfileForNewProjects(const SoundProfileName& name)
@@ -355,7 +381,8 @@ bool PlaybackConfiguration::needToShowResetSoundFlagsWhenChangePlaybackProfileWa
 
 void PlaybackConfiguration::setNeedToShowResetSoundFlagsWhenChangePlaybackProfileWarning(bool show)
 {
-    settings()->setSharedValue(MIXER_RESET_SOUND_FLAGS_WHEN_CHANGE_PLAYBACK_PROFILE_WARNING, Val(show));
+    settings()->setSharedValue(MIXER_RESET_SOUND_FLAGS_WHEN_CHANGE_PLAYBACK_PROFILE_WARNING,
+                               Val(show));
 }
 
 bool PlaybackConfiguration::shouldShowOnlineSoundsProcessingError() const
@@ -368,7 +395,8 @@ void PlaybackConfiguration::setShouldShowOnlineSoundsProcessingError(bool show)
     settings()->setSharedValue(ONLINE_SOUNDS_SHOW_ERROR, Val(show));
 }
 
-muse::async::Notification PlaybackConfiguration::shouldShowOnlineSoundsProcessingErrorChanged() const
+muse::async::Notification PlaybackConfiguration::shouldShowOnlineSoundsProcessingErrorChanged()
+const
 {
     return m_shouldShowOnlineSoundsProcessingErrorChanged;
 }
@@ -380,7 +408,9 @@ muse::String PlaybackConfiguration::onlineSoundsHandbookUrl() const
 
 OnlineSoundsShowProgressBarMode PlaybackConfiguration::onlineSoundsShowProgressBarMode() const
 {
-    return static_cast<OnlineSoundsShowProgressBarMode>(settings()->value(ONLINE_SOUNDS_SHOW_PROGRESS_BAR_MODE).toInt());
+    return static_cast<OnlineSoundsShowProgressBarMode>(settings()->value(
+                                                            ONLINE_SOUNDS_SHOW_PROGRESS_BAR_MODE).
+                                                        toInt());
 }
 
 void PlaybackConfiguration::setOnlineSoundsShowProgressBarMode(OnlineSoundsShowProgressBarMode mode)

@@ -156,14 +156,18 @@ class StaffType
 public:
     StaffType();
 
-    StaffType(StaffGroup sg, const String& xml, const String& name, int lines, int stpOff, double lineDist, bool genClef, bool showBarLines,
-              bool stemless, bool genTimeSig, bool genKeySig, bool showLedgerLiness, bool invisible, const Color& color);
+    StaffType(StaffGroup sg, const String& xml, const String& name, int lines, int stpOff,
+              double lineDist, bool genClef, bool showBarLines, bool stemless, bool genTimeSig,
+              bool genKeySig, bool showLedgerLiness, bool invisible, const Color& color);
 
-    StaffType(StaffGroup sg, const String& xml, const String& name, int lines, int stpOff, double lineDist, bool genClef, bool showBarLines,
-              bool stemless, bool genTimesig, bool invisible, const Color& color, const String& durFontName, double durFontSize,
-              double durFontUserY, double genDur, bool fretFontUseTextStyle, const String& fretFontName, double fretFontSize,
-              double fretFontUserY, TablatureSymbolRepeat symRepeat, bool linesThrough, TablatureMinimStyle minimStyle, bool onLines,
-              bool showRests, bool stemsDown, bool stemThrough, bool upsideDown, bool showTabFingering, bool useNumbers, bool showBackTied);
+    StaffType(StaffGroup sg, const String& xml, const String& name, int lines, int stpOff,
+              double lineDist, bool genClef, bool showBarLines, bool stemless, bool genTimesig,
+              bool invisible, const Color& color, const String& durFontName, double durFontSize,
+              double durFontUserY, double genDur, bool fretFontUseTextStyle,
+              const String& fretFontName, double fretFontSize, double fretFontUserY,
+              TablatureSymbolRepeat symRepeat, bool linesThrough, TablatureMinimStyle minimStyle,
+              bool onLines, bool showRests, bool stemsDown, bool stemThrough, bool upsideDown,
+              bool showTabFingering, bool useNumbers, bool showBackTied);
 
     virtual ~StaffType() = default;
 
@@ -243,8 +247,14 @@ public:
     double durationBoxY() const;
 
     const muse::draw::Font& durationFont() const { return m_durationFont; }
-    const TablatureDurationFont& tabDurationFont() const { return m_durationFonts[m_durationFontIdx]; }
-    const String& durationFontName() const { return m_durationFonts[m_durationFontIdx].displayName; }
+    const TablatureDurationFont& tabDurationFont() const
+    {
+        return m_durationFonts[m_durationFontIdx];
+    }
+    const String& durationFontName() const
+    {
+        return m_durationFonts[m_durationFontIdx].displayName;
+    }
     double durationFontSize() const { return m_durationFontSize; }
     double durationFontUserY() const { return m_durationFontUserY; }
     double durationFontYOffset() const;

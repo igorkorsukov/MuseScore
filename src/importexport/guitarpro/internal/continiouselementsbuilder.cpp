@@ -38,7 +38,8 @@ ContiniousElementsBuilder::ContiniousElementsBuilder(Score* score)
 {
 }
 
-static mu::engraving::ElementType muTypeFromImportType(ContiniousElementsBuilder::ImportType importType)
+static mu::engraving::ElementType muTypeFromImportType(
+    ContiniousElementsBuilder::ImportType importType)
 {
     using import_t = ContiniousElementsBuilder::ImportType;
 
@@ -108,13 +109,18 @@ static String harmonicText(ContiniousElementsBuilder::ImportType type)
     return String();
 }
 
-static mu::engraving::VibratoType vibratoTypeFromImportType(ContiniousElementsBuilder::ImportType type)
+static mu::engraving::VibratoType vibratoTypeFromImportType(
+    ContiniousElementsBuilder::ImportType type)
 {
     static const std::unordered_map<ContiniousElementsBuilder::ImportType, VibratoType> names {
-        { ContiniousElementsBuilder::ImportType::VIBRATO_LEFT_HAND_SLIGHT, VibratoType::GUITAR_VIBRATO },
-        { ContiniousElementsBuilder::ImportType::VIBRATO_LEFT_HAND_WIDE, VibratoType::GUITAR_VIBRATO_WIDE },
-        { ContiniousElementsBuilder::ImportType::VIBRATO_W_TREM_BAR_SLIGHT, VibratoType::VIBRATO_SAWTOOTH },
-        { ContiniousElementsBuilder::ImportType::VIBRATO_W_TREM_BAR_WIDE, VibratoType::VIBRATO_SAWTOOTH_WIDE }
+        { ContiniousElementsBuilder::ImportType::VIBRATO_LEFT_HAND_SLIGHT,
+          VibratoType::GUITAR_VIBRATO },
+        { ContiniousElementsBuilder::ImportType::VIBRATO_LEFT_HAND_WIDE,
+          VibratoType::GUITAR_VIBRATO_WIDE },
+        { ContiniousElementsBuilder::ImportType::VIBRATO_W_TREM_BAR_SLIGHT,
+          VibratoType::VIBRATO_SAWTOOTH },
+        { ContiniousElementsBuilder::ImportType::VIBRATO_W_TREM_BAR_WIDE,
+          VibratoType::VIBRATO_SAWTOOTH_WIDE }
     };
 
     auto it = names.find(type);
@@ -126,13 +132,19 @@ static mu::engraving::VibratoType vibratoTypeFromImportType(ContiniousElementsBu
     return VibratoType::GUITAR_VIBRATO;
 }
 
-static std::pair<bool, mu::engraving::OttavaType> ottavaType(ContiniousElementsBuilder::ImportType type)
+static std::pair<bool, mu::engraving::OttavaType> ottavaType(
+    ContiniousElementsBuilder::ImportType type)
 {
-    static const std::unordered_map<ContiniousElementsBuilder::ImportType, mu::engraving::OttavaType> types {
-        { ContiniousElementsBuilder::ImportType::OTTAVA_VA8,  mu::engraving::OttavaType::OTTAVA_8VA },
-        { ContiniousElementsBuilder::ImportType::OTTAVA_VB8,  mu::engraving::OttavaType::OTTAVA_8VB },
-        { ContiniousElementsBuilder::ImportType::OTTAVA_MA15, mu::engraving::OttavaType::OTTAVA_15MA },
-        { ContiniousElementsBuilder::ImportType::OTTAVA_MB15, mu::engraving::OttavaType::OTTAVA_15MB }
+    static const std::unordered_map<ContiniousElementsBuilder::ImportType,
+                                    mu::engraving::OttavaType> types {
+        { ContiniousElementsBuilder::ImportType::OTTAVA_VA8,
+          mu::engraving::OttavaType::OTTAVA_8VA },
+        { ContiniousElementsBuilder::ImportType::OTTAVA_VB8,
+          mu::engraving::OttavaType::OTTAVA_8VB },
+        { ContiniousElementsBuilder::ImportType::OTTAVA_MA15,
+          mu::engraving::OttavaType::OTTAVA_15MA },
+        { ContiniousElementsBuilder::ImportType::OTTAVA_MB15,
+          mu::engraving::OttavaType::OTTAVA_15MB }
     };
 
     auto it = types.find(type);
@@ -159,7 +171,8 @@ static bool shouldSplitByRests(mu::engraving::ElementType muType)
     }
 }
 
-void ContiniousElementsBuilder::buildContiniousElement(ChordRest* cr, ElementType muType, ImportType importType, bool elemExists,
+void ContiniousElementsBuilder::buildContiniousElement(ChordRest* cr, ElementType muType,
+                                                       ImportType importType, bool elemExists,
                                                        sub_type_t subType)
 {
     auto setStartCR = [](Spanner* elem, ChordRest* cr) {
@@ -184,7 +197,8 @@ void ContiniousElementsBuilder::buildContiniousElement(ChordRest* cr, ElementTyp
     auto& elem = elements[track];
     auto& lastTypeForTrack = m_lastImportTypes[muType][track][subType];
 
-    ContiniousElementState state = calculateState(cr->isRest(), elemExists, splitByRests, lastTypeForTrack != importType);
+    ContiniousElementState state = calculateState(
+        cr->isRest(), elemExists, splitByRests, lastTypeForTrack != importType);
 
     /// handling the continious element according to its state
     switch (state) {
@@ -335,8 +349,10 @@ void ContiniousElementsBuilder::addElementsToScore()
 }
 
 /// indicating the type of behaviour for continious element
-ContiniousElementsBuilder::ContiniousElementState ContiniousElementsBuilder::calculateState(bool isRest, bool elemExists, bool splitByRests,
-                                                                                            bool importTypeChanged) const
+ContiniousElementsBuilder::ContiniousElementState ContiniousElementsBuilder::calculateState(
+    bool isRest, bool elemExists, bool splitByRests,
+    bool importTypeChanged)
+const
 {
     ContiniousElementState state = ContiniousElementState::UNDEFINED;
 
@@ -386,7 +402,8 @@ void ContiniousElementsBuilder::setupAddedElement(track_idx_t trackIdx, ImportTy
     {
         if (lineElem->isHairpin()) {
             toHairpin(lineElem)->setHairpinType(
-                importType == ImportType::HAIRPIN_CRESCENDO ? HairpinType::CRESC_HAIRPIN : HairpinType::DIM_HAIRPIN);
+                importType
+                == ImportType::HAIRPIN_CRESCENDO ? HairpinType::CRESC_HAIRPIN : HairpinType::DIM_HAIRPIN);
         }
 
         break;

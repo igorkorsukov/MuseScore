@@ -24,7 +24,8 @@
 
 using namespace mu::inspector;
 
-NoteLineSettingsModel::NoteLineSettingsModel(QObject* parent, const muse::modularity::ContextPtr& iocCtx,
+NoteLineSettingsModel::NoteLineSettingsModel(QObject* parent,
+                                             const muse::modularity::ContextPtr& iocCtx,
                                              IElementRepositoryService* repository)
     : TextLineSettingsModel(parent, iocCtx, repository, mu::engraving::ElementType::NOTELINE)
 {

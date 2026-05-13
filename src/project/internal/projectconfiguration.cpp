@@ -42,29 +42,47 @@ static const std::string module_name("project");
 
 static const Settings::Key COMPAT_RECENT_FILES_DATA(module_name, "project/recentList");
 static const Settings::Key USER_TEMPLATES_PATH(module_name, "application/paths/myTemplates");
-static const Settings::Key LAST_OPENED_PROJECTS_PATH(module_name, "application/paths/lastOpenedProjectsPath");
-static const Settings::Key LAST_SAVED_PROJECTS_PATH(module_name, "application/paths/lastSavedProjectsPath");
+static const Settings::Key LAST_OPENED_PROJECTS_PATH(module_name,
+                                                     "application/paths/lastOpenedProjectsPath");
+static const Settings::Key LAST_SAVED_PROJECTS_PATH(module_name,
+                                                    "application/paths/lastSavedProjectsPath");
 static const Settings::Key USER_PROJECTS_PATH(module_name, "application/paths/myScores");
-static const Settings::Key SHOULD_ASK_SAVE_LOCATION_TYPE(module_name, "project/shouldAskSaveLocationType");
-static const Settings::Key LAST_USED_SAVE_LOCATION_TYPE(module_name, "project/lastUsedSaveLocationType");
-static const Settings::Key SHOULD_WARN_BEFORE_PUBLISH(module_name, "project/shouldWarnBeforePublish");
-static const Settings::Key SHOULD_WARN_BEFORE_SAVING_PUBLICLY_TO_CLOUD(module_name, "project/shouldWarnBeforeSavingPubliclyToCloud");
-static const Settings::Key HOME_SCORES_PAGE_VIEW_TYPE(module_name, "project/homeScoresPageViewType");
-static const Settings::Key PREFERRED_SCORE_CREATION_MODE_KEY(module_name, "project/preferredScoreCreationMode");
+static const Settings::Key SHOULD_ASK_SAVE_LOCATION_TYPE(module_name,
+                                                         "project/shouldAskSaveLocationType");
+static const Settings::Key LAST_USED_SAVE_LOCATION_TYPE(module_name,
+                                                        "project/lastUsedSaveLocationType");
+static const Settings::Key SHOULD_WARN_BEFORE_PUBLISH(module_name,
+                                                      "project/shouldWarnBeforePublish");
+static const Settings::Key SHOULD_WARN_BEFORE_SAVING_PUBLICLY_TO_CLOUD(module_name,
+                                                                       "project/shouldWarnBeforeSavingPubliclyToCloud");
+static const Settings::Key HOME_SCORES_PAGE_VIEW_TYPE(module_name,
+                                                      "project/homeScoresPageViewType");
+static const Settings::Key PREFERRED_SCORE_CREATION_MODE_KEY(module_name,
+                                                             "project/preferredScoreCreationMode");
 static const Settings::Key MIGRATION_OPTIONS(module_name, "project/migration");
 static const Settings::Key AUTOSAVE_ENABLED_KEY(module_name, "project/autoSaveEnabled");
 static const Settings::Key AUTOSAVE_INTERVAL_KEY(module_name, "project/autoSaveInterval");
-static const Settings::Key ALSO_SHARE_AUDIO_COM_AFTER_PUBLISH(module_name, "project/alsoShareAudioCom");
-static const Settings::Key SHOW_ALSO_SHARE_AUDIO_COM_DIALOG(module_name, "project/showAlsoShareAudioComDialog");
-static const Settings::Key HAS_ASKED_ALSO_SHARE_AUDIO_COM(module_name, "project/hasAskedAlsoShareAudioCom");
-static const Settings::Key SHOULD_DESTINATION_FOLDER_BE_OPENED_ON_EXPORT(module_name, "project/shouldDestinationFolderBeOpenedOnExport");
-static const Settings::Key OPEN_DETAILED_PROJECT_UPLOADED_DIALOG(module_name, "project/openDetailedProjectUploadedDialog");
-static const Settings::Key HAS_ASKED_AUDIO_GENERATION_SETTINGS(module_name, "project/hasAskedAudioGenerationSettings");
-static const Settings::Key GENERATE_AUDIO_TIME_PERIOD_TYPE_KEY(module_name, "project/generateAudioTimePeriodType");
-static const Settings::Key NUMBER_OF_SAVES_TO_GENERATE_AUDIO_KEY(module_name, "project/numberOfSavesToGenerateAudio");
-static const Settings::Key SHOW_CLOUD_IS_NOT_AVAILABLE_WARNING(module_name, "project/showCloudIsNotAvailableWarning");
+static const Settings::Key ALSO_SHARE_AUDIO_COM_AFTER_PUBLISH(module_name,
+                                                              "project/alsoShareAudioCom");
+static const Settings::Key SHOW_ALSO_SHARE_AUDIO_COM_DIALOG(module_name,
+                                                            "project/showAlsoShareAudioComDialog");
+static const Settings::Key HAS_ASKED_ALSO_SHARE_AUDIO_COM(module_name,
+                                                          "project/hasAskedAlsoShareAudioCom");
+static const Settings::Key SHOULD_DESTINATION_FOLDER_BE_OPENED_ON_EXPORT(module_name,
+                                                                         "project/shouldDestinationFolderBeOpenedOnExport");
+static const Settings::Key OPEN_DETAILED_PROJECT_UPLOADED_DIALOG(module_name,
+                                                                 "project/openDetailedProjectUploadedDialog");
+static const Settings::Key HAS_ASKED_AUDIO_GENERATION_SETTINGS(module_name,
+                                                               "project/hasAskedAudioGenerationSettings");
+static const Settings::Key GENERATE_AUDIO_TIME_PERIOD_TYPE_KEY(module_name,
+                                                               "project/generateAudioTimePeriodType");
+static const Settings::Key NUMBER_OF_SAVES_TO_GENERATE_AUDIO_KEY(module_name,
+                                                                 "project/numberOfSavesToGenerateAudio");
+static const Settings::Key SHOW_CLOUD_IS_NOT_AVAILABLE_WARNING(module_name,
+                                                               "project/showCloudIsNotAvailableWarning");
 static const Settings::Key DISABLE_VERSION_CHECKING(module_name, "project/disableVersionChecking");
-static const Settings::Key CREATE_BACKUP_BEFORE_SAVING(module_name, "project/createBackupBeforeSaving");
+static const Settings::Key CREATE_BACKUP_BEFORE_SAVING(module_name,
+                                                       "project/createBackupBeforeSaving");
 
 static const std::string DEFAULT_FILE_SUFFIX(".mscz");
 static const std::string DEFAULT_FILE_FILTER("*.mscz");
@@ -76,12 +94,14 @@ ProjectConfiguration::ProjectConfiguration(const muse::modularity::ContextPtr& i
 
 void ProjectConfiguration::init()
 {
-    settings()->setDefaultValue(USER_TEMPLATES_PATH, Val(globalConfiguration()->userDataPath() + "/Templates"));
+    settings()->setDefaultValue(USER_TEMPLATES_PATH,
+                                Val(globalConfiguration()->userDataPath() + "/Templates"));
     settings()->valueChanged(USER_TEMPLATES_PATH).onReceive(nullptr, [this](const Val& val) {
         m_userTemplatesPathChanged.send(val.toPath());
     });
 
-    settings()->setDefaultValue(USER_PROJECTS_PATH, Val(globalConfiguration()->userDataPath() + "/Scores"));
+    settings()->setDefaultValue(USER_PROJECTS_PATH,
+                                Val(globalConfiguration()->userDataPath() + "/Scores"));
 
     settings()->valueChanged(USER_PROJECTS_PATH).onReceive(nullptr, [this](const Val& val) {
         m_userScoresPathChanged.send(val.toPath());
@@ -109,7 +129,8 @@ void ProjectConfiguration::init()
     });
 
     settings()->setDefaultValue(ALSO_SHARE_AUDIO_COM_AFTER_PUBLISH, Val(true));
-    settings()->valueChanged(ALSO_SHARE_AUDIO_COM_AFTER_PUBLISH).onReceive(nullptr, [this](const Val& val) {
+    settings()->valueChanged(ALSO_SHARE_AUDIO_COM_AFTER_PUBLISH).onReceive(nullptr,
+                                                                           [this](const Val& val) {
         m_alsoShareAudioComChanged.send(val.toBool());
     });
 
@@ -119,13 +140,17 @@ void ProjectConfiguration::init()
     settings()->setDefaultValue(SHOULD_DESTINATION_FOLDER_BE_OPENED_ON_EXPORT, Val(false));
     settings()->setDefaultValue(OPEN_DETAILED_PROJECT_UPLOADED_DIALOG, Val(true));
     settings()->setDefaultValue(HAS_ASKED_AUDIO_GENERATION_SETTINGS, Val(false));
-    settings()->setDefaultValue(GENERATE_AUDIO_TIME_PERIOD_TYPE_KEY, Val(static_cast<int>(GenerateAudioTimePeriodType::Never)));
-    settings()->valueChanged(GENERATE_AUDIO_TIME_PERIOD_TYPE_KEY).onReceive(nullptr, [this](const Val& val) {
+    settings()->setDefaultValue(GENERATE_AUDIO_TIME_PERIOD_TYPE_KEY,
+                                Val(static_cast<int>(GenerateAudioTimePeriodType::Never)));
+    settings()->valueChanged(GENERATE_AUDIO_TIME_PERIOD_TYPE_KEY).onReceive(nullptr,
+                                                                            [this](const Val& val) {
         m_generateAudioTimePeriodTypeChanged.send(val.toInt());
     });
     settings()->setDefaultValue(NUMBER_OF_SAVES_TO_GENERATE_AUDIO_KEY, Val(10));
-    settings()->valueChanged(NUMBER_OF_SAVES_TO_GENERATE_AUDIO_KEY).onReceive(nullptr, [this](const Val& val) {
-        m_numberOfSavesToGenerateAudioChanged.send(val.toInt());
+    settings()->valueChanged(NUMBER_OF_SAVES_TO_GENERATE_AUDIO_KEY).onReceive(nullptr,
+                                                                              [this](const Val& val) {
+        m_numberOfSavesToGenerateAudioChanged.send(
+            val.toInt());
     });
     settings()->setDefaultValue(SHOW_CLOUD_IS_NOT_AVAILABLE_WARNING, Val(true));
 
@@ -184,7 +209,8 @@ io::paths_t ProjectConfiguration::availableTemplateDirs() const
     return dirs;
 }
 
-muse::io::path_t ProjectConfiguration::templateCategoriesJsonPath(const muse::io::path_t& templatesDir) const
+muse::io::path_t ProjectConfiguration::templateCategoriesJsonPath(
+    const muse::io::path_t& templatesDir) const
 {
     return templatesDir + "/categories.json";
 }
@@ -277,7 +303,8 @@ bool ProjectConfiguration::isLegacyCloudProject(const muse::io::path_t& projectP
 
 muse::io::path_t ProjectConfiguration::cloudProjectPath(int scoreId) const
 {
-    return cloudProjectsPath().appendingComponent(QString::number(scoreId)).appendingSuffix(DEFAULT_FILE_SUFFIX);
+    return cloudProjectsPath().appendingComponent(QString::number(scoreId)).appendingSuffix(
+        DEFAULT_FILE_SUFFIX);
 }
 
 int ProjectConfiguration::cloudScoreIdFromPath(const muse::io::path_t& projectPath) const
@@ -303,7 +330,8 @@ muse::io::path_t ProjectConfiguration::cloudProjectSavingPath(int scoreId) const
     return path;
 }
 
-muse::io::path_t ProjectConfiguration::defaultSavingFilePath(INotationProjectPtr project, const std::string& filenameAddition,
+muse::io::path_t ProjectConfiguration::defaultSavingFilePath(INotationProjectPtr project,
+                                                             const std::string& filenameAddition,
                                                              const std::string& suffix) const
 {
     muse::io::path_t folderPath;
@@ -358,7 +386,8 @@ muse::io::path_t ProjectConfiguration::defaultSavingFilePath(INotationProjectPtr
     }
 
     if (project->isNewlyCreated() && filename.toQString() == NotationProject::scoreDefaultTitle()) {
-        theFilenameAddition += uniqueFileNameAddition(filename + theFilenameAddition, folderPath, theSuffix);
+        theFilenameAddition += uniqueFileNameAddition(filename + theFilenameAddition, folderPath,
+                                                      theSuffix);
     }
 
     return folderPath
@@ -366,7 +395,8 @@ muse::io::path_t ProjectConfiguration::defaultSavingFilePath(INotationProjectPtr
            .appendingSuffix(theSuffix);
 }
 
-std::string ProjectConfiguration::uniqueFileNameAddition(const io::path_t& filename, const io::path_t& folderPath,
+std::string ProjectConfiguration::uniqueFileNameAddition(const io::path_t& filename,
+                                                         const io::path_t& folderPath,
                                                          const std::string& suffix) const
 {
     // Return a filename addition which would make filename unique if it wasn't already
@@ -444,7 +474,8 @@ muse::async::Notification ProjectConfiguration::templatePreviewBackgroundChanged
     return notationConfiguration()->backgroundChanged();
 }
 
-ProjectConfiguration::PreferredScoreCreationMode ProjectConfiguration::preferredScoreCreationMode() const
+ProjectConfiguration::PreferredScoreCreationMode ProjectConfiguration::preferredScoreCreationMode()
+const
 {
     return settings()->value(PREFERRED_SCORE_CREATION_MODE_KEY).toEnum<PreferredScoreCreationMode>();
 }
@@ -519,7 +550,8 @@ static QString migrationTypeToString(MigrationType type)
     return QString();
 }
 
-void ProjectConfiguration::setMigrationOptions(MigrationType type, const MigrationOptions& opt, bool persistent)
+void ProjectConfiguration::setMigrationOptions(MigrationType type, const MigrationOptions& opt,
+                                               bool persistent)
 {
     m_migrationOptions[type] = opt;
 
@@ -626,9 +658,11 @@ bool ProjectConfiguration::shouldDestinationFolderBeOpenedOnExport() const
     return settings()->value(SHOULD_DESTINATION_FOLDER_BE_OPENED_ON_EXPORT).toBool();
 }
 
-void ProjectConfiguration::setShouldDestinationFolderBeOpenedOnExport(bool shouldDestinationFolderBeOpenedOnExport)
+void ProjectConfiguration::setShouldDestinationFolderBeOpenedOnExport(
+    bool shouldDestinationFolderBeOpenedOnExport)
 {
-    settings()->setSharedValue(SHOULD_DESTINATION_FOLDER_BE_OPENED_ON_EXPORT, Val(shouldDestinationFolderBeOpenedOnExport));
+    settings()->setSharedValue(SHOULD_DESTINATION_FOLDER_BE_OPENED_ON_EXPORT,
+                               Val(shouldDestinationFolderBeOpenedOnExport));
 }
 
 QUrl ProjectConfiguration::supportForumUrl() const
@@ -665,7 +699,8 @@ void ProjectConfiguration::setHasAskedAudioGenerationSettings(bool has)
 
 GenerateAudioTimePeriodType ProjectConfiguration::generateAudioTimePeriodType() const
 {
-    return static_cast<GenerateAudioTimePeriodType>(settings()->value(GENERATE_AUDIO_TIME_PERIOD_TYPE_KEY).toInt());
+    return static_cast<GenerateAudioTimePeriodType>(settings()->value(
+                                                        GENERATE_AUDIO_TIME_PERIOD_TYPE_KEY).toInt());
 }
 
 void ProjectConfiguration::setGenerateAudioTimePeriodType(GenerateAudioTimePeriodType type)

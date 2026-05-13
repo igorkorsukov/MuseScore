@@ -214,14 +214,23 @@ public:
     apiv1::Enum* tidEnum() const { return api()->get_tidEnum(); }
     apiv1::Enum* lyricsSyllabicEnum() const { return api()->get_lyricsSyllabicEnum(); }
     apiv1::Enum* spannerAnchorEnum() const { return api()->get_spannerAnchorEnum(); }
-    apiv1::Enum* mMRestRangeBracketTypeEnum() const { return api()->get_mMRestRangeBracketTypeEnum(); }
+    apiv1::Enum* mMRestRangeBracketTypeEnum() const
+    {
+        return api()->get_mMRestRangeBracketTypeEnum();
+    }
     apiv1::Enum* tupletNumberTypeEnum() const { return api()->get_tupletNumberTypeEnum(); }
     apiv1::Enum* tupletBracketTypeEnum() const { return api()->get_tupletBracketTypeEnum(); }
     apiv1::Enum* tripletFeelTypeEnum() const { return api()->get_tripletFeelTypeEnum(); }
     apiv1::Enum* guitarBendTypeEnum() const { return api()->get_guitarBendTypeEnum(); }
-    apiv1::Enum* guitarBendShowHoldLineEnum() const { return api()->get_guitarBendShowHoldLineEnum(); }
+    apiv1::Enum* guitarBendShowHoldLineEnum() const
+    {
+        return api()->get_guitarBendShowHoldLineEnum();
+    }
     apiv1::Enum* clefTypeEnum() const { return api()->get_clefTypeEnum(); }
-    apiv1::Enum* clefToBarlinePositionEnum() const { return api()->get_clefToBarlinePositionEnum(); }
+    apiv1::Enum* clefToBarlinePositionEnum() const
+    {
+        return api()->get_clefToBarlinePositionEnum();
+    }
     apiv1::Enum* dynamicTypeEnum() const { return api()->get_dynamicTypeEnum(); }
     apiv1::Enum* dynamicSpeedEnum() const { return api()->get_dynamicSpeedEnum(); }
     apiv1::Enum* lineTypeEnum() const { return api()->get_lineTypeEnum(); }
@@ -230,12 +239,24 @@ public:
     apiv1::Enum* arpeggioTypeEnum() const { return api()->get_arpeggioTypeEnum(); }
     apiv1::Enum* intervalStepEnum() const { return api()->get_intervalStepEnum(); }
     apiv1::Enum* intervalTypeEnum() const { return api()->get_intervalTypeEnum(); }
-    apiv1::Enum* instrumentLabelVisibilityEnum() const { return api()->get_instrumentLabelVisibilityEnum(); }
-    apiv1::Enum* ornamentShowAccidentalEnum() const { return api()->get_ornamentShowAccidentalEnum(); }
-    apiv1::Enum* partialSpannerDirectionEnum() const { return api()->get_partialSpannerDirectionEnum(); }
+    apiv1::Enum* instrumentLabelVisibilityEnum() const
+    {
+        return api()->get_instrumentLabelVisibilityEnum();
+    }
+    apiv1::Enum* ornamentShowAccidentalEnum() const
+    {
+        return api()->get_ornamentShowAccidentalEnum();
+    }
+    apiv1::Enum* partialSpannerDirectionEnum() const
+    {
+        return api()->get_partialSpannerDirectionEnum();
+    }
     apiv1::Enum* chordStylePresetEnum() const { return api()->get_chordStylePresetEnum(); }
     apiv1::Enum* playingTechniqueTypeEnum() const { return api()->get_playingTechniqueTypeEnum(); }
-    apiv1::Enum* gradualTempoChangeTypeEnum() const { return api()->get_gradualTempoChangeTypeEnum(); }
+    apiv1::Enum* gradualTempoChangeTypeEnum() const
+    {
+        return api()->get_gradualTempoChangeTypeEnum();
+    }
     apiv1::Enum* changeMethodEnum() const { return api()->get_changeMethodEnum(); }
     apiv1::Enum* changeDirectionEnum() const { return api()->get_changeDirectionEnum(); }
     apiv1::Enum* accidentalRoleEnum() const { return api()->get_accidentalRoleEnum(); }
@@ -255,7 +276,10 @@ public:
     apiv1::Enum* trillTypeEnum() const { return api()->get_trillTypeEnum(); }
     apiv1::Enum* vibratoTypeEnum() const { return api()->get_vibratoTypeEnum(); }
     apiv1::Enum* articulationTextTypeEnum() const { return api()->get_articulationTextTypeEnum(); }
-    apiv1::Enum* lyricsDashSystemStartEnum() const { return api()->get_lyricsDashSystemStartEnum(); }
+    apiv1::Enum* lyricsDashSystemStartEnum() const
+    {
+        return api()->get_lyricsDashSystemStartEnum();
+    }
     apiv1::Enum* noteLineEndPlacementEnum() const { return api()->get_noteLineEndPlacementEnum(); }
     apiv1::Enum* spannerSegmentTypeEnum() const { return api()->get_spannerSegmentTypeEnum(); }
     apiv1::Enum* tiePlacementEnum() const { return api()->get_tiePlacementEnum(); }
@@ -274,8 +298,14 @@ public:
     apiv1::Enum* rHTappingSymbolEnum() const { return api()->get_rHTappingSymbolEnum(); }
     apiv1::Enum* lHTappingShowItemsEnum() const { return api()->get_lHTappingShowItemsEnum(); }
     apiv1::Enum* parenthesesModeEnum() const { return api()->get_parenthesesModeEnum(); }
-    apiv1::Enum* repeatPlayCountPresetEnum() const { return api()->get_repeatPlayCountPresetEnum(); }
-    apiv1::Enum* measureNumberPlacementEnum() const { return api()->get_measureNumberPlacementEnum(); }
+    apiv1::Enum* repeatPlayCountPresetEnum() const
+    {
+        return api()->get_repeatPlayCountPresetEnum();
+    }
+    apiv1::Enum* measureNumberPlacementEnum() const
+    {
+        return api()->get_measureNumberPlacementEnum();
+    }
     apiv1::Enum* symIdEnum() const { return api()->get_symIdEnum(); }
     apiv1::Enum* cursorEnum() const { return api()->get_cursorEnum(); }
 
@@ -330,7 +360,8 @@ public:
         return api()->interval(diatonic, chromatic);
     }
 
-    Q_INVOKABLE apiv1::IntervalWrapper* intervalFromOrnamentInterval(apiv1::OrnamentIntervalWrapper* o) const
+    Q_INVOKABLE apiv1::IntervalWrapper* intervalFromOrnamentInterval(
+        apiv1::OrnamentIntervalWrapper* o) const
     {
         return api()->intervalFromOrnamentInterval(o);
     }
@@ -343,7 +374,8 @@ private:
     QJSValue makeEnum(muse::api::EnumType type = muse::api::EnumType::Undefined) const
     {
         if (type == muse::api::EnumType::Undefined) {
-            type = engine()->apiversion() == 1 ? muse::api::EnumType::Int : muse::api::EnumType::String;
+            type = engine()->apiversion()
+                   == 1 ? muse::api::EnumType::Int : muse::api::EnumType::String;
         }
         return muse::api::enumToJsValue(engine(),
                                         QMetaEnum::fromType<T>(),

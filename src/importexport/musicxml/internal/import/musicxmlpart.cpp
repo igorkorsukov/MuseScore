@@ -155,7 +155,8 @@ String MusicXmlPart::toString() const
             res += u"\n";
         }
         res += String(u"measure %1 duration %2 (%3)")
-               .arg(m_measureNumbers.at(i), m_measureDurations.at(i).toString()).arg(m_measureDurations.at(i).ticks());
+               .arg(m_measureNumbers.at(i), m_measureDurations.at(i).toString()).arg(m_measureDurations.at(
+                                                                                         i).ticks());
     }
 
     return res;
@@ -223,7 +224,8 @@ int MusicXmlPart::staffNumberToIndex(const int staffNumber) const
 
 bool MusicXmlPart::isVocalStaff() const
 {
-    return std::find(vocalInstrumentNames.begin(), vocalInstrumentNames.end(), m_name) != vocalInstrumentNames.end();
+    return std::find(vocalInstrumentNames.begin(), vocalInstrumentNames.end(),
+                     m_name) != vocalInstrumentNames.end();
 }
 
 bool MusicXmlPart::isPercussionStaff() const

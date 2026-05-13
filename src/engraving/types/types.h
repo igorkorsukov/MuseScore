@@ -310,7 +310,10 @@ struct Align {
     inline Align& operator =(AlignH a) { horizontal = a; return *this; }
     inline Align& operator =(AlignV a) { vertical = a; return *this; }
 
-    inline bool operator ==(const Align& a) const { return a.vertical == vertical && a.horizontal == horizontal; }
+    inline bool operator ==(const Align& a) const
+    {
+        return a.vertical == vertical && a.horizontal == horizontal;
+    }
     inline bool operator !=(const Align& a) const { return !operator ==(a); }
 
     inline bool operator ==(const AlignV& a) const { return a == vertical; }
@@ -403,7 +406,10 @@ struct DurationTypeWithDots
     DurationTypeWithDots(DurationType t, int d = 0)
         : type(t), dots(d) {}
 
-    inline bool operator ==(const DurationTypeWithDots& other) const { return other.type == type && other.dots == dots; }
+    inline bool operator ==(const DurationTypeWithDots& other) const
+    {
+        return other.type == type && other.dots == dots;
+    }
 };
 
 // --- Types ---
@@ -732,8 +738,14 @@ struct OrnamentInterval
     OrnamentInterval(IntervalStep s, IntervalType t)
         : step(s), type(t) {}
 
-    inline bool operator ==(const OrnamentInterval& interval) const { return step == interval.step && type == interval.type; }
-    inline bool operator !=(const OrnamentInterval& interval) const { return !operator ==(interval); }
+    inline bool operator ==(const OrnamentInterval& interval) const
+    {
+        return step == interval.step && type == interval.type;
+    }
+    inline bool operator !=(const OrnamentInterval& interval) const
+    {
+        return !operator ==(interval);
+    }
 
     static bool isPerfectStep(IntervalStep step)
     {
@@ -752,7 +764,8 @@ struct OrnamentInterval
     }
 };
 
-static const OrnamentInterval DEFAULT_ORNAMENT_INTERVAL = OrnamentInterval(IntervalStep::SECOND, IntervalType::AUTO);
+static const OrnamentInterval DEFAULT_ORNAMENT_INTERVAL = OrnamentInterval(IntervalStep::SECOND,
+                                                                           IntervalType::AUTO);
 
 enum class OrnamentShowAccidental : unsigned char {
     DEFAULT,
@@ -1293,9 +1306,18 @@ static inline bool operator>(Key a, Key b) { return static_cast<int>(a) > static
 static inline bool operator>(Key a, int b) { return static_cast<int>(a) > b; }
 static inline bool operator<(Key a, int b) { return static_cast<int>(a) < b; }
 static inline bool operator==(const Key a, const Key b) { return int(a) == int(b); }
-static inline bool operator!=(const Key a, const Key b) { return static_cast<int>(a) != static_cast<int>(b); }
-static inline Key operator+=(Key& a, const Key& b) { return a = Key(static_cast<int>(a) + static_cast<int>(b)); }
-static inline Key operator-=(Key& a, const Key& b) { return a = Key(static_cast<int>(a) - static_cast<int>(b)); }
+static inline bool operator!=(const Key a, const Key b)
+{
+    return static_cast<int>(a) != static_cast<int>(b);
+}
+static inline Key operator+=(Key& a, const Key& b)
+{
+    return a = Key(static_cast<int>(a) + static_cast<int>(b));
+}
+static inline Key operator-=(Key& a, const Key& b)
+{
+    return a = Key(static_cast<int>(a) - static_cast<int>(b));
+}
 
 enum class PreferSharpFlat : char {
     NONE, SHARPS, FLATS, AUTO

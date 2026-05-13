@@ -31,7 +31,8 @@
 #include "context/iglobalcontext.h"
 
 namespace mu::notation {
-class AbstractSelectionFilterModel : public QAbstractListModel, public muse::Contextable, public muse::async::Asyncable
+class AbstractSelectionFilterModel : public QAbstractListModel, public muse::Contextable,
+    public muse::async::Asyncable
 {
     Q_OBJECT
 
@@ -90,7 +91,8 @@ protected:
 
     virtual void onSelectionChanged();
     virtual void onNotationChanged();
-    void notifyAboutDataChanged(const QModelIndex& index, const SelectionFilterTypesVariant& variant);
+    void notifyAboutDataChanged(const QModelIndex& index,
+                                const SelectionFilterTypesVariant& variant);
 
     QList<SelectionFilterTypesVariant> m_types;
 

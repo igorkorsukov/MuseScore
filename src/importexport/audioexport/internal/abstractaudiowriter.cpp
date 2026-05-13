@@ -53,7 +53,8 @@ Ret AbstractAudioWriter::write(INotationPtr, io::IODevice&, const Options& optio
         return Ret(Ret::Code::NotSupported);
     }
 
-    if (supportsUnitType(muse::value(options, OptionKey::UNIT_TYPE, Val(UnitType::PER_PAGE)).toEnum<UnitType>())) {
+    if (supportsUnitType(muse::value(options, OptionKey::UNIT_TYPE,
+                                     Val(UnitType::PER_PAGE)).toEnum<UnitType>())) {
         NOT_IMPLEMENTED;
         return Ret(Ret::Code::NotImplemented);
     }
@@ -68,7 +69,8 @@ Ret AbstractAudioWriter::writeList(const INotationPtrList&, io::IODevice&, const
         return Ret(Ret::Code::NotSupported);
     }
 
-    if (supportsUnitType(muse::value(options, OptionKey::UNIT_TYPE, Val(UnitType::PER_PAGE)).toEnum<UnitType>())) {
+    if (supportsUnitType(muse::value(options, OptionKey::UNIT_TYPE,
+                                     Val(UnitType::PER_PAGE)).toEnum<UnitType>())) {
         NOT_IMPLEMENTED;
         return Ret(Ret::Code::NotImplemented);
     }
@@ -130,7 +132,9 @@ void AbstractAudioWriter::doWrite(io::IODevice& dstDevice, const SoundTrackForma
 
     const std::string processingOnlineSoundsMsg = trc("iex_audio", "Processing online sounds…");
 
-    auto sendProgress = [this, processingOnlineSoundsMsg](int64_t current, int64_t total, SaveSoundTrackStage stage) {
+    auto sendProgress
+        = [this, processingOnlineSoundsMsg](int64_t current, int64_t total,
+                                            SaveSoundTrackStage stage) {
         switch (stage) {
         case SaveSoundTrackStage::ProcessingOnlineSounds:
             m_progress.progress(current, total, processingOnlineSoundsMsg);
@@ -175,7 +179,8 @@ INotationWriter::UnitType AbstractAudioWriter::unitTypeFromOptions(const Options
     }
 
     UnitType defaultUnitType = supported.front();
-    UnitType unitType = muse::value(options, OptionKey::UNIT_TYPE, Val(defaultUnitType)).toEnum<UnitType>();
+    UnitType unitType = muse::value(options, OptionKey::UNIT_TYPE,
+                                    Val(defaultUnitType)).toEnum<UnitType>();
     if (!supportsUnitType(unitType)) {
         return defaultUnitType;
     }

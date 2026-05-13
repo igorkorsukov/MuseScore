@@ -35,7 +35,8 @@
 #include "async/asyncable.h"
 
 namespace mu::project {
-class ExportProjectScenario : public IExportProjectScenario, public muse::async::Asyncable, public muse::Contextable
+class ExportProjectScenario : public IExportProjectScenario, public muse::async::Asyncable,
+    public muse::Contextable
 {
     muse::GlobalInject<muse::io::IFileSystem> fileSystem;
     muse::GlobalInject<IProjectConfiguration> configuration;
@@ -52,9 +53,11 @@ public:
     {
     }
 
-    std::vector<INotationWriter::UnitType> supportedUnitTypes(const ExportType& exportType) const override;
+    std::vector<INotationWriter::UnitType> supportedUnitTypes(const ExportType& exportType) const
+    override;
 
-    muse::RetVal<muse::io::path_t> askExportPath(const notation::INotationPtrList& notations, const ExportType& exportType,
+    muse::RetVal<muse::io::path_t> askExportPath(const notation::INotationPtrList& notations,
+                                                 const ExportType& exportType,
                                                  INotationWriter::UnitType unitType = INotationWriter::UnitType::PER_PART,
                                                  muse::io::path_t defaultPath = "") const override;
 
@@ -76,27 +79,33 @@ private:
     /// is not initialized yet, so we can't be certain about the page count. We should not initialize
     /// these scores either, until the user really starts the export, because initializing these scores
     /// means making changes to the file, which can't be done without the user's consent.
-    bool guessIsCreatingOnlyOneFile(const notation::INotationPtrList& notations, INotationWriter::UnitType unitType) const;
-    size_t exportFileCount(const notation::INotationPtrList& notations, INotationWriter::UnitType unitType) const;
+    bool guessIsCreatingOnlyOneFile(const notation::INotationPtrList& notations,
+                                    INotationWriter::UnitType unitType) const;
+    size_t exportFileCount(const notation::INotationPtrList& notations,
+                           INotationWriter::UnitType unitType) const;
 
     bool isMainNotation(notation::INotationPtr notation) const;
     notation::IMasterNotationPtr masterNotation() const;
 
-    muse::io::path_t completeExportPath(const muse::io::path_t& basePath, notation::INotationPtr notation, bool isMain,
+    muse::io::path_t completeExportPath(const muse::io::path_t& basePath,
+                                        notation::INotationPtr notation, bool isMain,
                                         bool isExportingOnlyOneScore, int pageIndex = -1) const;
 
     bool shouldReplaceFile(const QString& filename) const;
     bool askForRetry(const QString& filename) const;
 
-    muse::Ret doExportLoop(const muse::io::path_t& path, std::function<muse::Ret(muse::io::IODevice&)> exportFunction) const;
+    muse::Ret doExportLoop(const muse::io::path_t& path,
+                           std::function<muse::Ret(muse::io::IODevice&)> exportFunction) const;
 
     void showExportProgress(bool isAudioExport) const;
 
     void openFolder(const muse::io::path_t& path) const;
 
     std::vector<notation::ViewMode> viewModes(const notation::INotationPtrList& notations) const;
-    void setViewModes(const notation::INotationPtrList& notations, const std::vector<notation::ViewMode>& viewModes) const;
-    void setViewModes(const notation::INotationPtrList& notations, notation::ViewMode viewMode) const;
+    void setViewModes(const notation::INotationPtrList& notations,
+                      const std::vector<notation::ViewMode>& viewModes) const;
+    void setViewModes(const notation::INotationPtrList& notations,
+                      notation::ViewMode viewMode) const;
 
     mutable FileConflictPolicy m_fileConflictPolicy = FileConflictPolicy::Undefined;
     mutable muse::Progress m_exportProgress;

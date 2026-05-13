@@ -107,7 +107,8 @@ bool LyricsLine::setProperty(Pid propertyId, const engraving::PropertyValue& v)
         // if parent lyrics has a melisma, change its length too
         if (explicitParent() && explicitParent()->isLyrics()
             && isEndMelisma()) {
-            Fraction newTicks   = toLyrics(explicitParent())->ticks() + v.value<Fraction>() - ticks();
+            Fraction newTicks   = toLyrics(explicitParent())->ticks() + v.value<Fraction>()
+                                  - ticks();
             explicitParent()->undoChangeProperty(Pid::LYRIC_TICKS, newTicks);
         }
         setTicks(v.value<Fraction>());
@@ -172,7 +173,8 @@ LyricsLineSegment::LyricsLineSegment(LyricsLine* sp, System* parent)
     setGenerated(true);
 }
 
-LyricsLineSegment::LyricsLineSegment(const ElementType& type, LyricsLine* sp, System* parent, ElementFlags f)
+LyricsLineSegment::LyricsLineSegment(const ElementType& type, LyricsLine* sp, System* parent,
+                                     ElementFlags f)
     : LineSegment(type, sp, parent, f)
 {
     setGenerated(true);
@@ -311,7 +313,8 @@ static const ElementStyle partialLyricsLineSegmentElementStyle {
 };
 
 PartialLyricsLineSegment::PartialLyricsLineSegment(PartialLyricsLine* line, System* parent)
-    : LyricsLineSegment(ElementType::PARTIAL_LYRICSLINE_SEGMENT, line, parent, ElementFlag::ON_STAFF)
+    : LyricsLineSegment(ElementType::PARTIAL_LYRICSLINE_SEGMENT, line, parent,
+                        ElementFlag::ON_STAFF)
 {
     setGenerated(false);
     initElementStyle(&partialLyricsLineSegmentElementStyle);
@@ -357,7 +360,8 @@ Lyrics* PartialLyricsLine::findLyricsInPreviousRepeatSeg() const
     const std::vector<Measure*> measures = findPreviousRepeatMeasures(findStartMeasure());
 
     for (const Measure* measure : measures) {
-        Lyrics* prev = lastLyricsInMeasure(measure->last(SegmentType::ChordRest), staffIdx(), verse(), placement());
+        Lyrics* prev = lastLyricsInMeasure(measure->last(SegmentType::ChordRest), staffIdx(),
+                                           verse(), placement());
 
         if (!prev) {
             continue;

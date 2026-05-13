@@ -65,18 +65,24 @@ public:
     int gripsCount() const override;
     std::vector<PointF> gripsPositions(const EditData& = EditData()) const override;
 
-    std::unique_ptr<ElementGroup> getDragGroup(std::function<bool(const EngravingItem*)> isDragged) override;
+    std::unique_ptr<ElementGroup> getDragGroup(std::function<bool(const EngravingItem*)> isDragged)
+    override;
 
-    bool hasVoiceAssignmentProperties() const override { return spanner()->hasVoiceAssignmentProperties(); }
+    bool hasVoiceAssignmentProperties() const override
+    {
+        return spanner()->hasVoiceAssignmentProperties();
+    }
 
     EngravingItem* findElementToSnapBefore(bool ignoreInvisible = true) const;
-    EngravingItem* findElementToSnapAfter(bool ignoreInvisible = true, bool requirePlayable = false) const;
+    EngravingItem* findElementToSnapAfter(bool ignoreInvisible = true,
+                                          bool requirePlayable = false) const;
 
     void endDragGrip(EditData& ed) override;
 
 private:
     TextBase* findStartDynamicOrExpression(bool ignoreInvisible = true) const;
-    TextBase* findEndDynamicOrExpression(bool ignoreInvisible = true, bool requirePlayable = false) const;
+    TextBase* findEndDynamicOrExpression(bool ignoreInvisible = true,
+                                         bool requirePlayable = false) const;
 
     void startDragGrip(EditData&) override;
     void dragGrip(EditData&) override;
@@ -140,7 +146,8 @@ public:
 
     bool isCrescendo() const
     {
-        return m_hairpinType == HairpinType::CRESC_HAIRPIN || m_hairpinType == HairpinType::CRESC_LINE;
+        return m_hairpinType == HairpinType::CRESC_HAIRPIN
+               || m_hairpinType == HairpinType::CRESC_LINE;
     }
 
     bool isDecrescendo() const

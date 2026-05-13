@@ -235,7 +235,8 @@ void PowerTab::readChord(ptTrack& info)
     for (int i = 0; i < stringCount; ++i) {
         ch.frets.push_back(readUInt8());     // fret
     }
-    if (info.diagramMap.find({ { ch.key, ch.formula, ch.modification } }) == info.diagramMap.end()) {
+    if (info.diagramMap.find({ { ch.key, ch.formula,
+                                 ch.modification } }) == info.diagramMap.end()) {
         info.diagramMap[ { { ch.key, ch.formula, ch.modification } }] = ch;
     } else {
         auto a1 = info.diagramMap[ { { ch.key, ch.formula, ch.modification } }];
@@ -605,7 +606,8 @@ void PowerTab::addPalmMute(Chord* chord)
     }
 }
 
-void PowerTab::fillMeasure(tBeatList& elist, Measure* measure, int staff, std::vector<Note*>& tiedNotes)
+void PowerTab::fillMeasure(tBeatList& elist, Measure* measure, int staff,
+                           std::vector<Note*>& tiedNotes)
 {
     Tuplet* tuple = nullptr;
     int tupleBeatCounter{ 0 };
@@ -693,7 +695,8 @@ void PowerTab::fillMeasure(tBeatList& elist, Measure* measure, int staff, std::v
                 }
 
                 if (false && n.slide) {
-                    Text* st = Factory::createText(chord->notes().front(), TextStyleType::HARMONY_A);
+                    Text* st
+                        = Factory::createText(chord->notes().front(), TextStyleType::HARMONY_A);
                     st->setXmlText(String(u"SLIDE %1").arg(n.slide));
                     st->setTrack(staff * VOICES);
                     chord->notes().front()->add(st);
@@ -975,7 +978,8 @@ void PowerTab::ptSection::copyTracks(ptTrack* track)
             beat.isRest = rt.is_rest;
             beat.tuplet = rt.triplet;
             if (!rt.is_rest) {
-                auto diagram = track->diagramMap.find({ { signature->second.key, signature->second.formula,
+                auto diagram = track->diagramMap.find({ { signature->second.key,
+                                                          signature->second.formula,
                                                           signature->second.formula_mod } });
 
                 if (diagram != track->diagramMap.end()) {
@@ -1074,7 +1078,8 @@ void PowerTab::readDirection(ptSection& sec)
     int symbolCount = readUInt8();
     for (int i = 0; i < symbolCount; ++i) {
         unsigned int data = readShort();
-        sec.getPosition(position).addComponent(new ptDirection((data >> 8), ((data & 0xC0) >> 6), (data & 0x1F)));
+        sec.getPosition(position).addComponent(new ptDirection((data >> 8), ((data & 0xC0) >> 6),
+                                                               (data & 0x1F)));
     }
 }
 

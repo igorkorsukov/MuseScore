@@ -76,7 +76,8 @@ RetVal<TransposeOptions> ConverterUtils::parseTransposeOptions(const QJsonObject
     constexpr int defaultKey = int(Key::INVALID);
     const Key targetKey = Key(optionsObj["targetKey"].toInt(defaultKey));
     if (options.mode == TransposeMode::TO_KEY) {
-        const bool targetKeyValid = int(Key::MIN) <= int(targetKey) && int(targetKey) <= int(Key::MAX);
+        const bool targetKeyValid = int(Key::MIN) <= int(targetKey)
+                                    && int(targetKey) <= int(Key::MAX);
         if (!targetKeyValid) {
             LOGW() << "Transpose: invalid targetKey: " << int(targetKey);
             return make_ret(Err::InvalidTransposeOptions);
@@ -87,7 +88,8 @@ RetVal<TransposeOptions> ConverterUtils::parseTransposeOptions(const QJsonObject
     constexpr int INTERVAL_LIST_SIZE = 26;
 
     if (options.mode != TransposeMode::TO_KEY) {
-        const bool transposeIntervalValid = -1 < transposeInterval && transposeInterval < INTERVAL_LIST_SIZE;
+        const bool transposeIntervalValid = -1 < transposeInterval
+                                            && transposeInterval < INTERVAL_LIST_SIZE;
         if (!transposeIntervalValid) {
             LOGW() << "Transpose: invalid transposeInterval: " << transposeInterval;
             return make_ret(Err::InvalidTransposeOptions);
@@ -185,7 +187,8 @@ Ret ConverterUtils::applyTranspose(const INotationPtr notation, const TransposeO
     return ok ? make_ret(Ret::Code::Ok) : make_ret(Err::TransposeFailed);
 }
 
-void ConverterUtils::setVisibleParts(const INotationPtr notation, const std::vector<size_t>& visibleParts)
+void ConverterUtils::setVisibleParts(const INotationPtr notation,
+                                     const std::vector<size_t>& visibleParts)
 {
     // Receiving in a 0 based order
     const INotationPartsPtr parts = notation->parts();

@@ -43,7 +43,8 @@ static const ElementStyle STRING_TUNINGS_STYLE {
 };
 
 StringTunings::StringTunings(Segment* parent, TextStyleType textStyleType)
-    : StaffTextBase(ElementType::STRING_TUNINGS, parent, textStyleType, ElementFlag::MOVABLE | ElementFlag::ON_STAFF)
+    : StaffTextBase(ElementType::STRING_TUNINGS, parent, textStyleType,
+                    ElementFlag::MOVABLE | ElementFlag::ON_STAFF)
 {
     initElementStyle(&STRING_TUNINGS_STYLE);
 }
@@ -161,8 +162,9 @@ String StringTunings::accessibleInfo() const
         return String();
     }
 
-    String elementName = score() ? score()->getTextStyleUserName(TextStyleType::STRING_TUNINGS).translated()
-                         : TConv::translatedUserName(TextStyleType::STRING_TUNINGS);
+    String elementName
+        = score() ? score()->getTextStyleUserName(TextStyleType::STRING_TUNINGS).translated()
+          : TConv::translatedUserName(TextStyleType::STRING_TUNINGS);
     String info;
 
     const std::vector<instrString>& stringList = stringData->stringList();
@@ -253,8 +255,10 @@ void StringTunings::triggerLayout() const
     Fraction startTick = tick();
 
     const std::map<int, StringTunings*>& allStringTuningsOnThisPart = part()->stringTunings();
-    auto iterOfNextStringTuningOnThisPart = allStringTuningsOnThisPart.upper_bound(startTick.ticks());
-    StringTunings* nextStringTuning = iterOfNextStringTuningOnThisPart != allStringTuningsOnThisPart.end()
+    auto iterOfNextStringTuningOnThisPart
+        = allStringTuningsOnThisPart.upper_bound(startTick.ticks());
+    StringTunings* nextStringTuning = iterOfNextStringTuningOnThisPart
+                                      != allStringTuningsOnThisPart.end()
                                       ? iterOfNextStringTuningOnThisPart->second : nullptr;
 
     Fraction endTick = nextStringTuning ? nextStringTuning->tick() : score()->endTick();
@@ -269,7 +273,9 @@ String StringTunings::generateText() const
         return u"";
     }
 
-    auto guitarStringSymbol = [](int i) { return String(u"<sym>guitarString") + String::number(i) + u"</sym>"; };
+    auto guitarStringSymbol = [](int i) {
+        return String(u"<sym>guitarString") + String::number(i) + u"</sym>";
+    };
 
     const std::vector<instrString>& stringList = stringData->stringList();
     std::vector<String> visibleStringList;
@@ -293,7 +299,8 @@ String StringTunings::generateText() const
             }
 
             visibleStringList.emplace_back(String(guitarStringSymbol(i + 1) + u" \u2013 "
-                                                  + String(pitchStr[0]).toUpper() + accidental) + u"  ");
+                                                  + String(
+                                                      pitchStr[0]).toUpper() + accidental) + u"  ");
         }
     }
 

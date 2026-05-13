@@ -34,7 +34,8 @@
 #include "dom/text.h"
 
 namespace mu::engraving::rendering::score {
-void AlignmentLayout::alignItemsGroup(const std::vector<EngravingItem*>& elements, const System* system)
+void AlignmentLayout::alignItemsGroup(const std::vector<EngravingItem*>& elements,
+                                      const System* system)
 {
     if (elements.empty()) {
         return;
@@ -91,7 +92,8 @@ void AlignmentLayout::alignHopoLetters(const HammerOnPullOff* hopo, const System
     alignItemsGroup(itemsToAlign, system);
 }
 
-void AlignmentLayout::alignItemsWithTheirSnappingChain(const std::vector<EngravingItem*>& elements, const System* system)
+void AlignmentLayout::alignItemsWithTheirSnappingChain(const std::vector<EngravingItem*>& elements,
+                                                       const System* system)
 {
     std::set<EngravingItem*> alignedItems;
 
@@ -103,7 +105,8 @@ void AlignmentLayout::alignItemsWithTheirSnappingChain(const std::vector<Engravi
             outermostY = curY;
             firstItem = false;
         } else {
-            outermostY = item->placeAbove() ? std::min(outermostY, curY) : std::max(outermostY, curY);
+            outermostY
+                = item->placeAbove() ? std::min(outermostY, curY) : std::max(outermostY, curY);
         }
     };
 
@@ -122,7 +125,8 @@ void AlignmentLayout::alignItemsWithTheirSnappingChain(const std::vector<Engravi
     }
 }
 
-void AlignmentLayout::alignStaffCenteredItems(const std::vector<EngravingItem*>& elements, const System* system)
+void AlignmentLayout::alignStaffCenteredItems(const std::vector<EngravingItem*>& elements,
+                                              const System* system)
 {
     std::vector<double> vecOfCurrentY;
 
@@ -134,7 +138,8 @@ void AlignmentLayout::alignStaffCenteredItems(const std::vector<EngravingItem*>&
     auto limitAverageYInsideAvailableSpace = [&averageY](EngravingItem* item) {
         double yCur = yOpticalCenter(item);
         double intendedMove = averageY - yCur;
-        const EngravingItem::LayoutData::StaffCenteringInfo& staffCenteringInfo = item->ldata()->staffCenteringInfo();
+        const EngravingItem::LayoutData::StaffCenteringInfo& staffCenteringInfo
+            = item->ldata()->staffCenteringInfo();
         double maxMoveAbove = -staffCenteringInfo.availableVertSpaceAbove;
         double maxMoveBelow = staffCenteringInfo.availableVertSpaceBelow;
         double maxAllowedMove = std::clamp(intendedMove, maxMoveAbove, maxMoveBelow);
@@ -161,7 +166,8 @@ void AlignmentLayout::alignStaffCenteredItems(const std::vector<EngravingItem*>&
     }
 }
 
-void AlignmentLayout::alignItemsForSystem(const std::vector<EngravingItem*>& elements, const System* system)
+void AlignmentLayout::alignItemsForSystem(const std::vector<EngravingItem*>& elements,
+                                          const System* system)
 {
     struct StaffItemGroups {
         std::vector<EngravingItem*> itemsAbove;
@@ -253,7 +259,8 @@ double AlignmentLayout::yOpticalCenter(const EngravingItem* item)
     return curY;
 }
 
-void AlignmentLayout::scanConnectedItems(EngravingItem* item, const System* system, std::function<void(EngravingItem*)> func)
+void AlignmentLayout::scanConnectedItems(EngravingItem* item, const System* system,
+                                         std::function<void(EngravingItem*)> func)
 {
     func(item);
 

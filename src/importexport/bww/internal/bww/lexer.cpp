@@ -451,9 +451,11 @@ void Lexer::categorizeWord(QString word)
     QRegularExpression rClef(QRegularExpression::anchoredPattern("&"));
     QRegularExpression rKey(QRegularExpression::anchoredPattern("sharp[cf]"));
     QRegularExpression rTSig(QRegularExpression::anchoredPattern("\\d+_(1|2|4|8|16|32)"));
-    QRegularExpression rPart(QRegularExpression::anchoredPattern("I!''|I!|''!I|!I|'intro|[2-9]|'[12]|_'"));
+    QRegularExpression rPart(QRegularExpression::anchoredPattern(
+                                 "I!''|I!|''!I|!I|'intro|[2-9]|'[12]|_'"));
     QRegularExpression rBar(QRegularExpression::anchoredPattern("!|!t|!!t"));
-    QRegularExpression rNote(QRegularExpression::anchoredPattern("(LG|LA|[B-F]|HG|HA)[lr]?_(1|2|4|8|16|32)"));
+    QRegularExpression rNote(QRegularExpression::anchoredPattern(
+                                 "(LG|LA|[B-F]|HG|HA)[lr]?_(1|2|4|8|16|32)"));
     QRegularExpression rTie(QRegularExpression::anchoredPattern("\\^t[es]"));
     QRegularExpression rTriplet(QRegularExpression::anchoredPattern("\\^3[es]"));
     QRegularExpression rDot(QRegularExpression::anchoredPattern("'([hl][ag]|[b-f])"));

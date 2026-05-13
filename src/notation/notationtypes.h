@@ -297,7 +297,8 @@ struct InstrumentKey
 
 inline bool isMainInstrumentForPart(const InstrumentKey& instrumentKey, const Part* part)
 {
-    return instrumentKey.instrumentId == part->instrumentId() && instrumentKey.tick == Part::MAIN_INSTRUMENT_TICK;
+    return instrumentKey.instrumentId == part->instrumentId()
+           && instrumentKey.tick == Part::MAIN_INSTRUMENT_TICK;
 }
 
 inline QString formatInstrumentTitle(const QString& instrumentName, const InstrumentTrait& trait)
@@ -322,7 +323,8 @@ inline QString formatInstrumentTitle(const QString& instrumentName, const Instru
     Q_UNREACHABLE();
 }
 
-inline QString formatInstrumentTitle(const QString& instrumentName, const InstrumentTrait& trait, int instrumentNumber)
+inline QString formatInstrumentTitle(const QString& instrumentName, const InstrumentTrait& trait,
+                                     int instrumentNumber)
 {
     if (instrumentNumber == 0) {
         // Only one instance of this instrument in the score
@@ -335,15 +337,18 @@ inline QString formatInstrumentTitle(const QString& instrumentName, const Instru
     switch (trait.type) {
     case TraitType::Tuning:
         //: %1=tuning ("D"), %2=name ("Tin Whistle"), %3=number ("2"). Example: "D Tin Whistle 2"
-        return muse::qtrc("notation", "%1 %2 %3", "One of several tuned instruments displayed in the UI")
+        return muse::qtrc("notation", "%1 %2 %3",
+                          "One of several tuned instruments displayed in the UI")
                .arg(trait.name, instrumentName, number);
     case TraitType::Transposition:
         //: %1=name ("Horn"), %2=transposition ("C alto"), %3=number ("2"). Example: "Horn in C alto 2"
-        return muse::qtrc("notation", "%1 in %2 %3", "One of several transposing instruments displayed in the UI")
+        return muse::qtrc("notation", "%1 in %2 %3",
+                          "One of several transposing instruments displayed in the UI")
                .arg(instrumentName, trait.name, number);
     case TraitType::Course:
         //: %1=name ("Tenor Lute"), %2=course/strings ("7-course"), %3=number ("2"). Example: "Tenor Lute (7-course) 2"
-        return muse::qtrc("notation", "%1 (%2) %3", "One of several string instruments displayed in the UI")
+        return muse::qtrc("notation", "%1 (%2) %3",
+                          "One of several string instruments displayed in the UI")
                .arg(instrumentName, trait.name, number);
     case TraitType::Unknown:
         //: %1=name ("Flute"), %2=number ("2"). Example: "Flute 2"

@@ -50,22 +50,27 @@
 #include "abstractelementpopupmodel.h"
 
 namespace mu::notation {
-class AbstractNotationPaintView : public muse::uicomponents::QuickPaintedView, public IControlledView, public muse::Contextable,
-    public muse::async::Asyncable, public muse::actions::Actionable
+class AbstractNotationPaintView : public muse::uicomponents::QuickPaintedView,
+    public IControlledView, public muse::Contextable, public muse::async::Asyncable,
+    public muse::actions::Actionable
 {
     Q_OBJECT
     QML_ELEMENT;
     QML_UNCREATABLE("Not creatable as it is an abstract base class")
 
-    Q_PROPERTY(qreal startHorizontalScrollPosition READ startHorizontalScrollPosition NOTIFY horizontalScrollChanged)
-    Q_PROPERTY(qreal horizontalScrollbarSize READ horizontalScrollbarSize NOTIFY horizontalScrollChanged)
-    Q_PROPERTY(qreal startVerticalScrollPosition READ startVerticalScrollPosition NOTIFY verticalScrollChanged)
+    Q_PROPERTY(
+        qreal startHorizontalScrollPosition READ startHorizontalScrollPosition NOTIFY horizontalScrollChanged)
+    Q_PROPERTY(
+        qreal horizontalScrollbarSize READ horizontalScrollbarSize NOTIFY horizontalScrollChanged)
+    Q_PROPERTY(
+        qreal startVerticalScrollPosition READ startVerticalScrollPosition NOTIFY verticalScrollChanged)
     Q_PROPERTY(qreal verticalScrollbarSize READ verticalScrollbarSize NOTIFY verticalScrollChanged)
 
     Q_PROPERTY(QVariant matrix READ matrix NOTIFY matrixChanged)
     Q_PROPERTY(QRectF viewport READ viewport_property NOTIFY viewportChanged)
 
-    Q_PROPERTY(QVariant automationLinesData READ automationLinesData NOTIFY automationLinesDataChanged)
+    Q_PROPERTY(
+        QVariant automationLinesData READ automationLinesData NOTIFY automationLinesDataChanged)
 
     Q_PROPERTY(bool publishMode READ publishMode WRITE setPublishMode NOTIFY publishModeChanged)
     Q_PROPERTY(bool automationMode READ automationMode NOTIFY automationModeChanged)
@@ -101,11 +106,13 @@ public:
     Q_INVOKABLE void forceFocusIn();
 
     Q_INVOKABLE void onContextMenuIsOpenChanged(bool open);
-    Q_INVOKABLE void onElementPopupIsOpenChanged(const PopupModelType& popupType = PopupModelType::TYPE_UNDEFINED);
+    Q_INVOKABLE void onElementPopupIsOpenChanged(
+        const PopupModelType& popupType = PopupModelType::TYPE_UNDEFINED);
 
     Q_INVOKABLE void setPlaybackCursorItem(QQuickItem* cursor);
 
-    Q_INVOKABLE void requestChangeAutomationPoint(qsizetype lineIdx, qsizetype pointIdx, qreal x, qreal y);
+    Q_INVOKABLE void requestChangeAutomationPoint(qsizetype lineIdx, qsizetype pointIdx, qreal x,
+                                                  qreal y);
 
     qreal width() const override;
     qreal height() const override;
@@ -169,7 +176,8 @@ signals:
     void showContextMenuRequested(int elementType, const QPointF& viewPos);
     void hideContextMenuRequested();
 
-    void showElementPopupRequested(mu::notation::AbstractElementPopupModel::PopupModelType modelType);
+    void showElementPopupRequested(
+        mu::notation::AbstractElementPopupModel::PopupModelType modelType);
     void hideElementPopupRequested();
     void isPopupOpenChanged(bool isPopupOpen);
 
@@ -212,7 +220,8 @@ protected:
 
     virtual void initZoomAndPosition();
 
-    virtual void onMatrixChanged(const muse::draw::Transform& oldMatrix, const muse::draw::Transform& newMatrix, bool overrideZoomType);
+    virtual void onMatrixChanged(const muse::draw::Transform& oldMatrix,
+                                 const muse::draw::Transform& newMatrix, bool overrideZoomType);
 
 protected slots:
     virtual void onViewSizeChanged();
@@ -280,7 +289,8 @@ private:
     void updateShadowNoteVisibility();
 
     const Page* pageByPoint(const muse::PointF& point) const;
-    muse::PointF alignToCurrentPageBorder(const muse::RectF& showRect, const muse::PointF& pos) const;
+    muse::PointF alignToCurrentPageBorder(const muse::RectF& showRect,
+                                          const muse::PointF& pos) const;
 
     void paintBackground(const muse::RectF& rect, muse::draw::Painter* painter);
 

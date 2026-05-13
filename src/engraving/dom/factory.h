@@ -39,8 +39,10 @@ class Factory
 {
 public:
 
-    static EngravingItem* createItem(ElementType type, EngravingItem* parent, bool isAccessibleEnabled = true);
-    static EngravingItem* createItemByName(const AsciiStringView& name, EngravingItem* parent, bool isAccessibleEnabled = true);
+    static EngravingItem* createItem(ElementType type, EngravingItem* parent,
+                                     bool isAccessibleEnabled = true);
+    static EngravingItem* createItemByName(const AsciiStringView& name, EngravingItem* parent,
+                                           bool isAccessibleEnabled = true);
 
     static Accidental* createAccidental(EngravingItem* parent, bool isAccessibleEnabled = true);
     static std::shared_ptr<Accidental> makeAccidental(EngravingItem* parent);
@@ -103,7 +105,8 @@ public:
     static FretDiagram* copyFretDiagram(const FretDiagram& src);
     static std::shared_ptr<FretDiagram> makeFretDiagram(Segment* parent);
 
-    static HarpPedalDiagram* createHarpPedalDiagram(Segment* parent, bool isAccessibleEnabled = true);
+    static HarpPedalDiagram* createHarpPedalDiagram(Segment* parent,
+                                                    bool isAccessibleEnabled = true);
     static HarpPedalDiagram* copyHarpPedalDiagram(const HarpPedalDiagram& src);
     static std::shared_ptr<HarpPedalDiagram> makeHarpPedalDiagram(Segment* parent);
 
@@ -118,9 +121,11 @@ public:
     static LayoutBreak* copyLayoutBreak(const LayoutBreak& src);
     static std::shared_ptr<LayoutBreak> makeLayoutBreak(MeasureBase* parent);
 
-    static StaffVisibilityIndicator* createStaffVisibilityIndicator(System* parent, bool isAccessibleEnabled = true);
+    static StaffVisibilityIndicator* createStaffVisibilityIndicator(System* parent,
+                                                                    bool isAccessibleEnabled = true);
 
-    static SystemLockIndicator* createSystemLockIndicator(System* parent, const SystemLock* lock, bool isAccessibleEnabled = true);
+    static SystemLockIndicator* createSystemLockIndicator(System* parent, const SystemLock* lock,
+                                                          bool isAccessibleEnabled = true);
     static SystemLockIndicator* copySystemLockIndicator(const SystemLockIndicator& src);
 
     static Lyrics* createLyrics(ChordRest* parent, bool isAccessibleEnabled = true);
@@ -154,7 +159,8 @@ public:
     static PartialTie* createPartialTie(Note* parent, bool isAccessibleEnabled = true);
     static PartialTie* copyPartialTie(const PartialTie& src);
 
-    static PartialLyricsLine* createPartialLyricsLine(EngravingItem* parent, bool isAccessibleEnabled = true);
+    static PartialLyricsLine* createPartialLyricsLine(EngravingItem* parent,
+                                                      bool isAccessibleEnabled = true);
     static PartialLyricsLine* copyPartialLyricsLine(const PartialLyricsLine& src);
 
     static Rest* createRest(Segment* parent, bool isAccessibleEnabled = true);
@@ -166,7 +172,8 @@ public:
     static DeadSlapped* copyDeadSlapped(const DeadSlapped& src);
 
     static Segment* createSegment(Measure* parent, bool isAccessibleEnabled = true);
-    static Segment* createSegment(Measure* parent, SegmentType type, const Fraction& t, bool isAccessibleEnabled = true);
+    static Segment* createSegment(Measure* parent, SegmentType type, const Fraction& t,
+                                  bool isAccessibleEnabled = true);
 
     static Slur* createSlur(EngravingItem* parent, bool isAccessibleEnabled = true);
     static std::shared_ptr<Slur> makeSlur(EngravingItem* parent);
@@ -181,10 +188,13 @@ public:
 
     static StaffState* createStaffState(EngravingItem* parent, bool isAccessibleEnabled = true);
 
-    static StaffTypeChange* createStaffTypeChange(MeasureBase* parent, bool isAccessibleEnabled = true);
+    static StaffTypeChange* createStaffTypeChange(MeasureBase* parent,
+                                                  bool isAccessibleEnabled = true);
     static std::shared_ptr<StaffTypeChange> makeStaffTypeChange(MeasureBase* parent);
 
-    static StaffText* createStaffText(Segment* parent, TextStyleType textStyleType = TextStyleType::STAFF, bool isAccessibleEnabled = true);
+    static StaffText* createStaffText(Segment* parent,
+                                      TextStyleType textStyleType = TextStyleType::STAFF,
+                                      bool isAccessibleEnabled = true);
 
     static SoundFlag* createSoundFlag(EngravingItem* parent, bool isAccessibleEnabled = true);
 
@@ -199,22 +209,28 @@ public:
     static StemSlash* copyStemSlash(const StemSlash& src);
 
     static System* createSystem(Page* parent, bool isAccessibleEnabled = true);
-    static SystemText* createSystemText(Segment* parent, TextStyleType textStyleType = TextStyleType::SYSTEM,
-                                        ElementType type = ElementType::SYSTEM_TEXT, bool isAccessibleEnabled = true);
+    static SystemText* createSystemText(Segment* parent,
+                                        TextStyleType textStyleType = TextStyleType::SYSTEM,
+                                        ElementType type = ElementType::SYSTEM_TEXT,
+                                        bool isAccessibleEnabled = true);
 
-    static InstrumentChange* createInstrumentChange(Segment* parent, bool isAccessibleEnabled = true);
-    static InstrumentChange* createInstrumentChange(Segment* parent, const Instrument& instrument, bool isAccessibleEnabled = true);
+    static InstrumentChange* createInstrumentChange(Segment* parent,
+                                                    bool isAccessibleEnabled = true);
+    static InstrumentChange* createInstrumentChange(Segment* parent, const Instrument& instrument,
+                                                    bool isAccessibleEnabled = true);
 
     static Sticking* createSticking(Segment* parent, bool isAccessibleEnabled = true);
 
     static Fingering* createFingering(Note* parent, bool isAccessibleEnabled = true);
-    static Fingering* createFingering(Note* parent, TextStyleType textStyleType, bool isAccessibleEnabled = true);
+    static Fingering* createFingering(Note* parent, TextStyleType textStyleType,
+                                      bool isAccessibleEnabled = true);
 
     static Harmony* createHarmony(EngravingItem* parent, bool isAccessibleEnabled = true);
 
     static TempoText* createTempoText(Segment* parent, bool isAccessibleEnabled = true);
 
-    static Text* createText(EngravingItem* parent, TextStyleType tid = TextStyleType::DEFAULT, bool isAccessibleEnabled = true);
+    static Text* createText(EngravingItem* parent, TextStyleType tid = TextStyleType::DEFAULT,
+                            bool isAccessibleEnabled = true);
     static Text* copyText(const Text& src);
 
     static Tie* createTie(EngravingItem* parent, bool isAccessibleEnabled = true);
@@ -228,14 +244,16 @@ public:
     static std::shared_ptr<TremoloTwoChord> makeTremoloTwoChord(Chord* parent);
     static TremoloTwoChord* copyTremoloTwoChord(const TremoloTwoChord& src);
 
-    static TremoloSingleChord* createTremoloSingleChord(Chord* parent, bool isAccessibleEnabled = true);
+    static TremoloSingleChord* createTremoloSingleChord(Chord* parent,
+                                                        bool isAccessibleEnabled = true);
     static std::shared_ptr<TremoloSingleChord> makeTremoloSingleChord(Chord* parent);
     static TremoloSingleChord* copyTremoloSingleChord(const TremoloSingleChord& src);
 
     static TremoloBar* createTremoloBar(EngravingItem* parent, bool isAccessibleEnabled = true);
     static std::shared_ptr<TremoloBar> makeTremoloBar(EngravingItem* parent);
 
-    static TripletFeel* createTripletFeel(Segment* parent, TripletFeelType type, bool isAccessibleEnabled = true);
+    static TripletFeel* createTripletFeel(Segment* parent, TripletFeelType type,
+                                          bool isAccessibleEnabled = true);
 
     static Tuplet* createTuplet(Measure* parent, bool isAccessibleEnabled = true);
     static Tuplet* copyTuplet(const Tuplet& src);
@@ -243,7 +261,8 @@ public:
     static Hairpin* createHairpin(EngravingItem* parent, bool isAccessibleEnabled = true);
     static std::shared_ptr<Hairpin> makeHairpin(EngravingItem* parent);
 
-    static HammerOnPullOff* createHammerOnPullOff(EngravingItem* parent, bool isAccessibleEnabled = true);
+    static HammerOnPullOff* createHammerOnPullOff(EngravingItem* parent,
+                                                  bool isAccessibleEnabled = true);
     static std::shared_ptr<HammerOnPullOff> makeHammerOnPullOff(EngravingItem* parent);
 
     static Glissando* createGlissando(EngravingItem* parent, bool isAccessibleEnabled = true);
@@ -267,11 +286,13 @@ public:
 
     static Marker* createMarker(EngravingItem* parent, bool isAccessibleEnabled = true);
 
-    static Marker* createMarker(EngravingItem* parent, TextStyleType tid, bool isAccessibleEnabled = true);
+    static Marker* createMarker(EngravingItem* parent, TextStyleType tid,
+                                bool isAccessibleEnabled = true);
 
     static std::shared_ptr<Marker> makeMarker(EngravingItem* parent);
 
-    static GradualTempoChange* createGradualTempoChange(EngravingItem* parent, bool isAccessibleEnabled = true);
+    static GradualTempoChange* createGradualTempoChange(EngravingItem* parent,
+                                                        bool isAccessibleEnabled = true);
 
     static PalmMute* createPalmMute(EngravingItem* parent, bool isAccessibleEnabled = true);
 
@@ -292,7 +313,8 @@ public:
 
     static VBox* createVBox(System* parent, bool isAccessibleEnabled = true);
 
-    static VBox* createVBox(const ElementType& type, System* parent, bool isAccessibleEnabled = true);
+    static VBox* createVBox(const ElementType& type, System* parent,
+                            bool isAccessibleEnabled = true);
 
     static VBox* createTitleVBox(System* parent, bool isAccessibleEnabled = true);
 
@@ -309,7 +331,9 @@ public:
 
     static PlayCountText* createPlayCountText(Segment* parent, bool isAccessibleEnabled = true);
 
-    static PlayTechAnnotation* createPlayTechAnnotation(Segment* parent, PlayingTechniqueType techniqueType, TextStyleType styleType,
+    static PlayTechAnnotation* createPlayTechAnnotation(Segment* parent,
+                                                        PlayingTechniqueType techniqueType,
+                                                        TextStyleType styleType,
                                                         bool isAccessibleEnabled = true);
 
     static Capo* createCapo(Segment* parent, bool isAccessibleEnabled = true);

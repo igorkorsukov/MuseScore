@@ -41,7 +41,8 @@
 using namespace mu::engraving;
 using namespace mu::engraving::rendering::score;
 
-void ScorePageViewLayout::initLayoutContext(const Score* score, LayoutContext& ctx, const Fraction& stick, const Fraction& etick)
+void ScorePageViewLayout::initLayoutContext(const Score* score, LayoutContext& ctx,
+                                            const Fraction& stick, const Fraction& etick)
 {
     LAYOUT_CALL();
 
@@ -118,7 +119,8 @@ void ScorePageViewLayout::initLayoutContext(const Score* score, LayoutContext& c
                 state.setMeasureNumber(0);
             } else {
                 state.setMeasureNumber(state.nextMeasure()->prevMeasure()->measureNumber()                      // will be adjusted later with respect
-                                       + (state.nextMeasure()->prevMeasure()->excludeFromNumbering() ? 0 : 1)); // to the user-defined offset.
+                                       + (state.nextMeasure()->prevMeasure()->excludeFromNumbering()
+                                          ? 0 : 1));                                                            // to the user-defined offset.
             }
             state.setTick(ctx.state().nextMeasure()->tick());
         }
@@ -164,7 +166,8 @@ void ScorePageViewLayout::prepareScore(Score* score, const LayoutContext& ctx)
     }
 }
 
-void ScorePageViewLayout::layoutPageView(Score* score, LayoutContext& ctx, const Fraction& stick, const Fraction& etick)
+void ScorePageViewLayout::layoutPageView(Score* score, LayoutContext& ctx, const Fraction& stick,
+                                         const Fraction& etick)
 {
     TRACEFUNC;
 
@@ -251,5 +254,6 @@ void ScorePageViewLayout::layoutFinished(Score* score, LayoutContext& ctx)
         }
     }
 
-    score->systems().insert(score->systems().end(), state.systemList().begin(), state.systemList().end());
+    score->systems().insert(score->systems().end(), state.systemList().begin(),
+                            state.systemList().end());
 }

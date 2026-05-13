@@ -40,7 +40,8 @@ using namespace mu::notation;
 
 void NotationActionsShortcutsMigrator::migrate(const muse::modularity::ContextPtr& ctx)
 {
-    auto shortcutsRegister = modularity::ioc(ctx)->resolve<shortcuts::IShortcutsRegister>("notationscene");
+    auto shortcutsRegister = modularity::ioc(ctx)->resolve<shortcuts::IShortcutsRegister>(
+        "notationscene");
     if (!shortcutsRegister) {
         return;
     }

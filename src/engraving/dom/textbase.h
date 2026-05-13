@@ -94,10 +94,22 @@ public:
     bool italic() const { return m_style & FontStyle::Italic; }
     bool underline() const { return m_style & FontStyle::Underline; }
     bool strike() const { return m_style & FontStyle::Strike; }
-    void setBold(bool val) { m_style = val ? m_style + FontStyle::Bold : m_style - FontStyle::Bold; }
-    void setItalic(bool val) { m_style = val ? m_style + FontStyle::Italic : m_style - FontStyle::Italic; }
-    void setUnderline(bool val) { m_style = val ? m_style + FontStyle::Underline : m_style - FontStyle::Underline; }
-    void setStrike(bool val) { m_style = val ? m_style + FontStyle::Strike : m_style - FontStyle::Strike; }
+    void setBold(bool val)
+    {
+        m_style = val ? m_style + FontStyle::Bold : m_style - FontStyle::Bold;
+    }
+    void setItalic(bool val)
+    {
+        m_style = val ? m_style + FontStyle::Italic : m_style - FontStyle::Italic;
+    }
+    void setUnderline(bool val)
+    {
+        m_style = val ? m_style + FontStyle::Underline : m_style - FontStyle::Underline;
+    }
+    void setStrike(bool val)
+    {
+        m_style = val ? m_style + FontStyle::Strike : m_style - FontStyle::Strike;
+    }
 
     VerticalAlignment valign() const { return m_valign; }
     double fontSize() const { return m_fontSize; }
@@ -188,7 +200,8 @@ public:
 
     RectF cursorRect() const;
     RectF cursorCanvasRect() const;
-    bool movePosition(TextCursor::MoveOperation op, TextCursor::MoveMode mode = TextCursor::MoveMode::MoveAnchor, int count = 1);
+    bool movePosition(TextCursor::MoveOperation op,
+                      TextCursor::MoveMode mode = TextCursor::MoveMode::MoveAnchor, int count = 1);
     void selectWord();
     void moveCursorToEnd() { movePosition(TextCursor::MoveOperation::End); }
     void moveCursorToStart() { movePosition(TextCursor::MoveOperation::Start); }
@@ -246,7 +259,8 @@ public:
     void changeFormat(FormatId id, const FormatValue& data);
 
 private:
-    void resolveFallback(muse::draw::Font::Type fontType, const muse::draw::FontMetrics& fm, String& family) const;
+    void resolveFallback(muse::draw::Font::Type fontType, const muse::draw::FontMetrics& fm,
+                         String& family) const;
 };
 
 //---------------------------------------------------------
@@ -441,8 +455,14 @@ public:
     bool italic() const { return fontStyle() & FontStyle::Italic; }
     bool underline() const { return fontStyle() & FontStyle::Underline; }
     bool strike() const { return fontStyle() & FontStyle::Strike; }
-    void setBold(bool val) { setFontStyle(val ? fontStyle() + FontStyle::Bold : fontStyle() - FontStyle::Bold); }
-    void setItalic(bool val) { setFontStyle(val ? fontStyle() + FontStyle::Italic : fontStyle() - FontStyle::Italic); }
+    void setBold(bool val)
+    {
+        setFontStyle(val ? fontStyle() + FontStyle::Bold : fontStyle() - FontStyle::Bold);
+    }
+    void setItalic(bool val)
+    {
+        setFontStyle(val ? fontStyle() + FontStyle::Italic : fontStyle() - FontStyle::Italic);
+    }
     void setUnderline(bool val)
     {
         setFontStyle(val ? fontStyle() + FontStyle::Underline : fontStyle() - FontStyle::Underline);
@@ -524,8 +544,8 @@ public:
     PointF defaultPos() const override;
 
 protected:
-    TextBase(const ElementType& type, EngravingItem* parent = 0, TextStyleType tid = TextStyleType::DEFAULT,
-             ElementFlags = ElementFlag::NOTHING);
+    TextBase(const ElementType& type, EngravingItem* parent = 0,
+             TextStyleType tid = TextStyleType::DEFAULT, ElementFlags = ElementFlag::NOTHING);
     TextBase(const ElementType& type, EngravingItem* parent, ElementFlags);
     TextBase(const TextBase&);
 
@@ -546,7 +566,8 @@ private:
     virtual int getPropertyFlagsIdx(Pid id) const override;
     String stripText(bool, bool, bool) const;
 
-    static String getHtmlStartTag(double, double&, const String&, String&, FontStyle, VerticalAlignment);
+    static String getHtmlStartTag(double, double&, const String&, String&, FontStyle,
+                                  VerticalAlignment);
     static String getHtmlEndTag(FontStyle, VerticalAlignment);
 
     static void swap(size_t& r1, size_t& c1, size_t& r2, size_t& c2);

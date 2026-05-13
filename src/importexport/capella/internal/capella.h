@@ -492,7 +492,8 @@ class SlurObj : public BasicDrawObj
 
 public:
     SlurObj(Capella* c)
-        : BasicDrawObj(CapellaType::SLUR, c), color(Qt::black), nEnd(0), nMid(0), nDotDist(0), nDotWidth(0) {}
+        : BasicDrawObj(CapellaType::SLUR, c), color(Qt::black), nEnd(0), nMid(0), nDotDist(0),
+        nDotWidth(0) {}
     void read();
     void readCapx(engraving::XmlReader& e);
     unsigned char nEnd, nMid, nDotDist, nDotWidth;

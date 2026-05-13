@@ -58,7 +58,8 @@ void MarkerLayout::doLayoutMarker(Marker* item, TextBase::LayoutData* ldata, Lay
     // If "Center on symbol" is on, override user position. Restore later
     AlignH userPosition = item->getProperty(Pid::POSITION).value<AlignH>();
     AlignH hPos = item->centerOnSymbol()
-                  && !item->symbolString().empty() ? AlignH::HCENTER : item->getProperty(Pid::POSITION).value<AlignH>();
+                  && !item->symbolString().empty() ? AlignH::HCENTER : item->getProperty(
+        Pid::POSITION).value<AlignH>();
     item->setPosition(hPos);
 
     TextLayout::layoutBaseTextBase(item, ldata);
@@ -71,8 +72,10 @@ void MarkerLayout::doLayoutMarker(Marker* item, TextBase::LayoutData* ldata, Lay
         xAdj = measure ? measure->width() : 0.0;
     }
 
-    bool startRepeat = rightMarker ? measure->nextMeasure() && measure->nextMeasure()->repeatStart() : measure->repeatStart();
-    bool endRepeat = rightMarker ? measure->repeatEnd() : measure->prevMeasure() && measure->prevMeasure()->repeatEnd();
+    bool startRepeat = rightMarker ? measure->nextMeasure()
+                       && measure->nextMeasure()->repeatStart() : measure->repeatStart();
+    bool endRepeat = rightMarker ? measure->repeatEnd() : measure->prevMeasure()
+                     && measure->prevMeasure()->repeatEnd();
 
     bool avoidBarline = item->staffIdx() != 0 && hPos != AlignH::HCENTER;
 
@@ -81,7 +84,8 @@ void MarkerLayout::doLayoutMarker(Marker* item, TextBase::LayoutData* ldata, Lay
             blWidth = item->absoluteFromSpatium(-ctx.conf().styleS(Sid::endBarWidth));
         } else if (endRepeat) {
             blWidth = item->absoluteFromSpatium(ctx.conf().styleS(Sid::endBarWidth));
-        } else if ((measure->isFirstInSystem() || (measure->prev() && !measure->prev()->isMeasure())) && !rightMarker) {
+        } else if ((measure->isFirstInSystem()
+                    || (measure->prev() && !measure->prev()->isMeasure())) && !rightMarker) {
             // Start of score
             const BarLine* bl =  measure->startBarLine();
             blWidth = bl ? -bl->width() : 0.0;
@@ -134,7 +138,8 @@ void MarkerLayout::doLayoutMarker(Marker* item, TextBase::LayoutData* ldata, Lay
     ldata->moveX(xAdj);
 }
 
-double MarkerLayout::computeCustomTextOffset(const Marker* item, TextBase::LayoutData* ldata, LayoutContext& ctx)
+double MarkerLayout::computeCustomTextOffset(const Marker* item, TextBase::LayoutData* ldata,
+                                             LayoutContext& ctx)
 {
     String referenceString = item->symbolString();
 
@@ -162,7 +167,8 @@ double MarkerLayout::computeCustomTextOffset(const Marker* item, TextBase::Layou
     for (const TextBlock& block : ldata->blocks) {
         for (const TextFragment& fragment : block.fragments()) {
             if (fragment.text == referenceFragment.text) {
-                return ldata->pos().x() + fragment.pos.x() - referenceMarker.ldata()->pos().x() - referenceFragment.pos.x();
+                return ldata->pos().x() + fragment.pos.x() - referenceMarker.ldata()->pos().x()
+                       - referenceFragment.pos.x();
             }
         }
     }

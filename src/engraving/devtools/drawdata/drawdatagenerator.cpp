@@ -50,9 +50,11 @@ using namespace mu::engraving;
 //!    scorePath = scoreDir/v3/score.mscz
 //! -> jsonPath = outDir/v3/score.json (now just outDir/score.json)
 
-static const std::vector<std::string> FILES_FILTER = { "*.mscz", "*.mscx", "*.gp", "*.gpx", "*.gp4", "*.gp5" };
+static const std::vector<std::string> FILES_FILTER
+    = { "*.mscz", "*.mscx", "*.gp", "*.gpx", "*.gp4", "*.gp5" };
 
-Ret DrawDataGenerator::processDir(const muse::io::path_t& scoreDir, const muse::io::path_t& outDir, const GenOpt& opt)
+Ret DrawDataGenerator::processDir(const muse::io::path_t& scoreDir, const muse::io::path_t& outDir,
+                                  const GenOpt& opt)
 {
     io::Dir::mkpath(outDir);
 
@@ -73,7 +75,8 @@ Ret DrawDataGenerator::processDir(const muse::io::path_t& scoreDir, const muse::
         bool skip = false;
         std::string scorePath = scores.val.at(i).toStdString();
 
-        if (scorePath.find("disabled") != std::string::npos || scorePath.find("DISABLED") != std::string::npos) {
+        if (scorePath.find("disabled") != std::string::npos
+            || scorePath.find("DISABLED") != std::string::npos) {
             LOGW() << "disabled: " << scores.val.at(i);
             skip = true;
         }
@@ -83,7 +86,8 @@ Ret DrawDataGenerator::processDir(const muse::io::path_t& scoreDir, const muse::
         }
 
         muse::io::path_t scoreFile = scores.val.at(i);
-        muse::io::path_t outFile = outDir + "/" + io::FileInfo(scoreFile).completeBaseName() + ".json";
+        muse::io::path_t outFile = outDir + "/" + io::FileInfo(scoreFile).completeBaseName()
+                                   + ".json";
         processFile(scoreFile, outFile, opt);
     }
 
@@ -92,7 +96,8 @@ Ret DrawDataGenerator::processDir(const muse::io::path_t& scoreDir, const muse::
     return muse::make_ok();
 }
 
-Ret DrawDataGenerator::processFile(const muse::io::path_t& scoreFile, const muse::io::path_t& outFile, const GenOpt& opt)
+Ret DrawDataGenerator::processFile(const muse::io::path_t& scoreFile,
+                                   const muse::io::path_t& outFile, const GenOpt& opt)
 {
     DrawDataPtr drawData = genDrawData(scoreFile, opt);
     DrawDataRW::writeData(outFile, drawData);
@@ -100,7 +105,8 @@ Ret DrawDataGenerator::processFile(const muse::io::path_t& scoreFile, const muse
     return muse::make_ok();
 }
 
-DrawDataPtr DrawDataGenerator::genDrawData(const muse::io::path_t& scorePath, const GenOpt& opt) const
+DrawDataPtr DrawDataGenerator::genDrawData(const muse::io::path_t& scorePath,
+                                           const GenOpt& opt) const
 {
     MasterScore* score = compat::ScoreAccess::createMasterScoreWithBaseStyle(nullptr);
     if (!loadScore(score, scorePath)) {
@@ -181,7 +187,8 @@ Pixmap DrawDataGenerator::genImage(const muse::io::path_t& scorePath) const
     return Pixmap::fromQImage(image);
 }
 
-bool DrawDataGenerator::loadScore(mu::engraving::MasterScore* score, const muse::io::path_t& path) const
+bool DrawDataGenerator::loadScore(mu::engraving::MasterScore* score,
+                                  const muse::io::path_t& path) const
 {
     TRACEFUNC;
     score->setFileInfoProvider(std::make_shared<LocalFileInfoProvider>(path));
@@ -233,6 +240,7 @@ void DrawDataGenerator::applyOptions(engraving::MasterScore* score, const GenOpt
         PageSizeSetAccessor pageSize = score->pageSize();
         pageSize.setHeight(opt.pageSize.height() / engraving::INCH);
         pageSize.setWidth(opt.pageSize.width() / engraving::INCH);
-        pageSize.setPrintableWidth(pageSize.width() - pageSize.evenLeftMargin() - pageSize.oddLeftMargin());
+        pageSize.setPrintableWidth(
+            pageSize.width() - pageSize.evenLeftMargin() - pageSize.oddLeftMargin());
     }
 }

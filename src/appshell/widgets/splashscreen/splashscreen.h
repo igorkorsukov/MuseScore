@@ -35,7 +35,8 @@ public:
         ForNewInstance
     };
 
-    explicit SplashScreen(SplashScreenType type, bool forNewScore = false, const QString& openingFileName = QString());
+    explicit SplashScreen(SplashScreenType type, bool forNewScore = false,
+                          const QString& openingFileName = QString());
 
 private:
     bool event(QEvent* event) override;

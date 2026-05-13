@@ -63,14 +63,16 @@ void InspectorListModel::init()
     });
 }
 
-void InspectorListModel::buildModelsForSelectedElements(const ElementKeySet& selectedElementKeySet, bool isRangeSelection,
+void InspectorListModel::buildModelsForSelectedElements(const ElementKeySet& selectedElementKeySet,
+                                                        bool isRangeSelection,
                                                         const QList<mu::engraving::EngravingItem*>& selectedElementList)
 {
     removeUnusedModels(selectedElementKeySet, isRangeSelection, selectedElementList);
 
-    InspectorSectionTypeSet buildingSectionTypeSet = AbstractInspectorModel::sectionTypesByElementKeys(selectedElementKeySet,
-                                                                                                       isRangeSelection,
-                                                                                                       selectedElementList);
+    InspectorSectionTypeSet buildingSectionTypeSet
+        = AbstractInspectorModel::sectionTypesByElementKeys(selectedElementKeySet,
+                                                            isRangeSelection,
+                                                            selectedElementList);
 
     createModelsBySectionType(buildingSectionTypeSet, selectedElementKeySet);
 
@@ -94,7 +96,8 @@ void InspectorListModel::buildModelsForEmptySelection()
     createModelsBySectionType(persistentSections);
 }
 
-bool InspectorListModel::alwaysUpdateModelList(const QList<engraving::EngravingItem*>& selectedElementList)
+bool InspectorListModel::alwaysUpdateModelList(
+    const QList<engraving::EngravingItem*>& selectedElementList)
 {
     // Force update of the list model where sections are only relevant to the child of the selected element
     // eg. We need to update the text section of PlayCountText when a BarLine is selected
@@ -107,7 +110,8 @@ bool InspectorListModel::alwaysUpdateModelList(const QList<engraving::EngravingI
     return false;
 }
 
-void InspectorListModel::setElementList(const QList<mu::engraving::EngravingItem*>& selectedElementList, SelectionState selectionState)
+void InspectorListModel::setElementList(
+    const QList<mu::engraving::EngravingItem*>& selectedElementList, SelectionState selectionState)
 {
     TRACEFUNC;
 
@@ -119,7 +123,8 @@ void InspectorListModel::setElementList(const QList<mu::engraving::EngravingItem
         }
 
         forceUpdate = alwaysUpdateModelList(selectedElementList);
-        if (!m_repository->needUpdateElementList(selectedElementList, selectionState) && !forceUpdate) {
+        if (!m_repository->needUpdateElementList(selectedElementList,
+                                                 selectionState) && !forceUpdate) {
             return;
         }
     }
@@ -133,7 +138,8 @@ void InspectorListModel::setElementList(const QList<mu::engraving::EngravingItem
             newElementKeySet << AbstractInspectorModel::makeKey(element);
         }
 
-        buildModelsForSelectedElements(newElementKeySet, selectionState == SelectionState::RANGE, selectedElementList);
+        buildModelsForSelectedElements(newElementKeySet, selectionState == SelectionState::RANGE,
+                                       selectedElementList);
     }
 
     m_repository->updateElementList(selectedElementList, selectionState);
@@ -150,7 +156,8 @@ int InspectorListModel::rowCount(const QModelIndex&) const
 
 QVariant InspectorListModel::data(const QModelIndex& index, int role) const
 {
-    if (!index.isValid() || index.row() >= rowCount() || m_modelList.isEmpty() || role != InspectorSectionModelRole) {
+    if (!index.isValid() || index.row() >= rowCount() || m_modelList.isEmpty()
+        || role != InspectorSectionModelRole) {
         return QVariant();
     }
 
@@ -225,10 +232,12 @@ void InspectorListModel::createModelsBySectionType(const InspectorSectionTypeSet
             newModel = new MeasuresSettingsModel(this, iocContext(), m_repository.get());
             break;
         case InspectorSectionType::SECTION_EMPTY_STAVES:
-            newModel = new EmptyStavesVisibilitySettingsModel(this, iocContext(), m_repository.get());
+            newModel
+                = new EmptyStavesVisibilitySettingsModel(this, iocContext(), m_repository.get());
             break;
         case InspectorSectionType::SECTION_NOTATION:
-            newModel = new NotationSettingsProxyModel(this, iocContext(), m_repository.get(), selectedElementKeySet);
+            newModel = new NotationSettingsProxyModel(this, iocContext(),
+                                                      m_repository.get(), selectedElementKeySet);
             break;
         case InspectorSectionType::SECTION_TEXT:
             newModel = new TextSettingsModel(this, iocContext(), m_repository.get());
@@ -258,14 +267,17 @@ void InspectorListModel::createModelsBySectionType(const InspectorSectionTypeSet
 }
 
 void InspectorListModel::removeUnusedModels(const ElementKeySet& newElementKeySet,
-                                            bool isRangeSelection, const QList<engraving::EngravingItem*>& selectedElementList,
+                                            bool isRangeSelection,
+                                            const QList<engraving::EngravingItem*>& selectedElementList,
                                             const InspectorSectionTypeSet& exclusions)
 {
     QList<AbstractInspectorModel*> modelsToRemove;
 
-    InspectorModelTypeSet allowedModelTypes = AbstractInspectorModel::modelTypesByElementKeys(newElementKeySet);
-    InspectorSectionTypeSet allowedSectionTypes = AbstractInspectorModel::sectionTypesByElementKeys(newElementKeySet, isRangeSelection,
-                                                                                                    selectedElementList);
+    InspectorModelTypeSet allowedModelTypes = AbstractInspectorModel::modelTypesByElementKeys(
+        newElementKeySet);
+    InspectorSectionTypeSet allowedSectionTypes = AbstractInspectorModel::sectionTypesByElementKeys(
+        newElementKeySet, isRangeSelection,
+        selectedElementList);
 
     for (AbstractInspectorModel* model : m_modelList) {
         if (muse::contains(exclusions, model->sectionType())) {
@@ -291,12 +303,14 @@ void InspectorListModel::removeUnusedModels(const ElementKeySet& newElementKeySe
     }
 }
 
-bool InspectorListModel::isModelAllowed(const AbstractInspectorModel* model, const InspectorModelTypeSet& allowedModelTypes,
+bool InspectorListModel::isModelAllowed(const AbstractInspectorModel* model,
+                                        const InspectorModelTypeSet& allowedModelTypes,
                                         const InspectorSectionTypeSet& allowedSectionTypes) const
 {
     InspectorModelType modelType = model->modelType();
 
-    if (modelType != InspectorModelType::TYPE_UNDEFINED && muse::contains(allowedModelTypes, modelType)) {
+    if (modelType != InspectorModelType::TYPE_UNDEFINED
+        && muse::contains(allowedModelTypes, modelType)) {
         return true;
     }
 
@@ -318,8 +332,10 @@ void InspectorListModel::sortModels()
 {
     QList<AbstractInspectorModel*> sortedModelList = m_modelList;
 
-    std::sort(sortedModelList.begin(), sortedModelList.end(), [](const AbstractInspectorModel* first,
-                                                                 const AbstractInspectorModel* second) -> bool {
+    std::sort(sortedModelList.begin(), sortedModelList.end(),
+              [](const AbstractInspectorModel* first,
+                 const AbstractInspectorModel*
+                 second) -> bool {
         return static_cast<int>(first->sectionType()) < static_cast<int>(second->sectionType());
     });
 
@@ -335,7 +351,8 @@ void InspectorListModel::sortModels()
     }
 }
 
-AbstractInspectorModel* InspectorListModel::modelBySectionType(InspectorSectionType sectionType) const
+AbstractInspectorModel* InspectorListModel::modelBySectionType(InspectorSectionType sectionType)
+const
 {
     for (AbstractInspectorModel* model : m_modelList) {
         if (model->sectionType() == sectionType) {
@@ -388,8 +405,10 @@ void InspectorListModel::listenScoreChanges()
         }
 
         if (!m_inspectorVisible) {
-            m_changedPropertyIdSet.insert(changes.changedPropertyIdSet.cbegin(), changes.changedPropertyIdSet.cend());
-            m_changedStyleIdSet.insert(changes.changedStyleIdSet.cbegin(), changes.changedStyleIdSet.cend());
+            m_changedPropertyIdSet.insert(changes.changedPropertyIdSet.cbegin(),
+                                          changes.changedPropertyIdSet.cend());
+            m_changedStyleIdSet.insert(changes.changedStyleIdSet.cbegin(),
+                                       changes.changedStyleIdSet.cend());
             return;
         }
 
@@ -420,7 +439,8 @@ void InspectorListModel::onScoreChanged(const mu::engraving::PropertyIdSet& chan
             }
         }
 
-        mu::engraving::PropertyIdSet expandedPropertyIdSet = model->propertyIdSetFromStyleIdSet(changedStyleIdSet);
+        mu::engraving::PropertyIdSet expandedPropertyIdSet = model->propertyIdSetFromStyleIdSet(
+            changedStyleIdSet);
         expandedPropertyIdSet.insert(changedPropertyIdSet.cbegin(), changedPropertyIdSet.cend());
         model->onNotationChanged(expandedPropertyIdSet, changedStyleIdSet);
     }

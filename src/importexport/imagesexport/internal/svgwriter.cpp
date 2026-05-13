@@ -91,7 +91,8 @@ Ret SvgWriter::write(INotationPtr notation, io::IODevice& destinationDevice, con
 
     RectF pageRect = page->pageBoundingRect();
     if (TRIM_MARGIN_SIZE >= 0) {
-        pageRect = page->tbbox().adjusted(-TRIM_MARGIN_SIZE, -TRIM_MARGIN_SIZE, TRIM_MARGIN_SIZE, TRIM_MARGIN_SIZE);
+        pageRect = page->tbbox().adjusted(-TRIM_MARGIN_SIZE, -TRIM_MARGIN_SIZE, TRIM_MARGIN_SIZE,
+                                          TRIM_MARGIN_SIZE);
     }
 
     qreal width = pageRect.width();
@@ -106,7 +107,9 @@ Ret SvgWriter::write(INotationPtr notation, io::IODevice& destinationDevice, con
     }
 
     const bool TRANSPARENT_BACKGROUND = muse::value(options, OptionKey::TRANSPARENT_BACKGROUND,
-                                                    Val(configuration()->exportSvgWithTransparentBackground())).toBool();
+                                                    Val(configuration()->
+                                                        exportSvgWithTransparentBackground())).
+                                        toBool();
     if (!TRANSPARENT_BACKGROUND) {
         painter.fillRect(pageRect, muse::draw::Color::WHITE);
     }
@@ -142,7 +145,8 @@ Ret SvgWriter::write(INotationPtr notation, io::IODevice& destinationDevice, con
             mu::engraving::Shape concatenatedShape;
             mu::engraving::Shape concatenatedMask;
             StaffType* prevStaffType = nullptr;
-            for (mu::engraving::MeasureBase* measure = firstMeasure; measure; measure = system->nextMeasure(measure)) {
+            for (mu::engraving::MeasureBase* measure = firstMeasure; measure;
+                 measure = system->nextMeasure(measure)) {
                 if (!measure->isMeasure()) {
                     if (concatenatedSL != nullptr) {
                         printer.setElement(concatenatedSL);
@@ -182,8 +186,10 @@ Ret SvgWriter::write(INotationPtr notation, io::IODevice& destinationDevice, con
                         lines[l].setP2(muse::PointF(lastX, lines[l].p2().y()));
                     }
                     concatenatedSL->setLines(lines);
-                    concatenatedShape.add(sl->ldata()->shape().translated(sl->pagePos() - concatenatedSL->pagePos()));
-                    concatenatedMask.add(sl->ldata()->mask().translated(sl->pagePos() - concatenatedSL->pagePos()));
+                    concatenatedShape.add(sl->ldata()->shape().translated(sl->pagePos()
+                                                                          - concatenatedSL->pagePos()));
+                    concatenatedMask.add(sl->ldata()->mask().translated(sl->pagePos()
+                                                                        - concatenatedSL->pagePos()));
                 }
             }
 
@@ -198,13 +204,15 @@ Ret SvgWriter::write(INotationPtr notation, io::IODevice& destinationDevice, con
         }
     }
 
-    BeatsColors beatsColors = parseBeatsColors(muse::value(options, OptionKey::BEATS_COLORS, Val()).toQVariant());
+    BeatsColors beatsColors = parseBeatsColors(muse::value(options, OptionKey::BEATS_COLORS,
+                                                           Val()).toQVariant());
 
     // 2nd pass: Set color for elements on beats
     int beatIndex = 0;
     for (const mu::engraving::RepeatSegment* repeatSegment : score->repeatList()) {
         for (const mu::engraving::Measure* measure : repeatSegment->measureList()) {
-            for (mu::engraving::Segment* segment = measure->first(); segment; segment = segment->next()) {
+            for (mu::engraving::Segment* segment = measure->first(); segment;
+                 segment = segment->next()) {
                 if (!segment->isChordRestType()) {
                     continue;
                 }

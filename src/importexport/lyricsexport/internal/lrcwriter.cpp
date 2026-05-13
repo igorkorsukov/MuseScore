@@ -47,7 +47,8 @@ std::vector<INotationWriter::UnitType> LRCWriter::supportedUnitTypes() const
 
 bool LRCWriter::supportsUnitType(UnitType ut) const { return ut == UnitType::PER_PART; }
 
-muse::Ret LRCWriter::write(notation::INotationPtr notation, muse::io::IODevice& device, const Options&)
+muse::Ret LRCWriter::write(notation::INotationPtr notation, muse::io::IODevice& device,
+                           const Options&)
 {
     Score* score = notation->elements()->msScore();
     bool enhancedLrc = configuration()->lrcUseEnhancedFormat();
@@ -55,7 +56,8 @@ muse::Ret LRCWriter::write(notation::INotationPtr notation, muse::io::IODevice& 
     return doWrite(score, &device, enhancedLrc);
 }
 
-bool LRCWriter::writeScore(mu::engraving::Score* score, const muse::io::path_t& path, bool enhancedLrc)
+bool LRCWriter::writeScore(mu::engraving::Score* score, const muse::io::path_t& path,
+                           bool enhancedLrc)
 {
     auto outBuf = Buffer::opened(IODevice::WriteOnly);
     bool res = doWrite(score, &outBuf, enhancedLrc) && !outBuf.hasError();
@@ -67,7 +69,8 @@ bool LRCWriter::writeScore(mu::engraving::Score* score, const muse::io::path_t& 
     return File::writeFile(path, outBuf.data());
 }
 
-muse::Ret LRCWriter::writeList(const notation::INotationPtrList&, muse::io::IODevice&, const Options&)
+muse::Ret LRCWriter::writeList(const notation::INotationPtrList&, muse::io::IODevice&,
+                               const Options&)
 {
     return make_ret(Ret::Code::NotSupported);
 }
@@ -93,7 +96,8 @@ void LRCWriter::writeMetadata(muse::io::IODevice* device, const engraving::Score
     }
 }
 
-muse::Ret LRCWriter::doWrite(mu::engraving::Score* score, muse::io::IODevice* device, bool enhancedLrc)
+muse::Ret LRCWriter::doWrite(mu::engraving::Score* score, muse::io::IODevice* device,
+                             bool enhancedLrc)
 {
     writeMetadata(device, score);
 
@@ -107,7 +111,8 @@ muse::Ret LRCWriter::doWrite(mu::engraving::Score* score, muse::io::IODevice* de
             lyricsText.replace(QRegularExpression("\\s"), "-");
             lyricsText.replace(u'\u00A0', u'-');
 
-            device->write(QString("[%1] <%1> %2\n").arg(formatTimestamp(timestamp), lyricsText).toUtf8());
+            device->write(QString("[%1] <%1> %2\n").arg(formatTimestamp(
+                                                            timestamp), lyricsText).toUtf8());
         } else {
             device->write(QString("[%1]%2\n").arg(formatTimestamp(timestamp), text).toUtf8());
         }
@@ -150,7 +155,8 @@ std::map<double, QString> LRCWriter::collectLyrics(const mu::engraving::Score* s
                     }
 
                     if (lyricNumber == l->subtype()) {
-                        const double time = score->utick2utime(l->tick().ticks() + tickOffset) * 1000;
+                        const double time = score->utick2utime(l->tick().ticks() + tickOffset)
+                                            * 1000;
                         lyrics.insert_or_assign(time, l->plainText());
                     }
                 }
@@ -169,7 +175,8 @@ QString LRCWriter::formatTimestamp(double ms) const
            .arg(static_cast<int>(ms) % 1000 / 10, 2, 10, QLatin1Char('0'));
 }
 
-void LRCWriter::findTrackAndLyricToExport(const engraving::Score* score, mu::engraving::track_idx_t& trackNumber, int& lyricNumber)
+void LRCWriter::findTrackAndLyricToExport(const engraving::Score* score,
+                                          mu::engraving::track_idx_t& trackNumber, int& lyricNumber)
 {
     bool lyricsFound = false;
     trackNumber = 0;

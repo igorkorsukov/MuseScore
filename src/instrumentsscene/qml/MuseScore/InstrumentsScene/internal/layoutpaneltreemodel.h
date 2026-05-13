@@ -49,21 +49,25 @@ class QItemSelectionModel;
 
 namespace mu::instrumentsscene {
 class PartTreeItem;
-class LayoutPanelTreeModel : public QAbstractItemModel, public QQmlParserStatus, public muse::async::Asyncable,
-    public muse::actions::Actionable, public muse::Contextable
+class LayoutPanelTreeModel : public QAbstractItemModel, public QQmlParserStatus,
+    public muse::async::Asyncable, public muse::actions::Actionable, public muse::Contextable
 {
     Q_OBJECT
     Q_INTERFACES(QQmlParserStatus)
 
     Q_PROPERTY(bool isMovingUpAvailable READ isMovingUpAvailable NOTIFY isMovingUpAvailableChanged)
-    Q_PROPERTY(bool isMovingDownAvailable READ isMovingDownAvailable NOTIFY isMovingDownAvailableChanged)
+    Q_PROPERTY(
+        bool isMovingDownAvailable READ isMovingDownAvailable NOTIFY isMovingDownAvailableChanged)
     Q_PROPERTY(bool isRemovingAvailable READ isRemovingAvailable NOTIFY isRemovingAvailableChanged)
     Q_PROPERTY(bool isAddingAvailable READ isAddingAvailable NOTIFY isAddingAvailableChanged)
-    Q_PROPERTY(bool isAddingSystemMarkingsAvailable READ isAddingSystemMarkingsAvailable NOTIFY isAddingSystemMarkingsAvailableChanged)
+    Q_PROPERTY(
+        bool isAddingSystemMarkingsAvailable READ isAddingSystemMarkingsAvailable NOTIFY isAddingSystemMarkingsAvailableChanged)
     Q_PROPERTY(bool isEmpty READ isEmpty NOTIFY isEmptyChanged)
-    Q_PROPERTY(QString addInstrumentsKeyboardShortcut READ addInstrumentsKeyboardShortcut NOTIFY addInstrumentsKeyboardShortcutChanged)
+    Q_PROPERTY(
+        QString addInstrumentsKeyboardShortcut READ addInstrumentsKeyboardShortcut NOTIFY addInstrumentsKeyboardShortcutChanged)
     Q_PROPERTY(int selectedItemsType READ selectedItemsType NOTIFY selectedItemsTypeChanged)
-    Q_PROPERTY(bool isStaveSharingEnabled READ isStaveSharingEnabled NOTIFY isStaveSharingEnabledChanged FINAL)
+    Q_PROPERTY(
+        bool isStaveSharingEnabled READ isStaveSharingEnabled NOTIFY isStaveSharingEnabledChanged FINAL)
 
     QML_ELEMENT
 
@@ -115,8 +119,8 @@ public:
     Q_INVOKABLE void startActiveDrag();
     Q_INVOKABLE void endActiveDrag();
 
-    Q_INVOKABLE bool moveRows(const QModelIndex& sourceParent, int sourceRow, int count, const QModelIndex& destinationParent,
-                              int destinationChild) override;
+    Q_INVOKABLE bool moveRows(const QModelIndex& sourceParent, int sourceRow, int count,
+                              const QModelIndex& destinationParent, int destinationChild) override;
 
     Q_INVOKABLE QItemSelectionModel* selectionModel() const;
 
@@ -133,8 +137,10 @@ signals:
 
 private slots:
     void updateRearrangementAvailability();
-    void updateMovingUpAvailability(bool isSelectionMovable, const QModelIndex& firstSelectedRowIndex = QModelIndex());
-    void updateMovingDownAvailability(bool isSelectionMovable, const QModelIndex& lastSelectedRowIndex = QModelIndex());
+    void updateMovingUpAvailability(bool isSelectionMovable,
+                                    const QModelIndex& firstSelectedRowIndex = QModelIndex());
+    void updateMovingDownAvailability(bool isSelectionMovable,
+                                      const QModelIndex& lastSelectedRowIndex = QModelIndex());
     void updateRemovingAvailability();
     void updateSelectedItemsType();
     void updateIsAddingSystemMarkingsAvailable();
@@ -184,7 +190,8 @@ private:
 
     AbstractLayoutPanelTreeItem* buildSharedPartItem(const notation::Part* part);
     AbstractLayoutPanelTreeItem* buildMasterPartItem(const notation::Part* masterPart);
-    AbstractLayoutPanelTreeItem* buildMasterStaffItem(const mu::notation::Staff* masterStaff, QObject* parent);
+    AbstractLayoutPanelTreeItem* buildMasterStaffItem(const mu::notation::Staff* masterStaff,
+                                                      QObject* parent);
     AbstractLayoutPanelTreeItem* buildSystemObjectsLayerItem(const mu::notation::Staff* masterStaff,
                                                              const SystemObjectGroups& systemObjects);
     AbstractLayoutPanelTreeItem* buildAddStaffControlItem(const muse::ID& partId, QObject* parent);

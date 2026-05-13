@@ -29,8 +29,10 @@ using namespace mu::instrumentsscene;
 using namespace mu::notation;
 using namespace muse;
 
-PartTreeItem::PartTreeItem(IMasterNotationPtr masterNotation, INotationPtr notation, QObject* parent, LayoutPanelItemType::ItemType type)
-    : AbstractLayoutPanelTreeItem(type, masterNotation, notation, parent), Contextable(iocCtxForQmlObject(this))
+PartTreeItem::PartTreeItem(IMasterNotationPtr masterNotation, INotationPtr notation,
+                           QObject* parent, LayoutPanelItemType::ItemType type)
+    : AbstractLayoutPanelTreeItem(type, masterNotation, notation, parent), Contextable(iocCtxForQmlObject(
+                                                                                           this))
 {
     setIsSelectable(true);
 
@@ -158,7 +160,8 @@ size_t PartTreeItem::resolveNewPartIndex(const ID& partId) const
     return parts.size();
 }
 
-MoveParams PartTreeItem::buildMoveParams(int sourceRow, int count, AbstractLayoutPanelTreeItem* destinationParent,
+MoveParams PartTreeItem::buildMoveParams(int sourceRow, int count,
+                                         AbstractLayoutPanelTreeItem* destinationParent,
                                          int destinationRow) const
 {
     MoveParams moveParams;
@@ -180,7 +183,8 @@ MoveParams PartTreeItem::buildMoveParams(int sourceRow, int count, AbstractLayou
         moveMode = INotationParts::InsertMode::After;
     }
 
-    AbstractLayoutPanelTreeItem* destinationStaffItem = destinationParent->childAtRow(destinationRowLast);
+    AbstractLayoutPanelTreeItem* destinationStaffItem = destinationParent->childAtRow(
+        destinationRowLast);
 
     moveParams.destinationObjectId = destinationStaffItem->id();
     moveParams.insertMode = moveMode;
@@ -189,20 +193,24 @@ MoveParams PartTreeItem::buildMoveParams(int sourceRow, int count, AbstractLayou
     return moveParams;
 }
 
-void PartTreeItem::moveChildren(int sourceRow, int count, AbstractLayoutPanelTreeItem* destinationParent,
+void PartTreeItem::moveChildren(int sourceRow, int count,
+                                AbstractLayoutPanelTreeItem* destinationParent,
                                 int destinationRow, bool updateNotation)
 {
     if (updateNotation) {
-        MoveParams moveParams = buildMoveParams(sourceRow, count, destinationParent, destinationRow);
+        MoveParams moveParams
+            = buildMoveParams(sourceRow, count, destinationParent, destinationRow);
         moveChildrenOnScore(moveParams);
     }
 
-    AbstractLayoutPanelTreeItem::moveChildren(sourceRow, count, destinationParent, destinationRow, updateNotation);
+    AbstractLayoutPanelTreeItem::moveChildren(sourceRow, count, destinationParent, destinationRow,
+                                              updateNotation);
 }
 
 void PartTreeItem::moveChildrenOnScore(const MoveParams& params)
 {
-    notation()->parts()->moveStaves(params.objectIdListToMove, params.destinationObjectId, params.insertMode);
+    notation()->parts()->moveStaves(params.objectIdListToMove, params.destinationObjectId,
+                                    params.insertMode);
 }
 
 void PartTreeItem::removeChildren(int row, int count, bool deleteChild)
@@ -245,7 +253,8 @@ void PartTreeItem::replaceInstrument()
     instrumentKey.instrumentId = instrumentId();
     instrumentKey.tick = Part::MAIN_INSTRUMENT_TICK;
 
-    async::Promise<InstrumentTemplate> templ = selectInstrumentsScenario()->selectInstrument(instrumentKey);
+    async::Promise<InstrumentTemplate> templ = selectInstrumentsScenario()->selectInstrument(
+        instrumentKey);
     templ.onResolve(this, [this, instrumentKey](const InstrumentTemplate& val) {
         Instrument instrument = Instrument::fromTemplate(&val);
 

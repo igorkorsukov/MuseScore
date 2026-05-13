@@ -163,10 +163,14 @@ public:
 
     SwingParameters swing(const Fraction&)  const;
     void clearSwingMap() { m_swingMap.clear(); }
-    void insertIntoSwingMap(const Fraction& tick, SwingParameters sp) { m_swingMap.insert({ tick.ticks(), sp }); }
+    void insertIntoSwingMap(const Fraction& tick, SwingParameters sp)
+    {
+        m_swingMap.insert({ tick.ticks(), sp });
+    }
 
     const CapoParams& capo(const Fraction&) const;
-    void insertCapoParams(const Fraction& tick, const CapoParams& params, bool ignoreNotationUpdate);
+    void insertCapoParams(const Fraction& tick, const CapoParams& params,
+                          bool ignoreNotationUpdate);
     void removeCapoParams(const Fraction& tick);
 
     //==== staff type helper function

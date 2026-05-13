@@ -154,13 +154,15 @@ void AppMenuModel::updateUndoRedoItems()
     auto stack = undoStack();
 
     MenuItem& undoItem = findItem(ActionCode("action://notation/undo"));
-    const TranslatableString undoActionName = stack ? stack->topMostUndoActionName() : TranslatableString();
+    const TranslatableString undoActionName
+        = stack ? stack->topMostUndoActionName() : TranslatableString();
     undoItem.setTitle(undoActionName.isEmpty()
                       ? TranslatableString("action", "Undo")
                       : TranslatableString("action", "Undo ‘%1’").arg(undoActionName));
 
     MenuItem& redoItem = findItem(ActionCode("action://notation/redo"));
-    const TranslatableString redoActionName = stack ? stack->topMostRedoActionName() : TranslatableString();
+    const TranslatableString redoActionName
+        = stack ? stack->topMostRedoActionName() : TranslatableString();
     redoItem.setTitle(redoActionName.isEmpty()
                       ? TranslatableString("action", "Redo")
                       : TranslatableString("action", "Redo ‘%1’").arg(redoActionName));
@@ -184,15 +186,19 @@ MenuItem* AppMenuModel::makeViewMenu()
         makeMenuItem("toggle-piano-keyboard"),
         makeMenuItem("toggle-percussion-panel"),
         makeSeparator(),
-        makeMenu(TranslatableString("appshell/menu/view", "&Toolbars"), makeToolbarsItems(), "menu-toolbars")
+        makeMenu(TranslatableString("appshell/menu/view", "&Toolbars"),
+                 makeToolbarsItems(), "menu-toolbars")
     };
 
 #ifdef MUSE_MODULE_WORKSPACE
-    viewItems << makeMenu(TranslatableString("appshell/menu/view", "W&orkspaces"), m_workspacesMenuModel->items(), "menu-workspaces"),
+    viewItems << makeMenu(TranslatableString("appshell/menu/view",
+                                             "W&orkspaces"),
+                          m_workspacesMenuModel->items(), "menu-workspaces"),
 #endif
 
     viewItems << makeSeparator()
-              << makeMenu(TranslatableString("appshell/menu/view", "&Show"), makeShowItems(), "menu-show")
+              << makeMenu(TranslatableString("appshell/menu/view", "&Show"),
+                makeShowItems(), "menu-show")
               << makeSeparator()
               << makeMenuItem("dock-restore-default-layout");
 
@@ -203,11 +209,15 @@ MenuItem* AppMenuModel::makeAddMenu()
 {
     MenuItemList addItems {
         makeMenu(TranslatableString("appshell/menu/add", "&Notes"), makeNotesItems(), "menu-notes"),
-        makeMenu(TranslatableString("appshell/menu/add", "&Intervals"), makeIntervalsItems(), "menu-intervals"),
-        makeMenu(TranslatableString("appshell/menu/add", "T&uplets"), makeTupletsItems(), "menu-tuplets"),
+        makeMenu(TranslatableString("appshell/menu/add", "&Intervals"),
+                 makeIntervalsItems(), "menu-intervals"),
+        makeMenu(TranslatableString("appshell/menu/add", "T&uplets"),
+                 makeTupletsItems(), "menu-tuplets"),
         makeSeparator(),
-        makeMenu(TranslatableString("appshell/menu/add", "&Measures"), makeMeasuresItems(), "menu-measures"),
-        makeMenu(TranslatableString("appshell/menu/add", "&Frames"), makeFramesItems(), "menu-frames"),
+        makeMenu(TranslatableString("appshell/menu/add", "&Measures"),
+                 makeMeasuresItems(), "menu-measures"),
+        makeMenu(TranslatableString("appshell/menu/add", "&Frames"),
+                 makeFramesItems(), "menu-frames"),
         makeMenu(TranslatableString("appshell/menu/add", "&Text"), makeTextItems(), "menu-notes"),
         makeMenu(TranslatableString("appshell/menu/add", "&Lines"), makeLinesItems(), "menu-lines"),
     };
@@ -228,7 +238,8 @@ MenuItem* AppMenuModel::makeFormatMenu()
         makeMenuItem("page-settings"),
         makeSeparator(),
         makeMenuItem("measures-per-system"),
-        makeMenu(TranslatableString("appshell/menu/format", "Str&etch"), stretchItems, "menu-stretch"),
+        makeMenu(TranslatableString("appshell/menu/format",
+                                    "Str&etch"), stretchItems, "menu-stretch"),
         makeSeparator(),
         makeMenuItem("reset-text-style-overrides"),
         makeMenuItem("reset-beammode"),
@@ -236,7 +247,8 @@ MenuItem* AppMenuModel::makeFormatMenu()
         makeMenuItem("reset-to-default-layout"),
     };
 
-    return makeMenu(TranslatableString("appshell/menu/format", "F&ormat"), formatItems, "menu-format");
+    return makeMenu(TranslatableString("appshell/menu/format",
+                                       "F&ormat"), formatItems, "menu-format");
 }
 
 MenuItem* AppMenuModel::makeToolsMenu()
@@ -262,7 +274,8 @@ MenuItem* AppMenuModel::makeToolsMenu()
         makeMenuItem("implode"),
         makeMenuItem("realize-chord-symbols"),
         makeMenu(TranslatableString("appshell/menu/tools", "&Voices"), voicesItems, "menu-voices"),
-        makeMenu(TranslatableString("appshell/menu/tools", "&Measures"), measuresItems, "menu-tools-measures"),
+        makeMenu(TranslatableString("appshell/menu/tools",
+                                    "&Measures"), measuresItems, "menu-tools-measures"),
         makeMenuItem("time-delete"),
         makeSeparator(),
         makeMenuItem("slash-fill"),
@@ -288,7 +301,8 @@ MenuItem* AppMenuModel::makeDiagnosticsMenu()
         makeMenuItem("file-open"),
     };
 
-    return makeMenu(TranslatableString("appshell/menu/diagnostics", "&Diagnostics"), items, "menu-diagnostic");
+    return makeMenu(TranslatableString("appshell/menu/diagnostics",
+                                       "&Diagnostics"), items, "menu-diagnostic");
 }
 
 MenuItemList AppMenuModel::makeNotesItems()
@@ -364,10 +378,13 @@ MenuItemList AppMenuModel::makeTupletsItems()
 MenuItemList AppMenuModel::makeMeasuresItems()
 {
     MenuItemList items {
-        makeMenuItem("insert-measures-after-selection", TranslatableString("notation", "Insert &after selection…")),
-        makeMenuItem("insert-measures", TranslatableString("notation", "Insert &before selection…")),
+        makeMenuItem("insert-measures-after-selection",
+                     TranslatableString("notation", "Insert &after selection…")),
+        makeMenuItem("insert-measures",
+                     TranslatableString("notation", "Insert &before selection…")),
         makeSeparator(),
-        makeMenuItem("insert-measures-at-start-of-score", TranslatableString("notation", "Insert at &start of score…")),
+        makeMenuItem("insert-measures-at-start-of-score",
+                     TranslatableString("notation", "Insert at &start of score…")),
         makeMenuItem("append-measures", TranslatableString("notation", "Insert at &end of score…"))
     };
 

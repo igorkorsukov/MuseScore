@@ -25,7 +25,8 @@ using namespace mu::instrumentsscene;
 using namespace mu::notation;
 using namespace muse;
 
-async::Promise<PartInstrumentListScoreOrder> SelectInstrumentsScenarioStub::selectInstruments() const
+async::Promise<PartInstrumentListScoreOrder> SelectInstrumentsScenarioStub::selectInstruments()
+const
 {
     return async::make_promise<PartInstrumentListScoreOrder>([](auto, auto reject) {
         Ret ret = make_ret(Ret::Code::NotSupported);
@@ -33,7 +34,8 @@ async::Promise<PartInstrumentListScoreOrder> SelectInstrumentsScenarioStub::sele
     });
 }
 
-async::Promise<InstrumentTemplate> SelectInstrumentsScenarioStub::selectInstrument(const notation::InstrumentKey&) const
+async::Promise<InstrumentTemplate> SelectInstrumentsScenarioStub::selectInstrument(
+    const notation::InstrumentKey&) const
 {
     return async::make_promise<InstrumentTemplate>([](auto, auto reject) {
         Ret ret = make_ret(Ret::Code::NotSupported);

@@ -67,7 +67,8 @@ public:
     static System* collectSystem(LayoutContext& ctx);
     static void layoutSystemElements(System* system, LayoutContext& ctx);
 
-    static void layoutSystem(System* system, LayoutContext& ctx, double xo1, bool isFirstSystem = false, bool firstSystemIndent = false);
+    static void layoutSystem(System* system, LayoutContext& ctx, double xo1,
+                             bool isFirstSystem = false, bool firstSystemIndent = false);
 
     static void hideEmptyStaves(System* system, LayoutContext& ctx, bool isFirstSystem);
     static bool canChangeSysStaffVisibility(const System* system, const staff_idx_t staffIdx);
@@ -163,15 +164,17 @@ private:
             : system(s) {}
     };
 
-    static void collectElementsToLayout(Measure* measure, ElementsToLayout& elements, const LayoutContext& ctx);
+    static void collectElementsToLayout(Measure* measure, ElementsToLayout& elements,
+                                        const LayoutContext& ctx);
     static void collectSpannersToLayout(ElementsToLayout& elements, const LayoutContext& ctx);
 
     static System* getNextSystem(LayoutContext& lc);
     static void createSkylines(const ElementsToLayout& elementsToLayout, LayoutContext& ctx);
-    static void processLines(System* system, LayoutContext& ctx, const std::vector<Spanner*>& lines, bool align = false);
+    static void processLines(System* system, LayoutContext& ctx, const std::vector<Spanner*>& lines,
+                             bool align = false);
     static void layoutTies(Chord* ch, System* system, const Fraction& stick, LayoutContext& ctx);
-    static void doLayoutTies(System* system, const std::vector<Segment*>& sl, const Fraction& stick, const Fraction& etick,
-                             LayoutContext& ctx);
+    static void doLayoutTies(System* system, const std::vector<Segment*>& sl, const Fraction& stick,
+                             const Fraction& etick, LayoutContext& ctx);
     static void doLayoutNoteSpannersLinear(System* system, LayoutContext& ctx);
     static void layoutNoteAnchoredSpanners(System* system, Chord* chord);
     static void updateCrossBeams(System* system, LayoutContext& ctx);
@@ -181,34 +184,45 @@ private:
 
     static void layoutTiesAndBends(const ElementsToLayout& elementsToLayout, LayoutContext& ctx);
 
-    static double minVertSpaceForCrossStaffBeams(System* system, staff_idx_t staffIdx1, staff_idx_t staffIdx2, LayoutContext& ctx);
+    static double minVertSpaceForCrossStaffBeams(System* system, staff_idx_t staffIdx1,
+                                                 staff_idx_t staffIdx2, LayoutContext& ctx);
 
-    static bool elementShouldBeCenteredBetweenStaves(const EngravingItem* item, const System* system);
+    static bool elementShouldBeCenteredBetweenStaves(const EngravingItem* item,
+                                                     const System* system);
     static bool mmRestShouldBeCenteredBetweenStaves(const MMRest* mmRest, const System* system);
-    static bool whammyBarShouldBeCenteredBetweenStaves(const WhammyBarSegment* wbar, const System* system);
-    static bool elementHasAnotherStackedOutside(const EngravingItem* element, const Shape& elementShape, const SkylineLine& skylineLine);
+    static bool whammyBarShouldBeCenteredBetweenStaves(const WhammyBarSegment* wbar,
+                                                       const System* system);
+    static bool elementHasAnotherStackedOutside(const EngravingItem* element,
+                                                const Shape& elementShape,
+                                                const SkylineLine& skylineLine);
     static void centerElementBetweenStaves(EngravingItem* element, const System* system);
     static void centerMMRestBetweenStaves(MMRest* mmRest, const System* system);
 
-    static bool shouldBeJustified(System* system, double curSysWidth, double targetSystemWidth, LayoutContext& ctx);
+    static bool shouldBeJustified(System* system, double curSysWidth, double targetSystemWidth,
+                                  LayoutContext& ctx);
 
     static void updateTimeSigAboveStavesXPos(System* system, LayoutContext& ctx);
     static void clearBigTimeSigNotShown(System* system, LayoutContext& ctx);
 
-    static void layoutSticking(const std::vector<Sticking*> stickings, System* system, LayoutContext& ctx);
+    static void layoutSticking(const std::vector<Sticking*> stickings, System* system,
+                               LayoutContext& ctx);
 
     static void layoutLyrics(const ElementsToLayout& elements, LayoutContext& ctx);
 
     static void layoutVoltas(const ElementsToLayout& elementsToLayout, LayoutContext& ctx);
 
-    static void layoutDynamicExpressionAndHairpins(const ElementsToLayout& elementsToLayout, LayoutContext& ctx);
+    static void layoutDynamicExpressionAndHairpins(const ElementsToLayout& elementsToLayout,
+                                                   LayoutContext& ctx);
 
     static void layoutParenthesisAndBigTimeSigs(const ElementsToLayout& elementsToLayout);
 
-    static void layoutHarmonies(const std::vector<Harmony*> harmonies, System* system, LayoutContext& ctx);
-    static void layoutFretDiagrams(const ElementsToLayout& elements, System* system, LayoutContext& ctx);
+    static void layoutHarmonies(const std::vector<Harmony*> harmonies, System* system,
+                                LayoutContext& ctx);
+    static void layoutFretDiagrams(const ElementsToLayout& elements, System* system,
+                                   LayoutContext& ctx);
 
     static void alignRests(const ElementsToLayout& elementsToLayout, LayoutContext& ctx);
-    static void checkFullMeasureRestCollisions(const ElementsToLayout& elementsToLayout, LayoutContext& ctx);
+    static void checkFullMeasureRestCollisions(const ElementsToLayout& elementsToLayout,
+                                               LayoutContext& ctx);
 };
 }

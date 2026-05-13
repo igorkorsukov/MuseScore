@@ -213,7 +213,8 @@ void NotationConfigurationStub::setUseNoteInputCursorInInputByDuration(bool)
 {
 }
 
-muse::async::Notification NotationConfigurationStub::useNoteInputCursorInInputByDurationChanged() const
+muse::async::Notification NotationConfigurationStub::useNoteInputCursorInInputByDurationChanged()
+const
 {
     static muse::async::Notification n;
     return n;
@@ -322,7 +323,8 @@ void NotationConfigurationStub::setDefaultStyleFilePath(const muse::io::path_t&)
 {
 }
 
-muse::async::Channel<muse::io::path_t> NotationConfigurationStub::defaultStyleFilePathChanged() const
+muse::async::Channel<muse::io::path_t> NotationConfigurationStub::defaultStyleFilePathChanged()
+const
 {
     static muse::async::Channel<muse::io::path_t> ch;
     return ch;
@@ -367,7 +369,8 @@ void NotationConfigurationStub::setAddAccidentalDotsArticulationsToNextNoteEnter
 {
 }
 
-muse::async::Notification NotationConfigurationStub::addAccidentalDotsArticulationsToNextNoteEnteredChanged() const
+muse::async::Notification NotationConfigurationStub::
+addAccidentalDotsArticulationsToNextNoteEnteredChanged() const
 {
     static muse::async::Notification n;
     return n;
@@ -412,7 +415,8 @@ void NotationConfigurationStub::setStartNoteInputAtSelectedNoteRestWhenPressingM
 {
 }
 
-muse::async::Notification NotationConfigurationStub::startNoteInputAtSelectedNoteRestWhenPressingMidiKeyChanged() const
+muse::async::Notification NotationConfigurationStub::
+startNoteInputAtSelectedNoteRestWhenPressingMidiKeyChanged() const
 {
     static muse::async::Notification n;
     return n;
@@ -485,7 +489,8 @@ void NotationConfigurationStub::setIsPlayPreviewNotesInInputByDuration(bool)
 {
 }
 
-muse::async::Notification NotationConfigurationStub::isPlayPreviewNotesInInputByDurationChanged() const
+muse::async::Notification NotationConfigurationStub::isPlayPreviewNotesInInputByDurationChanged()
+const
 {
     static muse::async::Notification n;
     return n;
@@ -500,7 +505,8 @@ void NotationConfigurationStub::setPlayPreviewNotesWithScoreDynamics(bool)
 {
 }
 
-muse::async::Notification NotationConfigurationStub::playPreviewNotesWithScoreDynamicsChanged() const
+muse::async::Notification NotationConfigurationStub::playPreviewNotesWithScoreDynamicsChanged()
+const
 {
     return {};
 }
@@ -573,7 +579,8 @@ void NotationConfigurationStub::setColorNotesOutsideOfUsablePitchRange(bool)
 {
 }
 
-muse::async::Channel<bool> NotationConfigurationStub::colorNotesOutsideOfUsablePitchRangeChanged() const
+muse::async::Channel<bool> NotationConfigurationStub::colorNotesOutsideOfUsablePitchRangeChanged()
+const
 {
     static muse::async::Channel<bool> ch;
     return ch;
@@ -603,7 +610,8 @@ void NotationConfigurationStub::setDelayBetweenNotesInRealTimeModeMilliseconds(i
 {
 }
 
-muse::async::Channel<int> NotationConfigurationStub::delayBetweenNotesInRealTimeModeMillisecondsChanged() const
+muse::async::Channel<int> NotationConfigurationStub::
+delayBetweenNotesInRealTimeModeMillisecondsChanged() const
 {
     static muse::async::Channel<int> ch;
     return ch;
@@ -618,7 +626,8 @@ void NotationConfigurationStub::setUseMidiVelocityAndDurationDuringNoteInput(boo
 {
 }
 
-muse::async::Channel<bool> NotationConfigurationStub::useMidiVelocityAndDurationDuringNoteInputChanged() const
+muse::async::Channel<bool> NotationConfigurationStub::
+useMidiVelocityAndDurationDuringNoteInputChanged() const
 {
     return {};
 }
@@ -670,7 +679,8 @@ void NotationConfigurationStub::setUserInstrumentsFolder(const muse::io::path_t&
 {
 }
 
-muse::async::Channel<muse::io::path_t> NotationConfigurationStub::userInstrumentsFolderChanged() const
+muse::async::Channel<muse::io::path_t> NotationConfigurationStub::userInstrumentsFolderChanged()
+const
 {
     static muse::async::Channel<muse::io::path_t> ch;
     return ch;
@@ -779,7 +789,8 @@ void NotationConfigurationStub::setPercussionPanelUseNotationPreview(bool)
 {
 }
 
-muse::async::Notification NotationConfigurationStub::percussionPanelUseNotationPreviewChanged() const
+muse::async::Notification NotationConfigurationStub::percussionPanelUseNotationPreviewChanged()
+const
 {
     static muse::async::Notification n;
     return n;
@@ -839,7 +850,8 @@ void NotationConfigurationStub::setPercussionPanelMoveMidiNotesAndShortcuts(bool
 {
 }
 
-muse::async::Notification NotationConfigurationStub::percussionPanelMoveMidiNotesAndShortcutsChanged() const
+muse::async::Notification NotationConfigurationStub::percussionPanelMoveMidiNotesAndShortcutsChanged()
+const
 {
     static muse::async::Notification n;
     return n;

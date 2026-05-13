@@ -453,7 +453,8 @@ braille_code Braille_SecondValueRange = braille_code("SecondValueRange", "6-126-
 //#256th notes and further range
 braille_code Braille_ThirdValueRange = braille_code("ThirdValueRange", "56-126-2");
 
-braille_code* Braille_ValueRanges[] = { &Braille_FirstValueRange, &Braille_SecondValueRange, &Braille_ThirdValueRange };
+braille_code* Braille_ValueRanges[]
+    = { &Braille_FirstValueRange, &Braille_SecondValueRange, &Braille_ThirdValueRange };
 //#octave signs
 //#based on Piano keyboard, octave 0 and 8 for lowest and highest notes out of the full octave
 //#there are 7 full octaves from 1 to 7
@@ -548,7 +549,8 @@ braille_code Braille_TieCrossVoiceFrom = braille_code("TieCrossVoiceFrom", "46-4
 braille_code Braille_TieCrossStaff = braille_code("TieCrossStaff", "5-4-14");
 braille_code Braille_TieCrossStaffFrom = braille_code("TieCrossStaffFrom", "46-5-4-14");
 braille_code Braille_ChordTieCrossVoice = braille_code("ChordTieCrossVoice", "456-46-14");
-braille_code Braille_ChordTieCrossVoiceFrom = braille_code("ChordTieCrossVoiceFrom", "46-456-46-14");
+braille_code Braille_ChordTieCrossVoiceFrom
+    = braille_code("ChordTieCrossVoiceFrom", "46-456-46-14");
 braille_code Braille_ChordTieCrossStaff = braille_code("ChordTieCrossStaff", "5-46-14");
 braille_code Braille_ChordTieCrossStaffFrom = braille_code("ChordTieCrossStaffFrom", "46-5-46-14");
 //####################
@@ -826,7 +828,8 @@ braille_code Braille_GraceLongDubling = braille_code("GraceLongDubling", "5-26-2
 braille_code Braille_blackHeadDubling = braille_code("blackHeadDubling", "26-1-1");
 braille_code Braille_XShapeDubling = braille_code("XShapeDubling", "26-12-12");
 braille_code Braille_DiamondDubling = braille_code("DiamondDubling", "26-123-123");
-braille_code Braille_DiamondHarmonicDubling = braille_code("DiamondHarmonicDubling", "16-123-16-123");
+braille_code Braille_DiamondHarmonicDubling
+    = braille_code("DiamondHarmonicDubling", "16-123-16-123");
 braille_code Braille_SlashedDubling = braille_code("SlashedDubling", "26-13-13");
 braille_code Braille_StemOnlyDubling = braille_code("StemOnlyDubling", "26-13-13");
 braille_code Braille_CircledDubling = braille_code("CircledDubling", "26-2-2");

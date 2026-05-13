@@ -23,7 +23,8 @@
 
 using namespace mu::project;
 
-void ProjectRWRegister::regWriter(const std::vector<std::string>& suffixes, IProjectWriterPtr writer)
+void ProjectRWRegister::regWriter(const std::vector<std::string>& suffixes,
+                                  IProjectWriterPtr writer)
 {
     for (const std::string& suffix : suffixes) {
         m_writers.insert({ suffix, writer });

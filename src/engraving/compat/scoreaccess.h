@@ -34,8 +34,10 @@ public:
 
     static MasterScore* createMasterScore(const muse::modularity::ContextPtr& iocCtx);
     static MasterScore* createMasterScoreWithBaseStyle(const muse::modularity::ContextPtr& iocCtx);
-    static MasterScore* createMasterScoreWithDefaultStyle(const muse::modularity::ContextPtr& iocCtx);
-    static MasterScore* createMasterScore(const muse::modularity::ContextPtr& iocCtx, const MStyle& style);
+    static MasterScore* createMasterScoreWithDefaultStyle(
+        const muse::modularity::ContextPtr& iocCtx);
+    static MasterScore* createMasterScore(const muse::modularity::ContextPtr& iocCtx,
+                                          const MStyle& style);
 };
 }
 

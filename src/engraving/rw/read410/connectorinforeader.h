@@ -58,7 +58,8 @@ public:
     void update();
     void addToScore(bool pasteMode);
 
-    static void readConnector(std::shared_ptr<ConnectorInfoReader> info, XmlReader& e, ReadContext& ctx);
+    static void readConnector(std::shared_ptr<ConnectorInfoReader> info, XmlReader& e,
+                              ReadContext& ctx);
 
     static void readAddConnector(ChordRest* item, ConnectorInfoReader* info, bool pasteMode);
     static void readAddConnector(Measure* item, ConnectorInfoReader* info, bool pasteMode);

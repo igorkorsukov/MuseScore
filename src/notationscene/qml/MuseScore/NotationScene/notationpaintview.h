@@ -41,7 +41,8 @@ private:
 
     void initZoomAndPosition() override;
 
-    void onMatrixChanged(const muse::draw::Transform& oldMatrix, const muse::draw::Transform& newMatrix,
+    void onMatrixChanged(const muse::draw::Transform& oldMatrix,
+                         const muse::draw::Transform& newMatrix,
                          bool overrideZoomType = true) override;
 
     bool m_isLocalMatrixUpdate = false;

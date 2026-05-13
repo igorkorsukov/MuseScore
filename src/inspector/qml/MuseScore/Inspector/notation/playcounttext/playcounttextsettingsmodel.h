@@ -33,10 +33,12 @@ class PlayCountTextSettingsModel : public AbstractInspectorModel
     QML_UNCREATABLE("Not creatable from QML")
 
     Q_PROPERTY(mu::inspector::PropertyItem * playCountText READ playCountText CONSTANT)
-    Q_PROPERTY(mu::inspector::PropertyItem * playCountTextSetting READ playCountTextSetting CONSTANT)
+    Q_PROPERTY(mu::inspector::PropertyItem
+               * playCountTextSetting READ playCountTextSetting CONSTANT)
 
 public:
-    explicit PlayCountTextSettingsModel(QObject* parent, const muse::modularity::ContextPtr& iocCtx, IElementRepositoryService* repository);
+    explicit PlayCountTextSettingsModel(QObject* parent, const muse::modularity::ContextPtr& iocCtx,
+                                        IElementRepositoryService* repository);
 
     PropertyItem* playCountText() const;
     PropertyItem* playCountTextSetting() const;

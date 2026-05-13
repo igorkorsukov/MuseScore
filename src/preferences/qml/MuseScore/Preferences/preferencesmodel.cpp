@@ -154,16 +154,19 @@ void PreferencesModel::load(const QString& currentPageId)
     m_rootItem = new PreferencePageItem();
 
     QList<PreferencePageItem*> items {
-        makeItem("general", QT_TRANSLATE_NOOP("preferences", "General"), IconCode::Code::SETTINGS_COG,
+        makeItem("general", QT_TRANSLATE_NOOP("preferences",
+                                              "General"), IconCode::Code::SETTINGS_COG,
                  "Preferences/GeneralPreferencesPage.qml"),
 
-        makeItem("appearance", QT_TRANSLATE_NOOP("preferences", "Appearance"), IconCode::Code::EYE_OPEN,
+        makeItem("appearance", QT_TRANSLATE_NOOP("preferences",
+                                                 "Appearance"), IconCode::Code::EYE_OPEN,
                  "Preferences/AppearancePreferencesPage.qml"),
 
         makeItem("canvas", QT_TRANSLATE_NOOP("preferences", "Canvas"), IconCode::Code::NEW_FILE,
                  "Preferences/CanvasPreferencesPage.qml"),
 
-        makeItem("cloud", QT_TRANSLATE_NOOP("preferences", "Save & publish"), IconCode::Code::CLOUD_FILE,
+        makeItem("cloud", QT_TRANSLATE_NOOP("preferences",
+                                            "Save & publish"), IconCode::Code::CLOUD_FILE,
                  "Preferences/SaveAndPublishPreferencesPage.qml"),
 
         makeItem("note-input", QT_TRANSLATE_NOOP("preferences", "Note input"), IconCode::Code::EDIT,
@@ -172,30 +175,36 @@ void PreferencesModel::load(const QString& currentPageId)
         makeItem("score", QT_TRANSLATE_NOOP("preferences", "Score"), IconCode::Code::SCORE,
                  "Preferences/ScorePreferencesPage.qml"),
 
-        makeItem("audio-midi", QT_TRANSLATE_NOOP("preferences", "Audio & MIDI"), IconCode::Code::AUDIO,
+        makeItem("audio-midi", QT_TRANSLATE_NOOP("preferences",
+                                                 "Audio & MIDI"), IconCode::Code::AUDIO,
                  "Preferences/AudioMidiPreferencesPage.qml"),
 
 #ifdef MUSE_MODULE_MIDIREMOTE
-        makeItem("midi-device-mapping", QT_TRANSLATE_NOOP("preferences", "MIDI mappings"), IconCode::Code::MIDI_INPUT,
+        makeItem("midi-device-mapping", QT_TRANSLATE_NOOP("preferences",
+                                                          "MIDI mappings"), IconCode::Code::MIDI_INPUT,
                  "Preferences/MidiDeviceMappingPreferencesPage.qml"),
 #endif
 
-        makeItem("percussion", QT_TRANSLATE_NOOP("preferences", "Percussion"), IconCode::Code::PERCUSSION,
+        makeItem("percussion", QT_TRANSLATE_NOOP("preferences",
+                                                 "Percussion"), IconCode::Code::PERCUSSION,
                  "Preferences/PercussionPreferencesPage.qml"),
 
         makeItem("import", QT_TRANSLATE_NOOP("preferences", "Import"), IconCode::Code::IMPORT,
                  "Preferences/ImportPreferencesPage.qml"),
 
-        makeItem("shortcuts", QT_TRANSLATE_NOOP("preferences", "Shortcuts"), IconCode::Code::SHORTCUTS,
+        makeItem("shortcuts", QT_TRANSLATE_NOOP("preferences",
+                                                "Shortcuts"), IconCode::Code::SHORTCUTS,
                  "Preferences/ShortcutsPreferencesPage.qml"),
 
         makeItem("update", QT_TRANSLATE_NOOP("preferences", "Update"), IconCode::Code::UPDATE,
                  "Preferences/UpdatePreferencesPage.qml"),
 
-        makeItem("general-folders", QT_TRANSLATE_NOOP("preferences", "Folders"), IconCode::Code::OPEN_FILE,
+        makeItem("general-folders", QT_TRANSLATE_NOOP("preferences",
+                                                      "Folders"), IconCode::Code::OPEN_FILE,
                  "Preferences/FoldersPreferencesPage.qml"),
 
-        makeItem("advanced", QT_TRANSLATE_NOOP("preferences", "Advanced"), IconCode::Code::CONFIGURE,
+        makeItem("advanced", QT_TRANSLATE_NOOP("preferences",
+                                               "Advanced"), IconCode::Code::CONFIGURE,
                  "Preferences/AdvancedPreferencesPage.qml"),
 
         makeItem("braille", QT_TRANSLATE_NOOP("preferences", "Braille"), IconCode::Code::BRAILLE,
@@ -216,8 +225,10 @@ void PreferencesModel::askForConfirmationOfPreferencesReset()
                                                  "It will not delete any of your scores.\n\n"
                                                  "This action cannot be undone.");
 
-    muse::IInteractive::ButtonData cancelBtn = interactive()->buttonData(muse::IInteractive::Button::Cancel);
-    muse::IInteractive::ButtonData resetBtn = interactive()->buttonData(muse::IInteractive::Button::Reset);
+    muse::IInteractive::ButtonData cancelBtn = interactive()->buttonData(
+        muse::IInteractive::Button::Cancel);
+    muse::IInteractive::ButtonData resetBtn = interactive()->buttonData(
+        muse::IInteractive::Button::Reset);
     cancelBtn.accent = true;
 
     interactive()->warning(title, question, { cancelBtn, resetBtn }, cancelBtn.btn,
@@ -314,7 +325,8 @@ void PreferencesModel::setCurrentPageId(QString currentPageId)
     emit currentPageIdChanged(m_currentPageId);
 }
 
-PreferencePageItem* PreferencesModel::makeItem(const QString& id, const QString& title, muse::ui::IconCode::Code icon,
+PreferencePageItem* PreferencesModel::makeItem(const QString& id, const QString& title,
+                                               muse::ui::IconCode::Code icon,
                                                const QString& path,
                                                const QList<PreferencePageItem*>& children) const
 {

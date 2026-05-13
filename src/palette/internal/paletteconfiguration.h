@@ -30,7 +30,8 @@
 #include "ui/iuiconfiguration.h"
 
 namespace mu::palette {
-class PaletteConfiguration : public IPaletteConfiguration, public muse::async::Asyncable, public muse::Contextable
+class PaletteConfiguration : public IPaletteConfiguration, public muse::async::Asyncable,
+    public muse::Contextable
 {
     muse::GlobalInject<muse::ui::IUiConfiguration> uiConfiguration;
     muse::GlobalInject<muse::IGlobalConfiguration> globalConfiguration;

@@ -72,10 +72,14 @@ public:
 private:
     void applyCommandLineOptions(const std::shared_ptr<muse::CmdOptions>& options) override;
     void doStartupScenario(const muse::modularity::ContextPtr& ctxId) override;
-    int processConverter(const MuseScoreCmdOptions::ConverterTask& task, const muse::modularity::ContextPtr& ctx);
-    int processDiagnostic(const MuseScoreCmdOptions::Diagnostic& task, const muse::modularity::ContextPtr& ctx);
-    int processAudioPluginRegistration(const MuseScoreCmdOptions::AudioPluginRegistration& task, const muse::modularity::ContextPtr& ctx);
-    void processTestflow(const MuseScoreCmdOptions::Testflow& task, const muse::modularity::ContextPtr& ctx);
+    int processConverter(const MuseScoreCmdOptions::ConverterTask& task,
+                         const muse::modularity::ContextPtr& ctx);
+    int processDiagnostic(const MuseScoreCmdOptions::Diagnostic& task,
+                          const muse::modularity::ContextPtr& ctx);
+    int processAudioPluginRegistration(const MuseScoreCmdOptions::AudioPluginRegistration& task,
+                                       const muse::modularity::ContextPtr& ctx);
+    void processTestflow(const MuseScoreCmdOptions::Testflow& task,
+                         const muse::modularity::ContextPtr& ctx);
 };
 }
 

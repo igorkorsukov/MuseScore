@@ -68,11 +68,13 @@ void SoundProfilesRepository::refresh()
             }
 
             if (resource.type == AudioResourceType::FluidSoundfont) {
-                basicProfile.data.emplace(mpe::PlaybackSetupData::fromString(setup->second), resource);
+                basicProfile.data.emplace(mpe::PlaybackSetupData::fromString(setup->second),
+                                          resource);
             }
 
             if (resource.type == AudioResourceType::MuseSamplerSoundPack) {
-                museProfile.data.emplace(mpe::PlaybackSetupData::fromString(setup->second), resource);
+                museProfile.data.emplace(mpe::PlaybackSetupData::fromString(
+                                             setup->second), resource);
             }
         }
     })

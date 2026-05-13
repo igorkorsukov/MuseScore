@@ -66,7 +66,8 @@ void Engraving_JoinTests::join(const char* p1, const char* p2, int index)
     SplitJoinMeasure::joinMeasures(score->masterScore(), m1->tick(), m2->tick());
     score->endCmd();
 
-    EXPECT_TRUE(ScoreComp::saveCompareScore(score, String::fromUtf8(p1), JOIN_DATA_DIR + String::fromUtf8(p2)));
+    EXPECT_TRUE(ScoreComp::saveCompareScore(score, String::fromUtf8(p1),
+                                            JOIN_DATA_DIR + String::fromUtf8(p2)));
     delete score;
 }
 

@@ -39,7 +39,8 @@ static NotationParts* get_impl(const INotationPartsPtr& parts)
     return static_cast<NotationParts*>(parts.get());
 }
 
-MasterNotationParts::MasterNotationParts(IGetScore* getScore, INotationInteractionPtr interaction, INotationUndoStackPtr undoStack,
+MasterNotationParts::MasterNotationParts(IGetScore* getScore, INotationInteractionPtr interaction,
+                                         INotationUndoStackPtr undoStack,
                                          INotationStylePtr style)
     : NotationParts(getScore, interaction, undoStack, style)
 {
@@ -157,7 +158,8 @@ bool MasterNotationParts::appendStaff(Staff* staff, const ID& destinationPartId)
     return true;
 }
 
-bool MasterNotationParts::appendLinkedStaff(Staff* staff, const muse::ID& sourceStaffId, const muse::ID& destinationPartId)
+bool MasterNotationParts::appendLinkedStaff(Staff* staff, const muse::ID& sourceStaffId,
+                                            const muse::ID& destinationPartId)
 {
     TRACEFUNC;
 
@@ -184,7 +186,8 @@ bool MasterNotationParts::appendLinkedStaff(Staff* staff, const muse::ID& source
     return true;
 }
 
-void MasterNotationParts::replaceInstrument(const InstrumentKey& instrumentKey, const Instrument& newInstrument,
+void MasterNotationParts::replaceInstrument(const InstrumentKey& instrumentKey,
+                                            const Instrument& newInstrument,
                                             const StaffType* newStaffType)
 {
     TRACEFUNC;
@@ -194,7 +197,8 @@ void MasterNotationParts::replaceInstrument(const InstrumentKey& instrumentKey, 
     Part* part = partModifiable(instrumentKey.partId);
     bool isMainInstrument = part && isMainInstrumentForPart(instrumentKey, part);
 
-    mu::engraving::Interval oldTranspose = part ? part->instrument()->transpose() : mu::engraving::Interval(0, 0);
+    mu::engraving::Interval oldTranspose
+        = part ? part->instrument()->transpose() : mu::engraving::Interval(0, 0);
 
     NotationParts::replaceInstrument(instrumentKey, newInstrument, newStaffType);
 
@@ -203,7 +207,8 @@ void MasterNotationParts::replaceInstrument(const InstrumentKey& instrumentKey, 
     }
 
     // this also transposes all linked parts
-    engraving::Transpose::transpositionChanged(score(), part, Part::MAIN_INSTRUMENT_TICK, oldTranspose);
+    engraving::Transpose::transpositionChanged(
+        score(), part, Part::MAIN_INSTRUMENT_TICK, oldTranspose);
 
     if (isMainInstrument) {
         if (mu::engraving::Excerpt* excerpt = findExcerpt(part->id())) {
@@ -212,7 +217,8 @@ void MasterNotationParts::replaceInstrument(const InstrumentKey& instrumentKey, 
                 allExcerptLowerNames.push_back(excerpt2->name().toLower());
             }
 
-            String newName = mu::engraving::formatUniqueExcerptName(part->partName(), allExcerptLowerNames);
+            String newName = mu::engraving::formatUniqueExcerptName(
+                part->partName(), allExcerptLowerNames);
             excerpt->excerptScore()->undo(new mu::engraving::ChangeExcerptTitle(excerpt, newName));
         }
     }
@@ -220,7 +226,8 @@ void MasterNotationParts::replaceInstrument(const InstrumentKey& instrumentKey, 
     endGlobalEdit();
 }
 
-void MasterNotationParts::replaceDrumset(const InstrumentKey& instrumentKey, const Drumset& newDrumset, bool undoable)
+void MasterNotationParts::replaceDrumset(const InstrumentKey& instrumentKey,
+                                         const Drumset& newDrumset, bool undoable)
 {
     TRACEFUNC;
 
@@ -246,7 +253,8 @@ void MasterNotationParts::onPartsRemoved(const std::vector<Part*>& parts)
             continue;
         }
 
-        bool deleteExcerpt = std::find_if(parts.cbegin(), parts.cend(), [initialPartId](const Part* part) {
+        bool deleteExcerpt
+            = std::find_if(parts.cbegin(), parts.cend(), [initialPartId](const Part* part) {
             return part->id() == initialPartId;
         }) != parts.cend();
 
@@ -282,7 +290,8 @@ void MasterNotationParts::removeSystemObjects(const muse::IDList& stavesIds)
     endGlobalEdit();
 }
 
-void MasterNotationParts::moveSystemObjects(const muse::ID& sourceStaffId, const muse::ID& destinationStaffId)
+void MasterNotationParts::moveSystemObjects(const muse::ID& sourceStaffId,
+                                            const muse::ID& destinationStaffId)
 {
     startGlobalEdit(TranslatableString("undoableAction", "Move system markings"));
 
@@ -301,7 +310,8 @@ void MasterNotationParts::moveSystemObjectLayerBelowBottomStaff()
         return;
     }
 
-    startGlobalEdit(TranslatableString("undoableAction", "Add system object layer below the bottom staff"));
+    startGlobalEdit(TranslatableString("undoableAction",
+                                       "Add system object layer below the bottom staff"));
 
     NotationParts::moveSystemObjectLayerBelowBottomStaff();
 
@@ -314,7 +324,8 @@ void MasterNotationParts::moveSystemObjectLayerAboveBottomStaff()
         return;
     }
 
-    startGlobalEdit(TranslatableString("undoableAction", "Remove system object layer below the bottom staff"));
+    startGlobalEdit(TranslatableString("undoableAction",
+                                       "Remove system object layer below the bottom staff"));
 
     NotationParts::moveSystemObjectLayerAboveBottomStaff();
 

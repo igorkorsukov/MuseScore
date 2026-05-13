@@ -30,7 +30,8 @@ using namespace mu::iex::musicxml;
 using namespace muse;
 using namespace muse::io;
 
-Ret MxlWriter::write(notation::INotationPtr notation, io::IODevice& destinationDevice, const Options&)
+Ret MxlWriter::write(notation::INotationPtr notation, io::IODevice& destinationDevice,
+                     const Options&)
 {
     IF_ASSERT_FAILED(notation) {
         return make_ret(Ret::Code::UnknownError);

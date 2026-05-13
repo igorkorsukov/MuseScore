@@ -126,7 +126,8 @@ void MScoreErrorsController::checkAndShowMScoreError()
         break;
     case MsError::SOURCE_PARTIAL_TUPLET:
         title = muse::trc("notation", "This selection cannot be copied");
-        message = muse::trc("notation", "Please select all notes that are part of this tuplet and try again.");
+        message = muse::trc("notation",
+                            "Please select all notes that are part of this tuplet and try again.");
         break;
     case MsError::DEST_TUPLET:
         title = muse::trc("notation", "Cannot paste into tuplet");
@@ -139,7 +140,8 @@ void MScoreErrorsController::checkAndShowMScoreError()
         break;
     case MsError::SOURCE_PARTIAL_TREMOLO:
         title = muse::trc("notation", "This selection cannot be copied");
-        message = muse::trc("notation", "Please select all notes that are part of this tremolo and try again.");
+        message = muse::trc("notation",
+                            "Please select all notes that are part of this tremolo and try again.");
         break;
     case MsError::DEST_TREMOLO:
         title = muse::trc("notation", "Cannot paste in tremolo");
@@ -160,11 +162,13 @@ void MScoreErrorsController::checkAndShowMScoreError()
                                         "signatures while part scores are present is not yet supported.");
         break;
     case MsError::CORRUPTED_MEASURE:
-        title = muse::trc("notation", "Cannot change time signature in front of a corrupted measure");
+        title
+            = muse::trc("notation", "Cannot change time signature in front of a corrupted measure");
         break;
     case MsError::CANNOT_REMOVE_KEY_SIG:
         title = muse::trc("notation", "This key signature cannot be deleted");
-        message = muse::trc("notation", "Please replace it with a key signature from the palettes instead.");
+        message = muse::trc("notation",
+                            "Please replace it with a key signature from the palettes instead.");
         break;
     case MsError::CANNOT_JOIN_MEASURE_STAFFTYPE_CHANGE:
         title = muse::trc("notation", "These measures cannot be joined");
@@ -172,7 +176,8 @@ void MScoreErrorsController::checkAndShowMScoreError()
         break;
     case MsError::CANNOT_REPEAT_SELECTION:
         title = muse::trc("notation", "Can’t repeat this selection");
-        message = muse::trc("notation", "Make a list selection of notes or rests on the same beat or any range selection and retry.");
+        message = muse::trc("notation",
+                            "Make a list selection of notes or rests on the same beat or any range selection and retry.");
         break;
     case MsError::TRANSPOSE_NO_FRET_DIAGRAM:
         title = muse::trc("notation", "Some fretboard diagrams could not be transposed");
@@ -181,14 +186,16 @@ void MScoreErrorsController::checkAndShowMScoreError()
         break;
     case MsError::CANNOT_EXPLODE_IMPLODE_LOCAL_TIMESIG:
         title = muse::trc("notation", "Can’t explode or implode");
-        message = muse::trc("notation", "Cannot explode or implode between different local time signatures");
+        message = muse::trc("notation",
+                            "Cannot explode or implode between different local time signatures");
         break;
     }
 
     m_currentDialogError = err;
 
     interactive()->info(title, message, {}, 0,
-                        IInteractive::Option::WithIcon | IInteractive::Option::WithDontShowAgainCheckBox)
+                        IInteractive::Option::WithIcon
+                        | IInteractive::Option::WithDontShowAgainCheckBox)
     .onResolve(this, [this, err](const IInteractive::Result& res) {
         if (!res.showAgain()) {
             configuration()->setNeedToShowMScoreError(MScore::errorToString(err), false);

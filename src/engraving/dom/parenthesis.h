@@ -36,7 +36,11 @@ public:
     Parenthesis(const Parenthesis& p);
 
     Parenthesis* clone() const override { return new Parenthesis(*this); }
-    Segment* segment() const { return explicitParent() && explicitParent()->isSegment() ? toSegment(explicitParent()) : nullptr; }
+    Segment* segment() const
+    {
+        return explicitParent()
+               && explicitParent()->isSegment() ? toSegment(explicitParent()) : nullptr;
+    }
 
     PropertyValue getProperty(Pid) const override;
     bool setProperty(Pid, const PropertyValue&) override;
@@ -55,7 +59,8 @@ public:
         ld_field<double> startY = { "[Parenthesis] startY", 0.0 };
         ld_field<double> height = { "[Parenthesis] height", 0.0 };
         ld_field<double> midPointThickness = { "[Parenthesis] midPointThickness", 0.0 };
-        ld_field<double> endPointThickness = { "[Parenthesis] endPointThickness", PARENTHESIS_END_WIDTH };
+        ld_field<double> endPointThickness
+            = { "[Parenthesis] endPointThickness", PARENTHESIS_END_WIDTH };
         ld_field<double> shoulderWidth = { "[Parenthesis] endPointThickness", 0.0 };
         ld_field<double> intrinsicMag = { "[Parenthesis] intrinsicMag", 1.0 };      // Mag separate from staff scale
         ld_field<SymId> symId = { "[Parenthesis] symId", SymId::noSym };

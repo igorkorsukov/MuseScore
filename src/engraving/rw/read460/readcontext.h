@@ -81,7 +81,10 @@ public:
 
     double spatium() const;
     void setSpatium(double v);
-    void setPropertiesToSkip(const PropertyIdSet& propertiesToSkip) { m_propertiesToSkip = propertiesToSkip; }
+    void setPropertiesToSkip(const PropertyIdSet& propertiesToSkip)
+    {
+        m_propertiesToSkip = propertiesToSkip;
+    }
     bool shouldSkipProperty(Pid pid) const { return muse::contains(m_propertiesToSkip, pid); }
 
     bool forcePageMode() const { return m_forcePageMode; }

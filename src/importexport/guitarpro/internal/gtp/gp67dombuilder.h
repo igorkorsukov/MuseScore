@@ -32,7 +32,9 @@ protected:
     void breakLyricsOnBeatsIfNeed();
     bool isLyricsOnBeats() const;
 
-    virtual std::pair<int, std::unique_ptr<GPTrack> > createGPTrack(muse::XmlDomNode* trackNode, muse::XmlDomNode* versionNode) = 0;
+    virtual std::pair<int, std::unique_ptr<GPTrack> > createGPTrack(muse::XmlDomNode* trackNode,
+                                                                    muse::XmlDomNode* versionNode) =
+    0;
 
     std::unique_ptr<GPMasterTracks> createGPMasterTrack(muse::XmlDomNode* metadata);
     std::unique_ptr<GPMasterBar> createGPMasterBar(muse::XmlDomNode* masterBarNode);
@@ -53,13 +55,15 @@ protected:
     GPMasterBar::KeySig readKeySig(muse::XmlDomNode* keyNode) const;
     bool readUseFlats(muse::XmlDomNode* keyNode) const;
     GPMasterBar::TimeSig readTimeSig(muse::XmlDomNode* timeNode) const;
-    void readTrackProperties(muse::XmlDomNode* propertiesNode, GPTrack* track, bool ignoreTuningFlats) const;
+    void readTrackProperties(muse::XmlDomNode* propertiesNode, GPTrack* track,
+                             bool ignoreTuningFlats) const;
     void readBeatProperties(const muse::XmlDomNode& propertiesNode, GPBeat* beat) const;
     void readDiagram(const muse::XmlDomNode& items, GPTrack* track) const;
     void readLyrics(const muse::XmlDomNode& items, GPTrack* track) const;
     std::vector<GPMasterBar::Fermata> readFermatas(muse::XmlDomNode* fermatasNode) const;
     std::vector<GPMasterBar::Direction> readRepeatsJumps(muse::XmlDomNode* repeatsJumpsNode) const;
-    std::pair<muse::String, muse::String> readMasterBarSection(const muse::XmlDomNode& sectionNode) const;
+    std::pair<muse::String,
+              muse::String> readMasterBarSection(const muse::XmlDomNode& sectionNode) const;
     GPMasterBar::Repeat readRepeat(muse::XmlDomNode* repeatNode) const;
     std::vector<int> readEnding(muse::XmlDomNode* endNode) const;
 

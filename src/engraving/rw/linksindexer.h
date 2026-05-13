@@ -32,7 +32,8 @@ public:
 
     inline bool operator==(const LinksIndexer& i) const
     {
-        return _lastLocalIndex == i._lastLocalIndex && _lastLinkedElementLoc == i._lastLinkedElementLoc;
+        return _lastLocalIndex == i._lastLocalIndex
+               && _lastLinkedElementLoc == i._lastLinkedElementLoc;
     }
 
     inline bool operator!=(const LinksIndexer& i) const { return !this->operator==(i); }

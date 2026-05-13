@@ -49,7 +49,8 @@ static const ElementStyle tsStyle {
 //---------------------------------------------------------
 
 TimeSig::TimeSig(Segment* parent)
-    : EngravingItem(ElementType::TIMESIG, parent, ElementFlag::ON_STAFF | ElementFlag::MOVABLE | ElementFlag::PLACE_ABOVE)
+    : EngravingItem(ElementType::TIMESIG, parent,
+                    ElementFlag::ON_STAFF | ElementFlag::MOVABLE | ElementFlag::PLACE_ABOVE)
 {
     initElementStyle(&tsStyle);
 
@@ -72,7 +73,8 @@ void TimeSig::setParent(Segment* parent)
 
 double TimeSig::mag() const
 {
-    return timeSigPlacement() == TimeSigPlacement::NORMAL && staff() ? staff()->staffMag(this) : 1.0;
+    return timeSigPlacement() == TimeSigPlacement::NORMAL
+           && staff() ? staff()->staffMag(this) : 1.0;
 }
 
 //---------------------------------------------------------
@@ -354,7 +356,8 @@ muse::TranslatableString TimeSig::subtypeUserName() const
     case TimeSigType::CUT_TRIPLE:
         return TranslatableString("engraving/timesig", "Cut triple time (9/8)");
     default:
-        return TranslatableString("engraving/timesig", "%1/%2 time").arg(numerator(), denominator());
+        return TranslatableString("engraving/timesig", "%1/%2 time").arg(numerator(),
+                                                                         denominator());
     }
 }
 
@@ -428,7 +431,8 @@ double TimeSig::yPos() const
 {
     switch (timeSigPlacement()) {
     case TimeSigPlacement::NORMAL: return style().styleAbsolute(Sid::timeSigNormalY);
-    case TimeSigPlacement::ABOVE_STAVES: return (staff()->hasSystemObjectsBelowBottomStaff() ? -1.0 : 1.0)
+    case TimeSigPlacement::ABOVE_STAVES: return (staff()->hasSystemObjectsBelowBottomStaff() ? -1.0
+                                                 : 1.0)
                * style().styleAbsolute(Sid::timeSigAboveY);
     case TimeSigPlacement::ACROSS_STAVES: return style().styleAbsolute(Sid::timeSigAcrossY);
     default:
@@ -438,7 +442,8 @@ double TimeSig::yPos() const
 
 bool TimeSig::showOnThisStaff() const
 {
-    return timeSigPlacement() == TimeSigPlacement::NORMAL || staffIdx() == 0 || staff()->isSystemObjectStaff();
+    return timeSigPlacement() == TimeSigPlacement::NORMAL || staffIdx() == 0
+           || staff()->isSystemObjectStaff();
 }
 
 bool TimeSig::isAboveStaves() const

@@ -211,8 +211,9 @@ class ChangeStaff : public UndoCommand
 public:
     ChangeStaff(Staff*);
 
-    ChangeStaff(Staff*, bool _visible, ClefTypeList _clefType, Spatium userDist, bool _cutaway, bool _hideSystemBarLine,
-                AutoOnOff _mergeRests, bool _reflectTranspositionInLinkedTab);
+    ChangeStaff(Staff*, bool _visible, ClefTypeList _clefType, Spatium userDist, bool _cutaway,
+                bool _hideSystemBarLine, AutoOnOff _mergeRests,
+                bool _reflectTranspositionInLinkedTab);
 
     UNDO_TYPE(CommandType::ChangeStaff)
     UNDO_NAME("ChangeStaff")

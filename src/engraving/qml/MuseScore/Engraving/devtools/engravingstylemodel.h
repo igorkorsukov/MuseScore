@@ -31,7 +31,8 @@
 #include "modularity/ioc.h"
 
 namespace mu::engraving {
-class EngravingStyleModel : public QAbstractListModel, public muse::async::Asyncable, public muse::Contextable
+class EngravingStyleModel : public QAbstractListModel, public muse::async::Asyncable,
+    public muse::Contextable
 {
     Q_OBJECT
     QML_ELEMENT;

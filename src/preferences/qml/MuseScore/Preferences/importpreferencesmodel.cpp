@@ -36,12 +36,14 @@ ImportPreferencesModel::ImportPreferencesModel(QObject* parent)
 
 void ImportPreferencesModel::load()
 {
-    notationConfiguration()->styleFileImportPathChanged().onReceive(this, [this](const std::string& val) {
+    notationConfiguration()->styleFileImportPathChanged().onReceive(this,
+                                                                    [this](const std::string& val) {
         emit styleFileImportPathChanged(QString::fromStdString(val));
     });
 
     oveConfiguration()->importOvertureCharsetChanged().onReceive(this, [this](const std::string& val) {
-        emit currentOvertureCharsetChanged(QString::fromStdString(val));
+        emit currentOvertureCharsetChanged(QString::fromStdString(
+                                               val));
     });
 
     musicXmlConfiguration()->importLayoutChanged().onReceive(this, [this](bool val) {
@@ -73,7 +75,8 @@ void ImportPreferencesModel::load()
     });
 
     musicXmlConfiguration()->needAskAboutApplyingNewStyleChanged().onReceive(this, [this](bool val) {
-        emit needAskAboutApplyingNewStyleChanged(val);
+        emit needAskAboutApplyingNewStyleChanged(
+            val);
     });
 }
 
@@ -102,8 +105,10 @@ QVariantList ImportPreferencesModel::shortestNotes() const
         QVariantMap { { "title", muse::qtrc("preferences", "64th") }, { "value", division / 16 } },
         QVariantMap { { "title", muse::qtrc("preferences", "128th") }, { "value", division / 32 } },
         QVariantMap { { "title", muse::qtrc("preferences", "256th") }, { "value", division / 64 } },
-        QVariantMap { { "title", muse::qtrc("preferences", "512th") }, { "value", division / 128 } },
-        QVariantMap { { "title", muse::qtrc("preferences", "1024th") }, { "value", division / 256 } }
+        QVariantMap { { "title", muse::qtrc("preferences", "512th") },
+            { "value", division / 128 } },
+        QVariantMap { { "title", muse::qtrc("preferences", "1024th") },
+            { "value", division / 256 } }
     };
 
     return result;

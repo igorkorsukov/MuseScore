@@ -36,9 +36,12 @@ class SlurAndTieSettingsModel : public AbstractInspectorModel
     Q_PROPERTY(mu::inspector::PropertyItem * direction READ direction CONSTANT)
     Q_PROPERTY(mu::inspector::PropertyItem * tiePlacement READ tiePlacement CONSTANT)
     Q_PROPERTY(mu::inspector::PropertyItem * minLength READ minLength CONSTANT)
-    Q_PROPERTY(bool isTiePlacementAvailable READ isTiePlacementAvailable NOTIFY isTiePlacementAvailableChanged)
-    Q_PROPERTY(bool isMinLengthAvailable READ isMinLengthAvailable NOTIFY isMinLengthAvailableChanged)
-    Q_PROPERTY(bool isLineStyleAvailable READ isLineStyleAvailable NOTIFY isLineStyleAvailableChanged)
+    Q_PROPERTY(
+        bool isTiePlacementAvailable READ isTiePlacementAvailable NOTIFY isTiePlacementAvailableChanged)
+    Q_PROPERTY(
+        bool isMinLengthAvailable READ isMinLengthAvailable NOTIFY isMinLengthAvailableChanged)
+    Q_PROPERTY(
+        bool isLineStyleAvailable READ isLineStyleAvailable NOTIFY isLineStyleAvailableChanged)
     Q_PROPERTY(bool isLaissezVib READ isLaissezVib CONSTANT)
 
 public:
@@ -50,7 +53,8 @@ public:
         HammerOnPullOff,
     };
 
-    explicit SlurAndTieSettingsModel(QObject* parent, const muse::modularity::ContextPtr& iocCtx, IElementRepositoryService* repository,
+    explicit SlurAndTieSettingsModel(QObject* parent, const muse::modularity::ContextPtr& iocCtx,
+                                     IElementRepositoryService* repository,
                                      ElementType elementType);
 
     PropertyItem* lineStyle() const;

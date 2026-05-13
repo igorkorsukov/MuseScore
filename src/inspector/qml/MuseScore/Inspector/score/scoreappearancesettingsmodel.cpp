@@ -26,7 +26,8 @@
 using namespace mu::inspector;
 using namespace mu::notation;
 
-ScoreAppearanceSettingsModel::ScoreAppearanceSettingsModel(QObject* parent, const muse::modularity::ContextPtr& iocCtx,
+ScoreAppearanceSettingsModel::ScoreAppearanceSettingsModel(QObject* parent,
+                                                           const muse::modularity::ContextPtr& iocCtx,
                                                            IElementRepositoryService* repository)
     : AbstractInspectorModel(parent, iocCtx, repository)
 {
@@ -82,7 +83,8 @@ void ScoreAppearanceSettingsModel::onCurrentNotationChanged()
     emit showBracketsWhenSpanningSingleStaffChanged();
 }
 
-void ScoreAppearanceSettingsModel::onNotationChanged(const engraving::PropertyIdSet&, const engraving::StyleIdSet& changedStyleIdSet)
+void ScoreAppearanceSettingsModel::onNotationChanged(const engraving::PropertyIdSet&,
+                                                     const engraving::StyleIdSet& changedStyleIdSet)
 {
     if (muse::contains(changedStyleIdSet, StyleId::hideEmptyStaves)) {
         emit hideEmptyStavesChanged();

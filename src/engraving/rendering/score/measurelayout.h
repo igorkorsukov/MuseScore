@@ -63,8 +63,10 @@ public:
     static void layoutMeasureElements(Measure* m, LayoutContext& ctx);
 
     static void createEndBarLines(Measure* m, bool isLastMeasureInSystem, LayoutContext& ctx);
-    static Segment* addHeaderClef(Measure* m, bool isFirstClef, const Staff* staff, LayoutContext& ctx);
-    static Segment* addHeaderKeySig(Measure* m, bool isFirstKeysig, const Staff* staff, LayoutContext& ctx);
+    static Segment* addHeaderClef(Measure* m, bool isFirstClef, const Staff* staff,
+                                  LayoutContext& ctx);
+    static Segment* addHeaderKeySig(Measure* m, bool isFirstKeysig, const Staff* staff,
+                                    LayoutContext& ctx);
     static void addSystemHeader(Measure* m, bool isFirstSystem, LayoutContext& ctx);
     static void removeSystemHeader(Measure* m);
     static void addSystemTrailer(Measure* m, Measure* nm, LayoutContext& ctx);
@@ -80,21 +82,28 @@ public:
 
     static void layoutTimeTickAnchors(Measure* m, LayoutContext& ctx);
 
-    static MeasureStartEndPos getMeasureStartEndPos(const Measure* measure, const Segment* firstCrSeg, const staff_idx_t staffIdx,
-                                                    const bool needsHeaderException, const bool modernMMRest, const LayoutContext& ctx);
+    static MeasureStartEndPos getMeasureStartEndPos(const Measure* measure,
+                                                    const Segment* firstCrSeg,
+                                                    const staff_idx_t staffIdx,
+                                                    const bool needsHeaderException,
+                                                    const bool modernMMRest,
+                                                    const LayoutContext& ctx);
 
     static void updateKeySignatures(const Measure* measure, LayoutContext& ctx);
 
 private:
 
-    static void createMMRest(LayoutContext& ctx, Measure* firstMeasure, Measure* lastMeasure, const Fraction& len);
-    static void cloneAnnotationsToMMRest(Segment* underlyingSeg, Segment* mmrSeg, LayoutContext& ctx);
+    static void createMMRest(LayoutContext& ctx, Measure* firstMeasure, Measure* lastMeasure,
+                             const Fraction& len);
+    static void cloneAnnotationsToMMRest(Segment* underlyingSeg, Segment* mmrSeg,
+                                         LayoutContext& ctx);
 
     static int adjustMeasureNumber(Measure* m, int measureNumber);
 
     static void barLinesSetSpan(Segment* seg, LayoutContext& ctx);
 
-    static void layoutPartialWidth(StaffLines* lines, LayoutContext& ctx, double w, double wPartial, bool alignLeft);
+    static void layoutPartialWidth(StaffLines* lines, LayoutContext& ctx, double w, double wPartial,
+                                   bool alignLeft);
 
     static void moveToNextMeasure(LayoutContext& ctx);
 
@@ -105,16 +114,22 @@ private:
 
     static void setClefSegVisibility(Measure* m, bool isLastMeasureInSystem, LayoutContext& ctx);
 
-    static void setCourtesyTimeSig(Measure* m, const Fraction& refSigTick, const Fraction& courtesySigTick, const SegmentType segType,
+    static void setCourtesyTimeSig(Measure* m, const Fraction& refSigTick,
+                                   const Fraction& courtesySigTick, const SegmentType segType,
                                    LayoutContext& ctx);
-    static void setCourtesyKeySig(Measure* m, const Fraction& refSigTick, const Fraction& courtesySigTick, const SegmentType segType,
+    static void setCourtesyKeySig(Measure* m, const Fraction& refSigTick,
+                                  const Fraction& courtesySigTick, const SegmentType segType,
                                   LayoutContext& ctx);
-    static void setCourtesyClef(Measure* m, const Fraction& refSigTick, const Fraction& courtesySigTick, const SegmentType segType,
+    static void setCourtesyClef(Measure* m, const Fraction& refSigTick,
+                                const Fraction& courtesySigTick, const SegmentType segType,
                                 LayoutContext& ctx);
 
-    static void removeRepeatCourtesyParenthesesMeasure(Measure* m, const bool continuation, LayoutContext& ctx);
-    static void removeRepeatCourtesyParenthesis(EngravingItem* item, const DirectionH direction = DirectionH::AUTO);
-    static void addRepeatCourtesyParentheses(Measure* m, const bool continuation,  LayoutContext& ctx);
+    static void removeRepeatCourtesyParenthesesMeasure(Measure* m, const bool continuation,
+                                                       LayoutContext& ctx);
+    static void removeRepeatCourtesyParenthesis(EngravingItem* item,
+                                                const DirectionH direction = DirectionH::AUTO);
+    static void addRepeatCourtesyParentheses(Measure* m, const bool continuation,
+                                             LayoutContext& ctx);
     static void addRepeatCourtesies(Measure* m, LayoutContext& ctx);
     static void removeRepeatCourtesies(Measure* m);
     static void addRepeatContinuationCourtesies(Measure* m, LayoutContext& ctx);

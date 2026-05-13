@@ -37,7 +37,8 @@ class PalettePropertiesModel : public QObject
     Q_PROPERTY(QString name READ name WRITE setName NOTIFY propertiesChanged)
     Q_PROPERTY(int cellWidth READ cellWidth WRITE setCellWidth NOTIFY propertiesChanged)
     Q_PROPERTY(int cellHeight READ cellHeight WRITE setCellHeight NOTIFY propertiesChanged)
-    Q_PROPERTY(double elementOffset READ elementOffset WRITE setElementOffset NOTIFY propertiesChanged)
+    Q_PROPERTY(
+        double elementOffset READ elementOffset WRITE setElementOffset NOTIFY propertiesChanged)
     Q_PROPERTY(double scaleFactor READ scaleFactor WRITE setScaleFactor NOTIFY propertiesChanged)
     Q_PROPERTY(bool showGrid READ showGrid WRITE setShowGrid NOTIFY propertiesChanged)
 

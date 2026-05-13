@@ -66,7 +66,8 @@ static QPointF constrainToGrid(const QRectF& frameRectWithoutBorders, const QPoi
 }
 
 BendGridCanvas::BendGridCanvas(QQuickItem* parent)
-    : muse::uicomponents::QuickPaintedView(parent), muse::Contextable(muse::iocCtxForQmlObject(this))
+    : muse::uicomponents::QuickPaintedView(parent),
+    muse::Contextable(muse::iocCtxForQmlObject(this))
 {
     setAcceptedMouseButtons(Qt::AllButtons);
     setAcceptHoverEvents(true);
@@ -386,7 +387,8 @@ void BendGridCanvas::setPointList(QVariant points)
 void BendGridCanvas::paint(QPainter* painter)
 {
     if (!(m_rows && m_columns)) {
-        LOGD("GridCanvas::paintEvent: number of columns or rows set to 0.\nColumns: %i, Rows: %i", m_rows,
+        LOGD("GridCanvas::paintEvent: number of columns or rows set to 0.\nColumns: %i, Rows: %i",
+             m_rows,
              m_columns);
         return;
     }
@@ -403,8 +405,9 @@ void BendGridCanvas::paint(QPainter* painter)
 void BendGridCanvas::mousePressEvent(QMouseEvent* event)
 {
     if (!(m_rows && m_columns)) {
-        LOGD("GridCanvas::mousePressEvent: number of columns or rows set to 0.\nColumns: %i, Rows: %i", m_rows,
-             m_columns);
+        LOGD(
+            "GridCanvas::mousePressEvent: number of columns or rows set to 0.\nColumns: %i, Rows: %i", m_rows,
+            m_columns);
         return;
     }
 
@@ -691,7 +694,8 @@ void BendGridCanvas::drawCurve(QPainter* painter, const QRectF& frameRect)
     pen.setColor(color);
     painter->setPen(pen);
 
-    QRectF frameRectWithoutBorders = frameRect - QMargins(GRID_LINE_WIDTH, GRID_LINE_WIDTH, GRID_LINE_WIDTH, GRID_LINE_WIDTH);
+    QRectF frameRectWithoutBorders = frameRect - QMargins(GRID_LINE_WIDTH, GRID_LINE_WIDTH,
+                                                          GRID_LINE_WIDTH, GRID_LINE_WIDTH);
 
     // draw line between points
     for (const CurvePoint& v : m_points) {
@@ -702,7 +706,9 @@ void BendGridCanvas::drawCurve(QPainter* painter, const QRectF& frameRect)
 
         // draw line only if there is a point before the current one
         if (lastPoint.x()) {
-            QPointF point = constrainToGrid(frameRectWithoutBorders, QPointF(currentPoint.x(), lastPoint.y()));
+            QPointF point
+                = constrainToGrid(frameRectWithoutBorders,
+                                  QPointF(currentPoint.x(), lastPoint.y()));
 
             if (m_straightLines) {
                 path.lineTo(currentPoint);
@@ -744,8 +750,10 @@ void BendGridCanvas::drawCurve(QPainter* painter, const QRectF& frameRect)
         QPointF pos = pointCoord(frameRect, point);
 
         bool isNotActiveButton = (!m_hoverPointIndex.has_value() || m_hoverPointIndex.value() != i)
-                                 && (!m_currentPointIndex.has_value() || m_currentPointIndex.value() != i)
-                                 && (!m_focusedPointIndex.has_value() || m_focusedPointIndex.value() != i);
+                                 && (!m_currentPointIndex.has_value()
+                                     || m_currentPointIndex.value() != i)
+                                 && (!m_focusedPointIndex.has_value()
+                                     || m_focusedPointIndex.value() != i);
 
         if (isNotActiveButton) { // normal
             painter->setBrush(activeBrush);
@@ -824,7 +832,8 @@ QPointF BendGridCanvas::pointCoord(const QRectF& frameRect, const CurvePoint& po
 {
     const qreal rowHeight = this->rowHeight(frameRect);
 
-    const qreal x = round(qreal(point.time) * (frameRect.width() / CurvePoint::MAX_TIME)) + frameRect.left();
+    const qreal x = round(qreal(point.time) * (frameRect.width() / CurvePoint::MAX_TIME))
+                    + frameRect.left();
 
     qreal y0 = frameRect.top() + m_topLineValue * m_primaryRowsInterval * rowHeight;
     qreal yPitch = (qreal(point.pitch) / 100) * rowHeight * m_primaryRowsInterval;
@@ -843,7 +852,8 @@ QString BendGridCanvas::pointAccessibleName(const CurvePoint& point)
     QString string = mu::engraving::bendAmountToString(fulls, quarts).toQString();
 
     return (!pointName.isEmpty() ? pointName + "; " : "")
-           + muse::qtrc("inspector", "Time: %2, value: %3").arg(QString::number(point.time), string);
+           + muse::qtrc("inspector", "Time: %2, value: %3").arg(QString::number(point.time),
+                                                                string);
 }
 
 void BendGridCanvas::updatePointAccessibleName(int index)
@@ -889,9 +899,12 @@ bool BendGridCanvas::movePoint(int pointIndex, const CurvePoint& toPoint)
             bool moveToTop = currentPoint.pitch < toPoint.pitch;
             if (pointIndex - 1 >= 0) {
                 const CurvePoint& leftPoint = m_points.at(pointIndex - 1);
-                bool isLeftValid = moveToTop ? leftPoint.pitch > currentPoint.pitch : leftPoint.pitch <= currentPoint.pitch;
+                bool isLeftValid = moveToTop ? leftPoint.pitch
+                                   > currentPoint.pitch : leftPoint.pitch <= currentPoint.pitch;
                 if (isLeftValid) {
-                    canMove = leftPoint.generated || (moveToTop ? leftPoint.pitch > toPoint.pitch : leftPoint.pitch < toPoint.pitch);
+                    canMove = leftPoint.generated
+                              || (moveToTop ? leftPoint.pitch > toPoint.pitch : leftPoint.pitch
+                                  < toPoint.pitch);
                 }
             }
 
@@ -901,9 +914,12 @@ bool BendGridCanvas::movePoint(int pointIndex, const CurvePoint& toPoint)
 
             if (pointIndex + 1 < m_points.size()) {
                 const CurvePoint& rightPoint = m_points.at(pointIndex + 1);
-                bool isRightValid = moveToTop ? rightPoint.pitch >= currentPoint.pitch : rightPoint.pitch <= currentPoint.pitch;
+                bool isRightValid = moveToTop ? rightPoint.pitch
+                                    >= currentPoint.pitch : rightPoint.pitch <= currentPoint.pitch;
                 if (isRightValid) {
-                    canMove = rightPoint.generated || (moveToTop ? rightPoint.pitch > toPoint.pitch : rightPoint.pitch < toPoint.pitch);
+                    canMove = rightPoint.generated
+                              || (moveToTop ? rightPoint.pitch > toPoint.pitch : rightPoint.pitch
+                                  < toPoint.pitch);
                 }
             }
         }
@@ -912,7 +928,8 @@ bool BendGridCanvas::movePoint(int pointIndex, const CurvePoint& toPoint)
             currentPoint.pitch = toPoint.pitch;
 
             bool isDashed = currentPoint.endDashed;
-            bool isNextDashed = (pointIndex + 1 < m_points.size()) && m_points.at(pointIndex + 1).endDashed;
+            bool isNextDashed = (pointIndex + 1 < m_points.size())
+                                && m_points.at(pointIndex + 1).endDashed;
 
             if (isDashed) {
                 m_points[pointIndex - 1].pitch = toPoint.pitch;
@@ -958,7 +975,8 @@ bool BendGridCanvas::movePoint(int pointIndex, const CurvePoint& toPoint)
 void BendGridCanvas::setFocusedPointIndex(int index)
 {
     if (m_focusedPointIndex.has_value()) {
-        m_pointsAccessibleItems[m_focusedPointIndex.value()]->setState(muse::ui::AccessibleItem::State::Focused, false);
+        m_pointsAccessibleItems[m_focusedPointIndex.value()]->setState(
+            muse::ui::AccessibleItem::State::Focused, false);
     }
 
     bool isIndexValid = isPointIndexValid(index);

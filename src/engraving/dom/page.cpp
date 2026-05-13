@@ -187,7 +187,8 @@ double Page::tm() const
 double Page::bm() const
 {
     return ((!style().styleB(Sid::pageTwosided) || isOdd())
-            ? style().styleD(Sid::pageOddBottomMargin) : style().styleD(Sid::pageEvenBottomMargin)) * DPI;
+            ? style().styleD(Sid::pageOddBottomMargin) : style().styleD(Sid::pageEvenBottomMargin))
+           * DPI;
 }
 
 //---------------------------------------------------------
@@ -197,7 +198,8 @@ double Page::bm() const
 double Page::lm() const
 {
     return ((!style().styleB(Sid::pageTwosided) || isOdd())
-            ? style().styleD(Sid::pageOddLeftMargin) : style().styleD(Sid::pageEvenLeftMargin)) * DPI;
+            ? style().styleD(Sid::pageOddLeftMargin) : style().styleD(Sid::pageEvenLeftMargin))
+           * DPI;
 }
 
 //---------------------------------------------------------

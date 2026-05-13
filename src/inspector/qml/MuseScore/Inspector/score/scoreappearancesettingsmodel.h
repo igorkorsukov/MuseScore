@@ -33,14 +33,16 @@ class ScoreAppearanceSettingsModel : public AbstractInspectorModel
     QML_ELEMENT;
     QML_UNCREATABLE("Not creatable from QML")
 
-    Q_PROPERTY(bool hideEmptyStaves READ hideEmptyStaves WRITE setHideEmptyStaves NOTIFY hideEmptyStavesChanged)
+    Q_PROPERTY(
+        bool hideEmptyStaves READ hideEmptyStaves WRITE setHideEmptyStaves NOTIFY hideEmptyStavesChanged)
     Q_PROPERTY(
         bool dontHideEmptyStavesInFirstSystem READ dontHideEmptyStavesInFirstSystem WRITE setDontHideEmptyStavesInFirstSystem NOTIFY dontHideEmptyStavesInFirstSystemChanged)
     Q_PROPERTY(
         bool showBracketsWhenSpanningSingleStaff READ showBracketsWhenSpanningSingleStaff WRITE setShowBracketsWhenSpanningSingleStaff NOTIFY showBracketsWhenSpanningSingleStaffChanged)
 
 public:
-    explicit ScoreAppearanceSettingsModel(QObject* parent, const muse::modularity::ContextPtr& iocCtx,
+    explicit ScoreAppearanceSettingsModel(QObject* parent,
+                                          const muse::modularity::ContextPtr& iocCtx,
                                           IElementRepositoryService* repository);
 
     bool hideEmptyStaves() const;

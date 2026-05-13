@@ -48,7 +48,8 @@ static constexpr std::string_view ELEMENT_TAG("element");
 static constexpr std::string_view EVENTS_TAG("events");
 static constexpr std::string_view EVENT_TAG("event");
 
-static void writeElementPosition(XmlStreamWriter& writer, const std::string& id, const muse::PointF& pos, const muse::PointF& sPos,
+static void writeElementPosition(XmlStreamWriter& writer, const std::string& id,
+                                 const muse::PointF& pos, const muse::PointF& sPos,
                                  page_idx_t pageIndex)
 {
     XmlStreamWriter::Attributes attributes;
@@ -73,7 +74,8 @@ static void writeEventPosition(XmlStreamWriter& writer, const std::string& id, i
     writer.endElement();
 }
 
-static void writeMeasureEvents(XmlStreamWriter& writer, Measure* m, int offset, const QHash<void*, int>& segments)
+static void writeMeasureEvents(XmlStreamWriter& writer, Measure* m, int offset, const QHash<void*,
+                                                                                            int>& segments)
 {
     for (mu::engraving::Segment* s = m->first(mu::engraving::SegmentType::ChordRest); s;
          s = s->next(mu::engraving::SegmentType::ChordRest)) {
@@ -148,7 +150,8 @@ QHash<void*, int> PositionsWriter::elementIds(const mu::engraving::Score* score)
     int id = 0;
     if (m_elementType == ElementType::SEGMENT) {
         Measure* m = score->firstMeasureMM();
-        for (mu::engraving::Segment* s = (m ? m->first(mu::engraving::SegmentType::ChordRest) : nullptr);
+        for (mu::engraving::Segment* s =
+                 (m ? m->first(mu::engraving::SegmentType::ChordRest) : nullptr);
              s; s = s->next1MM(mu::engraving::SegmentType::ChordRest)) {
             elementIds[(void*)s] = id++;
         }
@@ -161,7 +164,8 @@ QHash<void*, int> PositionsWriter::elementIds(const mu::engraving::Score* score)
     return elementIds;
 }
 
-void PositionsWriter::writeElementsPositions(XmlStreamWriter& writer, const mu::engraving::Score* score) const
+void PositionsWriter::writeElementsPositions(XmlStreamWriter& writer,
+                                             const mu::engraving::Score* score) const
 {
     writer.startElement(ELEMENTS_TAG);
 
@@ -177,13 +181,15 @@ void PositionsWriter::writeElementsPositions(XmlStreamWriter& writer, const mu::
     writer.endElement();
 }
 
-void PositionsWriter::writeSegmentsPositions(XmlStreamWriter& writer, const mu::engraving::Score* score) const
+void PositionsWriter::writeSegmentsPositions(XmlStreamWriter& writer,
+                                             const mu::engraving::Score* score) const
 {
     int id = 0;
     qreal ndpi = pngDpiResolution();
 
     Measure* measure = score->firstMeasureMM();
-    for (mu::engraving::Segment* segment = (measure ? measure->first(mu::engraving::SegmentType::ChordRest) : nullptr);
+    for (mu::engraving::Segment* segment =
+             (measure ? measure->first(mu::engraving::SegmentType::ChordRest) : nullptr);
          segment; segment = segment->next1MM(mu::engraving::SegmentType::ChordRest)) {
         qreal sx = 0;
         size_t tracks = score->nstaves() * mu::engraving::VOICES;
@@ -209,7 +215,8 @@ void PositionsWriter::writeSegmentsPositions(XmlStreamWriter& writer, const mu::
     }
 }
 
-void PositionsWriter::writeMeasuresPositions(XmlStreamWriter& writer, const mu::engraving::Score* score) const
+void PositionsWriter::writeMeasuresPositions(XmlStreamWriter& writer,
+                                             const mu::engraving::Score* score) const
 {
     int id = 0;
     qreal ndpi = pngDpiResolution();
@@ -229,7 +236,8 @@ void PositionsWriter::writeMeasuresPositions(XmlStreamWriter& writer, const mu::
     }
 }
 
-void PositionsWriter::writeEventsPositions(XmlStreamWriter& writer, const mu::engraving::Score* score) const
+void PositionsWriter::writeEventsPositions(XmlStreamWriter& writer,
+                                           const mu::engraving::Score* score) const
 {
     QHash<void*, int> elementIds = this->elementIds(score);
 
@@ -241,7 +249,8 @@ void PositionsWriter::writeEventsPositions(XmlStreamWriter& writer, const mu::en
         int startTick = repeatSegment->tick;
         int endTick = repeatSegment->endTick();
         int tickOffset = repeatSegment->utick - repeatSegment->tick;
-        for (Measure* measure = score->tick2measureMM(Fraction::fromTicks(startTick)); measure; measure = measure->nextMeasureMM()) {
+        for (Measure* measure = score->tick2measureMM(Fraction::fromTicks(startTick)); measure;
+             measure = measure->nextMeasureMM()) {
             if (m_elementType == ElementType::SEGMENT) {
                 writeMeasureEvents(writer, measure, tickOffset, elementIds);
             } else {

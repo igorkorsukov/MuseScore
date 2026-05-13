@@ -34,8 +34,10 @@ class Staff;
 
 namespace mu::iex::midi {
 namespace MidiTie {
-bool isTiedFor(const engraving::Segment* seg, mu::engraving::track_idx_t strack, mu::engraving::voice_idx_t voice);
-bool isTiedBack(const engraving::Segment* seg, mu::engraving::track_idx_t strack, mu::engraving::voice_idx_t voice);
+bool isTiedFor(const engraving::Segment* seg, mu::engraving::track_idx_t strack,
+               mu::engraving::voice_idx_t voice);
+bool isTiedBack(const engraving::Segment* seg, mu::engraving::track_idx_t strack,
+                mu::engraving::voice_idx_t voice);
 
 class TieStateMachine
 {

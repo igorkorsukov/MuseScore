@@ -148,7 +148,8 @@ void InstrumentsOnScoreListModel::load()
         instrument->name = part->partName();
         instrument->isSoloist = part->soloist();
         instrument->familyId = part->familyId();
-        instrument->instrumentTemplate.sequenceOrder = resolveInstrumentSequenceNumber(instrument->id);
+        instrument->instrumentTemplate.sequenceOrder = resolveInstrumentSequenceNumber(
+            instrument->id);
 
         instruments << instrument;
     }
@@ -256,7 +257,9 @@ QVariantList InstrumentsOnScoreListModel::instruments() const
         obj["partId"] = instrument->partId.toQString();
         obj["isSoloist"] = instrument->isSoloist;
         obj["isExistingPart"] = instrument->isExistingPart;
-        obj["instrumentId"] = instrument->isExistingPart ? instrument->id : instrument->instrumentTemplate.id.toQString();
+        obj["instrumentId"]
+            = instrument->isExistingPart ? instrument->id : instrument->instrumentTemplate.id.
+              toQString();
 
         result << obj;
     }
@@ -294,7 +297,8 @@ void InstrumentsOnScoreListModel::sortInstruments(ItemList& instruments)
 
     const ScoreOrder& currentOrder = currentScoreOrder();
 
-    std::sort(instruments.begin(), instruments.end(), [currentOrder](const Item* item1, const Item* item2) {
+    std::sort(instruments.begin(), instruments.end(),
+              [currentOrder](const Item* item1, const Item* item2) {
         auto instrument1 = dynamic_cast<const InstrumentItem*>(item1);
         auto instrument2 = dynamic_cast<const InstrumentItem*>(item2);
 
@@ -305,10 +309,12 @@ void InstrumentsOnScoreListModel::sortInstruments(ItemList& instruments)
     });
 }
 
-void InstrumentsOnScoreListModel::insertInstrument(ItemList& instruments, InstrumentItem* newInstrument)
+void InstrumentsOnScoreListModel::insertInstrument(ItemList& instruments,
+                                                   InstrumentItem* newInstrument)
 {
     const ScoreOrder& currentOrder = currentScoreOrder();
-    const int newIndex = currentOrder.instrumentSortingIndex(newInstrument->id, newInstrument->isSoloist);
+    const int newIndex = currentOrder.instrumentSortingIndex(newInstrument->id,
+                                                             newInstrument->isSoloist);
 
     for (int index = 0; index < instruments.size(); ++index) {
         auto instrument = dynamic_cast<const InstrumentItem*>(instruments[index]);
@@ -321,7 +327,8 @@ void InstrumentsOnScoreListModel::insertInstrument(ItemList& instruments, Instru
     instruments << newInstrument;
 }
 
-InstrumentsOnScoreListModel::InstrumentItem* InstrumentsOnScoreListModel::modelIndexToItem(const QModelIndex& index) const
+InstrumentsOnScoreListModel::InstrumentItem* InstrumentsOnScoreListModel::modelIndexToItem(
+    const QModelIndex& index) const
 {
     return dynamic_cast<InstrumentItem*>(item(index));
 }
@@ -356,7 +363,8 @@ bool InstrumentsOnScoreListModel::matchesScoreOrder() const
         if (!instrument) {
             continue;
         }
-        instrumentIndices.push_back(currentOrder.instrumentSortingIndex(instrument->id, instrument->isSoloist));
+        instrumentIndices.push_back(currentOrder.instrumentSortingIndex(instrument->id,
+                                                                        instrument->isSoloist));
     }
 
     return currentOrder.isScoreOrder(instrumentIndices);

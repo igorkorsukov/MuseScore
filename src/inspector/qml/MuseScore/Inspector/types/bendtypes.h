@@ -70,10 +70,12 @@ struct CurvePoint
     bool generated = false;
 
     CurvePoint() = default;
-    CurvePoint(int time, int pitch, const QList<MoveDirection>& moveDirection = {}, bool endDashed = false, const QString& name = QString(),
+    CurvePoint(int time, int pitch, const QList<MoveDirection>& moveDirection = {},
+               bool endDashed = false, const QString& name = QString(),
                bool limitMoveVerticallyByNearestPoints = true)
         : time(time), pitch(pitch), moveDirection(moveDirection),
-        limitMoveVerticallyByNearestPoints(limitMoveVerticallyByNearestPoints), endDashed(endDashed), name(name) {}
+        limitMoveVerticallyByNearestPoints(limitMoveVerticallyByNearestPoints),
+        endDashed(endDashed), name(name) {}
     CurvePoint(int time, int pitch, bool generated, bool endDashed = false)
         : time(time), pitch(pitch), endDashed(endDashed), generated(generated) {}
 
@@ -91,7 +93,8 @@ struct CurvePoint
 
     inline bool operator==(const CurvePoint& o) const
     {
-        return o.time == time && o.pitch == pitch && o.moveDirection == moveDirection && o.endDashed == endDashed;
+        return o.time == time && o.pitch == pitch && o.moveDirection == moveDirection
+               && o.endDashed == endDashed;
     }
 
     inline bool operator!=(const CurvePoint& o) const { return !operator==(o); }
@@ -129,7 +132,8 @@ struct CurvePoint
             directions << static_cast<MoveDirection>(var.toInt());
         }
         point.moveDirection = directions;
-        point.limitMoveVerticallyByNearestPoints = map["limitMoveVerticallyByNearestPoints"].toBool();
+        point.limitMoveVerticallyByNearestPoints
+            = map["limitMoveVerticallyByNearestPoints"].toBool();
 
         point.endDashed = map["endDashed"].toBool();
         point.name = map["name"].toString();

@@ -62,7 +62,8 @@ bool SelectionFilter::isFiltered(const SelectionFilterTypesVariant& variant) con
         return isFiltered_Impl(m_filteredVoicesTypes, params);
     }
     case 1: {
-        const NotesInChordSelectionFilterTypes type = std::get<NotesInChordSelectionFilterTypes>(variant);
+        const NotesInChordSelectionFilterTypes type = std::get<NotesInChordSelectionFilterTypes>(
+            variant);
         const FilterParams params {
             /*otherFilter*/ static_cast<unsigned int>(type),
             /*noneMask*/ static_cast<unsigned int>(NotesInChordSelectionFilterTypes::NONE),
@@ -100,7 +101,8 @@ void SelectionFilter::setFiltered(const SelectionFilterTypesVariant& variant, bo
         return;
     }
     case 1: {
-        const NotesInChordSelectionFilterTypes type = std::get<NotesInChordSelectionFilterTypes>(variant);
+        const NotesInChordSelectionFilterTypes type = std::get<NotesInChordSelectionFilterTypes>(
+            variant);
         FilterParams params {
             /*otherFilter*/ static_cast<unsigned int>(type),
             /*noneMask*/ static_cast<unsigned int>(NotesInChordSelectionFilterTypes::NONE),
@@ -128,7 +130,8 @@ void SelectionFilter::setFiltered(const SelectionFilterTypesVariant& variant, bo
 bool SelectionFilter::canSelect(const EngravingItem* e) const
 {
     IF_ASSERT_FAILED(!e->isNote() && !e->isTuplet()) {
-        LOGE() << "Using canSelect on a Note or Tuplet - use canSelectNoteIdx or canSelectTuplet instead";
+        LOGE() <<
+        "Using canSelect on a Note or Tuplet - use canSelectNoteIdx or canSelectTuplet instead";
         return true;
     }
 
@@ -206,7 +209,8 @@ bool SelectionFilter::canSelect(const EngravingItem* e) const
     return true;
 }
 
-bool SelectionFilter::canSelectNoteIdx(size_t noteIdx, size_t totalNotesInChord, bool selectionContainsMultiNoteChords) const
+bool SelectionFilter::canSelectNoteIdx(size_t noteIdx, size_t totalNotesInChord,
+                                       bool selectionContainsMultiNoteChords) const
 {
     if (totalNotesInChord == 1) {
         //! NOTE: Always include single notes when the selection consists solely of single notes...
@@ -235,7 +239,8 @@ bool SelectionFilter::canSelectNoteIdx(size_t noteIdx, size_t totalNotesInChord,
     //! NOTE: Everything above "normal" we handle as top notes...
     const bool idxIsNormal = noteIdx < NUM_NOTES_IN_CHORD_SELECTION_FILTER_TYPES - 1;
     if (noteIdx == totalNotesInChord - 1 || !idxIsNormal) {
-        return isFiltered(NotesInChordSelectionFilterTypes::TOP_NOTE) || (idxIsNormal && isFiltered(type));
+        return isFiltered(NotesInChordSelectionFilterTypes::TOP_NOTE)
+               || (idxIsNormal && isFiltered(type));
     }
 
     IF_ASSERT_FAILED(type != NotesInChordSelectionFilterTypes::NONE) {
@@ -245,7 +250,8 @@ bool SelectionFilter::canSelectNoteIdx(size_t noteIdx, size_t totalNotesInChord,
     return isFiltered(type);
 }
 
-bool SelectionFilter::canSelectTuplet(const Tuplet* tuplet, const Fraction& selectionRangeStart, const Fraction& selectionRangeEnd,
+bool SelectionFilter::canSelectTuplet(const Tuplet* tuplet, const Fraction& selectionRangeStart,
+                                      const Fraction& selectionRangeEnd,
                                       bool selectionContainsMultiNoteChords) const
 {
     // Tuplets are selectable if all of their contained elements are selectable...
@@ -270,7 +276,8 @@ bool SelectionFilter::canSelectTuplet(const Tuplet* tuplet, const Fraction& sele
             break;
         case ElementType::TUPLET: {
             // Recursive call...
-            if (!canSelectTuplet(toTuplet(element), selectionRangeStart, selectionRangeEnd, selectionContainsMultiNoteChords)) {
+            if (!canSelectTuplet(toTuplet(element), selectionRangeStart, selectionRangeEnd,
+                                 selectionContainsMultiNoteChords)) {
                 return false;
             }
             break;

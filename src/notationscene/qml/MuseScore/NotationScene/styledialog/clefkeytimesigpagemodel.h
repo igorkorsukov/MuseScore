@@ -48,42 +48,72 @@ class ClefKeyTimeSigPageModel : public AbstractStyleDialogModel
     Q_PROPERTY(mu::notation::StyleItem * timeSigAboveY READ timeSigAboveY CONSTANT)
     Q_PROPERTY(mu::notation::StyleItem * timeSigAcrossY READ timeSigAcrossY CONSTANT)
 
-    Q_PROPERTY(mu::notation::StyleItem * timeSigCenterOnBarline READ timeSigCenterOnBarline CONSTANT)
-    Q_PROPERTY(mu::notation::StyleItem * timeSigVSMarginCentered READ timeSigVSMarginCentered CONSTANT)
-    Q_PROPERTY(mu::notation::StyleItem * timeSigVSMarginNonCentered READ timeSigVSMarginNonCentered CONSTANT)
-    Q_PROPERTY(mu::notation::StyleItem * timeSigCenterAcrossStaveGroup READ timeSigCenterAcrossStaveGroup CONSTANT)
+    Q_PROPERTY(mu::notation::StyleItem
+               * timeSigCenterOnBarline READ timeSigCenterOnBarline CONSTANT)
+    Q_PROPERTY(
+        mu::notation::StyleItem * timeSigVSMarginCentered READ timeSigVSMarginCentered CONSTANT)
+    Q_PROPERTY(
+        mu::notation::StyleItem
+        * timeSigVSMarginNonCentered READ timeSigVSMarginNonCentered CONSTANT)
+    Q_PROPERTY(
+        mu::notation::StyleItem
+        * timeSigCenterAcrossStaveGroup READ timeSigCenterAcrossStaveGroup CONSTANT)
 
     Q_PROPERTY(mu::notation::StyleItem * timeSigNormalScale READ timeSigNormalScale CONSTANT)
     Q_PROPERTY(mu::notation::StyleItem * timeSigAboveScale READ timeSigAboveScale CONSTANT)
     Q_PROPERTY(mu::notation::StyleItem * timeSigAcrossScale READ timeSigAcrossScale CONSTANT)
 
-    Q_PROPERTY(mu::notation::StyleItem * timeSigNormalScaleLock READ timeSigNormalScaleLock CONSTANT)
+    Q_PROPERTY(mu::notation::StyleItem
+               * timeSigNormalScaleLock READ timeSigNormalScaleLock CONSTANT)
     Q_PROPERTY(mu::notation::StyleItem * timeSigAboveScaleLock READ timeSigAboveScaleLock CONSTANT)
-    Q_PROPERTY(mu::notation::StyleItem * timeSigAcrossScaleLock READ timeSigAcrossScaleLock CONSTANT)
+    Q_PROPERTY(mu::notation::StyleItem
+               * timeSigAcrossScaleLock READ timeSigAcrossScaleLock CONSTANT)
 
     Q_PROPERTY(mu::notation::StyleItem * genCourtesyTimesig READ genCourtesyTimesig CONSTANT)
 
     Q_PROPERTY(mu::notation::StyleItem * genKeysig READ genKeysig CONSTANT)
     Q_PROPERTY(mu::notation::StyleItem * genCourtesyKeysig READ genCourtesyKeysig CONSTANT)
 
-    Q_PROPERTY(mu::notation::StyleItem * changesBeforeBarlineRepeats READ changesBeforeBarlineRepeats CONSTANT)
-    Q_PROPERTY(mu::notation::StyleItem * changesBeforeBarlineOtherJumps READ changesBeforeBarlineOtherJumps CONSTANT)
-    Q_PROPERTY(mu::notation::StyleItem * placeClefsBeforeRepeats READ placeClefsBeforeRepeats CONSTANT)
-    Q_PROPERTY(mu::notation::StyleItem * changesBetweenEndStartRepeat READ changesBetweenEndStartRepeat CONSTANT)
-    Q_PROPERTY(mu::notation::StyleItem * showCourtesiesRepeats READ showCourtesiesRepeats CONSTANT)
-    Q_PROPERTY(mu::notation::StyleItem * useParensRepeatCourtesies READ useParensRepeatCourtesies CONSTANT)
-    Q_PROPERTY(mu::notation::StyleItem * showCourtesiesOtherJumps READ showCourtesiesOtherJumps CONSTANT)
-    Q_PROPERTY(mu::notation::StyleItem * useParensOtherJumpCourtesies READ useParensOtherJumpCourtesies CONSTANT)
-    Q_PROPERTY(mu::notation::StyleItem * showCourtesiesAfterCancellingRepeats READ showCourtesiesAfterCancellingRepeats CONSTANT)
-    Q_PROPERTY(mu::notation::StyleItem * useParensRepeatCourtesiesAfterCancelling READ useParensRepeatCourtesiesAfterCancelling CONSTANT)
-    Q_PROPERTY(mu::notation::StyleItem * showCourtesiesAfterCancellingOtherJumps READ showCourtesiesAfterCancellingOtherJumps CONSTANT)
     Q_PROPERTY(
-        mu::notation::StyleItem * useParensOtherJumpCourtesiesAfterCancelling READ useParensOtherJumpCourtesiesAfterCancelling CONSTANT)
+        mu::notation::StyleItem
+        * changesBeforeBarlineRepeats READ changesBeforeBarlineRepeats CONSTANT)
+    Q_PROPERTY(
+        mu::notation::StyleItem
+        * changesBeforeBarlineOtherJumps READ changesBeforeBarlineOtherJumps CONSTANT)
+    Q_PROPERTY(
+        mu::notation::StyleItem * placeClefsBeforeRepeats READ placeClefsBeforeRepeats CONSTANT)
+    Q_PROPERTY(
+        mu::notation::StyleItem
+        * changesBetweenEndStartRepeat READ changesBetweenEndStartRepeat CONSTANT)
+    Q_PROPERTY(mu::notation::StyleItem * showCourtesiesRepeats READ showCourtesiesRepeats CONSTANT)
+    Q_PROPERTY(
+        mu::notation::StyleItem
+        * useParensRepeatCourtesies READ useParensRepeatCourtesies CONSTANT)
+    Q_PROPERTY(
+        mu::notation::StyleItem
+        * showCourtesiesOtherJumps READ showCourtesiesOtherJumps CONSTANT)
+    Q_PROPERTY(
+        mu::notation::StyleItem
+        * useParensOtherJumpCourtesies READ useParensOtherJumpCourtesies CONSTANT)
+    Q_PROPERTY(
+        mu::notation::StyleItem
+        * showCourtesiesAfterCancellingRepeats READ showCourtesiesAfterCancellingRepeats CONSTANT)
+    Q_PROPERTY(
+        mu::notation::StyleItem
+        * useParensRepeatCourtesiesAfterCancelling READ useParensRepeatCourtesiesAfterCancelling CONSTANT)
+    Q_PROPERTY(
+        mu::notation::StyleItem
+        * showCourtesiesAfterCancellingOtherJumps READ showCourtesiesAfterCancellingOtherJumps CONSTANT)
+    Q_PROPERTY(
+        mu::notation::StyleItem
+        * useParensOtherJumpCourtesiesAfterCancelling READ useParensOtherJumpCourtesiesAfterCancelling CONSTANT)
 
     Q_PROPERTY(mu::notation::StyleItem * smallParens READ smallParens CONSTANT)
 
     Q_PROPERTY(mu::notation::StyleItem * keySigNaturals READ keySigNaturals CONSTANT)
-    Q_PROPERTY(mu::notation::StyleItem * keySigShowNaturalsChangingSharpsFlats READ keySigShowNaturalsChangingSharpsFlats CONSTANT)
+    Q_PROPERTY(
+        mu::notation::StyleItem
+        * keySigShowNaturalsChangingSharpsFlats READ keySigShowNaturalsChangingSharpsFlats CONSTANT)
 
     QML_ELEMENT
 

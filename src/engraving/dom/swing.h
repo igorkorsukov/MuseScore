@@ -39,7 +39,8 @@ public:
     };
 
     static ChordDurationAdjustment applySwing(const Chord* chord, const SwingParameters& params);
-    static void swingAdjustParams(const Chord* chord, const SwingParameters& params, int& onTime, int& gateTime);
+    static void swingAdjustParams(const Chord* chord, const SwingParameters& params, int& onTime,
+                                  int& gateTime);
 };
 }
 

@@ -279,7 +279,8 @@
 using namespace muse;
 using namespace mu::app;
 
-std::shared_ptr<muse::IApplication> AppFactory::newApp(const std::shared_ptr<MuseScoreCmdOptions>& options) const
+std::shared_ptr<muse::IApplication> AppFactory::newApp(
+    const std::shared_ptr<MuseScoreCmdOptions>& options) const
 {
     IF_ASSERT_FAILED(options) {
         return nullptr;
@@ -292,7 +293,8 @@ std::shared_ptr<muse::IApplication> AppFactory::newApp(const std::shared_ptr<Mus
     }
 }
 
-std::shared_ptr<muse::IApplication> AppFactory::newGuiApp(const std::shared_ptr<MuseScoreCmdOptions>& options) const
+std::shared_ptr<muse::IApplication> AppFactory::newGuiApp(
+    const std::shared_ptr<MuseScoreCmdOptions>& options) const
 {
     std::shared_ptr<MuseScoreGuiApp> app = std::make_shared<MuseScoreGuiApp>(options);
 
@@ -547,7 +549,8 @@ static void addAudioPluginRegistrationModules(std::shared_ptr<MuseScoreConsoleAp
 #endif
 }
 
-std::shared_ptr<muse::IApplication> AppFactory::newConsoleApp(const std::shared_ptr<MuseScoreCmdOptions>& options) const
+std::shared_ptr<muse::IApplication> AppFactory::newConsoleApp(
+    const std::shared_ptr<MuseScoreCmdOptions>& options) const
 {
 #ifdef MUE_ENABLE_CONSOLEAPP
 

@@ -38,16 +38,20 @@ void BoxLayout::layoutBox(const Box* item, Box::LayoutData* ldata, const LayoutC
 {
     switch (item->type()) {
     case ElementType::HBOX:
-        BoxLayout::layoutHBox(static_cast<const HBox*>(item), static_cast<HBox::LayoutData*>(ldata), ctx);
+        BoxLayout::layoutHBox(static_cast<const HBox*>(item), static_cast<HBox::LayoutData*>(ldata),
+                              ctx);
         break;
     case ElementType::VBOX:
-        BoxLayout::layoutVBox(static_cast<const VBox*>(item), static_cast<VBox::LayoutData*>(ldata), ctx);
+        BoxLayout::layoutVBox(static_cast<const VBox*>(item), static_cast<VBox::LayoutData*>(ldata),
+                              ctx);
         break;
     case ElementType::FBOX:
-        BoxLayout::layoutFBox(static_cast<const FBox*>(item), static_cast<FBox::LayoutData*>(ldata), ctx);
+        BoxLayout::layoutFBox(static_cast<const FBox*>(item), static_cast<FBox::LayoutData*>(ldata),
+                              ctx);
         break;
     case ElementType::TBOX:
-        BoxLayout::layoutTBox(static_cast<const TBox*>(item), static_cast<TBox::LayoutData*>(ldata), ctx);
+        BoxLayout::layoutTBox(static_cast<const TBox*>(item), static_cast<TBox::LayoutData*>(ldata),
+                              ctx);
         break;
     default:
         UNREACHABLE;
@@ -70,7 +74,8 @@ void BoxLayout::layoutHBox(const HBox* item, HBox::LayoutData* ldata, const Layo
         double x = parentVBox->leftMargin() * DPMM;
         double y = parentVBox->topMargin() * DPMM;
         double w = item->absoluteFromSpatium(item->boxWidth());
-        double h = parentVBox->ldata()->bbox().height() - (parentVBox->topMargin() + parentVBox->bottomMargin()) * DPMM;
+        double h = parentVBox->ldata()->bbox().height()
+                   - (parentVBox->topMargin() + parentVBox->bottomMargin()) * DPMM;
         ldata->setPos(x, y);
         ldata->setBbox(0.0, 0.0, w, h);
     } else if (item->system()) {
@@ -81,7 +86,8 @@ void BoxLayout::layoutHBox(const HBox* item, HBox::LayoutData* ldata, const Layo
         if (!ldata->isSetPos()) {
             ldata->setPos(PointF());
         }
-        ldata->setBbox(item->absoluteFromSpatium(item->topGap()), 0.0, item->absoluteFromSpatium(item->boxWidth()),
+        ldata->setBbox(item->absoluteFromSpatium(item->topGap()), 0.0,
+                       item->absoluteFromSpatium(item->boxWidth()),
                        parentSystem->ldata()->bbox().height());
     } else {
         ldata->setPos(PointF());
@@ -104,7 +110,8 @@ void BoxLayout::layoutVBox(const VBox* item, VBox::LayoutData* ldata, const Layo
 
         LD_CONDITION(parentSystem->ldata()->isSetBbox());
 
-        ldata->setBbox(0.0, 0.0, parentSystem->ldata()->bbox().width(), item->absoluteFromSpatium(item->boxHeight()));
+        ldata->setBbox(0.0, 0.0, parentSystem->ldata()->bbox().width(),
+                       item->absoluteFromSpatium(item->boxHeight()));
     } else {
         ldata->setBbox(0.0, 0.0, 50, 50);
     }
@@ -128,7 +135,9 @@ void BoxLayout::layoutVBox(const VBox* item, VBox::LayoutData* ldata, const Layo
     if (boxAutoSize && MScore::noImages) {
         // adjustLayoutWithoutImages
         double calculatedVBoxHeight = 0;
-        const int padding = item->sizeIsSpatiumDependent() ? ctx.conf().spatium() : ctx.conf().style().defaultSpatium();
+        const int padding
+            = item->sizeIsSpatiumDependent() ? ctx.conf().spatium() : ctx.conf().style().
+              defaultSpatium();
         ElementList elist = item->el();
         for (EngravingItem* e : elist) {
             if (e->isText()) {
@@ -177,7 +186,9 @@ void BoxLayout::layoutFBox(const FBox* item, FBox::LayoutData* ldata, const Layo
 
         /// FBox::init requires all chord symbols in the score have valid ldata
         /// Perform layout
-        for (mu::engraving::Segment* segment = score->firstSegment(mu::engraving::SegmentType::ChordRest); segment;
+        for (mu::engraving::Segment* segment =
+                 score->firstSegment(mu::engraving::SegmentType::ChordRest);
+             segment;
              segment = segment->next1(mu::engraving::SegmentType::ChordRest)) {
             for (EngravingItem* segItem : segment->annotations()) {
                 if (!segItem || !segItem->part()) {
@@ -187,8 +198,10 @@ void BoxLayout::layoutFBox(const FBox* item, FBox::LayoutData* ldata, const Layo
                     continue;
                 }
 
-                Harmony* harmony = segItem->isHarmony() ? toHarmony(segItem) : toFretDiagram(segItem)->harmony();
-                if (!harmony || harmony->harmonyType() != HarmonyType::STANDARD || harmony->ldata()->isValid()) {
+                Harmony* harmony
+                    = segItem->isHarmony() ? toHarmony(segItem) : toFretDiagram(segItem)->harmony();
+                if (!harmony || harmony->harmonyType() != HarmonyType::STANDARD
+                    || harmony->ldata()->isValid()) {
                     continue;
                 }
 
@@ -301,9 +314,12 @@ void BoxLayout::layoutFBox(const FBox* item, FBox::LayoutData* ldata, const Layo
 
         size_t itemsInRow = std::min(chordsPerRow, totalDiagrams - row * chordsPerRow);
         double rowOffsetX = alignH == AlignH::HCENTER
-                            ? (totalTableWidth - (itemsInRow * cellWidth + (itemsInRow - 1) * columnGap)) / 2
+                            ? (totalTableWidth
+                               - (itemsInRow * cellWidth + (itemsInRow - 1) * columnGap)) / 2
                             : alignH == AlignH::RIGHT
-                            ? totalTableWidth - (itemsInRow * cellWidth + (itemsInRow - 1) * columnGap) - rightMargin + spatium
+                            ? totalTableWidth
+                            - (itemsInRow * cellWidth + (itemsInRow - 1) * columnGap)
+                            - rightMargin + spatium
                             : leftMargin + spatium;
 
         double x = startX + rowOffsetX + col * (cellWidth + columnGap);
@@ -323,7 +339,10 @@ void BoxLayout::layoutFBox(const FBox* item, FBox::LayoutData* ldata, const Layo
 
         fretDiagram->mutldata()->setPos(PointF(fretDiagramX, fretDiagramY));
 
-        bottomY = std::max(bottomY, fretDiagram->mutldata()->bbox().translated(fretDiagram->mutldata()->pos()).bottom());
+        bottomY
+            = std::max(bottomY,
+                       fretDiagram->mutldata()->bbox().translated(
+                           fretDiagram->mutldata()->pos()).bottom());
     }
 
     double height = bottomY + bottomMargin;

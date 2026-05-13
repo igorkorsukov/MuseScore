@@ -37,7 +37,8 @@ static const ElementStyle expressionStyle {
 };
 
 Expression::Expression(Segment* parent)
-    : TextBase(ElementType::EXPRESSION, parent, TextStyleType::EXPRESSION, ElementFlag::MOVABLE | ElementFlag::ON_STAFF)
+    : TextBase(ElementType::EXPRESSION, parent, TextStyleType::EXPRESSION,
+               ElementFlag::MOVABLE | ElementFlag::ON_STAFF)
 {
     initElementStyle(&expressionStyle);
 }
@@ -53,7 +54,8 @@ bool Expression::isEditAllowed(EditData& ed) const
     bool ctrlPressed  = ed.modifiers & ControlModifier;
     bool shiftPressed = ed.modifiers & ShiftModifier;
     bool altPressed = ed.modifiers & AltModifier;
-    if (altPressed && !ctrlPressed && !shiftPressed && (ed.key == Key_Left || ed.key == Key_Right)) {
+    if (altPressed && !ctrlPressed && !shiftPressed
+        && (ed.key == Key_Left || ed.key == Key_Right)) {
         return false;
     }
 
@@ -84,7 +86,8 @@ double Expression::computeDynamicExpressionDistance(const Dynamic* snappedDyn) c
     return distance;
 }
 
-std::unique_ptr<ElementGroup> Expression::getDragGroup(std::function<bool(const EngravingItem*)> isDragged)
+std::unique_ptr<ElementGroup> Expression::getDragGroup(
+    std::function<bool(const EngravingItem*)> isDragged)
 {
     if (auto g = DynamicExpressionDragGroup::detectFor(this, isDragged)) {
         return g;

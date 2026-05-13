@@ -136,7 +136,9 @@ MenuItemList NotationContextMenuModel::makeMeasureItems()
     if (globalContext()->currentNotation()->viewMode() == mu::notation::ViewMode::PAGE) {
         items << makeMenu(TranslatableString("notation", "Move measures"), makeMoveMeasureItems());
     }
-    items << makeMenuItem("make-into-system", TranslatableString("notation", "Create system from selection"));
+    items <<
+        makeMenuItem("make-into-system",
+                     TranslatableString("notation", "Create system from selection"));
     items << makeSeparator();
     items << makeMenuItem("measure-properties");
 
@@ -190,7 +192,8 @@ MenuItemList NotationContextMenuModel::makeHarmonyItems()
     items << makeSeparator();
 
     if (element) {
-        engraving::EngravingObject* parent = element->isHarmony() ? element->explicitParent() : nullptr;
+        engraving::EngravingObject* parent
+            = element->isHarmony() ? element->explicitParent() : nullptr;
         bool hasLinkedFretboardDiagram = parent && parent->isFretDiagram();
         if (!hasLinkedFretboardDiagram) {
             items << makeMenuItem("add-fretboard-diagram");
@@ -252,7 +255,8 @@ MenuItemList NotationContextMenuModel::makeElementInFretBoxItems()
 MenuItemList NotationContextMenuModel::makeSelectItems()
 {
     if (isSingleSelection()) {
-        return MenuItemList { makeMenuItem("select-similar"), makeMenuItem("select-similar-staff"), makeMenuItem("select-dialog") };
+        return MenuItemList { makeMenuItem("select-similar"), makeMenuItem("select-similar-staff"),
+                              makeMenuItem("select-dialog") };
     } else if (canSelectSimilarInRange()) {
         return MenuItemList { makeMenuItem("select-similar-range"), makeMenuItem("select-dialog") };
     } else if (canSelectSimilar()) {
@@ -292,10 +296,12 @@ MenuItemList NotationContextMenuModel::makeElementItems()
 MenuItemList NotationContextMenuModel::makeInsertMeasuresItems()
 {
     MenuItemList items {
-        makeMenuItem("insert-measures-after-selection", TranslatableString("notation", "After selection…")),
+        makeMenuItem("insert-measures-after-selection",
+                     TranslatableString("notation", "After selection…")),
         makeMenuItem("insert-measures", TranslatableString("notation", "Before selection…")),
         makeSeparator(),
-        makeMenuItem("insert-measures-at-start-of-score", TranslatableString("notation", "At start of score…")),
+        makeMenuItem("insert-measures-at-start-of-score",
+                     TranslatableString("notation", "At start of score…")),
         makeMenuItem("append-measures", TranslatableString("notation", "At end of score…"))
     };
 
@@ -305,8 +311,10 @@ MenuItemList NotationContextMenuModel::makeInsertMeasuresItems()
 MenuItemList NotationContextMenuModel::makeMoveMeasureItems()
 {
     MenuItemList items {
-        makeMenuItem("move-measure-to-prev-system", TranslatableString("notation", "To previous system")),
-        makeMenuItem("move-measure-to-next-system", TranslatableString("notation", "To next system"))
+        makeMenuItem("move-measure-to-prev-system",
+                     TranslatableString("notation", "To previous system")),
+        makeMenuItem("move-measure-to-next-system",
+                     TranslatableString("notation", "To next system"))
     };
 
     return items;

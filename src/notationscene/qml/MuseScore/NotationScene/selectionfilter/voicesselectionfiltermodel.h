@@ -39,8 +39,14 @@ public:
 private:
     void loadTypes() override;
 
-    SelectionFilterTypesVariant getAllMask() const override { return engraving::VoicesSelectionFilterTypes::ALL; }
-    SelectionFilterTypesVariant getNoneMask() const override { return engraving::VoicesSelectionFilterTypes::NONE; }
+    SelectionFilterTypesVariant getAllMask() const override
+    {
+        return engraving::VoicesSelectionFilterTypes::ALL;
+    }
+    SelectionFilterTypesVariant getNoneMask() const override
+    {
+        return engraving::VoicesSelectionFilterTypes::NONE;
+    }
 
     QString titleForType(const SelectionFilterTypesVariant& variant) const override;
 };

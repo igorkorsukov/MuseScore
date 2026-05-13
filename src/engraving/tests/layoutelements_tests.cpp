@@ -84,7 +84,8 @@ static void isLayoutDone(bool* result, EngravingItem* e)
         // Melisma line may be omitted if too short
         return;
     }
-    if (e->isLayoutBreak() || e->isSystemLockIndicator() /*TODO: || e->isStaffVisibilityIndicator()*/) {
+    if (e->isLayoutBreak()
+        || e->isSystemLockIndicator() /*TODO: || e->isStaffVisibilityIndicator()*/) {
         return;
     }
 
@@ -94,7 +95,8 @@ static void isLayoutDone(bool* result, EngravingItem* e)
         (*result) = false;
         // Print some info about the element to make test more useful...
         if (Measure* m = e->findMeasure()) {
-            LOGD("Layout of %s is not done (page %zu, measure %d)", e->typeName(), m->system()->page()->pageNumber() + 1,
+            LOGD("Layout of %s is not done (page %zu, measure %d)", e->typeName(),
+                 m->system()->page()->pageNumber() + 1,
                  m->measureNumber() + 1);
         } else {
             LOGD("Layout of %s is not done", e->typeName());

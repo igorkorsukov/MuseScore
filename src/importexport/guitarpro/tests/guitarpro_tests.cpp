@@ -37,7 +37,8 @@ using namespace mu::engraving;
 static const String GUITARPRO_DIR(u"data/");
 
 namespace mu::iex::guitarpro {
-extern Err importGTP(MasterScore*, muse::io::IODevice* io, const muse::modularity::ContextPtr& iocCtx, bool experimental = false);
+extern Err importGTP(MasterScore*, muse::io::IODevice* io,
+                     const muse::modularity::ContextPtr& iocCtx, bool experimental = false);
 
 class GuitarPro_Tests : public ::testing::Test
 {
@@ -56,7 +57,8 @@ void GuitarPro_Tests::gpReadTest(const char* file, const char* ext)
 
     MasterScore* score = ScoreRW::readScore(GUITARPRO_DIR + fileName, false, importFunc);
     EXPECT_TRUE(score);
-    EXPECT_TRUE(ScoreComp::saveCompareScore(score, fileName + u".mscx", GUITARPRO_DIR + fileName + u"-ref.mscx"));
+    EXPECT_TRUE(ScoreComp::saveCompareScore(score, fileName + u".mscx",
+                                            GUITARPRO_DIR + fileName + u"-ref.mscx"));
     delete score;
 }
 

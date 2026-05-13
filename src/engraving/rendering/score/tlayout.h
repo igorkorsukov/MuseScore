@@ -202,15 +202,20 @@ public:
 
     static void layoutItem(EngravingItem* item, LayoutContext& ctx);  // factory
 
-    static void layoutAccidental(const Accidental* item, Accidental::LayoutData* ldata, const LayoutConfiguration& conf);
+    static void layoutAccidental(const Accidental* item, Accidental::LayoutData* ldata,
+                                 const LayoutConfiguration& conf);
     static void layoutActionIcon(const ActionIcon* item, ActionIcon::LayoutData* ldata);
-    static void layoutAmbitus(const Ambitus* item, Ambitus::LayoutData* ldata, const LayoutContext& ctx);
-    static void layoutArpeggio(const Arpeggio* item, Arpeggio::LayoutData* ldata, const LayoutConfiguration& conf);
-    static void layoutChordBracket(const ChordBracket* item, ChordBracket::LayoutData* ldata, const LayoutConfiguration& conf);
+    static void layoutAmbitus(const Ambitus* item, Ambitus::LayoutData* ldata,
+                              const LayoutContext& ctx);
+    static void layoutArpeggio(const Arpeggio* item, Arpeggio::LayoutData* ldata,
+                               const LayoutConfiguration& conf);
+    static void layoutChordBracket(const ChordBracket* item, ChordBracket::LayoutData* ldata,
+                                   const LayoutConfiguration& conf);
     static void layoutArticulation(Articulation* item, Articulation::LayoutData* ldata);
     static void fillArticulationShape(const Articulation* item, Articulation::LayoutData* ldata);
 
-    static void layoutBarLine(const BarLine* item, BarLine::LayoutData* ldata, const LayoutContext& ctx);
+    static void layoutBarLine(const BarLine* item, BarLine::LayoutData* ldata,
+                              const LayoutContext& ctx);
     static void layoutBarLine2(BarLine* item, LayoutContext& ctx);
     static void layoutBeam(Beam* item, const LayoutContext& ctx);
     static void layoutBeam1(Beam* item, LayoutContext& ctx);
@@ -221,40 +226,51 @@ public:
     static void layoutFBox(const FBox* item, FBox::LayoutData* ldata, const LayoutContext& ctx);
     static void layoutTBox(const TBox* item, TBox::LayoutData* ldata, const LayoutContext& ctx);
 
-    static void layoutBracket(const Bracket* item, Bracket::LayoutData* ldata, const LayoutConfiguration& conf);
-    static void layoutBreath(const Breath* item, Breath::LayoutData* ldata, const LayoutConfiguration& conf);
+    static void layoutBracket(const Bracket* item, Bracket::LayoutData* ldata,
+                              const LayoutConfiguration& conf);
+    static void layoutBreath(const Breath* item, Breath::LayoutData* ldata,
+                             const LayoutConfiguration& conf);
 
     static void layoutChord(Chord* item, LayoutContext& ctx);
-    static void layoutChordLine(const ChordLine* item, ChordLine::LayoutData* ldata, const LayoutConfiguration& conf);
-    static void layoutClef(const Clef* item, Clef::LayoutData* ldata, const LayoutConfiguration& conf);
+    static void layoutChordLine(const ChordLine* item, ChordLine::LayoutData* ldata,
+                                const LayoutConfiguration& conf);
+    static void layoutClef(const Clef* item, Clef::LayoutData* ldata,
+                           const LayoutConfiguration& conf);
     static void layoutCapo(const Capo* item, Capo::LayoutData* ldata, const LayoutContext& ctx);
 
     static void layoutDeadSlapped(const DeadSlapped* item, DeadSlapped::LayoutData* ldata);
-    static void layoutDynamic(Dynamic* item, Dynamic::LayoutData* ldata, const LayoutConfiguration& conf);
+    static void layoutDynamic(Dynamic* item, Dynamic::LayoutData* ldata,
+                              const LayoutConfiguration& conf);
 
     static void layoutExpression(const Expression* item, Expression::LayoutData* ldata);
 
     static void layoutFermata(const Fermata* item, Fermata::LayoutData* ldata);
-    static void layoutFiguredBass(const FiguredBass* item, FiguredBass::LayoutData* ldata, const LayoutContext& ctx);
+    static void layoutFiguredBass(const FiguredBass* item, FiguredBass::LayoutData* ldata,
+                                  const LayoutContext& ctx);
     static void layoutFingering(const Fingering* item, Fingering::LayoutData* ldata);
-    static void layoutFretDiagram(const FretDiagram* item, FretDiagram::LayoutData* ldata, const LayoutContext& ctx);
+    static void layoutFretDiagram(const FretDiagram* item, FretDiagram::LayoutData* ldata,
+                                  const LayoutContext& ctx);
 
     static void layoutGlissando(Glissando* item, LayoutContext& ctx);
     static void layoutGlissandoSegment(GlissandoSegment* item, LayoutContext& ctx);
     static void layoutGraceNotesGroup(GraceNotesGroup* item, LayoutContext& ctx);
-    static void layoutGraceNotesGroup2(const GraceNotesGroup* item, GraceNotesGroup::LayoutData* ldata);
-    static void layoutGradualTempoChangeSegment(GradualTempoChangeSegment* item, LayoutContext& ctx);
+    static void layoutGraceNotesGroup2(const GraceNotesGroup* item,
+                                       GraceNotesGroup::LayoutData* ldata);
+    static void layoutGradualTempoChangeSegment(GradualTempoChangeSegment* item,
+                                                LayoutContext& ctx);
     static void layoutGradualTempoChange(GradualTempoChange* item, LayoutContext& ctx);
     static void layoutGuitarBend(GuitarBend* item, LayoutContext& ctx);
     static void layoutGuitarBendSegment(GuitarBendSegment* item, LayoutContext& ctx);
-    static void fillGuitarBendSegmentShape(const GuitarBendSegment* item, GuitarBendSegment::LayoutData* ldata);
+    static void fillGuitarBendSegmentShape(const GuitarBendSegment* item,
+                                           GuitarBendSegment::LayoutData* ldata);
 
     static void layoutHairpinSegment(HairpinSegment* item, LayoutContext& ctx);
     static void layoutHairpin(Hairpin* item, LayoutContext& ctx);
     static void layoutHammerOnPullOff(HammerOnPullOff* item, LayoutContext& ctx);
     static void layoutHammerOnPullOffSegment(HammerOnPullOffSegment* item, LayoutContext& ctx);
     static void layoutHammerOnPullOffText(HammerOnPullOffText* item, LayoutContext& ctx);
-    static void layoutHarpPedalDiagram(const HarpPedalDiagram* item, HarpPedalDiagram::LayoutData* ldata);
+    static void layoutHarpPedalDiagram(const HarpPedalDiagram* item,
+                                       HarpPedalDiagram::LayoutData* ldata);
     static void layoutHarmonicMarkSegment(HarmonicMarkSegment* item, LayoutContext& ctx);
     static void layoutHarmony(Harmony* item, Harmony::LayoutData* ldata, const LayoutContext& ctx);
     static void layoutHook(const Hook* item, Hook::LayoutData* ldata);
@@ -262,12 +278,14 @@ public:
     static void layoutIndicatorIcon(const IndicatorIcon* item, IndicatorIcon::LayoutData* ldata);
 
     static void layoutImage(const Image* item, Image::LayoutData* ldata);
-    static void layoutInstrumentChange(const InstrumentChange* item, InstrumentChange::LayoutData* ldata);
+    static void layoutInstrumentChange(const InstrumentChange* item,
+                                       InstrumentChange::LayoutData* ldata);
     static void layoutInstrumentName(const InstrumentName* item, InstrumentName::LayoutData* ldata);
 
     static void layoutJump(const Jump* item, Jump::LayoutData* ldata);
 
-    static void layoutKeySig(const KeySig* item, KeySig::LayoutData* ldata, const LayoutConfiguration& conf);
+    static void layoutKeySig(const KeySig* item, KeySig::LayoutData* ldata,
+                             const LayoutConfiguration& conf);
 
     static void layoutLaissezVib(LaissezVib* item);
     static void layoutLayoutBreak(const LayoutBreak* item, LayoutBreak::LayoutData* ldata);
@@ -281,12 +299,19 @@ public:
 
     static void layoutMarker(Marker* item, Marker::LayoutData* ldata, LayoutContext& ctx);
     static void layoutMeasureBase(MeasureBase* item, LayoutContext& ctx); // factory
-    static void layoutBaseMeasureBase(const MeasureBase* item, MeasureBase::LayoutData* ldata, const LayoutContext& ctx); // base class
-    static void layoutMeasureNumber(MeasureNumber* item, MeasureNumber::LayoutData* ldata, const LayoutContext& ctx);
-    static void layoutMeasureRepeat(const MeasureRepeat* item, MeasureRepeat::LayoutData* ldata, const LayoutContext& ctx);
-    static void layoutMeasureRepeatExtender(const MeasureRepeat* item, MeasureRepeat::LayoutData* ldata, const LayoutContext& ctx);
-    static void layoutMMRest(const MMRest* item, MMRest::LayoutData* ldata, const LayoutContext& ctx);
-    static void layoutMMRestRange(MMRestRange* item, MMRestRange::LayoutData* ldata, const LayoutContext& ctx);
+    static void layoutBaseMeasureBase(const MeasureBase* item, MeasureBase::LayoutData* ldata,
+                                      const LayoutContext& ctx);                                                          // base class
+    static void layoutMeasureNumber(MeasureNumber* item, MeasureNumber::LayoutData* ldata,
+                                    const LayoutContext& ctx);
+    static void layoutMeasureRepeat(const MeasureRepeat* item, MeasureRepeat::LayoutData* ldata,
+                                    const LayoutContext& ctx);
+    static void layoutMeasureRepeatExtender(const MeasureRepeat* item,
+                                            MeasureRepeat::LayoutData* ldata,
+                                            const LayoutContext& ctx);
+    static void layoutMMRest(const MMRest* item, MMRest::LayoutData* ldata,
+                             const LayoutContext& ctx);
+    static void layoutMMRestRange(MMRestRange* item, MMRestRange::LayoutData* ldata,
+                                  const LayoutContext& ctx);
 
     static void layoutNote(const Note* item, Note::LayoutData* ldata);
     static void fillNoteShape(const Note* item, Note::LayoutData* ldata);
@@ -295,7 +320,8 @@ public:
     static void layoutNoteLine(NoteLine* item, LayoutContext& ctx);
     static void layoutNoteLineSegment(NoteLineSegment* item, LayoutContext& ctx);
 
-    static void layoutOrnament(const Ornament* item, Ornament::LayoutData* ldata, const LayoutConfiguration& conf);
+    static void layoutOrnament(const Ornament* item, Ornament::LayoutData* ldata,
+                               const LayoutConfiguration& conf);
     static void layoutOrnamentCueNote(Ornament* item, LayoutContext& ctx);
 
     static void layoutOttava(Ottava* item, LayoutContext& ctx);
@@ -303,12 +329,14 @@ public:
 
     static void layoutPalmMute(PalmMute* item, LayoutContext& ctx);
     static void layoutPalmMuteSegment(PalmMuteSegment* item, LayoutContext& ctx);
-    static void layoutParenthesis(Parenthesis* item, Parenthesis::LayoutData* ldata, const LayoutContext& ctx);
+    static void layoutParenthesis(Parenthesis* item, Parenthesis::LayoutData* ldata,
+                                  const LayoutContext& ctx);
     static void layoutPedal(Pedal* item, LayoutContext& ctx);
     static void layoutPedalSegment(PedalSegment* item, LayoutContext& ctx);
     static void layoutPickScrapeSegment(PickScrapeSegment* item, LayoutContext& ctx);
     static void layoutPlayCountText(PlayCountText* item, PlayCountText::LayoutData* ldata);
-    static void layoutPlayTechAnnotation(const PlayTechAnnotation* item, PlayTechAnnotation::LayoutData* ldata);
+    static void layoutPlayTechAnnotation(const PlayTechAnnotation* item,
+                                         PlayTechAnnotation::LayoutData* ldata);
 
     static void layoutRasgueadoSegment(RasgueadoSegment* item, LayoutContext& ctx);
     static void layoutRehearsalMark(const RehearsalMark* item, RehearsalMark::LayoutData* ldata);
@@ -323,20 +351,27 @@ public:
     static void layoutForWidth(StaffLines* item, double w, LayoutContext& ctx);
     static void layoutStaffState(const StaffState* item, StaffState::LayoutData* ldata);
     static void layoutStaffText(const StaffText* item, StaffText::LayoutData* ldata);
-    static void layoutStaffTypeChange(const StaffTypeChange* item, StaffTypeChange::LayoutData* ldata, const LayoutConfiguration& conf);
-    static void layoutStem(const Stem* item, Stem::LayoutData* ldata, const LayoutConfiguration& conf);
-    static void layoutStemSlash(const StemSlash* item, StemSlash::LayoutData* ldata, const LayoutConfiguration& conf);
+    static void layoutStaffTypeChange(const StaffTypeChange* item,
+                                      StaffTypeChange::LayoutData* ldata,
+                                      const LayoutConfiguration& conf);
+    static void layoutStem(const Stem* item, Stem::LayoutData* ldata,
+                           const LayoutConfiguration& conf);
+    static void layoutStemSlash(const StemSlash* item, StemSlash::LayoutData* ldata,
+                                const LayoutConfiguration& conf);
     static void layoutSticking(const Sticking* item, Sticking::LayoutData* ldata);
     static void layoutStringTunings(StringTunings* item, LayoutContext& ctx);
     static void layoutSoundFlag(const SoundFlag* item, SoundFlag::LayoutData* ldata);
 
-    static void layoutSymbol(const Symbol* item, Symbol::LayoutData* ldata, const LayoutContext& ctx);
+    static void layoutSymbol(const Symbol* item, Symbol::LayoutData* ldata,
+                             const LayoutContext& ctx);
     static void layoutFSymbol(const FSymbol* item, FSymbol::LayoutData* ldata);
 
-    static void layoutSystemDivider(const SystemDivider* item, SystemDivider::LayoutData* ldata, const LayoutContext& ctx);
+    static void layoutSystemDivider(const SystemDivider* item, SystemDivider::LayoutData* ldata,
+                                    const LayoutContext& ctx);
     static void layoutSystemText(const SystemText* item, SystemText::LayoutData* ldata);
 
-    static void layoutTabDurationSymbol(const TabDurationSymbol* item, TabDurationSymbol::LayoutData* ldata);
+    static void layoutTabDurationSymbol(const TabDurationSymbol* item,
+                                        TabDurationSymbol::LayoutData* ldata);
     static void layoutTapping(Tapping* item, Tapping::LayoutData* ldata, LayoutContext& ctx);
     static void layoutTappingHalfSlur(TappingHalfSlur* item);
     static void layoutTempoText(const TempoText* item, TempoText::LayoutData* ldata);
@@ -350,14 +385,16 @@ public:
     static Shape recalculateTextLineBaseSegmentShape(const TextLineBaseSegment* item);
 
     static void layoutTie(Tie* item, LayoutContext& ctx);
-    static void layoutTimeSig(const TimeSig* item, TimeSig::LayoutData* ldata, const LayoutContext& ctx);
+    static void layoutTimeSig(const TimeSig* item, TimeSig::LayoutData* ldata,
+                              const LayoutContext& ctx);
     static void layoutTimeTickAnchor(TimeTickAnchor* item, LayoutContext&);
     static void layoutTremoloSingle(TremoloSingleChord* item, LayoutContext& ctx);
     static void layoutTremoloTwo(TremoloTwoChord* item, LayoutContext& ctx);
     static void layoutTremoloBar(const TremoloBar* item, TremoloBar::LayoutData* ldata);
     static void layoutTrill(Trill* item, LayoutContext& ctx);
     static void layoutTrillSegment(TrillSegment* item, LayoutContext& ctx);
-    static void fillTrillSegmentShape(const TrillSegment* item, TrillSegment::LayoutData* ldata, const LayoutConfiguration& conf);
+    static void fillTrillSegmentShape(const TrillSegment* item, TrillSegment::LayoutData* ldata,
+                                      const LayoutConfiguration& conf);
     static void layoutTripletFeel(const TripletFeel* item, TripletFeel::LayoutData* ldata);
     static void layoutTuplet(Tuplet* item, LayoutContext& ctx);
     static void fillTupletShape(const Tuplet* item, Tuplet::LayoutData* ldata);
@@ -369,7 +406,8 @@ public:
 
     static void layoutWhammyBarSegment(WhammyBarSegment* item, LayoutContext& ctx);
 
-    static void updateBarlineShape(const BarLine* item, BarLine::LayoutData* ldata, const LayoutContext& ctx);
+    static void updateBarlineShape(const BarLine* item, BarLine::LayoutData* ldata,
+                                   const LayoutContext& ctx);
 
     // layoutSystem;
     static SpannerSegment* layoutSystem(Spanner* item, System* system, LayoutContext& ctx); // factory
@@ -382,7 +420,8 @@ private:
 
     friend class SlurTieLayout;
 
-    static void layoutFiguredBassItem(const FiguredBassItem* item, FiguredBassItem::LayoutData* ldata, const LayoutContext& ctx);
+    static void layoutFiguredBassItem(const FiguredBassItem* item,
+                                      FiguredBassItem::LayoutData* ldata, const LayoutContext& ctx);
 
     static SpannerSegment* layoutSystemSLine(SLine* line, System* system, LayoutContext& ctx);
     static double voltaMidEndSegmentStartX(Volta* volta, System* system, LayoutContext& ctx);
@@ -391,13 +430,17 @@ private:
 
     static void manageHairpinSnapping(HairpinSegment* item, LayoutContext& ctx);
 
-    static void checkRehearsalMarkVSBigTimeSig(const RehearsalMark* item, RehearsalMark::LayoutData* ldata);
+    static void checkRehearsalMarkVSBigTimeSig(const RehearsalMark* item,
+                                               RehearsalMark::LayoutData* ldata);
 
     static void manageTempoChangeSnapping(GradualTempoChangeSegment* item, LayoutContext& ctx);
-    static void doLayoutGradualTempoChangeSegment(GradualTempoChangeSegment* item, LayoutContext& ctx);
+    static void doLayoutGradualTempoChangeSegment(GradualTempoChangeSegment* item,
+                                                  LayoutContext& ctx);
 
-    static void alignTabGraceNotesToMainStave(GraceNotesGroup* graceNotes, const Staff* notationStaff);
+    static void alignTabGraceNotesToMainStave(GraceNotesGroup* graceNotes,
+                                              const Staff* notationStaff);
 
-    static void layoutGroupBracket(const Bracket* item, Bracket::LayoutData* ldata, const LayoutConfiguration& conf);
+    static void layoutGroupBracket(const Bracket* item, Bracket::LayoutData* ldata,
+                                   const LayoutConfiguration& conf);
 };
 }

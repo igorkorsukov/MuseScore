@@ -48,7 +48,8 @@ bool PreviewMeasure::isValid() const
     }
 
     const ShadowNote* note = m_score->shadowNote();
-    return (note && note->visible() && note->isBeyondScore()) || m_score->inputState().beyondScore();
+    return (note && note->visible() && note->isBeyondScore())
+           || m_score->inputState().beyondScore();
 }
 
 muse::RectF PreviewMeasure::rect() const
@@ -68,10 +69,12 @@ muse::RectF PreviewMeasure::rect() const
                        previewWidth, lastMeasure->height());
 
     const Staff* firstStaff = m_score->staves().front();
-    const double firstStaffLineWidth = m_score->style().styleAbsolute(Sid::staffLineWidth) * firstStaff->staffMag(tick);
+    const double firstStaffLineWidth = m_score->style().styleAbsolute(Sid::staffLineWidth)
+                                       * firstStaff->staffMag(tick);
 
     const Staff* lastStaff = m_score->staves().back();
-    const double lastStaffLineWidth = m_score->style().styleAbsolute(Sid::staffLineWidth) * lastStaff->staffMag(tick);
+    const double lastStaffLineWidth = m_score->style().styleAbsolute(Sid::staffLineWidth)
+                                      * lastStaff->staffMag(tick);
 
     rect.adjust(0.0, -0.5 * firstStaffLineWidth, 0.0, 0.5 * lastStaffLineWidth);
 
@@ -116,16 +119,21 @@ void PreviewMeasure::paint(Painter* painter)
         }
 
         const int staffLines = staff->lines(tick);
-        const double lineDist = staff->staffType(tick)->lineDistance().toAbsolute(staff->staffMag(tick) * spatium);
-        const double lineWidth = m_score->style().styleAbsolute(Sid::staffLineWidth) * staff->staffMag(tick);
+        const double lineDist
+            = staff->staffType(tick)->lineDistance().toAbsolute(staff->staffMag(tick) * spatium);
+        const double lineWidth = m_score->style().styleAbsolute(Sid::staffLineWidth)
+                                 * staff->staffMag(tick);
 
         const double staffY = measurePos.y() + sysStaff->y();
 
-        paintStaffLines(painter, PointF(startX, staffY), previewWidth, staffLines, lineDist, lineWidth, lineColor);
+        paintStaffLines(painter, PointF(startX,
+                                        staffY), previewWidth, staffLines, lineDist, lineWidth,
+                        lineColor);
     }
 }
 
-void PreviewMeasure::paintStaffLines(Painter* painter, const PointF& pos, double width, int lines, double lineDist, double lineWidth,
+void PreviewMeasure::paintStaffLines(Painter* painter, const PointF& pos, double width, int lines,
+                                     double lineDist, double lineWidth,
                                      QColor lineColor)
 {
     if (lines <= 0 || width <= 0) {

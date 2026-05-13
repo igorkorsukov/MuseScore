@@ -42,6 +42,7 @@ public:
 
     virtual muse::RetVal<QPixmap> readThumbnail(const muse::io::path_t& filePath) const = 0;
     virtual muse::RetVal<ProjectMeta> readMeta(const muse::io::path_t& filePath) const = 0;
-    virtual muse::RetVal<CloudProjectInfo> readCloudProjectInfo(const muse::io::path_t& filePath) const = 0;
+    virtual muse::RetVal<CloudProjectInfo> readCloudProjectInfo(const muse::io::path_t& filePath)
+    const = 0;
 };
 }

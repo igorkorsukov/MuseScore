@@ -135,7 +135,8 @@ void MuseSoundsDevToolsModel::updateAvailableLanguages()
     if (m_availableLanguages != langs) {
         m_availableLanguages = langs;
         emit availableLanguagesChanged();
-        if (!m_selectedLanguage.isEmpty() && !langs.contains(m_selectedLanguage) && !langs.isEmpty()) {
+        if (!m_selectedLanguage.isEmpty() && !langs.contains(m_selectedLanguage)
+            && !langs.isEmpty()) {
             setSelectedLanguage(langs.first());
         } else if (m_selectedLanguage.isEmpty() && !langs.isEmpty()) {
             setSelectedLanguage(langs.first());

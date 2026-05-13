@@ -52,7 +52,8 @@ namespace mu::iex::mnxio {
 //   exportDrumsetKit
 //---------------------------------------------------------
 
-void MnxExporter::exportDrumsetKit(const Part* part, const Instrument* instrument, mnx::Part& mnxPart)
+void MnxExporter::exportDrumsetKit(const Part* part, const Instrument* instrument,
+                                   mnx::Part& mnxPart)
 {
     IF_ASSERT_FAILED(part && instrument) {
         return;
@@ -111,7 +112,8 @@ void MnxExporter::exportDrumsetKit(const Part* part, const Instrument* instrumen
 //   export clefs for a single measure
 //---------------------------------------------------------
 
-static void appendClefsForMeasure(const Part* part, const Measure* measure, mnx::part::Measure& mnxMeasure)
+static void appendClefsForMeasure(const Part* part, const Measure* measure,
+                                  mnx::part::Measure& mnxMeasure)
 {
     if (part && part->instrument() && part->instrument()->useDrumset()) {
         /// @todo Export percussion and tab staves/clefs when MNX supports them.
@@ -123,7 +125,8 @@ static void appendClefsForMeasure(const Part* part, const Measure* measure, mnx:
     std::optional<mnx::Array<mnx::part::PositionedClef> > mnxClefs;
 
     constexpr SegmentType cleftTypes = SegmentType::Clef | SegmentType::HeaderClef;
-    for (Segment* segment = measure->first(cleftTypes); segment; segment = segment->next(cleftTypes)) {
+    for (Segment* segment = measure->first(cleftTypes); segment;
+         segment = segment->next(cleftTypes)) {
         const SegmentType segmentType = segment->segmentType();
         if ((segmentType == SegmentType::HeaderClef) && !isFirstMeasure) {
             continue;
@@ -395,7 +398,8 @@ static void createOttava(const Spanner* sp, MnxExporter* exporter)
     try {
         partStaff = exporter->mnxPartStaffFromStaffIdx(staff->idx());
     } catch (const std::exception& ex) {
-        LOGW() << "Skipping ottava because the owning part/staff could not be resolved: " << ex.what();
+        LOGW() << "Skipping ottava because the owning part/staff could not be resolved: " <<
+            ex.what();
         return;
     }
 
@@ -403,7 +407,8 @@ static void createOttava(const Spanner* sp, MnxExporter* exporter)
     auto mnxPart = exporter->mnxDocument().parts().at(partStaff.first);
     auto mnxMeasure = mnxPart.measures().at(mnxMeasureIndex);
 
-    const std::string endMeasureId = exporter->getOrAssignEID(const_cast<Measure*>(endMeasure)).toStdString();
+    const std::string endMeasureId
+        = exporter->getOrAssignEID(const_cast<Measure*>(endMeasure)).toStdString();
 
     auto mnxOttava = mnxMeasure.ensure_ottavas().append(*amount,
                                                         mnx::FractionValue(startOffset.numerator(),
@@ -521,13 +526,15 @@ bool MnxExporter::createParts()
         for (staff_idx_t s = 0; s < part->nstaves(); ++s) {
             if (const Staff* staff = part->staff(s)) {
                 m_staffToPartStaff.emplace(staff->idx(),
-                                           std::make_pair(mnxPart.calcArrayIndex(), static_cast<int>(s + 1)));
+                                           std::make_pair(mnxPart.calcArrayIndex(),
+                                                          static_cast<int>(s + 1)));
                 m_exportedStaves.push_back(m_score->staff(staff->idx()));
             }
         }
 
         auto mnxMeasures = mnxPart.measures();
-        for (const Measure* measure = m_score->firstMeasure(); measure; measure = measure->nextMeasure()) {
+        for (const Measure* measure = m_score->firstMeasure(); measure;
+             measure = measure->nextMeasure()) {
             auto mnxMeasure = mnxMeasures.append();
 
             appendClefsForMeasure(part, measure, mnxMeasure);

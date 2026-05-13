@@ -37,12 +37,14 @@
 #include "interactive/iinteractive.h"
 
 namespace mu::preferences {
-class PreferencesModel : public QAbstractItemModel, public muse::Contextable, public muse::async::Asyncable
+class PreferencesModel : public QAbstractItemModel, public muse::Contextable,
+    public muse::async::Asyncable
 {
     Q_OBJECT
     QML_ELEMENT;
 
-    Q_PROPERTY(QString currentPageId READ currentPageId WRITE setCurrentPageId NOTIFY currentPageIdChanged)
+    Q_PROPERTY(
+        QString currentPageId READ currentPageId WRITE setCurrentPageId NOTIFY currentPageIdChanged)
 
     muse::GlobalInject<appshell::IAppShellConfiguration> configuration;
     muse::ContextInject<muse::actions::IActionsDispatcher> dispatcher = { this };
@@ -84,8 +86,10 @@ private:
         ItemRole = Qt::UserRole + 1
     };
 
-    PreferencePageItem* makeItem(const QString& id, const QString& title, muse::ui::IconCode::Code icon = muse::ui::IconCode::Code::NONE,
-                                 const QString& path = "", const QList<PreferencePageItem*>& children = {}) const;
+    PreferencePageItem* makeItem(const QString& id, const QString& title,
+                                 muse::ui::IconCode::Code icon = muse::ui::IconCode::Code::NONE,
+                                 const QString& path = "",
+                                 const QList<PreferencePageItem*>& children = {}) const;
 
     PreferencePageItem* modelIndexToItem(const QModelIndex& index) const;
 

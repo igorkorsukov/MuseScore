@@ -57,7 +57,8 @@ async::Channel<bool> MidiConfigurationStub::roundTempoChanged() const
     return {};
 }
 
-void MidiConfigurationStub::setMidiImportOperationsFile(const std::optional<muse::io::path_t>&) const
+void MidiConfigurationStub::setMidiImportOperationsFile(const std::optional<muse::io::path_t>&)
+const
 {
     NOT_IMPLEMENTED;
 }

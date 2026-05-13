@@ -103,7 +103,8 @@ public:
 
 struct TimelineTheme {
     QColor backgroundColor, labelsColor1, labelsColor2, labelsColor3, gridColor1, gridColor2;
-    QColor measureMetaColor, selectionColor, nonVisiblePenColor, nonVisibleBrushColor, colorBoxColor;
+    QColor measureMetaColor, selectionColor, nonVisiblePenColor, nonVisibleBrushColor,
+           colorBoxColor;
     QColor metaValuePenColor, metaValueBrushColor;
 };
 
@@ -182,7 +183,8 @@ private:
 
     bool _collapsedMeta { false };
 
-    std::vector<std::tuple<QString, void (Timeline::*)(engraving::Segment*, int*, int), bool> > _metas;
+    std::vector<std::tuple<QString, void (Timeline::*)(engraving::Segment*, int*, int),
+                           bool> > _metas;
     void tempoMeta(engraving::Segment* seg, int* stagger, int pos);
     void timeMeta(engraving::Segment* seg, int* stagger, int pos);
     void measureMeta(engraving::Segment*, int*, int pos);
@@ -191,9 +193,11 @@ private:
     void barlineMeta(engraving::Segment* seg, int* stagger, int pos);
     void jumpMarkerMeta(engraving::Segment* seg, int* stagger, int pos);
 
-    bool addMetaValue(int x, int pos, QString metaText, int row, engraving::ElementType elementType, engraving::EngravingItem* element,
-                      engraving::Segment* seg, engraving::Measure* measure, QString tooltip = "");
-    void setMetaData(QGraphicsItem* gi, int staff, engraving::ElementType et, Measure* m, bool full_measure, engraving::EngravingItem* e,
+    bool addMetaValue(int x, int pos, QString metaText, int row, engraving::ElementType elementType,
+                      engraving::EngravingItem* element, engraving::Segment* seg,
+                      engraving::Measure* measure, QString tooltip = "");
+    void setMetaData(QGraphicsItem* gi, int staff, engraving::ElementType et, Measure* m,
+                     bool full_measure, engraving::EngravingItem* e,
                      QGraphicsItem* pairItem = nullptr, engraving::Segment* seg = nullptr);
     unsigned getMetaRow(QString targetText);
 
@@ -218,7 +222,8 @@ private:
 
     QRectF getMeasureRect(int measureIndex, int row, int numMetas)
     {
-        return QRectF(measureIndex * _gridWidth, _gridHeight * (row + numMetas) + 3, _gridWidth, _gridHeight);
+        return QRectF(measureIndex * _gridWidth, _gridHeight * (row + numMetas) + 3, _gridWidth,
+                      _gridHeight);
     }
 
     void clearScene();

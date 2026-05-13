@@ -78,7 +78,8 @@ const SystemLock* SystemLocks::lockContaining(const MeasureBase* mb) const
     return lock->contains(mb) ? lock : nullptr;
 }
 
-std::vector<const SystemLock*> SystemLocks::locksContainedInRange(const MeasureBase* start, const MeasureBase* end) const
+std::vector<const SystemLock*> SystemLocks::locksContainedInRange(const MeasureBase* start,
+                                                                  const MeasureBase* end) const
 {
     std::vector<const SystemLock*> result;
 
@@ -133,9 +134,12 @@ void SystemLocks::dump()
 {
     for (auto& pair : m_systemLocks) {
         const SystemLock* sl = pair.second;
-        const Measure* startMeasure = sl->startMB()->isMeasure() ? toMeasure(sl->startMB()) : sl->startMB()->prevMeasure();
-        const Measure* endMeasure = sl->endMB()->isMeasure() ? toMeasure(sl->endMB()) : sl->endMB()->prevMeasure();
-        LOGD() << "SystemLock --- Start measure: " << (startMeasure ? startMeasure->measureNumber() : -1)
+        const Measure* startMeasure
+            = sl->startMB()->isMeasure() ? toMeasure(sl->startMB()) : sl->startMB()->prevMeasure();
+        const Measure* endMeasure
+            = sl->endMB()->isMeasure() ? toMeasure(sl->endMB()) : sl->endMB()->prevMeasure();
+        LOGD() << "SystemLock --- Start measure: " <<
+            (startMeasure ? startMeasure->measureNumber() : -1)
                << ", End Measure: " << (endMeasure ? endMeasure->measureNumber() : -1);
     }
 }
@@ -143,7 +147,8 @@ void SystemLocks::dump()
 #endif
 
 SystemLockIndicator::SystemLockIndicator(System* parent, const SystemLock* lock)
-    : IndicatorIcon(ElementType::SYSTEM_LOCK_INDICATOR, parent, ElementFlag::SYSTEM | ElementFlag::GENERATED), m_systemLock(lock) {}
+    : IndicatorIcon(ElementType::SYSTEM_LOCK_INDICATOR, parent,
+                    ElementFlag::SYSTEM | ElementFlag::GENERATED), m_systemLock(lock) {}
 
 void SystemLockIndicator::setSelected(bool v)
 {
@@ -156,10 +161,13 @@ String SystemLockIndicator::formatBarsAndBeats() const
 {
     const MeasureBase* startMB = m_systemLock->startMB();
     const MeasureBase* endMB = m_systemLock->endMB();
-    const Measure* startMeasure = startMB->isMeasure() ? toMeasure(startMB) : toMeasure(startMB->prevMeasure());
-    const Measure* endMeasure = endMB->isMeasure() ? toMeasure(endMB) : toMeasure(endMB->prevMeasure());
+    const Measure* startMeasure = startMB->isMeasure() ? toMeasure(startMB) : toMeasure(
+        startMB->prevMeasure());
+    const Measure* endMeasure = endMB->isMeasure() ? toMeasure(endMB) : toMeasure(
+        endMB->prevMeasure());
     const int startMeasureNum = startMeasure ? startMeasure->measureNumber() : -1;
     const int endMeasureNum = endMeasure ? endMeasure->measureNumber() : -1;
-    return muse::mtrc("engraving", "Start measure: %1; End measure: %2").arg(startMeasureNum).arg(endMeasureNum);
+    return muse::mtrc("engraving", "Start measure: %1; End measure: %2").arg(startMeasureNum).arg(
+        endMeasureNum);
 }
 } // namespace mu::engraving

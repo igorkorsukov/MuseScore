@@ -31,7 +31,8 @@ public:
     std::string moduleName() const override;
     void registerExports() override;
 
-    muse::modularity::IContextSetup* newContext(const muse::modularity::ContextPtr& ctx) const override;
+    muse::modularity::IContextSetup* newContext(const muse::modularity::ContextPtr& ctx) const
+    override;
 };
 
 class InstrumentsSceneContext : public muse::modularity::IContextSetup

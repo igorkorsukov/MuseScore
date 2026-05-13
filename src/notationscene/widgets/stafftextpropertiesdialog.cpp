@@ -87,8 +87,10 @@ void StaffTextPropertiesDialog::componentComplete()
     }
 
     connect(swingOff, &QRadioButton::toggled, this, &StaffTextPropertiesDialog::setSwingControls);
-    connect(swingEighth, &QRadioButton::toggled, this, &StaffTextPropertiesDialog::setSwingControls);
-    connect(swingSixteenth, &QRadioButton::toggled, this, &StaffTextPropertiesDialog::setSwingControls);
+    connect(swingEighth, &QRadioButton::toggled, this,
+            &StaffTextPropertiesDialog::setSwingControls);
+    connect(swingSixteenth, &QRadioButton::toggled, this,
+            &StaffTextPropertiesDialog::setSwingControls);
 
     connect(this, &QDialog::accepted, this, &StaffTextPropertiesDialog::saveValues);
 }

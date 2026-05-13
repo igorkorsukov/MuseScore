@@ -34,20 +34,23 @@ class PlaybackToolBarModel : public muse::uicomponents::AbstractMenuModel
 {
     Q_OBJECT
 
-    Q_PROPERTY(bool isToolbarFloating READ isToolbarFloating WRITE setIsToolbarFloating NOTIFY isToolbarFloatingChanged)
+    Q_PROPERTY(
+        bool isToolbarFloating READ isToolbarFloating WRITE setIsToolbarFloating NOTIFY isToolbarFloatingChanged)
     Q_PROPERTY(bool isPlayAllowed READ isPlayAllowed NOTIFY isPlayAllowedChanged)
 
     Q_PROPERTY(QTime maxPlayTime READ maxPlayTime NOTIFY maxPlayTimeChanged)
 
     Q_PROPERTY(QTime playTime READ playTime WRITE setPlayTime NOTIFY playPositionChanged)
     Q_PROPERTY(qreal playPosition READ playPosition WRITE setPlayPosition NOTIFY playPositionChanged)
-    Q_PROPERTY(int measureNumber READ measureNumber WRITE setMeasureNumber NOTIFY playPositionChanged)
+    Q_PROPERTY(
+        int measureNumber READ measureNumber WRITE setMeasureNumber NOTIFY playPositionChanged)
     Q_PROPERTY(int maxMeasureNumber READ maxMeasureNumber NOTIFY playPositionChanged)
     Q_PROPERTY(int beatNumber READ beatNumber WRITE setBeatNumber NOTIFY playPositionChanged)
     Q_PROPERTY(int maxBeatNumber READ maxBeatNumber NOTIFY playPositionChanged)
 
     Q_PROPERTY(QVariant tempo READ tempo NOTIFY tempoChanged)
-    Q_PROPERTY(qreal tempoMultiplier READ tempoMultiplier WRITE setTempoMultiplier NOTIFY tempoChanged)
+    Q_PROPERTY(
+        qreal tempoMultiplier READ tempoMultiplier WRITE setTempoMultiplier NOTIFY tempoChanged)
 
     QML_ELEMENT
 

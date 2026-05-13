@@ -102,7 +102,8 @@ void ModifyDom::cmdUpdateNotes(const Measure* measure, const DomAccessor& dom)
                 }
                 Ornament* ornament = toTrill(spanner)->ornament();
                 Note* trillNote = ornament ? ornament->noteAbove() : nullptr;
-                if (trillNote && trillNote->accidental() && ornament->showAccidental() == OrnamentShowAccidental::DEFAULT) {
+                if (trillNote && trillNote->accidental()
+                    && ornament->showAccidental() == OrnamentShowAccidental::DEFAULT) {
                     int line = absStep(trillNote->tpc(), trillNote->epitch());
                     as.setForceRestateAccidental(line, true);
                 }
@@ -242,7 +243,8 @@ void ModifyDom::sortMeasureSegments(Measure* measure, LayoutContext& ctx)
                 if (seg.isTimeSigType()) {
                     const TimeSig* continuationTimeSig = staff->timeSig(seg.tick());
                     const TimeSig* repeatTimeSig = staff->timeSig(startTick);
-                    const TimeSig* timeSigBeforeContinuation = staff->timeSig(seg.tick() - Fraction::eps());
+                    const TimeSig* timeSigBeforeContinuation = staff->timeSig(
+                        seg.tick() - Fraction::eps());
                     return continuationTimeSig && repeatTimeSig && timeSigBeforeContinuation
                            && timeSigBeforeContinuation->sig() != continuationTimeSig->sig()
                            && continuationTimeSig->sig() == repeatTimeSig->sig();
@@ -251,8 +253,10 @@ void ModifyDom::sortMeasureSegments(Measure* measure, LayoutContext& ctx)
                 if (seg.isClefType()) {
                     const ClefType continuationClef = staff->clef(seg.tick());
                     const ClefType repeatClef = staff->clef(startTick);
-                    const ClefType clefBeforeContinuation = staff->clef(seg.tick() - Fraction::eps());
-                    if (clefBeforeContinuation != continuationClef && continuationClef == repeatClef) {
+                    const ClefType clefBeforeContinuation
+                        = staff->clef(seg.tick() - Fraction::eps());
+                    if (clefBeforeContinuation != continuationClef
+                        && continuationClef == repeatClef) {
                         return true;
                     }
                 }
@@ -283,8 +287,10 @@ void ModifyDom::sortMeasureSegments(Measure* measure, LayoutContext& ctx)
 
     Measure* nextMeasure = toMeasure(nextMb);
 
-    const bool sigsShouldBeInThisMeasure = ((measure->repeatEnd() && ctx.conf().styleB(Sid::changesBeforeBarlineRepeats))
-                                            || (measure->repeatJump() && ctx.conf().styleB(Sid::changesBeforeBarlineOtherJumps)));
+    const bool sigsShouldBeInThisMeasure
+        = ((measure->repeatEnd() && ctx.conf().styleB(Sid::changesBeforeBarlineRepeats))
+           || (measure->repeatJump()
+               && ctx.conf().styleB(Sid::changesBeforeBarlineOtherJumps)));
     std::vector<Segment*> segsToRemove;
 
     std::vector<Segment*> segsToMoveToNextMeasure;
@@ -415,7 +421,9 @@ void ModifyDom::sortMeasureSegments(Measure* measure, LayoutContext& ctx)
                 if (underlyingSeg) {
                     underlyingSeg->undoChangeProperty(Pid::END_OF_MEASURE_CHANGE, false);
                     if (nextMeasure->isMMRest() && nextMeasure->mmRestFirst()) {
-                        nextMeasure->score()->undo(new ChangeSegmentParent(underlyingSeg, nextMeasure->mmRestFirst(), Fraction(0, 1)));
+                        nextMeasure->score()->undo(new ChangeSegmentParent(underlyingSeg,
+                                                                           nextMeasure->mmRestFirst(),
+                                                                           Fraction(0, 1)));
                     } else {
                         ctx.mutDom().doUndoRemoveElement(underlyingSeg);
                     }
@@ -460,7 +468,8 @@ void ModifyDom::sortMeasureSegments(Measure* measure, LayoutContext& ctx)
                 if (underlyingSeg) {
                     underlyingSeg->undoChangeProperty(Pid::END_OF_MEASURE_CHANGE, true);
                     if (measure->isMMRest() && measure->mmRestLast()) {
-                        measure->score()->undo(new ChangeSegmentParent(underlyingSeg, measure->mmRestLast(),
+                        measure->score()->undo(new ChangeSegmentParent(underlyingSeg,
+                                                                       measure->mmRestLast(),
                                                                        measure->mmRestLast()->ticks()));
                     } else {
                         ctx.mutDom().doUndoRemoveElement(underlyingSeg);

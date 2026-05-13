@@ -179,7 +179,8 @@ MenuItemList PartialTiePopupModel::makeMenuItems()
     return itemList;
 }
 
-muse::uicomponents::MenuItem* PartialTiePopupModel::makeMenuItem(const engraving::TieJumpPoint* jumpPoint)
+muse::uicomponents::MenuItem* PartialTiePopupModel::makeMenuItem(
+    const engraving::TieJumpPoint* jumpPoint)
 {
     MenuItem* item = new MenuItem(this);
     item->setId(jumpPoint->id());

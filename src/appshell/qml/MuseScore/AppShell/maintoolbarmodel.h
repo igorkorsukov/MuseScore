@@ -32,7 +32,8 @@
 #include "iglobalconfiguration.h"
 
 namespace mu::appshell {
-class MainToolBarModel : public QAbstractListModel, public muse::Contextable, public muse::async::Asyncable
+class MainToolBarModel : public QAbstractListModel, public muse::Contextable,
+    public muse::async::Asyncable
 {
     Q_OBJECT
 

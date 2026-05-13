@@ -157,7 +157,8 @@ private:
         const Node& topNode = m_currentNodes.top();
 
         // use zero-indented sequences when used as values in a key-value pair
-        const int indentLevel = type == ComplexNodeType::Sequence && topNode.type == ComplexNodeType::Mapping
+        const int indentLevel = type == ComplexNodeType::Sequence
+                                && topNode.type == ComplexNodeType::Mapping
                                 ? topNode.indentLevel
                                 : topNode.indentLevel + 1;
         m_currentNodes.push(Node { type, indentLevel });
@@ -321,7 +322,8 @@ void serializeMetaTempo(const std::uint8_t* data, const int len, YamlStreamWrite
     yamlOut.mapToScalar("usPerQuarterNote", usPerQuarterNote);
 }
 
-void serializeMetaEvent(const int metaType, const std::uint8_t* data, const int len, YamlStreamWriter& yamlOut)
+void serializeMetaEvent(const int metaType, const std::uint8_t* data, const int len,
+                        YamlStreamWriter& yamlOut)
 {
     switch (metaType) {
     case engraving::META_TRACK_NAME:
@@ -404,7 +406,8 @@ void serializeTrack(const MidiTrack& track, YamlStreamWriter& yamlOut)
 }
 }
 
-muse::Ret SmfYamlSerializer::serialize(const std::filesystem::path& midiPath, muse::io::IODevice* yamlOut)
+muse::Ret SmfYamlSerializer::serialize(const std::filesystem::path& midiPath,
+                                       muse::io::IODevice* yamlOut)
 {
     MidiFile midiFileData;
     {

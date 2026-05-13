@@ -63,7 +63,8 @@ AlignSelect::AlignSelect(QWidget* parent)
     WidgetUtils::setWidgetIcon(positionRight, IconCode::Code::ALIGN_RIGHT);
     WidgetUtils::setWidgetIcon(positionHCenter, IconCode::Code::ALIGN_HORIZONTAL_CENTER);
 
-    connect(horizontalAlignButtons, &QButtonGroup::buttonToggled, this, &AlignSelect::_alignChanged);
+    connect(horizontalAlignButtons, &QButtonGroup::buttonToggled, this,
+            &AlignSelect::_alignChanged);
     connect(verticalAlignButtons, &QButtonGroup::buttonToggled, this, &AlignSelect::_alignChanged);
     connect(positionButtons, &QButtonGroup::buttonToggled, this, &AlignSelect::_positionChanged);
 }

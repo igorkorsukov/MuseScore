@@ -60,7 +60,8 @@ private:
     void climbTree(BspTreeVisitor* visitor, const PointF& pos, int index = 0);
     void climbTree(BspTreeVisitor* visitor, const RectF& rect, int index = 0);
 
-    void nearestNeighbor(const PointF& pos, EngravingItem** bestItem, double& bestDistance, int nodeIndex = 0);
+    void nearestNeighbor(const PointF& pos, EngravingItem** bestItem, double& bestDistance,
+                         int nodeIndex = 0);
 
     RectF rectForIndex(int index) const;
 

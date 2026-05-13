@@ -55,7 +55,8 @@ TEST_F(Engraving_SystemLocksTests, readLocksFromFile)
 
     for (const SystemLock* lock : locks) {
         int measureCount = 0;
-        for (MeasureBase* mb = lock->startMB(); mb && mb->isBeforeOrEqual(lock->endMB()); mb = mb->next()) {
+        for (MeasureBase* mb = lock->startMB(); mb && mb->isBeforeOrEqual(lock->endMB());
+             mb = mb->next()) {
             ++measureCount;
         }
         EXPECT_EQ(measureCount, 4);
@@ -109,7 +110,8 @@ TEST_F(Engraving_SystemLocksTests, lockMeasuresPerSystem)
     allLocks = systemLocks->allLocks();
     for (const SystemLock* lock : allLocks) {
         int measureCount = 0;
-        for (MeasureBase* mb = lock->startMB(); mb && mb->isBeforeOrEqual(lock->endMB()); mb = mb->next()) {
+        for (MeasureBase* mb = lock->startMB(); mb && mb->isBeforeOrEqual(lock->endMB());
+             mb = mb->next()) {
             ++measureCount;
         }
         EXPECT_EQ(measureCount, 4);

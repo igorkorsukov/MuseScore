@@ -107,7 +107,8 @@ muse::Ret MuseSoundsCheckUpdateScenario::showUpdate()
 
 bool MuseSoundsCheckUpdateScenario::shouldIgnoreUpdate(const ReleaseInfo& info) const
 {
-    return info.version == configuration()->lastShownMuseSoundsReleaseVersion() && !configuration()->museSoundsCheckForUpdateTestMode();
+    return info.version == configuration()->lastShownMuseSoundsReleaseVersion()
+           && !configuration()->museSoundsCheckForUpdateTestMode();
 }
 
 void MuseSoundsCheckUpdateScenario::setIgnoredUpdate(const std::string& version)
@@ -145,7 +146,8 @@ muse::Ret MuseSoundsCheckUpdateScenario::showReleaseInfo(const ReleaseInfo& info
     }
 
     if (info.imageUrl.empty()) {
-        query.addParam("imageUrl", Val("qrc:/qt/qml/MuseScore/MuseSounds/resources/muse_sounds_promo.png"));
+        query.addParam("imageUrl",
+                       Val("qrc:/qt/qml/MuseScore/MuseSounds/resources/muse_sounds_promo.png"));
     } else {
         query.addParam("imageUrl", Val(info.imageUrl));
     }
@@ -180,7 +182,10 @@ void MuseSoundsCheckUpdateScenario::tryOpenMuseHub(ValList actions) const
         return;
     }
 
-    platformInteractive()->openApp(muse::UriQuery(action)).onReject(this, [this, actions](int, const std::string&) {
+    platformInteractive()->openApp(muse::UriQuery(action)).onReject(this,
+                                                                    [this, actions](int,
+                                                                                    const std::
+                                                                                    string&) {
         tryOpenMuseHub(actions);
     });
 }

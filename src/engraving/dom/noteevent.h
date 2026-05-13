@@ -43,7 +43,9 @@ public:
 
     NoteEvent() {}
     NoteEvent(int a, int b, int c, double d = 1.0, double play = true, int offset = 0)
-        : m_pitch(a), m_ontime(b), m_len(c), m_velocityMultiplier(d), m_play(play), m_offset(offset) {}
+        : m_pitch(a), m_ontime(b), m_len(c), m_velocityMultiplier(d), m_play(play), m_offset(offset)
+    {
+    }
 
     int pitch() const { return m_pitch; }
     int ontime() const { return m_ontime; }
@@ -56,7 +58,10 @@ public:
     void setPitch(int v) { m_pitch = v; }
     void setOntime(int v) { m_ontime = v; }
     void setLen(int v) { m_len = v; }
-    void setVelocityMultiplier(double velocityMultiplier) { m_velocityMultiplier = velocityMultiplier; }
+    void setVelocityMultiplier(double velocityMultiplier)
+    {
+        m_velocityMultiplier = velocityMultiplier;
+    }
     void setOffset(int v) { m_offset = v; }
     void setSlide(bool slide) { m_slide = slide; }
 
@@ -84,7 +89,8 @@ public:
 
     int offtime()
     {
-        return empty() ? 0 : std::max_element(cbegin(), cend(), [](const NoteEvent& n1, const NoteEvent& n2) {
+        return empty() ? 0 : std::max_element(cbegin(), cend(),
+                                              [](const NoteEvent& n1, const NoteEvent& n2) {
             return n1.offtime() < n2.offtime();
         })->offtime();
     }

@@ -118,14 +118,17 @@ public:
         int trimMarginPixelSize = -1;
         int deviceDpi = -1;
 
-        std::function<void(muse::draw::Painter* painter, const Page* page, const RectF& pageRect)> onPaintPageSheet;
+        std::function<void(muse::draw::Painter* painter, const Page* page,
+                           const RectF& pageRect)> onPaintPageSheet;
         std::function<void()> onNewPage;
     };
 
     virtual SizeF pageSizeInch(const Score* score) const = 0;
     virtual SizeF pageSizeInch(const Score* score, const ScorePaintOptions& opt) const = 0;
-    virtual void paintScore(muse::draw::Painter* painter, Score* score, const ScorePaintOptions& opt) const = 0;
-    virtual void paintItem(muse::draw::Painter& painter, const EngravingItem* item, const PaintOptions& opt) const = 0;
+    virtual void paintScore(muse::draw::Painter* painter, Score* score,
+                            const ScorePaintOptions& opt) const = 0;
+    virtual void paintItem(muse::draw::Painter& painter, const EngravingItem* item,
+                           const PaintOptions& opt) const = 0;
 
     // Temporary compatibility interface
     using Supported = std::variant<std::monostate,
@@ -203,6 +206,7 @@ private:
     // Layout Single Item
     virtual void doLayoutItem(EngravingItem* item) = 0;
 
-    virtual void doDrawItem(const EngravingItem* item, muse::draw::Painter* p, const PaintOptions& opt) = 0;
+    virtual void doDrawItem(const EngravingItem* item, muse::draw::Painter* p,
+                            const PaintOptions& opt) = 0;
 };
 }

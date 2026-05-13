@@ -90,7 +90,8 @@ RectF LoopMarker::resolveMarkerRectByTick(engraving::Fraction tick) const
         } else {
             t2 = measure->endTick();
             // measure->width is not good enough because of courtesy keysig, timesig
-            const mu::engraving::Segment* seg = measure->findSegment(mu::engraving::SegmentType::EndBarLine, measure->endTick());
+            const mu::engraving::Segment* seg = measure->findSegment(
+                mu::engraving::SegmentType::EndBarLine, measure->endTick());
             if (seg) {
                 x2 = seg->canvasPos().x();
             } else {
@@ -114,7 +115,9 @@ RectF LoopMarker::resolveMarkerRectByTick(engraving::Fraction tick) const
     const double _spatium = score->style().spatium();
     const double mag = _spatium / score->style().defaultSpatium();
 
-    const double width = (_spatium * 2.0 + score->engravingFont()->width(mu::engraving::SymId::noteheadBlack, mag)) / 3;
+    const double width
+        = (_spatium * 2.0
+           + score->engravingFont()->width(mu::engraving::SymId::noteheadBlack, mag)) / 3;
 
     if (m_type == LoopBoundaryType::LoopIn) {
         x = x - _spatium + width / 1.5;
@@ -178,7 +181,8 @@ void LoopMarker::paint(muse::draw::Painter* painter)
 
     const double lineWidth = 0.15 * spatium;
 
-    painter->setPen(Pen(color, lineWidth, PenStyle::SolidLine, PenCapStyle::FlatCap, PenJoinStyle::MiterJoin));
+    painter->setPen(Pen(color, lineWidth, PenStyle::SolidLine, PenCapStyle::FlatCap,
+                        PenJoinStyle::MiterJoin));
     painter->drawLine(x, y, x, m_rect.bottom());
     painter->setBrush(color);
     painter->drawConvexPolygon(triangle);

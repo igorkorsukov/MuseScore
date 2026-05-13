@@ -46,7 +46,8 @@ bool VoiceAllocator::canAddTefNoteToVoice(const TefNote* const note, const int v
     return false;
 }
 
-int VoiceAllocator::findFirstPossibleVoice(const TefNote* const note, const std::array<int, 3> voices)
+int VoiceAllocator::findFirstPossibleVoice(const TefNote* const note, const std::array<int,
+                                                                                       3> voices)
 {
     for (const auto v : voices) {
         if (canAddTefNoteToVoice(note, v)) {
@@ -105,7 +106,8 @@ void VoiceAllocator::dump()
         for (size_t j = 0; j < voiceContents.at(i).size(); ++j) {
             LOGN("  - chord %zu", j);
             for (const auto note : voiceContents.at(i).at(j)) {
-                LOGN("    - position %d string %d fret %d", note->position, note->string, note->fret);
+                LOGN("    - position %d string %d fret %d", note->position, note->string,
+                     note->fret);
             }
         }
     }

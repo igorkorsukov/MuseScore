@@ -53,7 +53,8 @@ public:
     muse::io::path_t myFirstProjectPath() const override;
 
     muse::io::paths_t availableTemplateDirs() const override;
-    muse::io::path_t templateCategoriesJsonPath(const muse::io::path_t& templatesDir) const override;
+    muse::io::path_t templateCategoriesJsonPath(
+        const muse::io::path_t& templatesDir) const override;
 
     muse::io::path_t userTemplatesPath() const override;
     void setUserTemplatesPath(const muse::io::path_t& path) override;
@@ -80,7 +81,8 @@ public:
 
     muse::io::path_t cloudProjectSavingPath(int scoreId = 0) const override;
 
-    muse::io::path_t defaultSavingFilePath(INotationProjectPtr project, const std::string& filenameAddition = "",
+    muse::io::path_t defaultSavingFilePath(INotationProjectPtr project,
+                                           const std::string& filenameAddition = "",
                                            const std::string& suffix = "") const override;
 
     SaveLocationType lastUsedSaveLocationType() const override;
@@ -105,7 +107,8 @@ public:
     void setPreferredScoreCreationMode(PreferredScoreCreationMode mode) override;
 
     MigrationOptions migrationOptions(MigrationType type) const override;
-    void setMigrationOptions(MigrationType type, const MigrationOptions& opt, bool persistent = true) override;
+    void setMigrationOptions(MigrationType type, const MigrationOptions& opt,
+                             bool persistent = true) override;
 
     bool isAutoSaveEnabled() const override;
     void setAutoSaveEnabled(bool enabled) override;
@@ -128,7 +131,8 @@ public:
     muse::io::path_t newProjectTemporaryPath() const override;
 
     bool shouldDestinationFolderBeOpenedOnExport() const override;
-    void setShouldDestinationFolderBeOpenedOnExport(bool shouldDestinationFolderBeOpenedOnExport) override;
+    void setShouldDestinationFolderBeOpenedOnExport(bool shouldDestinationFolderBeOpenedOnExport)
+    override;
 
     QUrl supportForumUrl() const override;
 
@@ -164,7 +168,8 @@ private:
     muse::io::path_t legacyCloudProjectsPath() const;
     muse::io::path_t cloudProjectsPath() const;
 
-    std::string uniqueFileNameAddition(const muse::io::path_t& filename, const muse::io::path_t& folderPath,
+    std::string uniqueFileNameAddition(const muse::io::path_t& filename,
+                                       const muse::io::path_t& folderPath,
                                        const std::string& suffix) const;
 
     muse::async::Channel<muse::io::path_t> m_userTemplatesPathChanged;

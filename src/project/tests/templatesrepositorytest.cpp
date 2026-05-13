@@ -62,7 +62,8 @@ protected:
         return obj;
     }
 
-    Template buildTemplate(const QString& categoryTitle, const muse::io::path_t& path, bool isCustom) const
+    Template buildTemplate(const QString& categoryTitle, const muse::io::path_t& path,
+                           bool isCustom) const
     {
         Template templ;
         templ.categoryTitle = categoryTitle;
@@ -142,7 +143,8 @@ TEST_F(Project_TemplatesRepositoryTest, Templates)
     };
 
     std::vector<std::string> filters = { "*.mscz", "*.mscx" };
-    ON_CALL(*m_fileSystem, scanFiles(otherUserTemplatesDir, filters, ScanMode::FilesInCurrentDirAndSubdirs))
+    ON_CALL(*m_fileSystem,
+            scanFiles(otherUserTemplatesDir, filters, ScanMode::FilesInCurrentDirAndSubdirs))
     .WillByDefault(Return(RetVal<io::paths_t>::make_ok(otherUserTemplates)));
 
     // [GIVEN] All templates
@@ -151,7 +153,8 @@ TEST_F(Project_TemplatesRepositoryTest, Templates)
         buildCategory("Solo", { "Guitar.mscx" })
     };
 
-    ByteArray standardTemplatesJson = ByteArray::fromQByteArray(categoriesToJson(standardTemplates));
+    ByteArray standardTemplatesJson
+        = ByteArray::fromQByteArray(categoriesToJson(standardTemplates));
     ON_CALL(*m_fileSystem, readFile(categoriesJsonPaths[0]))
     .WillByDefault(Return(RetVal<ByteArray>::make_ok(standardTemplatesJson)));
 

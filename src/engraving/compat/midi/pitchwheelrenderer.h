@@ -43,11 +43,13 @@ public:
 
     PitchWheelRenderer(PitchWheelSpecs wheelSpec);
 
-    void addPitchWheelFunction(const PitchWheelFunction& function, uint32_t channel, staff_idx_t staffIdx, MidiInstrumentEffect effect);
+    void addPitchWheelFunction(const PitchWheelFunction& function, uint32_t channel,
+                               staff_idx_t staffIdx, MidiInstrumentEffect effect);
 
     EventsHolder renderPitchWheel() const noexcept;
 
-    static void generateRanges(const std::vector<PitchWheelFunction>& functions, std::map<int, int, std::greater<> >& ranges);
+    static void generateRanges(const std::vector<PitchWheelFunction>& functions, std::map<int, int,
+                                                                                          std::greater<> >& ranges);
 
 private:
 
@@ -58,11 +60,14 @@ private:
         std::vector<PitchWheelFunction> functions;
     };
 
-    void renderChannelPitchWheel(EventsHolder& pitchWheelEvents, const PitchWheelFunctions& functions, uint32_t channel) const noexcept;
+    void renderChannelPitchWheel(EventsHolder& pitchWheelEvents,
+                                 const PitchWheelFunctions& functions,
+                                 uint32_t channel) const noexcept;
 
     int32_t findNextStartTick(const std::vector<PitchWheelFunction>& functions) const noexcept;
 
-    int32_t calculatePitchBend(const std::vector<PitchWheelFunction>& functions, int32_t tick) const noexcept;
+    int32_t calculatePitchBend(const std::vector<PitchWheelFunction>& functions,
+                               int32_t tick) const noexcept;
 
     std::map<uint32_t /*channel*/, PitchWheelFunctions> _functions;
 

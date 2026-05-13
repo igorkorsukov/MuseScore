@@ -29,7 +29,8 @@
 using namespace mu::inspector;
 using namespace mu::engraving;
 
-StemSettingsModel::StemSettingsModel(QObject* parent, const muse::modularity::ContextPtr& iocCtx, IElementRepositoryService* repository)
+StemSettingsModel::StemSettingsModel(QObject* parent, const muse::modularity::ContextPtr& iocCtx,
+                                     IElementRepositoryService* repository)
     : AbstractInspectorModel(parent, iocCtx, repository)
 {
     setModelType(InspectorModelType::TYPE_STEM);
@@ -43,7 +44,8 @@ void StemSettingsModel::createProperties()
     m_thickness = buildPropertyItem(Pid::LINE_WIDTH);
     m_length = buildPropertyItem(Pid::USER_LEN);
 
-    m_stemDirection = buildPropertyItem(Pid::STEM_DIRECTION, [this](const Pid, const QVariant& newValue) {
+    m_stemDirection
+        = buildPropertyItem(Pid::STEM_DIRECTION, [this](const Pid, const QVariant& newValue) {
         onStemDirectionChanged(static_cast<mu::engraving::DirectionV>(newValue.toInt()));
     });
 
@@ -132,7 +134,8 @@ void StemSettingsModel::onStemDirectionChanged(DirectionV newDirection)
     updateNotation();
 }
 
-void StemSettingsModel::onNotationChanged(const PropertyIdSet& changedPropertyIdSet, const StyleIdSet& changedStyleIdSet)
+void StemSettingsModel::onNotationChanged(const PropertyIdSet& changedPropertyIdSet,
+                                          const StyleIdSet& changedStyleIdSet)
 {
     if (muse::contains(changedPropertyIdSet, Pid::DURATION)
         || muse::contains(changedPropertyIdSet, Pid::DURATION_TYPE_WITH_DOTS)

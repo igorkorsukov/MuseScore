@@ -35,6 +35,15 @@ NoteLineSectionModel::NoteLineSectionModel(QObject* parent)
 }
 
 StyleItem* NoteLineSectionModel::noteLineStyle() const { return styleItem(StyleId::noteLineStyle); }
-StyleItem* NoteLineSectionModel::noteLineStyleDashSize() const { return styleItem(StyleId::noteLineDashLineLen); }
-StyleItem* NoteLineSectionModel::noteLineStyleGapSize()  const { return styleItem(StyleId::noteLineDashGapLen); }
-StyleItem* NoteLineSectionModel::noteLineWidth()  const { return styleItem(StyleId::noteLineWidth); }
+StyleItem* NoteLineSectionModel::noteLineStyleDashSize() const
+{
+    return styleItem(StyleId::noteLineDashLineLen);
+}
+StyleItem* NoteLineSectionModel::noteLineStyleGapSize()  const
+{
+    return styleItem(StyleId::noteLineDashGapLen);
+}
+StyleItem* NoteLineSectionModel::noteLineWidth()  const
+{
+    return styleItem(StyleId::noteLineWidth);
+}

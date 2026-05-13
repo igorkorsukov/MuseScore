@@ -46,7 +46,8 @@ using namespace muse::actions;
 using namespace muse::ui;
 using namespace mu::notation;
 
-static const std::unordered_map<PercussionPanelPadModel::PadAction, NoteAddingMode> WRITE_ACTION_MAP = {
+static const std::unordered_map<PercussionPanelPadModel::PadAction,
+                                NoteAddingMode> WRITE_ACTION_MAP = {
     { PercussionPanelPadModel::PadAction::TRIGGER_STANDARD, NoteAddingMode::NextChord },
     { PercussionPanelPadModel::PadAction::TRIGGER_ADD, NoteAddingMode::CurrentChord },
     { PercussionPanelPadModel::PadAction::TRIGGER_INSERT, NoteAddingMode::InsertChord }
@@ -151,7 +152,9 @@ void PercussionPanelModel::init()
         setEnabled(m_padListModel->hasActivePads());
     });
 
-    m_padListModel->padActionRequested().onReceive(this, [this](PercussionPanelPadModel::PadAction action, int pitch) {
+    m_padListModel->padActionRequested().onReceive(this,
+                                                   [this](PercussionPanelPadModel::PadAction action,
+                                                          int pitch) {
         switch (action) {
             case PercussionPanelPadModel::PadAction::TRIGGER_STANDARD:
             case PercussionPanelPadModel::PadAction::TRIGGER_ADD:
@@ -207,19 +210,22 @@ QList<QVariantMap> PercussionPanelModel::layoutMenuItems() const
         { { "id", PAD_NAMES_CODE }, { "title", muse::qtrc("notation/percussion", "Pad names") },
             { "checkable", true }, { "checked", !useNotationPreview() }, { "enabled", true } },
 
-        { { "id", NOTATION_PREVIEW_CODE }, { "title", muse::qtrc("notation/percussion", "Notation preview") },
+        { { "id", NOTATION_PREVIEW_CODE }, { "title", muse::qtrc("notation/percussion",
+                                                                 "Notation preview") },
             { "checkable", true }, { "checked", useNotationPreview() }, { "enabled", true } },
 
         { }, // separator
 
-        { { "title", muse::qtrc("notation/percussion",  "%1 columns").arg(m_padListModel->numColumns()) },
+        { { "title", muse::qtrc("notation/percussion",  "%1 columns").arg(
+                m_padListModel->numColumns()) },
             { "subitems", columnsSubmenu }, { "enabled", true } },
 
         { { "id", EDIT_LAYOUT_CODE },
             { "title", editLayoutTitle }, { "icon", editLayoutIcon }, { "enabled", true } },
 
         { { "id", RESET_LAYOUT_CODE },
-            { "title", muse::qtrc("notation/percussion", "Reset layout") }, { "icon", resetLayoutIcon }, { "enabled", true } },
+            { "title", muse::qtrc("notation/percussion", "Reset layout") },
+            { "icon", resetLayoutIcon }, { "enabled", true } },
     };
 
     return menuItems;
@@ -230,7 +236,8 @@ QVariantMap PercussionPanelModel::createColumnSubItem(int numColumns) const
     const QString title = QString::number(numColumns);
     const QString id = SET_COLUMNS_CODE + "-" + title;
     return { { "id", id }, { "title", title },
-        { "checkable", true }, { "checked", m_padListModel->numColumns() == numColumns }, { "enabled", true } };
+        { "checkable", true }, { "checked", m_padListModel->numColumns() == numColumns },
+        { "enabled", true } };
 }
 
 void PercussionPanelModel::handleMenuItem(const QString& itemId)
@@ -415,7 +422,8 @@ void PercussionPanelModel::updateSoundTitle(const InstrumentTrackId& trackId)
 bool PercussionPanelModel::eventFilter(QObject* watched, QEvent* event)
 {
     // Finish editing on escape...
-    if (m_currentPanelMode != PanelMode::Mode::EDIT_LAYOUT || event->type() != QEvent::Type::ShortcutOverride
+    if (m_currentPanelMode != PanelMode::Mode::EDIT_LAYOUT
+        || event->type() != QEvent::Type::ShortcutOverride
         || m_padListModel->swapInProgress()) {
         return QObject::eventFilter(watched, event);
     }
@@ -428,7 +436,8 @@ bool PercussionPanelModel::eventFilter(QObject* watched, QEvent* event)
     return true;
 }
 
-void PercussionPanelModel::onPadTriggered(int pitch, const PercussionPanelPadModel::PadAction& action)
+void PercussionPanelModel::onPadTriggered(int pitch,
+                                          const PercussionPanelPadModel::PadAction& action)
 {
     switch (currentPanelMode()) {
     case PanelMode::Mode::WRITE:
@@ -515,12 +524,14 @@ void PercussionPanelModel::writePitch(int pitch, const NoteAddingMode& addingMod
         return;
     }
 
-    interaction()->noteInput()->startNoteInput(notationConfiguration()->defaultNoteInputMethod(), /*focusNotation*/ false);
+    interaction()->noteInput()->startNoteInput(
+        notationConfiguration()->defaultNoteInputMethod(), /*focusNotation*/ false);
 
     NoteInputParams params;
     params.drumPitch = pitch;
 
-    const ActionData args = ActionData::make_arg2<NoteInputParams, NoteAddingMode>(params, addingMode);
+    const ActionData args = ActionData::make_arg2<NoteInputParams, NoteAddingMode>(params,
+                                                                                   addingMode);
     dispatcher()->dispatch("note-action", args);
 }
 
@@ -531,7 +542,8 @@ void PercussionPanelModel::playPitch(int pitch)
     }
 
     const NoteInputState& inputState = interaction()->noteInput()->state();
-    std::shared_ptr<Chord> chord = PercussionUtilities(iocContext()).getDrumNoteForPreview(m_padListModel->drumset(), pitch);
+    std::shared_ptr<Chord> chord = PercussionUtilities(iocContext()).getDrumNoteForPreview(
+        m_padListModel->drumset(), pitch);
 
     chord->setParent(inputState.segment());
     chord->setTrack(inputState.track());
@@ -553,10 +565,13 @@ void PercussionPanelModel::resetLayout()
         return;
     }
 
-    const muse::audio::AudioResourceMeta& resourceMeta = audioSettings()->trackInputParams(currentTrackId()).resourceMeta;
-    const bool isMuseSamplerDrumset = resourceMeta.type == muse::audio::AudioResourceType::MuseSamplerSoundPack;
+    const muse::audio::AudioResourceMeta& resourceMeta = audioSettings()->trackInputParams(
+        currentTrackId()).resourceMeta;
+    const bool isMuseSamplerDrumset = resourceMeta.type
+                                      == muse::audio::AudioResourceType::MuseSamplerSoundPack;
 
-    Drumset defaultDrumset = isMuseSamplerDrumset ? museSamplerDefaultDrumset() : standardDefaultDrumset();
+    Drumset defaultDrumset
+        = isMuseSamplerDrumset ? museSamplerDefaultDrumset() : standardDefaultDrumset();
 
     Drumset defaultLayout = m_padListModel->constructDefaultLayout(defaultDrumset);
     if (defaultLayout == *m_padListModel->drumset()) {
@@ -578,7 +593,8 @@ Drumset PercussionPanelModel::standardDefaultDrumset() const
         return Drumset();
     }
 
-    const InstrumentTemplate& instTemplate = instrumentsRepository()->instrumentTemplate(inst->id());
+    const InstrumentTemplate& instTemplate
+        = instrumentsRepository()->instrumentTemplate(inst->id());
     IF_ASSERT_FAILED(instTemplate.drumset) {
         return Drumset();
     }
@@ -592,7 +608,8 @@ Drumset PercussionPanelModel::museSamplerDefaultDrumset() const
         return Drumset();
     }
 
-    const muse::audio::AudioResourceMeta& resourceMeta = audioSettings()->trackInputParams(currentTrackId()).resourceMeta;
+    const muse::audio::AudioResourceMeta& resourceMeta = audioSettings()->trackInputParams(
+        currentTrackId()).resourceMeta;
 
     const int instrumentId = resourceMeta.attributeVal(u"museUID").toInt();
 
@@ -636,7 +653,9 @@ void PercussionPanelModel::setColumns(int numColumns)
             continue;
         }
         mu::engraving::DrumInstrument& drum = updatedDrumset.drum(pitch);
-        const int index = drum.panelRow * static_cast<int>(updatedDrumset.percussionPanelColumns()) + drum.panelColumn;
+        const int index = drum.panelRow
+                          * static_cast<int>(updatedDrumset.percussionPanelColumns())
+                          + drum.panelColumn;
         drum.panelRow = index / numColumns;
         drum.panelColumn = index % numColumns;
     }
@@ -663,7 +682,8 @@ InstrumentTrackId PercussionPanelModel::currentTrackId() const
     return { staff->part()->id(), staff->part()->instrumentId(inputState.segment()->tick()) };
 }
 
-std::pair<mu::engraving::Instrument*, mu::engraving::Part*> PercussionPanelModel::getCurrentInstrumentAndPart() const
+std::pair<mu::engraving::Instrument*,
+          mu::engraving::Part*> PercussionPanelModel::getCurrentInstrumentAndPart() const
 {
     if (!interaction()) {
         return { nullptr, nullptr };
@@ -686,7 +706,8 @@ std::pair<mu::engraving::Instrument*, mu::engraving::Part*> PercussionPanelModel
 
 const mu::project::IProjectAudioSettingsPtr PercussionPanelModel::audioSettings() const
 {
-    return globalContext()->currentProject() ? globalContext()->currentProject()->audioSettings() : nullptr;
+    return globalContext()->currentProject() ? globalContext()->currentProject()->audioSettings() :
+           nullptr;
 }
 
 const INotationPtr PercussionPanelModel::notation() const

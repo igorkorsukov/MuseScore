@@ -40,7 +40,8 @@ enum class LD_ACCESS : unsigned char {
 //! TODO Using this macro, we can collect and output debugging information to show the dependency tree
 #define LD_CONDITION(val) \
     if (!val) { \
-        LOGE_T("LD_ACCESS")() << "BAD ACCESS to: " << #val << ", file: " << __FILE__ << ", line: " << __LINE__; \
+        LOGE_T("LD_ACCESS")() << "BAD ACCESS to: " << #val << ", file: " << __FILE__ << \
+        ", line: " << __LINE__; \
     } \
 
 #else

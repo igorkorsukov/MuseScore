@@ -36,11 +36,14 @@ class ChordSettingsModel : public AbstractInspectorModel
     Q_PROPERTY(mu::inspector::PropertyItem * showStemSlash READ showStemSlash CONSTANT)
     Q_PROPERTY(mu::inspector::PropertyItem * combineVoice READ combineVoice CONSTANT)
 
-    Q_PROPERTY(bool showStemSlashVisible READ showStemSlashVisible NOTIFY showStemSlashVisibleChanged)
-    Q_PROPERTY(bool showStemSlashEnabled READ showStemSlashEnabled NOTIFY showStemSlashEnabledChanged)
+    Q_PROPERTY(
+        bool showStemSlashVisible READ showStemSlashVisible NOTIFY showStemSlashVisibleChanged)
+    Q_PROPERTY(
+        bool showStemSlashEnabled READ showStemSlashEnabled NOTIFY showStemSlashEnabledChanged)
 
 public:
-    explicit ChordSettingsModel(QObject* parent, const muse::modularity::ContextPtr& iocCtx, IElementRepositoryService* repository);
+    explicit ChordSettingsModel(QObject* parent, const muse::modularity::ContextPtr& iocCtx,
+                                IElementRepositoryService* repository);
 
     PropertyItem* isStemless() const;
     PropertyItem* showStemSlash() const;

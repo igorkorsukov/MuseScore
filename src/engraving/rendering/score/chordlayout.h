@@ -90,12 +90,14 @@ public:
     static void layoutSpanners(Chord* item, LayoutContext& ctx);
 
     static void layoutArticulations(Chord* item, LayoutContext& ctx);
-    static void layoutArticulations2(Chord* item, LayoutContext& ctx, bool layoutOnCrossBeamSide = false);
+    static void layoutArticulations2(Chord* item, LayoutContext& ctx,
+                                     bool layoutOnCrossBeamSide = false);
     static void layoutArticulations3(Chord* item, Slur* s, LayoutContext& ctx);
 
     static void layoutStem(Chord* item, const LayoutContext& ctx);
 
-    static void computeUp(const Chord* item, ChordRest::LayoutData* ldata, const LayoutContext& ctx);
+    static void computeUp(const Chord* item, ChordRest::LayoutData* ldata,
+                          const LayoutContext& ctx);
     static void computeUp(ChordRest* item, const LayoutContext& ctx);
     static int computeAutoStemDirection(const std::vector<int>& noteDistances);
     static bool isChordPosBelowBeam(const Chord* item, Beam* beam);
@@ -103,9 +105,11 @@ public:
 
     static void layoutChords1(LayoutContext& ctx, Segment* segment, staff_idx_t staffIdx);
     static double layoutChords2(std::vector<Note*>& notes, bool up, LayoutContext& ctx);
-    static void layoutChords3(const std::vector<Chord*>&, const std::vector<Note*>&, const Staff*, LayoutContext& ctx);
+    static void layoutChords3(const std::vector<Chord*>&, const std::vector<Note*>&, const Staff*,
+                              LayoutContext& ctx);
     static void layoutLedgerLines(const std::vector<Chord*>& chords, LayoutContext& ctx);
-    static void getNoteListForDots(Chord* c, std::vector<Note*>&, std::vector<Note*>&, std::vector<int>&);
+    static void getNoteListForDots(Chord* c, std::vector<Note*>&, std::vector<Note*>&,
+                                   std::vector<int>&);
     static void repositionGraceNotesAfter(Segment* segment, size_t tracks);
     static void appendGraceNotes(Chord* chord);
     static void clearLineAttachPoints(Measure* measure);
@@ -117,10 +121,13 @@ public:
 
     static void checkStartEndSlurs(Chord* chord, LayoutContext& ctx);
 
-    static void checkAndFillShape(const ChordRest* item, ChordRest::LayoutData* ldata, const LayoutConfiguration& conf);
-    static void fillShape(const ChordRest* item, Chord::LayoutData* ldata, const LayoutConfiguration& conf);
+    static void checkAndFillShape(const ChordRest* item, ChordRest::LayoutData* ldata,
+                                  const LayoutConfiguration& conf);
+    static void fillShape(const ChordRest* item, Chord::LayoutData* ldata,
+                          const LayoutConfiguration& conf);
     static void fillShape(const Chord* item, Chord::LayoutData* ldata);
-    static void fillShape(const MeasureRepeat* item, MeasureRepeat::LayoutData* ldata, const LayoutConfiguration& conf);
+    static void fillShape(const MeasureRepeat* item, MeasureRepeat::LayoutData* ldata,
+                          const LayoutConfiguration& conf);
 
     static void addLineAttachPoints(Spanner* spanner);
 
@@ -140,11 +147,13 @@ private:
 
     static void createParenGroups(Chord* chord);
 
-    static void placeDots(const std::vector<Chord*>& chords, const std::vector<Note*>& notes, LayoutContext& ctx);
+    static void placeDots(const std::vector<Chord*>& chords, const std::vector<Note*>& notes,
+                          LayoutContext& ctx);
 
     static void setDotRelativeLine(Note* note, int dotMove, LayoutContext& ctx);
-    static void setDotX(const std::vector<Chord*>& chords, const std::array<double, 3 * VOICES>& dotPos, const Staff* staff,
-                        const double upDotPosX, const double downDotPosX);
+    static void setDotX(const std::vector<Chord*>& chords, const std::array<double,
+                                                                            3 * VOICES>& dotPos,
+                        const Staff* staff, const double upDotPosX, const double downDotPosX);
 
     static void skipAccidentals(Segment* segment, track_idx_t startTrack, track_idx_t endTrack);
 
@@ -153,19 +162,25 @@ private:
     static bool leaveSpaceForTie(const Articulation* item);
 
     static bool computeUpBeamCase(const Chord* item, Beam* beam);
-    static bool computeUpTremoloCase(const Chord* item, TremoloTwoChord* tremolo, const LayoutContext& ctx);
+    static bool computeUpTremoloCase(const Chord* item, TremoloTwoChord* tremolo,
+                                     const LayoutContext& ctx);
 
     static void updateLedgerLines(Chord* item, LayoutContext& ctx);
 
-    static ChordPosInfo calculateChordPosInfo(Segment* segment, staff_idx_t staffIdx, track_idx_t partStartTrack, track_idx_t partEndTrack,
+    static ChordPosInfo calculateChordPosInfo(Segment* segment, staff_idx_t staffIdx,
+                                              track_idx_t partStartTrack, track_idx_t partEndTrack,
                                               LayoutContext& ctx);
-    static void calculateMaxNoteWidths(ChordPosInfo& posInfo, const Fraction& tick, const Staff* staff, LayoutContext& ctx);
-    static OffsetInfo centreChords(const Segment* segment, ChordPosInfo& posInfo, staff_idx_t staffIdx, const Fraction& tick,
-                                   LayoutContext& ctx);
-    static void calculateChordOffsets(Segment* segment, staff_idx_t staffIdx, const Fraction& tick, OffsetInfo& offsetInfo,
-                                      ChordPosInfo& posInfo, LayoutContext& ctx);
-    static void applyChordOffsets(Segment* segment, staff_idx_t staffIdx, track_idx_t partStartTrack, track_idx_t partEndTrack,
-                                  OffsetInfo& offsetInfo, const ChordPosInfo& posInfo, LayoutContext& ctx);
+    static void calculateMaxNoteWidths(ChordPosInfo& posInfo, const Fraction& tick,
+                                       const Staff* staff, LayoutContext& ctx);
+    static OffsetInfo centreChords(const Segment* segment, ChordPosInfo& posInfo,
+                                   staff_idx_t staffIdx, const Fraction& tick, LayoutContext& ctx);
+    static void calculateChordOffsets(Segment* segment, staff_idx_t staffIdx, const Fraction& tick,
+                                      OffsetInfo& offsetInfo, ChordPosInfo& posInfo,
+                                      LayoutContext& ctx);
+    static void applyChordOffsets(Segment* segment, staff_idx_t staffIdx,
+                                  track_idx_t partStartTrack, track_idx_t partEndTrack,
+                                  OffsetInfo& offsetInfo, const ChordPosInfo& posInfo,
+                                  LayoutContext& ctx);
 };
 }
 

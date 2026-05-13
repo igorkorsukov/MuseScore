@@ -79,7 +79,10 @@ public:
     bool custom() const { return m_custom; }
     bool isValid() const { return m_key != Key::INVALID; }
     bool isAtonal() const { return m_mode == KeyMode::NONE; }
-    void setForInstrumentChange(bool forInstrumentChange) { m_forInstrumentChange = forInstrumentChange; }
+    void setForInstrumentChange(bool forInstrumentChange)
+    {
+        m_forInstrumentChange = forInstrumentChange;
+    }
     bool forInstrumentChange() const { return m_forInstrumentChange; }
     void initFromSubtype(int);      // for backward compatibility
     int degInKey(int degree) const; // return "absolute degree"

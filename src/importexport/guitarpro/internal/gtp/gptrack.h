@@ -93,10 +93,16 @@ public:
         int bar = 0;
         float pos = 0;
 
-        bool operator<(const SoundAutomationPos& other) const { return std::tie(bar, pos) < std::tie(other.bar, other.pos); }
+        bool operator<(const SoundAutomationPos& other) const
+        {
+            return std::tie(bar, pos) < std::tie(other.bar, other.pos);
+        }
     };
 
-    void addSoundAutomation(SoundAutomation val) { _automations.insert({ { val.bar, val.position }, val }); }
+    void addSoundAutomation(SoundAutomation val)
+    {
+        _automations.insert({ { val.bar, val.position }, val });
+    }
     const std::unordered_map<muse::String, Sound>& sounds() { return _sounds; }
     const std::map<SoundAutomationPos, SoundAutomation>& soundAutomations() { return _automations; }
 

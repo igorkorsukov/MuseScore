@@ -28,7 +28,8 @@
 #include "context/iglobalcontext.h"
 
 namespace mu::appshell {
-class MainWindowTitleProvider : public QObject, public muse::Contextable, public muse::async::Asyncable
+class MainWindowTitleProvider : public QObject, public muse::Contextable,
+    public muse::async::Asyncable
 {
     Q_OBJECT
 

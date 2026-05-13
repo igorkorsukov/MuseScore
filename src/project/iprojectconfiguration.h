@@ -48,7 +48,8 @@ public:
     virtual muse::io::path_t myFirstProjectPath() const = 0;
 
     virtual muse::io::paths_t availableTemplateDirs() const = 0;
-    virtual muse::io::path_t templateCategoriesJsonPath(const muse::io::path_t& templatesDir) const = 0;
+    virtual muse::io::path_t templateCategoriesJsonPath(const muse::io::path_t& templatesDir) const
+    = 0;
 
     virtual muse::io::path_t userTemplatesPath() const = 0;
     virtual void setUserTemplatesPath(const muse::io::path_t& path) = 0;
@@ -75,7 +76,8 @@ public:
 
     virtual muse::io::path_t cloudProjectSavingPath(int scoreId = 0) const = 0;
 
-    virtual muse::io::path_t defaultSavingFilePath(INotationProjectPtr project, const std::string& filenameAddition = "",
+    virtual muse::io::path_t defaultSavingFilePath(INotationProjectPtr project,
+                                                   const std::string& filenameAddition = "",
                                                    const std::string& suffix = "") const = 0;
 
     virtual SaveLocationType lastUsedSaveLocationType() const = 0;
@@ -110,7 +112,8 @@ public:
     virtual void setPreferredScoreCreationMode(PreferredScoreCreationMode mode) = 0;
 
     virtual MigrationOptions migrationOptions(MigrationType type) const = 0;
-    virtual void setMigrationOptions(MigrationType type, const MigrationOptions& opt, bool persistent = true) = 0;
+    virtual void setMigrationOptions(MigrationType type, const MigrationOptions& opt,
+                                     bool persistent = true) = 0;
 
     virtual bool isAutoSaveEnabled() const = 0;
     virtual void setAutoSaveEnabled(bool enabled) = 0;
@@ -133,7 +136,8 @@ public:
     virtual muse::io::path_t newProjectTemporaryPath() const = 0;
 
     virtual bool shouldDestinationFolderBeOpenedOnExport() const = 0;
-    virtual void setShouldDestinationFolderBeOpenedOnExport(bool shouldDestinationFolderBeOpenedOnExport) = 0;
+    virtual void setShouldDestinationFolderBeOpenedOnExport(
+        bool shouldDestinationFolderBeOpenedOnExport) = 0;
 
     virtual QUrl supportForumUrl() const = 0;
 

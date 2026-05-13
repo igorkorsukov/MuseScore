@@ -57,7 +57,8 @@ static timestamp_t tremoloTimestampFrom(const Note* note, const RenderingContext
 
     if (note->incomingPartialTie()) {
         const PartiallyTiedNoteInfo outgoingNoteInfo = findOutgoingNoteInPreviousRepeat(note, ctx);
-        if (outgoingNoteInfo.isValid() && containEqualTremolo(outgoingNoteInfo.note->chord(), note->chord())) {
+        if (outgoingNoteInfo.isValid()
+            && containEqualTremolo(outgoingNoteInfo.note->chord(), note->chord())) {
             note = outgoingNoteInfo.note;
             positionTickOffset = outgoingNoteInfo.repeat->utick - outgoingNoteInfo.repeat->tick;
         }
@@ -86,14 +87,16 @@ static timestamp_t tremoloTimestampFrom(const Note* note, const RenderingContext
     return ctx.nominalTimestamp;
 }
 
-static duration_t tremoloDuration(const Note* note, const timestamp_t tremoloTimestampFrom, const RenderingContext& ctx)
+static duration_t tremoloDuration(const Note* note, const timestamp_t tremoloTimestampFrom,
+                                  const RenderingContext& ctx)
 {
     std::unordered_set<const Note*> notes { note };
     int positionTickOffset = ctx.positionTickOffset;
 
     if (note->outgoingPartialTie()) {
         const PartiallyTiedNoteInfo incomingNoteInfo = findIncomingNoteInNextRepeat(note, ctx);
-        if (incomingNoteInfo.isValid() && containEqualTremolo(incomingNoteInfo.note->chord(), note->chord())) {
+        if (incomingNoteInfo.isValid()
+            && containEqualTremolo(incomingNoteInfo.note->chord(), note->chord())) {
             note = incomingNoteInfo.note;
             positionTickOffset = incomingNoteInfo.repeat->utick - incomingNoteInfo.repeat->tick;
         }
@@ -117,7 +120,8 @@ static duration_t tremoloDuration(const Note* note, const timestamp_t tremoloTim
 
     if (note) {
         const int tickTo = note->chord()->endTick().ticks();
-        const timestamp_t tremoloTimestampTo = timestampFromTicks(ctx.score, tickTo + positionTickOffset);
+        const timestamp_t tremoloTimestampTo = timestampFromTicks(ctx.score,
+                                                                  tickTo + positionTickOffset);
         return tremoloTimestampTo - tremoloTimestampFrom;
     }
 
@@ -166,7 +170,8 @@ void TremoloRenderer::doRender(const EngravingItem* item, const mpe::Articulatio
     //const ArticulationAppliedData& articulationData = context.commonArticulations.at(preferredType);
     int overallDurationTicks = ctx.nominalDurationTicks;
     if (tremolo.two && tremolo.two->chord1() && tremolo.two->chord2()) {
-        overallDurationTicks = tremolo.two->chord1()->actualTicks().ticks() + tremolo.two->chord2()->actualTicks().ticks();
+        overallDurationTicks = tremolo.two->chord1()->actualTicks().ticks()
+                               + tremolo.two->chord2()->actualTicks().ticks();
     }
 
     int stepDurationTicks = 0;
@@ -206,7 +211,8 @@ void TremoloRenderer::doRender(const EngravingItem* item, const mpe::Articulatio
                 currentChord = secondTremoloChord;
             }
 
-            buildAndAppendEvents(currentChord, preferredType, stepDurationTicks, ctx.nominalPositionStartTick + i * stepDurationTicks,
+            buildAndAppendEvents(currentChord, preferredType, stepDurationTicks,
+                                 ctx.nominalPositionStartTick + i * stepDurationTicks,
                                  ctx, tremoloTimeCache, result);
         }
 
@@ -214,7 +220,8 @@ void TremoloRenderer::doRender(const EngravingItem* item, const mpe::Articulatio
     }
 
     for (int i = 0; i < stepsCount; ++i) {
-        buildAndAppendEvents(chord, preferredType, stepDurationTicks, ctx.nominalPositionStartTick + i * stepDurationTicks,
+        buildAndAppendEvents(chord, preferredType, stepDurationTicks,
+                             ctx.nominalPositionStartTick + i * stepDurationTicks,
                              ctx, tremoloTimeCache, result);
     }
 }
@@ -256,13 +263,15 @@ void TremoloRenderer::buildAndAppendEvents(const Chord* chord, const Articulatio
         articulationData.meta.timestamp = tremoloTnD.timestamp;
         articulationData.meta.overallDuration = tremoloTnD.duration;
 
-        updateArticulationBoundaries(type, noteCtx.timestamp, noteCtx.duration, noteCtx.articulations);
+        updateArticulationBoundaries(type, noteCtx.timestamp, noteCtx.duration,
+                                     noteCtx.articulations);
 
         result.emplace_back(buildNoteEvent(noteCtx));
     }
 }
 
-const TimestampAndDuration& TremoloRenderer::tremoloTimeAndDuration(const Note* note, const RenderingContext& ctx,
+const TimestampAndDuration& TremoloRenderer::tremoloTimeAndDuration(const Note* note,
+                                                                    const RenderingContext& ctx,
                                                                     TremoloTimeCache& cache)
 {
     auto cacheIt = cache.find(note);

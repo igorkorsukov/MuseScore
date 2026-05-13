@@ -53,7 +53,8 @@ bool ShadowNote::isValid() const
     return m_noteheadSymbol != SymId::noSym;
 }
 
-void ShadowNote::setState(SymId noteSymbol, TDuration duration, bool rest, bool beyondScore, AccidentalType accidentalType,
+void ShadowNote::setState(SymId noteSymbol, TDuration duration, bool rest, bool beyondScore,
+                          AccidentalType accidentalType,
                           const std::set<SymId>& articulationIds)
 {
     m_noteheadSymbol = noteSymbol;
@@ -201,7 +202,8 @@ void ShadowNote::drawArticulations(Painter* painter) const
     }
 }
 
-void ShadowNote::drawCloseArticulation(muse::draw::Painter* painter, const SymId& artic, RectF& boundRect, bool up,
+void ShadowNote::drawCloseArticulation(muse::draw::Painter* painter, const SymId& artic,
+                                       RectF& boundRect, bool up,
                                        const SymId& prevArticulation) const
 {
     PointF coord;
@@ -250,7 +252,8 @@ void ShadowNote::drawCloseArticulation(muse::draw::Painter* painter, const SymId
     drawSymbol(articSym, painter, coord);
 }
 
-void ShadowNote::drawFarArticulation(muse::draw::Painter* painter, const SymId& artic, RectF& boundRect, bool up,
+void ShadowNote::drawFarArticulation(muse::draw::Painter* painter, const SymId& artic,
+                                     RectF& boundRect, bool up,
                                      bool accentStaccatoKern) const
 {
     PointF coord;

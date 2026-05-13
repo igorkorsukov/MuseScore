@@ -32,7 +32,8 @@ static constexpr char SEPARATOR = '_';
 
 static char* toBase64Chars(char* const first, char* const last, uint64_t n)
 {
-    static constexpr char CHARS[65] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+    static constexpr char CHARS[65]
+        = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
     IF_ASSERT_FAILED(static_cast<size_t>(last - first) >= EID::MAX_UINT64_BASE64_SIZE) {
         return first;

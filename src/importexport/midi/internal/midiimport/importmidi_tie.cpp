@@ -119,7 +119,8 @@ bool areTiesConsistent(const Staff* staff)
 
     for (voice_idx_t voice = 0; voice < VOICES; ++voice) {
         bool isTie = false;
-        for (Segment* seg = staff->score()->firstSegment(SegmentType::All); seg; seg = seg->next1()) {
+        for (Segment* seg = staff->score()->firstSegment(SegmentType::All); seg;
+             seg = seg->next1()) {
             if (seg->segmentType() == SegmentType::ChordRest) {
                 ChordRest* cr = toChordRest(seg->element(strack + voice));
 

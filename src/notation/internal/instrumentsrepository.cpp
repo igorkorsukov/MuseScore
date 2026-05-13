@@ -92,7 +92,8 @@ const InstrumentTemplateList& InstrumentsRepository::instrumentTemplates() const
     return m_instrumentTemplateList;
 }
 
-const InstrumentTemplate& InstrumentsRepository::instrumentTemplate(const String& instrumentId) const
+const InstrumentTemplate& InstrumentsRepository::instrumentTemplate(const String& instrumentId)
+const
 {
     auto it = m_instrumentTemplateMap.find(instrumentId);
     if (it == m_instrumentTemplateMap.end()) {
@@ -230,7 +231,8 @@ bool InstrumentsRepository::loadStringTuningsPresets(const path_t& path)
                 JsonObject presetObj = presetVal.toObject();
 
                 StringTuningPreset preset;
-                preset.name = muse::trc("instruments/stringTunings", presetObj.value("name").toStdString().c_str());
+                preset.name = muse::trc("instruments/stringTunings", presetObj.value(
+                                            "name").toStdString().c_str());
 
                 JsonArray valuesArr = presetObj.value("value").toArray();
                 for (size_t l = 0; l < valuesArr.size(); ++l) {
@@ -253,8 +255,9 @@ bool InstrumentsRepository::loadStringTuningsPresets(const path_t& path)
             strings.emplace_back(std::move(info));
         }
 
-        std::string id = presetInfoObj.contains("familyId") ? presetInfoObj.value("familyId").toStdString()
-                         : presetInfoObj.value("instrumentId").toStdString();
+        std::string id
+            = presetInfoObj.contains("familyId") ? presetInfoObj.value("familyId").toStdString()
+              : presetInfoObj.value("instrumentId").toStdString();
 
         m_stringTuningsPresets.emplace(std::move(id), std::move(strings));
     }
@@ -262,7 +265,8 @@ bool InstrumentsRepository::loadStringTuningsPresets(const path_t& path)
     return true;
 }
 
-void InstrumentsRepository::loadMuseInstruments(const InstrumentTemplateMap& standardInstrumentByMusicXmlId)
+void InstrumentsRepository::loadMuseInstruments(
+    const InstrumentTemplateMap& standardInstrumentByMusicXmlId)
 {
     TRACEFUNC;
 
@@ -291,7 +295,8 @@ void InstrumentsRepository::loadMuseInstruments(const InstrumentTemplateMap& sta
         templ->instrumentName.setLongName(instrument.name);
         templ->instrumentName.setShortName(instrument.abbreviation);
         templ->staffCount = staffCount(instrument.staffType);
-        mu::engraving::ClefType clefType = museSamplerClefTypeToEngravingClefType(instrument.clefType);
+        mu::engraving::ClefType clefType = museSamplerClefTypeToEngravingClefType(
+            instrument.clefType);
         templ->clefTypes[0].concertClef = clefType;
         templ->clefTypes[0].transposingClef = clefType;
 
@@ -312,7 +317,8 @@ void InstrumentsRepository::loadMuseInstruments(const InstrumentTemplateMap& sta
         }
 
         if (!instrument.musicXmlId.empty()) {
-            const InstrumentTemplate* standardTempl = muse::value(standardInstrumentByMusicXmlId, instrument.musicXmlId, nullptr);
+            const InstrumentTemplate* standardTempl = muse::value(standardInstrumentByMusicXmlId,
+                                                                  instrument.musicXmlId, nullptr);
             if (standardTempl) {
                 templ->family = standardTempl->family;
                 templ->groupId = standardTempl->groupId;
@@ -328,7 +334,8 @@ void InstrumentsRepository::loadMuseInstruments(const InstrumentTemplateMap& sta
         }
 
         if (templ->genres.empty()) {
-            const InstrumentGenre* commonGenre = mu::engraving::searchInstrumentGenre(COMMON_GENRE_ID);
+            const InstrumentGenre* commonGenre = mu::engraving::searchInstrumentGenre(
+                COMMON_GENRE_ID);
             if (commonGenre) {
                 templ->genres.push_back(commonGenre);
             }

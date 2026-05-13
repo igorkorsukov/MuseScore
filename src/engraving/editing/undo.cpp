@@ -182,7 +182,8 @@ void UndoCommand::redo(EditData* ed)
 
 void UndoCommand::appendChildren(UndoCommand& other)
 {
-    m_childCommands.insert(m_childCommands.end(), other.m_childCommands.cbegin(), other.m_childCommands.cend());
+    m_childCommands.insert(m_childCommands.end(),
+                           other.m_childCommands.cbegin(), other.m_childCommands.cend());
     other.m_childCommands.clear();
 }
 
@@ -204,7 +205,8 @@ bool UndoCommand::hasFilteredChildren(UndoCommand::Filter f, const EngravingItem
 //   hasUnfilteredChildren
 //---------------------------------------------------------
 
-bool UndoCommand::hasUnfilteredChildren(const std::vector<UndoCommand::Filter>& filters, const EngravingItem* target) const
+bool UndoCommand::hasUnfilteredChildren(const std::vector<UndoCommand::Filter>& filters,
+                                        const EngravingItem* target) const
 {
     for (UndoCommand* cmd : m_childCommands) {
         bool filtered = false;
@@ -324,7 +326,8 @@ void UndoStack::pushAndPerform(UndoCommand* cmd, EditData* ed)
 #ifndef QT_NO_DEBUG
     if (!strcmp(cmd->name(), "ChangeProperty")) {
         ChangeProperty* cp = static_cast<ChangeProperty*>(cmd);
-        LOG_UNDO() << cmd->name() << " id: " << int(cp->getId()) << ", property: " << propertyName(cp->getId());
+        LOG_UNDO() << cmd->name() << " id: " << int(cp->getId()) << ", property: " << propertyName(
+            cp->getId());
     } else {
         LOG_UNDO() << cmd->name();
     }
@@ -647,7 +650,8 @@ UndoMacro::ChangesInfo UndoMacro::changesInfo(bool undo) const
             const StyleIdSet styleIds = changeStyle->changedIds();
             result.changedStyleIdSet.insert(styleIds.cbegin(), styleIds.cend());
         } else if (type == CommandType::TextEdit) {
-            result.isTextEditing |= static_cast<const TextEditUndoCommand*>(command)->cursor().editing();
+            result.isTextEditing
+                |= static_cast<const TextEditUndoCommand*>(command)->cursor().editing();
         }
 
         if (undo) {

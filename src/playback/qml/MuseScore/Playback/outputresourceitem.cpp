@@ -36,7 +36,8 @@ void OutputResourceItem::requestAvailableResources()
         QVariantList result;
 
         if (!isBlank()) {
-            const QString& currentResourceId = QString::fromStdString(m_currentFxParams.resourceMeta.id);
+            const QString& currentResourceId
+                = QString::fromStdString(m_currentFxParams.resourceMeta.id);
             result << buildMenuItem(currentResourceId,
                                     currentResourceId,
                                     /*checked*/ true,
@@ -78,7 +79,9 @@ void OutputResourceItem::requestAvailableResources()
         }
 
         result << buildSeparator();
-        QVariantMap getMore = buildExternalLinkMenuItem(GET_MORE_EFFECTS, muse::qtrc("playback", "Get more effects"));
+        QVariantMap getMore
+            = buildExternalLinkMenuItem(GET_MORE_EFFECTS, muse::qtrc("playback",
+                                                                     "Get more effects"));
         getMore["alwaysAppend"] = true; // Always add this to the end of our lists, ignoring filters
         result << getMore;
 
@@ -98,7 +101,8 @@ void OutputResourceItem::handleMenuItem(const QString& menuItemId)
         return;
     } else if (menuItemId == GET_MORE_EFFECTS) {
         const QString url = QString::fromStdString(globalConfiguration()->museHubWebUrl());
-        const QString urlParams("plugins?utm_source=mss-mixer-fx&utm_medium=mh-fx&utm_campaign=mss-mixer-fx-mainpage");
+        const QString urlParams(
+            "plugins?utm_source=mss-mixer-fx&utm_medium=mh-fx&utm_campaign=mss-mixer-fx-mainpage");
         platformInteractive()->openUrl(url + urlParams);
         return;
     }
@@ -183,7 +187,8 @@ void OutputResourceItem::updateCurrentFxParams(const AudioResourceMeta& newMeta)
     requestToCloseNativeEditorView();
 
     audio::AudioFxParams newParams = m_currentFxParams;
-    newParams.categories = audio::audioFxCategoriesFromString(newMeta.attributeVal(audio::CATEGORIES_ATTRIBUTE));
+    newParams.categories
+        = audio::audioFxCategoriesFromString(newMeta.attributeVal(audio::CATEGORIES_ATTRIBUTE));
     newParams.resourceMeta = newMeta;
     newParams.configuration.clear();
     newParams.active = newMeta.isValid();
@@ -192,7 +197,8 @@ void OutputResourceItem::updateCurrentFxParams(const AudioResourceMeta& newMeta)
     requestToLaunchNativeEditorView();
 }
 
-void OutputResourceItem::updateAvailableFxVendorsMap(const audio::AudioResourceMetaList& availableFxResources)
+void OutputResourceItem::updateAvailableFxVendorsMap(
+    const audio::AudioResourceMetaList& availableFxResources)
 {
     m_fxByVendorMap.clear();
 

@@ -285,7 +285,8 @@ FermataType Fermata::fermataType() const
 
 String Fermata::accessibleInfo() const
 {
-    return String(u"%1: %2").arg(EngravingItem::accessibleInfo(), SymNames::translatedUserNameForSymId(symId()));
+    return String(u"%1: %2").arg(
+        EngravingItem::accessibleInfo(), SymNames::translatedUserNameForSymId(symId()));
 }
 
 Sid Fermata::defaultPosSid() const

@@ -38,9 +38,12 @@ class FretCanvas : public muse::uicomponents::QuickPaintedView, public muse::Con
     QML_ELEMENT;
 
     Q_PROPERTY(QVariant diagram READ diagram WRITE setFretDiagram NOTIFY diagramChanged)
-    Q_PROPERTY(bool isBarreModeOn READ isBarreModeOn WRITE setIsBarreModeOn NOTIFY isBarreModeOnChanged)
-    Q_PROPERTY(bool isMultipleDotsModeOn READ isMultipleDotsModeOn WRITE setIsMultipleDotsModeOn NOTIFY isMultipleDotsModeOnChanged)
-    Q_PROPERTY(int currentFretDotType READ currentFretDotType WRITE setCurrentFretDotType NOTIFY currentFretDotTypeChanged)
+    Q_PROPERTY(
+        bool isBarreModeOn READ isBarreModeOn WRITE setIsBarreModeOn NOTIFY isBarreModeOnChanged)
+    Q_PROPERTY(
+        bool isMultipleDotsModeOn READ isMultipleDotsModeOn WRITE setIsMultipleDotsModeOn NOTIFY isMultipleDotsModeOnChanged)
+    Q_PROPERTY(
+        int currentFretDotType READ currentFretDotType WRITE setCurrentFretDotType NOTIFY currentFretDotTypeChanged)
     Q_PROPERTY(QColor color READ color WRITE setColor NOTIFY colorChanged)
 
     muse::ContextInject<context::IGlobalContext> globalContext = { this };
@@ -82,7 +85,8 @@ private:
     void mousePressEvent(QMouseEvent*) override;
     void hoverMoveEvent(QHoverEvent*) override;
 
-    void paintDotSymbol(QPainter* p, QPen& pen, qreal y, qreal x, qreal dotd, engraving::FretDotType dtype);
+    void paintDotSymbol(QPainter* p, QPen& pen, qreal y, qreal x, qreal dotd,
+                        engraving::FretDotType dtype);
     void getPosition(const QPointF& pos, int* string, int* fret);
 
     engraving::FretDiagram* m_diagram = nullptr;

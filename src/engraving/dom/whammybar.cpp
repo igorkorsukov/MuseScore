@@ -65,7 +65,8 @@ static const ElementStyle whammyBarStyle {
 };
 
 WhammyBarSegment::WhammyBarSegment(WhammyBar* sp, System* parent)
-    : TextLineBaseSegment(ElementType::WHAMMY_BAR_SEGMENT, sp, parent, ElementFlag::MOVABLE | ElementFlag::ON_STAFF)
+    : TextLineBaseSegment(ElementType::WHAMMY_BAR_SEGMENT, sp, parent,
+                          ElementFlag::MOVABLE | ElementFlag::ON_STAFF)
 {
     m_text->setTextStyleType(propertyDefault(Pid::TEXT_STYLE).value<TextStyleType>());
     m_endText->setTextStyleType(propertyDefault(Pid::TEXT_STYLE).value<TextStyleType>());

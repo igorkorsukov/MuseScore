@@ -27,17 +27,20 @@
 using namespace muse;
 using namespace mu::notation;
 
-NotationSelectionFilter::NotationSelectionFilter(const IGetScore* getScore, const std::function<void()>& selectionChangedCallback)
+NotationSelectionFilter::NotationSelectionFilter(const IGetScore* getScore,
+                                                 const std::function<void()>& selectionChangedCallback)
     : m_getScore(getScore), m_selectionChangedCallback(selectionChangedCallback)
 {
 }
 
-bool NotationSelectionFilter::isSelectionTypeFiltered(const SelectionFilterTypesVariant& variant) const
+bool NotationSelectionFilter::isSelectionTypeFiltered(const SelectionFilterTypesVariant& variant)
+const
 {
     return score()->selectionFilter().isFiltered(variant);
 }
 
-void NotationSelectionFilter::setSelectionTypeFiltered(const SelectionFilterTypesVariant& variant, bool filtered)
+void NotationSelectionFilter::setSelectionTypeFiltered(const SelectionFilterTypesVariant& variant,
+                                                       bool filtered)
 {
     engraving::Selection& selection = score()->selection();
 

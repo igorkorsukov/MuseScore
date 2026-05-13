@@ -35,12 +35,14 @@
 #include "inotationbraille.h"
 
 namespace mu::braille {
-class BrailleModel : public QObject, public muse::Contextable, public muse::async::Asyncable, public muse::actions::Actionable
+class BrailleModel : public QObject, public muse::Contextable, public muse::async::Asyncable,
+    public muse::actions::Actionable
 {
     Q_OBJECT
 
     Q_PROPERTY(QString brailleInfo READ brailleInfo NOTIFY brailleInfoChanged)
-    Q_PROPERTY(int cursorPosition READ cursorPosition WRITE setCursorPosition NOTIFY cursorPositionChanged)
+    Q_PROPERTY(
+        int cursorPosition READ cursorPosition WRITE setCursorPosition NOTIFY cursorPositionChanged)
     Q_PROPERTY(int currentItemPositionStart READ currentItemPositionStart NOTIFY currentItemChanged)
     Q_PROPERTY(int currentItemPositionEnd READ currentItemPositionEnd NOTIFY currentItemChanged)
     Q_PROPERTY(QString keys READ keys WRITE setKeys NOTIFY keysFired)

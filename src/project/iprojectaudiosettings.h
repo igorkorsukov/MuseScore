@@ -83,22 +83,31 @@ public:
     virtual void setMasterAudioOutputParams(const AudioOutputParams& params) = 0;
 
     virtual bool containsAuxOutputParams(muse::audio::aux_channel_idx_t index) const = 0;
-    virtual const AudioOutputParams& auxOutputParams(muse::audio::aux_channel_idx_t index) const = 0;
-    virtual void setAuxOutputParams(muse::audio::aux_channel_idx_t index, const AudioOutputParams& params) = 0;
+    virtual const AudioOutputParams& auxOutputParams(
+        muse::audio::aux_channel_idx_t index) const = 0;
+    virtual void setAuxOutputParams(muse::audio::aux_channel_idx_t index,
+                                    const AudioOutputParams& params) = 0;
 
     virtual const TrackInputParamsMap& allTrackInputParams() const = 0;
-    virtual const AudioInputParams& trackInputParams(const engraving::InstrumentTrackId& trackId) const = 0;
-    virtual void setTrackInputParams(const engraving::InstrumentTrackId& trackId, const AudioInputParams& params) = 0;
+    virtual const AudioInputParams& trackInputParams(const engraving::InstrumentTrackId& trackId)
+    const = 0;
+    virtual void setTrackInputParams(const engraving::InstrumentTrackId& trackId,
+                                     const AudioInputParams& params) = 0;
     virtual void clearTrackInputParams() = 0;
     virtual muse::async::Channel<engraving::InstrumentTrackId> trackInputParamsChanged() const = 0;
 
-    virtual bool trackHasExistingOutputParams(const engraving::InstrumentTrackId& trackId) const = 0;
-    virtual const AudioOutputParams& trackOutputParams(const engraving::InstrumentTrackId& trackId) const = 0;
-    virtual void setTrackOutputParams(const engraving::InstrumentTrackId& trackId, const AudioOutputParams& params) = 0;
+    virtual bool trackHasExistingOutputParams(
+        const engraving::InstrumentTrackId& trackId) const = 0;
+    virtual const AudioOutputParams& trackOutputParams(const engraving::InstrumentTrackId& trackId)
+    const = 0;
+    virtual void setTrackOutputParams(const engraving::InstrumentTrackId& trackId,
+                                      const AudioOutputParams& params) = 0;
 
     virtual const SoloMuteState& auxSoloMuteState(muse::audio::aux_channel_idx_t index) const = 0;
-    virtual void setAuxSoloMuteState(muse::audio::aux_channel_idx_t index, const SoloMuteState& state) = 0;
-    virtual muse::async::Channel<muse::audio::aux_channel_idx_t, SoloMuteState> auxSoloMuteStateChanged() const = 0;
+    virtual void setAuxSoloMuteState(muse::audio::aux_channel_idx_t index,
+                                     const SoloMuteState& state) = 0;
+    virtual muse::async::Channel<muse::audio::aux_channel_idx_t,
+                                 SoloMuteState> auxSoloMuteStateChanged() const = 0;
 
     virtual void removeTrackParams(const engraving::InstrumentTrackId& trackId) = 0;
 

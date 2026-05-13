@@ -36,7 +36,9 @@ using namespace mu::engraving;
 using namespace muse;
 using namespace muse::mpe;
 
-void NoteArticulationsParser::buildNoteArticulationMap(const Note* note, const RenderingContext& ctx, mpe::ArticulationMap& result)
+void NoteArticulationsParser::buildNoteArticulationMap(const Note* note,
+                                                       const RenderingContext& ctx,
+                                                       mpe::ArticulationMap& result)
 {
     if (!note || !ctx.isValid()) {
         LOGE() << "Unable to render playback events of invalid note";
@@ -57,7 +59,8 @@ void NoteArticulationsParser::buildNoteArticulationMap(const Note* note, const R
     result.preCalculateAverageData();
 }
 
-void NoteArticulationsParser::doParse(const EngravingItem* item, const RenderingContext& ctx, mpe::ArticulationMap& result)
+void NoteArticulationsParser::doParse(const EngravingItem* item, const RenderingContext& ctx,
+                                      mpe::ArticulationMap& result)
 {
     IF_ASSERT_FAILED(item->isNote()) {
         return;
@@ -77,7 +80,8 @@ void NoteArticulationsParser::doParse(const EngravingItem* item, const Rendering
     parseSpanners(note, ctx, result);
 }
 
-ArticulationType NoteArticulationsParser::articulationTypeByNoteheadGroup(const NoteHeadGroup noteheadGroup)
+ArticulationType NoteArticulationsParser::articulationTypeByNoteheadGroup(
+    const NoteHeadGroup noteheadGroup)
 {
     switch (noteheadGroup) {
     case NoteHeadGroup::HEAD_CROSS:
@@ -131,16 +135,20 @@ ArticulationType NoteArticulationsParser::articulationTypeByNoteheadGroup(const 
     }
 }
 
-void NoteArticulationsParser::parsePlayingTechnique(const RenderingContext& ctx, mpe::ArticulationMap& result, bool sustainAllowed)
+void NoteArticulationsParser::parsePlayingTechnique(const RenderingContext& ctx,
+                                                    mpe::ArticulationMap& result,
+                                                    bool sustainAllowed)
 {
     const int chordPosTickWithOffset = ctx.nominalPositionStartTick + ctx.positionTickOffset;
-    const std::pair<timestamp_t, PlayingTechniqueType> tech = ctx.playbackCtx->playingTechnique(ctx.score, chordPosTickWithOffset);
+    const std::pair<timestamp_t, PlayingTechniqueType> tech = ctx.playbackCtx->playingTechnique(
+        ctx.score, chordPosTickWithOffset);
     if (tech.second == PlayingTechniqueType::HandbellsLV && !sustainAllowed) {
         return;
     }
 
     const mpe::ArticulationType articulationType = articulationFromPlayTechType(tech.second);
-    if (articulationType == ArticulationType::Standard || articulationType == ArticulationType::Undefined) {
+    if (articulationType == ArticulationType::Standard
+        || articulationType == ArticulationType::Undefined) {
         return;
     }
 
@@ -153,7 +161,8 @@ void NoteArticulationsParser::parsePlayingTechnique(const RenderingContext& ctx,
     duration_t duration = ctx.nominalDuration;
 
     if (tech.second == PlayingTechniqueType::HandbellsLV) {
-        const timestamp_t dampTime = ctx.playbackCtx->findPlayingTechniqueTimestamp(ctx.score, PlayingTechniqueType::HandbellsDamp,
+        const timestamp_t dampTime = ctx.playbackCtx->findPlayingTechniqueTimestamp(ctx.score,
+                                                                                    PlayingTechniqueType::HandbellsDamp,
                                                                                     chordPosTickWithOffset);
         timestamp = tech.first;
         duration = dampTime > 0 ? dampTime - timestamp : mpe::INFINITE_DURATION;
@@ -167,7 +176,8 @@ void NoteArticulationsParser::parsePlayingTechnique(const RenderingContext& ctx,
                              0 }, result);
 }
 
-void NoteArticulationsParser::parseGhostNote(const Note* note, const RenderingContext& ctx, mpe::ArticulationMap& result)
+void NoteArticulationsParser::parseGhostNote(const Note* note, const RenderingContext& ctx,
+                                             mpe::ArticulationMap& result)
 {
     if (!note->ghost() && !note->parenthesisInfo()) {
         return;
@@ -176,7 +186,8 @@ void NoteArticulationsParser::parseGhostNote(const Note* note, const RenderingCo
     appendArticulations({ mpe::ArticulationType::GhostNote }, ctx, result);
 }
 
-void NoteArticulationsParser::parseNoteHead(const Note* note, const RenderingContext& ctx, mpe::ArticulationMap& result)
+void NoteArticulationsParser::parseNoteHead(const Note* note, const RenderingContext& ctx,
+                                            mpe::ArticulationMap& result)
 {
     mpe::ArticulationType typeByNoteHeadGroup = articulationTypeByNoteheadGroup(note->headGroup());
 
@@ -189,24 +200,28 @@ void NoteArticulationsParser::parseNoteHead(const Note* note, const RenderingCon
     }
 }
 
-void NoteArticulationsParser::parseSymbols(const Note* note, const RenderingContext& ctx, mpe::ArticulationMap& result)
+void NoteArticulationsParser::parseSymbols(const Note* note, const RenderingContext& ctx,
+                                           mpe::ArticulationMap& result)
 {
     for (const EngravingItem* item : note->el()) {
         if (item && item->isSymbol()) {
-            ArticulationTypeSet types = SymbolsMetaParser::symbolToArticulations(toSymbol(item)->sym());
+            ArticulationTypeSet types = SymbolsMetaParser::symbolToArticulations(toSymbol(
+                                                                                     item)->sym());
             appendArticulations(types, ctx, result);
         }
     }
 }
 
-void NoteArticulationsParser::parseLaissezVibrer(const Note* note, const RenderingContext& ctx, mpe::ArticulationMap& result)
+void NoteArticulationsParser::parseLaissezVibrer(const Note* note, const RenderingContext& ctx,
+                                                 mpe::ArticulationMap& result)
 {
     const LaissezVib* laissezVib = note->laissezVib();
     if (!laissezVib || !laissezVib->playSpanner()) {
         return;
     }
 
-    const mpe::ArticulationPattern& pattern = ctx.profile->pattern(mpe::ArticulationType::LaissezVibrer);
+    const mpe::ArticulationPattern& pattern = ctx.profile->pattern(
+        mpe::ArticulationType::LaissezVibrer);
     if (pattern.empty()) {
         return;
     }
@@ -218,7 +233,8 @@ void NoteArticulationsParser::parseLaissezVibrer(const Note* note, const Renderi
 
     const Measure* nextMeasure = noteMeasure->nextMeasure();
     const Fraction endTick = nextMeasure ? nextMeasure->endTick() : noteMeasure->endTick();
-    const timestamp_t endTime = timestampFromTicks(ctx.score, endTick.ticks() + ctx.positionTickOffset);
+    const timestamp_t endTime = timestampFromTicks(ctx.score,
+                                                   endTick.ticks() + ctx.positionTickOffset);
 
     appendArticulationData(mpe::ArticulationMeta(mpe::ArticulationType::LaissezVibrer,
                                                  pattern,
@@ -226,7 +242,8 @@ void NoteArticulationsParser::parseLaissezVibrer(const Note* note, const Renderi
                                                  endTime - ctx.nominalTimestamp), result);
 }
 
-void NoteArticulationsParser::parseSpanners(const Note* note, const RenderingContext& ctx, mpe::ArticulationMap& result)
+void NoteArticulationsParser::parseSpanners(const Note* note, const RenderingContext& ctx,
+                                            mpe::ArticulationMap& result)
 {
     for (const Spanner* spanner : note->spannerFor()) {
         int spannerFrom = spanner->tick().ticks();
@@ -238,7 +255,9 @@ void NoteArticulationsParser::parseSpanners(const Note* note, const RenderingCon
         }
 
         auto spannerTnD
-            = timestampAndDurationFromStartAndDurationTicks(ctx.score, spannerFrom, spannerDurationTicks, ctx.positionTickOffset);
+            = timestampAndDurationFromStartAndDurationTicks(ctx.score, spannerFrom,
+                                                            spannerDurationTicks,
+                                                            ctx.positionTickOffset);
 
         RenderingContext spannerContext = ctx;
         spannerContext.nominalTimestamp = spannerTnD.timestamp;
@@ -250,7 +269,8 @@ void NoteArticulationsParser::parseSpanners(const Note* note, const RenderingCon
     }
 }
 
-void NoteArticulationsParser::appendArticulations(const mpe::ArticulationTypeSet& types, const RenderingContext& ctx,
+void NoteArticulationsParser::appendArticulations(const mpe::ArticulationTypeSet& types,
+                                                  const RenderingContext& ctx,
                                                   mpe::ArticulationMap& result)
 {
     for (mpe::ArticulationType type : types) {

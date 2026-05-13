@@ -128,7 +128,8 @@ void PercussionPanelPadListModel::endPadSwap(int endIndex)
         emit padFocusRequested(endIndex);
     };
 
-    if (m_padSwapStartIndex == endIndex || !indexIsValid(m_padSwapStartIndex) || !indexIsValid(endIndex)) {
+    if (m_padSwapStartIndex == endIndex || !indexIsValid(m_padSwapStartIndex)
+        || !indexIsValid(endIndex)) {
         // Put everything back where it was...
         emit layoutChanged();
         endSwap();
@@ -157,7 +158,8 @@ void PercussionPanelPadListModel::setDrumset(const engraving::Drumset* drumset)
     removeEmptyRows();
 }
 
-mu::engraving::Drumset PercussionPanelPadListModel::constructDefaultLayout(const engraving::Drumset& defaultDrumset) const
+mu::engraving::Drumset PercussionPanelPadListModel::constructDefaultLayout(
+    const engraving::Drumset& defaultDrumset) const
 {
     //! NOTE: The idea of this method is take a "default" (template) drumset, find matching drums in the current drumset, and evaluate/return
     //! the default panel layout based on this information. The reason we can't simply revert to the default drumset in its entirety is that
@@ -177,7 +179,8 @@ mu::engraving::Drumset PercussionPanelPadListModel::constructDefaultLayout(const
             continue;
         }
         //! NOTE: Pitch + drum name isn't exactly the most robust identifier, but this will probably change with the new percussion ID system
-        if (!defaultDrumset.isValid(pitch) || defaultLayout.name(pitch) != defaultDrumset.name(pitch)) {
+        if (!defaultDrumset.isValid(pitch)
+            || defaultLayout.name(pitch) != defaultDrumset.name(pitch)) {
             // Drum is valid, but we can't find a template for it. Set the position chromatically later...
             noTemplateFound.emplaceBack(pitch);
             continue;
@@ -228,7 +231,8 @@ void PercussionPanelPadListModel::focusLastActivePad()
 int PercussionPanelPadListModel::nextAvailableIndex(int pitch) const
 {
     const int currentModelIndex = getModelIndexForPitch(pitch);
-    for (int candidateIndex = currentModelIndex + 1; candidateIndex != currentModelIndex; ++candidateIndex) {
+    for (int candidateIndex = currentModelIndex + 1; candidateIndex != currentModelIndex;
+         ++candidateIndex) {
         if (candidateIndex == m_padModels.size()) {
             // Wrap around
             candidateIndex = 0;
@@ -336,11 +340,13 @@ PercussionPanelPadModel* PercussionPanelPadListModel::createPadModelForPitch(int
     model->setKeyboardShortcut(m_drumset->shortcut(pitch));
     model->setPitch(pitch);
 
-    model->padActionTriggered().onReceive(this, [this, pitch](PercussionPanelPadModel::PadAction action) {
+    model->padActionTriggered().onReceive(this,
+                                          [this, pitch](PercussionPanelPadModel::PadAction action) {
         m_padActionRequestChannel.send(action, pitch);
     });
 
-    model->setNotationPreviewItem(PercussionUtilities(iocContext()).getDrumNoteForPreview(m_drumset, pitch));
+    model->setNotationPreviewItem(PercussionUtilities(iocContext()).getDrumNoteForPreview(m_drumset,
+                                                                                          pitch));
 
     return model;
 }
@@ -366,11 +372,14 @@ int PercussionPanelPadListModel::createModelIndexForPitch(int pitch) const
 
     const int modelIndex = panelRow * numColumns() + panelColumn;
 
-    const PercussionPanelPadModel* existingModel = modelIndex < m_padModels.size() ? m_padModels.at(modelIndex) : nullptr;
+    const PercussionPanelPadModel* existingModel = modelIndex < m_padModels.size() ? m_padModels.at(
+        modelIndex) : nullptr;
     IF_ASSERT_FAILED(!existingModel) {
         const int existingDrumPitch = existingModel->pitch();
-        LOGE() << "Percussion panel - error when trying to load pad for " << m_drumset->name(pitch) << "; pad for "
-               << m_drumset->name(existingDrumPitch) << " already exists at row " << panelRow << ", column " << panelColumn;
+        LOGE() << "Percussion panel - error when trying to load pad for " <<
+        m_drumset->name(pitch) << "; pad for "
+               << m_drumset->name(existingDrumPitch) << " already exists at row " << panelRow <<
+        ", column " << panelColumn;
         return -1;
     }
 
@@ -379,7 +388,8 @@ int PercussionPanelPadListModel::createModelIndexForPitch(int pitch) const
 
 muse::RetVal<muse::Val> PercussionPanelPadListModel::openPadSwapDialog()
 {
-    const bool moveMidiNotesAndShortcuts = configuration()->percussionPanelMoveMidiNotesAndShortcuts();
+    const bool moveMidiNotesAndShortcuts
+        = configuration()->percussionPanelMoveMidiNotesAndShortcuts();
 
     muse::UriQuery query("musescore://notation/percussionpanelpadswap?modal=true");
     query.addParam("moveMidiNotesAndShortcuts", muse::Val(moveMidiNotesAndShortcuts));

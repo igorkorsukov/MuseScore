@@ -225,7 +225,10 @@ public:
 
     constexpr Fraction operator+(const Fraction& v) const { return Fraction(*this) += v; }
     constexpr Fraction operator-(const Fraction& v) const { return Fraction(*this) -= v; }
-    constexpr Fraction operator-() const { return Fraction(static_cast<int>(-m_numerator), static_cast<int>(m_denominator)); }
+    constexpr Fraction operator-() const
+    {
+        return Fraction(static_cast<int>(-m_numerator), static_cast<int>(m_denominator));
+    }
     constexpr Fraction operator*(const Fraction& v) const { return Fraction(*this) *= v; }
     constexpr Fraction operator/(const Fraction& v) const { return Fraction(*this) /= v; }
     constexpr Fraction operator/(int v)             const { return Fraction(*this) /= v; }
@@ -241,7 +244,10 @@ public:
         // Constants::division * 4 - ticks per whole note
         // result: rounded (Constants::division * 4 * m_numerator * 1.0 / m_denominator) value
         const int sgn = (m_numerator < 0) ? -1 : 1;
-        const auto result = sgn * (static_cast<int_least64_t>(sgn * m_numerator) * Constants::DIVISION * 4 + (m_denominator / 2))
+        const auto result = sgn
+                            * (static_cast<int_least64_t>(sgn * m_numerator) * Constants::DIVISION
+                               * 4
+                               + (m_denominator / 2))
                             / m_denominator;
         return static_cast<int>(result);
     }
@@ -278,7 +284,10 @@ public:
         return Fraction(numerator, denominator);
     }
 
-    constexpr double toDouble() const { return static_cast<double>(m_numerator) / static_cast<double>(m_denominator); }
+    constexpr double toDouble() const
+    {
+        return static_cast<double>(m_numerator) / static_cast<double>(m_denominator);
+    }
 };
 
 constexpr Fraction operator*(const Fraction& f, int v) { return Fraction(f) *= v; }

@@ -41,7 +41,8 @@ class EditStringData : public muse::ui::WidgetDialog, private Ui::EditStringData
     muse::ContextInject<context::IGlobalContext> globalContext = { this };
 
 public:
-    EditStringData(QWidget* parent = nullptr, const std::vector<engraving::instrString>& strings = {}, int frets = 0);
+    EditStringData(QWidget* parent = nullptr,
+                   const std::vector<engraving::instrString>& strings = {}, int frets = 0);
 
     void componentComplete() override;
 

@@ -92,7 +92,8 @@ class Score;
 //   @P scores               array[mu::engraving::Score]  all currently open scores (read only)
 //---------------------------------------------------------
 
-class PluginAPI : public QQuickItem, public muse::extensions::apiv1::IPluginApiV1, public muse::Contextable
+class PluginAPI : public QQuickItem, public muse::extensions::apiv1::IPluginApiV1,
+    public muse::Contextable
 {
     Q_OBJECT
 
@@ -145,21 +146,25 @@ public:
     /// Contains mu::engraving::ElementType enumeration values
     DECLARE_API_ENUM(Element, elementTypeEnum, mu::engraving::apiv1::enums::ElementType)
     /// Contains mu::engraving::AccidentalType enumeration values
-    DECLARE_API_ENUM(Accidental,       accidentalTypeEnum,     mu::engraving::apiv1::enums::AccidentalType)
+    DECLARE_API_ENUM(Accidental,       accidentalTypeEnum,
+                     mu::engraving::apiv1::enums::AccidentalType)
     /// Contains mu::engraving::AccidentalBracket enumeration values
     /// \since MuseScore 4.6
-    DECLARE_API_ENUM(AccidentalBracket, accidentalBracketEnum, mu::engraving::apiv1::enums::AccidentalBracket)
+    DECLARE_API_ENUM(AccidentalBracket, accidentalBracketEnum,
+                     mu::engraving::apiv1::enums::AccidentalBracket)
     /// Contains mu::engraving::OrnamentStyle enumeration values
     /// \note In MuseScore 2.X this enumeration was available as
     /// MScore.DEFAULT, MScore.BAROQUE.
-    DECLARE_API_ENUM(OrnamentStyle,    ornamentStyleEnum,      mu::engraving::apiv1::enums::OrnamentStyle)
+    DECLARE_API_ENUM(OrnamentStyle,    ornamentStyleEnum,
+                     mu::engraving::apiv1::enums::OrnamentStyle)
     /// Contains mu::engraving::Align enumeration values
     /// \since MuseScore 3.3
     DECLARE_API_ENUM(Align,            alignEnum,              mu::engraving::apiv1::enums::Align)
     /// Contains mu::engraving::Placement enumeration values
     /// \note In MuseScore 2.X this enumeration was available as
     /// EngravingItem.ABOVE and EngravingItem.BELOW.
-    DECLARE_API_ENUM(Placement,        placementEnum,          mu::engraving::apiv1::enums::Placement)
+    DECLARE_API_ENUM(Placement,        placementEnum,
+                     mu::engraving::apiv1::enums::Placement)
     /// Contains mu::engraving::PlacementH enumeration values
     /// \since MuseScore 4.6
     DECLARE_API_ENUM(PlacementH, placementHEnum, mu::engraving::apiv1::enums::PlacementH)
@@ -182,10 +187,12 @@ public:
     DECLARE_API_ENUM(AutoOnOff, autoOnOffEnum, mu::engraving::apiv1::enums::AutoOnOff)
     /// Contains mu::engraving::AutoCustomHide enumeration values
     /// \since MuseScore 4.6
-    DECLARE_API_ENUM(AutoCustomHide, autoCustomHideEnum, mu::engraving::apiv1::enums::AutoCustomHide)
+    DECLARE_API_ENUM(AutoCustomHide, autoCustomHideEnum,
+                     mu::engraving::apiv1::enums::AutoCustomHide)
     /// Contains mu::engraving::VoiceAssignment enumeration values
     /// \since MuseScore 4.6
-    DECLARE_API_ENUM(VoiceAssignment, voiceAssignmentEnum, mu::engraving::apiv1::enums::VoiceAssignment)
+    DECLARE_API_ENUM(VoiceAssignment, voiceAssignmentEnum,
+                     mu::engraving::apiv1::enums::VoiceAssignment)
     /// Contains mu::engraving::SpacerType enumeration values
     /// \since MuseScore 4.6
     DECLARE_API_ENUM(SpacerType, spacerTypeEnum, mu::engraving::apiv1::enums::SpacerType)
@@ -197,7 +204,8 @@ public:
     /// Contains mu::engraving::ValueType enumeration values
     /// \note In MuseScore 2.X this enumeration was available as
     /// Note.OFFSET_VAL, Note.USER_VAL
-    DECLARE_API_ENUM(NoteValueType,    noteValueTypeEnum,      mu::engraving::apiv1::enums::VeloType)
+    DECLARE_API_ENUM(NoteValueType,    noteValueTypeEnum,
+                     mu::engraving::apiv1::enums::VeloType)
     /// Contains mu::engraving::BeamMode enumeration values
     DECLARE_API_ENUM(Beam, beamModeEnum, mu::engraving::apiv1::enums::BeamMode)
     /// Contains mu::engraving::GlissandoType enumeration values
@@ -206,13 +214,15 @@ public:
     /// \note In MuseScore 2.X this enumeration was available as
     /// MScore.CHROMATIC, MScore.WHITE_KEYS, MScore.BLACK_KEYS,
     /// MScore.DIATONIC.
-    DECLARE_API_ENUM(GlissandoStyle, glissandoStyleEnum, mu::engraving::apiv1::enums::GlissandoStyle)
+    DECLARE_API_ENUM(GlissandoStyle, glissandoStyleEnum,
+                     mu::engraving::apiv1::enums::GlissandoStyle)
     /// Contains mu::engraving::HarmonyType enumeration values
     /// \since MuseScore 3.5
     DECLARE_API_ENUM(HarmonyType, harmonyTypeEnum, mu::engraving::apiv1::enums::HarmonyType)
     /// Contains mu::engraving::HarmonyVoicing enumeration values
     /// \since MuseScore 4.6
-    DECLARE_API_ENUM(HarmonyVoicing, harmonyVoicingEnum, mu::engraving::apiv1::enums::HarmonyVoicing)
+    DECLARE_API_ENUM(HarmonyVoicing, harmonyVoicingEnum,
+                     mu::engraving::apiv1::enums::HarmonyVoicing)
     /// Contains mu::engraving::HDuration enumeration values
     /// \since MuseScore 4.6
     DECLARE_API_ENUM(HDuration, hDurationEnum, mu::engraving::apiv1::enums::HDuration)
@@ -221,20 +231,24 @@ public:
     DECLARE_API_ENUM(FrameType, frameTypeEnum, mu::engraving::apiv1::enums::FrameType)
     /// Contains mu::engraving::VerticalAlignment enumeration values
     /// \since MuseScore 4.6
-    DECLARE_API_ENUM(VerticalAlignment, verticalAlignmentEnum, mu::engraving::apiv1::enums::VerticalAlignment)
+    DECLARE_API_ENUM(VerticalAlignment, verticalAlignmentEnum,
+                     mu::engraving::apiv1::enums::VerticalAlignment)
     /// Contains mu::engraving::TremoloBarType enumeration values
     /// \since MuseScore 4.6
-    DECLARE_API_ENUM(TremoloBarType, tremoloBarTypeEnum, mu::engraving::apiv1::enums::TremoloBarType)
+    DECLARE_API_ENUM(TremoloBarType, tremoloBarTypeEnum,
+                     mu::engraving::apiv1::enums::TremoloBarType)
     /// Contains mu::engraving::PreferSharpFlat enumeration values
     /// \since MuseScore 4.6
-    DECLARE_API_ENUM(PreferSharpFlat, preferSharpFlatEnum, mu::engraving::apiv1::enums::PreferSharpFlat)
+    DECLARE_API_ENUM(PreferSharpFlat, preferSharpFlatEnum,
+                     mu::engraving::apiv1::enums::PreferSharpFlat)
     /// Contains mu::engraving::NoteHead::Type enumeration values
     /// \note In MuseScore 2.X this enumeration was available in
     /// NoteHead class (e.g. NoteHead.HEAD_QUARTER).
     DECLARE_API_ENUM(NoteHeadType, noteHeadTypeEnum, mu::engraving::apiv1::enums::NoteHeadType)
     /// Contains mu::engraving::NoteHeadScheme enumeration values
     /// \since MuseScore 3.5
-    DECLARE_API_ENUM(NoteHeadScheme, noteHeadSchemeEnum, mu::engraving::apiv1::enums::NoteHeadScheme)
+    DECLARE_API_ENUM(NoteHeadScheme, noteHeadSchemeEnum,
+                     mu::engraving::apiv1::enums::NoteHeadScheme)
     /// Contains mu::engraving::NoteHeadGroup enumeration values
     /// \note In MuseScore 2.X this enumeration was available in
     /// NoteHead class (e.g. NoteHead.HEAD_TRIANGLE).
@@ -246,7 +260,8 @@ public:
     /// \since MuseScore 3.3
     DECLARE_API_ENUM(PlayEventType, playEventTypeEnum, mu::engraving::apiv1::enums::PlayEventType)
     /// Contains mu::engraving::SegmentType enumeration values
-    DECLARE_API_ENUM(Segment,          segmentTypeEnum,        mu::engraving::apiv1::enums::SegmentType)
+    DECLARE_API_ENUM(Segment,          segmentTypeEnum,
+                     mu::engraving::apiv1::enums::SegmentType)
     /// Contains mu::engraving::BarLineType enumeration values
     /// \since MuseScore 4.6
     DECLARE_API_ENUM(BarLineType, barLineTypeEnum, mu::engraving::apiv1::enums::BarLineType)
@@ -260,28 +275,35 @@ public:
     DECLARE_API_ENUM(Spanner,          spannerAnchorEnum,      mu::engraving::apiv1::enums::Anchor)           // probably unavailable in 2.X
     /// Contains mu::engraving::MMRestRangeBracketType enumeration values
     /// \since MuseScore 4.6
-    DECLARE_API_ENUM(MMRestRangeBracketType, mMRestRangeBracketTypeEnum, mu::engraving::apiv1::enums::MMRestRangeBracketType)
+    DECLARE_API_ENUM(MMRestRangeBracketType, mMRestRangeBracketTypeEnum,
+                     mu::engraving::apiv1::enums::MMRestRangeBracketType)
     /// Contains mu::engraving::TupletNumberType enumeration values
     /// \since MuseScore 4.6
-    DECLARE_API_ENUM(TupletNumberType, tupletNumberTypeEnum, mu::engraving::apiv1::enums::TupletNumberType)
+    DECLARE_API_ENUM(TupletNumberType, tupletNumberTypeEnum,
+                     mu::engraving::apiv1::enums::TupletNumberType)
     /// Contains mu::engraving::TupletBracketType enumeration values
     /// \since MuseScore 4.6
-    DECLARE_API_ENUM(TupletBracketType, tupletBracketTypeEnum, mu::engraving::apiv1::enums::TupletBracketType)
+    DECLARE_API_ENUM(TupletBracketType, tupletBracketTypeEnum,
+                     mu::engraving::apiv1::enums::TupletBracketType)
     /// Contains mu::engraving::TripletFeelType enumeration values
     /// \since MuseScore 4.6
-    DECLARE_API_ENUM(TripletFeelType, tripletFeelTypeEnum, mu::engraving::apiv1::enums::TripletFeelType)
+    DECLARE_API_ENUM(TripletFeelType, tripletFeelTypeEnum,
+                     mu::engraving::apiv1::enums::TripletFeelType)
     /// Contains mu::engraving::GuitarBendType enumeration values
     /// \since MuseScore 4.6
-    DECLARE_API_ENUM(GuitarBendType, guitarBendTypeEnum, mu::engraving::apiv1::enums::GuitarBendType)
+    DECLARE_API_ENUM(GuitarBendType, guitarBendTypeEnum,
+                     mu::engraving::apiv1::enums::GuitarBendType)
     /// Contains mu::engraving::GuitarBendShowHoldLine enumeration values
     /// \since MuseScore 4.6
-    DECLARE_API_ENUM(GuitarBendShowHoldLine, guitarBendShowHoldLineEnum, mu::engraving::apiv1::enums::GuitarBendShowHoldLine)
+    DECLARE_API_ENUM(GuitarBendShowHoldLine, guitarBendShowHoldLineEnum,
+                     mu::engraving::apiv1::enums::GuitarBendShowHoldLine)
     /// Contains mu::engraving::ClefType enumeration values
     /// \since MuseScore 4.6
     DECLARE_API_ENUM(ClefType, clefTypeEnum, mu::engraving::apiv1::enums::ClefType)
     /// Contains mu::engraving::ClefToBarlinePosition enumeration values
     /// \since MuseScore 4.6
-    DECLARE_API_ENUM(ClefToBarlinePosition, clefToBarlinePositionEnum, mu::engraving::apiv1::enums::ClefToBarlinePosition)
+    DECLARE_API_ENUM(ClefToBarlinePosition, clefToBarlinePositionEnum,
+                     mu::engraving::apiv1::enums::ClefToBarlinePosition)
     /// Contains mu::engraving::DynamicType enumeration values
     /// \since MuseScore 4.6
     DECLARE_API_ENUM(DynamicType, dynamicTypeEnum, mu::engraving::apiv1::enums::DynamicType)
@@ -308,31 +330,39 @@ public:
     DECLARE_API_ENUM(IntervalType, intervalTypeEnum, mu::engraving::apiv1::enums::IntervalType)
     /// Contains mu::engraving::InstrumentLabelVisibility enumeration values
     /// \since MuseScore 4.6
-    DECLARE_API_ENUM(InstrumentLabelVisibility, instrumentLabelVisibilityEnum, mu::engraving::apiv1::enums::InstrumentLabelVisibility)
+    DECLARE_API_ENUM(InstrumentLabelVisibility, instrumentLabelVisibilityEnum,
+                     mu::engraving::apiv1::enums::InstrumentLabelVisibility)
     /// Contains mu::engraving::OrnamentShowAccidental enumeration values
     /// \since MuseScore 4.6
-    DECLARE_API_ENUM(OrnamentShowAccidental, ornamentShowAccidentalEnum, mu::engraving::apiv1::enums::OrnamentShowAccidental)
+    DECLARE_API_ENUM(OrnamentShowAccidental, ornamentShowAccidentalEnum,
+                     mu::engraving::apiv1::enums::OrnamentShowAccidental)
     /// Contains mu::engraving::PartialSpannerDirection enumeration values
     /// \since MuseScore 4.6
-    DECLARE_API_ENUM(PartialSpannerDirection, partialSpannerDirectionEnum, mu::engraving::apiv1::enums::PartialSpannerDirection)
+    DECLARE_API_ENUM(PartialSpannerDirection, partialSpannerDirectionEnum,
+                     mu::engraving::apiv1::enums::PartialSpannerDirection)
     /// Contains mu::engraving::ChordStylePreset enumeration values
     /// \since MuseScore 4.6
-    DECLARE_API_ENUM(ChordStylePreset, chordStylePresetEnum, mu::engraving::apiv1::enums::ChordStylePreset)
+    DECLARE_API_ENUM(ChordStylePreset, chordStylePresetEnum,
+                     mu::engraving::apiv1::enums::ChordStylePreset)
     /// Contains mu::engraving::PlayingTechniqueType enumeration values
     /// \since MuseScore 4.6
-    DECLARE_API_ENUM(PlayingTechniqueType, playingTechniqueTypeEnum, mu::engraving::apiv1::enums::PlayingTechniqueType)
+    DECLARE_API_ENUM(PlayingTechniqueType, playingTechniqueTypeEnum,
+                     mu::engraving::apiv1::enums::PlayingTechniqueType)
     /// Contains mu::engraving::GradualTempoChangeType enumeration values
     /// \since MuseScore 4.6
-    DECLARE_API_ENUM(GradualTempoChangeType, gradualTempoChangeTypeEnum, mu::engraving::apiv1::enums::GradualTempoChangeType)
+    DECLARE_API_ENUM(GradualTempoChangeType, gradualTempoChangeTypeEnum,
+                     mu::engraving::apiv1::enums::GradualTempoChangeType)
     /// Contains mu::engraving::ChangeMethod enumeration values
     /// \since MuseScore 4.6
     DECLARE_API_ENUM(ChangeMethod, changeMethodEnum, mu::engraving::apiv1::enums::ChangeMethod)
     /// Contains mu::engraving::ChangeDirection enumeration values
     /// \since MuseScore 4.6
-    DECLARE_API_ENUM(ChangeDirection, changeDirectionEnum, mu::engraving::apiv1::enums::ChangeDirection)
+    DECLARE_API_ENUM(ChangeDirection, changeDirectionEnum,
+                     mu::engraving::apiv1::enums::ChangeDirection)
     /// Contains mu::engraving::AccidentalRole enumeration values
     /// \since MuseScore 4.6
-    DECLARE_API_ENUM(AccidentalRole, accidentalRoleEnum, mu::engraving::apiv1::enums::AccidentalRole)
+    DECLARE_API_ENUM(AccidentalRole, accidentalRoleEnum,
+                     mu::engraving::apiv1::enums::AccidentalRole)
     /// Contains mu::engraving::AccidentalVal enumeration values
     /// \since MuseScore 4.6
     DECLARE_API_ENUM(AccidentalVal, accidentalValEnum, mu::engraving::apiv1::enums::AccidentalVal)
@@ -350,7 +380,8 @@ public:
     DECLARE_API_ENUM(TremoloType, tremoloTypeEnum, mu::engraving::apiv1::enums::TremoloType)
     /// Contains mu::engraving::TremoloChordType enumeration values
     /// \since MuseScore 4.6
-    DECLARE_API_ENUM(TremoloChordType, tremoloChordTypeEnum, mu::engraving::apiv1::enums::TremoloChordType)
+    DECLARE_API_ENUM(TremoloChordType, tremoloChordTypeEnum,
+                     mu::engraving::apiv1::enums::TremoloChordType)
     /// Contains mu::engraving::BracketType enumeration values
     /// \since MuseScore 4.6
     DECLARE_API_ENUM(BracketType, bracketTypeEnum, mu::engraving::apiv1::enums::BracketType)
@@ -362,7 +393,8 @@ public:
     DECLARE_API_ENUM(MarkerType, markerTypeEnum, mu::engraving::apiv1::enums::MarkerType)
     /// Contains mu::engraving::MeasureNumberMode enumeration values
     /// \since MuseScore 4.6
-    DECLARE_API_ENUM(MeasureNumberMode, measureNumberModeEnum, mu::engraving::apiv1::enums::MeasureNumberMode)
+    DECLARE_API_ENUM(MeasureNumberMode, measureNumberModeEnum,
+                     mu::engraving::apiv1::enums::MeasureNumberMode)
     /// Contains mu::engraving::StaffGroup enumeration values
     /// \since MuseScore 4.6
     DECLARE_API_ENUM(StaffGroup, staffGroupEnum, mu::engraving::apiv1::enums::StaffGroup)
@@ -380,37 +412,45 @@ public:
     DECLARE_API_ENUM(VibratoType, vibratoTypeEnum, mu::engraving::apiv1::enums::VibratoType)
     /// Contains mu::engraving::ArticulationTextType enumeration values
     /// \since MuseScore 4.6
-    DECLARE_API_ENUM(ArticulationTextType, articulationTextTypeEnum, mu::engraving::apiv1::enums::ArticulationTextType)
+    DECLARE_API_ENUM(ArticulationTextType, articulationTextTypeEnum,
+                     mu::engraving::apiv1::enums::ArticulationTextType)
     /// Contains mu::engraving::LyricsDashSystemStart enumeration values
     /// \since MuseScore 4.6
-    DECLARE_API_ENUM(LyricsDashSystemStart, lyricsDashSystemStartEnum, mu::engraving::apiv1::enums::LyricsDashSystemStart)
+    DECLARE_API_ENUM(LyricsDashSystemStart, lyricsDashSystemStartEnum,
+                     mu::engraving::apiv1::enums::LyricsDashSystemStart)
     /// Contains mu::engraving::NoteLineEndPlacement enumeration values
     /// \since MuseScore 4.6
-    DECLARE_API_ENUM(NoteLineEndPlacement, noteLineEndPlacementEnum, mu::engraving::apiv1::enums::NoteLineEndPlacement)
+    DECLARE_API_ENUM(NoteLineEndPlacement, noteLineEndPlacementEnum,
+                     mu::engraving::apiv1::enums::NoteLineEndPlacement)
     /// Contains mu::engraving::SpannerSegmentType enumeration values
     /// \since MuseScore 4.6
-    DECLARE_API_ENUM(SpannerSegmentType, spannerSegmentTypeEnum, mu::engraving::apiv1::enums::SpannerSegmentType)
+    DECLARE_API_ENUM(SpannerSegmentType, spannerSegmentTypeEnum,
+                     mu::engraving::apiv1::enums::SpannerSegmentType)
     /// Contains mu::engraving::TiePlacement enumeration values
     /// \since MuseScore 4.6
     DECLARE_API_ENUM(TiePlacement, tiePlacementEnum, mu::engraving::apiv1::enums::TiePlacement)
     /// Contains mu::engraving::TieDotsPlacement enumeration values
     /// \since MuseScore 4.6
-    DECLARE_API_ENUM(TieDotsPlacement, tieDotsPlacementEnum, mu::engraving::apiv1::enums::TieDotsPlacement)
+    DECLARE_API_ENUM(TieDotsPlacement, tieDotsPlacementEnum,
+                     mu::engraving::apiv1::enums::TieDotsPlacement)
     /// Contains mu::engraving::TimeSigType enumeration values
     /// \since MuseScore 4.6
     DECLARE_API_ENUM(TimeSigType, timeSigTypeEnum, mu::engraving::apiv1::enums::TimeSigType)
     /// Contains mu::engraving::TimeSigPlacement enumeration values
     /// \since MuseScore 4.6
-    DECLARE_API_ENUM(TimeSigPlacement, timeSigPlacementEnum, mu::engraving::apiv1::enums::TimeSigPlacement)
+    DECLARE_API_ENUM(TimeSigPlacement, timeSigPlacementEnum,
+                     mu::engraving::apiv1::enums::TimeSigPlacement)
     /// Contains mu::engraving::TimeSigStyle enumeration values
     /// \since MuseScore 4.6
     DECLARE_API_ENUM(TimeSigStyle, timeSigStyleEnum, mu::engraving::apiv1::enums::TimeSigStyle)
     /// Contains mu::engraving::TimeSigVSMargin enumeration values
     /// \since MuseScore 4.6
-    DECLARE_API_ENUM(TimeSigVSMargin, timeSigVSMarginEnum, mu::engraving::apiv1::enums::TimeSigVSMargin)
+    DECLARE_API_ENUM(TimeSigVSMargin, timeSigVSMarginEnum,
+                     mu::engraving::apiv1::enums::TimeSigVSMargin)
     /// Contains mu::engraving::NoteSpellingType enumeration values
     /// \since MuseScore 4.6
-    DECLARE_API_ENUM(NoteSpellingType, noteSpellingTypeEnum, mu::engraving::apiv1::enums::NoteSpellingType)
+    DECLARE_API_ENUM(NoteSpellingType, noteSpellingTypeEnum,
+                     mu::engraving::apiv1::enums::NoteSpellingType)
     /// Contains mu::engraving::Key enumeration values
     /// \since MuseScore 4.6
     DECLARE_API_ENUM(Key, keyEnum, mu::engraving::apiv1::enums::Key)
@@ -428,22 +468,28 @@ public:
     DECLARE_API_ENUM(TappingHand, tappingHandEnum, mu::engraving::apiv1::enums::TappingHand)
     /// Contains mu::engraving::LHTappingSymbol enumeration values
     /// \since MuseScore 4.6
-    DECLARE_API_ENUM(LHTappingSymbol, lHTappingSymbolEnum, mu::engraving::apiv1::enums::LHTappingSymbol)
+    DECLARE_API_ENUM(LHTappingSymbol, lHTappingSymbolEnum,
+                     mu::engraving::apiv1::enums::LHTappingSymbol)
     /// Contains mu::engraving::RHTappingSymbol enumeration values
     /// \since MuseScore 4.6
-    DECLARE_API_ENUM(RHTappingSymbol, rHTappingSymbolEnum, mu::engraving::apiv1::enums::RHTappingSymbol)
+    DECLARE_API_ENUM(RHTappingSymbol, rHTappingSymbolEnum,
+                     mu::engraving::apiv1::enums::RHTappingSymbol)
     /// Contains mu::engraving::LHTappingShowItems enumeration values
     /// \since MuseScore 4.6
-    DECLARE_API_ENUM(LHTappingShowItems, lHTappingShowItemsEnum, mu::engraving::apiv1::enums::LHTappingShowItems)
+    DECLARE_API_ENUM(LHTappingShowItems, lHTappingShowItemsEnum,
+                     mu::engraving::apiv1::enums::LHTappingShowItems)
     /// Contains mu::engraving::ParenthesesMode enumeration values
     /// \since MuseScore 4.6
-    DECLARE_API_ENUM(ParenthesesMode, parenthesesModeEnum, mu::engraving::apiv1::enums::ParenthesesMode)
+    DECLARE_API_ENUM(ParenthesesMode, parenthesesModeEnum,
+                     mu::engraving::apiv1::enums::ParenthesesMode)
     /// Contains mu::engraving::RepeatPlayCountPreset enumeration values
     /// \since MuseScore 4.6
-    DECLARE_API_ENUM(RepeatPlayCountPreset, repeatPlayCountPresetEnum, mu::engraving::apiv1::enums::RepeatPlayCountPreset)
+    DECLARE_API_ENUM(RepeatPlayCountPreset, repeatPlayCountPresetEnum,
+                     mu::engraving::apiv1::enums::RepeatPlayCountPreset)
     /// Contains mu::engraving::MeasureNumberPlacement enumeration values
     /// \since MuseScore 4.6
-    DECLARE_API_ENUM(MeasureNumberPlacement, measureNumberPlacementEnum, mu::engraving::apiv1::enums::MeasureNumberPlacement)
+    DECLARE_API_ENUM(MeasureNumberPlacement, measureNumberPlacementEnum,
+                     mu::engraving::apiv1::enums::MeasureNumberPlacement)
     /// Contains mu::engraving::SymId enumeration values
     /// \since MuseScore 3.5
     DECLARE_API_ENUM(SymId, symIdEnum, mu::engraving::apiv1::enums::SymId)
@@ -551,7 +597,8 @@ public:
     Q_INVOKABLE apiv1::OrnamentIntervalWrapper* ornamentInterval(int step, int type) const;
 
     Q_INVOKABLE apiv1::IntervalWrapper* interval(int chromatic, int diatonic) const;
-    Q_INVOKABLE apiv1::IntervalWrapper* intervalFromOrnamentInterval(apiv1::OrnamentIntervalWrapper* o) const;
+    Q_INVOKABLE apiv1::IntervalWrapper* intervalFromOrnamentInterval(
+        apiv1::OrnamentIntervalWrapper* o) const;
 
     Q_INVOKABLE void quit();
 

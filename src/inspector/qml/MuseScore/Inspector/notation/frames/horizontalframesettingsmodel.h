@@ -35,11 +35,16 @@ class HorizontalFrameSettingsModel : public AbstractInspectorModel
     Q_PROPERTY(mu::inspector::PropertyItem * frameWidth READ frameWidth CONSTANT)
     Q_PROPERTY(mu::inspector::PropertyItem * leftGap READ leftGap CONSTANT)
     Q_PROPERTY(mu::inspector::PropertyItem * rightGap READ rightGap CONSTANT)
-    Q_PROPERTY(mu::inspector::PropertyItem * shouldDisplayKeysAndBrackets READ shouldDisplayKeysAndBrackets CONSTANT)
-    Q_PROPERTY(mu::inspector::PropertyItem * isSizeSpatiumDependent READ isSizeSpatiumDependent CONSTANT)
+    Q_PROPERTY(
+        mu::inspector::PropertyItem
+        * shouldDisplayKeysAndBrackets READ shouldDisplayKeysAndBrackets CONSTANT)
+    Q_PROPERTY(
+        mu::inspector::PropertyItem
+        * isSizeSpatiumDependent READ isSizeSpatiumDependent CONSTANT)
 
 public:
-    explicit HorizontalFrameSettingsModel(QObject* parent, const muse::modularity::ContextPtr& iocCtx,
+    explicit HorizontalFrameSettingsModel(QObject* parent,
+                                          const muse::modularity::ContextPtr& iocCtx,
                                           IElementRepositoryService* repository);
 
     PropertyItem* frameWidth() const;

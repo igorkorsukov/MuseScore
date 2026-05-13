@@ -156,10 +156,12 @@ INotationSelectionFilterPtr AbstractSelectionFilterModel::currentNotationSelecti
 
 bool AbstractSelectionFilterModel::isFiltered(const SelectionFilterTypesVariant& variant) const
 {
-    return currentNotationSelectionFilter() ? currentNotationSelectionFilter()->isSelectionTypeFiltered(variant) : false;
+    return currentNotationSelectionFilter() ? currentNotationSelectionFilter()->
+           isSelectionTypeFiltered(variant) : false;
 }
 
-void AbstractSelectionFilterModel::setFiltered(const SelectionFilterTypesVariant& variant, bool filtered)
+void AbstractSelectionFilterModel::setFiltered(const SelectionFilterTypesVariant& variant,
+                                               bool filtered)
 {
     if (currentNotationSelectionFilter()) {
         currentNotationSelectionFilter()->setSelectionTypeFiltered(variant, filtered);
@@ -196,10 +198,12 @@ void AbstractSelectionFilterModel::onNotationChanged()
     }, Asyncable::Mode::SetReplace /* FIXME */);
 }
 
-void AbstractSelectionFilterModel::notifyAboutDataChanged(const QModelIndex& index, const SelectionFilterTypesVariant& variant)
+void AbstractSelectionFilterModel::notifyAboutDataChanged(const QModelIndex& index,
+                                                          const SelectionFilterTypesVariant& variant)
 {
     if (variant == getAllMask()) {
-        emit dataChanged(this->index(0), this->index(rowCount() - 1), { IsSelectedRole, IsIndeterminateRole });
+        emit dataChanged(this->index(0), this->index(rowCount() - 1),
+                         { IsSelectedRole, IsIndeterminateRole });
         emit maskStatesChanged();
         return;
     }

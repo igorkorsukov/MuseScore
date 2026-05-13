@@ -32,8 +32,10 @@ using namespace mu::inspector;
 
 using IconCode = muse::ui::IconCode::Code;
 
-HairpinLineSettingsModel::HairpinLineSettingsModel(QObject* parent, const muse::modularity::ContextPtr& iocCtx,
-                                                   IElementRepositoryService* repository, HairpinLineType lineType)
+HairpinLineSettingsModel::HairpinLineSettingsModel(QObject* parent,
+                                                   const muse::modularity::ContextPtr& iocCtx,
+                                                   IElementRepositoryService* repository,
+                                                   HairpinLineType lineType)
     : TextLineSettingsModel(parent, iocCtx, repository)
 {
     if (lineType == Diminuendo) {
@@ -46,7 +48,9 @@ HairpinLineSettingsModel::HairpinLineSettingsModel(QObject* parent, const muse::
         setIcon(muse::ui::IconCode::Code::CRESCENDO);
     }
 
-    m_hairpinType = lineType == Crescendo ? engraving::HairpinType::CRESC_LINE : engraving::HairpinType::DIM_LINE;
+    m_hairpinType = lineType
+                    == Crescendo ? engraving::HairpinType::CRESC_LINE : engraving::HairpinType::
+                    DIM_LINE;
 
     createProperties();
 }
@@ -91,7 +95,9 @@ void HairpinLineSettingsModel::resetProperties()
 
 void HairpinLineSettingsModel::requestElements()
 {
-    m_elementList = m_repository->findElementsByType(mu::engraving::ElementType::HAIRPIN, [this](const mu::engraving::EngravingItem* element) -> bool {
+    m_elementList
+        = m_repository->findElementsByType(mu::engraving::ElementType::HAIRPIN,
+                                           [this](const mu::engraving::EngravingItem* element) -> bool {
         const mu::engraving::Hairpin* hairpin = mu::engraving::toHairpin(
             element);
 

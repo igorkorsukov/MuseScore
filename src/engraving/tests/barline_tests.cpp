@@ -349,7 +349,8 @@ TEST_F(Engraving_BarlineTests, barline179726)
 
     // drop NORMAL onto END_START_REPEAT will turn into NORMAL
     dropNormalBarline(m->findSegment(SegmentType::EndBarLine, m->endTick())->element(0));
-    BarLine* bar = static_cast<BarLine*>(m->findSegment(SegmentType::EndBarLine, m->endTick())->element(0));
+    BarLine* bar
+        = static_cast<BarLine*>(m->findSegment(SegmentType::EndBarLine, m->endTick())->element(0));
     EXPECT_TRUE(bar);
     EXPECT_EQ(bar->barLineType(), BarLineType::NORMAL);
 
@@ -364,7 +365,9 @@ TEST_F(Engraving_BarlineTests, barline179726)
     m = m->nextMeasure();
 
     // but leave START_REPEAT at the beginning of the newline
-    bar = static_cast<BarLine*>(m->findSegment(SegmentType::StartRepeatBarLine, m->tick())->element(0));
+    bar
+        = static_cast<BarLine*>(m->findSegment(SegmentType::StartRepeatBarLine,
+                                               m->tick())->element(0));
     EXPECT_TRUE(bar);
 
     // drop NORMAL onto the meas ending with an END_START_REPEAT straddling a newline will turn into NORMAL at the end of this meas
@@ -382,14 +385,17 @@ TEST_F(Engraving_BarlineTests, barline179726)
     EXPECT_EQ(m->findSegment(SegmentType::StartRepeatBarLine, m->tick()), nullptr);
 
     // but leave END_REPEAT at the end of previous line
-    bar = static_cast<BarLine*>(m->prevMeasure()->findSegment(SegmentType::EndBarLine, m->tick())->element(0));
+    bar
+        = static_cast<BarLine*>(m->prevMeasure()->findSegment(SegmentType::EndBarLine,
+                                                              m->tick())->element(0));
     EXPECT_TRUE(bar);
     EXPECT_EQ(bar->barLineType(), BarLineType::END_REPEAT);
 
     for (int i = 0; i < 4; i++, m = m->nextMeasure()) {
         // drop NORMAL onto END_REPEAT, BROKEN, DOTTED, DOUBLE at the end of this meas will turn into NORMAL
         dropNormalBarline(m->findSegment(SegmentType::EndBarLine, m->endTick())->element(0));
-        bar = static_cast<BarLine*>(m->findSegment(SegmentType::EndBarLine, m->endTick())->element(0));
+        bar = static_cast<BarLine*>(m->findSegment(SegmentType::EndBarLine, m->endTick())->element(
+                                        0));
         EXPECT_TRUE(bar);
         EXPECT_EQ(bar->barLineType(), BarLineType::NORMAL);
     }
@@ -427,7 +433,8 @@ TEST_F(Engraving_BarlineTests, deleteSkipBarlines)
 
     score->doLayout();
 
-    EXPECT_TRUE(ScoreComp::saveCompareScore(score, String("barlinedelete.mscx"), BARLINE_DATA_DIR + String("barlinedelete-ref.mscx")));
+    EXPECT_TRUE(ScoreComp::saveCompareScore(score, String("barlinedelete.mscx"),
+                                            BARLINE_DATA_DIR + String("barlinedelete-ref.mscx")));
 
     delete score;
 }

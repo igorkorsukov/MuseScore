@@ -39,7 +39,8 @@
 #include "context/iglobalcontext.h"
 
 namespace mu::notation {
-class AbstractStyleDialogModel : public QObject, public muse::Contextable, public muse::async::Asyncable
+class AbstractStyleDialogModel : public QObject, public muse::Contextable,
+    public muse::async::Asyncable
 {
     Q_OBJECT
     QML_ELEMENT;

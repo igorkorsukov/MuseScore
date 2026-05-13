@@ -42,7 +42,8 @@
 
 using namespace mu::engraving;
 
-static void doCloneVoice(Score* destScore, track_idx_t srcTrack, track_idx_t dstTrack, Segment* sourceSeg, const Fraction& lTick,
+static void doCloneVoice(Score* destScore, track_idx_t srcTrack, track_idx_t dstTrack,
+                         Segment* sourceSeg, const Fraction& lTick,
                          bool link = true)
 {
     Score* sourceScore = sourceSeg->score();
@@ -134,7 +135,8 @@ static void doCloneVoice(Score* destScore, track_idx_t srcTrack, track_idx_t dst
                     Note* nn = newChord->notes().at(i);
                     staff_idx_t idx = track2staff(dstTrack);
                     Fraction tick = oseg->tick();
-                    Interval v = destScore->staff(idx) ? destScore->staff(idx)->transpose(tick) : Interval();
+                    Interval v
+                        = destScore->staff(idx) ? destScore->staff(idx)->transpose(tick) : Interval();
                     nn->setTpc1(on->tpc1());
                     if (v.isZero()) {
                         nn->setTpc2(on->tpc1());
@@ -181,7 +183,9 @@ static void doCloneVoice(Score* destScore, track_idx_t srcTrack, track_idx_t dst
                         if (tremolo) {
                             LOGD("unconnected two note tremolo");
                         }
-                        tremolo = item_cast<TremoloTwoChord*>(maybeLinkedClone(oldChord->tremoloTwoChord()));
+                        tremolo
+                            = item_cast<TremoloTwoChord*>(maybeLinkedClone(
+                                                              oldChord->tremoloTwoChord()));
                         tremolo->setScore(newChord->score());
                         tremolo->setParent(newChord);
                         tremolo->setTrack(newChord->track());
@@ -263,7 +267,9 @@ static void doCloneVoice(Score* destScore, track_idx_t srcTrack, track_idx_t dst
     }
 
     // Find and add corresponding slurs and hairpins
-    static const std::set<ElementType> SPANNERS_TO_COPY { ElementType::SLUR, ElementType::HAMMER_ON_PULL_OFF, ElementType::HAIRPIN };
+    static const std::set<ElementType> SPANNERS_TO_COPY { ElementType::SLUR,
+                                                          ElementType::HAMMER_ON_PULL_OFF,
+                                                          ElementType::HAIRPIN };
     auto spanners = sourceScore->spannerMap().findOverlapping(start.ticks(), lTick.ticks());
     for (auto i = spanners.begin(); i < spanners.end(); i++) {
         Spanner* sp      = i->value;
@@ -293,7 +299,8 @@ static void doCloneVoice(Score* destScore, track_idx_t srcTrack, track_idx_t dst
                     if (cr == cr1) {
                         continue;
                     }
-                    if ((cr->score() == destScore) && (cr->tick() == ns->tick()) && cr->track() == dstTrack) {
+                    if ((cr->score() == destScore) && (cr->tick() == ns->tick())
+                        && cr->track() == dstTrack) {
                         ns->setStartElement(cr);
                         break;
                     }
@@ -305,7 +312,8 @@ static void doCloneVoice(Score* destScore, track_idx_t srcTrack, track_idx_t dst
                     if (cr == cr2) {
                         continue;
                     }
-                    if ((cr->score() == destScore) && (cr->tick() == ns->tick2()) && cr->track() == dstTrack) {
+                    if ((cr->score() == destScore) && (cr->tick() == ns->tick2())
+                        && cr->track() == dstTrack) {
                         ns->setEndElement(cr);
                         break;
                     }
@@ -358,7 +366,8 @@ void CloneVoice::cloneVoice(
             for (EngravingItem* annotation : annotations) {
                 if (annotation && annotation->track() == strack) {
                     if (annotation->hasVoiceAssignmentProperties()) {
-                        VoiceAssignment voiceAssignment = annotation->getProperty(Pid::VOICE_ASSIGNMENT).value<VoiceAssignment>();
+                        VoiceAssignment voiceAssignment = annotation->getProperty(
+                            Pid::VOICE_ASSIGNMENT).value<VoiceAssignment>();
                         if (voiceAssignment != VoiceAssignment::CURRENT_VOICE_ONLY) {
                             continue;
                         }

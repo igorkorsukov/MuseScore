@@ -57,7 +57,8 @@ std::string AppShellModule::moduleName() const
 void AppShellModule::registerExports()
 {
     m_applicationActionController = std::make_shared<ApplicationActionController>(globalCtx());
-    m_applicationUiActions = std::make_shared<ApplicationUiActions>(m_applicationActionController, globalCtx());
+    m_applicationUiActions = std::make_shared<ApplicationUiActions>(m_applicationActionController,
+                                                                    globalCtx());
     m_appShellConfiguration = std::make_shared<AppShellConfiguration>(globalCtx());
 
     globalIoc()->registerExport<IAppShellConfiguration>(moduleName(), m_appShellConfiguration);

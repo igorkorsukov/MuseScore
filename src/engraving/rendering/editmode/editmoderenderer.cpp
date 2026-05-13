@@ -35,7 +35,8 @@ using namespace mu::engraving::rendering::editmode;
 using namespace mu::engraving;
 using namespace muse::draw;
 
-void EditModeRenderer::drawItem(const EngravingItem* item, muse::draw::Painter* painter, const EditData& ed, double currentViewScaling,
+void EditModeRenderer::drawItem(const EngravingItem* item, muse::draw::Painter* painter,
+                                const EditData& ed, double currentViewScaling,
                                 const PaintOptions& opt)
 {
     switch (item->type()) {
@@ -76,7 +77,8 @@ void EditModeRenderer::drawItem(const EngravingItem* item, muse::draw::Painter* 
         drawTextBase(item_cast<const TextBase*>(item), painter, ed, currentViewScaling, opt);
         break;
     case ElementType::LAISSEZ_VIB_SEGMENT:
-        drawSlurTieSegment(item_cast<const SlurTieSegment*>(item), painter, ed, currentViewScaling, opt);
+        drawSlurTieSegment(item_cast<const SlurTieSegment*>(
+                               item), painter, ed, currentViewScaling, opt);
         break;
     case ElementType::LYRICS:
         drawTextBase(item_cast<const TextBase*>(item), painter, ed, currentViewScaling, opt);
@@ -91,7 +93,8 @@ void EditModeRenderer::drawItem(const EngravingItem* item, muse::draw::Painter* 
         drawTextBase(item_cast<const TextBase*>(item), painter, ed, currentViewScaling, opt);
         break;
     case ElementType::PARTIAL_TIE_SEGMENT:
-        drawSlurTieSegment(item_cast<const SlurTieSegment*>(item), painter, ed, currentViewScaling, opt);
+        drawSlurTieSegment(item_cast<const SlurTieSegment*>(
+                               item), painter, ed, currentViewScaling, opt);
         break;
     case ElementType::PLAY_COUNT_TEXT:
         drawTextBase(item_cast<const TextBase*>(item), painter, ed, currentViewScaling, opt);
@@ -106,7 +109,8 @@ void EditModeRenderer::drawItem(const EngravingItem* item, muse::draw::Painter* 
     case ElementType::TIE_SEGMENT:
     case ElementType::HAMMER_ON_PULL_OFF_SEGMENT:
     case ElementType::TAPPING_HALF_SLUR_SEGMENT:
-        drawSlurTieSegment(item_cast<const SlurTieSegment*>(item), painter, ed, currentViewScaling, opt);
+        drawSlurTieSegment(item_cast<const SlurTieSegment*>(
+                               item), painter, ed, currentViewScaling, opt);
         break;
     case ElementType::STAFF_TEXT:
         drawTextBase(item_cast<const TextBase*>(item), painter, ed, currentViewScaling, opt);
@@ -134,7 +138,8 @@ void EditModeRenderer::drawItem(const EngravingItem* item, muse::draw::Painter* 
     }
 }
 
-void EditModeRenderer::drawEngravingItem(const EngravingItem* item, muse::draw::Painter* painter, const EditData& ed,
+void EditModeRenderer::drawEngravingItem(const EngravingItem* item, muse::draw::Painter* painter,
+                                         const EditData& ed,
                                          double currentViewScaling, const PaintOptions& opt)
 {
     UNUSED(currentViewScaling);
@@ -153,7 +158,8 @@ void EditModeRenderer::drawEngravingItem(const EngravingItem* item, muse::draw::
     }
 }
 
-void EditModeRenderer::drawBarline(const BarLine* item, muse::draw::Painter* painter, const EditData& ed, double currentViewScaling,
+void EditModeRenderer::drawBarline(const BarLine* item, muse::draw::Painter* painter,
+                                   const EditData& ed, double currentViewScaling,
                                    const PaintOptions& opt)
 {
     drawEngravingItem(item, painter, ed, currentViewScaling, opt);
@@ -172,7 +178,8 @@ void EditModeRenderer::drawBarline(const BarLine* item, muse::draw::Painter* pai
     painter->translate(-pos);
 }
 
-void EditModeRenderer::drawDynamic(const Dynamic* item, muse::draw::Painter* painter, const EditData& ed, double currentViewScaling,
+void EditModeRenderer::drawDynamic(const Dynamic* item, muse::draw::Painter* painter,
+                                   const EditData& ed, double currentViewScaling,
                                    const PaintOptions& opt)
 {
     if (item->cursor() && item->cursor()->editing()) {
@@ -183,7 +190,8 @@ void EditModeRenderer::drawDynamic(const Dynamic* item, muse::draw::Painter* pai
     drawEngravingItem(item, painter, ed, currentViewScaling, opt);
 }
 
-void EditModeRenderer::drawSlurTieSegment(const SlurTieSegment* item, muse::draw::Painter* painter, const EditData& ed,
+void EditModeRenderer::drawSlurTieSegment(const SlurTieSegment* item, muse::draw::Painter* painter,
+                                          const EditData& ed,
                                           double currentViewScaling, const PaintOptions& opt)
 {
     PolygonF polygon(7);
@@ -200,7 +208,8 @@ void EditModeRenderer::drawSlurTieSegment(const SlurTieSegment* item, muse::draw
     drawEngravingItem(item, painter, ed, currentViewScaling, opt);
 }
 
-static void drawTextBaseSelection(const TextBase* item, muse::draw::Painter* painter, const RectF& r)
+static void drawTextBaseSelection(const TextBase* item, muse::draw::Painter* painter,
+                                  const RectF& r)
 {
     painter->save();
     Brush bg(item->configuration()->selectionColor());
@@ -211,7 +220,8 @@ static void drawTextBaseSelection(const TextBase* item, muse::draw::Painter* pai
     painter->restore();
 }
 
-void EditModeRenderer::drawTextBase(const TextBase* item, muse::draw::Painter* painter, const EditData& ed, double currentViewScaling,
+void EditModeRenderer::drawTextBase(const TextBase* item, muse::draw::Painter* painter,
+                                    const EditData& ed, double currentViewScaling,
                                     const PaintOptions& opt)
 {
     PointF pos(item->canvasPos());
@@ -277,7 +287,8 @@ void EditModeRenderer::drawTextBase(const TextBase* item, muse::draw::Painter* p
     pen = Pen(item->configuration()->defaultColor(), 0.0);
 }
 
-void EditModeRenderer::draw(const TextBlock& textBlock, const TextBase* item, muse::draw::Painter* painter)
+void EditModeRenderer::draw(const TextBlock& textBlock, const TextBase* item,
+                            muse::draw::Painter* painter)
 {
     painter->translate(0.0, textBlock.y());
     for (const TextFragment& f : textBlock.fragments()) {
@@ -286,7 +297,8 @@ void EditModeRenderer::draw(const TextBlock& textBlock, const TextBase* item, mu
     painter->translate(0.0, -textBlock.y());
 }
 
-void EditModeRenderer::draw(const TextFragment& textFragment, const TextBase* item, muse::draw::Painter* painter)
+void EditModeRenderer::draw(const TextFragment& textFragment, const TextBase* item,
+                            muse::draw::Painter* painter)
 {
     painter->setFont(textFragment.font(item));
     painter->drawText(textFragment.pos, textFragment.text);

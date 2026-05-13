@@ -50,7 +50,8 @@ protected:
     virtual void dragGrip(EditData&) override;
     void startDrag(EditData&) override;
 
-    LineSegment(const ElementType& type, Spanner* sp, System* parent, ElementFlags f = ElementFlag::NOTHING);
+    LineSegment(const ElementType& type, Spanner* sp, System* parent,
+                ElementFlags f = ElementFlag::NOTHING);
     LineSegment(const ElementType& type, System* parent, ElementFlags f = ElementFlag::NOTHING);
 
 public:
@@ -82,7 +83,8 @@ protected:
     virtual void rebaseAnchors(EditData&, Grip);
 
 private:
-    void undoMoveStartEndAndSnappedItems(EditData& ed, bool moveStart, bool moveEnd, Segment* s1, Segment* s2);
+    void undoMoveStartEndAndSnappedItems(EditData& ed, bool moveStart, bool moveEnd, Segment* s1,
+                                         Segment* s2);
     PointF leftAnchorPosition(const double& systemPositionY) const;
     PointF rightAnchorPosition(const double& systemPositionY) const;
 

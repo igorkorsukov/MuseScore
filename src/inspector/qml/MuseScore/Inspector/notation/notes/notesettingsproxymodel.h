@@ -33,11 +33,13 @@ class NoteSettingsProxyModel : public AbstractInspectorProxyModel
     QML_UNCREATABLE("Not creatable from QML")
 
 public:
-    explicit NoteSettingsProxyModel(QObject* parent, const muse::modularity::ContextPtr& iocCtx, IElementRepositoryService* repository);
+    explicit NoteSettingsProxyModel(QObject* parent, const muse::modularity::ContextPtr& iocCtx,
+                                    IElementRepositoryService* repository);
 
 private:
     void onElementsUpdated(const QList<mu::engraving::EngravingItem*>& newElements);
 
-    InspectorModelType resolveDefaultSubModelType(const QList<mu::engraving::EngravingItem*>& newElements) const;
+    InspectorModelType resolveDefaultSubModelType(
+        const QList<mu::engraving::EngravingItem*>& newElements) const;
 };
 }

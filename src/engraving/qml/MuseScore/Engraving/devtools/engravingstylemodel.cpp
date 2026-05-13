@@ -62,7 +62,8 @@ QVariant EngravingStyleModel::data(const QModelIndex& index, int role) const
         break;
     case isDefaultRole:
         if (INotationPtr notation = context()->currentNotation()) {
-            return QVariant(notation->style()->styleValue(t.sid) == notation->style()->defaultStyleValue(t.sid));
+            return QVariant(notation->style()->styleValue(
+                                t.sid) == notation->style()->defaultStyleValue(t.sid));
         }
         break;
     }
@@ -105,11 +106,15 @@ void EngravingStyleModel::changeVal(int idx, QVariant newVal)
     LOGD() << "changeVal index: " << idx << ", newVal: " << newVal;
     context()->currentNotation()->undoStack()->prepareChanges(
         muse::TranslatableString::untranslatable("Edit style: set %1 to %2").arg(
-            TranslatableString::untranslatable(String(StyleDef::styleValues[static_cast<size_t>(idx)].xmlName.ascii())),
+            TranslatableString::untranslatable(String(StyleDef::styleValues[static_cast<size_t>(idx)
+                                                      ].xmlName.ascii())),
             TranslatableString::untranslatable(String::fromQString(newVal.value<QString>()))
             ));
 
-    context()->currentNotation()->style()->setStyleValue(sid, PropertyValue::fromQVariant(newVal, MStyle::valueType(sid)));
+    context()->currentNotation()->style()->setStyleValue(sid,
+                                                         PropertyValue::fromQVariant(newVal,
+                                                                                     MStyle::
+                                                                                     valueType(sid)));
 
     emit dataChanged(index(idx), index(idx));
 

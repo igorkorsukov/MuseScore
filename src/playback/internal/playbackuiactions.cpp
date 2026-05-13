@@ -209,7 +209,8 @@ const UiActionList PlaybackUiActions::s_onlineSoundsActions = {
              ),
 };
 
-PlaybackUiActions::PlaybackUiActions(std::shared_ptr<PlaybackController> controller, const muse::modularity::ContextPtr& iocCtx)
+PlaybackUiActions::PlaybackUiActions(std::shared_ptr<PlaybackController> controller,
+                                     const muse::modularity::ContextPtr& iocCtx)
     : muse::Contextable(iocCtx), m_controller(controller)
 {
 }
@@ -285,7 +286,8 @@ bool PlaybackUiActions::actionEnabled(const UiAction& act) const
 
     if (act.code == PLAY_FROM_SELECTION_CODE) {
         const INotationPtr currNotation = globalContext()->currentNotation();
-        const INotationInteractionPtr interaction = currNotation ? currNotation->interaction() : nullptr;
+        const INotationInteractionPtr interaction
+            = currNotation ? currNotation->interaction() : nullptr;
         const INotationSelectionPtr selection = interaction ? interaction->selection() : nullptr;
         if (!selection) {
             return false;

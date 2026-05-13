@@ -36,7 +36,8 @@ static const String MIDIRENDERER_BEND_TESTS_DIR = u"midi/midirenderer_bend_data/
 static constexpr int DEFAULT_CHANNEL = 0;
 static constexpr int NOTE_OFF_VOLUME = 0;
 
-static void checkEventInterval(EventsHolder& events, int tickStart, int tickEnd, int pitch, int volume,
+static void checkEventInterval(EventsHolder& events, int tickStart, int tickEnd, int pitch,
+                               int volume,
                                MidiInstrumentEffect effect = MidiInstrumentEffect::NONE,
                                int channel = DEFAULT_CHANNEL)
 {
@@ -67,7 +68,8 @@ static void checkEventInterval(EventsHolder& events, int tickStart, int tickEnd,
     events[channel].erase(it);
 }
 
-static void checkPitchBend(EventsHolder& events, int tick, int pitchValue, MidiInstrumentEffect effect = MidiInstrumentEffect::NONE,
+static void checkPitchBend(EventsHolder& events, int tick, int pitchValue,
+                           MidiInstrumentEffect effect = MidiInstrumentEffect::NONE,
                            int channel = DEFAULT_CHANNEL)
 {
     auto it = events[channel].find(tick);
@@ -86,7 +88,8 @@ static void checkPitchBend(EventsHolder& events, int tick, int pitchValue, MidiI
     events[channel].erase(it);
 }
 
-static void checkPitchBendInterval(EventsHolder& events, int startTick, int endTick, int step, int pitchValue,
+static void checkPitchBendInterval(EventsHolder& events, int startTick, int endTick, int step,
+                                   int pitchValue,
                                    MidiInstrumentEffect effect = MidiInstrumentEffect::NONE,
                                    int channel = DEFAULT_CHANNEL)
 {
@@ -95,7 +98,8 @@ static void checkPitchBendInterval(EventsHolder& events, int startTick, int endT
     }
 }
 
-static EventsHolder renderMidiEvents(const String& fileName, bool eachStringHasChannel = false, bool instrumentsHaveEffects = false)
+static EventsHolder renderMidiEvents(const String& fileName, bool eachStringHasChannel = false,
+                                     bool instrumentsHaveEffects = false)
 {
     MasterScore* score = ScoreRW::readScore(MIDIRENDERER_BEND_TESTS_DIR + fileName);
     EXPECT_TRUE(score);
@@ -453,13 +457,19 @@ TEST_F(MidiRendererBend_Tests, slides)
     checkPitchBend(events, 100, 9140);
     checkPitchBend(events, 110, 9339);
     checkPitchBendInterval(events, 120, 230, 10, 9557);
-    checkEventInterval(events, 180, 198, 53, defVol, MidiInstrumentEffect::SLIDE, DEFAULT_CHANNEL + 1);
-    checkEventInterval(events, 199, 217, 52, defVol, MidiInstrumentEffect::SLIDE, DEFAULT_CHANNEL + 1);
-    checkEventInterval(events, 219, 237, 51, defVol, MidiInstrumentEffect::SLIDE, DEFAULT_CHANNEL + 1);
+    checkEventInterval(events, 180, 198, 53, defVol, MidiInstrumentEffect::SLIDE,
+                       DEFAULT_CHANNEL + 1);
+    checkEventInterval(events, 199, 217, 52, defVol, MidiInstrumentEffect::SLIDE,
+                       DEFAULT_CHANNEL + 1);
+    checkEventInterval(events, 219, 237, 51, defVol, MidiInstrumentEffect::SLIDE,
+                       DEFAULT_CHANNEL + 1);
 
-    checkEventInterval(events, 420, 438, 55, defVol, MidiInstrumentEffect::SLIDE, DEFAULT_CHANNEL + 1);
-    checkEventInterval(events, 440, 458, 54, defVol, MidiInstrumentEffect::SLIDE, DEFAULT_CHANNEL + 1);
-    checkEventInterval(events, 460, 478, 53, defVol, MidiInstrumentEffect::SLIDE, DEFAULT_CHANNEL + 1);
+    checkEventInterval(events, 420, 438, 55, defVol, MidiInstrumentEffect::SLIDE,
+                       DEFAULT_CHANNEL + 1);
+    checkEventInterval(events, 440, 458, 54, defVol, MidiInstrumentEffect::SLIDE,
+                       DEFAULT_CHANNEL + 1);
+    checkEventInterval(events, 460, 478, 53, defVol, MidiInstrumentEffect::SLIDE,
+                       DEFAULT_CHANNEL + 1);
     checkPitchBend(events, 470, pwReset);
     checkEventInterval(events, 480, 719, 52, defVol);
     checkPitchBend(events, 510, 8192);
@@ -470,10 +480,14 @@ TEST_F(MidiRendererBend_Tests, slides)
     checkPitchBend(events, 560, 9140);
     checkPitchBendInterval(events, 570, 710, 10, 9557);
 
-    checkEventInterval(events, 960, 1019, 52, defVol, MidiInstrumentEffect::NONE, DEFAULT_CHANNEL + 2);
-    checkEventInterval(events, 1020, 1038, 53, defVol, MidiInstrumentEffect::SLIDE, DEFAULT_CHANNEL + 3);
-    checkEventInterval(events, 1039, 1057, 54, defVol, MidiInstrumentEffect::SLIDE, DEFAULT_CHANNEL + 3);
-    checkEventInterval(events, 1059, 1077, 55, defVol, MidiInstrumentEffect::SLIDE, DEFAULT_CHANNEL + 3);
+    checkEventInterval(events, 960, 1019, 52, defVol, MidiInstrumentEffect::NONE,
+                       DEFAULT_CHANNEL + 2);
+    checkEventInterval(events, 1020, 1038, 53, defVol, MidiInstrumentEffect::SLIDE,
+                       DEFAULT_CHANNEL + 3);
+    checkEventInterval(events, 1039, 1057, 54, defVol, MidiInstrumentEffect::SLIDE,
+                       DEFAULT_CHANNEL + 3);
+    checkEventInterval(events, 1059, 1077, 55, defVol, MidiInstrumentEffect::SLIDE,
+                       DEFAULT_CHANNEL + 3);
 
     EXPECT_EQ(events[0].size(), 1);
     EXPECT_EQ(events[1].size(), 6);
@@ -735,7 +749,8 @@ TEST_F(MidiRendererBend_Tests, bendAfterHammer)
     EXPECT_EQ(events[1].size(), 51);
 
     checkEventInterval(events, 0, 479, 62, defVol);
-    checkEventInterval(events, 480, 1439, 66, defVol, MidiInstrumentEffect::HAMMER_PULL, DEFAULT_CHANNEL + 1);
+    checkEventInterval(events, 480, 1439, 66, defVol, MidiInstrumentEffect::HAMMER_PULL,
+                       DEFAULT_CHANNEL + 1);
     checkPitchBend(events, 960, pwReset, MidiInstrumentEffect::HAMMER_PULL, DEFAULT_CHANNEL + 1);
     checkPitchBend(events, 970, 8201, MidiInstrumentEffect::HAMMER_PULL, DEFAULT_CHANNEL + 1);
     checkPitchBend(events, 980, 8229, MidiInstrumentEffect::HAMMER_PULL, DEFAULT_CHANNEL + 1);
@@ -748,7 +763,8 @@ TEST_F(MidiRendererBend_Tests, bendAfterHammer)
     checkPitchBend(events, 1050, 8960, MidiInstrumentEffect::HAMMER_PULL, DEFAULT_CHANNEL + 1);
     checkPitchBend(events, 1060, 9140, MidiInstrumentEffect::HAMMER_PULL, DEFAULT_CHANNEL + 1);
     checkPitchBend(events, 1070, 9339, MidiInstrumentEffect::HAMMER_PULL, DEFAULT_CHANNEL + 1);
-    checkPitchBendInterval(events, 1080, 1430, 10, 9557, MidiInstrumentEffect::HAMMER_PULL, DEFAULT_CHANNEL + 1);
+    checkPitchBendInterval(events, 1080, 1430, 10, 9557, MidiInstrumentEffect::HAMMER_PULL,
+                           DEFAULT_CHANNEL + 1);
 
     EXPECT_EQ(events[0].size(), 0);
     EXPECT_EQ(events[1].size(), 1);
@@ -767,11 +783,13 @@ TEST_F(MidiRendererBend_Tests, bendAfterHammer2)
 
     checkEventInterval(events, 0, 479, 47, defVol);
 
-    checkEventInterval(events, 480, 599, 44, defVol, MidiInstrumentEffect::HAMMER_PULL, DEFAULT_CHANNEL + 1);
+    checkEventInterval(events, 480, 599, 44, defVol, MidiInstrumentEffect::HAMMER_PULL,
+                       DEFAULT_CHANNEL + 1);
     checkPitchBend(events, 480, pwReset, MidiInstrumentEffect::HAMMER_PULL, DEFAULT_CHANNEL + 1);
     checkPitchBend(events, 490, 8595, MidiInstrumentEffect::HAMMER_PULL, DEFAULT_CHANNEL + 1);
     checkPitchBend(events, 500, 9807, MidiInstrumentEffect::HAMMER_PULL, DEFAULT_CHANNEL + 1);
-    checkPitchBendInterval(events, 510, 590, 10, 10922, MidiInstrumentEffect::HAMMER_PULL, DEFAULT_CHANNEL + 1);
+    checkPitchBendInterval(events, 510, 590, 10, 10922, MidiInstrumentEffect::HAMMER_PULL,
+                           DEFAULT_CHANNEL + 1);
 
     EXPECT_EQ(events[0].size(), 0);
     EXPECT_EQ(events[1].size(), 1);
@@ -790,7 +808,8 @@ TEST_F(MidiRendererBend_Tests, bendOnHiddenStaff)
 
     checkEventInterval(events, 480, 599, 67, defVol);
 
-    checkEventInterval(events, 1440, 1679, 60, defVol, MidiInstrumentEffect::NONE, DEFAULT_CHANNEL + 1);
+    checkEventInterval(events, 1440, 1679, 60, defVol, MidiInstrumentEffect::NONE,
+                       DEFAULT_CHANNEL + 1);
     checkPitchBend(events, 1440, pwReset, MidiInstrumentEffect::NONE, DEFAULT_CHANNEL + 1);
     checkPitchBend(events, 1450, 8220, MidiInstrumentEffect::NONE, DEFAULT_CHANNEL + 1);
     checkPitchBend(events, 1460, 8305, MidiInstrumentEffect::NONE, DEFAULT_CHANNEL + 1);

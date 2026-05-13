@@ -37,10 +37,13 @@ class NavigableAppMenuModel : public AppMenuModel
 
     Q_PROPERTY(bool isNavigationStarted READ isNavigationStarted NOTIFY highlightedMenuIdChanged)
     Q_PROPERTY(QString highlightedMenuId READ highlightedMenuId NOTIFY highlightedMenuIdChanged)
-    Q_PROPERTY(QString openedMenuId READ openedMenuId WRITE setOpenedMenuId NOTIFY openedMenuIdChanged)
+    Q_PROPERTY(
+        QString openedMenuId READ openedMenuId WRITE setOpenedMenuId NOTIFY openedMenuIdChanged)
 
-    Q_PROPERTY(QRect appMenuAreaRect READ appMenuAreaRect WRITE setAppMenuAreaRect NOTIFY appMenuAreaRectChanged)
-    Q_PROPERTY(QRect openedMenuAreaRect READ openedMenuAreaRect WRITE setOpenedMenuAreaRect NOTIFY openedMenuAreaRectChanged)
+    Q_PROPERTY(
+        QRect appMenuAreaRect READ appMenuAreaRect WRITE setAppMenuAreaRect NOTIFY appMenuAreaRectChanged)
+    Q_PROPERTY(
+        QRect openedMenuAreaRect READ openedMenuAreaRect WRITE setOpenedMenuAreaRect NOTIFY openedMenuAreaRectChanged)
 
     Q_PROPERTY(QWindow * appWindow READ appWindow WRITE setAppWindow)
 
@@ -106,7 +109,8 @@ private:
     QString highlightedMenuId() const;
     QString openedMenuId() const;
 
-    QString menuItemId(const muse::uicomponents::MenuItemList& items, const QSet<int>& activatePossibleKeys);
+    QString menuItemId(const muse::uicomponents::MenuItemList& items,
+                       const QSet<int>& activatePossibleKeys);
 
     QString m_highlightedMenuId;
     QString m_openedMenuId;

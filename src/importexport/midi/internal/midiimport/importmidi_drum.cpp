@@ -89,7 +89,8 @@ void splitDrumVoices(std::multimap<int, MTrack>& tracks)
         if (chords.empty()) {
             continue;
         }
-        const engraving::Drumset* const drumset = mtrack.mtrack->drumTrack() ? engraving::smDrumset : 0;
+        const engraving::Drumset* const drumset
+            = mtrack.mtrack->drumTrack() ? engraving::smDrumset : 0;
         if (!drumset) {
             continue;
         }

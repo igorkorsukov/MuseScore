@@ -33,7 +33,8 @@ class PopupView;
 }
 
 namespace mu::inspector {
-class InspectorPopupController : public QObject, public IInspectorPopupController, public muse::Contextable
+class InspectorPopupController : public QObject, public IInspectorPopupController,
+    public muse::Contextable
 {
     Q_OBJECT
 

@@ -38,7 +38,8 @@ using namespace mu::engraving;
 
 namespace mu::engraving {
 VibratoSegment::VibratoSegment(Vibrato* sp, System* parent)
-    : LineSegment(ElementType::VIBRATO_SEGMENT, sp, parent, ElementFlag::MOVABLE | ElementFlag::ON_STAFF)
+    : LineSegment(ElementType::VIBRATO_SEGMENT, sp, parent,
+                  ElementFlag::MOVABLE | ElementFlag::ON_STAFF)
 {
 }
 

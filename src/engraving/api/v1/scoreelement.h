@@ -120,7 +120,10 @@ public:
      * @param {Engraving.ScoreElement} other Object for comparison
      * @return {Boolean} result
     */
-    Q_INVOKABLE bool is(apiv1::ScoreElement* other) { return other && element() == other->element(); }
+    Q_INVOKABLE bool is(apiv1::ScoreElement* other)
+    {
+        return other && element() == other->element();
+    }
 
     int apiversion() const;
 

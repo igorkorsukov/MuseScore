@@ -33,7 +33,8 @@
 #include "engraving/dom/engravingitem.h"
 
 namespace mu::notation {
-class AbstractElementPopupModel : public QObject, public muse::Contextable, public muse::async::Asyncable, public muse::actions::Actionable
+class AbstractElementPopupModel : public QObject, public muse::Contextable,
+    public muse::async::Asyncable, public muse::actions::Actionable
 {
     Q_OBJECT
     QML_ELEMENT;
@@ -93,7 +94,8 @@ protected:
     INotationInteractionPtr interaction() const;
 
     void changeItemProperty(engraving::Pid id, const PropertyValue& value);
-    void changeItemProperty(engraving::Pid id, const PropertyValue& value, engraving::PropertyFlags flags);
+    void changeItemProperty(engraving::Pid id, const PropertyValue& value,
+                            engraving::PropertyFlags flags);
 
     EngravingItem* m_item = nullptr;
     QRect m_itemRect;

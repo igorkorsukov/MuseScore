@@ -27,7 +27,8 @@
 
 using namespace mu::inspector;
 
-VibratoSettingsModel::VibratoSettingsModel(QObject* parent, const muse::modularity::ContextPtr& iocCtx,
+VibratoSettingsModel::VibratoSettingsModel(QObject* parent,
+                                           const muse::modularity::ContextPtr& iocCtx,
                                            IElementRepositoryService* repository)
     : AbstractInspectorModel(parent, iocCtx, repository, mu::engraving::ElementType::VIBRATO)
 {
@@ -52,9 +53,12 @@ QVariantList VibratoSettingsModel::possibleLineTypes() const
 {
     QMap<mu::engraving::VibratoType, QString> types {
         { mu::engraving::VibratoType::GUITAR_VIBRATO, muse::qtrc("inspector", "Vibrato") },
-        { mu::engraving::VibratoType::GUITAR_VIBRATO_WIDE, muse::qtrc("inspector", "Vibrato wide") },
-        { mu::engraving::VibratoType::VIBRATO_SAWTOOTH, muse::qtrc("inspector", "Vibrato sawtooth") },
-        { mu::engraving::VibratoType::VIBRATO_SAWTOOTH_WIDE, muse::qtrc("inspector", "Vibrato sawtooth wide") }
+        { mu::engraving::VibratoType::GUITAR_VIBRATO_WIDE,
+          muse::qtrc("inspector", "Vibrato wide") },
+        { mu::engraving::VibratoType::VIBRATO_SAWTOOTH,
+          muse::qtrc("inspector", "Vibrato sawtooth") },
+        { mu::engraving::VibratoType::VIBRATO_SAWTOOTH_WIDE, muse::qtrc("inspector",
+                                                                        "Vibrato sawtooth wide") }
     };
 
     QVariantList result;

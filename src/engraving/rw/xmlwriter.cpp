@@ -57,7 +57,8 @@ void XmlWriter::startElement(const EngravingObject* se, const Attributes& attrs)
     startElement(se->typeName(), se, attrs);
 }
 
-void XmlWriter::startElement(const AsciiStringView& name, const EngravingObject* se, const Attributes& attrs)
+void XmlWriter::startElement(const AsciiStringView& name, const EngravingObject* se,
+                             const Attributes& attrs)
 {
     XmlStreamWriter::startElement(name, attrs);
 
@@ -136,7 +137,8 @@ void XmlWriter::tagProperty(Pid id, const PropertyValue& val, const PropertyValu
     }
 }
 
-void XmlWriter::tagProperty(const AsciiStringView& name, const PropertyValue& val, const PropertyValue& def)
+void XmlWriter::tagProperty(const AsciiStringView& name, const PropertyValue& val,
+                            const PropertyValue& def)
 {
     if (val == def) {
         return;
@@ -196,7 +198,9 @@ void XmlWriter::tagProperty(const AsciiStringView& name, P_TYPE type, const Prop
     } break;
     case P_TYPE::COLOR: {
         Color color(data.value<Color>());
-        element(name, { { "r", color.red() }, { "g", color.green() }, { "b", color.blue() }, { "a", color.alpha() } });
+        element(name, { { "r", color.red() }, { "g", color.green() }, { "b",
+                                                                        color.blue() }, { "a",
+                                                                                          color.alpha() } });
     }
     break;
     case P_TYPE::ORNAMENT_STYLE: {

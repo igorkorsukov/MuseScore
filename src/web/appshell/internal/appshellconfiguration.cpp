@@ -34,7 +34,8 @@ void AppShellConfiguration::init()
 
 std::string AppShellConfiguration::museScoreVersion() const
 {
-    return String(application()->version().toString() + u"." + application()->build()).toStdString();
+    return String(application()->version().toString() + u"."
+                  + application()->build()).toStdString();
 }
 
 std::string AppShellConfiguration::museScoreRevision() const

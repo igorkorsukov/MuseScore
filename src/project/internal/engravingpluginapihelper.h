@@ -31,7 +31,8 @@
 #include "inotationwritersregister.h"
 
 namespace mu::project {
-class EngravingPluginAPIHelper : public engraving::IEngravingPluginAPIHelper, public muse::Contextable
+class EngravingPluginAPIHelper : public engraving::IEngravingPluginAPIHelper,
+    public muse::Contextable
 {
     muse::GlobalInject<INotationWritersRegister> writers;
     muse::ContextInject<context::IGlobalContext> globalContext = { this };

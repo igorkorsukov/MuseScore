@@ -33,14 +33,16 @@
 #include "cloud/musescorecom/imusescorecomservice.h"
 
 namespace mu::project {
-class CloudScoresModel : public AbstractScoresModel, public muse::async::Asyncable, public muse::Contextable
+class CloudScoresModel : public AbstractScoresModel, public muse::async::Asyncable,
+    public muse::Contextable
 {
     Q_OBJECT
 
     Q_PROPERTY(State state READ state NOTIFY stateChanged)
     Q_PROPERTY(bool hasMore READ hasMore NOTIFY hasMoreChanged)
 
-    Q_PROPERTY(int desiredRowCount READ desiredRowCount WRITE setDesiredRowCount NOTIFY desiredRowCountChanged)
+    Q_PROPERTY(
+        int desiredRowCount READ desiredRowCount WRITE setDesiredRowCount NOTIFY desiredRowCountChanged)
 
     QML_ELEMENT
 

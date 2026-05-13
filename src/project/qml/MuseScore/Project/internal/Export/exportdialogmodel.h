@@ -47,50 +47,67 @@
 class QItemSelectionModel;
 
 namespace mu::project {
-class ExportDialogModel : public QAbstractListModel, public QQmlParserStatus, public muse::async::Asyncable, public muse::Contextable
+class ExportDialogModel : public QAbstractListModel, public QQmlParserStatus,
+    public muse::async::Asyncable, public muse::Contextable
 {
     Q_OBJECT
     Q_INTERFACES(QQmlParserStatus)
 
     Q_PROPERTY(int selectionLength READ selectionLength NOTIFY selectionChanged)
 
-    Q_PROPERTY(QVariantMap selectedExportType READ selectedExportType NOTIFY selectedExportTypeChanged)
+    Q_PROPERTY(
+        QVariantMap selectedExportType READ selectedExportType NOTIFY selectedExportTypeChanged)
 
-    Q_PROPERTY(QVariantList availableUnitTypes READ availableUnitTypes NOTIFY selectedExportTypeChanged)
-    Q_PROPERTY(int selectedUnitType READ selectedUnitType WRITE setUnitType NOTIFY selectedUnitTypeChanged)
+    Q_PROPERTY(
+        QVariantList availableUnitTypes READ availableUnitTypes NOTIFY selectedExportTypeChanged)
+    Q_PROPERTY(
+        int selectedUnitType READ selectedUnitType WRITE setUnitType NOTIFY selectedUnitTypeChanged)
 
-    Q_PROPERTY(int pdfResolution READ pdfResolution WRITE setPdfResolution NOTIFY pdfResolutionChanged)
+    Q_PROPERTY(
+        int pdfResolution READ pdfResolution WRITE setPdfResolution NOTIFY pdfResolutionChanged)
     Q_PROPERTY(
         bool pdfTransparentBackground READ pdfTransparentBackground WRITE setPdfTransparentBackground NOTIFY pdfTransparentBackgroundChanged)
 
     Q_PROPERTY(bool pdfGrayscale READ pdfGrayscale WRITE setPdfGrayscale NOTIFY pdfGrayscaleChanged)
 
-    Q_PROPERTY(int pngResolution READ pngResolution WRITE setPngResolution NOTIFY pngResolutionChanged)
+    Q_PROPERTY(
+        int pngResolution READ pngResolution WRITE setPngResolution NOTIFY pngResolutionChanged)
     Q_PROPERTY(
         bool pngTransparentBackground READ pngTransparentBackground WRITE setPngTransparentBackground NOTIFY pngTransparentBackgroundChanged)
     Q_PROPERTY(bool pngGrayscale READ pngGrayscale WRITE setPngGrayscale NOTIFY pngGrayscaleChanged)
 
     Q_PROPERTY(
         bool svgTransparentBackground READ svgTransparentBackground WRITE setSvgTransparentBackground NOTIFY svgTransparentBackgroundChanged)
-    Q_PROPERTY(bool svgIllustratorCompat READ svgIllustratorCompat WRITE setSvgIllustratorCompat NOTIFY svgIllustratorCompatChanged FINAL)
+    Q_PROPERTY(
+        bool svgIllustratorCompat READ svgIllustratorCompat WRITE setSvgIllustratorCompat NOTIFY svgIllustratorCompatChanged FINAL)
 
     Q_PROPERTY(int sampleRate READ sampleRate WRITE setSampleRate NOTIFY sampleRateChanged)
     Q_PROPERTY(int bitRate READ bitRate WRITE setBitRate NOTIFY bitRateChanged)
-    Q_PROPERTY(QVariantList availableSampleFormats READ availableSampleFormats NOTIFY availableSampleFormatsChanged)
-    Q_PROPERTY(int selectedSampleFormat READ selectedSampleFormat WRITE setSelectedSampleFormat NOTIFY selectedSampleFormatChanged)
+    Q_PROPERTY(
+        QVariantList availableSampleFormats READ availableSampleFormats NOTIFY availableSampleFormatsChanged)
+    Q_PROPERTY(
+        int selectedSampleFormat READ selectedSampleFormat WRITE setSelectedSampleFormat NOTIFY selectedSampleFormatChanged)
 
-    Q_PROPERTY(bool midiExpandRepeats READ midiExpandRepeats WRITE setMidiExpandRepeats NOTIFY midiExpandRepeatsChanged)
-    Q_PROPERTY(bool midiExportRpns READ midiExportRpns WRITE setMidiExportRpns NOTIFY midiExportRpnsChanged)
+    Q_PROPERTY(
+        bool midiExpandRepeats READ midiExpandRepeats WRITE setMidiExpandRepeats NOTIFY midiExpandRepeatsChanged)
+    Q_PROPERTY(
+        bool midiExportRpns READ midiExportRpns WRITE setMidiExportRpns NOTIFY midiExportRpnsChanged)
 
-    Q_PROPERTY(MusicXmlLayoutType musicXmlLayoutType READ musicXmlLayoutType WRITE setMusicXmlLayoutType NOTIFY musicXmlLayoutTypeChanged)
+    Q_PROPERTY(
+        MusicXmlLayoutType musicXmlLayoutType READ musicXmlLayoutType WRITE setMusicXmlLayoutType NOTIFY musicXmlLayoutTypeChanged)
 
-    Q_PROPERTY(int meiExportLayout READ meiExportLayout WRITE setMeiExportLayout NOTIFY meiExportLayoutChanged)
-    Q_PROPERTY(int meiUseMuseScoreIds READ meiUseMuseScoreIds WRITE setMeiUseMuseScoreIds NOTIFY meiUseMuseScoreIdsChanged)
+    Q_PROPERTY(
+        int meiExportLayout READ meiExportLayout WRITE setMeiExportLayout NOTIFY meiExportLayoutChanged)
+    Q_PROPERTY(
+        int meiUseMuseScoreIds READ meiUseMuseScoreIds WRITE setMeiUseMuseScoreIds NOTIFY meiUseMuseScoreIdsChanged)
 
-    Q_PROPERTY(int lrcUseEnhancedFormat READ lrcUseEnhancedFormat WRITE setLrcUseEnhancedFormat NOTIFY lrcUseEnhancedFormatChanged)
+    Q_PROPERTY(
+        int lrcUseEnhancedFormat READ lrcUseEnhancedFormat WRITE setLrcUseEnhancedFormat NOTIFY lrcUseEnhancedFormatChanged)
 
-    Q_PROPERTY(int mnxIndentSpaces READ mnxIndentSpaces WRITE setMnxIndentSpaces NOTIFY mnxIndentSpacesChanged)
-    Q_PROPERTY(bool mnxExportBeams READ mnxExportBeams WRITE setMnxExportBeams NOTIFY mnxExportBeamsChanged)
+    Q_PROPERTY(
+        int mnxIndentSpaces READ mnxIndentSpaces WRITE setMnxIndentSpaces NOTIFY mnxIndentSpacesChanged)
+    Q_PROPERTY(
+        bool mnxExportBeams READ mnxExportBeams WRITE setMnxExportBeams NOTIFY mnxExportBeamsChanged)
     Q_PROPERTY(bool mnxExportRestPositions READ mnxExportRestPositions WRITE setMnxExportRestPositions
                NOTIFY mnxExportRestPositionsChanged)
 
@@ -252,7 +269,8 @@ signals:
     void mnxExportBeamsChanged(bool exportBeams);
     void mnxExportRestPositionsChanged(bool exportRestPositions);
 
-    void shouldDestinationFolderBeOpenedOnExportChanged(bool shouldDestinationFolderBeOpenedOnExport);
+    void shouldDestinationFolderBeOpenedOnExportChanged(
+        bool shouldDestinationFolderBeOpenedOnExport);
 
 private:
     void classBegin() override;
@@ -278,6 +296,7 @@ private:
     ExportTypeList m_exportTypeList {};
     ExportType m_selectedExportType = ExportType();
     muse::io::path_t m_exportPath;
-    project::INotationWriter::UnitType m_selectedUnitType = project::INotationWriter::UnitType::PER_PART;
+    project::INotationWriter::UnitType m_selectedUnitType
+        = project::INotationWriter::UnitType::PER_PART;
 };
 }

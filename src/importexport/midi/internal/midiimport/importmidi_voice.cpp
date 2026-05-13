@@ -300,7 +300,8 @@ std::multimap<ReducedFraction,
 findInsertedTuplet(const ReducedFraction& onTime,
                    int voice,
                    const std::multimap<ReducedFraction,
-                                       std::multimap<ReducedFraction, MidiTuplet::TupletData>::iterator>& insertedTuplets)
+                                       std::multimap<ReducedFraction,
+                                                     MidiTuplet::TupletData>::iterator>& insertedTuplets)
 {
     const auto range = insertedTuplets.equal_range(onTime);
     for (auto it = range.first; it != range.second; ++it) {
@@ -321,7 +322,8 @@ bool hasIntersectionWithTuplets(
     const ReducedFraction& offTime,
     const std::multimap<ReducedFraction, MidiTuplet::TupletData>& tuplets,
     const std::multimap<ReducedFraction,
-                        std::multimap<ReducedFraction, MidiTuplet::TupletData>::iterator>& insertedTuplets,
+                        std::multimap<ReducedFraction,
+                                      MidiTuplet::TupletData>::iterator>& insertedTuplets,
     const ReducedFraction& tupletOnTime)
 {
     const auto foundTuplets = MidiTuplet::findTupletsForTimeRange(
@@ -344,7 +346,8 @@ void addGroupSplits(
     const std::multimap<ReducedFraction, MidiChord>& chords,
     const std::multimap<ReducedFraction, MidiTuplet::TupletData>& tuplets,
     const std::multimap<ReducedFraction,
-                        std::multimap<ReducedFraction, MidiTuplet::TupletData>::iterator>& insertedTuplets,
+                        std::multimap<ReducedFraction,
+                                      MidiTuplet::TupletData>::iterator>& insertedTuplets,
     const ReducedFraction& tupletOnTime,
     const ReducedFraction& onTime,
     const ReducedFraction& groupOffTime,
@@ -402,7 +405,8 @@ std::vector<VoiceSplit> findPossibleVoiceSplits(
     const std::multimap<ReducedFraction, MidiChord>& chords,
     const std::multimap<ReducedFraction, MidiTuplet::TupletData>& tuplets,
     const std::multimap<ReducedFraction,
-                        std::multimap<ReducedFraction, MidiTuplet::TupletData>::iterator>& insertedTuplets,
+                        std::multimap<ReducedFraction,
+                                      MidiTuplet::TupletData>::iterator>& insertedTuplets,
     int maxOccupiedVoice)
 {
     std::vector<VoiceSplit> splits;
@@ -577,7 +581,8 @@ void insertNewTuplet(
     std::multimap<ReducedFraction, MidiChord>& chords,
     std::multimap<ReducedFraction, MidiTuplet::TupletData>& tuplets,
     std::multimap<ReducedFraction,
-                  std::multimap<ReducedFraction, MidiTuplet::TupletData>::iterator>& insertedTuplets)
+                  std::multimap<ReducedFraction,
+                                MidiTuplet::TupletData>::iterator>& insertedTuplets)
 {
     MidiTuplet::TupletData newTuplet = tuplet->second;
     newTuplet.voice = newVoice;
@@ -607,7 +612,8 @@ bool canSplitTuplet(
     const ReducedFraction& chordOnTime,
     const QList<MidiNote>& notes,
     const std::multimap<ReducedFraction,
-                        std::multimap<ReducedFraction, MidiTuplet::TupletData>::iterator>& insertedTuplets,
+                        std::multimap<ReducedFraction,
+                                      MidiTuplet::TupletData>::iterator>& insertedTuplets,
     const std::multimap<ReducedFraction, MidiChord>& chords,
     const ReducedFraction& maxChordLength)
 {
@@ -641,7 +647,8 @@ void splitTuplet(
     const QList<MidiNote>& notes,
     bool& isInTuplet,
     std::multimap<ReducedFraction,
-                  std::multimap<ReducedFraction, MidiTuplet::TupletData>::iterator>& insertedTuplets,
+                  std::multimap<ReducedFraction,
+                                MidiTuplet::TupletData>::iterator>& insertedTuplets,
     std::multimap<ReducedFraction, MidiChord>& chords,
     std::multimap<ReducedFraction, MidiTuplet::TupletData>& tuplets,
     const ReducedFraction& maxChordLength,
@@ -705,7 +712,8 @@ bool updateChordTuplets(
     MidiChord& chord,
     const ReducedFraction& onTime,
     std::multimap<ReducedFraction,
-                  std::multimap<ReducedFraction, MidiTuplet::TupletData>::iterator>& insertedTuplets,
+                  std::multimap<ReducedFraction,
+                                MidiTuplet::TupletData>::iterator>& insertedTuplets,
     std::multimap<ReducedFraction, MidiChord>& chords,
     std::multimap<ReducedFraction, MidiTuplet::TupletData>& tuplets,
     const ReducedFraction& maxChordLength,
@@ -792,7 +800,8 @@ bool splitChordToVoice(
     std::multimap<ReducedFraction, MidiChord>& chords,
     std::multimap<ReducedFraction, MidiTuplet::TupletData>& tuplets,
     std::multimap<ReducedFraction,
-                  std::multimap<ReducedFraction, MidiTuplet::TupletData>::iterator>& insertedTuplets,
+                  std::multimap<ReducedFraction,
+                                MidiTuplet::TupletData>::iterator>& insertedTuplets,
     const ReducedFraction& maxChordLength,
     bool allowParallelTuplets)
 {
@@ -983,7 +992,8 @@ int averagePitchOfChords(
 }
 
 void sortVoicesByPitch(const std::map<int, std::vector<
-                                          std::multimap<ReducedFraction, MidiChord>::iterator> >& voiceChords)
+                                          std::multimap<ReducedFraction,
+                                                        MidiChord>::iterator> >& voiceChords)
 {
     // [newVoice] = <average pitch, old voice>
     std::vector<std::pair<int, int> > pitchVoices;

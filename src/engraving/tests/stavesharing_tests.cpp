@@ -38,7 +38,8 @@ class Engraving_StaveSharingTests : public ::testing::Test
 {
 };
 
-void collectSharedAndOriginParts(MasterScore* score, SharedPart** sharedPart, std::vector<Part*>& originParts)
+void collectSharedAndOriginParts(MasterScore* score, SharedPart** sharedPart,
+                                 std::vector<Part*>& originParts)
 {
     *sharedPart = nullptr;
     originParts.clear();
@@ -181,7 +182,8 @@ TEST_F(Engraving_StaveSharingTests, testSaveReloadStaveSharing)
     EditStaveSharing::toggleStaveSharing(score, true);
     score->endCmd();
 
-    EXPECT_TRUE(ScoreComp::saveCompareScore(score, u"staveSharing", STAVE_SHARING_DIR + u"staveSharing_00_ref.mscx"));
+    EXPECT_TRUE(ScoreComp::saveCompareScore(score, u"staveSharing",
+                                            STAVE_SHARING_DIR + u"staveSharing_00_ref.mscx"));
 
     delete score;
 

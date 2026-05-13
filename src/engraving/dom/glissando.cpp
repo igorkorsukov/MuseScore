@@ -186,7 +186,8 @@ bool Glissando::pitchSteps(const Spanner* spanner, std::vector<int>& pitchOffset
         // Obey harp pedal diagrams if on a harp staff
         if (glissando->isHarpGliss().value_or(false)) {
             HarpPedalDiagram* hd = spanner->part()->currentHarpDiagram(spanner->tick());
-            std::set<int> playableTpcs = hd ? hd->playableTpcs() : std::set<int>({ 14, 16, 18, 13, 15, 17, 19 });
+            std::set<int> playableTpcs = hd ? hd->playableTpcs() : std::set<int>({ 14, 16, 18, 13,
+                                                                                   15, 17, 19 });
             std::vector<int> playablePitches;
             for (int t : playableTpcs) {
                 playablePitches.push_back(tpc2pitch(t) % PITCH_DELTA_OCTAVE);
@@ -202,7 +203,8 @@ bool Glissando::pitchSteps(const Spanner* spanner, std::vector<int>& pitchOffset
 
             for (int p = pitchStart + direction; p != pitchEnd; p += direction) {
                 // Count times pitch occurs in harp pedalling - this accounts for enharmonics
-                int pitchOccurrences = std::count(playablePitches.begin(), playablePitches.end(), p % PITCH_DELTA_OCTAVE);
+                int pitchOccurrences = std::count(playablePitches.begin(),
+                                                  playablePitches.end(), p % PITCH_DELTA_OCTAVE);
                 if (pitchOccurrences > 0) {
                     pitchOffsets.insert(pitchOffsets.end(), pitchOccurrences, p - pitchStart);
                 }
@@ -220,7 +222,8 @@ bool Glissando::pitchSteps(const Spanner* spanner, std::vector<int>& pitchOffset
         // Regular diatonic mode
         int lineStart = noteStart->line();
         // scale obeying accidentals
-        for (int line = lineStart, pitch = pitchStart; (direction == 1) ? (pitch < pitchEnd) : (pitch > pitchEnd); line -= direction) {
+        for (int line = lineStart, pitch = pitchStart;
+             (direction == 1) ? (pitch < pitchEnd) : (pitch > pitchEnd); line -= direction) {
             int halfSteps = chromaticPitchSteps(noteStart, noteEnd, lineStart - line);
             pitch = pitchStart + halfSteps;
             if ((direction == 1) ? (pitch < pitchEnd) : (pitch > pitchEnd)) {
@@ -235,7 +238,8 @@ bool Glissando::pitchSteps(const Spanner* spanner, std::vector<int>& pitchOffset
         }
         return true;
     }
-    static const std::vector<bool> whiteNotes = { true, false, true, false, true, true, false, true, false, true, false, true };
+    static const std::vector<bool> whiteNotes
+        = { true, false, true, false, true, true, false, true, false, true, false, true };
     int Cnote = 60;   // pitch of middle C
     bool notePick = glissandoStyle == GlissandoStyle::WHITE_KEYS;
     for (int pitch = pitchStart; pitch != pitchEnd; pitch += direction) {
@@ -397,7 +401,9 @@ bool Glissando::setProperty(Pid propertyId, const PropertyValue& v)
     {
         // Make sure harp glisses can only be diatonic and chromatic
         GlissandoStyle glissStyle = v.value<GlissandoStyle>();
-        if (isHarpGliss().value_or(false) && (glissStyle != GlissandoStyle::DIATONIC && glissStyle != GlissandoStyle::CHROMATIC)) {
+        if (isHarpGliss().value_or(false)
+            && (glissStyle != GlissandoStyle::DIATONIC
+                && glissStyle != GlissandoStyle::CHROMATIC)) {
             glissStyle = GlissandoStyle::DIATONIC;
         }
         setGlissandoStyle(glissStyle);

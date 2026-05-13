@@ -65,7 +65,8 @@ void BrailleModule::onInit(const IApplication::RunMode&)
     m_brailleConfiguration->init();
 }
 
-muse::modularity::IContextSetup* BrailleModule::newContext(const muse::modularity::ContextPtr& ctx) const
+muse::modularity::IContextSetup* BrailleModule::newContext(const muse::modularity::ContextPtr& ctx)
+const
 {
     return new BrailleModuleContext(ctx);
 }

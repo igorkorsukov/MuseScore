@@ -90,7 +90,8 @@ const RealizedHarmony::PitchMap& RealizedHarmony::notes() const
 ///   generates a note list based on the passed parameters
 //---------------------------------------------------
 const RealizedHarmony::PitchMap RealizedHarmony::generateNotes(int rootTpc, int bassTpc,
-                                                               bool literal, Voicing voicing, int transposeOffset) const
+                                                               bool literal, Voicing voicing,
+                                                               int transposeOffset) const
 {
     //cut octaves from offset
     transposeOffset %= PITCH_DELTA_OCTAVE;
@@ -111,7 +112,9 @@ const RealizedHarmony::PitchMap RealizedHarmony::generateNotes(int rootTpc, int 
 
     //create root note or bass note in second octave below middle C
     if (bassTpc != Tpc::TPC_INVALID && voicing != Voicing::ROOT_ONLY) {
-        notes.insert({ tpc2pitch(bassTpc) + transposeOffset + (DEFAULT_OCTAVE - 2) * PITCH_DELTA_OCTAVE, bassTpc });
+        notes.insert({ tpc2pitch(
+                           bassTpc) + transposeOffset + (DEFAULT_OCTAVE - 2) * PITCH_DELTA_OCTAVE,
+                       bassTpc });
     } else {
         notes.insert({ rootPitch + (DEFAULT_OCTAVE - 2) * PITCH_DELTA_OCTAVE, rootTpc });
     }
@@ -132,14 +135,17 @@ const RealizedHarmony::PitchMap RealizedHarmony::generateNotes(int rootTpc, int 
         //for now this range is between 5*12 and 6*12
         PitchMap intervals = getIntervals(rootTpc, literal);
         for (const auto& p : intervals) {
-            notes.insert({ (rootPitch + (p.first % 128)) % PITCH_DELTA_OCTAVE + DEFAULT_OCTAVE * PITCH_DELTA_OCTAVE, p.second });
+            notes.insert(
+                { (rootPitch + (p.first % 128)) % PITCH_DELTA_OCTAVE + DEFAULT_OCTAVE * PITCH_DELTA_OCTAVE,
+                  p.second });
         }
     }
     break;
     case Voicing::DROP_2:
     {
         //select 4 notes from list
-        PitchMap intervals = normalizeNoteMap(getIntervals(rootTpc, literal), rootTpc, rootPitch, 4);
+        PitchMap intervals
+            = normalizeNoteMap(getIntervals(rootTpc, literal), rootTpc, rootPitch, 4);
 
         int counter = 0;           //counter to drop the second note
         for (auto it = intervals.rbegin(); it != intervals.rend(); ++it) {
@@ -154,7 +160,8 @@ const RealizedHarmony::PitchMap RealizedHarmony::generateNotes(int rootTpc, int 
     case Voicing::THREE_NOTE:
     {
         //Insert 2 notes in the octave above middle C
-        PitchMap intervals = normalizeNoteMap(getIntervals(rootTpc, literal), rootTpc, rootPitch, 2, true);
+        PitchMap intervals = normalizeNoteMap(getIntervals(rootTpc,
+                                                           literal), rootTpc, rootPitch, 2, true);
         auto it = intervals.begin();
         notes.insert({ it->first + DEFAULT_OCTAVE * PITCH_DELTA_OCTAVE, it->second });
 
@@ -343,9 +350,13 @@ RealizedHarmony::PitchMap RealizedHarmony::getIntervals(int rootTpc, bool litera
                 String extType = s.left(cutoff);
                 if (extType == "" || extType == "major") {         //alteration
                     if (deg == 9) {
-                        ret.insert({ step2pitchInterval(deg, alter) + RANK_MULT * RANK_9TH, tpcInterval(rootTpc, deg, alter) });
+                        ret.insert({ step2pitchInterval(deg,
+                                                        alter) + RANK_MULT * RANK_9TH,
+                                     tpcInterval(rootTpc, deg, alter) });
                     } else {
-                        ret.insert({ step2pitchInterval(deg, alter) + RANK_MULT * RANK_ADD, tpcInterval(rootTpc, deg, alter) });
+                        ret.insert({ step2pitchInterval(deg,
+                                                        alter) + RANK_MULT * RANK_ADD,
+                                     tpcInterval(rootTpc, deg, alter) });
                     }
                     if (deg == 5) {
                         alt5 = true;
@@ -353,14 +364,16 @@ RealizedHarmony::PitchMap RealizedHarmony::getIntervals(int rootTpc, bool litera
                     omit |= 1 << deg;
                     modded = true;
                 } else if (extType == "sus") {
-                    ret.insert({ step2pitchInterval(deg, alter) + RANK_MULT * RANK_3RD, tpcInterval(rootTpc, deg, alter) });
+                    ret.insert({ step2pitchInterval(deg, alter) + RANK_MULT * RANK_3RD,
+                                 tpcInterval(rootTpc, deg, alter) });
                     omit |= 1 << 3;
                     modded = true;
                 } else if (extType == "no") {
                     omit |= 1 << deg;
                     modded = true;
                 } else if (extType == "add") {
-                    ret.insert({ step2pitchInterval(deg, alter) + RANK_MULT * RANK_ADD, tpcInterval(rootTpc, deg, alter) });
+                    ret.insert({ step2pitchInterval(deg, alter) + RANK_MULT * RANK_ADD,
+                                 tpcInterval(rootTpc, deg, alter) });
                     omit |= 1 << deg;
                     modded = true;
                 }
@@ -371,20 +384,27 @@ RealizedHarmony::PitchMap RealizedHarmony::getIntervals(int rootTpc, bool litera
         //check for special chords, if we haven't modded anything yet there is a special or incomprehensible modifier
         if (!modded) {
             if (s == "phryg") {
-                ret.insert({ step2pitchInterval(9, -1) + RANK_MULT * RANK_9TH, tpcInterval(rootTpc, 9, -1) });
+                ret.insert({ step2pitchInterval(9, -1) + RANK_MULT * RANK_9TH,
+                             tpcInterval(rootTpc, 9, -1) });
                 omit |= 1 << 9;
             } else if (s == "lyd") {
-                ret.insert({ step2pitchInterval(11, +1) + RANK_MULT * RANK_ADD, tpcInterval(rootTpc, 11, +1) });
+                ret.insert({ step2pitchInterval(11, +1) + RANK_MULT * RANK_ADD,
+                             tpcInterval(rootTpc, 11, +1) });
                 omit |= 1 << 11;
             } else if (s == "blues") {
-                ret.insert({ step2pitchInterval(9, +1) + RANK_MULT * RANK_ADD, tpcInterval(rootTpc, 9, +1) });
+                ret.insert({ step2pitchInterval(9, +1) + RANK_MULT * RANK_ADD,
+                             tpcInterval(rootTpc, 9, +1) });
                 omit |= 1 << 9;
             } else if (s == "alt") {
-                ret.insert({ step2pitchInterval(5, -1) + RANK_MULT * RANK_ADD, tpcInterval(rootTpc, 5, -1) });
-                ret.insert({ step2pitchInterval(5, +1) + RANK_MULT * RANK_ADD, tpcInterval(rootTpc, 5, +1) });
+                ret.insert({ step2pitchInterval(5, -1) + RANK_MULT * RANK_ADD,
+                             tpcInterval(rootTpc, 5, -1) });
+                ret.insert({ step2pitchInterval(5, +1) + RANK_MULT * RANK_ADD,
+                             tpcInterval(rootTpc, 5, +1) });
                 omit |= 1 << 5;
-                ret.insert({ step2pitchInterval(9, -1) + RANK_MULT * RANK_9TH, tpcInterval(rootTpc, 9, -1) });
-                ret.insert({ step2pitchInterval(9, +1) + RANK_MULT * RANK_9TH, tpcInterval(rootTpc, 9, +1) });
+                ret.insert({ step2pitchInterval(9, -1) + RANK_MULT * RANK_9TH,
+                             tpcInterval(rootTpc, 9, -1) });
+                ret.insert({ step2pitchInterval(9, +1) + RANK_MULT * RANK_9TH,
+                             tpcInterval(rootTpc, 9, +1) });
                 omit |= 1 << 9;
             } else {    //no easy way to realize tristan chords since they are more analytical tools
                 omit = ~0;
@@ -400,35 +420,44 @@ RealizedHarmony::PitchMap RealizedHarmony::getIntervals(int rootTpc, bool litera
     //handle chord quality
     if (quality == "minor") {
         if (!(omit & (1 << 3))) {
-            ret.insert({ step2pitchInterval(3, -1) + RANK_MULT * RANK_3RD, tpcInterval(rootTpc, 3, -1) });         //min3
+            ret.insert({ step2pitchInterval(3, -1) + RANK_MULT * RANK_3RD,
+                         tpcInterval(rootTpc, 3, -1) });                                                           //min3
         }
         if (!(omit & (1 << 5))) {
-            ret.insert({ step2pitchInterval(5, 0) + RANK_MULT * RANK_OMIT, tpcInterval(rootTpc, 5, 0) });           //p5
+            ret.insert({ step2pitchInterval(5, 0) + RANK_MULT * RANK_OMIT, tpcInterval(rootTpc, 5,
+                                                                                       0) });                       //p5
         }
     } else if (quality == "augmented") {
         if (!(omit & (1 << 3))) {
-            ret.insert({ step2pitchInterval(3, 0) + RANK_MULT * RANK_3RD, tpcInterval(rootTpc, 3, 0) });          //maj3
+            ret.insert({ step2pitchInterval(3, 0) + RANK_MULT * RANK_3RD, tpcInterval(rootTpc, 3,
+                                                                                      0) });                      //maj3
         }
         if (!(omit & (1 << 5))) {
-            ret.insert({ step2pitchInterval(5, +1) + RANK_MULT * RANK_3RD, tpcInterval(rootTpc, 5, +1) });        //p5
+            ret.insert({ step2pitchInterval(5, +1) + RANK_MULT * RANK_3RD,
+                         tpcInterval(rootTpc, 5, +1) });                                                          //p5
         }
     } else if (quality == "diminished" || quality == "half-diminished") {
         if (!(omit & (1 << 3))) {
-            ret.insert({ step2pitchInterval(3, -1) + RANK_MULT * RANK_3RD, tpcInterval(rootTpc, 3, -1) });         //min3
+            ret.insert({ step2pitchInterval(3, -1) + RANK_MULT * RANK_3RD,
+                         tpcInterval(rootTpc, 3, -1) });                                                           //min3
         }
         if (!(omit & (1 << 5))) {
-            ret.insert({ step2pitchInterval(5, -1) + RANK_MULT * RANK_3RD, tpcInterval(rootTpc, 5, -1) });         //dim5
+            ret.insert({ step2pitchInterval(5, -1) + RANK_MULT * RANK_3RD,
+                         tpcInterval(rootTpc, 5, -1) });                                                           //dim5
         }
         if (!(omit & (1 << 7)) && quality == "half-diminished") {
-            ret.insert({ step2pitchInterval(7, -1) + RANK_MULT * RANK_7TH, tpcInterval(rootTpc, 7, -1) });           //min7
+            ret.insert({ step2pitchInterval(7, -1) + RANK_MULT * RANK_7TH,
+                         tpcInterval(rootTpc, 7, -1) });                                                             //min7
         }
         alt5 = true;
     } else { //major or dominant
         if (!(omit & (1 << 3))) {
-            ret.insert({ step2pitchInterval(3, 0) + RANK_MULT * RANK_3RD, tpcInterval(rootTpc, 3, 0) });          //maj3
+            ret.insert({ step2pitchInterval(3, 0) + RANK_MULT * RANK_3RD, tpcInterval(rootTpc, 3,
+                                                                                      0) });                      //maj3
         }
         if (!(omit & (1 << 5))) {
-            ret.insert({ step2pitchInterval(5, 0) + RANK_MULT * RANK_OMIT, tpcInterval(rootTpc, 5, 0) });          //p5
+            ret.insert({ step2pitchInterval(5, 0) + RANK_MULT * RANK_OMIT, tpcInterval(rootTpc, 5,
+                                                                                       0) });                      //p5
         }
     }
 
@@ -506,7 +535,8 @@ RealizedHarmony::PitchMap RealizedHarmony::getIntervals(int rootTpc, bool litera
         //add PITCH_DELTA_OCTAVE before modulo so that we can ensure arithmetic mod rather than computer mod
         //int keyTpc = int(next->staff()->key(next->tick())) + 14; //tpc of key (ex. F# major would be Tpc::F_S)
         //int keyTpcMinor = keyTpc + 3;
-        int pitchBetween = (tpc2pitch(next->rootTpc()) + PITCH_DELTA_OCTAVE - tpc2pitch(rootTpc)) % PITCH_DELTA_OCTAVE;
+        int pitchBetween = (tpc2pitch(next->rootTpc()) + PITCH_DELTA_OCTAVE - tpc2pitch(rootTpc))
+                           % PITCH_DELTA_OCTAVE;
         bool maj7 = qNext == "major" && next->parsedForm()->extension().toInt() >= 7;     //whether or not the next chord has major 7
 
         //commented code: dont add 9 for diminished chords
@@ -540,7 +570,8 @@ RealizedHarmony::PitchMap RealizedHarmony::getIntervals(int rootTpc, bool litera
 ///
 ///   enforceMaxEquals - enforce the max as a goal so that the max is how many notes is inserted
 //---------------------------------------------------
-RealizedHarmony::PitchMap RealizedHarmony::normalizeNoteMap(const PitchMap& intervals, int rootTpc, int rootPitch, size_t max,
+RealizedHarmony::PitchMap RealizedHarmony::normalizeNoteMap(const PitchMap& intervals, int rootTpc,
+                                                            int rootPitch, size_t max,
                                                             bool enforceMaxAsGoal) const
 {
     PitchMap ret;

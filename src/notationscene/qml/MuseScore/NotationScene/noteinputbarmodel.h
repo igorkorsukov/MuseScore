@@ -87,7 +87,8 @@ private:
     void updateRestState();
     void updateAddState();
 
-    muse::uicomponents::MenuItem* makeActionItem(const muse::ui::UiAction& action, const QString& section,
+    muse::uicomponents::MenuItem* makeActionItem(const muse::ui::UiAction& action,
+                                                 const QString& section,
                                                  const muse::uicomponents::MenuItemList& subitems = {});
     muse::uicomponents::MenuItem* makeAddItem(const QString& section);
 

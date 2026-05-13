@@ -37,10 +37,31 @@ GlissandoSectionModel::GlissandoSectionModel(QObject* parent)
 {
 }
 
-StyleItem* GlissandoSectionModel::glissandoLineStyle() const { return styleItem(StyleId::glissandoLineStyle); }
-StyleItem* GlissandoSectionModel::glissandoLineStyleDashSize() const { return styleItem(StyleId::glissandoDashLineLen); }
-StyleItem* GlissandoSectionModel::glissandoLineStyleGapSize()  const { return styleItem(StyleId::glissandoDashGapLen); }
-StyleItem* GlissandoSectionModel::glissandoLineWidth()  const { return styleItem(StyleId::glissandoLineWidth); }
-StyleItem* GlissandoSectionModel::glissandoShowText()  const { return styleItem(StyleId::glissandoShowText); }
-StyleItem* GlissandoSectionModel::glissandoText()  const { return styleItem(StyleId::glissandoText); }
-StyleItem* GlissandoSectionModel::glissandoLineType()  const { return styleItem(StyleId::glissandoType); }
+StyleItem* GlissandoSectionModel::glissandoLineStyle() const
+{
+    return styleItem(StyleId::glissandoLineStyle);
+}
+StyleItem* GlissandoSectionModel::glissandoLineStyleDashSize() const
+{
+    return styleItem(StyleId::glissandoDashLineLen);
+}
+StyleItem* GlissandoSectionModel::glissandoLineStyleGapSize()  const
+{
+    return styleItem(StyleId::glissandoDashGapLen);
+}
+StyleItem* GlissandoSectionModel::glissandoLineWidth()  const
+{
+    return styleItem(StyleId::glissandoLineWidth);
+}
+StyleItem* GlissandoSectionModel::glissandoShowText()  const
+{
+    return styleItem(StyleId::glissandoShowText);
+}
+StyleItem* GlissandoSectionModel::glissandoText()  const
+{
+    return styleItem(StyleId::glissandoText);
+}
+StyleItem* GlissandoSectionModel::glissandoLineType()  const
+{
+    return styleItem(StyleId::glissandoType);
+}

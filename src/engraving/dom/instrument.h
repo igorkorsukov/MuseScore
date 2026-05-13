@@ -135,7 +135,10 @@ public:
     InstrChannel();
 
     void updateInitList() const;
-    bool operator==(const InstrChannel& c) const { return (m_name == c.m_name) && (m_channel == c.m_channel); }
+    bool operator==(const InstrChannel& c) const
+    {
+        return (m_name == c.m_name) && (m_channel == c.m_channel);
+    }
     bool operator!=(const InstrChannel& c) const { return !(*this == c); }
 
     void addListener(ChannelListener* l);
@@ -367,7 +370,8 @@ public:
     void setSingleNoteDynamics(bool val) { m_singleNoteDynamics = val; }
     void setSingleNoteDynamicsFromTemplate();
     bool getSingleNoteDynamicsFromTemplate() const;
-    void switchExpressive(MasterScore* score, Synthesizer* synth, bool expressive, bool force = false);
+    void switchExpressive(MasterScore* score, Synthesizer* synth, bool expressive,
+                          bool force = false);
 
     bool isVocalInstrument() const;
     bool isNormallyMultiStaveInstrument() const;

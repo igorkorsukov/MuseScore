@@ -33,7 +33,8 @@ class StaffControlTreeItem : public AbstractLayoutPanelTreeItem
     QML_UNCREATABLE("Must be created in C++ only")
 
 public:
-    StaffControlTreeItem(notation::IMasterNotationPtr masterNotation, notation::INotationPtr notation, QObject* parent);
+    StaffControlTreeItem(notation::IMasterNotationPtr masterNotation,
+                         notation::INotationPtr notation, QObject* parent);
 
     void init(const muse::ID& partId);
 

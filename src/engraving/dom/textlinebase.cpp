@@ -37,7 +37,8 @@ namespace mu::engraving {
 //   TextLineBaseSegment
 //---------------------------------------------------------
 
-TextLineBaseSegment::TextLineBaseSegment(const ElementType& type, Spanner* sp, System* parent, ElementFlags f)
+TextLineBaseSegment::TextLineBaseSegment(const ElementType& type, Spanner* sp, System* parent,
+                                         ElementFlags f)
     : LineSegment(type, sp, parent, f)
 {
     m_text    = Factory::createText(this, TextStyleType::DEFAULT, false);
@@ -76,7 +77,8 @@ void TextLineBaseSegment::setSelected(bool f)
     m_endText->setSelected(f);
 }
 
-RectF TextLineBaseSegment::boundingBoxOfLine(const PointF& p1, const PointF& p2, double lw2, bool isDottedLine)
+RectF TextLineBaseSegment::boundingBoxOfLine(const PointF& p1, const PointF& p2, double lw2,
+                                             bool isDottedLine)
 {
     if (isDottedLine) {
         return RectF(p1, p2).normalized().adjusted(-lw2, -lw2, lw2, lw2);

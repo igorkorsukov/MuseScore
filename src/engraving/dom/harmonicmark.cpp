@@ -65,7 +65,8 @@ static const ElementStyle harmonicMarkStyle {
 };
 
 HarmonicMarkSegment::HarmonicMarkSegment(HarmonicMark* sp, System* parent)
-    : TextLineBaseSegment(ElementType::HARMONIC_MARK_SEGMENT, sp, parent, ElementFlag::MOVABLE | ElementFlag::ON_STAFF)
+    : TextLineBaseSegment(ElementType::HARMONIC_MARK_SEGMENT, sp, parent,
+                          ElementFlag::MOVABLE | ElementFlag::ON_STAFF)
 {
     m_text->setTextStyleType(propertyDefault(Pid::TEXT_STYLE).value<TextStyleType>());
     m_endText->setTextStyleType(propertyDefault(Pid::TEXT_STYLE).value<TextStyleType>());

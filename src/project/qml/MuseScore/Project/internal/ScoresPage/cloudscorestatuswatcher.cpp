@@ -59,7 +59,9 @@ void CloudScoreStatusWatcher::onProjectBeingDownloadedChanged()
         return;
     }
 
-    download.progress->progressChanged().onReceive(this, [this](int64_t current, int64_t total, const std::string&) {
+    download.progress->progressChanged().onReceive(this,
+                                                   [this](int64_t current, int64_t total,
+                                                          const std::string&) {
         m_progressCurrent = current;
         m_progressTotal = total;
         emit progressChanged();

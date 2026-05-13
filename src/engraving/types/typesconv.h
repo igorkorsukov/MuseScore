@@ -38,7 +38,8 @@ public:
     static std::vector<int> fromXml(const String& tag, const std::vector<int>& def);
 
     static String toXml(const std::vector<string_idx_t>& v);
-    static std::vector<string_idx_t> fromXml(const String& tag, const std::vector<string_idx_t>& def);
+    static std::vector<string_idx_t> fromXml(const String& tag,
+                                             const std::vector<string_idx_t>& def);
 
     static const TranslatableString& userName(ElementType v);
     static const TranslatableString& capitalizedUserName(ElementType v);
@@ -112,9 +113,13 @@ public:
 
     static AsciiStringView toXml(ChangeMethod v);
     static ChangeMethod fromXml(const AsciiStringView& tag, ChangeMethod def);
-    static std::map<int /*positionTick*/, int> easingValueCurve(const int ticksDuration, const int stepsCount, const int amplitude,
+    static std::map<int /*positionTick*/, int> easingValueCurve(const int ticksDuration,
+                                                                const int stepsCount,
+                                                                const int amplitude,
                                                                 const ChangeMethod method);
-    static std::map<int /*positionTick*/, double> easingValueCurve(const int ticksDuration, const int stepsCount, const double amplitude,
+    static std::map<int /*positionTick*/, double> easingValueCurve(const int ticksDuration,
+                                                                   const int stepsCount,
+                                                                   const double amplitude,
                                                                    const ChangeMethod method);
 
     static String toXml(const PitchValue& v);
@@ -260,7 +265,8 @@ public:
     static AutoOnOff fromXml(const AsciiStringView& str, AutoOnOff def);
 
     static AsciiStringView toXml(CapoParams::TransposeMode autoOnOff);
-    static CapoParams::TransposeMode fromXml(const AsciiStringView& str, CapoParams::TransposeMode def);
+    static CapoParams::TransposeMode fromXml(const AsciiStringView& str,
+                                             CapoParams::TransposeMode def);
 
     static AsciiStringView toXml(PartialSpannerDirection v);
     static PartialSpannerDirection fromXml(const AsciiStringView& str, PartialSpannerDirection def);

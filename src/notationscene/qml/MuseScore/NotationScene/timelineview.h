@@ -33,7 +33,8 @@
 #include "async/asyncable.h"
 
 namespace mu::notation {
-class TimelineView : public muse::uicomponents::WidgetView, public muse::Contextable, public muse::async::Asyncable
+class TimelineView : public muse::uicomponents::WidgetView, public muse::Contextable,
+    public muse::async::Asyncable
 {
     Q_OBJECT
     QML_ELEMENT;

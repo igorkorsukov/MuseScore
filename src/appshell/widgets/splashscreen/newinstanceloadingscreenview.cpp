@@ -31,7 +31,9 @@
 
 using namespace mu::appshell;
 
-NewInstanceLoadingScreenView::NewInstanceLoadingScreenView(bool forNewScore, const QString& openingFileName, QWidget* parent)
+NewInstanceLoadingScreenView::NewInstanceLoadingScreenView(bool forNewScore,
+                                                           const QString& openingFileName,
+                                                           QWidget* parent)
     : QWidget(parent)
 {
     setAttribute(Qt::WA_TranslucentBackground);
@@ -68,7 +70,8 @@ bool NewInstanceLoadingScreenView::event(QEvent* event)
 
 void NewInstanceLoadingScreenView::draw(QPainter* painter)
 {
-    painter->setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing | QPainter::SmoothPixmapTransform);
+    painter->setRenderHints(
+        QPainter::Antialiasing | QPainter::TextAntialiasing | QPainter::SmoothPixmapTransform);
 
     // Draw background
     QString bgColorStr = "#00081C";
@@ -87,6 +90,7 @@ void NewInstanceLoadingScreenView::draw(QPainter* painter)
     QRectF messageRectangle(0, 0, m_dialogSize.width(), m_dialogSize.height());
     messageRectangle -= QMargins(8, 8, 8, 8);
 
-    QString elidedText = fontMetrics.elidedText(m_message, Qt::ElideMiddle, messageRectangle.width());
+    QString elidedText
+        = fontMetrics.elidedText(m_message, Qt::ElideMiddle, messageRectangle.width());
     painter->drawText(messageRectangle, Qt::AlignCenter | Qt::TextDontClip, elidedText);
 }

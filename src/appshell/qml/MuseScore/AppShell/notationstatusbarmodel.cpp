@@ -103,7 +103,8 @@ void NotationStatusBarModel::init()
     connect(m_workspacesMenuModel.get(), &WorkspacesMenuModel::itemsChanged, this, [this]() {
         updateCurrentWorkspaceItem();
     });
-    workspaceConfiguration()->currentWorkspaceNameChanged().onReceive(this, [this](const std::string&){
+    workspaceConfiguration()->currentWorkspaceNameChanged().onReceive(this,
+                                                                      [this](const std::string&){
         updateCurrentWorkspaceItem();
     });
 #endif
@@ -113,7 +114,8 @@ void NotationStatusBarModel::init()
 
 QString NotationStatusBarModel::accessibilityInfo() const
 {
-    return accessibility() ? QString::fromStdString(accessibility()->accessibilityInfo().val) : QString();
+    return accessibility() ? QString::fromStdString(accessibility()->accessibilityInfo().val) :
+           QString();
 }
 
 MenuItem* NotationStatusBarModel::concertPitchItem()
@@ -125,7 +127,8 @@ void NotationStatusBarModel::updateConcertPitchItem()
 {
     UiActionState state;
     state.enabled = m_notation ? true : false;
-    state.checked = m_notation ? m_notation->style()->styleValue(StyleId::concertPitch).toBool() : false;
+    state.checked
+        = m_notation ? m_notation->style()->styleValue(StyleId::concertPitch).toBool() : false;
     m_concertPitchItem->setState(state);
 }
 
@@ -233,7 +236,8 @@ void NotationStatusBarModel::setCurrentZoomPercentage(int zoomPercentage)
         return;
     }
 
-    dispatch(zoomTypeToActionCode(ZoomType::Percentage), ActionData::make_arg1<int>(zoomPercentage));
+    dispatch(zoomTypeToActionCode(ZoomType::Percentage),
+             ActionData::make_arg1<int>(zoomPercentage));
 }
 
 ZoomType NotationStatusBarModel::currentZoomType() const
@@ -271,7 +275,9 @@ void NotationStatusBarModel::setNotation(const INotationPtr& notation)
         return;
     }
 
-    notation->undoStack()->changesChannel().onReceive(this, [this](const mu::engraving::ScoreChanges& changes) {
+    notation->undoStack()->changesChannel().onReceive(this,
+                                                      [this](const mu::engraving::ScoreChanges&
+                                                             changes) {
         if (muse::contains(changes.changedStyleIdSet, mu::engraving::Sid::concertPitch)) {
             updateConcertPitchItem();
         }
@@ -329,7 +335,8 @@ void NotationStatusBarModel::initAvailableZoomList()
         return muse::TranslatableString::untranslatable("%1%").arg(percentage);
     };
 
-    auto buildZoomItem = [=](ZoomType type, const muse::TranslatableString& title = {}, int value = 0) {
+    auto buildZoomItem
+        = [=](ZoomType type, const muse::TranslatableString& title = {}, int value = 0) {
         MenuItem* menuItem = new MenuItem(this);
         menuItem->setId(QString::number(static_cast<int>(type)) + QString::number(value));
 
@@ -343,7 +350,8 @@ void NotationStatusBarModel::initAvailableZoomList()
 
         menuItem->setSelectable(true);
         if (currZoomType == type) {
-            menuItem->setSelected(type == ZoomType::Percentage ? value == currZoomPercentage : true);
+            menuItem->setSelected(type == ZoomType::Percentage ? value
+                                  == currZoomPercentage : true);
         }
 
         menuItem->setArgs(ActionData::make_arg2<ZoomType, int>(type, value));
@@ -361,9 +369,12 @@ void NotationStatusBarModel::initAvailableZoomList()
     m_availableZoomList << buildZoomItem(ZoomType::WholePage);
     m_availableZoomList << buildZoomItem(ZoomType::TwoPages);
 
-    bool isCustomZoom = currZoomType == ZoomType::Percentage && !possibleZoomList.contains(currZoomPercentage);
+    bool isCustomZoom = currZoomType == ZoomType::Percentage && !possibleZoomList.contains(
+        currZoomPercentage);
     if (isCustomZoom) {
-        MenuItem* customZoom = buildZoomItem(ZoomType::Percentage, zoomPercentageTitle(currZoomPercentage), currZoomPercentage);
+        MenuItem* customZoom
+            = buildZoomItem(ZoomType::Percentage, zoomPercentageTitle(
+                                currZoomPercentage), currZoomPercentage);
         customZoom->setSelected(true);
         m_availableZoomList << customZoom;
     }

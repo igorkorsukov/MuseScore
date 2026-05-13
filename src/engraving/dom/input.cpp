@@ -170,7 +170,8 @@ void InputState::setVoice(voice_idx_t v)
 
     // If candidateSeg still doesn't have a valid ChordRest for the desired voice, we'll now check whether it is
     // within the range of a tuplet at our desired voice. If so, move candidateSeg to the start of that tuplet...
-    const ChordRest* nextCR = candidateSeg->nextChordRest(newTrack, /*backwards*/ true, /*stopAtMeasureBoundary*/ true);
+    const ChordRest* nextCR = candidateSeg->nextChordRest(newTrack, /*backwards*/ true,
+                                                          /*stopAtMeasureBoundary*/ true);
     const Tuplet* nextTuplet = nextCR ? nextCR->topTuplet() : nullptr;
     if (!candidateSeg->cr(newTrack) && nextTuplet) {
         candidateSeg = score->tick2segment(nextTuplet->tick());
@@ -254,7 +255,8 @@ void InputState::update(Selection& selection)
                 }
 
                 articulationsIds = mu::engraving::splitArticulations(articulationsIds);
-                articulationsIds = mu::engraving::flipArticulations(articulationsIds, PlacementV::ABOVE);
+                articulationsIds = mu::engraving::flipArticulations(articulationsIds,
+                                                                    PlacementV::ABOVE);
                 for (const SymId& articulationSymbolId: articulationsIds) {
                     if (std::find(articulationSymbolIds.begin(), articulationSymbolIds.end(),
                                   articulationSymbolId) == articulationSymbolIds.end()) {
@@ -270,7 +272,8 @@ void InputState::update(Selection& selection)
                         articulationsIds.insert(artic->symId());
                     }
                 }
-                articulationSymbolIds = mu::engraving::flipArticulations(articulationsIds, PlacementV::ABOVE);
+                articulationSymbolIds = mu::engraving::flipArticulations(articulationsIds,
+                                                                         PlacementV::ABOVE);
 
                 n1 = n;
             }

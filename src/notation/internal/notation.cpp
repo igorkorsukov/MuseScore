@@ -46,7 +46,8 @@
 using namespace mu::notation;
 using namespace mu::engraving;
 
-Notation::Notation(MasterNotation* master, const muse::modularity::ContextPtr& iocCtx, mu::engraving::Score* score)
+Notation::Notation(MasterNotation* master, const muse::modularity::ContextPtr& iocCtx,
+                   mu::engraving::Score* score)
     : muse::Contextable(iocCtx)
     , m_masterNotation(master)
 {
@@ -55,7 +56,8 @@ Notation::Notation(MasterNotation* master, const muse::modularity::ContextPtr& i
     m_soloMuteState = std::make_shared<NotationSoloMuteState>();
     m_undoStack = std::make_shared<NotationUndoStack>(this, m_notationChanged);
     m_interaction = std::make_shared<NotationInteraction>(this, m_undoStack);
-    m_midiInput = std::make_shared<NotationMidiInput>(this, m_interaction, m_undoStack, iocContext());
+    m_midiInput
+        = std::make_shared<NotationMidiInput>(this, m_interaction, m_undoStack, iocContext());
     m_accessibility = std::make_shared<NotationAccessibility>(this);
     m_style = std::make_shared<NotationStyle>(this, m_undoStack);
     m_parts = std::make_shared<NotationParts>(this, m_interaction, m_undoStack, m_style);

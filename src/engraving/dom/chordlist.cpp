@@ -259,7 +259,8 @@ String HChord::name(int tpc) const
 String HChord::voicing() const
 {
     String s = u"C";
-    const char* names[] = { "C", " Db", " D", " Eb", " E", " F", " Gb", " G", " Ab", " A", " Bb", " B" };
+    const char* names[]
+        = { "C", " Db", " D", " Eb", " E", " F", " Gb", " G", " Ab", " A", " Bb", " B" };
 
     for (int i = 1; i < 12; i++) {
         if (contains(i)) {
@@ -405,7 +406,8 @@ static void readRenderList(String val, std::vector<RenderActionPtr>& renderList,
 //   writeRenderList
 //---------------------------------------------------------
 
-static void writeRenderList(XmlWriter& xml, const std::vector<RenderActionPtr>& al, const AsciiStringView& name)
+static void writeRenderList(XmlWriter& xml, const std::vector<RenderActionPtr>& al,
+                            const AsciiStringView& name)
 {
     String s;
 
@@ -429,7 +431,8 @@ static void writeRenderList(XmlWriter& xml, const std::vector<RenderActionPtr>& 
             break;
         }
         case RenderAction::RenderActionType::MOVEXHEIGHT: {
-            const RenderActionMoveXHeightPtr movex = std::static_pointer_cast<RenderActionMoveXHeight>(a);
+            const RenderActionMoveXHeightPtr movex
+                = std::static_pointer_cast<RenderActionMoveXHeight>(a);
             String scaled = movex->scaled() ? u"s" : u"";
             s += String(u":mx%1").arg(scaled);
             break;
@@ -607,7 +610,8 @@ bool ParsedChord::parse(const String& s, const ChordList* cl, bool syntaxOnly, b
         }
         tok1.append(s.at(i));
         tok1L.append(s.at(i).toLower());
-        if (tok1L == u"m" || m_major.contains(tok1L) || m_minor.contains(tok1L) || m_diminished.contains(tok1L)
+        if (tok1L == u"m" || m_major.contains(tok1L) || m_minor.contains(tok1L)
+            || m_diminished.contains(tok1L)
             || m_augmented.contains(tok1L)) {
             initial = tok1;
         }
@@ -624,7 +628,8 @@ bool ParsedChord::parse(const String& s, const ChordList* cl, bool syntaxOnly, b
         u"omit",
         u"type"
     };
-    if (!initial.empty() && initial != tok1 && !muse::contains(modifiersStartingWithQualityCharacters, tok1L)) {
+    if (!initial.empty() && initial != tok1
+        && !muse::contains(modifiersStartingWithQualityCharacters, tok1L)) {
         i -= (tok1.size() - initial.size());
         tok1 = initial;
         tok1L = initial.toLower();
@@ -749,7 +754,8 @@ bool ParsedChord::parse(const String& s, const ChordList* cl, bool syntaxOnly, b
     }
     m_extension = tok1;
     if (m_quality.empty()) {
-        if (m_extension == "7" || m_extension == "9" || m_extension == "11" || m_extension == "13") {
+        if (m_extension == "7" || m_extension == "9" || m_extension == "11"
+            || m_extension == "13") {
             m_quality = preferMinor ? u"minor" : u"dominant";
             if (!syntaxOnly) {
                 m_xmlKind = preferMinor ? u"minor" : u"dominant";
@@ -1114,7 +1120,8 @@ bool ParsedChord::parse(const String& s, const ChordList* cl, bool syntaxOnly, b
                     m_xmlKind = u"suspended-second";
                 }
                 m_xmlText = tok1L + tok2;
-                if (m_extension == "7" || m_extension == "9" || m_extension == "11" || m_extension == "13") {
+                if (m_extension == "7" || m_extension == "9" || m_extension == "11"
+                    || m_extension == "13") {
                     m_xmlDegrees << ((m_quality == u"major") ? u"add#7" : u"add7");
                     // hack for programs that cannot assemble names well
                     // even though the kind is suspended, set text to also include the extension
@@ -1317,8 +1324,10 @@ bool ParsedChord::parse(const String& s, const ChordList* cl, bool syntaxOnly, b
         LOGD("parse: source = <%s>, handle = %s", muPrintable(s), muPrintable(m_handle));
         if (!syntaxOnly) {
             LOGD("parse: HChord = <%s> (%d)", muPrintable(m_chord.voicing()), m_chord.getKeys());
-            LOGD("parse: xmlKind = <%s>, text = <%s>", muPrintable(m_xmlKind), muPrintable(m_xmlText));
-            LOGD("parse: xmlSymbols = %s, xmlParens = %s", muPrintable(m_xmlSymbols), muPrintable(m_xmlParens));
+            LOGD("parse: xmlKind = <%s>, text = <%s>", muPrintable(m_xmlKind), muPrintable(
+                     m_xmlText));
+            LOGD("parse: xmlSymbols = %s, xmlParens = %s", muPrintable(m_xmlSymbols),
+                 muPrintable(m_xmlParens));
             LOGD("parse: xmlDegrees = <%s>", muPrintable(m_xmlDegrees.join(u",")));
         }
     }
@@ -1329,7 +1338,8 @@ bool ParsedChord::parse(const String& s, const ChordList* cl, bool syntaxOnly, b
 //   fromXml
 //---------------------------------------------------------
 
-String ParsedChord::fromXml(const String& rawKind, const String& rawKindText, const String& useSymbols, const String& useParens,
+String ParsedChord::fromXml(const String& rawKind, const String& rawKindText,
+                            const String& useSymbols, const String& useParens,
                             const std::vector<HDegree>& dl, const ChordList* cl)
 {
     String kind = rawKind;
@@ -1558,7 +1568,8 @@ String ParsedChord::fromXml(const String& rawKind, const String& rawKindText, co
     m_xmlSymbols = useSymbols;
     m_xmlParens = useParens;
     for (const HDegree& d : dl) {
-        if (kind == "half-diminished" && d.type() == HDegreeType::ALTER && d.alter() == -1 && d.value() == 5) {
+        if (kind == "half-diminished" && d.type() == HDegreeType::ALTER && d.alter() == -1
+            && d.value() == 5) {
             continue;
         }
         m_xmlDegrees << d.text();
@@ -1571,7 +1582,8 @@ String ParsedChord::fromXml(const String& rawKind, const String& rawKindText, co
 //   position
 //---------------------------------------------------------
 
-double ChordList::position(const StringList& names, bool stackModifiers, bool superScript, ChordTokenClass ctc, size_t modifierIdx,
+double ChordList::position(const StringList& names, bool stackModifiers, bool superScript,
+                           ChordTokenClass ctc, size_t modifierIdx,
                            size_t nmodifiers) const
 {
     String name = names.empty() ? u"" : names.front();
@@ -1586,7 +1598,8 @@ double ChordList::position(const StringList& names, bool stackModifiers, bool su
         } else if (stackModifiers && nmodifiers > 1) {
             static constexpr double LINE_SPACING = 0.4;             // Space between modifiers in units of modiferHeight
             const double modifierHeight = m_mmag * m_stackedmmag;   // Modifier height in units of root capheight
-            const double stackHeight = (nmodifiers * modifierHeight) + ((nmodifiers - 1) * modifierHeight * LINE_SPACING); // Height of total modifier stack (bottom baseline to top capheight)
+            const double stackHeight = (nmodifiers * modifierHeight)
+                                       + ((nmodifiers - 1) * modifierHeight * LINE_SPACING);                               // Height of total modifier stack (bottom baseline to top capheight)
             const double base = stackHeight / 2;                            // Baseline of bottom modifier in the stack
             yAdj += base - modifierIdx * modifierHeight * (1 + LINE_SPACING);
         }
@@ -1621,7 +1634,8 @@ const std::vector<RenderActionPtr >& ParsedChord::renderList(const ChordList* cl
     const double modListSize = m_modifierList.size();
     const size_t finalModIdx = modListSize - 1;
     const bool stackModifiersEnabled = m_modifierList.size() > 1 && stacked;
-    const bool superScriptEnabled = !stackModifiersEnabled && cl->chordPreset() == ChordStylePreset::JAZZ;
+    const bool superScriptEnabled = !stackModifiersEnabled
+                                    && cl->chordPreset() == ChordStylePreset::JAZZ;
 
     // Special stack layout if there is a single 'add' or 'sus' with multiple degrees
     // Standard stack layout if there is only one
@@ -1646,7 +1660,8 @@ const std::vector<RenderActionPtr >& ParsedChord::renderList(const ChordList* cl
         const ChordToken& tok = *tokIt;
         const String n = tok.names.front();
         if ((n == u"/" || n == u"," || n == u"\\" || n == u" ")
-            && (stackSusOrAdd || (stackModifiersEnabled && tok.tokenClass == ChordTokenClass::MODIFIER))) {
+            && (stackSusOrAdd
+                || (stackModifiersEnabled && tok.tokenClass == ChordTokenClass::MODIFIER))) {
             continue;
         }
 
@@ -1688,7 +1703,8 @@ const std::vector<RenderActionPtr >& ParsedChord::renderList(const ChordList* cl
 
         // build render list
         // check for adjustments
-        double yAdjust = adjust ? cl->position(tok.names, stackModifier, superScriptModifier, ctc, finalModIdx - modIdx, modListSize) : 0.0;
+        double yAdjust = adjust ? cl->position(tok.names, stackModifier, superScriptModifier, ctc,
+                                               finalModIdx - modIdx, modListSize) : 0.0;
 
         // Modifier behaviour
         if (tok.tokenClass == ChordTokenClass::MODIFIER) {
@@ -1773,7 +1789,8 @@ const std::vector<RenderActionPtr >& ParsedChord::renderList(const ChordList* cl
                     if (accTok.isValid()) {
                         for (const RenderActionPtr& a : accTok.renderList) {
                             if (a->actionType() == RenderAction::RenderActionType::SET) {
-                                m_renderList.emplace_back(new RenderActionMoveTextWidth(u"s" + nextAcc));
+                                m_renderList.emplace_back(new RenderActionMoveTextWidth(u"s"
+                                                                                        + nextAcc));
                             } else {
                                 m_renderList.emplace_back(a);
                             }
@@ -1979,8 +1996,10 @@ int ChordList::privateID = -1000;
 //   configureAutoAdjust
 //---------------------------------------------------------
 
-void ChordList::configureAutoAdjust(double emag, double eadjust, double mmag, double madjust, double stackedmmag, bool stackModifiers,
-                                    bool excludeModsHAlign, String symbolFont, const ChordStylePreset& preset)
+void ChordList::configureAutoAdjust(double emag, double eadjust, double mmag, double madjust,
+                                    double stackedmmag, bool stackModifiers,
+                                    bool excludeModsHAlign, String symbolFont,
+                                    const ChordStylePreset& preset)
 {
     m_stackModifiers = stackModifiers;
     m_excludeModsHAlign = excludeModsHAlign;
@@ -2128,7 +2147,9 @@ void ChordList::write(XmlWriter& xml) const
                     xml.tag("sym", { { "name", s.name }, { "value", s.value } });
                 } else {
                     // write hex numbers with a "0x" prefix, so they can convert back properly on read
-                    xml.tag("sym", { { "name", s.name }, { "code", u"0x" + String::number(s.code.unicode(), 16) } });
+                    xml.tag("sym",
+                            { { "name", s.name }, { "code", u"0x" + String::number(
+                                                        s.code.unicode(), 16) } });
                 }
             }
         }
@@ -2311,7 +2332,8 @@ void ChordList::checkChordList(const MStyle& style)
         bool excludeModsHAlign = style.styleB(Sid::chordAlignmentExcludeModifiers);
         String symbolFont = style.styleSt(Sid::musicalTextFont);
         ChordStylePreset preset = style.styleV(Sid::chordStyle).value<ChordStylePreset>();
-        configureAutoAdjust(emag, eadjust, mmag, madjust, stackedmmag, stackModifiers, excludeModsHAlign, symbolFont, preset);
+        configureAutoAdjust(emag, eadjust, mmag, madjust, stackedmmag, stackModifiers,
+                            excludeModsHAlign, symbolFont, preset);
 
         if (style.value(Sid::chordsXmlFile).toBool()) {
             read(u"chords.xml");
@@ -2373,7 +2395,8 @@ void RenderActionMoveXHeight::print() const
 
 void RenderActionParen::print() const
 {
-    String info = String(u"direction: %1").arg(direction() == DirectionH::LEFT ? u"left" : u"right");
+    String info
+        = String(u"direction: %1").arg(direction() == DirectionH::LEFT ? u"left" : u"right");
     RenderAction::print(actionType(), info);
 }
 }

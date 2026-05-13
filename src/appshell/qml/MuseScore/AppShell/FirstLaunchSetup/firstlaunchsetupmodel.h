@@ -33,12 +33,14 @@
 #include "interactive/iplatforminteractive.h"
 
 namespace mu::appshell {
-class FirstLaunchSetupModel : public QObject, public muse::Contextable, public muse::async::Asyncable
+class FirstLaunchSetupModel : public QObject, public muse::Contextable,
+    public muse::async::Asyncable
 {
     Q_OBJECT
 
     Q_PROPERTY(int numberOfPages READ numberOfPages CONSTANT)
-    Q_PROPERTY(int currentPageIndex READ currentPageIndex WRITE setCurrentPageIndex NOTIFY currentPageChanged)
+    Q_PROPERTY(
+        int currentPageIndex READ currentPageIndex WRITE setCurrentPageIndex NOTIFY currentPageChanged)
     Q_PROPERTY(QVariantMap currentPage READ currentPage NOTIFY currentPageChanged)
 
     Q_PROPERTY(bool canGoBack READ canGoBack NOTIFY currentPageChanged)

@@ -51,7 +51,8 @@ void PlayEvent::setPitch(int v)
         if (pitchIsValid(abs(v))) {
             ne->setPitch(v);                          // Set new ontTime value
         } else {
-            LOGW("PluginAPI::PlayEvent::setPitch: Invalid relative pitch value when added to parent note pitch.");
+            LOGW(
+                "PluginAPI::PlayEvent::setPitch: Invalid relative pitch value when added to parent note pitch.");
             return;
         }
     } else {
@@ -64,7 +65,8 @@ void PlayEvent::setPitch(int v)
         // A NoteEvent's pitch is actually summed with the parent pitch. This
         // check ensures that it doesn't result with an illegal pitch.
         if (!pitchIsValid(v + parentPitch)) {
-            LOGW("PluginAPI::PlayEvent::setPitch: Invalid relative pitch value when added to parent note pitch.");
+            LOGW(
+                "PluginAPI::PlayEvent::setPitch: Invalid relative pitch value when added to parent note pitch.");
             return;
         }
         mu::engraving::NoteEvent e = *ne;                        // Make copy of NoteEvent value
@@ -84,7 +86,8 @@ void PlayEvent::setOntime(int v)
     }
     // Note that onTime can be negative so a note can play earlier.
     // See: https://musescore.org/en/node/74651
-    if (v < -2 * mu::engraving::NoteEvent::NOTE_LENGTH || v > 2 * mu::engraving::NoteEvent::NOTE_LENGTH) {
+    if (v < -2 * mu::engraving::NoteEvent::NOTE_LENGTH
+        || v > 2 * mu::engraving::NoteEvent::NOTE_LENGTH) {
         LOGW("PluginAPI::PlayEvent::setOntime: Invalid value.");
         return;
     }

@@ -61,8 +61,10 @@ void NotationModule::resolveImports()
 {
     auto writers = globalIoc()->resolve<project::INotationWritersRegister>(mname);
     if (writers) {
-        writers->reg({ "spos" }, std::make_shared<PositionsWriter>(PositionsWriter::ElementType::SEGMENT));
-        writers->reg({ "mpos" }, std::make_shared<PositionsWriter>(PositionsWriter::ElementType::MEASURE));
+        writers->reg({ "spos" },
+                     std::make_shared<PositionsWriter>(PositionsWriter::ElementType::SEGMENT));
+        writers->reg({ "mpos" },
+                     std::make_shared<PositionsWriter>(PositionsWriter::ElementType::MEASURE));
         writers->reg({ "mscz" }, std::make_shared<MscNotationWriter>(engraving::MscIoMode::Zip));
         writers->reg({ "mscx" }, std::make_shared<MscNotationWriter>(engraving::MscIoMode::Dir));
     }
@@ -99,5 +101,7 @@ IContextSetup* NotationModule::newContext(const ContextPtr& ctx) const
 
 void NotationContext::registerExports()
 {
-    ioc()->registerExport<INotationContextConfiguration>(mname, new NotationContextConfiguration(iocContext()));
+    ioc()->registerExport<INotationContextConfiguration>(mname,
+                                                         new NotationContextConfiguration(
+                                                             iocContext()));
 }

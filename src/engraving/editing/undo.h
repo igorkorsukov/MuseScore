@@ -161,7 +161,8 @@ enum class CommandType : signed char {
 
 #define UNDO_TYPE(t) CommandType type() const override { return t; }
 #define UNDO_NAME(a) const char* name() const override { return a; }
-#define UNDO_CHANGED_OBJECTS(...) std::vector<EngravingObject*> objectItems() const override { return __VA_ARGS__; }
+#define UNDO_CHANGED_OBJECTS(...) std::vector<EngravingObject*> objectItems() const override { \
+        return __VA_ARGS__; }
 
 class UndoCommand
 {
@@ -191,7 +192,8 @@ public:
 
     virtual bool isFiltered(Filter, const EngravingItem* /* target */) const { return false; }
     bool hasFilteredChildren(Filter, const EngravingItem* target) const;
-    bool hasUnfilteredChildren(const std::vector<Filter>& filters, const EngravingItem* target) const;
+    bool hasUnfilteredChildren(const std::vector<Filter>& filters,
+                               const EngravingItem* target) const;
     void filterChildren(UndoCommand::Filter f, EngravingItem* target);
 
 protected:
@@ -290,8 +292,14 @@ public:
 
     UndoMacro* activeCommand() const { return m_activeCommand; }
 
-    UndoMacro* last() const { return m_currentIndex > 0 ? m_macroList[m_currentIndex - 1] : nullptr; }
-    UndoMacro* prev() const { return m_currentIndex > 1 ? m_macroList[m_currentIndex - 2] : nullptr; }
+    UndoMacro* last() const
+    {
+        return m_currentIndex > 0 ? m_macroList[m_currentIndex - 1] : nullptr;
+    }
+    UndoMacro* prev() const
+    {
+        return m_currentIndex > 1 ? m_macroList[m_currentIndex - 2] : nullptr;
+    }
     UndoMacro* next() const { return canRedo() ? m_macroList[m_currentIndex] : nullptr; }
 
     /// Returns the command that led to the state with the given `idx`.

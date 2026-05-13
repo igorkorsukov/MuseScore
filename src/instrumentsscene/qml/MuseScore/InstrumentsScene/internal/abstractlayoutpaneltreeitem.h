@@ -42,7 +42,8 @@ struct MoveParams {
 
     bool isValid() const
     {
-        return !objectIdListToMove.empty() && (destinationObjectId.isValid() || moveSysObjBelowBottomStaff)
+        return !objectIdListToMove.empty()
+               && (destinationObjectId.isValid() || moveSysObjBelowBottomStaff)
                && objectsType != LayoutPanelItemType::UNDEFINED;
     }
 };
@@ -67,7 +68,8 @@ class AbstractLayoutPanelTreeItem : public QObject
     QML_UNCREATABLE("Not creatable as it is an abstract base class")
 
 public:
-    AbstractLayoutPanelTreeItem(LayoutPanelItemType::ItemType type, notation::IMasterNotationPtr masterNotation,
+    AbstractLayoutPanelTreeItem(LayoutPanelItemType::ItemType type,
+                                notation::IMasterNotationPtr masterNotation,
                                 notation::INotationPtr notation, QObject* parent);
     virtual ~AbstractLayoutPanelTreeItem();
 
@@ -90,9 +92,12 @@ public:
     Q_INVOKABLE virtual bool canAcceptDrop(const QVariant& item) const;
     Q_INVOKABLE virtual void appendNewItem();
 
-    virtual MoveParams buildMoveParams(int sourceRow, int count, AbstractLayoutPanelTreeItem* destinationParent, int destinationRow) const;
+    virtual MoveParams buildMoveParams(int sourceRow, int count,
+                                       AbstractLayoutPanelTreeItem* destinationParent,
+                                       int destinationRow) const;
 
-    virtual void moveChildren(int sourceRow, int count, AbstractLayoutPanelTreeItem* destinationParent, int destinationRow,
+    virtual void moveChildren(int sourceRow, int count,
+                              AbstractLayoutPanelTreeItem* destinationParent, int destinationRow,
                               bool updateNotation);
 
     virtual void moveChildrenOnScore(const MoveParams& params);
@@ -104,7 +109,8 @@ public:
     AbstractLayoutPanelTreeItem* parentItem() const;
     void setParentItem(AbstractLayoutPanelTreeItem* parent);
 
-    AbstractLayoutPanelTreeItem* childAtId(const muse::ID& id, LayoutPanelItemType::ItemType type) const;
+    AbstractLayoutPanelTreeItem* childAtId(const muse::ID& id,
+                                           LayoutPanelItemType::ItemType type) const;
     AbstractLayoutPanelTreeItem* childAtRow(int row) const;
     const QList<AbstractLayoutPanelTreeItem*>& childItems() const;
 

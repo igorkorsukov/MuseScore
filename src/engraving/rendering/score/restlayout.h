@@ -40,19 +40,23 @@ class RestLayout
 {
 public:
     static void layoutRest(const Rest* item, Rest::LayoutData* ldata, const LayoutContext& ctx);
-    static void fillShape(const Rest* item, Rest::LayoutData* ldata, const LayoutConfiguration& conf);
+    static void fillShape(const Rest* item, Rest::LayoutData* ldata,
+                          const LayoutConfiguration& conf);
 
-    static void resolveVerticalRestConflicts(LayoutContext& ctx, Segment* segment, staff_idx_t staffIdx);
-    static void resolveRestVSChord(std::vector<Rest*>& rests, std::vector<Chord*>& chords, const Staff* staff, Segment* segment);
-    static void resolveRestVSRest(std::vector<Rest*>& rests, const Staff* staff, Segment* segment, LayoutContext& ctx,
-                                  bool considerBeams = false);
+    static void resolveVerticalRestConflicts(LayoutContext& ctx, Segment* segment,
+                                             staff_idx_t staffIdx);
+    static void resolveRestVSChord(std::vector<Rest*>& rests, std::vector<Chord*>& chords,
+                                   const Staff* staff, Segment* segment);
+    static void resolveRestVSRest(std::vector<Rest*>& rests, const Staff* staff, Segment* segment,
+                                  LayoutContext& ctx, bool considerBeams = false);
 
     static void alignRests(const System* system, LayoutContext& ctx);
     static void checkFullMeasureRestCollisions(const System* system, LayoutContext& ctx);
 
 private:
     static void fillShape(const Rest* item, Rest::LayoutData* ldata);
-    static void fillShape(const MMRest* item, MMRest::LayoutData* ldata, const LayoutConfiguration& conf);
+    static void fillShape(const MMRest* item, MMRest::LayoutData* ldata,
+                          const LayoutConfiguration& conf);
 
     static int computeNaturalLine(int lines);
     static int computeVoiceOffset(const Rest* item, Rest::LayoutData* ldata); // Vertical displacement in multi-voice cases
@@ -61,6 +65,7 @@ private:
     static void updateSymbol(const Rest* item, Rest::LayoutData* ldata);
 
     static RestGroups computeRestGroups(const System* system, LayoutContext& ctx);
-    static InterruptionPoints computeInterruptionPoints(const Measure* measure, staff_idx_t staffIdx);
+    static InterruptionPoints computeInterruptionPoints(const Measure* measure,
+                                                        staff_idx_t staffIdx);
 };
 }

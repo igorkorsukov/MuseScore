@@ -31,7 +31,8 @@
 #include "imusesoundsconfiguration.h"
 
 namespace mu::musesounds {
-class MuseSamplerCheckUpdateService : public IMuseSamplerCheckUpdateService, public muse::async::Asyncable
+class MuseSamplerCheckUpdateService : public IMuseSamplerCheckUpdateService,
+    public muse::async::Asyncable
 {
     muse::GlobalInject<IMuseSoundsConfiguration> configuration;
     muse::GlobalInject<muse::network::INetworkManagerCreator> networkManagerCreator;

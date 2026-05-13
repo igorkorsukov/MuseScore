@@ -72,7 +72,8 @@ Marker::Marker(EngravingItem* parent)
 }
 
 Marker::Marker(EngravingItem* parent, TextStyleType tid)
-    : TextBase(ElementType::MARKER, parent, tid, ElementFlag::MOVABLE | ElementFlag::ON_STAFF | ElementFlag::SYSTEM)
+    : TextBase(ElementType::MARKER, parent, tid,
+               ElementFlag::MOVABLE | ElementFlag::ON_STAFF | ElementFlag::SYSTEM)
 {
     initElementStyle(&markerStyle);
     resetProperty(Pid::MUSIC_SYMBOL_SIZE);
@@ -95,7 +96,8 @@ void Marker::setMarkerType(MarkerType t)
             if (changeLabel) {
                 setLabel(String::fromAscii(p.label.ascii()));
             }
-            TextStyleType ts = p.rightAligned ? TextStyleType::REPEAT_RIGHT : TextStyleType::REPEAT_LEFT;
+            TextStyleType ts
+                = p.rightAligned ? TextStyleType::REPEAT_RIGHT : TextStyleType::REPEAT_LEFT;
             if (textStyleType() != ts) {
                 initTextStyleType(ts);
             }

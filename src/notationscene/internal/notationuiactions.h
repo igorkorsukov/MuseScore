@@ -31,7 +31,8 @@
 #include "notationactioncontroller.h"
 
 namespace mu::notation {
-class NotationUiActions : public muse::ui::IUiActionsModule, public muse::async::Asyncable, public muse::Contextable
+class NotationUiActions : public muse::ui::IUiActionsModule, public muse::async::Asyncable,
+    public muse::Contextable
 {
     muse::GlobalInject<engraving::IEngravingConfiguration> engravingConfiguration;
     muse::ContextInject<context::IUiContextResolver> uicontextResolver = { this };
@@ -39,7 +40,8 @@ class NotationUiActions : public muse::ui::IUiActionsModule, public muse::async:
 
 public:
 
-    NotationUiActions(std::shared_ptr<NotationActionController> controller, const muse::modularity::ContextPtr& iocCtx);
+    NotationUiActions(std::shared_ptr<NotationActionController> controller,
+                      const muse::modularity::ContextPtr& iocCtx);
 
     void init();
 

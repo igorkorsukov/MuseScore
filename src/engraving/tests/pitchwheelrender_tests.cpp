@@ -257,7 +257,9 @@ TEST_F(PitchWheelRender_Tests, twoDevidedFunctions)
     EventsHolder events = render.renderPitchWheel();
 
     EXPECT_EQ(events[DEFAULT_CHANNEL].size(), 5);
-    std::multimap<int, int> expectedValues = { { 0, 8192 }, { 10, 8202 }, { 20, 8212 }, { 40, 8222 }, { 50, 8232 } };
+    std::multimap<int,
+                  int> expectedValues
+        = { { 0, 8192 }, { 10, 8202 }, { 20, 8212 }, { 40, 8222 }, { 50, 8232 } };
     for (const auto& ev : events[DEFAULT_CHANNEL]) {
         auto it = expectedValues.find(ev.first);
         EXPECT_TRUE(it != expectedValues.end());
@@ -307,7 +309,8 @@ TEST_F(PitchWheelRender_Tests, twoOverlappedFunctions)
 
     EXPECT_EQ(events[DEFAULT_CHANNEL].size(), 4);
     std::multimap<int, int> pitches;
-    std::multimap<int, int> expectedValues = { { 0, 8192 }, { 10, 8202 }, { 20, 8222 }, { 30, 8212 } };
+    std::multimap<int,
+                  int> expectedValues = { { 0, 8192 }, { 10, 8202 }, { 20, 8222 }, { 30, 8212 } };
     for (const auto& ev : events[DEFAULT_CHANNEL]) {
         auto it = expectedValues.find(ev.first);
         EXPECT_TRUE(it != expectedValues.end());
@@ -360,7 +363,9 @@ TEST_F(PitchWheelRender_Tests, threeDevidedFunctions)
     EventsHolder events = render.renderPitchWheel();
 
     std::multimap<int, int> pitches;
-    std::multimap<int, int> expectedValues = { { 10, 8202 }, { 20, 8192 }, { 30, 8212 }, { 40, 8192 }, { 60, 8222 } };
+    std::multimap<int,
+                  int> expectedValues
+        = { { 10, 8202 }, { 20, 8192 }, { 30, 8212 }, { 40, 8192 }, { 60, 8222 } };
     for (const auto& ev : events[DEFAULT_CHANNEL]) {
         auto it = expectedValues.find(ev.first);
         EXPECT_TRUE(it != expectedValues.end());
@@ -413,7 +418,9 @@ TEST_F(PitchWheelRender_Tests, threeOverLappedFunctions)
     EventsHolder events = render.renderPitchWheel();
 
     std::multimap<int, int> pitches;
-    std::multimap<int, int> expectedValues = { { 0, 8202 }, { 20, 8212 }, { 40, 8222 }, { 50, 8212 }, { 60, 8202 }, { 70, 8192 } };
+    std::multimap<int,
+                  int> expectedValues
+        = { { 0, 8202 }, { 20, 8212 }, { 40, 8222 }, { 50, 8212 }, { 60, 8202 }, { 70, 8192 } };
     for (const auto& ev : events[DEFAULT_CHANNEL]) {
         auto it = expectedValues.find(ev.first);
         EXPECT_TRUE(it != expectedValues.end());

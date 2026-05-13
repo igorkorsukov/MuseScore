@@ -88,7 +88,8 @@ class FretDot : public UndoCommand
     void undo(EditData*) override;
 
 public:
-    FretDot(FretDiagram* d, int _string, int _fret, bool _add = false, FretDotType _dtype = FretDotType::NORMAL)
+    FretDot(FretDiagram* d, int _string, int _fret, bool _add = false,
+            FretDotType _dtype = FretDotType::NORMAL)
         : diagram(d), string(_string), fret(_fret), add(_add), dtype(_dtype) {}
 
     UNDO_TYPE(CommandType::FretDot)

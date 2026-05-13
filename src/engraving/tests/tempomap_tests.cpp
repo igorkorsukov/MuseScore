@@ -76,7 +76,8 @@ TEST_F(Engraving_TempoMapTests, DEFAULT_TEMPO)
 TEST_F(Engraving_TempoMapTests, ABSOLUTE_TEMPO_80_BPM)
 {
     // [GIVEN] Simple piece of score (Violin, 4/4, 120 bpm, Treble Cleff)
-    Score* score = ScoreRW::readScore(TEMPOMAP_TEST_FILES_DIR + "custom_tempo_80_bpm/custom_tempo_80_bpm.mscx");
+    Score* score = ScoreRW::readScore(
+        TEMPOMAP_TEST_FILES_DIR + "custom_tempo_80_bpm/custom_tempo_80_bpm.mscx");
 
     ASSERT_TRUE(score);
 
@@ -177,7 +178,9 @@ TEST_F(Engraving_TempoMapTests, GRADUAL_TEMPO_CHANGE_ACCELERANDO)
 {
     // [GIVEN] Simple piece of score (Violin, 4/4, 120 bpm, Treble Cleff)
     Score* score
-        = ScoreRW::readScore(TEMPOMAP_TEST_FILES_DIR + "gradual_tempo_change_accelerando/gradual_tempo_change_accelerando.mscx");
+        = ScoreRW::readScore(
+              TEMPOMAP_TEST_FILES_DIR
+              + "gradual_tempo_change_accelerando/gradual_tempo_change_accelerando.mscx");
 
     ASSERT_TRUE(score);
 
@@ -208,7 +211,9 @@ TEST_F(Engraving_TempoMapTests, GRADUAL_TEMPO_CHANGE_ACCELERANDO)
 TEST_F(Engraving_TempoMapTests, GRADUAL_TEMPO_CHANGE_RALLENTANDO)
 {
     // [GIVEN] Simple piece of score (Violin, 4/4, 120 bpm, Treble Cleff)
-    Score* score = ScoreRW::readScore(TEMPOMAP_TEST_FILES_DIR + "gradual_tempo_change_rallentando/gradual_tempo_change_rallentando.mscx");
+    Score* score = ScoreRW::readScore(
+        TEMPOMAP_TEST_FILES_DIR
+        + "gradual_tempo_change_rallentando/gradual_tempo_change_rallentando.mscx");
 
     ASSERT_TRUE(score);
 

@@ -37,13 +37,16 @@ GeneralPreferencesModel::GeneralPreferencesModel(QObject* parent)
 
 void GeneralPreferencesModel::load()
 {
-    languagesConfiguration()->currentLanguageCode().ch.onReceive(this, [this](const QString& languageCode) {
-        emit currentLanguageCodeChanged(languageCode);
+    languagesConfiguration()->currentLanguageCode().ch.onReceive(this,
+                                                                 [this](const QString& languageCode) {
+        emit currentLanguageCodeChanged(
+            languageCode);
     });
 
     setRestartRequired(languagesService()->restartRequiredToApplyLanguage());
     languagesService()->restartRequiredToApplyLanguageChanged().onReceive(this, [this](bool required) {
-        setRestartRequired(required);
+        setRestartRequired(
+            required);
     });
 
     configuration()->startupModeTypeChanged().onNotify(this, [this]() {
@@ -65,11 +68,14 @@ void GeneralPreferencesModel::checkUpdateForCurrentLanguage()
 
     m_languageUpdateProgress = languagesService()->update(languageCode);
 
-    m_languageUpdateProgress.progressChanged().onReceive(this, [this](int64_t current, int64_t total, const std::string& status) {
+    m_languageUpdateProgress.progressChanged().onReceive(this,
+                                                         [this](int64_t current, int64_t total,
+                                                                const std::string& status) {
         emit receivingUpdateForCurrentLanguage(current, total, QString::fromStdString(status));
     });
 
-    m_languageUpdateProgress.finished().onReceive(this, [this, languageCode](const ProgressResult& res) {
+    m_languageUpdateProgress.finished().onReceive(this,
+                                                  [this, languageCode](const ProgressResult& res) {
         if (res.ret.code() == static_cast<int>(Err::AlreadyUpToDate)) {
             QString msg = muse::qtrc("preferences", "Your version of %1 is up to date.")
                           .arg(languagesService()->language(languageCode).name);

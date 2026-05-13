@@ -35,6 +35,7 @@ public:
 
 private:
     static void doLayoutMarker(Marker* item, Marker::LayoutData* ldata, LayoutContext& ctx);
-    static double computeCustomTextOffset(const Marker* item, Marker::LayoutData* ldata, LayoutContext& ctx);
+    static double computeCustomTextOffset(const Marker* item, Marker::LayoutData* ldata,
+                                          LayoutContext& ctx);
 };
 } // namespace mu::engraving::rendering::score

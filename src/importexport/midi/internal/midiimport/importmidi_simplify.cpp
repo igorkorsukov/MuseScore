@@ -298,7 +298,8 @@ void simplifyDurations(
         if (opers.data()->trackOpers.simplifyDurations.value(mtrack.indexOfOperation)) {
             MidiOperations::CurrentTrackSetter setCurrentTrack{ opers, mtrack.indexOfOperation };
 #ifdef QT_DEBUG
-            Q_ASSERT_X(MidiTuplet::areTupletRangesOk(chords, mtrack.tuplets),
+            Q_ASSERT_X(MidiTuplet::areTupletRangesOk(chords,
+                                                     mtrack.tuplets),
                        "Simplify::simplifyDurations", "Tuplet chord/note is outside tuplet "
                                                       "or non-tuplet chord/note is inside tuplet before simplification");
 #endif
@@ -307,7 +308,8 @@ void simplifyDurations(
             // empty tuplets may appear after simplification
             MidiTuplet::removeEmptyTuplets(mtrack);
 #ifdef QT_DEBUG
-            Q_ASSERT_X(MidiTuplet::areTupletRangesOk(chords, mtrack.tuplets),
+            Q_ASSERT_X(MidiTuplet::areTupletRangesOk(chords,
+                                                     mtrack.tuplets),
                        "Simplify::simplifyDurations", "Tuplet chord/note is outside tuplet "
                                                       "or non-tuplet chord/note is inside tuplet after simplification");
 #endif

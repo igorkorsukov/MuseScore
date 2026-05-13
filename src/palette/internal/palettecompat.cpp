@@ -123,7 +123,8 @@ void PaletteCompat::migrateOldPaletteCellIfNeeded(PaletteCell* cell, Score* pale
         }
 
         Articulation* oldOrnament = toArticulation(item);
-        Ornament* newOrnament = Factory::createOrnament((ChordRest*)(paletteScore->dummy()->chord()));
+        Ornament* newOrnament
+            = Factory::createOrnament((ChordRest*)(paletteScore->dummy()->chord()));
         newOrnament->setSymId(oldOrnament->symId());
         cell->element.reset(newOrnament);
         return;
@@ -177,7 +178,8 @@ void PaletteCompat::migrateOldPaletteCellIfNeeded(PaletteCell* cell, Score* pale
     if (item->isFretDiagram()) {
         FretDiagram* oldFretDiagram = toFretDiagram(item);
         String oldFretDiagramPattern = oldFretDiagram->patternFromDiagram();
-        std::vector<String> oldFretDiagramPatternHarmonies = oldFretDiagram->harmoniesFromPattern(oldFretDiagramPattern);
+        std::vector<String> oldFretDiagramPatternHarmonies = oldFretDiagram->harmoniesFromPattern(
+            oldFretDiagramPattern);
 
         String harmonyName = muse::value(FRET_DIAGRAMS_MIGRATION_MAP, oldFretDiagramPattern);
         if (harmonyName.empty() || muse::contains(oldFretDiagramPatternHarmonies, harmonyName)) {
@@ -197,7 +199,8 @@ void PaletteCompat::migrateOldPaletteCellIfNeeded(PaletteCell* cell, Score* pale
         return;
     }
 
-    if (item->isActionIcon() && muse::contains(BOXES_ACTION_TYPES, toActionIcon(item)->actionType())) {
+    if (item->isActionIcon()
+        && muse::contains(BOXES_ACTION_TYPES, toActionIcon(item)->actionType())) {
         cell->mag = COMPAT_FRAME_MAG;
     }
 }
@@ -289,7 +292,8 @@ void PaletteCompat::addNewGuitarItems(Palette& guitarPalette, Score* paletteScor
     if (!containsWhammyBar) {
         auto whammyBar = Factory::makeWhammyBar(paletteScore->dummy()->segment());
         int defaultPosition = std::min(3, guitarPalette.cellsCount());
-        guitarPalette.insertElement(defaultPosition, whammyBar, QT_TRANSLATE_NOOP("palette", "Whammy bar"),
+        guitarPalette.insertElement(defaultPosition, whammyBar,
+                                    QT_TRANSLATE_NOOP("palette", "Whammy bar"),
                                     0.8)->setElementTranslated(true);
     }
 
@@ -303,34 +307,41 @@ void PaletteCompat::addNewGuitarItems(Palette& guitarPalette, Score* paletteScor
 
     if (!containsGuitarBends) {
         int defaultPosition = std::min(10, guitarPalette.cellsCount());
-        guitarPalette.insertActionIcon(defaultPosition, ActionIconType::SLIGHT_BEND, "slight-bend", 1.5);
-        guitarPalette.insertActionIcon(defaultPosition, ActionIconType::GRACE_NOTE_BEND, "grace-note-bend", 1.4);
+        guitarPalette.insertActionIcon(defaultPosition, ActionIconType::SLIGHT_BEND, "slight-bend",
+                                       1.5);
+        guitarPalette.insertActionIcon(defaultPosition, ActionIconType::GRACE_NOTE_BEND,
+                                       "grace-note-bend", 1.4);
         guitarPalette.insertActionIcon(defaultPosition, ActionIconType::PRE_BEND, "pre-bend", 1.5);
-        guitarPalette.insertActionIcon(defaultPosition, ActionIconType::STANDARD_BEND, "standard-bend", 1.5);
+        guitarPalette.insertActionIcon(defaultPosition, ActionIconType::STANDARD_BEND,
+                                       "standard-bend", 1.5);
     }
 
     if (!containsTapping) {
         int defaultPosition = std::min(30, guitarPalette.cellsCount());
         auto lhTapping = Factory::makeTapping(paletteScore->dummy()->chord());
         lhTapping->setHand(TappingHand::LEFT);
-        guitarPalette.insertElement(defaultPosition, lhTapping, QT_TRANSLATE_NOOP("palette", "Left-hand tapping"), 1.0);
+        guitarPalette.insertElement(defaultPosition, lhTapping,
+                                    QT_TRANSLATE_NOOP("palette", "Left-hand tapping"), 1.0);
 
         auto rhTapping = Factory::makeTapping(paletteScore->dummy()->chord());
         rhTapping->setHand(TappingHand::RIGHT);
-        guitarPalette.insertElement(defaultPosition + 1, rhTapping, QT_TRANSLATE_NOOP("palette", "Right-hand tapping"), 1.0);
+        guitarPalette.insertElement(defaultPosition + 1, rhTapping,
+                                    QT_TRANSLATE_NOOP("palette", "Right-hand tapping"), 1.0);
     }
 
     if (!containsHammerOnPullOff) {
         int defaultPosition = std::min(32, guitarPalette.cellsCount());
         auto hopo = Factory::makeHammerOnPullOff(paletteScore->dummy());
-        guitarPalette.insertElement(defaultPosition, hopo, QT_TRANSLATE_NOOP("palette", "Hammer-on / pull-off"), 0.8);
+        guitarPalette.insertElement(defaultPosition, hopo,
+                                    QT_TRANSLATE_NOOP("palette", "Hammer-on / pull-off"), 0.8);
     }
 
     if (!containsCapo) {
         auto capo = Factory::makeCapo(paletteScore->dummy()->segment());
         capo->setXmlText(String::fromAscii(QT_TRANSLATE_NOOP("palette", "Capo")));
         int defaultPosition = std::min(40, guitarPalette.cellsCount());
-        guitarPalette.insertElement(defaultPosition, capo, QT_TRANSLATE_NOOP("palette", "Capo"), 0.9)->setElementTranslated(true);
+        guitarPalette.insertElement(defaultPosition, capo, QT_TRANSLATE_NOOP("palette", "Capo"),
+                                    0.9)->setElementTranslated(true);
     }
 
     if (!containsStringTunings) {
@@ -338,12 +349,14 @@ void PaletteCompat::addNewGuitarItems(Palette& guitarPalette, Score* paletteScor
         stringTunings->setXmlText(u"<sym>guitarString6</sym> - D");
         stringTunings->initTextStyleType(TextStyleType::STRING_TUNINGS);
         int defaultPosition = std::min(41, guitarPalette.cellsCount());
-        guitarPalette.insertElement(defaultPosition, stringTunings, QT_TRANSLATE_NOOP("palette", "String tunings"),
+        guitarPalette.insertElement(defaultPosition, stringTunings,
+                                    QT_TRANSLATE_NOOP("palette", "String tunings"),
                                     0.9)->setElementTranslated(true);
     }
 
     if (!containsFFrame) {
-        guitarPalette.appendActionIcon(ActionIconType::FFRAME, "insert-fretframe", COMPAT_FRAME_MAG);
+        guitarPalette.appendActionIcon(ActionIconType::FFRAME, "insert-fretframe",
+                                       COMPAT_FRAME_MAG);
     }
 }
 
@@ -359,15 +372,18 @@ void PaletteCompat::addNewLineItems(Palette& linesPalette, Score* paletteScore)
             continue;
         }
 
-        if (element->isActionIcon() && toActionIcon(element.get())->actionType() == ActionIconType::NOTE_ANCHORED_LINE) {
+        if (element->isActionIcon()
+            && toActionIcon(element.get())->actionType() == ActionIconType::NOTE_ANCHORED_LINE) {
             containsNoteAnchoredLine = true;
         }
 
-        if (element->isTextLineBase() && toTextLineBase(element.get())->endHookType() == HookType::ARROW) {
+        if (element->isTextLineBase()
+            && toTextLineBase(element.get())->endHookType() == HookType::ARROW) {
             containsRightArrowHead = true;
         }
 
-        if (element->isTextLineBase() && toTextLineBase(element.get())->beginHookType() == HookType::ARROW) {
+        if (element->isTextLineBase()
+            && toTextLineBase(element.get())->beginHookType() == HookType::ARROW) {
             containsLeftArrowHead = true;
         }
 
@@ -381,7 +397,8 @@ void PaletteCompat::addNewLineItems(Palette& linesPalette, Score* paletteScore)
         auto rightArrowLine = Factory::makeTextLine(paletteScore->dummy());
         rightArrowLine->setDiagonal(true);
         rightArrowLine->setEndHookType(HookType::ARROW);
-        linesPalette.insertElement(defaultPosition, rightArrowLine, QT_TRANSLATE_NOOP("palette", "Line (right arrowhead)"));
+        linesPalette.insertElement(defaultPosition, rightArrowLine,
+                                   QT_TRANSLATE_NOOP("palette", "Line (right arrowhead)"));
     }
 
     if (!containsLeftArrowHead) {
@@ -389,12 +406,14 @@ void PaletteCompat::addNewLineItems(Palette& linesPalette, Score* paletteScore)
         auto leftArrowLine = Factory::makeTextLine(paletteScore->dummy());
         leftArrowLine->setDiagonal(true);
         leftArrowLine->setBeginHookType(HookType::ARROW);
-        linesPalette.insertElement(defaultPosition, leftArrowLine, QT_TRANSLATE_NOOP("palette", "Line (left arrowhead)"));
+        linesPalette.insertElement(defaultPosition, leftArrowLine,
+                                   QT_TRANSLATE_NOOP("palette", "Line (left arrowhead)"));
     }
 
     if (!containsNoteAnchoredLine) {
         int defaultPosition = std::min(22, linesPalette.cellsCount());
-        linesPalette.insertActionIcon(defaultPosition, ActionIconType::NOTE_ANCHORED_LINE, "add-noteline", 2);
+        linesPalette.insertActionIcon(defaultPosition, ActionIconType::NOTE_ANCHORED_LINE,
+                                      "add-noteline", 2);
     }
 
     if (!containsChordBrackets) {
@@ -403,7 +422,8 @@ void PaletteCompat::addNewLineItems(Palette& linesPalette, Score* paletteScore)
     }
 }
 
-void PaletteCompat::addNewFretboardDiagramItems(Palette& fretboardDiagramPalette, engraving::Score* paletteScore)
+void PaletteCompat::addNewFretboardDiagramItems(Palette& fretboardDiagramPalette,
+                                                engraving::Score* paletteScore)
 {
     bool containsBlankItem = false;
     for (const PaletteCellPtr& cell : fretboardDiagramPalette.cells()) {
@@ -422,7 +442,8 @@ void PaletteCompat::addNewFretboardDiagramItems(Palette& fretboardDiagramPalette
     if (!containsBlankItem) {
         auto fret = Factory::makeFretDiagram(paletteScore->dummy()->segment());
         fret->clear();
-        fretboardDiagramPalette.insertElement(0, fret, muse::TranslatableString("palette", "Blank"));
+        fretboardDiagramPalette.insertElement(0, fret,
+                                              muse::TranslatableString("palette", "Blank"));
     }
 }
 
@@ -457,14 +478,16 @@ void PaletteCompat::addNewLayoutItems(Palette& layoutPalette)
             continue;
         }
 
-        if (element->isActionIcon() && toActionIcon(element.get())->actionType() == ActionIconType::FFRAME) {
+        if (element->isActionIcon()
+            && toActionIcon(element.get())->actionType() == ActionIconType::FFRAME) {
             containsFFrame = true;
         }
     }
 
     if (!containsFFrame) {
         int defaultPosition = std::min(10, layoutPalette.cellsCount());
-        layoutPalette.insertActionIcon(defaultPosition, ActionIconType::FFRAME, "insert-fretframe", COMPAT_FRAME_MAG);
+        layoutPalette.insertActionIcon(defaultPosition, ActionIconType::FFRAME, "insert-fretframe",
+                                       COMPAT_FRAME_MAG);
     }
 }
 
@@ -482,11 +505,14 @@ void PaletteCompat::addNewKeyboardItems(Palette& keyPalette, engraving::Score* p
     }
 }
 
-void PaletteCompat::addChordBrackets(Palette& palette, engraving::Score* paletteScore, size_t position)
+void PaletteCompat::addChordBrackets(Palette& palette, engraving::Score* paletteScore,
+                                     size_t position)
 {
     std::array<QString, 3> names = { QT_TRANSLATE_NOOP("palette", "Chord bracket"),
-                                     QT_TRANSLATE_NOOP("palette", "Chord bracket (play with left hand)"),
-                                     QT_TRANSLATE_NOOP("palette", "Chord bracket (play with right hand)") };
+                                     QT_TRANSLATE_NOOP("palette",
+                                                       "Chord bracket (play with left hand)"),
+                                     QT_TRANSLATE_NOOP("palette",
+                                                       "Chord bracket (play with right hand)") };
     for (int i = 0; i < 3; ++i) {
         DirectionV hookPos = DirectionV(i);
         auto c = Factory::makeChordBracket(paletteScore->dummy()->chord());
@@ -521,11 +547,14 @@ void PaletteCompat::removeOldItems(Palette& palette)
             cellsToRemove.emplace_back(cell);
         }
 
-        if (element->isArpeggio() && toArpeggio(element.get())->arpeggioType() == ArpeggioType::BRACKET) {
+        if (element->isArpeggio()
+            && toArpeggio(element.get())->arpeggioType() == ArpeggioType::BRACKET) {
             cellsToRemove.emplace_back(cell);
         }
 
-        if (element->isHairpin() && toHairpin(element.get())->beginText() == u"<sym>dynamicMezzo</sym><sym>dynamicForte</sym>") {
+        if (element->isHairpin()
+            && toHairpin(element.get())->beginText()
+            == u"<sym>dynamicMezzo</sym><sym>dynamicForte</sym>") {
             cellsToRemove.emplace_back(cell);
         }
         if (element->isCapo()) {

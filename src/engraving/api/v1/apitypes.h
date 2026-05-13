@@ -109,27 +109,35 @@ enum class AccidentalType {
 
     SHARP_TWO_ARROWS_UP           = int(mu::engraving::AccidentalType::SHARP_TWO_ARROWS_UP),
     DOUBLE_SHARP_TWO_ARROWS_UP    = int(mu::engraving::AccidentalType::DOUBLE_SHARP_TWO_ARROWS_UP),
-    DOUBLE_FLAT_THREE_ARROWS_DOWN = int(mu::engraving::AccidentalType::DOUBLE_FLAT_THREE_ARROWS_DOWN),
+    DOUBLE_FLAT_THREE_ARROWS_DOWN
+        = int(mu::engraving::AccidentalType::DOUBLE_FLAT_THREE_ARROWS_DOWN),
     FLAT_THREE_ARROWS_DOWN        = int(mu::engraving::AccidentalType::FLAT_THREE_ARROWS_DOWN),
     NATURAL_THREE_ARROWS_DOWN     = int(mu::engraving::AccidentalType::NATURAL_THREE_ARROWS_DOWN),
     SHARP_THREE_ARROWS_DOWN       = int(mu::engraving::AccidentalType::SHARP_THREE_ARROWS_DOWN),
 
-    DOUBLE_SHARP_THREE_ARROWS_DOWN = int(mu::engraving::AccidentalType::DOUBLE_SHARP_THREE_ARROWS_DOWN),
-    DOUBLE_FLAT_THREE_ARROWS_UP    = int(mu::engraving::AccidentalType::DOUBLE_FLAT_THREE_ARROWS_UP),
+    DOUBLE_SHARP_THREE_ARROWS_DOWN
+        = int(mu::engraving::AccidentalType::DOUBLE_SHARP_THREE_ARROWS_DOWN),
+    DOUBLE_FLAT_THREE_ARROWS_UP
+        = int(mu::engraving::AccidentalType::DOUBLE_FLAT_THREE_ARROWS_UP),
     FLAT_THREE_ARROWS_UP           = int(mu::engraving::AccidentalType::FLAT_THREE_ARROWS_UP),
     NATURAL_THREE_ARROWS_UP        = int(mu::engraving::AccidentalType::NATURAL_THREE_ARROWS_UP),
     SHARP_THREE_ARROWS_UP          = int(mu::engraving::AccidentalType::SHARP_THREE_ARROWS_UP),
-    DOUBLE_SHARP_THREE_ARROWS_UP   = int(mu::engraving::AccidentalType::DOUBLE_SHARP_THREE_ARROWS_UP),
+    DOUBLE_SHARP_THREE_ARROWS_UP
+        = int(mu::engraving::AccidentalType::DOUBLE_SHARP_THREE_ARROWS_UP),
 
     LOWER_ONE_SEPTIMAL_COMMA        = int(mu::engraving::AccidentalType::LOWER_ONE_SEPTIMAL_COMMA),
     RAISE_ONE_SEPTIMAL_COMMA        = int(mu::engraving::AccidentalType::RAISE_ONE_SEPTIMAL_COMMA),
     LOWER_TWO_SEPTIMAL_COMMAS       = int(mu::engraving::AccidentalType::LOWER_TWO_SEPTIMAL_COMMAS),
     RAISE_TWO_SEPTIMAL_COMMAS       = int(mu::engraving::AccidentalType::RAISE_TWO_SEPTIMAL_COMMAS),
-    LOWER_ONE_UNDECIMAL_QUARTERTONE = int(mu::engraving::AccidentalType::LOWER_ONE_UNDECIMAL_QUARTERTONE),
-    RAISE_ONE_UNDECIMAL_QUARTERTONE = int(mu::engraving::AccidentalType::RAISE_ONE_UNDECIMAL_QUARTERTONE),
+    LOWER_ONE_UNDECIMAL_QUARTERTONE
+        = int(mu::engraving::AccidentalType::LOWER_ONE_UNDECIMAL_QUARTERTONE),
+    RAISE_ONE_UNDECIMAL_QUARTERTONE
+        = int(mu::engraving::AccidentalType::RAISE_ONE_UNDECIMAL_QUARTERTONE),
 
-    LOWER_ONE_TRIDECIMAL_QUARTERTONE = int(mu::engraving::AccidentalType::LOWER_ONE_TRIDECIMAL_QUARTERTONE),
-    RAISE_ONE_TRIDECIMAL_QUARTERTONE = int(mu::engraving::AccidentalType::RAISE_ONE_TRIDECIMAL_QUARTERTONE),
+    LOWER_ONE_TRIDECIMAL_QUARTERTONE
+        = int(mu::engraving::AccidentalType::LOWER_ONE_TRIDECIMAL_QUARTERTONE),
+    RAISE_ONE_TRIDECIMAL_QUARTERTONE
+        = int(mu::engraving::AccidentalType::RAISE_ONE_TRIDECIMAL_QUARTERTONE),
 
     DOUBLE_FLAT_EQUAL_TEMPERED   = int(mu::engraving::AccidentalType::DOUBLE_FLAT_EQUAL_TEMPERED),
     FLAT_EQUAL_TEMPERED          = int(mu::engraving::AccidentalType::FLAT_EQUAL_TEMPERED),
@@ -2016,8 +2024,10 @@ enum class SymId {
     accdnRH3RanksBandoneon = int(mu::engraving::SymId::accdnRH3RanksBandoneon),
     accdnRH3RanksBassoon = int(mu::engraving::SymId::accdnRH3RanksBassoon),
     accdnRH3RanksClarinet = int(mu::engraving::SymId::accdnRH3RanksClarinet),
-    accdnRH3RanksDoubleTremoloLower8ve = int(mu::engraving::SymId::accdnRH3RanksDoubleTremoloLower8ve),
-    accdnRH3RanksDoubleTremoloUpper8ve = int(mu::engraving::SymId::accdnRH3RanksDoubleTremoloUpper8ve),
+    accdnRH3RanksDoubleTremoloLower8ve
+        = int(mu::engraving::SymId::accdnRH3RanksDoubleTremoloLower8ve),
+    accdnRH3RanksDoubleTremoloUpper8ve
+        = int(mu::engraving::SymId::accdnRH3RanksDoubleTremoloUpper8ve),
     accdnRH3RanksFullFactory = int(mu::engraving::SymId::accdnRH3RanksFullFactory),
     accdnRH3RanksHarmonium = int(mu::engraving::SymId::accdnRH3RanksHarmonium),
     accdnRH3RanksImitationMusette = int(mu::engraving::SymId::accdnRH3RanksImitationMusette),
@@ -2064,60 +2074,95 @@ enum class SymId {
     accidentalBracketRight = int(mu::engraving::SymId::accidentalBracketRight),
     accidentalBuyukMucennebFlat = int(mu::engraving::SymId::accidentalBuyukMucennebFlat),
     accidentalBuyukMucennebSharp = int(mu::engraving::SymId::accidentalBuyukMucennebSharp),
-    accidentalCombiningCloseCurlyBrace = int(mu::engraving::SymId::accidentalCombiningCloseCurlyBrace),
-    accidentalCombiningLower17Schisma = int(mu::engraving::SymId::accidentalCombiningLower17Schisma),
-    accidentalCombiningLower19Schisma = int(mu::engraving::SymId::accidentalCombiningLower19Schisma),
-    accidentalCombiningLower23Limit29LimitComma = int(mu::engraving::SymId::accidentalCombiningLower23Limit29LimitComma),
-    accidentalCombiningLower29LimitComma = int(mu::engraving::SymId::accidentalCombiningLower29LimitComma),
-    accidentalCombiningLower31Schisma = int(mu::engraving::SymId::accidentalCombiningLower31Schisma),
-    accidentalCombiningLower37Quartertone = int(mu::engraving::SymId::accidentalCombiningLower37Quartertone),
+    accidentalCombiningCloseCurlyBrace
+        = int(mu::engraving::SymId::accidentalCombiningCloseCurlyBrace),
+    accidentalCombiningLower17Schisma
+        = int(mu::engraving::SymId::accidentalCombiningLower17Schisma),
+    accidentalCombiningLower19Schisma
+        = int(mu::engraving::SymId::accidentalCombiningLower19Schisma),
+    accidentalCombiningLower23Limit29LimitComma
+        = int(mu::engraving::SymId::accidentalCombiningLower23Limit29LimitComma),
+    accidentalCombiningLower29LimitComma
+        = int(mu::engraving::SymId::accidentalCombiningLower29LimitComma),
+    accidentalCombiningLower31Schisma
+        = int(mu::engraving::SymId::accidentalCombiningLower31Schisma),
+    accidentalCombiningLower37Quartertone
+        = int(mu::engraving::SymId::accidentalCombiningLower37Quartertone),
     accidentalCombiningLower41Comma = int(mu::engraving::SymId::accidentalCombiningLower41Comma),
     accidentalCombiningLower43Comma = int(mu::engraving::SymId::accidentalCombiningLower43Comma),
-    accidentalCombiningLower47Quartertone = int(mu::engraving::SymId::accidentalCombiningLower47Quartertone),
-    accidentalCombiningLower53LimitComma = int(mu::engraving::SymId::accidentalCombiningLower53LimitComma),
-    accidentalCombiningOpenCurlyBrace = int(mu::engraving::SymId::accidentalCombiningOpenCurlyBrace),
-    accidentalCombiningRaise17Schisma = int(mu::engraving::SymId::accidentalCombiningRaise17Schisma),
-    accidentalCombiningRaise19Schisma = int(mu::engraving::SymId::accidentalCombiningRaise19Schisma),
-    accidentalCombiningRaise23Limit29LimitComma = int(mu::engraving::SymId::accidentalCombiningRaise23Limit29LimitComma),
-    accidentalCombiningRaise29LimitComma = int(mu::engraving::SymId::accidentalCombiningRaise29LimitComma),
-    accidentalCombiningRaise31Schisma = int(mu::engraving::SymId::accidentalCombiningRaise31Schisma),
-    accidentalCombiningRaise37Quartertone = int(mu::engraving::SymId::accidentalCombiningRaise37Quartertone),
+    accidentalCombiningLower47Quartertone
+        = int(mu::engraving::SymId::accidentalCombiningLower47Quartertone),
+    accidentalCombiningLower53LimitComma
+        = int(mu::engraving::SymId::accidentalCombiningLower53LimitComma),
+    accidentalCombiningOpenCurlyBrace
+        = int(mu::engraving::SymId::accidentalCombiningOpenCurlyBrace),
+    accidentalCombiningRaise17Schisma
+        = int(mu::engraving::SymId::accidentalCombiningRaise17Schisma),
+    accidentalCombiningRaise19Schisma
+        = int(mu::engraving::SymId::accidentalCombiningRaise19Schisma),
+    accidentalCombiningRaise23Limit29LimitComma
+        = int(mu::engraving::SymId::accidentalCombiningRaise23Limit29LimitComma),
+    accidentalCombiningRaise29LimitComma
+        = int(mu::engraving::SymId::accidentalCombiningRaise29LimitComma),
+    accidentalCombiningRaise31Schisma
+        = int(mu::engraving::SymId::accidentalCombiningRaise31Schisma),
+    accidentalCombiningRaise37Quartertone
+        = int(mu::engraving::SymId::accidentalCombiningRaise37Quartertone),
     accidentalCombiningRaise41Comma = int(mu::engraving::SymId::accidentalCombiningRaise41Comma),
     accidentalCombiningRaise43Comma = int(mu::engraving::SymId::accidentalCombiningRaise43Comma),
-    accidentalCombiningRaise47Quartertone = int(mu::engraving::SymId::accidentalCombiningRaise47Quartertone),
-    accidentalCombiningRaise53LimitComma = int(mu::engraving::SymId::accidentalCombiningRaise53LimitComma),
+    accidentalCombiningRaise47Quartertone
+        = int(mu::engraving::SymId::accidentalCombiningRaise47Quartertone),
+    accidentalCombiningRaise53LimitComma
+        = int(mu::engraving::SymId::accidentalCombiningRaise53LimitComma),
     accidentalCommaSlashDown = int(mu::engraving::SymId::accidentalCommaSlashDown),
     accidentalCommaSlashUp = int(mu::engraving::SymId::accidentalCommaSlashUp),
     accidentalDoubleFlat = int(mu::engraving::SymId::accidentalDoubleFlat),
     accidentalDoubleFlatArabic = int(mu::engraving::SymId::accidentalDoubleFlatArabic),
-    accidentalDoubleFlatEqualTempered = int(mu::engraving::SymId::accidentalDoubleFlatEqualTempered),
+    accidentalDoubleFlatEqualTempered
+        = int(mu::engraving::SymId::accidentalDoubleFlatEqualTempered),
     accidentalDoubleFlatOneArrowDown = int(mu::engraving::SymId::accidentalDoubleFlatOneArrowDown),
     accidentalDoubleFlatOneArrowUp = int(mu::engraving::SymId::accidentalDoubleFlatOneArrowUp),
     accidentalDoubleFlatReversed = int(mu::engraving::SymId::accidentalDoubleFlatReversed),
-    accidentalDoubleFlatThreeArrowsDown = int(mu::engraving::SymId::accidentalDoubleFlatThreeArrowsDown),
-    accidentalDoubleFlatThreeArrowsUp = int(mu::engraving::SymId::accidentalDoubleFlatThreeArrowsUp),
+    accidentalDoubleFlatThreeArrowsDown
+        = int(mu::engraving::SymId::accidentalDoubleFlatThreeArrowsDown),
+    accidentalDoubleFlatThreeArrowsUp
+        = int(mu::engraving::SymId::accidentalDoubleFlatThreeArrowsUp),
     accidentalDoubleFlatTurned = int(mu::engraving::SymId::accidentalDoubleFlatTurned),
-    accidentalDoubleFlatTwoArrowsDown = int(mu::engraving::SymId::accidentalDoubleFlatTwoArrowsDown),
+    accidentalDoubleFlatTwoArrowsDown
+        = int(mu::engraving::SymId::accidentalDoubleFlatTwoArrowsDown),
     accidentalDoubleFlatTwoArrowsUp = int(mu::engraving::SymId::accidentalDoubleFlatTwoArrowsUp),
     accidentalDoubleSharp = int(mu::engraving::SymId::accidentalDoubleSharp),
     accidentalDoubleSharpArabic = int(mu::engraving::SymId::accidentalDoubleSharpArabic),
-    accidentalDoubleSharpEqualTempered = int(mu::engraving::SymId::accidentalDoubleSharpEqualTempered),
-    accidentalDoubleSharpOneArrowDown = int(mu::engraving::SymId::accidentalDoubleSharpOneArrowDown),
+    accidentalDoubleSharpEqualTempered
+        = int(mu::engraving::SymId::accidentalDoubleSharpEqualTempered),
+    accidentalDoubleSharpOneArrowDown
+        = int(mu::engraving::SymId::accidentalDoubleSharpOneArrowDown),
     accidentalDoubleSharpOneArrowUp = int(mu::engraving::SymId::accidentalDoubleSharpOneArrowUp),
-    accidentalDoubleSharpThreeArrowsDown = int(mu::engraving::SymId::accidentalDoubleSharpThreeArrowsDown),
-    accidentalDoubleSharpThreeArrowsUp = int(mu::engraving::SymId::accidentalDoubleSharpThreeArrowsUp),
-    accidentalDoubleSharpTwoArrowsDown = int(mu::engraving::SymId::accidentalDoubleSharpTwoArrowsDown),
+    accidentalDoubleSharpThreeArrowsDown
+        = int(mu::engraving::SymId::accidentalDoubleSharpThreeArrowsDown),
+    accidentalDoubleSharpThreeArrowsUp
+        = int(mu::engraving::SymId::accidentalDoubleSharpThreeArrowsUp),
+    accidentalDoubleSharpTwoArrowsDown
+        = int(mu::engraving::SymId::accidentalDoubleSharpTwoArrowsDown),
     accidentalDoubleSharpTwoArrowsUp = int(mu::engraving::SymId::accidentalDoubleSharpTwoArrowsUp),
-    accidentalEnharmonicAlmostEqualTo = int(mu::engraving::SymId::accidentalEnharmonicAlmostEqualTo),
+    accidentalEnharmonicAlmostEqualTo
+        = int(mu::engraving::SymId::accidentalEnharmonicAlmostEqualTo),
     accidentalEnharmonicEquals = int(mu::engraving::SymId::accidentalEnharmonicEquals),
     accidentalEnharmonicTilde = int(mu::engraving::SymId::accidentalEnharmonicTilde),
-    accidentalFilledReversedFlatAndFlat = int(mu::engraving::SymId::accidentalFilledReversedFlatAndFlat),
-    accidentalFilledReversedFlatAndFlatArrowDown = int(mu::engraving::SymId::accidentalFilledReversedFlatAndFlatArrowDown),
-    accidentalFilledReversedFlatAndFlatArrowUp = int(mu::engraving::SymId::accidentalFilledReversedFlatAndFlatArrowUp),
-    accidentalFilledReversedFlatArrowDown = int(mu::engraving::SymId::accidentalFilledReversedFlatArrowDown),
-    accidentalFilledReversedFlatArrowUp = int(mu::engraving::SymId::accidentalFilledReversedFlatArrowUp),
-    accidentalFiveQuarterTonesFlatArrowDown = int(mu::engraving::SymId::accidentalFiveQuarterTonesFlatArrowDown),
-    accidentalFiveQuarterTonesSharpArrowUp = int(mu::engraving::SymId::accidentalFiveQuarterTonesSharpArrowUp),
+    accidentalFilledReversedFlatAndFlat
+        = int(mu::engraving::SymId::accidentalFilledReversedFlatAndFlat),
+    accidentalFilledReversedFlatAndFlatArrowDown
+        = int(mu::engraving::SymId::accidentalFilledReversedFlatAndFlatArrowDown),
+    accidentalFilledReversedFlatAndFlatArrowUp
+        = int(mu::engraving::SymId::accidentalFilledReversedFlatAndFlatArrowUp),
+    accidentalFilledReversedFlatArrowDown
+        = int(mu::engraving::SymId::accidentalFilledReversedFlatArrowDown),
+    accidentalFilledReversedFlatArrowUp
+        = int(mu::engraving::SymId::accidentalFilledReversedFlatArrowUp),
+    accidentalFiveQuarterTonesFlatArrowDown
+        = int(mu::engraving::SymId::accidentalFiveQuarterTonesFlatArrowDown),
+    accidentalFiveQuarterTonesSharpArrowUp
+        = int(mu::engraving::SymId::accidentalFiveQuarterTonesSharpArrowUp),
     accidentalFlat = int(mu::engraving::SymId::accidentalFlat),
     accidentalFlatArabic = int(mu::engraving::SymId::accidentalFlatArabic),
     accidentalFlatEqualTempered = int(mu::engraving::SymId::accidentalFlatEqualTempered),
@@ -2125,19 +2170,25 @@ enum class SymId {
     accidentalFlatOneArrowDown = int(mu::engraving::SymId::accidentalFlatOneArrowDown),
     accidentalFlatOneArrowUp = int(mu::engraving::SymId::accidentalFlatOneArrowUp),
     accidentalFlatRaisedStockhausen = int(mu::engraving::SymId::accidentalFlatRaisedStockhausen),
-    accidentalFlatRepeatedLineStockhausen = int(mu::engraving::SymId::accidentalFlatRepeatedLineStockhausen),
-    accidentalFlatRepeatedSpaceStockhausen = int(mu::engraving::SymId::accidentalFlatRepeatedSpaceStockhausen),
+    accidentalFlatRepeatedLineStockhausen
+        = int(mu::engraving::SymId::accidentalFlatRepeatedLineStockhausen),
+    accidentalFlatRepeatedSpaceStockhausen
+        = int(mu::engraving::SymId::accidentalFlatRepeatedSpaceStockhausen),
     accidentalFlatThreeArrowsDown = int(mu::engraving::SymId::accidentalFlatThreeArrowsDown),
     accidentalFlatThreeArrowsUp = int(mu::engraving::SymId::accidentalFlatThreeArrowsUp),
     accidentalFlatTurned = int(mu::engraving::SymId::accidentalFlatTurned),
     accidentalFlatTwoArrowsDown = int(mu::engraving::SymId::accidentalFlatTwoArrowsDown),
     accidentalFlatTwoArrowsUp = int(mu::engraving::SymId::accidentalFlatTwoArrowsUp),
-    accidentalHabaFlatQuarterToneHigher = int(mu::engraving::SymId::accidentalHabaFlatQuarterToneHigher),
-    accidentalHabaFlatThreeQuarterTonesLower = int(mu::engraving::SymId::accidentalHabaFlatThreeQuarterTonesLower),
+    accidentalHabaFlatQuarterToneHigher
+        = int(mu::engraving::SymId::accidentalHabaFlatQuarterToneHigher),
+    accidentalHabaFlatThreeQuarterTonesLower
+        = int(mu::engraving::SymId::accidentalHabaFlatThreeQuarterTonesLower),
     accidentalHabaQuarterToneHigher = int(mu::engraving::SymId::accidentalHabaQuarterToneHigher),
     accidentalHabaQuarterToneLower = int(mu::engraving::SymId::accidentalHabaQuarterToneLower),
-    accidentalHabaSharpQuarterToneLower = int(mu::engraving::SymId::accidentalHabaSharpQuarterToneLower),
-    accidentalHabaSharpThreeQuarterTonesHigher = int(mu::engraving::SymId::accidentalHabaSharpThreeQuarterTonesHigher),
+    accidentalHabaSharpQuarterToneLower
+        = int(mu::engraving::SymId::accidentalHabaSharpQuarterToneLower),
+    accidentalHabaSharpThreeQuarterTonesHigher
+        = int(mu::engraving::SymId::accidentalHabaSharpThreeQuarterTonesHigher),
     accidentalHalfSharpArrowDown = int(mu::engraving::SymId::accidentalHalfSharpArrowDown),
     accidentalHalfSharpArrowUp = int(mu::engraving::SymId::accidentalHalfSharpArrowUp),
     accidentalJohnston13 = int(mu::engraving::SymId::accidentalJohnston13),
@@ -2155,72 +2206,102 @@ enum class SymId {
     accidentalKucukMucennebSharp = int(mu::engraving::SymId::accidentalKucukMucennebSharp),
     accidentalLargeDoubleSharp = int(mu::engraving::SymId::accidentalLargeDoubleSharp),
     accidentalLowerOneSeptimalComma = int(mu::engraving::SymId::accidentalLowerOneSeptimalComma),
-    accidentalLowerOneTridecimalQuartertone = int(mu::engraving::SymId::accidentalLowerOneTridecimalQuartertone),
-    accidentalLowerOneUndecimalQuartertone = int(mu::engraving::SymId::accidentalLowerOneUndecimalQuartertone),
+    accidentalLowerOneTridecimalQuartertone
+        = int(mu::engraving::SymId::accidentalLowerOneTridecimalQuartertone),
+    accidentalLowerOneUndecimalQuartertone
+        = int(mu::engraving::SymId::accidentalLowerOneUndecimalQuartertone),
     accidentalLowerTwoSeptimalCommas = int(mu::engraving::SymId::accidentalLowerTwoSeptimalCommas),
     accidentalLoweredStockhausen = int(mu::engraving::SymId::accidentalLoweredStockhausen),
     accidentalNarrowReversedFlat = int(mu::engraving::SymId::accidentalNarrowReversedFlat),
-    accidentalNarrowReversedFlatAndFlat = int(mu::engraving::SymId::accidentalNarrowReversedFlatAndFlat),
+    accidentalNarrowReversedFlatAndFlat
+        = int(mu::engraving::SymId::accidentalNarrowReversedFlatAndFlat),
     accidentalNatural = int(mu::engraving::SymId::accidentalNatural),
     accidentalNaturalArabic = int(mu::engraving::SymId::accidentalNaturalArabic),
     accidentalNaturalEqualTempered = int(mu::engraving::SymId::accidentalNaturalEqualTempered),
     accidentalNaturalFlat = int(mu::engraving::SymId::accidentalNaturalFlat),
-    accidentalNaturalLoweredStockhausen = int(mu::engraving::SymId::accidentalNaturalLoweredStockhausen),
+    accidentalNaturalLoweredStockhausen
+        = int(mu::engraving::SymId::accidentalNaturalLoweredStockhausen),
     accidentalNaturalOneArrowDown = int(mu::engraving::SymId::accidentalNaturalOneArrowDown),
     accidentalNaturalOneArrowUp = int(mu::engraving::SymId::accidentalNaturalOneArrowUp),
-    accidentalNaturalRaisedStockhausen = int(mu::engraving::SymId::accidentalNaturalRaisedStockhausen),
+    accidentalNaturalRaisedStockhausen
+        = int(mu::engraving::SymId::accidentalNaturalRaisedStockhausen),
     accidentalNaturalReversed = int(mu::engraving::SymId::accidentalNaturalReversed),
     accidentalNaturalSharp = int(mu::engraving::SymId::accidentalNaturalSharp),
     accidentalNaturalThreeArrowsDown = int(mu::engraving::SymId::accidentalNaturalThreeArrowsDown),
     accidentalNaturalThreeArrowsUp = int(mu::engraving::SymId::accidentalNaturalThreeArrowsUp),
     accidentalNaturalTwoArrowsDown = int(mu::engraving::SymId::accidentalNaturalTwoArrowsDown),
     accidentalNaturalTwoArrowsUp = int(mu::engraving::SymId::accidentalNaturalTwoArrowsUp),
-    accidentalOneAndAHalfSharpsArrowDown = int(mu::engraving::SymId::accidentalOneAndAHalfSharpsArrowDown),
-    accidentalOneAndAHalfSharpsArrowUp = int(mu::engraving::SymId::accidentalOneAndAHalfSharpsArrowUp),
-    accidentalOneQuarterToneFlatFerneyhough = int(mu::engraving::SymId::accidentalOneQuarterToneFlatFerneyhough),
-    accidentalOneQuarterToneFlatStockhausen = int(mu::engraving::SymId::accidentalOneQuarterToneFlatStockhausen),
-    accidentalOneQuarterToneSharpFerneyhough = int(mu::engraving::SymId::accidentalOneQuarterToneSharpFerneyhough),
-    accidentalOneQuarterToneSharpStockhausen = int(mu::engraving::SymId::accidentalOneQuarterToneSharpStockhausen),
-    accidentalOneThirdToneFlatFerneyhough = int(mu::engraving::SymId::accidentalOneThirdToneFlatFerneyhough),
-    accidentalOneThirdToneSharpFerneyhough = int(mu::engraving::SymId::accidentalOneThirdToneSharpFerneyhough),
+    accidentalOneAndAHalfSharpsArrowDown
+        = int(mu::engraving::SymId::accidentalOneAndAHalfSharpsArrowDown),
+    accidentalOneAndAHalfSharpsArrowUp
+        = int(mu::engraving::SymId::accidentalOneAndAHalfSharpsArrowUp),
+    accidentalOneQuarterToneFlatFerneyhough
+        = int(mu::engraving::SymId::accidentalOneQuarterToneFlatFerneyhough),
+    accidentalOneQuarterToneFlatStockhausen
+        = int(mu::engraving::SymId::accidentalOneQuarterToneFlatStockhausen),
+    accidentalOneQuarterToneSharpFerneyhough
+        = int(mu::engraving::SymId::accidentalOneQuarterToneSharpFerneyhough),
+    accidentalOneQuarterToneSharpStockhausen
+        = int(mu::engraving::SymId::accidentalOneQuarterToneSharpStockhausen),
+    accidentalOneThirdToneFlatFerneyhough
+        = int(mu::engraving::SymId::accidentalOneThirdToneFlatFerneyhough),
+    accidentalOneThirdToneSharpFerneyhough
+        = int(mu::engraving::SymId::accidentalOneThirdToneSharpFerneyhough),
     accidentalParensLeft = int(mu::engraving::SymId::accidentalParensLeft),
     accidentalParensRight = int(mu::engraving::SymId::accidentalParensRight),
-    accidentalQuarterFlatEqualTempered = int(mu::engraving::SymId::accidentalQuarterFlatEqualTempered),
-    accidentalQuarterSharpEqualTempered = int(mu::engraving::SymId::accidentalQuarterSharpEqualTempered),
+    accidentalQuarterFlatEqualTempered
+        = int(mu::engraving::SymId::accidentalQuarterFlatEqualTempered),
+    accidentalQuarterSharpEqualTempered
+        = int(mu::engraving::SymId::accidentalQuarterSharpEqualTempered),
     accidentalQuarterToneFlat4 = int(mu::engraving::SymId::accidentalQuarterToneFlat4),
     accidentalQuarterToneFlatArabic = int(mu::engraving::SymId::accidentalQuarterToneFlatArabic),
     accidentalQuarterToneFlatArrowUp = int(mu::engraving::SymId::accidentalQuarterToneFlatArrowUp),
-    accidentalQuarterToneFlatFilledReversed = int(mu::engraving::SymId::accidentalQuarterToneFlatFilledReversed),
-    accidentalQuarterToneFlatNaturalArrowDown = int(mu::engraving::SymId::accidentalQuarterToneFlatNaturalArrowDown),
-    accidentalQuarterToneFlatPenderecki = int(mu::engraving::SymId::accidentalQuarterToneFlatPenderecki),
+    accidentalQuarterToneFlatFilledReversed
+        = int(mu::engraving::SymId::accidentalQuarterToneFlatFilledReversed),
+    accidentalQuarterToneFlatNaturalArrowDown
+        = int(mu::engraving::SymId::accidentalQuarterToneFlatNaturalArrowDown),
+    accidentalQuarterToneFlatPenderecki
+        = int(mu::engraving::SymId::accidentalQuarterToneFlatPenderecki),
     accidentalQuarterToneFlatStein = int(mu::engraving::SymId::accidentalQuarterToneFlatStein),
-    accidentalQuarterToneFlatVanBlankenburg = int(mu::engraving::SymId::accidentalQuarterToneFlatVanBlankenburg),
+    accidentalQuarterToneFlatVanBlankenburg
+        = int(mu::engraving::SymId::accidentalQuarterToneFlatVanBlankenburg),
     accidentalQuarterToneSharp4 = int(mu::engraving::SymId::accidentalQuarterToneSharp4),
     accidentalQuarterToneSharpArabic = int(mu::engraving::SymId::accidentalQuarterToneSharpArabic),
-    accidentalQuarterToneSharpArrowDown = int(mu::engraving::SymId::accidentalQuarterToneSharpArrowDown),
-    accidentalQuarterToneSharpBusotti = int(mu::engraving::SymId::accidentalQuarterToneSharpBusotti),
-    accidentalQuarterToneSharpNaturalArrowUp = int(mu::engraving::SymId::accidentalQuarterToneSharpNaturalArrowUp),
+    accidentalQuarterToneSharpArrowDown
+        = int(mu::engraving::SymId::accidentalQuarterToneSharpArrowDown),
+    accidentalQuarterToneSharpBusotti
+        = int(mu::engraving::SymId::accidentalQuarterToneSharpBusotti),
+    accidentalQuarterToneSharpNaturalArrowUp
+        = int(mu::engraving::SymId::accidentalQuarterToneSharpNaturalArrowUp),
     accidentalQuarterToneSharpStein = int(mu::engraving::SymId::accidentalQuarterToneSharpStein),
     accidentalQuarterToneSharpWiggle = int(mu::engraving::SymId::accidentalQuarterToneSharpWiggle),
     accidentalRaiseOneSeptimalComma = int(mu::engraving::SymId::accidentalRaiseOneSeptimalComma),
-    accidentalRaiseOneTridecimalQuartertone = int(mu::engraving::SymId::accidentalRaiseOneTridecimalQuartertone),
-    accidentalRaiseOneUndecimalQuartertone = int(mu::engraving::SymId::accidentalRaiseOneUndecimalQuartertone),
+    accidentalRaiseOneTridecimalQuartertone
+        = int(mu::engraving::SymId::accidentalRaiseOneTridecimalQuartertone),
+    accidentalRaiseOneUndecimalQuartertone
+        = int(mu::engraving::SymId::accidentalRaiseOneUndecimalQuartertone),
     accidentalRaiseTwoSeptimalCommas = int(mu::engraving::SymId::accidentalRaiseTwoSeptimalCommas),
     accidentalRaisedStockhausen = int(mu::engraving::SymId::accidentalRaisedStockhausen),
-    accidentalReversedFlatAndFlatArrowDown = int(mu::engraving::SymId::accidentalReversedFlatAndFlatArrowDown),
-    accidentalReversedFlatAndFlatArrowUp = int(mu::engraving::SymId::accidentalReversedFlatAndFlatArrowUp),
+    accidentalReversedFlatAndFlatArrowDown
+        = int(mu::engraving::SymId::accidentalReversedFlatAndFlatArrowDown),
+    accidentalReversedFlatAndFlatArrowUp
+        = int(mu::engraving::SymId::accidentalReversedFlatAndFlatArrowUp),
     accidentalReversedFlatArrowDown = int(mu::engraving::SymId::accidentalReversedFlatArrowDown),
     accidentalReversedFlatArrowUp = int(mu::engraving::SymId::accidentalReversedFlatArrowUp),
     accidentalSharp = int(mu::engraving::SymId::accidentalSharp),
     accidentalSharpArabic = int(mu::engraving::SymId::accidentalSharpArabic),
     accidentalSharpEqualTempered = int(mu::engraving::SymId::accidentalSharpEqualTempered),
-    accidentalSharpLoweredStockhausen = int(mu::engraving::SymId::accidentalSharpLoweredStockhausen),
+    accidentalSharpLoweredStockhausen
+        = int(mu::engraving::SymId::accidentalSharpLoweredStockhausen),
     accidentalSharpOneArrowDown = int(mu::engraving::SymId::accidentalSharpOneArrowDown),
     accidentalSharpOneArrowUp = int(mu::engraving::SymId::accidentalSharpOneArrowUp),
-    accidentalSharpOneHorizontalStroke = int(mu::engraving::SymId::accidentalSharpOneHorizontalStroke),
+    accidentalSharpOneHorizontalStroke
+        = int(mu::engraving::SymId::accidentalSharpOneHorizontalStroke),
     accidentalSharpRaisedStockhausen = int(mu::engraving::SymId::accidentalSharpRaisedStockhausen),
-    accidentalSharpRepeatedLineStockhausen = int(mu::engraving::SymId::accidentalSharpRepeatedLineStockhausen),
-    accidentalSharpRepeatedSpaceStockhausen = int(mu::engraving::SymId::accidentalSharpRepeatedSpaceStockhausen),
+    accidentalSharpRepeatedLineStockhausen
+        = int(mu::engraving::SymId::accidentalSharpRepeatedLineStockhausen),
+    accidentalSharpRepeatedSpaceStockhausen
+        = int(mu::engraving::SymId::accidentalSharpRepeatedSpaceStockhausen),
     accidentalSharpReversed = int(mu::engraving::SymId::accidentalSharpReversed),
     accidentalSharpSharp = int(mu::engraving::SymId::accidentalSharpSharp),
     accidentalSharpThreeArrowsDown = int(mu::engraving::SymId::accidentalSharpThreeArrowsDown),
@@ -2236,53 +2317,92 @@ enum class SymId {
     accidentalSori = int(mu::engraving::SymId::accidentalSori),
     accidentalTavenerFlat = int(mu::engraving::SymId::accidentalTavenerFlat),
     accidentalTavenerSharp = int(mu::engraving::SymId::accidentalTavenerSharp),
-    accidentalThreeQuarterTonesFlatArabic = int(mu::engraving::SymId::accidentalThreeQuarterTonesFlatArabic),
-    accidentalThreeQuarterTonesFlatArrowDown = int(mu::engraving::SymId::accidentalThreeQuarterTonesFlatArrowDown),
-    accidentalThreeQuarterTonesFlatArrowUp = int(mu::engraving::SymId::accidentalThreeQuarterTonesFlatArrowUp),
-    accidentalThreeQuarterTonesFlatCouper = int(mu::engraving::SymId::accidentalThreeQuarterTonesFlatCouper),
-    accidentalThreeQuarterTonesFlatGrisey = int(mu::engraving::SymId::accidentalThreeQuarterTonesFlatGrisey),
-    accidentalThreeQuarterTonesFlatTartini = int(mu::engraving::SymId::accidentalThreeQuarterTonesFlatTartini),
-    accidentalThreeQuarterTonesFlatZimmermann = int(mu::engraving::SymId::accidentalThreeQuarterTonesFlatZimmermann),
-    accidentalThreeQuarterTonesSharpArabic = int(mu::engraving::SymId::accidentalThreeQuarterTonesSharpArabic),
-    accidentalThreeQuarterTonesSharpArrowDown = int(mu::engraving::SymId::accidentalThreeQuarterTonesSharpArrowDown),
-    accidentalThreeQuarterTonesSharpArrowUp = int(mu::engraving::SymId::accidentalThreeQuarterTonesSharpArrowUp),
-    accidentalThreeQuarterTonesSharpBusotti = int(mu::engraving::SymId::accidentalThreeQuarterTonesSharpBusotti),
-    accidentalThreeQuarterTonesSharpStein = int(mu::engraving::SymId::accidentalThreeQuarterTonesSharpStein),
-    accidentalThreeQuarterTonesSharpStockhausen = int(mu::engraving::SymId::accidentalThreeQuarterTonesSharpStockhausen),
+    accidentalThreeQuarterTonesFlatArabic
+        = int(mu::engraving::SymId::accidentalThreeQuarterTonesFlatArabic),
+    accidentalThreeQuarterTonesFlatArrowDown
+        = int(mu::engraving::SymId::accidentalThreeQuarterTonesFlatArrowDown),
+    accidentalThreeQuarterTonesFlatArrowUp
+        = int(mu::engraving::SymId::accidentalThreeQuarterTonesFlatArrowUp),
+    accidentalThreeQuarterTonesFlatCouper
+        = int(mu::engraving::SymId::accidentalThreeQuarterTonesFlatCouper),
+    accidentalThreeQuarterTonesFlatGrisey
+        = int(mu::engraving::SymId::accidentalThreeQuarterTonesFlatGrisey),
+    accidentalThreeQuarterTonesFlatTartini
+        = int(mu::engraving::SymId::accidentalThreeQuarterTonesFlatTartini),
+    accidentalThreeQuarterTonesFlatZimmermann
+        = int(mu::engraving::SymId::accidentalThreeQuarterTonesFlatZimmermann),
+    accidentalThreeQuarterTonesSharpArabic
+        = int(mu::engraving::SymId::accidentalThreeQuarterTonesSharpArabic),
+    accidentalThreeQuarterTonesSharpArrowDown
+        = int(mu::engraving::SymId::accidentalThreeQuarterTonesSharpArrowDown),
+    accidentalThreeQuarterTonesSharpArrowUp
+        = int(mu::engraving::SymId::accidentalThreeQuarterTonesSharpArrowUp),
+    accidentalThreeQuarterTonesSharpBusotti
+        = int(mu::engraving::SymId::accidentalThreeQuarterTonesSharpBusotti),
+    accidentalThreeQuarterTonesSharpStein
+        = int(mu::engraving::SymId::accidentalThreeQuarterTonesSharpStein),
+    accidentalThreeQuarterTonesSharpStockhausen
+        = int(mu::engraving::SymId::accidentalThreeQuarterTonesSharpStockhausen),
     accidentalTripleFlat = int(mu::engraving::SymId::accidentalTripleFlat),
     accidentalTripleSharp = int(mu::engraving::SymId::accidentalTripleSharp),
-    accidentalTwoThirdTonesFlatFerneyhough = int(mu::engraving::SymId::accidentalTwoThirdTonesFlatFerneyhough),
-    accidentalTwoThirdTonesSharpFerneyhough = int(mu::engraving::SymId::accidentalTwoThirdTonesSharpFerneyhough),
+    accidentalTwoThirdTonesFlatFerneyhough
+        = int(mu::engraving::SymId::accidentalTwoThirdTonesFlatFerneyhough),
+    accidentalTwoThirdTonesSharpFerneyhough
+        = int(mu::engraving::SymId::accidentalTwoThirdTonesSharpFerneyhough),
     accidentalUpsAndDownsDown = int(mu::engraving::SymId::accidentalUpsAndDownsDown),
     accidentalUpsAndDownsLess = int(mu::engraving::SymId::accidentalUpsAndDownsLess),
     accidentalUpsAndDownsMore = int(mu::engraving::SymId::accidentalUpsAndDownsMore),
     accidentalUpsAndDownsUp = int(mu::engraving::SymId::accidentalUpsAndDownsUp),
     accidentalWilsonMinus = int(mu::engraving::SymId::accidentalWilsonMinus),
     accidentalWilsonPlus = int(mu::engraving::SymId::accidentalWilsonPlus),
-    accidentalWyschnegradsky10TwelfthsFlat = int(mu::engraving::SymId::accidentalWyschnegradsky10TwelfthsFlat),
-    accidentalWyschnegradsky10TwelfthsSharp = int(mu::engraving::SymId::accidentalWyschnegradsky10TwelfthsSharp),
-    accidentalWyschnegradsky11TwelfthsFlat = int(mu::engraving::SymId::accidentalWyschnegradsky11TwelfthsFlat),
-    accidentalWyschnegradsky11TwelfthsSharp = int(mu::engraving::SymId::accidentalWyschnegradsky11TwelfthsSharp),
-    accidentalWyschnegradsky1TwelfthsFlat = int(mu::engraving::SymId::accidentalWyschnegradsky1TwelfthsFlat),
-    accidentalWyschnegradsky1TwelfthsSharp = int(mu::engraving::SymId::accidentalWyschnegradsky1TwelfthsSharp),
-    accidentalWyschnegradsky2TwelfthsFlat = int(mu::engraving::SymId::accidentalWyschnegradsky2TwelfthsFlat),
-    accidentalWyschnegradsky2TwelfthsSharp = int(mu::engraving::SymId::accidentalWyschnegradsky2TwelfthsSharp),
-    accidentalWyschnegradsky3TwelfthsFlat = int(mu::engraving::SymId::accidentalWyschnegradsky3TwelfthsFlat),
-    accidentalWyschnegradsky3TwelfthsSharp = int(mu::engraving::SymId::accidentalWyschnegradsky3TwelfthsSharp),
-    accidentalWyschnegradsky4TwelfthsFlat = int(mu::engraving::SymId::accidentalWyschnegradsky4TwelfthsFlat),
-    accidentalWyschnegradsky4TwelfthsSharp = int(mu::engraving::SymId::accidentalWyschnegradsky4TwelfthsSharp),
-    accidentalWyschnegradsky5TwelfthsFlat = int(mu::engraving::SymId::accidentalWyschnegradsky5TwelfthsFlat),
-    accidentalWyschnegradsky5TwelfthsSharp = int(mu::engraving::SymId::accidentalWyschnegradsky5TwelfthsSharp),
-    accidentalWyschnegradsky6TwelfthsFlat = int(mu::engraving::SymId::accidentalWyschnegradsky6TwelfthsFlat),
-    accidentalWyschnegradsky6TwelfthsSharp = int(mu::engraving::SymId::accidentalWyschnegradsky6TwelfthsSharp),
-    accidentalWyschnegradsky7TwelfthsFlat = int(mu::engraving::SymId::accidentalWyschnegradsky7TwelfthsFlat),
-    accidentalWyschnegradsky7TwelfthsSharp = int(mu::engraving::SymId::accidentalWyschnegradsky7TwelfthsSharp),
-    accidentalWyschnegradsky8TwelfthsFlat = int(mu::engraving::SymId::accidentalWyschnegradsky8TwelfthsFlat),
-    accidentalWyschnegradsky8TwelfthsSharp = int(mu::engraving::SymId::accidentalWyschnegradsky8TwelfthsSharp),
-    accidentalWyschnegradsky9TwelfthsFlat = int(mu::engraving::SymId::accidentalWyschnegradsky9TwelfthsFlat),
-    accidentalWyschnegradsky9TwelfthsSharp = int(mu::engraving::SymId::accidentalWyschnegradsky9TwelfthsSharp),
-    accidentalXenakisOneThirdToneSharp = int(mu::engraving::SymId::accidentalXenakisOneThirdToneSharp),
-    accidentalXenakisTwoThirdTonesSharp = int(mu::engraving::SymId::accidentalXenakisTwoThirdTonesSharp),
+    accidentalWyschnegradsky10TwelfthsFlat
+        = int(mu::engraving::SymId::accidentalWyschnegradsky10TwelfthsFlat),
+    accidentalWyschnegradsky10TwelfthsSharp
+        = int(mu::engraving::SymId::accidentalWyschnegradsky10TwelfthsSharp),
+    accidentalWyschnegradsky11TwelfthsFlat
+        = int(mu::engraving::SymId::accidentalWyschnegradsky11TwelfthsFlat),
+    accidentalWyschnegradsky11TwelfthsSharp
+        = int(mu::engraving::SymId::accidentalWyschnegradsky11TwelfthsSharp),
+    accidentalWyschnegradsky1TwelfthsFlat
+        = int(mu::engraving::SymId::accidentalWyschnegradsky1TwelfthsFlat),
+    accidentalWyschnegradsky1TwelfthsSharp
+        = int(mu::engraving::SymId::accidentalWyschnegradsky1TwelfthsSharp),
+    accidentalWyschnegradsky2TwelfthsFlat
+        = int(mu::engraving::SymId::accidentalWyschnegradsky2TwelfthsFlat),
+    accidentalWyschnegradsky2TwelfthsSharp
+        = int(mu::engraving::SymId::accidentalWyschnegradsky2TwelfthsSharp),
+    accidentalWyschnegradsky3TwelfthsFlat
+        = int(mu::engraving::SymId::accidentalWyschnegradsky3TwelfthsFlat),
+    accidentalWyschnegradsky3TwelfthsSharp
+        = int(mu::engraving::SymId::accidentalWyschnegradsky3TwelfthsSharp),
+    accidentalWyschnegradsky4TwelfthsFlat
+        = int(mu::engraving::SymId::accidentalWyschnegradsky4TwelfthsFlat),
+    accidentalWyschnegradsky4TwelfthsSharp
+        = int(mu::engraving::SymId::accidentalWyschnegradsky4TwelfthsSharp),
+    accidentalWyschnegradsky5TwelfthsFlat
+        = int(mu::engraving::SymId::accidentalWyschnegradsky5TwelfthsFlat),
+    accidentalWyschnegradsky5TwelfthsSharp
+        = int(mu::engraving::SymId::accidentalWyschnegradsky5TwelfthsSharp),
+    accidentalWyschnegradsky6TwelfthsFlat
+        = int(mu::engraving::SymId::accidentalWyschnegradsky6TwelfthsFlat),
+    accidentalWyschnegradsky6TwelfthsSharp
+        = int(mu::engraving::SymId::accidentalWyschnegradsky6TwelfthsSharp),
+    accidentalWyschnegradsky7TwelfthsFlat
+        = int(mu::engraving::SymId::accidentalWyschnegradsky7TwelfthsFlat),
+    accidentalWyschnegradsky7TwelfthsSharp
+        = int(mu::engraving::SymId::accidentalWyschnegradsky7TwelfthsSharp),
+    accidentalWyschnegradsky8TwelfthsFlat
+        = int(mu::engraving::SymId::accidentalWyschnegradsky8TwelfthsFlat),
+    accidentalWyschnegradsky8TwelfthsSharp
+        = int(mu::engraving::SymId::accidentalWyschnegradsky8TwelfthsSharp),
+    accidentalWyschnegradsky9TwelfthsFlat
+        = int(mu::engraving::SymId::accidentalWyschnegradsky9TwelfthsFlat),
+    accidentalWyschnegradsky9TwelfthsSharp
+        = int(mu::engraving::SymId::accidentalWyschnegradsky9TwelfthsSharp),
+    accidentalXenakisOneThirdToneSharp
+        = int(mu::engraving::SymId::accidentalXenakisOneThirdToneSharp),
+    accidentalXenakisTwoThirdTonesSharp
+        = int(mu::engraving::SymId::accidentalXenakisTwoThirdTonesSharp),
     analyticsChoralmelodie = int(mu::engraving::SymId::analyticsChoralmelodie),
     analyticsEndStimme = int(mu::engraving::SymId::analyticsEndStimme),
     analyticsHauptrhythmus = int(mu::engraving::SymId::analyticsHauptrhythmus),
@@ -2294,7 +2414,8 @@ enum class SymId {
     analyticsTheme1 = int(mu::engraving::SymId::analyticsTheme1),
     analyticsThemeInversion = int(mu::engraving::SymId::analyticsThemeInversion),
     analyticsThemeRetrograde = int(mu::engraving::SymId::analyticsThemeRetrograde),
-    analyticsThemeRetrogradeInversion = int(mu::engraving::SymId::analyticsThemeRetrogradeInversion),
+    analyticsThemeRetrogradeInversion
+        = int(mu::engraving::SymId::analyticsThemeRetrogradeInversion),
     arpeggiato = int(mu::engraving::SymId::arpeggiato),
     arpeggiatoDown = int(mu::engraving::SymId::arpeggiatoDown),
     arpeggiatoUp = int(mu::engraving::SymId::arpeggiatoUp),
@@ -2364,8 +2485,10 @@ enum class SymId {
     articSoftAccentStaccatoBelow = int(mu::engraving::SymId::articSoftAccentStaccatoBelow),
     articSoftAccentTenutoAbove = int(mu::engraving::SymId::articSoftAccentTenutoAbove),
     articSoftAccentTenutoBelow = int(mu::engraving::SymId::articSoftAccentTenutoBelow),
-    articSoftAccentTenutoStaccatoAbove = int(mu::engraving::SymId::articSoftAccentTenutoStaccatoAbove),
-    articSoftAccentTenutoStaccatoBelow = int(mu::engraving::SymId::articSoftAccentTenutoStaccatoBelow),
+    articSoftAccentTenutoStaccatoAbove
+        = int(mu::engraving::SymId::articSoftAccentTenutoStaccatoAbove),
+    articSoftAccentTenutoStaccatoBelow
+        = int(mu::engraving::SymId::articSoftAccentTenutoStaccatoBelow),
     articStaccatissimoAbove = int(mu::engraving::SymId::articStaccatissimoAbove),
     articStaccatissimoBelow = int(mu::engraving::SymId::articStaccatissimoBelow),
     articStaccatissimoStrokeAbove = int(mu::engraving::SymId::articStaccatissimoStrokeAbove),
@@ -2983,7 +3106,8 @@ enum class SymId {
     harpSalzedoFluidicSoundsRight = int(mu::engraving::SymId::harpSalzedoFluidicSoundsRight),
     harpSalzedoIsolatedSounds = int(mu::engraving::SymId::harpSalzedoIsolatedSounds),
     harpSalzedoMetallicSounds = int(mu::engraving::SymId::harpSalzedoMetallicSounds),
-    harpSalzedoMetallicSoundsOneString = int(mu::engraving::SymId::harpSalzedoMetallicSoundsOneString),
+    harpSalzedoMetallicSoundsOneString
+        = int(mu::engraving::SymId::harpSalzedoMetallicSoundsOneString),
     harpSalzedoMuffleTotally = int(mu::engraving::SymId::harpSalzedoMuffleTotally),
     harpSalzedoOboicFlux = int(mu::engraving::SymId::harpSalzedoOboicFlux),
     harpSalzedoPlayUpperEnd = int(mu::engraving::SymId::harpSalzedoPlayUpperEnd),
@@ -3235,7 +3359,8 @@ enum class SymId {
     luteItalianHoldNote = int(mu::engraving::SymId::luteItalianHoldNote),
     luteItalianReleaseFinger = int(mu::engraving::SymId::luteItalianReleaseFinger),
     luteItalianTempoFast = int(mu::engraving::SymId::luteItalianTempoFast),
-    luteItalianTempoNeitherFastNorSlow = int(mu::engraving::SymId::luteItalianTempoNeitherFastNorSlow),
+    luteItalianTempoNeitherFastNorSlow
+        = int(mu::engraving::SymId::luteItalianTempoNeitherFastNorSlow),
     luteItalianTempoSlow = int(mu::engraving::SymId::luteItalianTempoSlow),
     luteItalianTempoSomewhatFast = int(mu::engraving::SymId::luteItalianTempoSomewhatFast),
     luteItalianTempoVerySlow = int(mu::engraving::SymId::luteItalianTempoVerySlow),
@@ -3296,7 +3421,8 @@ enum class SymId {
     mensuralCombStemDownFlagFusa = int(mu::engraving::SymId::mensuralCombStemDownFlagFusa),
     mensuralCombStemDownFlagLeft = int(mu::engraving::SymId::mensuralCombStemDownFlagLeft),
     mensuralCombStemDownFlagRight = int(mu::engraving::SymId::mensuralCombStemDownFlagRight),
-    mensuralCombStemDownFlagSemiminima = int(mu::engraving::SymId::mensuralCombStemDownFlagSemiminima),
+    mensuralCombStemDownFlagSemiminima
+        = int(mu::engraving::SymId::mensuralCombStemDownFlagSemiminima),
     mensuralCombStemUp = int(mu::engraving::SymId::mensuralCombStemUp),
     mensuralCombStemUpFlagExtended = int(mu::engraving::SymId::mensuralCombStemUpFlagExtended),
     mensuralCombStemUpFlagFlared = int(mu::engraving::SymId::mensuralCombStemUpFlagFlared),
@@ -3324,8 +3450,10 @@ enum class SymId {
     mensuralNoteheadMaximaWhite = int(mu::engraving::SymId::mensuralNoteheadMaximaWhite),
     mensuralNoteheadMinimaWhite = int(mu::engraving::SymId::mensuralNoteheadMinimaWhite),
     mensuralNoteheadSemibrevisBlack = int(mu::engraving::SymId::mensuralNoteheadSemibrevisBlack),
-    mensuralNoteheadSemibrevisBlackVoid = int(mu::engraving::SymId::mensuralNoteheadSemibrevisBlackVoid),
-    mensuralNoteheadSemibrevisBlackVoidTurned = int(mu::engraving::SymId::mensuralNoteheadSemibrevisBlackVoidTurned),
+    mensuralNoteheadSemibrevisBlackVoid
+        = int(mu::engraving::SymId::mensuralNoteheadSemibrevisBlackVoid),
+    mensuralNoteheadSemibrevisBlackVoidTurned
+        = int(mu::engraving::SymId::mensuralNoteheadSemibrevisBlackVoidTurned),
     mensuralNoteheadSemibrevisVoid = int(mu::engraving::SymId::mensuralNoteheadSemibrevisVoid),
     mensuralNoteheadSemiminimaWhite = int(mu::engraving::SymId::mensuralNoteheadSemiminimaWhite),
     mensuralObliqueAsc2ndBlack = int(mu::engraving::SymId::mensuralObliqueAsc2ndBlack),
@@ -3372,11 +3500,15 @@ enum class SymId {
     mensuralProlation8 = int(mu::engraving::SymId::mensuralProlation8),
     mensuralProlation9 = int(mu::engraving::SymId::mensuralProlation9),
     mensuralProlationCombiningDot = int(mu::engraving::SymId::mensuralProlationCombiningDot),
-    mensuralProlationCombiningDotVoid = int(mu::engraving::SymId::mensuralProlationCombiningDotVoid),
+    mensuralProlationCombiningDotVoid
+        = int(mu::engraving::SymId::mensuralProlationCombiningDotVoid),
     mensuralProlationCombiningStroke = int(mu::engraving::SymId::mensuralProlationCombiningStroke),
-    mensuralProlationCombiningThreeDots = int(mu::engraving::SymId::mensuralProlationCombiningThreeDots),
-    mensuralProlationCombiningThreeDotsTri = int(mu::engraving::SymId::mensuralProlationCombiningThreeDotsTri),
-    mensuralProlationCombiningTwoDots = int(mu::engraving::SymId::mensuralProlationCombiningTwoDots),
+    mensuralProlationCombiningThreeDots
+        = int(mu::engraving::SymId::mensuralProlationCombiningThreeDots),
+    mensuralProlationCombiningThreeDotsTri
+        = int(mu::engraving::SymId::mensuralProlationCombiningThreeDotsTri),
+    mensuralProlationCombiningTwoDots
+        = int(mu::engraving::SymId::mensuralProlationCombiningTwoDots),
     mensuralProportion1 = int(mu::engraving::SymId::mensuralProportion1),
     mensuralProportion2 = int(mu::engraving::SymId::mensuralProportion2),
     mensuralProportion3 = int(mu::engraving::SymId::mensuralProportion3),
@@ -3388,11 +3520,16 @@ enum class SymId {
     mensuralProportion9 = int(mu::engraving::SymId::mensuralProportion9),
     mensuralProportionMajor = int(mu::engraving::SymId::mensuralProportionMajor),
     mensuralProportionMinor = int(mu::engraving::SymId::mensuralProportionMinor),
-    mensuralProportionProportioDupla1 = int(mu::engraving::SymId::mensuralProportionProportioDupla1),
-    mensuralProportionProportioDupla2 = int(mu::engraving::SymId::mensuralProportionProportioDupla2),
-    mensuralProportionProportioQuadrupla = int(mu::engraving::SymId::mensuralProportionProportioQuadrupla),
-    mensuralProportionProportioTripla = int(mu::engraving::SymId::mensuralProportionProportioTripla),
-    mensuralProportionTempusPerfectum = int(mu::engraving::SymId::mensuralProportionTempusPerfectum),
+    mensuralProportionProportioDupla1
+        = int(mu::engraving::SymId::mensuralProportionProportioDupla1),
+    mensuralProportionProportioDupla2
+        = int(mu::engraving::SymId::mensuralProportionProportioDupla2),
+    mensuralProportionProportioQuadrupla
+        = int(mu::engraving::SymId::mensuralProportionProportioQuadrupla),
+    mensuralProportionProportioTripla
+        = int(mu::engraving::SymId::mensuralProportionProportioTripla),
+    mensuralProportionTempusPerfectum
+        = int(mu::engraving::SymId::mensuralProportionTempusPerfectum),
     mensuralRestBrevis = int(mu::engraving::SymId::mensuralRestBrevis),
     mensuralRestFusa = int(mu::engraving::SymId::mensuralRestFusa),
     mensuralRestLongaImperfecta = int(mu::engraving::SymId::mensuralRestLongaImperfecta),
@@ -3576,13 +3713,15 @@ enum class SymId {
     noteSeHalf = int(mu::engraving::SymId::noteSeHalf),
     noteSeWhole = int(mu::engraving::SymId::noteSeWhole),
     noteShapeArrowheadLeftBlack = int(mu::engraving::SymId::noteShapeArrowheadLeftBlack),
-    noteShapeArrowheadLeftDoubleWhole = int(mu::engraving::SymId::noteShapeArrowheadLeftDoubleWhole),
+    noteShapeArrowheadLeftDoubleWhole
+        = int(mu::engraving::SymId::noteShapeArrowheadLeftDoubleWhole),
     noteShapeArrowheadLeftWhite = int(mu::engraving::SymId::noteShapeArrowheadLeftWhite),
     noteShapeDiamondBlack = int(mu::engraving::SymId::noteShapeDiamondBlack),
     noteShapeDiamondDoubleWhole = int(mu::engraving::SymId::noteShapeDiamondDoubleWhole),
     noteShapeDiamondWhite = int(mu::engraving::SymId::noteShapeDiamondWhite),
     noteShapeIsoscelesTriangleBlack = int(mu::engraving::SymId::noteShapeIsoscelesTriangleBlack),
-    noteShapeIsoscelesTriangleDoubleWhole = int(mu::engraving::SymId::noteShapeIsoscelesTriangleDoubleWhole),
+    noteShapeIsoscelesTriangleDoubleWhole
+        = int(mu::engraving::SymId::noteShapeIsoscelesTriangleDoubleWhole),
     noteShapeIsoscelesTriangleWhite = int(mu::engraving::SymId::noteShapeIsoscelesTriangleWhite),
     noteShapeKeystoneBlack = int(mu::engraving::SymId::noteShapeKeystoneBlack),
     noteShapeKeystoneDoubleWhole = int(mu::engraving::SymId::noteShapeKeystoneDoubleWhole),
@@ -3606,12 +3745,15 @@ enum class SymId {
     noteShapeTriangleLeftDoubleWhole = int(mu::engraving::SymId::noteShapeTriangleLeftDoubleWhole),
     noteShapeTriangleLeftWhite = int(mu::engraving::SymId::noteShapeTriangleLeftWhite),
     noteShapeTriangleRightBlack = int(mu::engraving::SymId::noteShapeTriangleRightBlack),
-    noteShapeTriangleRightDoubleWhole = int(mu::engraving::SymId::noteShapeTriangleRightDoubleWhole),
+    noteShapeTriangleRightDoubleWhole
+        = int(mu::engraving::SymId::noteShapeTriangleRightDoubleWhole),
     noteShapeTriangleRightWhite = int(mu::engraving::SymId::noteShapeTriangleRightWhite),
     noteShapeTriangleRoundBlack = int(mu::engraving::SymId::noteShapeTriangleRoundBlack),
-    noteShapeTriangleRoundDoubleWhole = int(mu::engraving::SymId::noteShapeTriangleRoundDoubleWhole),
+    noteShapeTriangleRoundDoubleWhole
+        = int(mu::engraving::SymId::noteShapeTriangleRoundDoubleWhole),
     noteShapeTriangleRoundLeftBlack = int(mu::engraving::SymId::noteShapeTriangleRoundLeftBlack),
-    noteShapeTriangleRoundLeftDoubleWhole = int(mu::engraving::SymId::noteShapeTriangleRoundLeftDoubleWhole),
+    noteShapeTriangleRoundLeftDoubleWhole
+        = int(mu::engraving::SymId::noteShapeTriangleRoundLeftDoubleWhole),
     noteShapeTriangleRoundLeftWhite = int(mu::engraving::SymId::noteShapeTriangleRoundLeftWhite),
     noteShapeTriangleRoundWhite = int(mu::engraving::SymId::noteShapeTriangleRoundWhite),
     noteShapeTriangleUpBlack = int(mu::engraving::SymId::noteShapeTriangleUpBlack),
@@ -3669,39 +3811,64 @@ enum class SymId {
     noteheadClusterWholeBottom = int(mu::engraving::SymId::noteheadClusterWholeBottom),
     noteheadClusterWholeMiddle = int(mu::engraving::SymId::noteheadClusterWholeMiddle),
     noteheadClusterWholeTop = int(mu::engraving::SymId::noteheadClusterWholeTop),
-    noteheadCowellEleventhNoteSeriesHalf = int(mu::engraving::SymId::noteheadCowellEleventhNoteSeriesHalf),
-    noteheadCowellEleventhNoteSeriesWhole = int(mu::engraving::SymId::noteheadCowellEleventhNoteSeriesWhole),
-    noteheadCowellEleventhSeriesBlack = int(mu::engraving::SymId::noteheadCowellEleventhSeriesBlack),
-    noteheadCowellFifteenthNoteSeriesBlack = int(mu::engraving::SymId::noteheadCowellFifteenthNoteSeriesBlack),
-    noteheadCowellFifteenthNoteSeriesHalf = int(mu::engraving::SymId::noteheadCowellFifteenthNoteSeriesHalf),
-    noteheadCowellFifteenthNoteSeriesWhole = int(mu::engraving::SymId::noteheadCowellFifteenthNoteSeriesWhole),
-    noteheadCowellFifthNoteSeriesBlack = int(mu::engraving::SymId::noteheadCowellFifthNoteSeriesBlack),
-    noteheadCowellFifthNoteSeriesHalf = int(mu::engraving::SymId::noteheadCowellFifthNoteSeriesHalf),
-    noteheadCowellFifthNoteSeriesWhole = int(mu::engraving::SymId::noteheadCowellFifthNoteSeriesWhole),
-    noteheadCowellNinthNoteSeriesBlack = int(mu::engraving::SymId::noteheadCowellNinthNoteSeriesBlack),
-    noteheadCowellNinthNoteSeriesHalf = int(mu::engraving::SymId::noteheadCowellNinthNoteSeriesHalf),
-    noteheadCowellNinthNoteSeriesWhole = int(mu::engraving::SymId::noteheadCowellNinthNoteSeriesWhole),
-    noteheadCowellSeventhNoteSeriesBlack = int(mu::engraving::SymId::noteheadCowellSeventhNoteSeriesBlack),
-    noteheadCowellSeventhNoteSeriesHalf = int(mu::engraving::SymId::noteheadCowellSeventhNoteSeriesHalf),
-    noteheadCowellSeventhNoteSeriesWhole = int(mu::engraving::SymId::noteheadCowellSeventhNoteSeriesWhole),
-    noteheadCowellThirdNoteSeriesBlack = int(mu::engraving::SymId::noteheadCowellThirdNoteSeriesBlack),
-    noteheadCowellThirdNoteSeriesHalf = int(mu::engraving::SymId::noteheadCowellThirdNoteSeriesHalf),
-    noteheadCowellThirdNoteSeriesWhole = int(mu::engraving::SymId::noteheadCowellThirdNoteSeriesWhole),
-    noteheadCowellThirteenthNoteSeriesBlack = int(mu::engraving::SymId::noteheadCowellThirteenthNoteSeriesBlack),
-    noteheadCowellThirteenthNoteSeriesHalf = int(mu::engraving::SymId::noteheadCowellThirteenthNoteSeriesHalf),
-    noteheadCowellThirteenthNoteSeriesWhole = int(mu::engraving::SymId::noteheadCowellThirteenthNoteSeriesWhole),
+    noteheadCowellEleventhNoteSeriesHalf
+        = int(mu::engraving::SymId::noteheadCowellEleventhNoteSeriesHalf),
+    noteheadCowellEleventhNoteSeriesWhole
+        = int(mu::engraving::SymId::noteheadCowellEleventhNoteSeriesWhole),
+    noteheadCowellEleventhSeriesBlack
+        = int(mu::engraving::SymId::noteheadCowellEleventhSeriesBlack),
+    noteheadCowellFifteenthNoteSeriesBlack
+        = int(mu::engraving::SymId::noteheadCowellFifteenthNoteSeriesBlack),
+    noteheadCowellFifteenthNoteSeriesHalf
+        = int(mu::engraving::SymId::noteheadCowellFifteenthNoteSeriesHalf),
+    noteheadCowellFifteenthNoteSeriesWhole
+        = int(mu::engraving::SymId::noteheadCowellFifteenthNoteSeriesWhole),
+    noteheadCowellFifthNoteSeriesBlack
+        = int(mu::engraving::SymId::noteheadCowellFifthNoteSeriesBlack),
+    noteheadCowellFifthNoteSeriesHalf
+        = int(mu::engraving::SymId::noteheadCowellFifthNoteSeriesHalf),
+    noteheadCowellFifthNoteSeriesWhole
+        = int(mu::engraving::SymId::noteheadCowellFifthNoteSeriesWhole),
+    noteheadCowellNinthNoteSeriesBlack
+        = int(mu::engraving::SymId::noteheadCowellNinthNoteSeriesBlack),
+    noteheadCowellNinthNoteSeriesHalf
+        = int(mu::engraving::SymId::noteheadCowellNinthNoteSeriesHalf),
+    noteheadCowellNinthNoteSeriesWhole
+        = int(mu::engraving::SymId::noteheadCowellNinthNoteSeriesWhole),
+    noteheadCowellSeventhNoteSeriesBlack
+        = int(mu::engraving::SymId::noteheadCowellSeventhNoteSeriesBlack),
+    noteheadCowellSeventhNoteSeriesHalf
+        = int(mu::engraving::SymId::noteheadCowellSeventhNoteSeriesHalf),
+    noteheadCowellSeventhNoteSeriesWhole
+        = int(mu::engraving::SymId::noteheadCowellSeventhNoteSeriesWhole),
+    noteheadCowellThirdNoteSeriesBlack
+        = int(mu::engraving::SymId::noteheadCowellThirdNoteSeriesBlack),
+    noteheadCowellThirdNoteSeriesHalf
+        = int(mu::engraving::SymId::noteheadCowellThirdNoteSeriesHalf),
+    noteheadCowellThirdNoteSeriesWhole
+        = int(mu::engraving::SymId::noteheadCowellThirdNoteSeriesWhole),
+    noteheadCowellThirteenthNoteSeriesBlack
+        = int(mu::engraving::SymId::noteheadCowellThirteenthNoteSeriesBlack),
+    noteheadCowellThirteenthNoteSeriesHalf
+        = int(mu::engraving::SymId::noteheadCowellThirteenthNoteSeriesHalf),
+    noteheadCowellThirteenthNoteSeriesWhole
+        = int(mu::engraving::SymId::noteheadCowellThirteenthNoteSeriesWhole),
     noteheadDiamondBlack = int(mu::engraving::SymId::noteheadDiamondBlack),
     noteheadDiamondBlackOld = int(mu::engraving::SymId::noteheadDiamondBlackOld),
     noteheadDiamondBlackWide = int(mu::engraving::SymId::noteheadDiamondBlackWide),
     noteheadDiamondClusterBlack2nd = int(mu::engraving::SymId::noteheadDiamondClusterBlack2nd),
     noteheadDiamondClusterBlack3rd = int(mu::engraving::SymId::noteheadDiamondClusterBlack3rd),
-    noteheadDiamondClusterBlackBottom = int(mu::engraving::SymId::noteheadDiamondClusterBlackBottom),
-    noteheadDiamondClusterBlackMiddle = int(mu::engraving::SymId::noteheadDiamondClusterBlackMiddle),
+    noteheadDiamondClusterBlackBottom
+        = int(mu::engraving::SymId::noteheadDiamondClusterBlackBottom),
+    noteheadDiamondClusterBlackMiddle
+        = int(mu::engraving::SymId::noteheadDiamondClusterBlackMiddle),
     noteheadDiamondClusterBlackTop = int(mu::engraving::SymId::noteheadDiamondClusterBlackTop),
     noteheadDiamondClusterWhite2nd = int(mu::engraving::SymId::noteheadDiamondClusterWhite2nd),
     noteheadDiamondClusterWhite3rd = int(mu::engraving::SymId::noteheadDiamondClusterWhite3rd),
-    noteheadDiamondClusterWhiteBottom = int(mu::engraving::SymId::noteheadDiamondClusterWhiteBottom),
-    noteheadDiamondClusterWhiteMiddle = int(mu::engraving::SymId::noteheadDiamondClusterWhiteMiddle),
+    noteheadDiamondClusterWhiteBottom
+        = int(mu::engraving::SymId::noteheadDiamondClusterWhiteBottom),
+    noteheadDiamondClusterWhiteMiddle
+        = int(mu::engraving::SymId::noteheadDiamondClusterWhiteMiddle),
     noteheadDiamondClusterWhiteTop = int(mu::engraving::SymId::noteheadDiamondClusterWhiteTop),
     noteheadDiamondDoubleWhole = int(mu::engraving::SymId::noteheadDiamondDoubleWhole),
     noteheadDiamondDoubleWholeOld = int(mu::engraving::SymId::noteheadDiamondDoubleWholeOld),
@@ -3723,7 +3890,8 @@ enum class SymId {
     noteheadHeavyX = int(mu::engraving::SymId::noteheadHeavyX),
     noteheadHeavyXHat = int(mu::engraving::SymId::noteheadHeavyXHat),
     noteheadLargeArrowDownBlack = int(mu::engraving::SymId::noteheadLargeArrowDownBlack),
-    noteheadLargeArrowDownDoubleWhole = int(mu::engraving::SymId::noteheadLargeArrowDownDoubleWhole),
+    noteheadLargeArrowDownDoubleWhole
+        = int(mu::engraving::SymId::noteheadLargeArrowDownDoubleWhole),
     noteheadLargeArrowDownHalf = int(mu::engraving::SymId::noteheadLargeArrowDownHalf),
     noteheadLargeArrowDownWhole = int(mu::engraving::SymId::noteheadLargeArrowDownWhole),
     noteheadLargeArrowUpBlack = int(mu::engraving::SymId::noteheadLargeArrowUpBlack),
@@ -3741,12 +3909,18 @@ enum class SymId {
     noteheadPlusDoubleWhole = int(mu::engraving::SymId::noteheadPlusDoubleWhole),
     noteheadPlusHalf = int(mu::engraving::SymId::noteheadPlusHalf),
     noteheadPlusWhole = int(mu::engraving::SymId::noteheadPlusWhole),
-    noteheadRectangularClusterBlackBottom = int(mu::engraving::SymId::noteheadRectangularClusterBlackBottom),
-    noteheadRectangularClusterBlackMiddle = int(mu::engraving::SymId::noteheadRectangularClusterBlackMiddle),
-    noteheadRectangularClusterBlackTop = int(mu::engraving::SymId::noteheadRectangularClusterBlackTop),
-    noteheadRectangularClusterWhiteBottom = int(mu::engraving::SymId::noteheadRectangularClusterWhiteBottom),
-    noteheadRectangularClusterWhiteMiddle = int(mu::engraving::SymId::noteheadRectangularClusterWhiteMiddle),
-    noteheadRectangularClusterWhiteTop = int(mu::engraving::SymId::noteheadRectangularClusterWhiteTop),
+    noteheadRectangularClusterBlackBottom
+        = int(mu::engraving::SymId::noteheadRectangularClusterBlackBottom),
+    noteheadRectangularClusterBlackMiddle
+        = int(mu::engraving::SymId::noteheadRectangularClusterBlackMiddle),
+    noteheadRectangularClusterBlackTop
+        = int(mu::engraving::SymId::noteheadRectangularClusterBlackTop),
+    noteheadRectangularClusterWhiteBottom
+        = int(mu::engraving::SymId::noteheadRectangularClusterWhiteBottom),
+    noteheadRectangularClusterWhiteMiddle
+        = int(mu::engraving::SymId::noteheadRectangularClusterWhiteMiddle),
+    noteheadRectangularClusterWhiteTop
+        = int(mu::engraving::SymId::noteheadRectangularClusterWhiteTop),
     noteheadRoundBlack = int(mu::engraving::SymId::noteheadRoundBlack),
     noteheadRoundBlackDoubleSlashed = int(mu::engraving::SymId::noteheadRoundBlackDoubleSlashed),
     noteheadRoundBlackLarge = int(mu::engraving::SymId::noteheadRoundBlackLarge),
@@ -3853,7 +4027,8 @@ enum class SymId {
     organGermanBuxheimerBrevis3 = int(mu::engraving::SymId::organGermanBuxheimerBrevis3),
     organGermanBuxheimerMinimaRest = int(mu::engraving::SymId::organGermanBuxheimerMinimaRest),
     organGermanBuxheimerSemibrevis = int(mu::engraving::SymId::organGermanBuxheimerSemibrevis),
-    organGermanBuxheimerSemibrevisRest = int(mu::engraving::SymId::organGermanBuxheimerSemibrevisRest),
+    organGermanBuxheimerSemibrevisRest
+        = int(mu::engraving::SymId::organGermanBuxheimerSemibrevisRest),
     organGermanCLower = int(mu::engraving::SymId::organGermanCLower),
     organGermanCUpper = int(mu::engraving::SymId::organGermanCUpper),
     organGermanCisLower = int(mu::engraving::SymId::organGermanCisLower),
@@ -3888,13 +4063,16 @@ enum class SymId {
     organGermanSemiminimaRest = int(mu::engraving::SymId::organGermanSemiminimaRest),
     organGermanTie = int(mu::engraving::SymId::organGermanTie),
     ornamentBottomLeftConcaveStroke = int(mu::engraving::SymId::ornamentBottomLeftConcaveStroke),
-    ornamentBottomLeftConcaveStrokeLarge = int(mu::engraving::SymId::ornamentBottomLeftConcaveStrokeLarge),
+    ornamentBottomLeftConcaveStrokeLarge
+        = int(mu::engraving::SymId::ornamentBottomLeftConcaveStrokeLarge),
     ornamentBottomLeftConvexStroke = int(mu::engraving::SymId::ornamentBottomLeftConvexStroke),
     ornamentBottomRightConcaveStroke = int(mu::engraving::SymId::ornamentBottomRightConcaveStroke),
     ornamentBottomRightConvexStroke = int(mu::engraving::SymId::ornamentBottomRightConvexStroke),
     ornamentComma = int(mu::engraving::SymId::ornamentComma),
-    ornamentDoubleObliqueLinesAfterNote = int(mu::engraving::SymId::ornamentDoubleObliqueLinesAfterNote),
-    ornamentDoubleObliqueLinesBeforeNote = int(mu::engraving::SymId::ornamentDoubleObliqueLinesBeforeNote),
+    ornamentDoubleObliqueLinesAfterNote
+        = int(mu::engraving::SymId::ornamentDoubleObliqueLinesAfterNote),
+    ornamentDoubleObliqueLinesBeforeNote
+        = int(mu::engraving::SymId::ornamentDoubleObliqueLinesBeforeNote),
     ornamentDownCurve = int(mu::engraving::SymId::ornamentDownCurve),
     ornamentHaydn = int(mu::engraving::SymId::ornamentHaydn),
     ornamentHighLeftConcaveStroke = int(mu::engraving::SymId::ornamentHighLeftConcaveStroke),
@@ -3908,7 +4086,8 @@ enum class SymId {
     ornamentLeftPlus = int(mu::engraving::SymId::ornamentLeftPlus),
     ornamentLeftShakeT = int(mu::engraving::SymId::ornamentLeftShakeT),
     ornamentLeftVerticalStroke = int(mu::engraving::SymId::ornamentLeftVerticalStroke),
-    ornamentLeftVerticalStrokeWithCross = int(mu::engraving::SymId::ornamentLeftVerticalStrokeWithCross),
+    ornamentLeftVerticalStrokeWithCross
+        = int(mu::engraving::SymId::ornamentLeftVerticalStrokeWithCross),
     ornamentLowLeftConcaveStroke = int(mu::engraving::SymId::ornamentLowLeftConcaveStroke),
     ornamentLowLeftConvexStroke = int(mu::engraving::SymId::ornamentLowLeftConvexStroke),
     ornamentLowRightConcaveStroke = int(mu::engraving::SymId::ornamentLowRightConcaveStroke),
@@ -3917,36 +4096,49 @@ enum class SymId {
     ornamentMordent = int(mu::engraving::SymId::ornamentMordent),
     ornamentObliqueLineAfterNote = int(mu::engraving::SymId::ornamentObliqueLineAfterNote),
     ornamentObliqueLineBeforeNote = int(mu::engraving::SymId::ornamentObliqueLineBeforeNote),
-    ornamentObliqueLineHorizAfterNote = int(mu::engraving::SymId::ornamentObliqueLineHorizAfterNote),
-    ornamentObliqueLineHorizBeforeNote = int(mu::engraving::SymId::ornamentObliqueLineHorizBeforeNote),
+    ornamentObliqueLineHorizAfterNote
+        = int(mu::engraving::SymId::ornamentObliqueLineHorizAfterNote),
+    ornamentObliqueLineHorizBeforeNote
+        = int(mu::engraving::SymId::ornamentObliqueLineHorizBeforeNote),
     ornamentOriscus = int(mu::engraving::SymId::ornamentOriscus),
     ornamentPinceCouperin = int(mu::engraving::SymId::ornamentPinceCouperin),
     ornamentPortDeVoixV = int(mu::engraving::SymId::ornamentPortDeVoixV),
     ornamentPrecompAppoggTrill = int(mu::engraving::SymId::ornamentPrecompAppoggTrill),
     ornamentPrecompAppoggTrillSuffix = int(mu::engraving::SymId::ornamentPrecompAppoggTrillSuffix),
     ornamentPrecompCadence = int(mu::engraving::SymId::ornamentPrecompCadence),
-    ornamentPrecompCadenceUpperPrefix = int(mu::engraving::SymId::ornamentPrecompCadenceUpperPrefix),
-    ornamentPrecompCadenceUpperPrefixTurn = int(mu::engraving::SymId::ornamentPrecompCadenceUpperPrefixTurn),
+    ornamentPrecompCadenceUpperPrefix
+        = int(mu::engraving::SymId::ornamentPrecompCadenceUpperPrefix),
+    ornamentPrecompCadenceUpperPrefixTurn
+        = int(mu::engraving::SymId::ornamentPrecompCadenceUpperPrefixTurn),
     ornamentPrecompCadenceWithTurn = int(mu::engraving::SymId::ornamentPrecompCadenceWithTurn),
     ornamentPrecompDescendingSlide = int(mu::engraving::SymId::ornamentPrecompDescendingSlide),
-    ornamentPrecompDoubleCadenceLowerPrefix = int(mu::engraving::SymId::ornamentPrecompDoubleCadenceLowerPrefix),
-    ornamentPrecompDoubleCadenceUpperPrefix = int(mu::engraving::SymId::ornamentPrecompDoubleCadenceUpperPrefix),
-    ornamentPrecompDoubleCadenceUpperPrefixTurn = int(mu::engraving::SymId::ornamentPrecompDoubleCadenceUpperPrefixTurn),
-    ornamentPrecompInvertedMordentUpperPrefix = int(mu::engraving::SymId::ornamentPrecompInvertedMordentUpperPrefix),
+    ornamentPrecompDoubleCadenceLowerPrefix
+        = int(mu::engraving::SymId::ornamentPrecompDoubleCadenceLowerPrefix),
+    ornamentPrecompDoubleCadenceUpperPrefix
+        = int(mu::engraving::SymId::ornamentPrecompDoubleCadenceUpperPrefix),
+    ornamentPrecompDoubleCadenceUpperPrefixTurn
+        = int(mu::engraving::SymId::ornamentPrecompDoubleCadenceUpperPrefixTurn),
+    ornamentPrecompInvertedMordentUpperPrefix
+        = int(mu::engraving::SymId::ornamentPrecompInvertedMordentUpperPrefix),
     ornamentPrecompMordentRelease = int(mu::engraving::SymId::ornamentPrecompMordentRelease),
-    ornamentPrecompMordentUpperPrefix = int(mu::engraving::SymId::ornamentPrecompMordentUpperPrefix),
+    ornamentPrecompMordentUpperPrefix
+        = int(mu::engraving::SymId::ornamentPrecompMordentUpperPrefix),
     ornamentPrecompPortDeVoixMordent = int(mu::engraving::SymId::ornamentPrecompPortDeVoixMordent),
     ornamentPrecompSlide = int(mu::engraving::SymId::ornamentPrecompSlide),
     ornamentPrecompSlideTrillBach = int(mu::engraving::SymId::ornamentPrecompSlideTrillBach),
-    ornamentPrecompSlideTrillDAnglebert = int(mu::engraving::SymId::ornamentPrecompSlideTrillDAnglebert),
+    ornamentPrecompSlideTrillDAnglebert
+        = int(mu::engraving::SymId::ornamentPrecompSlideTrillDAnglebert),
     ornamentPrecompSlideTrillMarpurg = int(mu::engraving::SymId::ornamentPrecompSlideTrillMarpurg),
     ornamentPrecompSlideTrillMuffat = int(mu::engraving::SymId::ornamentPrecompSlideTrillMuffat),
-    ornamentPrecompSlideTrillSuffixMuffat = int(mu::engraving::SymId::ornamentPrecompSlideTrillSuffixMuffat),
+    ornamentPrecompSlideTrillSuffixMuffat
+        = int(mu::engraving::SymId::ornamentPrecompSlideTrillSuffixMuffat),
     ornamentPrecompTrillLowerSuffix = int(mu::engraving::SymId::ornamentPrecompTrillLowerSuffix),
-    ornamentPrecompTrillSuffixDandrieu = int(mu::engraving::SymId::ornamentPrecompTrillSuffixDandrieu),
+    ornamentPrecompTrillSuffixDandrieu
+        = int(mu::engraving::SymId::ornamentPrecompTrillSuffixDandrieu),
     ornamentPrecompTrillWithMordent = int(mu::engraving::SymId::ornamentPrecompTrillWithMordent),
     ornamentPrecompTurnTrillBach = int(mu::engraving::SymId::ornamentPrecompTurnTrillBach),
-    ornamentPrecompTurnTrillDAnglebert = int(mu::engraving::SymId::ornamentPrecompTurnTrillDAnglebert),
+    ornamentPrecompTurnTrillDAnglebert
+        = int(mu::engraving::SymId::ornamentPrecompTurnTrillDAnglebert),
     ornamentQuilisma = int(mu::engraving::SymId::ornamentQuilisma),
     ornamentRightFacingHalfCircle = int(mu::engraving::SymId::ornamentRightFacingHalfCircle),
     ornamentRightFacingHook = int(mu::engraving::SymId::ornamentRightFacingHook),
@@ -3954,8 +4146,10 @@ enum class SymId {
     ornamentSchleifer = int(mu::engraving::SymId::ornamentSchleifer),
     ornamentShake3 = int(mu::engraving::SymId::ornamentShake3),
     ornamentShakeMuffat1 = int(mu::engraving::SymId::ornamentShakeMuffat1),
-    ornamentShortObliqueLineAfterNote = int(mu::engraving::SymId::ornamentShortObliqueLineAfterNote),
-    ornamentShortObliqueLineBeforeNote = int(mu::engraving::SymId::ornamentShortObliqueLineBeforeNote),
+    ornamentShortObliqueLineAfterNote
+        = int(mu::engraving::SymId::ornamentShortObliqueLineAfterNote),
+    ornamentShortObliqueLineBeforeNote
+        = int(mu::engraving::SymId::ornamentShortObliqueLineBeforeNote),
     ornamentShortTrill = int(mu::engraving::SymId::ornamentShortTrill),
     ornamentTopLeftConcaveStroke = int(mu::engraving::SymId::ornamentTopLeftConcaveStroke),
     ornamentTopLeftConvexStroke = int(mu::engraving::SymId::ornamentTopLeftConvexStroke),
@@ -4394,9 +4588,11 @@ enum class SymId {
     stemVibratoPulse = int(mu::engraving::SymId::stemVibratoPulse),
     stockhausenTremolo = int(mu::engraving::SymId::stockhausenTremolo),
     stringsBowBehindBridge = int(mu::engraving::SymId::stringsBowBehindBridge),
-    stringsBowBehindBridgeFourStrings = int(mu::engraving::SymId::stringsBowBehindBridgeFourStrings),
+    stringsBowBehindBridgeFourStrings
+        = int(mu::engraving::SymId::stringsBowBehindBridgeFourStrings),
     stringsBowBehindBridgeOneString = int(mu::engraving::SymId::stringsBowBehindBridgeOneString),
-    stringsBowBehindBridgeThreeStrings = int(mu::engraving::SymId::stringsBowBehindBridgeThreeStrings),
+    stringsBowBehindBridgeThreeStrings
+        = int(mu::engraving::SymId::stringsBowBehindBridgeThreeStrings),
     stringsBowBehindBridgeTwoStrings = int(mu::engraving::SymId::stringsBowBehindBridgeTwoStrings),
     stringsBowOnBridge = int(mu::engraving::SymId::stringsBowOnBridge),
     stringsBowOnTailpiece = int(mu::engraving::SymId::stringsBowOnTailpiece),
@@ -4415,11 +4611,14 @@ enum class SymId {
     stringsMuteOn = int(mu::engraving::SymId::stringsMuteOn),
     stringsOverpressureDownBow = int(mu::engraving::SymId::stringsOverpressureDownBow),
     stringsOverpressureNoDirection = int(mu::engraving::SymId::stringsOverpressureNoDirection),
-    stringsOverpressurePossibileDownBow = int(mu::engraving::SymId::stringsOverpressurePossibileDownBow),
-    stringsOverpressurePossibileUpBow = int(mu::engraving::SymId::stringsOverpressurePossibileUpBow),
+    stringsOverpressurePossibileDownBow
+        = int(mu::engraving::SymId::stringsOverpressurePossibileDownBow),
+    stringsOverpressurePossibileUpBow
+        = int(mu::engraving::SymId::stringsOverpressurePossibileUpBow),
     stringsOverpressureUpBow = int(mu::engraving::SymId::stringsOverpressureUpBow),
     stringsScrapeCircularClockwise = int(mu::engraving::SymId::stringsScrapeCircularClockwise),
-    stringsScrapeCircularCounterclockwise = int(mu::engraving::SymId::stringsScrapeCircularCounterclockwise),
+    stringsScrapeCircularCounterclockwise
+        = int(mu::engraving::SymId::stringsScrapeCircularCounterclockwise),
     stringsScrapeParallelInward = int(mu::engraving::SymId::stringsScrapeParallelInward),
     stringsScrapeParallelOutward = int(mu::engraving::SymId::stringsScrapeParallelOutward),
     stringsThumbPosition = int(mu::engraving::SymId::stringsThumbPosition),
@@ -4432,7 +4631,8 @@ enum class SymId {
     stringsUpBowTowardsBody = int(mu::engraving::SymId::stringsUpBowTowardsBody),
     stringsUpBowTurned = int(mu::engraving::SymId::stringsUpBowTurned),
     stringsVibratoPulse = int(mu::engraving::SymId::stringsVibratoPulse),
-    swissRudimentsNoteheadBlackDouble = int(mu::engraving::SymId::swissRudimentsNoteheadBlackDouble),
+    swissRudimentsNoteheadBlackDouble
+        = int(mu::engraving::SymId::swissRudimentsNoteheadBlackDouble),
     swissRudimentsNoteheadBlackFlam = int(mu::engraving::SymId::swissRudimentsNoteheadBlackFlam),
     swissRudimentsNoteheadHalfDouble = int(mu::engraving::SymId::swissRudimentsNoteheadHalfDouble),
     swissRudimentsNoteheadHalfFlam = int(mu::engraving::SymId::swissRudimentsNoteheadHalfFlam),
@@ -4452,11 +4652,16 @@ enum class SymId {
     textCont32ndBeamLongStem = int(mu::engraving::SymId::textCont32ndBeamLongStem),
     textCont8thBeamLongStem = int(mu::engraving::SymId::textCont8thBeamLongStem),
     textCont8thBeamShortStem = int(mu::engraving::SymId::textCont8thBeamShortStem),
-    textHeadlessBlackNoteFrac16thLongStem = int(mu::engraving::SymId::textHeadlessBlackNoteFrac16thLongStem),
-    textHeadlessBlackNoteFrac16thShortStem = int(mu::engraving::SymId::textHeadlessBlackNoteFrac16thShortStem),
-    textHeadlessBlackNoteFrac32ndLongStem = int(mu::engraving::SymId::textHeadlessBlackNoteFrac32ndLongStem),
-    textHeadlessBlackNoteFrac8thLongStem = int(mu::engraving::SymId::textHeadlessBlackNoteFrac8thLongStem),
-    textHeadlessBlackNoteFrac8thShortStem = int(mu::engraving::SymId::textHeadlessBlackNoteFrac8thShortStem),
+    textHeadlessBlackNoteFrac16thLongStem
+        = int(mu::engraving::SymId::textHeadlessBlackNoteFrac16thLongStem),
+    textHeadlessBlackNoteFrac16thShortStem
+        = int(mu::engraving::SymId::textHeadlessBlackNoteFrac16thShortStem),
+    textHeadlessBlackNoteFrac32ndLongStem
+        = int(mu::engraving::SymId::textHeadlessBlackNoteFrac32ndLongStem),
+    textHeadlessBlackNoteFrac8thLongStem
+        = int(mu::engraving::SymId::textHeadlessBlackNoteFrac8thLongStem),
+    textHeadlessBlackNoteFrac8thShortStem
+        = int(mu::engraving::SymId::textHeadlessBlackNoteFrac8thShortStem),
     textHeadlessBlackNoteLongStem = int(mu::engraving::SymId::textHeadlessBlackNoteLongStem),
     textHeadlessBlackNoteShortStem = int(mu::engraving::SymId::textHeadlessBlackNoteShortStem),
     textTie = int(mu::engraving::SymId::textTie),
@@ -4574,7 +4779,8 @@ enum class SymId {
     vocalNasalVoice = int(mu::engraving::SymId::vocalNasalVoice),
     vocalSprechgesang = int(mu::engraving::SymId::vocalSprechgesang),
     vocalTongueClickStockhausen = int(mu::engraving::SymId::vocalTongueClickStockhausen),
-    vocalTongueFingerClickStockhausen = int(mu::engraving::SymId::vocalTongueFingerClickStockhausen),
+    vocalTongueFingerClickStockhausen
+        = int(mu::engraving::SymId::vocalTongueFingerClickStockhausen),
     vocalsSussurando = int(mu::engraving::SymId::vocalsSussurando),
     wiggleArpeggiatoDown = int(mu::engraving::SymId::wiggleArpeggiatoDown),
     wiggleArpeggiatoDownArrow = int(mu::engraving::SymId::wiggleArpeggiatoDownArrow),
@@ -4585,7 +4791,8 @@ enum class SymId {
     wiggleCircular = int(mu::engraving::SymId::wiggleCircular),
     wiggleCircularConstant = int(mu::engraving::SymId::wiggleCircularConstant),
     wiggleCircularConstantFlipped = int(mu::engraving::SymId::wiggleCircularConstantFlipped),
-    wiggleCircularConstantFlippedLarge = int(mu::engraving::SymId::wiggleCircularConstantFlippedLarge),
+    wiggleCircularConstantFlippedLarge
+        = int(mu::engraving::SymId::wiggleCircularConstantFlippedLarge),
     wiggleCircularConstantLarge = int(mu::engraving::SymId::wiggleCircularConstantLarge),
     wiggleCircularEnd = int(mu::engraving::SymId::wiggleCircularEnd),
     wiggleCircularLarge = int(mu::engraving::SymId::wiggleCircularLarge),

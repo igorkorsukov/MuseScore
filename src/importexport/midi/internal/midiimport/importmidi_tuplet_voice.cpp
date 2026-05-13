@@ -36,7 +36,8 @@ int tupletVoiceLimit()
 {
     const auto& opers = midiImportOperations.data()->trackOpers;
     const int currentTrack = midiImportOperations.currentTrack();
-    const size_t allowedVoices = MidiVoice::toIntVoiceCount(opers.maxVoiceCount.value(currentTrack));
+    const size_t allowedVoices
+        = MidiVoice::toIntVoiceCount(opers.maxVoiceCount.value(currentTrack));
 
     Q_ASSERT_X(allowedVoices <= engraving::VOICES,
                "MidiTuplet::tupletVoiceLimit",
@@ -170,7 +171,8 @@ int findPitchDist(
 
 void setNonTupletVoices(
     std::set<std::pair<const ReducedFraction, MidiChord>*>& pendingNonTuplets,
-    const std::map<int, std::vector<std::pair<ReducedFraction, ReducedFraction> > >& tupletIntervals,
+    const std::map<int, std::vector<std::pair<ReducedFraction,
+                                              ReducedFraction> > >& tupletIntervals,
     const std::vector<TupletInfo>& tuplets,
     const std::multimap<ReducedFraction, MidiChord>& chords,
     const ReducedFraction& basicQuant,

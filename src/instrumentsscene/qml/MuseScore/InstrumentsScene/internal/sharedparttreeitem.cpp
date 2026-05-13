@@ -29,7 +29,8 @@ using namespace mu::instrumentsscene;
 using namespace mu::notation;
 using namespace muse;
 
-SharedPartTreeItem::SharedPartTreeItem(IMasterNotationPtr masterNotation, INotationPtr notation, QObject* parent)
+SharedPartTreeItem::SharedPartTreeItem(IMasterNotationPtr masterNotation, INotationPtr notation,
+                                       QObject* parent)
     : PartTreeItem(masterNotation, notation, parent, LayoutPanelItemType::ItemType::SHARED_PART)
 {
     setSettingsAvailable(false);
@@ -57,13 +58,15 @@ void SharedPartTreeItem::onScoreChanged(const mu::engraving::ScoreChanges& sc)
     m_ignoreEnabledChanged = false;
 }
 
-MoveParams SharedPartTreeItem::buildMoveParams(int sourceRow, int count, AbstractLayoutPanelTreeItem* destinationParent,
+MoveParams SharedPartTreeItem::buildMoveParams(int sourceRow, int count,
+                                               AbstractLayoutPanelTreeItem* destinationParent,
                                                int destinationRow) const
 {
     return PartTreeItem::buildMoveParams(sourceRow, count, destinationParent, destinationRow);
 }
 
-void SharedPartTreeItem::moveChildren(int sourceRow, int count, AbstractLayoutPanelTreeItem* destinationParent,
+void SharedPartTreeItem::moveChildren(int sourceRow, int count,
+                                      AbstractLayoutPanelTreeItem* destinationParent,
                                       int destinationRow, bool updateNotation)
 {
     PartTreeItem::moveChildren(sourceRow, count, destinationParent, destinationRow, updateNotation);

@@ -87,7 +87,8 @@ std::shared_ptr<Pixmap> Score::createThumbnail()
 
     int dpm = lrint(DPMM * 1000.0);
 
-    auto pixmap = imageProvider()->createPixmap(w, h, dpm, configuration()->thumbnailBackgroundColor());
+    auto pixmap = imageProvider()->createPixmap(w, h, dpm,
+                                                configuration()->thumbnailBackgroundColor());
 
     auto painterProvider = imageProvider()->painterForImage(pixmap);
     Painter p(painterProvider, "thumbnail");

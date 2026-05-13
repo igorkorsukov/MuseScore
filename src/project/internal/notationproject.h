@@ -49,7 +49,8 @@ class WriteContext;
 }
 
 namespace mu::project {
-class NotationProject : public INotationProject, public muse::Contextable, public muse::async::Asyncable
+class NotationProject : public INotationProject, public muse::Contextable,
+    public muse::async::Asyncable
 {
     muse::GlobalInject<muse::io::IFileSystem> fileSystem;
     muse::GlobalInject<IProjectConfiguration> configuration;
@@ -66,7 +67,8 @@ public:
 
     static QString scoreDefaultTitle();
 
-    muse::Ret load(const muse::io::path_t& path, const OpenParams& params = {}, const std::string& format = "") override;
+    muse::Ret load(const muse::io::path_t& path, const OpenParams& params = {},
+                   const std::string& format = "") override;
     muse::Ret createNew(const ProjectCreateOptions& projectInfo) override;
 
     muse::io::path_t path() const override;
@@ -97,7 +99,8 @@ public:
     void setNeedAutoSave(bool val) override;
 
     muse::Ret save(
-        const muse::io::path_t& path = muse::io::path_t(), SaveMode saveMode = SaveMode::Save, bool createBackup = true) override;
+        const muse::io::path_t& path = muse::io::path_t(), SaveMode saveMode = SaveMode::Save,
+        bool createBackup = true) override;
     muse::Ret savePage(const muse::io::path_t& path, const size_t pageNum) override;
     muse::async::Channel<muse::io::path_t, SaveMode> saveComplited() const override;
 
@@ -114,20 +117,26 @@ private:
 
     muse::Ret loadTemplate(const ProjectCreateOptions& projectOptions);
 
-    muse::Ret doLoad(const muse::io::path_t& path, const OpenParams& params, const std::string& format);
+    muse::Ret doLoad(const muse::io::path_t& path, const OpenParams& params,
+                     const std::string& format);
     muse::Ret doImport(const muse::io::path_t& path, const OpenParams& params);
 
-    muse::Ret saveScore(const muse::io::path_t& path, const std::string& fileSuffix, bool generateBackup = true,
-                        bool createThumbnail = true, bool isAutosave = false, const engraving::write::WriteContext* ctx = nullptr);
+    muse::Ret saveScore(const muse::io::path_t& path, const std::string& fileSuffix,
+                        bool generateBackup = true, bool createThumbnail = true,
+                        bool isAutosave = false,
+                        const engraving::write::WriteContext* ctx = nullptr);
     muse::Ret saveSelectionOnScore(const muse::io::path_t& path = muse::io::path_t());
     muse::Ret exportProject(const muse::io::path_t& path, const std::string& suffix);
-    muse::Ret doSave(const muse::io::path_t& path, engraving::MscIoMode ioMode, bool generateBackup = true, bool createThumbnail = true,
+    muse::Ret doSave(const muse::io::path_t& path, engraving::MscIoMode ioMode,
+                     bool generateBackup = true, bool createThumbnail = true,
                      bool isAutosave = false, const engraving::write::WriteContext* ctx = nullptr);
     muse::Ret makeBackup(muse::io::path_t filePath);
-    muse::Ret writeProject(const muse::io::path_t& path, const engraving::write::WriteContext* ctx = nullptr);
+    muse::Ret writeProject(const muse::io::path_t& path,
+                           const engraving::write::WriteContext* ctx = nullptr);
     muse::Ret writeProject(engraving::MscWriter& msczWriter, bool createThumbnail = true,
                            const engraving::write::WriteContext* ctx = nullptr);
-    muse::Ret checkSavedFileForCorruption(engraving::MscIoMode ioMode, const muse::io::path_t& path, const muse::io::path_t& scoreFileName);
+    muse::Ret checkSavedFileForCorruption(engraving::MscIoMode ioMode, const muse::io::path_t& path,
+                                          const muse::io::path_t& scoreFileName);
 
     void listenIfNeedSaveChanges();
     void markAsSaved(const muse::io::path_t& path);

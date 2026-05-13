@@ -28,7 +28,8 @@
 using namespace mu::inspector;
 using namespace mu::engraving;
 
-BarlineSettingsModel::BarlineSettingsModel(QObject* parent, const muse::modularity::ContextPtr& iocCtx,
+BarlineSettingsModel::BarlineSettingsModel(QObject* parent,
+                                           const muse::modularity::ContextPtr& iocCtx,
                                            IElementRepositoryService* repository)
     : AbstractInspectorModel(parent, iocCtx, repository)
 {
@@ -41,7 +42,9 @@ BarlineSettingsModel::BarlineSettingsModel(QObject* parent, const muse::modulari
 void BarlineSettingsModel::createProperties()
 {
     m_type = buildPropertyItem(Pid::BARLINE_TYPE);
-    m_playCount = buildPropertyItem(Pid::REPEAT_COUNT, [this](const mu::engraving::Pid propertyId, const QVariant& newValue) {
+    m_playCount
+        = buildPropertyItem(Pid::REPEAT_COUNT,
+                            [this](const mu::engraving::Pid propertyId, const QVariant& newValue) {
         onPropertyValueChanged(propertyId, newValue);
         emit requestReloadInspectorListModel();
     });
@@ -52,7 +55,8 @@ void BarlineSettingsModel::createProperties()
     m_spanTo = buildPropertyItem(Pid::BARLINE_SPAN_TO);
     m_hasToShowTips = buildPropertyItem(Pid::BARLINE_SHOW_TIPS);
 
-    connect(m_type, &PropertyItem::valueChanged, this, &BarlineSettingsModel::isRepeatStyleChangingAllowedChanged);
+    connect(m_type, &PropertyItem::valueChanged, this,
+            &BarlineSettingsModel::isRepeatStyleChangingAllowedChanged);
     connect(m_type, &PropertyItem::valueChanged, this, [this]() {
         updateShowPlayCount();
         updateShowPlayCountSettings();
@@ -98,8 +102,9 @@ void BarlineSettingsModel::resetProperties()
     m_hasToShowTips->resetToDefault();
 }
 
-void BarlineSettingsModel::onNotationChanged(const mu::engraving::PropertyIdSet& changedPropertyIdSet,
-                                             const mu::engraving::StyleIdSet&)
+void BarlineSettingsModel::onNotationChanged(
+    const mu::engraving::PropertyIdSet& changedPropertyIdSet,
+    const mu::engraving::StyleIdSet&)
 {
     loadProperties(changedPropertyIdSet);
 }
@@ -231,13 +236,16 @@ void BarlineSettingsModel::applySpanPreset(const int presetType)
 
 void BarlineSettingsModel::setSpanIntervalAsStaffDefault()
 {
-    undoStack()->prepareChanges(muse::TranslatableString("undoableAction", "Set barline span interval as staff default"));
+    undoStack()->prepareChanges(muse::TranslatableString("undoableAction",
+                                                         "Set barline span interval as staff default"));
 
     std::vector<mu::engraving::EngravingItem*> staves;
 
-    auto undoChangeProperty = [](mu::engraving::EngravingObject* o, mu::engraving::Pid pid, const QVariant& val)
+    auto undoChangeProperty
+        = [](mu::engraving::EngravingObject* o, mu::engraving::Pid pid, const QVariant& val)
     {
-        o->undoChangeProperty(pid, PropertyValue::fromQVariant(val, mu::engraving::propertyType(pid)));
+        o->undoChangeProperty(pid, PropertyValue::fromQVariant(val, mu::engraving::propertyType(
+                                                                   pid)));
     };
 
     for (mu::engraving::EngravingItem* item : m_elementList) {
@@ -249,8 +257,10 @@ void BarlineSettingsModel::setSpanIntervalAsStaffDefault()
         mu::engraving::Staff* staff = barline->staff();
 
         if (std::find(staves.cbegin(), staves.cend(), staff) == staves.cend()) {
-            undoChangeProperty(staff, mu::engraving::Pid::STAFF_BARLINE_SPAN, m_isSpanToNextStaff->value());
-            undoChangeProperty(staff, mu::engraving::Pid::STAFF_BARLINE_SPAN_FROM, m_spanFrom->value());
+            undoChangeProperty(staff, mu::engraving::Pid::STAFF_BARLINE_SPAN,
+                               m_isSpanToNextStaff->value());
+            undoChangeProperty(staff, mu::engraving::Pid::STAFF_BARLINE_SPAN_FROM,
+                               m_spanFrom->value());
             undoChangeProperty(staff, mu::engraving::Pid::STAFF_BARLINE_SPAN_TO, m_spanTo->value());
             staves.push_back(staff);
         }

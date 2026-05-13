@@ -33,14 +33,16 @@
 #include "notation/notationtypes.h"
 
 namespace mu::instrumentsscene {
-class InstrumentSettingsModel : public QObject, public muse::async::Asyncable, public muse::Contextable
+class InstrumentSettingsModel : public QObject, public muse::async::Asyncable,
+    public muse::Contextable
 {
     Q_OBJECT
 
     Q_PROPERTY(QString instrumentName READ instrumentName WRITE setInstrumentName NOTIFY dataChanged)
     Q_PROPERTY(QString abbreviature READ abbreviature WRITE setAbbreviature NOTIFY dataChanged)
     Q_PROPERTY(int number READ number WRITE setNumber NOTIFY dataChanged)
-    Q_PROPERTY(int hideWhenEmpty READ hideWhenEmpty WRITE setHideWhenEmpty NOTIFY hideWhenEmptyChanged)
+    Q_PROPERTY(
+        int hideWhenEmpty READ hideWhenEmpty WRITE setHideWhenEmpty NOTIFY hideWhenEmptyChanged)
     Q_PROPERTY(
         bool hideStavesWhenIndividuallyEmpty READ hideStavesWhenIndividuallyEmpty WRITE setHideStavesWhenIndividuallyEmpty NOTIFY hideStavesWhenIndividuallyEmptyChanged)
 

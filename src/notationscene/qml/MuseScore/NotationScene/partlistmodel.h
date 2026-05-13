@@ -36,7 +36,8 @@ class ItemMultiSelectionModel;
 }
 
 namespace mu::notation {
-class PartListModel : public QAbstractListModel, public muse::Contextable, public muse::async::Asyncable
+class PartListModel : public QAbstractListModel, public muse::Contextable,
+    public muse::async::Asyncable
 {
     Q_OBJECT
     QML_ELEMENT;

@@ -33,12 +33,15 @@ using namespace mu::appshell;
 
 #ifdef Q_OS_MAC
 // Necessary to remove undesired background, so that we really get our rounded corners
-static constexpr Qt::WindowFlags splashScreenWindowFlags = (Qt::SplashScreen | Qt::FramelessWindowHint) & ~Qt::Sheet | Qt::Window;
+static constexpr Qt::WindowFlags splashScreenWindowFlags
+    = (Qt::SplashScreen | Qt::FramelessWindowHint) & ~Qt::Sheet | Qt::Window;
 #else
-static constexpr Qt::WindowFlags splashScreenWindowFlags = Qt::SplashScreen | Qt::FramelessWindowHint;
+static constexpr Qt::WindowFlags splashScreenWindowFlags = Qt::SplashScreen
+                                                           | Qt::FramelessWindowHint;
 #endif
 
-SplashScreen::SplashScreen(SplashScreen::SplashScreenType type, bool forNewScore, const QString& openingFileName)
+SplashScreen::SplashScreen(SplashScreen::SplashScreenType type, bool forNewScore,
+                           const QString& openingFileName)
     : QWidget(nullptr, splashScreenWindowFlags)
 {
     setAttribute(Qt::WA_TranslucentBackground);

@@ -52,7 +52,8 @@ namespace mu::iex::mnxio {
 
 static ArticulationAnchor toArticulationAnchor(mnx::MarkingUpDown pointing)
 {
-    return pointing == mnx::MarkingUpDown::Up ? ArticulationAnchor::TOP : ArticulationAnchor::BOTTOM;
+    return pointing
+           == mnx::MarkingUpDown::Up ? ArticulationAnchor::TOP : ArticulationAnchor::BOTTOM;
 }
 
 //---------------------------------------------------------
@@ -61,7 +62,8 @@ static ArticulationAnchor toArticulationAnchor(mnx::MarkingUpDown pointing)
 //---------------------------------------------------------
 
 template<typename Marking>
-static Articulation* addArticulation(ChordRest* cr, const Marking& marking, SymId symId, const char* name)
+static Articulation* addArticulation(ChordRest* cr, const Marking& marking, SymId symId,
+                                     const char* name)
 {
     if (!cr->isChord()) {
         LOGW() << "Skipping MNX articulation \"" << name << "\" on rest at "
@@ -129,11 +131,13 @@ void MnxImporter::importAccent(const mnx::sequence::Accent& accent, ChordRest* c
 {
     if (const auto pointing = accent.pointing()) {
         Articulation* articulation = addArticulation(
-            cr, accent, pointing == mnx::MarkingUpDown::Up ? SymId::articAccentAbove : SymId::articAccentBelow,
+            cr, accent,
+            pointing == mnx::MarkingUpDown::Up ? SymId::articAccentAbove : SymId::articAccentBelow,
             "accent");
         if (articulation) {
             /// @todo MNX "pointing" may only describe glyph orientation; confirm whether anchor should be forced.
-            setAndStyleProperty(articulation, Pid::ARTICULATION_ANCHOR, int(toArticulationAnchor(*pointing)));
+            setAndStyleProperty(articulation, Pid::ARTICULATION_ANCHOR,
+                                int(toArticulationAnchor(*pointing)));
         }
     } else {
         addArticulation(cr, accent, SymId::articAccentAbove, "accent");
@@ -179,7 +183,8 @@ void MnxImporter::importSpiccato(const mnx::sequence::Spiccato& spiccato, ChordR
 //   Import MNX staccatissimo marking.
 //---------------------------------------------------------
 
-void MnxImporter::importStaccatissimo(const mnx::sequence::Staccatissimo& staccatissimo, ChordRest* cr)
+void MnxImporter::importStaccatissimo(const mnx::sequence::Staccatissimo& staccatissimo,
+                                      ChordRest* cr)
 {
     addArticulation(cr, staccatissimo, SymId::articStaccatissimoAbove, "staccatissimo");
 }
@@ -213,11 +218,13 @@ void MnxImporter::importStrongAccent(const mnx::sequence::StrongAccent& strongAc
 {
     if (const auto pointing = strongAccent.pointing()) {
         Articulation* articulation = addArticulation(
-            cr, strongAccent, pointing == mnx::MarkingUpDown::Up ? SymId::articMarcatoAbove : SymId::articMarcatoBelow,
+            cr, strongAccent,
+            pointing == mnx::MarkingUpDown::Up ? SymId::articMarcatoAbove : SymId::articMarcatoBelow,
             "strongAccent");
         if (articulation) {
             /// @todo MNX "pointing" may only describe glyph orientation; confirm whether anchor should be forced.
-            setAndStyleProperty(articulation, Pid::ARTICULATION_ANCHOR, int(toArticulationAnchor(*pointing)));
+            setAndStyleProperty(articulation, Pid::ARTICULATION_ANCHOR,
+                                int(toArticulationAnchor(*pointing)));
         }
     } else {
         addArticulation(cr, strongAccent, SymId::articMarcatoAbove, "strongAccent");

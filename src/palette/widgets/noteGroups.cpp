@@ -109,9 +109,12 @@ void NoteGroups::classBegin()
     connect(view16, &NoteGroupsExampleView::noteClicked, this, &NoteGroups::noteClicked);
     connect(view32, &NoteGroupsExampleView::noteClicked, this, &NoteGroups::noteClicked);
 
-    connect(view8, &NoteGroupsExampleView::beamPropertyDropped, this, &NoteGroups::beamPropertyDropped);
-    connect(view16, &NoteGroupsExampleView::beamPropertyDropped, this, &NoteGroups::beamPropertyDropped);
-    connect(view32, &NoteGroupsExampleView::beamPropertyDropped, this, &NoteGroups::beamPropertyDropped);
+    connect(view8, &NoteGroupsExampleView::beamPropertyDropped, this,
+            &NoteGroups::beamPropertyDropped);
+    connect(view16, &NoteGroupsExampleView::beamPropertyDropped, this,
+            &NoteGroups::beamPropertyDropped);
+    connect(view32, &NoteGroupsExampleView::beamPropertyDropped, this,
+            &NoteGroups::beamPropertyDropped);
 }
 
 void NoteGroups::setSig(Fraction sig, const Groups& g, const QString& z, const QString& n)

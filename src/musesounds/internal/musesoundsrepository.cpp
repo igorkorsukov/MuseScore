@@ -114,7 +114,8 @@ void MuseSoundsRepository::init()
         RetVal<SoundCatalogueInfoList> result;
 
         std::string err;
-        JsonDocument soundsInfoDoc = JsonDocument::fromJson(ByteArray::fromQByteArray(receivedData->data()), &err);
+        JsonDocument soundsInfoDoc
+            = JsonDocument::fromJson(ByteArray::fromQByteArray(receivedData->data()), &err);
         if (!err.empty()) {
             result.ret = make_ret(Ret::Code::InternalError, err);
         } else {
@@ -144,8 +145,10 @@ SoundCatalogueInfoList MuseSoundsRepository::parseSounds(const JsonDocument& sou
 
     JsonObject obj = soundsDoc.rootObject();
     JsonObject data = !obj.empty() ? obj.value("data").toObject() : JsonObject();
-    JsonObject productsSearch = !data.empty() ? data.value("product_pages_configuration").toObject() : JsonObject();
-    JsonArray catalogs = !productsSearch.empty() ? productsSearch.value("museScoreStudioPageSections").toArray() : JsonArray();
+    JsonObject productsSearch
+        = !data.empty() ? data.value("product_pages_configuration").toObject() : JsonObject();
+    JsonArray catalogs = !productsSearch.empty() ? productsSearch.value(
+        "museScoreStudioPageSections").toArray() : JsonArray();
 
     std::string museSoundsAppName = platformMuseSoundsAppName();
 
@@ -183,7 +186,8 @@ SoundCatalogueInfoList MuseSoundsRepository::parseSounds(const JsonDocument& sou
             SoundLibraryInfo soundLibrary;
             soundLibrary.title = productObj.value("title").toString();
             soundLibrary.subtitle = productObj.value("subtitle").toString();
-            soundLibrary.thumbnail = correctThumbnailSize(UriQuery(soundItemObj.value("iconImageUrl").toStdString()));
+            soundLibrary.thumbnail
+                = correctThumbnailSize(UriQuery(soundItemObj.value("iconImageUrl").toStdString()));
             soundLibrary.code = productObj.value("code").toString();
             soundLibrary.uri = configuration()->soundPageUri(soundLibrary.code);
 

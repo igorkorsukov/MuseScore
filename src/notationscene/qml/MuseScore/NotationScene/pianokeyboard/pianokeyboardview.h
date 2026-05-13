@@ -34,15 +34,18 @@
 
 namespace mu::notation {
 class PianoKeyboardController;
-class PianoKeyboardView : public muse::uicomponents::QuickPaintedView, public muse::Contextable, public muse::async::Asyncable
+class PianoKeyboardView : public muse::uicomponents::QuickPaintedView, public muse::Contextable,
+    public muse::async::Asyncable
 {
     Q_OBJECT
     QML_ELEMENT;
 
     Q_PROPERTY(int numberOfKeys READ numberOfKeys WRITE setNumberOfKeys NOTIFY numberOfKeysChanged)
-    Q_PROPERTY(qreal keyWidthScaling READ keyWidthScaling WRITE setScaling NOTIFY keyWidthScalingChanged)
+    Q_PROPERTY(
+        qreal keyWidthScaling READ keyWidthScaling WRITE setScaling NOTIFY keyWidthScalingChanged)
 
-    Q_PROPERTY(qreal scrollBarPosition READ scrollBarPosition WRITE setScrollBarPosition NOTIFY scrollBarChanged)
+    Q_PROPERTY(
+        qreal scrollBarPosition READ scrollBarPosition WRITE setScrollBarPosition NOTIFY scrollBarChanged)
     Q_PROPERTY(qreal scrollBarSize READ scrollBarSize NOTIFY scrollBarChanged)
 
     muse::GlobalInject<INotationConfiguration> configuration;

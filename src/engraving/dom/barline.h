@@ -100,7 +100,10 @@ public:
     bool isEditable() const override { return true; }
 
     Segment* segment() const { return toSegment(explicitParent()); }
-    Measure* measure() const { return explicitParent() ? toMeasure(explicitParent()->explicitParent()) : nullptr; }
+    Measure* measure() const
+    {
+        return explicitParent() ? toMeasure(explicitParent()->explicitParent()) : nullptr;
+    }
 
     void setSpanStaff(const bool val) { m_spanStaff = val; }
     void setSpanFrom(int val) { m_spanFrom = val; }

@@ -32,7 +32,8 @@ using namespace muse::actions;
 void InstrumentsActionsController::init()
 {
     dispatcher()->reg(this, "instruments", this, &InstrumentsActionsController::selectInstruments);
-    dispatcher()->reg(this, "change-instrument", this, &InstrumentsActionsController::changeInstrument);
+    dispatcher()->reg(this, "change-instrument", this,
+                      &InstrumentsActionsController::changeInstrument);
 }
 
 bool InstrumentsActionsController::canReceiveAction(const ActionCode&) const
@@ -47,7 +48,8 @@ void InstrumentsActionsController::selectInstruments()
         return;
     }
 
-    async::Promise<PartInstrumentListScoreOrder> selectedInstruments = selectInstrumentsScenario()->selectInstruments();
+    async::Promise<PartInstrumentListScoreOrder> selectedInstruments
+        = selectInstrumentsScenario()->selectInstruments();
     selectedInstruments.onResolve(this, [master](const PartInstrumentListScoreOrder& sel) {
         master->parts()->setParts(sel.instruments, sel.scoreOrder);
     });
@@ -65,7 +67,8 @@ void InstrumentsActionsController::changeInstrument()
         return;
     }
 
-    const mu::engraving::EngravingItem* element = notation->interaction()->hitElementContext().element;
+    const mu::engraving::EngravingItem* element
+        = notation->interaction()->hitElementContext().element;
     if (!element) {
         element = notation->interaction()->selection()->element();
     }
@@ -74,7 +77,8 @@ void InstrumentsActionsController::changeInstrument()
         return;
     }
 
-    const mu::engraving::InstrumentChange* instrumentChange = mu::engraving::toInstrumentChange(element);
+    const mu::engraving::InstrumentChange* instrumentChange = mu::engraving::toInstrumentChange(
+        element);
 
     InstrumentKey key;
     key.instrumentId = instrumentChange->instrument()->id();

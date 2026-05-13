@@ -76,7 +76,8 @@ InstrumentListProperty Part::instruments()
 
 Instrument* Part::instrumentAtTick(int tick)
 {
-    return customWrap<Instrument>(part()->instrument(mu::engraving::Fraction::fromTicks(tick)), part());
+    return customWrap<Instrument>(part()->instrument(mu::engraving::Fraction::fromTicks(tick)),
+                                  part());
 }
 
 Instrument* Part::instrumentAtTick(Fraction* tick)

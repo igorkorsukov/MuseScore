@@ -69,7 +69,8 @@ void StringTuningsSettingsModel::init()
         return;
     }
 
-    const InstrumentStringTuningsMap& stringTuningsPresets = instrumentsRepository()->stringTuningsPresets();
+    const InstrumentStringTuningsMap& stringTuningsPresets
+        = instrumentsRepository()->stringTuningsPresets();
 
     if (muse::contains(stringTuningsPresets, instrument->id().toStdString())) {
         m_itemId = instrument->id().toStdString();
@@ -161,7 +162,8 @@ QString StringTuningsSettingsModel::decreaseStringValue(int currentPitch)
 
 QVariantList StringTuningsSettingsModel::presets(bool withCustom) const
 {
-    const InstrumentStringTuningsMap& stringTunings = instrumentsRepository()->stringTuningsPresets();
+    const InstrumentStringTuningsMap& stringTunings
+        = instrumentsRepository()->stringTuningsPresets();
 
     QVariantList presetsList;
 
@@ -214,7 +216,8 @@ QVariantList StringTuningsSettingsModel::presets(bool withCustom) const
 QString StringTuningsSettingsModel::currentPreset() const
 {
     QString preset
-        = m_item ? engraving::toStringTunings(m_item)->getProperty(engraving::Pid::STRINGTUNINGS_PRESET).value<String>().toQString() : "";
+        = m_item ? engraving::toStringTunings(m_item)->getProperty(
+              engraving::Pid::STRINGTUNINGS_PRESET).value<String>().toQString() : "";
 
     if (preset.isEmpty()) {
         preset = customPreset();
@@ -247,7 +250,8 @@ void StringTuningsSettingsModel::setCurrentPreset(const QString& preset)
 
 QVariantList StringTuningsSettingsModel::numbersOfStrings() const
 {
-    const InstrumentStringTuningsMap& stringTunings = instrumentsRepository()->stringTuningsPresets();
+    const InstrumentStringTuningsMap& stringTunings
+        = instrumentsRepository()->stringTuningsPresets();
 
     QVariantList numbersList;
 
@@ -270,7 +274,8 @@ QVariantList StringTuningsSettingsModel::numbersOfStrings() const
 
 int StringTuningsSettingsModel::currentNumberOfStrings() const
 {
-    return m_item ? engraving::toStringTunings(m_item)->getProperty(engraving::Pid::STRINGTUNINGS_STRINGS_COUNT).toInt() : 0;
+    return m_item ? engraving::toStringTunings(m_item)->getProperty(
+        engraving::Pid::STRINGTUNINGS_STRINGS_COUNT).toInt() : 0;
 }
 
 void StringTuningsSettingsModel::setCurrentNumberOfStrings(int number)

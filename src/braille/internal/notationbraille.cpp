@@ -55,7 +55,8 @@ void NotationBraille::init()
     setTablesDir(tablesdir.toStdString().c_str());
     initTables(tablesdir.toStdString());
 
-    std::string welcome = braille_translate(table_for_literature.c_str(), "Welcome to MuseScore Studio!");
+    std::string welcome = braille_translate(
+        table_for_literature.c_str(), "Welcome to MuseScore Studio!");
     setBrailleInfo(QString(welcome.c_str()));
 
     brailleConfiguration()->braillePanelEnabledChanged().onNotify(this, [this]() {
@@ -160,7 +161,8 @@ void NotationBraille::doBraille(bool force)
                 bool res = lb.convertItem(e, brailleEngravingItemList());
                 if (!res) {
                     QString txt = e->accessibleInfo();
-                    std::string braille = braille_long_translate(table_for_literature.c_str(), txt.toStdString());
+                    std::string braille = braille_long_translate(
+                        table_for_literature.c_str(), txt.toStdString());
                     brailleEngravingItemList()->setBrailleStr(QString::fromStdString(braille));
                     setBrailleInfo(QString::fromStdString(braille));
                 } else {
@@ -499,7 +501,8 @@ void NotationBraille::setKeys(const QString& sequence)
             const track_idx_t track = interaction()->noteInput()->state().track();
             Chord* prevChord = nullptr;
 
-            for (Segment* s = seg->prev1(SegmentType::ChordRest); s; s = s->prev1(SegmentType::ChordRest)) {
+            for (Segment* s = seg->prev1(SegmentType::ChordRest); s;
+                 s = s->prev1(SegmentType::ChordRest)) {
                 EngravingItem* e = s->element(track);
                 if (e && e->isChord()) {
                     prevChord = toChord(e);
@@ -508,10 +511,14 @@ void NotationBraille::setKeys(const QString& sequence)
             }
 
             if (prevChord) {
-                Note* rootNote = (currentIntervalDirection() == IntervalDirection::Up) ? prevChord->downNote() : prevChord->upNote();
+                Note* rootNote
+                    = (currentIntervalDirection()
+                       == IntervalDirection::Up) ? prevChord->downNote() : prevChord->upNote();
                 String pitchName;
                 String accidental; // needed for tpc2name
-                tpc2name(rootNote->tpc(), NoteSpellingType::STANDARD, NoteCaseType::UPPER, pitchName, accidental);
+                tpc2name(
+                    rootNote->tpc(), NoteSpellingType::STANDARD, NoteCaseType::UPPER, pitchName,
+                    accidental);
                 size_t inote = String("CDEFGAB").indexOf(pitchName.at(0));
                 IF_ASSERT_FAILED(inote <= 6) {
                 } else {
@@ -638,7 +645,8 @@ void NotationBraille::setKeys(const QString& sequence)
         }
         case BieSequencePatternType::Tuplet: case BieSequencePatternType::Tuplet3: {
             LOGD() << "tuplet";
-            const QString stateTuplet = muse::qtrc("braille/notation", "Tuplet %1").arg(brailleInput()->tupletNumber());
+            const QString stateTuplet = muse::qtrc("braille/notation", "Tuplet %1").arg(
+                brailleInput()->tupletNumber());
             accessibilityController()->announce(stateTuplet);
             break;
         }
@@ -717,7 +725,9 @@ bool NotationBraille::addTie()
     tie->setEndNote(note);
     tie->setTrack(brailleInput()->tieStartNote()->track());
     tie->setTick(brailleInput()->tieStartNote()->chord()->segment()->tick());
-    tie->setTicks(note->chord()->segment()->tick() - brailleInput()->tieStartNote()->chord()->segment()->tick());
+    tie->setTicks(
+        note->chord()->segment()->tick()
+        - brailleInput()->tieStartNote()->chord()->segment()->tick());
     score()->undoAddElement(tie);
     score()->endCmd();
     return true;

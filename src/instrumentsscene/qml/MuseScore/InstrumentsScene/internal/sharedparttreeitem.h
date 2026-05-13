@@ -33,14 +33,17 @@ class SharedPartTreeItem : public PartTreeItem
     QML_UNCREATABLE("Must be created in C++ only")
 
 public:
-    SharedPartTreeItem(notation::IMasterNotationPtr masterNotation, notation::INotationPtr notation, QObject* parent);
+    SharedPartTreeItem(notation::IMasterNotationPtr masterNotation, notation::INotationPtr notation,
+                       QObject* parent);
 
     void init(const notation::Part* part) override;
 
-    MoveParams buildMoveParams(int sourceRow, int count, AbstractLayoutPanelTreeItem* destinationParent, int destinationRow) const override;
+    MoveParams buildMoveParams(int sourceRow, int count,
+                               AbstractLayoutPanelTreeItem* destinationParent,
+                               int destinationRow) const override;
 
-    void moveChildren(int sourceRow, int count, AbstractLayoutPanelTreeItem* destinationParent, int destinationRow,
-                      bool updateNotation) override;
+    void moveChildren(int sourceRow, int count, AbstractLayoutPanelTreeItem* destinationParent,
+                      int destinationRow, bool updateNotation) override;
 
     void moveChildrenOnScore(const MoveParams& params) override;
 

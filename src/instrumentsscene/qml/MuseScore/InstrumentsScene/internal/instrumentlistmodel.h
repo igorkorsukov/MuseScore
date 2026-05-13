@@ -40,8 +40,10 @@ class InstrumentListModel : public QAbstractListModel, public muse::async::Async
     Q_PROPERTY(QStringList genres READ genres NOTIFY genresChanged)
     Q_PROPERTY(QStringList groups READ groups NOTIFY groupsChanged)
 
-    Q_PROPERTY(int currentGenreIndex READ currentGenreIndex WRITE setCurrentGenreIndex NOTIFY currentGenreIndexChanged)
-    Q_PROPERTY(int currentGroupIndex READ currentGroupIndex WRITE setCurrentGroupIndex NOTIFY currentGroupIndexChanged)
+    Q_PROPERTY(
+        int currentGenreIndex READ currentGenreIndex WRITE setCurrentGenreIndex NOTIFY currentGenreIndexChanged)
+    Q_PROPERTY(
+        int currentGroupIndex READ currentGroupIndex WRITE setCurrentGroupIndex NOTIFY currentGroupIndexChanged)
 
     Q_PROPERTY(bool hasSelection READ hasSelection NOTIFY selectionChanged)
     Q_PROPERTY(QVariant selectedInstrument READ selectedInstrument NOTIFY selectionChanged)
@@ -124,7 +126,8 @@ private:
 
     void updateStateBySearch();
 
-    bool isInstrumentAccepted(const notation::InstrumentTemplate& instrument, bool compareWithCurrentGroup = true) const;
+    bool isInstrumentAccepted(const notation::InstrumentTemplate& instrument,
+                              bool compareWithCurrentGroup = true) const;
     bool isInstrumentIndexValid(int index) const;
 
     void setCurrentGenre(const QString& genreId);

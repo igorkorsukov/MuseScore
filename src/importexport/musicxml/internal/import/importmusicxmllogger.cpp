@@ -46,7 +46,8 @@ static String xmlLocation(const muse::XmlStreamReader* xmlreader)
 //---------------------------------------------------------
 //   logDebugTrace
 //---------------------------------------------------------
-static void to_xml_log(MusicXmlLogger::Level level, const String& text, const XmlStreamReader* xmlreader)
+static void to_xml_log(MusicXmlLogger::Level level, const String& text,
+                       const XmlStreamReader* xmlreader)
 {
     String str;
     switch (level) {

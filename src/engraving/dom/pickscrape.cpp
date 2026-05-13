@@ -64,7 +64,8 @@ static const ElementStyle pickScrapeStyle {
 };
 
 PickScrapeSegment::PickScrapeSegment(PickScrape* sp, System* parent)
-    : TextLineBaseSegment(ElementType::PICK_SCRAPE_SEGMENT, sp, parent, ElementFlag::MOVABLE | ElementFlag::ON_STAFF)
+    : TextLineBaseSegment(ElementType::PICK_SCRAPE_SEGMENT, sp, parent,
+                          ElementFlag::MOVABLE | ElementFlag::ON_STAFF)
 {
     m_text->setTextStyleType(propertyDefault(Pid::TEXT_STYLE).value<TextStyleType>());
     m_endText->setTextStyleType(propertyDefault(Pid::TEXT_STYLE).value<TextStyleType>());

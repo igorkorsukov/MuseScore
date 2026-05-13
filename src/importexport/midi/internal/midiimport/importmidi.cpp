@@ -331,7 +331,8 @@ void MTrack::processMeta(int tick, const MidiEvent& mm)
         if (!v.isZero() && !cs->style().styleB(Sid::concertPitch)) {
             cKey = Transpose::transposeKey(tKey, v);
             // if there are more than 6 accidentals in transposing key, it cannot be PreferSharpFlat::AUTO
-            if ((tKey > 6 || tKey < -6) && staff->part()->preferSharpFlat() == PreferSharpFlat::AUTO) {
+            if ((tKey > 6 || tKey < -6)
+                && staff->part()->preferSharpFlat() == PreferSharpFlat::AUTO) {
                 staff->part()->setPreferSharpFlat(PreferSharpFlat::NONE);
             }
         }
@@ -728,7 +729,8 @@ std::multimap<int, MTrack> createMTrackList(TimeSigMap* sigmap, const MidiFile* 
             if ((e.type() == ME_META) && (e.metaType() == META_TIME_SIGNATURE)) {
                 Fraction ts = metaTimeSignature(e);
                 if (!ts.isValid() || ts <= Fraction(0, 1)) {
-                    LOGW() << "skipping invalid time signature event from MIDI file at tick " << tick.ticks();
+                    LOGW() << "skipping invalid time signature event from MIDI file at tick " <<
+                        tick.ticks();
                     continue;
                 }
                 // because file can have incorrect data
@@ -923,7 +925,8 @@ void setTrackInfo(MTrack& mt)
 
     if (mt.staff->isTop()) {
         Part* part  = mt.staff->part();
-        part->setLongName(XmlWriter::xmlString(MidiInstr::concatenateWithComma(trackInstrName, mt.name)));
+        part->setLongName(XmlWriter::xmlString(MidiInstr::concatenateWithComma(trackInstrName,
+                                                                               mt.name)));
         part->setMidiChannel(mt.mtrack->outChannel());
         int bank = 0;
         if (mt.mtrack->drumTrack()) {
@@ -1270,7 +1273,9 @@ Err importMidi(MasterScore* score, const QString& name)
         catch (QString errorText) {
             if (!MScore::noGui) {
                 MessageBox(score->iocContext()).warning(muse::trc("iex_midi", "Import MIDI"),
-                                                        muse::qtrc("iex_midi", "Import failed: %1").arg(errorText).toStdString(),
+                                                        muse::qtrc("iex_midi",
+                                                                   "Import failed: %1").arg(
+                                                            errorText).toStdString(),
                                                         { MessageBox::Ok });
             }
             fp.close();

@@ -108,7 +108,8 @@ double TremoloTwoChord::minHeight() const
 //   chordBeamAnchor
 //---------------------------------------------------------
 
-PointF TremoloTwoChord::chordBeamAnchor(const ChordRest* chord, ChordBeamAnchorType anchorType) const
+PointF TremoloTwoChord::chordBeamAnchor(const ChordRest* chord,
+                                        ChordBeamAnchorType anchorType) const
 {
     return rendering::score::BeamTremoloLayout::chordBeamAnchor(this->ldata(), chord, anchorType);
 }
@@ -217,7 +218,8 @@ void TremoloTwoChord::setDirection(DirectionV d)
 bool TremoloTwoChord::crossStaffBeamBetween() const
 {
     return ((m_chord1->staffMove() > m_chord2->staffMove()) && m_chord1->up() && !m_chord2->up())
-           || ((m_chord1->staffMove() < m_chord2->staffMove()) && !m_chord1->up() && m_chord2->up());
+           || ((m_chord1->staffMove() < m_chord2->staffMove()) && !m_chord1->up()
+               && m_chord2->up());
 }
 
 TDuration TremoloTwoChord::durationType() const

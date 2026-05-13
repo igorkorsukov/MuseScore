@@ -61,7 +61,8 @@ QVariantMap AboutModel::museScoreForumUrl() const
 
 QVariantMap AboutModel::museScoreContributionUrl() const
 {
-    QUrl museScoreContributionUrl(QString::fromStdString(configuration()->museScoreContributionUrl()));
+    QUrl museScoreContributionUrl(QString::fromStdString(
+                                      configuration()->museScoreContributionUrl()));
     return makeUrl(museScoreContributionUrl);
 }
 
@@ -86,9 +87,11 @@ QVariantMap AboutModel::musicXMLLicenseDeedUrl() const
 void AboutModel::copyRevisionToClipboard() const
 {
     QApplication::clipboard()->setText(
-        QString("OS: %1, Arch.: %2, MuseScore Studio version (%3-bit): %4-%5, revision: github-musescore-musescore-%6")
+        QString(
+            "OS: %1, Arch.: %2, MuseScore Studio version (%3-bit): %4-%5, revision: github-musescore-musescore-%6")
         .arg(QSysInfo::prettyProductName()
-             + ((QSysInfo::productType() == "windows" && (QSysInfo::productVersion() == "10" || QSysInfo::productVersion() == "11"))
+             + ((QSysInfo::productType() == "windows"
+                 && (QSysInfo::productVersion() == "10" || QSysInfo::productVersion() == "11"))
                 ? " or later" : ""))
         .arg(QSysInfo::currentCpuArchitecture())
         .arg(QSysInfo::WordSize)

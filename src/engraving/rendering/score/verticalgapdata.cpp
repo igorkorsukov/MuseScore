@@ -32,7 +32,8 @@
 using namespace mu::engraving;
 using namespace mu::engraving::rendering::score;
 
-VerticalGapData::VerticalGapData(const MStyle* style, bool first, System* sys, const Staff* st, SysStaff* sst, Spacer* nextSpacer, double y)
+VerticalGapData::VerticalGapData(const MStyle* style, bool first, System* sys, const Staff* st,
+                                 SysStaff* sst, Spacer* nextSpacer, double y)
     : style(style), system(sys), sysStaff(sst), staff(st), m_fixedHeight(first)
 {
     if (m_fixedHeight) {
@@ -88,7 +89,9 @@ void VerticalGapData::addSpaceAroundVBox(bool above)
 {
     m_fixedHeight = true;
     m_factor = 1.0;
-    m_normalisedSpacing = above ? style->styleAbsolute(Sid::frameSystemDistance) : style->styleAbsolute(Sid::systemFrameDistance);
+    m_normalisedSpacing
+        = above ? style->styleAbsolute(Sid::frameSystemDistance) : style->styleAbsolute(
+              Sid::systemFrameDistance);
     m_maxActualSpacing = m_normalisedSpacing / m_factor;
 }
 
@@ -198,7 +201,8 @@ double VerticalGapData::addFillSpacing(double step, double maxFill)
     if (m_fixedSpacer) {
         return 0.0;
     }
-    double actStep { ((step + m_fillSpacing / m_factor) > maxFill) ? (maxFill - m_fillSpacing / m_factor) : step };
+    double actStep { ((step + m_fillSpacing / m_factor)
+                      > maxFill) ? (maxFill - m_fillSpacing / m_factor) : step };
     double res = addSpacing(actStep);
     m_fillSpacing += res * m_factor;
     return res;

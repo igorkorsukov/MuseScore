@@ -76,10 +76,18 @@ static void undoAddTuplet(DurationElement* cr)
 
 AddElement::AddElement(EngravingItem* e)
 {
-    DO_ASSERT_X(!e->generated(), String(u"Generated item %1 passed to AddElement").arg(String::fromAscii(e->typeName())));
+    DO_ASSERT_X(!e->generated(),
+                String(u"Generated item %1 passed to AddElement").arg(String::fromAscii(
+                                                                          e->typeName())));
     DO_ASSERT_X(e->parent()->score() == e->score(),
-                String(u"Item %1 is in a different score to its parent %2").arg(String::fromAscii(e->typeName()),
-                                                                                String::fromAscii(e->parent()->typeName())));
+                String(u"Item %1 is in a different score to its parent %2").arg(String::fromAscii(e
+                                                                                                  ->
+                                                                                                  typeName()),
+                                                                                String::fromAscii(e
+                                                                                                  ->
+                                                                                                  parent()
+                                                                                                  ->
+                                                                                                  typeName())));
     element = e;
 }
 
@@ -109,10 +117,12 @@ void AddElement::endUndoRedo(bool isUndo) const
         }
     } else if (element->isClef()) {
         element->triggerLayout();
-        element->score()->setLayout(element->staff()->nextClefTick(element->tick()), element->staffIdx());
+        element->score()->setLayout(element->staff()->nextClefTick(
+                                        element->tick()), element->staffIdx());
     } else if (element->isKeySig()) {
         element->triggerLayout();
-        element->score()->setLayout(element->staff()->nextKeyTick(element->tick()), element->staffIdx());
+        element->score()->setLayout(element->staff()->nextKeyTick(
+                                        element->tick()), element->staffIdx());
     }
 }
 
@@ -165,7 +175,8 @@ const char* AddElement::name() const
         snprintf(buffer, 64, "Add:    %s <%s> %p", element->typeName(),
                  muPrintable(toTextBase(element)->plainText()), element);
     } else if (element->isSegment()) {
-        snprintf(buffer, 64, "Add:    <%s-%s> %p", element->typeName(), toSegment(element)->subTypeName(), element);
+        snprintf(buffer, 64, "Add:    <%s-%s> %p", element->typeName(), toSegment(
+                     element)->subTypeName(), element);
     } else {
         snprintf(buffer, 64, "Add:    <%s> %p", element->typeName(), element);
     }
@@ -229,7 +240,9 @@ static void removeNote(const Note* note)
 
 RemoveElement::RemoveElement(EngravingItem* e)
 {
-    DO_ASSERT_X(!e->generated(), String(u"Generated item %1 passed to RemoveElement").arg(String::fromAscii(e->typeName())));
+    DO_ASSERT_X(!e->generated(),
+                String(u"Generated item %1 passed to RemoveElement").arg(String::fromAscii(e->
+                                                                                           typeName())));
     element = e;
 
     Score* score = element->score();
@@ -347,7 +360,8 @@ const char* RemoveElement::name() const
         snprintf(buffer, 64, "Remove: %s <%s> %p", element->typeName(),
                  muPrintable(toTextBase(element)->plainText()), element);
     } else if (element->isSegment()) {
-        snprintf(buffer, 64, "Remove: <%s-%s> %p", element->typeName(), toSegment(element)->subTypeName(), element);
+        snprintf(buffer, 64, "Remove: <%s-%s> %p", element->typeName(), toSegment(
+                     element)->subTypeName(), element);
     } else {
         snprintf(buffer, 64, "Remove: %s %p", element->typeName(), element);
     }

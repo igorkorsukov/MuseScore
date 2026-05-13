@@ -29,10 +29,12 @@
 #include "accessibility/iaccessibilitycontextconfiguration.h"
 
 namespace mu::engraving {
-class EngravingContextConfiguration : public IEngravingContextConfiguration, public muse::Contextable
+class EngravingContextConfiguration : public IEngravingContextConfiguration,
+    public muse::Contextable
 {
     muse::ContextInject<muse::ui::IUiContextConfiguration> uiConfiguration = { this };
-    muse::ContextInject<muse::accessibility::IAccessibilityContextConfiguration> accessibilityConfiguration = { this };
+    muse::ContextInject<muse::accessibility::IAccessibilityContextConfiguration>
+    accessibilityConfiguration = { this };
 
 public:
     EngravingContextConfiguration(const muse::modularity::ContextPtr& iocCtx)

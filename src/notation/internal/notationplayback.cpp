@@ -56,7 +56,8 @@ static constexpr double PLAYBACK_TAIL_SECS = 3;
 NotationPlayback::NotationPlayback(IGetScore* getScore,
                                    muse::async::Channel<muse::RectF> notationChanged,
                                    const modularity::ContextPtr& iocCtx)
-    : muse::Contextable(iocCtx), m_getScore(getScore), m_notationChanged(notationChanged), m_playbackModel(iocCtx)
+    : muse::Contextable(iocCtx), m_getScore(getScore), m_notationChanged(notationChanged),
+    m_playbackModel(iocCtx)
 {
     m_notationChanged.onReceive(this, [this](const muse::RectF&) {
         updateLoopBoundaries();
@@ -76,7 +77,8 @@ void NotationPlayback::init()
 
     m_playbackModel.setPlayRepeats(configuration()->isPlayRepeatsEnabled());
     m_playbackModel.setPlayChordSymbols(configuration()->isPlayChordSymbolsEnabled());
-    m_playbackModel.setUseScoreDynamicsForOffstreamPlayback(configuration()->playPreviewNotesWithScoreDynamics());
+    m_playbackModel.setUseScoreDynamicsForOffstreamPlayback(
+        configuration()->playPreviewNotesWithScoreDynamics());
     m_playbackModel.setIsMetronomeEnabled(configuration()->isMetronomeEnabled());
 
     m_playbackModel.load(score());
@@ -156,12 +158,14 @@ bool NotationPlayback::isChordSymbolsTrack(const engraving::InstrumentTrackId& t
     return m_playbackModel.isChordSymbolsTrack(trackId);
 }
 
-const muse::mpe::PlaybackData& NotationPlayback::trackPlaybackData(const engraving::InstrumentTrackId& trackId) const
+const muse::mpe::PlaybackData& NotationPlayback::trackPlaybackData(
+    const engraving::InstrumentTrackId& trackId) const
 {
     return m_playbackModel.resolveTrackPlaybackData(trackId);
 }
 
-void NotationPlayback::triggerEventsForItems(const std::vector<const EngravingItem*>& items, muse::mpe::duration_t duration,
+void NotationPlayback::triggerEventsForItems(const std::vector<const EngravingItem*>& items,
+                                             muse::mpe::duration_t duration,
                                              bool flushSound)
 {
     m_playbackModel.triggerEventsForItems(items, duration, flushSound);
@@ -179,7 +183,8 @@ void NotationPlayback::triggerCountIn(muse::midi::tick_t tick, muse::secs_t& cou
     countInDuration = muse::usecs_to_secs(durationInMicrosecs);
 }
 
-void NotationPlayback::triggerControllers(const muse::mpe::ControllerChangeEventList& list, notation::staff_idx_t staffIdx, int tick)
+void NotationPlayback::triggerControllers(const muse::mpe::ControllerChangeEventList& list,
+                                          notation::staff_idx_t staffIdx, int tick)
 {
     if (list.empty()) {
         return;
@@ -286,18 +291,21 @@ tick_t NotationPlayback::secToTick(muse::audio::secs_t sec) const
     return score()->repeatList(m_playbackModel.isPlayRepeatsEnabled()).utick2tick(utick);
 }
 
-RetVal<muse::midi::tick_t> NotationPlayback::playPositionTickByRawTick(muse::midi::tick_t tick) const
+RetVal<muse::midi::tick_t> NotationPlayback::playPositionTickByRawTick(muse::midi::tick_t tick)
+const
 {
     if (!score()) {
         return make_ret(Err::Undefined);
     }
 
-    muse::midi::tick_t playbackTick = score()->repeatList(m_playbackModel.isPlayRepeatsEnabled()).tick2utick(tick);
+    muse::midi::tick_t playbackTick
+        = score()->repeatList(m_playbackModel.isPlayRepeatsEnabled()).tick2utick(tick);
 
     return RetVal<muse::midi::tick_t>::make_ok(std::move(playbackTick));
 }
 
-RetVal<muse::midi::tick_t> NotationPlayback::playPositionTickByElement(const EngravingItem* element) const
+RetVal<muse::midi::tick_t> NotationPlayback::playPositionTickByElement(const EngravingItem* element)
+const
 {
     IF_ASSERT_FAILED(element) {
         return make_ret(Err::Undefined);
@@ -402,7 +410,8 @@ const Tempo& NotationPlayback::multipliedTempo(tick_t tick) const
         return empty;
     }
 
-    m_currentTempo.valueBpm = static_cast<int>(std::round(score()->tempomap()->multipliedTempo(tick).toBPM().val));
+    m_currentTempo.valueBpm
+        = static_cast<int>(std::round(score()->tempomap()->multipliedTempo(tick).toBPM().val));
 
     return m_currentTempo;
 }
@@ -537,7 +546,8 @@ bool NotationPlayback::hasSoundFlags(const engraving::InstrumentTrackIdSet& trac
     return false;
 }
 
-std::vector<StaffText*> NotationPlayback::collectStaffText(const InstrumentTrackIdSet& trackIdSet, bool withSoundFlags) const
+std::vector<StaffText*> NotationPlayback::collectStaffText(const InstrumentTrackIdSet& trackIdSet,
+                                                           bool withSoundFlags) const
 {
     TRACEFUNC;
 
@@ -557,7 +567,8 @@ std::vector<StaffText*> NotationPlayback::collectStaffText(const InstrumentTrack
         return result;
     }
 
-    for (const Segment* seg = fm->first(SegmentType::ChordRest); seg; seg = seg->next1(SegmentType::ChordRest)) {
+    for (const Segment* seg = fm->first(SegmentType::ChordRest); seg;
+         seg = seg->next1(SegmentType::ChordRest)) {
         for (EngravingItem* annotation : seg->annotations()) {
             if (!annotation || !annotation->isStaffText()) {
                 continue;

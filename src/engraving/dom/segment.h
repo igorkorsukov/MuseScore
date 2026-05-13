@@ -143,7 +143,8 @@ public:
 
     Segment* prev() const { return m_prev; }
     Segment* prev(SegmentType) const;
-    Segment* prevWithElementsOnTrack(track_idx_t trackIdx, SegmentType segType = SegmentType::ChordRest) const;
+    Segment* prevWithElementsOnTrack(track_idx_t trackIdx,
+                                     SegmentType segType = SegmentType::ChordRest) const;
     Segment* prevActive() const;
     Segment* prevEnabled() const;
     void setPrev(Segment* e) { m_prev = e; }
@@ -154,13 +155,17 @@ public:
     Segment* next1MM() const;
     Segment* next1MMenabled() const;
     Segment* next1(SegmentType) const;
-    Segment* next1WithElemsOnStaff(staff_idx_t staffIdx, SegmentType segType = SegmentType::ChordRest) const;
-    Segment* next1WithElemsOnTrack(track_idx_t trackIdx, SegmentType segType = SegmentType::ChordRest) const;
+    Segment* next1WithElemsOnStaff(staff_idx_t staffIdx,
+                                   SegmentType segType = SegmentType::ChordRest) const;
+    Segment* next1WithElemsOnTrack(track_idx_t trackIdx,
+                                   SegmentType segType = SegmentType::ChordRest) const;
     Segment* next1MM(SegmentType) const;
 
     Segment* prev1() const;
-    Segment* prev1WithElemsOnStaff(staff_idx_t staffIdx, SegmentType segType = SegmentType::ChordRest) const;
-    Segment* prev1WithElemsOnTrack(track_idx_t trackIdx, SegmentType segType = SegmentType::ChordRest) const;
+    Segment* prev1WithElemsOnStaff(staff_idx_t staffIdx,
+                                   SegmentType segType = SegmentType::ChordRest) const;
+    Segment* prev1WithElemsOnTrack(track_idx_t trackIdx,
+                                   SegmentType segType = SegmentType::ChordRest) const;
     Segment* prev1enabled() const;
     Segment* prev1MM() const;
     Segment* prev1MMenabled() const;
@@ -169,7 +174,8 @@ public:
 
     Segment* nextCR(track_idx_t track = muse::nidx, bool sameStaff = false) const;
 
-    ChordRest* nextChordRest(track_idx_t track, bool backwards = false, bool stopAtMeasureBoundary = false) const;
+    ChordRest* nextChordRest(track_idx_t track, bool backwards = false,
+                             bool stopAtMeasureBoundary = false) const;
 
     EngravingItem* element(track_idx_t track) const;
 
@@ -218,7 +224,8 @@ public:
     Fraction ticks() const { return m_ticks; }
     void setTicks(const Fraction& v) { m_ticks = v; }
 
-    double widthInStaff(staff_idx_t staffIdx, SegmentType nextSegType = SegmentType::ChordRest) const;
+    double widthInStaff(staff_idx_t staffIdx,
+                        SegmentType nextSegType = SegmentType::ChordRest) const;
     Fraction ticksInStaff(staff_idx_t staffIdx) const;
 
     bool splitsTuplet() const;
@@ -227,8 +234,10 @@ public:
     void clearAnnotations();
     void removeAnnotation(EngravingItem* e);
     bool hasAnnotationOrElement(ElementType type, track_idx_t minTrack, track_idx_t maxTrack) const;
-    EngravingItem* findAnnotation(ElementType type, track_idx_t minTrack, track_idx_t maxTrack) const;
-    std::vector<EngravingItem*> findAnnotations(ElementType type, track_idx_t minTrack, track_idx_t maxTrack) const;
+    EngravingItem* findAnnotation(ElementType type, track_idx_t minTrack,
+                                  track_idx_t maxTrack) const;
+    std::vector<EngravingItem*> findAnnotations(ElementType type, track_idx_t minTrack,
+                                                track_idx_t maxTrack) const;
     bool hasElements() const;
     bool hasElements(track_idx_t minTrack, track_idx_t maxTrack) const;
     bool hasElements(staff_idx_t staffIdx) const;
@@ -306,26 +315,44 @@ public:
     bool hasTimeSigAboveStaves() const;
     bool makeSpaceForTimeSigAboveStaves() const;
     bool hasTimeSigAcrossStaves() const;
-    bool isStartRepeatBarLineType() const { return m_segmentType == SegmentType::StartRepeatBarLine; }
+    bool isStartRepeatBarLineType() const
+    {
+        return m_segmentType == SegmentType::StartRepeatBarLine;
+    }
     bool isBarLineType() const { return m_segmentType == SegmentType::BarLine; }
     bool isBreathType() const { return m_segmentType == SegmentType::Breath; }
     bool isChordRestType() const { return m_segmentType == SegmentType::ChordRest; }
-    bool isClefRepeatAnnounceType() const { return m_segmentType == SegmentType::ClefRepeatAnnounce; }
-    bool isKeySigRepeatAnnounceType() const { return m_segmentType == SegmentType::KeySigRepeatAnnounce; }
-    bool isTimeSigRepeatAnnounceType() const { return m_segmentType == SegmentType::TimeSigRepeatAnnounce; }
+    bool isClefRepeatAnnounceType() const
+    {
+        return m_segmentType == SegmentType::ClefRepeatAnnounce;
+    }
+    bool isKeySigRepeatAnnounceType() const
+    {
+        return m_segmentType == SegmentType::KeySigRepeatAnnounce;
+    }
+    bool isTimeSigRepeatAnnounceType() const
+    {
+        return m_segmentType == SegmentType::TimeSigRepeatAnnounce;
+    }
     bool isEndBarLineType() const { return m_segmentType == SegmentType::EndBarLine; }
     bool isKeySigAnnounceType() const { return m_segmentType == SegmentType::KeySigAnnounce; }
     bool isTimeSigAnnounceType() const { return m_segmentType == SegmentType::TimeSigAnnounce; }
     bool isCourtesySegment() const
     {
-        return m_segmentType & (SegmentType::CourtesyTimeSigType | SegmentType::CourtesyKeySigType | SegmentType::CourtesyClefType);
+        return m_segmentType
+               & (SegmentType::CourtesyTimeSigType | SegmentType::CourtesyKeySigType
+                  | SegmentType::CourtesyClefType);
     }
 
     bool isTimeTickType() const { return m_segmentType == SegmentType::TimeTick; }
     bool isRightAligned() const { return isClefType() || isBreathType(); }
-    bool isMMRestSegment() const { return isChordRestType() && m_elist.front() && m_elist.front()->isMMRest(); }
+    bool isMMRestSegment() const
+    {
+        return isChordRestType() && m_elist.front() && m_elist.front()->isMMRest();
+    }
 
-    static constexpr SegmentType CHORD_REST_OR_TIME_TICK_TYPE = SegmentType::ChordRest | SegmentType::TimeTick;
+    static constexpr SegmentType CHORD_REST_OR_TIME_TICK_TYPE = SegmentType::ChordRest
+                                                                | SegmentType::TimeTick;
     static constexpr SegmentType durationSegmentsMask = CHORD_REST_OR_TIME_TICK_TYPE; // segment types which may have non-zero tick length
 
     bool canWriteSpannerStartEnd(track_idx_t track, const Spanner* spanner) const;

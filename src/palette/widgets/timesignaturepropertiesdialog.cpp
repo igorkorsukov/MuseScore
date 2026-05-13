@@ -136,8 +136,10 @@ void TimeSignaturePropertiesDialog::classBegin()
     IEngravingFontPtr symbolFont = paletteScoreProvider()->paletteScore()->engravingFont();
 
     otherCombo->clear();
-    otherCombo->setStyleSheet(QString("QComboBox { font-family: \"%1 Text\"; font-size: %2px; max-height: 30px } ")
-                              .arg(QString::fromStdString(symbolFont->family())).arg(musicalFontSize));
+    otherCombo->setStyleSheet(QString(
+                                  "QComboBox { font-family: \"%1 Text\"; font-size: %2px; max-height: 30px } ")
+                              .arg(QString::fromStdString(symbolFont->family())).arg(
+                                  musicalFontSize));
 
     int idx = 0;
     for (SymId prolatio : prolatioList) {
@@ -146,7 +148,8 @@ void TimeSignaturePropertiesDialog::classBegin()
             otherCombo->addItem(str, int(prolatio));
 
             // if time sig matches this symbol string, set as selected
-            if (m_editedTimeSig->timeSigType() == TimeSigType::NORMAL && m_editedTimeSig->denominatorString().isEmpty()
+            if (m_editedTimeSig->timeSigType() == TimeSigType::NORMAL
+                && m_editedTimeSig->denominatorString().isEmpty()
                 && m_editedTimeSig->numeratorString() == str) {
                 textButton->setChecked(false);
                 otherButton->setChecked(true);
@@ -164,7 +167,8 @@ void TimeSignaturePropertiesDialog::classBegin()
     if (g.empty()) {
         g = Groups::endings(m_editedTimeSig->sig()); // initialize with default
     }
-    groups->setSig(m_editedTimeSig->sig(), g, m_editedTimeSig->numeratorString(), m_editedTimeSig->denominatorString());
+    groups->setSig(m_editedTimeSig->sig(), g,
+                   m_editedTimeSig->numeratorString(), m_editedTimeSig->denominatorString());
 }
 
 void TimeSignaturePropertiesDialog::showEvent(QShowEvent* event)
@@ -219,22 +223,27 @@ void TimeSignaturePropertiesDialog::accept()
     Groups g = groups->groups();
     m_editedTimeSig->setGroups(g);
 
-    notation->undoStack()->prepareChanges(TranslatableString("undoableAction", "Edit time signature properties"));
+    notation->undoStack()->prepareChanges(TranslatableString("undoableAction",
+                                                             "Edit time signature properties"));
 
     // Change linked mmr timesigs too
     for (EngravingObject* obj : m_originTimeSig->linkList()) {
         TimeSig* timeSig = toTimeSig(obj);
-        if (timeSig == m_originTimeSig || (timeSig->track() == m_originTimeSig->track() && timeSig->score() == m_originTimeSig->score())) {
+        if (timeSig == m_originTimeSig
+            || (timeSig->track() == m_originTimeSig->track()
+                && timeSig->score() == m_originTimeSig->score())) {
             timeSig->undoChangeProperty(Pid::TIMESIG_TYPE, int(m_editedTimeSig->timeSigType()));
             timeSig->undoChangeProperty(Pid::SHOW_COURTESY, m_editedTimeSig->showCourtesySig());
             timeSig->undoChangeProperty(Pid::NUMERATOR_STRING, m_editedTimeSig->numeratorString());
-            timeSig->undoChangeProperty(Pid::DENOMINATOR_STRING, m_editedTimeSig->denominatorString());
+            timeSig->undoChangeProperty(Pid::DENOMINATOR_STRING,
+                                        m_editedTimeSig->denominatorString());
             timeSig->undoChangeProperty(Pid::GROUP_NODES, g.nodes());
         }
     }
 
     if (m_editedTimeSig->sig() != m_originTimeSig->sig()) {
-        notation->interaction()->addTimeSignature(m_originTimeSig->measure(), m_originTimeSig->staffIdx(), m_editedTimeSig);
+        notation->interaction()->addTimeSignature(
+            m_originTimeSig->measure(), m_originTimeSig->staffIdx(), m_editedTimeSig);
     }
 
     m_originTimeSig->triggerLayoutAll();

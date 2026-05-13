@@ -37,12 +37,14 @@
 #include "iappshellstate.h"
 
 namespace mu::appshell {
-class NotationPageModel : public QObject, public muse::Contextable, public muse::async::Asyncable, public muse::actions::Actionable
+class NotationPageModel : public QObject, public muse::Contextable, public muse::async::Asyncable,
+    public muse::actions::Actionable
 {
     Q_OBJECT
 
     Q_PROPERTY(bool isNavigatorVisible READ isNavigatorVisible NOTIFY isNavigatorVisibleChanged)
-    Q_PROPERTY(bool isBraillePanelVisible READ isBraillePanelVisible NOTIFY isBraillePanelVisibleChanged)
+    Q_PROPERTY(
+        bool isBraillePanelVisible READ isBraillePanelVisible NOTIFY isBraillePanelVisibleChanged)
 
     QML_ELEMENT
 

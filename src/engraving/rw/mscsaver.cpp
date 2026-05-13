@@ -92,7 +92,9 @@ bool MscSaver::writeMscz(MasterScore* score, MscWriter& mscWriter, bool createTh
                 ByteArray scoreData;
             };
 
-            auto serializeExcerpt = [masterWriteOutData, score](Excerpt* excerpt, size_t excerptIndex) -> ExcerptData {
+            auto serializeExcerpt
+                = [masterWriteOutData, score](Excerpt* excerpt,
+                                              size_t excerptIndex) -> ExcerptData {
                 Score* partScore = excerpt->excerptScore();
                 IF_ASSERT_FAILED(partScore && partScore != score) {
                     return ExcerptData();
@@ -121,7 +123,8 @@ bool MscSaver::writeMscz(MasterScore* score, MscWriter& mscWriter, bool createTh
             for (size_t excerptIndex = 0; excerptIndex < excerpts.size(); ++excerptIndex) {
                 Excerpt* excerpt = excerpts.at(excerptIndex);
 
-                futures.push_back(std::async(std::launch::async, [serializeExcerpt, excerpt, excerptIndex]() {
+                futures.push_back(std::async(std::launch::async,
+                                             [serializeExcerpt, excerpt, excerptIndex]() {
                     return serializeExcerpt(excerpt, excerptIndex);
                 }));
             }

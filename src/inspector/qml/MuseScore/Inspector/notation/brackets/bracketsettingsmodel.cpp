@@ -31,7 +31,8 @@
 using namespace mu::inspector;
 using namespace mu::engraving;
 
-BracketSettingsModel::BracketSettingsModel(QObject* parent, const muse::modularity::ContextPtr& iocCtx,
+BracketSettingsModel::BracketSettingsModel(QObject* parent,
+                                           const muse::modularity::ContextPtr& iocCtx,
                                            IElementRepositoryService* repository)
     : AbstractInspectorModel(parent, iocCtx, repository, mu::engraving::ElementType::BRACKET)
 {
@@ -40,8 +41,10 @@ BracketSettingsModel::BracketSettingsModel(QObject* parent, const muse::modulari
     setIcon(muse::ui::IconCode::Code::BRACKET);
     createProperties();
 
-    connect(this, &BracketSettingsModel::selectionChanged, this, &BracketSettingsModel::maxBracketColumnPositionChanged);
-    connect(m_bracketSpanStaves, &PropertyItem::propertyModified, this, &BracketSettingsModel::maxBracketColumnPositionChanged);
+    connect(this, &BracketSettingsModel::selectionChanged, this,
+            &BracketSettingsModel::maxBracketColumnPositionChanged);
+    connect(m_bracketSpanStaves, &PropertyItem::propertyModified, this,
+            &BracketSettingsModel::maxBracketColumnPositionChanged);
 }
 
 void BracketSettingsModel::createProperties()
@@ -87,7 +90,8 @@ void BracketSettingsModel::resetProperties()
     m_shortName->resetToDefault();
 }
 
-void BracketSettingsModel::onNotationChanged(const PropertyIdSet& changedPropertyIdSet, const StyleIdSet&)
+void BracketSettingsModel::onNotationChanged(const PropertyIdSet& changedPropertyIdSet,
+                                             const StyleIdSet&)
 {
     loadProperties(changedPropertyIdSet);
 }
@@ -151,7 +155,8 @@ int BracketSettingsModel::maxBracketColumnPosition() const
     for (const Staff* staff : score->staves()) {
         int otherBracketStartIndex = static_cast<int>(staff->idx());
         for (const BracketItem* otherBracketItem : staff->brackets()) {
-            int otherBracketEndIndex = otherBracketStartIndex + static_cast<int>(otherBracketItem->bracketSpan()) - 1;
+            int otherBracketEndIndex = otherBracketStartIndex
+                                       + static_cast<int>(otherBracketItem->bracketSpan()) - 1;
             if (otherBracketStartIndex <= bracketEndIndex
                 && otherBracketEndIndex >= bracketStartIndex) {
                 ++count;
@@ -170,7 +175,8 @@ int BracketSettingsModel::maxBracketSpanStaves() const
     }
 
     const BracketItem* bracketItem = toBracketItem(m_elementList.front());
-    return static_cast<int>(bracketItem->score()->nstaves()) - static_cast<int>(bracketItem->staff()->idx());
+    return static_cast<int>(bracketItem->score()->nstaves())
+           - static_cast<int>(bracketItem->staff()->idx());
 }
 
 bool BracketSettingsModel::isGroupBracket() const

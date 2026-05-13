@@ -34,7 +34,8 @@
 #include "../iprojectautosaver.h"
 
 namespace mu::project {
-class ProjectAutoSaver : public IProjectAutoSaver, public muse::async::Asyncable, public muse::Contextable
+class ProjectAutoSaver : public IProjectAutoSaver, public muse::async::Asyncable,
+    public muse::Contextable
 {
     muse::GlobalInject<muse::io::IFileSystem> fileSystem;
     muse::GlobalInject<IProjectConfiguration> configuration;
@@ -52,7 +53,8 @@ public:
 
     bool isAutosaveOfNewlyCreatedProject(const muse::io::path_t& projectPath) const override;
 
-    muse::io::path_t projectOriginalPath(const muse::io::path_t& projectAutoSavePath) const override;
+    muse::io::path_t projectOriginalPath(
+        const muse::io::path_t& projectAutoSavePath) const override;
     muse::io::path_t projectAutoSavePath(const muse::io::path_t& projectPath) const override;
 
 private:

@@ -48,7 +48,8 @@ public:
     QVariant automationLinesData() const override;
     muse::async::Notification automationLinesDataChanged() const override; // TODO: probably a channel specifying indices
 
-    void requestChangeAutomationPoint(qsizetype lineIdx, qsizetype pointIdx, qreal x, qreal y) override;
+    void requestChangeAutomationPoint(qsizetype lineIdx, qsizetype pointIdx, qreal x,
+                                      qreal y) override;
 
 private:
     enum class PointType : unsigned char {
@@ -61,7 +62,8 @@ private:
     void initAutomationLinesData();
 
     QVariantList linesDataForSystem(const System* system) const;
-    QVariantList linesDataForSysStaff(const Staff* staff, const muse::RectF& sysStaffCanvasRect, int startTick, int endTick) const;
+    QVariantList linesDataForSysStaff(const Staff* staff, const muse::RectF& sysStaffCanvasRect,
+                                      int startTick, int endTick) const;
 
     mu::engraving::Score* score() const;
     mu::engraving::IAutomation* automation() const;

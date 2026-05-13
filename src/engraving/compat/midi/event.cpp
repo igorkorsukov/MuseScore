@@ -238,7 +238,8 @@ void EventsHolder::mergePitchWheelEvents(EventsHolder& pitchWheelEvents)
                 if (pwEvent != pitchWheelEvents[i].end()
                     && pwEvent->second.type() == ME_PITCHBEND) {
                     PitchWheelSpecs specs;
-                    NPlayEvent pwReset(ME_PITCHBEND, (uint8_t)i, specs.mLimit % 128, specs.mLimit / 128);
+                    NPlayEvent pwReset(ME_PITCHBEND, (uint8_t)i, specs.mLimit % 128,
+                                       specs.mLimit / 128);
                     pwReset.setOriginatingStaff(pwEvent->second.getOriginatingStaff());
 
                     int tickForPwReset = 0;
@@ -286,12 +287,15 @@ void EventsHolder::fixupMIDI()
                         event.setDiscard(1);
                     } else {
                         /* hoist NOTEOFF to same track as NOTEON */
-                        event.setOriginatingStaff(info[event.channel()].event[event.pitch()]->getOriginatingStaff());
+                        event.setOriginatingStaff(
+                            info[event.channel()].event[event.pitch()]->getOriginatingStaff());
                     }
                 } else {
                     if (++np > 1) {
                         /* restrike, possibly on different track */
-                        event.setDiscard(info[event.channel()].event[event.pitch()]->getOriginatingStaff() + 1);
+                        event.setDiscard(
+                            info[event.channel()].event[event.pitch()]->getOriginatingStaff()
+                            + 1);
                     }
                     info[event.channel()].event[event.pitch()] = &event;
                 }

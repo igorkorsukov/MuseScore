@@ -516,7 +516,8 @@ String ChordRest::durationUserName() const
             break;
         default:
             //: %1 is tuplet ratio numerator (i.e. the number of notes in the tuplet)
-            tupletType = muse::mtrc("engraving", "%1 note tuplet").arg(tuplet()->ratio().numerator());
+            tupletType
+                = muse::mtrc("engraving", "%1 note tuplet").arg(tuplet()->ratio().numerator());
         }
     }
     String dotString;
@@ -526,16 +527,25 @@ String ChordRest::durationUserName() const
 
     switch (dots()) {
     case 1:
-        dotString += muse::mtrc("engraving", "Dotted %1").arg(TConv::translatedUserName(durationType().type()));
+        dotString
+            += muse::mtrc("engraving",
+                          "Dotted %1").arg(TConv::translatedUserName(durationType().type()));
         break;
     case 2:
-        dotString += muse::mtrc("engraving", "Double dotted %1").arg(TConv::translatedUserName(durationType().type()));
+        dotString
+            += muse::mtrc("engraving",
+                          "Double dotted %1").arg(TConv::translatedUserName(durationType().type()));
         break;
     case 3:
-        dotString += muse::mtrc("engraving", "Triple dotted %1").arg(TConv::translatedUserName(durationType().type()));
+        dotString
+            += muse::mtrc("engraving",
+                          "Triple dotted %1").arg(TConv::translatedUserName(durationType().type()));
         break;
     case 4:
-        dotString += muse::mtrc("engraving", "Quadruple dotted %1").arg(TConv::translatedUserName(durationType().type()));
+        dotString
+            += muse::mtrc("engraving",
+                          "Quadruple dotted %1").arg(TConv::translatedUserName(
+                                                         durationType().type()));
         break;
     default:
         dotString += TConv::translatedUserName(durationType().type());
@@ -776,7 +786,8 @@ bool ChordRest::isGraceBefore() const
 {
     return isChord()
            && (toChord(this)->noteType() & (
-                   NoteType::ACCIACCATURA | NoteType::APPOGGIATURA | NoteType::GRACE4 | NoteType::GRACE16 | NoteType::GRACE32
+                   NoteType::ACCIACCATURA | NoteType::APPOGGIATURA | NoteType::GRACE4
+                   | NoteType::GRACE16 | NoteType::GRACE32
                    ));
 }
 
@@ -787,7 +798,8 @@ bool ChordRest::isGraceBefore() const
 bool ChordRest::isGraceAfter() const
 {
     return isChord()
-           && (toChord(this)->noteType() & (NoteType::GRACE8_AFTER | NoteType::GRACE16_AFTER | NoteType::GRACE32_AFTER));
+           && (toChord(this)->noteType()
+               & (NoteType::GRACE8_AFTER | NoteType::GRACE16_AFTER | NoteType::GRACE32_AFTER));
 }
 
 //---------------------------------------------------------
@@ -1098,7 +1110,8 @@ String ChordRest::accessibleExtraInfo() const
                 bool start = s->tick() == tick();
                 bool end   = s->tick2() == tick() + ticks();
                 if (start && end) {
-                    rez += u" " + muse::mtrc("engraving", "Start and end of %1").arg(s->screenReaderInfo());
+                    rez += u" " + muse::mtrc("engraving", "Start and end of %1").arg(
+                        s->screenReaderInfo());
                 } else if (start) {
                     rez += u" " + muse::mtrc("engraving", "Start of %1").arg(s->screenReaderInfo());
                 } else if (end) {
@@ -1269,12 +1282,15 @@ void ChordRest::checkStaffMoveValidity()
     const Staff* baseStaff = staff();
     const StaffType* baseStaffType = baseStaff->staffTypeForElement(this);
     const Staff* targetStaff  = score()->staff(idx);
-    const StaffType* targetStaffType = targetStaff ? targetStaff->staffTypeForElement(this) : nullptr;
+    const StaffType* targetStaffType
+        = targetStaff ? targetStaff->staffTypeForElement(this) : nullptr;
     // check that destination staff makes sense
     staff_idx_t minStaff = part()->startTrack() / VOICES;
     staff_idx_t maxStaff = part()->endTrack() / VOICES;
-    bool isDestinationValid = targetStaff && targetStaff->visible() && idx >= minStaff && idx < maxStaff
-                              && targetStaffType->group() == baseStaffType->group() && targetStaff->isLinked() == baseStaff->isLinked();
+    bool isDestinationValid = targetStaff && targetStaff->visible() && idx >= minStaff
+                              && idx < maxStaff
+                              && targetStaffType->group() == baseStaffType->group()
+                              && targetStaff->isLinked() == baseStaff->isLinked();
     if (!isDestinationValid) {
         LOGD("staffMove out of scope %zu + %d min %zu max %zu",
              staffIdx(), m_staffMove, minStaff, maxStaff);

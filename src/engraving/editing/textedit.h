@@ -98,7 +98,8 @@ class ChangeTextProperties : public TextEditUndoCommand
     OBJECT_ALLOCATOR(engraving, ChangeTextProperties)
 
 public:
-    ChangeTextProperties(const TextCursor* tc, Pid propId, const PropertyValue& propVal, PropertyFlags flags);
+    ChangeTextProperties(const TextCursor* tc, Pid propId, const PropertyValue& propVal,
+                         PropertyFlags flags);
     void undo(EditData*) override;
     void redo(EditData*) override;
 

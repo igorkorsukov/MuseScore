@@ -27,7 +27,8 @@
 using namespace mu::inspector;
 using namespace muse::actions;
 
-InstrumentNameSettingsModel::InstrumentNameSettingsModel(QObject* parent, const muse::modularity::ContextPtr& iocCtx,
+InstrumentNameSettingsModel::InstrumentNameSettingsModel(QObject* parent,
+                                                         const muse::modularity::ContextPtr& iocCtx,
                                                          IElementRepositoryService* repository)
     : AbstractInspectorModel(parent, iocCtx, repository)
 {

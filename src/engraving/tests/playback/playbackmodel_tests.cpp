@@ -56,9 +56,14 @@ protected:
     void SetUp() override
     {
         m_dummyPatternSegment.arrangementPattern
-            = tests::createArrangementPattern(HUNDRED_PERCENT /*duration_factor*/, 0 /*timestamp_offset*/);
-        m_dummyPatternSegment.pitchPattern = tests::createSimplePitchPattern(0 /*increment_pitch_diff*/);
-        m_dummyPatternSegment.expressionPattern = tests::createSimpleExpressionPattern(dynamicLevelFromType(mpe::DynamicType::Natural));
+            = tests::createArrangementPattern(HUNDRED_PERCENT /*duration_factor*/,
+                                              0 /*timestamp_offset*/);
+        m_dummyPatternSegment.pitchPattern
+            = tests::createSimplePitchPattern(0 /*increment_pitch_diff*/);
+        m_dummyPatternSegment.expressionPattern = tests::createSimpleExpressionPattern(dynamicLevelFromType(
+                                                                                           mpe::
+                                                                                           DynamicType
+                                                                                           ::Natural));
         m_dummyPattern.emplace(0, m_dummyPatternSegment);
 
         m_defaultProfile = std::make_shared<ArticulationsProfile>();
@@ -68,9 +73,12 @@ protected:
 
     ArticulationPattern buildTestArticulationPattern() const
     {
-        ArticulationPatternSegment blankSegment(ArrangementPattern(HUNDRED_PERCENT /*durationFactor*/, 0 /*timestampOffset*/),
-                                                PitchPattern(ArticulationMap::EXPECTED_SIZE, TEN_PERCENT, 0),
-                                                ExpressionPattern(ArticulationMap::EXPECTED_SIZE, TEN_PERCENT, 0));
+        ArticulationPatternSegment blankSegment(ArrangementPattern(HUNDRED_PERCENT /*durationFactor*/,
+                                                                   0 /*timestampOffset*/),
+                                                PitchPattern(ArticulationMap::EXPECTED_SIZE,
+                                                             TEN_PERCENT, 0),
+                                                ExpressionPattern(ArticulationMap::EXPECTED_SIZE,
+                                                                  TEN_PERCENT, 0));
 
         ArticulationPattern pattern;
         pattern.emplace(0, std::move(blankSegment));
@@ -94,7 +102,8 @@ protected:
 TEST_F(Engraving_PlaybackModelTests, SimpleRepeat)
 {
     // [GIVEN] Simple piece of score (Violin, 4/4, 120 bpm, Treble Cleff)
-    Score* score = ScoreRW::readScore(PLAYBACK_MODEL_TEST_FILES_DIR + "repeat_range/repeat_range.mscx");
+    Score* score = ScoreRW::readScore(
+        PLAYBACK_MODEL_TEST_FILES_DIR + "repeat_range/repeat_range.mscx");
 
     ASSERT_TRUE(score);
     ASSERT_EQ(score->parts().size(), 1);
@@ -114,7 +123,9 @@ TEST_F(Engraving_PlaybackModelTests, SimpleRepeat)
     model.profilesRepository.set(m_repositoryMock);
     model.load(score);
 
-    const PlaybackEventsMap& result = model.resolveTrackPlaybackData(part->id(), part->instrumentId()).originEvents;
+    const PlaybackEventsMap& result = model.resolveTrackPlaybackData(part->id(),
+                                                                     part->instrumentId()).
+                                      originEvents;
 
     // [THEN] Amount of events does match expectations
     EXPECT_EQ(result.size(), expectedSize);
@@ -129,7 +140,8 @@ TEST_F(Engraving_PlaybackModelTests, SimpleRepeat)
 TEST_F(Engraving_PlaybackModelTests, Two_Ending_Repeat)
 {
     // [GIVEN] Simple piece of score (Violin, 4/4, 120 bpm, Treble Cleff)
-    Score* score = ScoreRW::readScore(PLAYBACK_MODEL_TEST_FILES_DIR + "repeat_with_2_voltas/repeat_with_2_voltas.mscx");
+    Score* score = ScoreRW::readScore(
+        PLAYBACK_MODEL_TEST_FILES_DIR + "repeat_with_2_voltas/repeat_with_2_voltas.mscx");
 
     ASSERT_TRUE(score);
     ASSERT_EQ(score->parts().size(), 1);
@@ -149,7 +161,9 @@ TEST_F(Engraving_PlaybackModelTests, Two_Ending_Repeat)
     model.profilesRepository.set(m_repositoryMock);
     model.load(score);
 
-    const PlaybackEventsMap& result = model.resolveTrackPlaybackData(part->id(), part->instrumentId()).originEvents;
+    const PlaybackEventsMap& result = model.resolveTrackPlaybackData(part->id(),
+                                                                     part->instrumentId()).
+                                      originEvents;
 
     // [THEN] Amount of events does match expectations
     EXPECT_EQ(result.size(), expectedSize);
@@ -162,7 +176,8 @@ TEST_F(Engraving_PlaybackModelTests, Two_Ending_Repeat)
 TEST_F(Engraving_PlaybackModelTests, Repeat_And_Tremolo)
 {
     // [GIVEN] Simple piece of score (Flute, 4/4, 120 bpm)
-    Score* score = ScoreRW::readScore(PLAYBACK_MODEL_TEST_FILES_DIR + "repeat_and_tremolo/repeat_and_tremolo.mscx");
+    Score* score = ScoreRW::readScore(
+        PLAYBACK_MODEL_TEST_FILES_DIR + "repeat_and_tremolo/repeat_and_tremolo.mscx");
 
     ASSERT_TRUE(score);
     ASSERT_EQ(score->parts().size(), 1);
@@ -206,14 +221,17 @@ TEST_F(Engraving_PlaybackModelTests, Repeat_And_Tremolo)
     model.profilesRepository.set(m_repositoryMock);
     model.load(score);
 
-    const PlaybackEventsMap& result = model.resolveTrackPlaybackData(part->id(), part->instrumentId()).originEvents;
+    const PlaybackEventsMap& result = model.resolveTrackPlaybackData(part->id(),
+                                                                     part->instrumentId()).
+                                      originEvents;
 
     // [THEN] Amount of events per timestamp matches expectations
     auto isExpectedTimestamp = [&expectedSizePerTimestamp](timestamp_t timestamp) {
         if (muse::contains(expectedSizePerTimestamp, timestamp)) {
             return testing::AssertionSuccess();
         } else {
-            return testing::AssertionFailure() << "timestamp " << timestamp << " is not contained in expectedSizePerTimestamp";
+            return testing::AssertionFailure() << "timestamp " << timestamp <<
+                " is not contained in expectedSizePerTimestamp";
         }
     };
 
@@ -228,7 +246,8 @@ TEST_F(Engraving_PlaybackModelTests, Repeat_And_Tremolo)
             if (std::holds_alternative<mpe::NoteEvent>(event)) {
                 // Check actual timestamp
                 const mpe::NoteEvent& noteEvent = std::get<mpe::NoteEvent>(event);
-                EXPECT_EQ(noteEvent.arrangementCtx().actualTimestamp, pair.first + notes * (2 * QUARTER_NOTE_DURATION / 16));
+                EXPECT_EQ(noteEvent.arrangementCtx().actualTimestamp,
+                          pair.first + notes * (2 * QUARTER_NOTE_DURATION / 16));
 
                 ++notes;
             }
@@ -247,7 +266,9 @@ TEST_F(Engraving_PlaybackModelTests, Repeat_And_Tremolo)
 TEST_F(Engraving_PlaybackModelTests, Repeat_Tempo_Changes_And_Tie)
 {
     // [GIVEN] Score containing some repeated measures, some tempo changes and a tied note
-    Score* score = ScoreRW::readScore(PLAYBACK_MODEL_TEST_FILES_DIR + "repeat_tempo_changes_and_tie/repeat_tempo_changes_and_tie.mscx");
+    Score* score = ScoreRW::readScore(
+        PLAYBACK_MODEL_TEST_FILES_DIR
+        + "repeat_tempo_changes_and_tie/repeat_tempo_changes_and_tie.mscx");
 
     ASSERT_TRUE(score);
     ASSERT_EQ(score->parts().size(), 1);
@@ -266,7 +287,9 @@ TEST_F(Engraving_PlaybackModelTests, Repeat_Tempo_Changes_And_Tie)
     model.profilesRepository.set(m_repositoryMock);
     model.load(score);
 
-    const PlaybackEventsMap& result = model.resolveTrackPlaybackData(part->id(), part->instrumentId()).originEvents;
+    const PlaybackEventsMap& result = model.resolveTrackPlaybackData(part->id(),
+                                                                     part->instrumentId()).
+                                      originEvents;
 
     // [THEN] The duration of the tied note matches expectations
     size_t noteEventCount = 0;
@@ -294,7 +317,8 @@ TEST_F(Engraving_PlaybackModelTests, Repeat_Tempo_Changes_And_Tie)
 TEST_F(Engraving_PlaybackModelTests, Da_Capo_Al_Fine)
 {
     // [GIVEN] Simple piece of score (Violin, 4/4, 120 bpm, Treble Cleff)
-    Score* score = ScoreRW::readScore(PLAYBACK_MODEL_TEST_FILES_DIR + "da_capo_al_fine/da_capo_al_fine.mscx");
+    Score* score = ScoreRW::readScore(
+        PLAYBACK_MODEL_TEST_FILES_DIR + "da_capo_al_fine/da_capo_al_fine.mscx");
 
     ASSERT_TRUE(score);
     ASSERT_EQ(score->parts().size(), 1);
@@ -314,7 +338,9 @@ TEST_F(Engraving_PlaybackModelTests, Da_Capo_Al_Fine)
     model.profilesRepository.set(m_repositoryMock);
     model.load(score);
 
-    const PlaybackEventsMap& result = model.resolveTrackPlaybackData(part->id(), part->instrumentId()).originEvents;
+    const PlaybackEventsMap& result = model.resolveTrackPlaybackData(part->id(),
+                                                                     part->instrumentId()).
+                                      originEvents;
 
     // [THEN] Amount of events does match expectations
     EXPECT_EQ(result.size(), expectedSize);
@@ -330,7 +356,8 @@ TEST_F(Engraving_PlaybackModelTests, Da_Capo_Al_Fine)
 TEST_F(Engraving_PlaybackModelTests, Dal_Segno_Al_Coda)
 {
     // [GIVEN] Simple piece of score (Violin, 4/4, 120 bpm, Treble Cleff)
-    Score* score = ScoreRW::readScore(PLAYBACK_MODEL_TEST_FILES_DIR + "dal_segno_al_coda/dal_segno_al_coda.mscx");
+    Score* score = ScoreRW::readScore(
+        PLAYBACK_MODEL_TEST_FILES_DIR + "dal_segno_al_coda/dal_segno_al_coda.mscx");
 
     ASSERT_TRUE(score);
     ASSERT_EQ(score->parts().size(), 1);
@@ -350,7 +377,9 @@ TEST_F(Engraving_PlaybackModelTests, Dal_Segno_Al_Coda)
     model.profilesRepository.set(m_repositoryMock);
     model.load(score);
 
-    const PlaybackEventsMap& result = model.resolveTrackPlaybackData(part->id(), part->instrumentId()).originEvents;
+    const PlaybackEventsMap& result = model.resolveTrackPlaybackData(part->id(),
+                                                                     part->instrumentId()).
+                                      originEvents;
 
     // [THEN] Amount of events does match expectations
     EXPECT_EQ(result.size(), expectedSize);
@@ -365,7 +394,8 @@ TEST_F(Engraving_PlaybackModelTests, Dal_Segno_Al_Coda)
 TEST_F(Engraving_PlaybackModelTests, Dal_Segno_Al_Fine)
 {
     // [GIVEN] Simple piece of score (Violin, 4/4, 120 bpm, Treble Cleff)
-    Score* score = ScoreRW::readScore(PLAYBACK_MODEL_TEST_FILES_DIR + "dal_segno_al_fine/dal_segno_al_fine.mscx");
+    Score* score = ScoreRW::readScore(
+        PLAYBACK_MODEL_TEST_FILES_DIR + "dal_segno_al_fine/dal_segno_al_fine.mscx");
 
     ASSERT_TRUE(score);
     ASSERT_EQ(score->parts().size(), 1);
@@ -385,7 +415,9 @@ TEST_F(Engraving_PlaybackModelTests, Dal_Segno_Al_Fine)
     model.profilesRepository.set(m_repositoryMock);
     model.load(score);
 
-    const PlaybackEventsMap& result = model.resolveTrackPlaybackData(part->id(), part->instrumentId()).originEvents;
+    const PlaybackEventsMap& result = model.resolveTrackPlaybackData(part->id(),
+                                                                     part->instrumentId()).
+                                      originEvents;
 
     // [THEN] Amount of events does match expectations
     EXPECT_EQ(result.size(), expectedSize);
@@ -400,7 +432,8 @@ TEST_F(Engraving_PlaybackModelTests, Dal_Segno_Al_Fine)
 TEST_F(Engraving_PlaybackModelTests, Da_Capo_Al_Coda)
 {
     // [GIVEN] Simple piece of score (Violin, 4/4, 120 bpm, Treble Cleff)
-    Score* score = ScoreRW::readScore(PLAYBACK_MODEL_TEST_FILES_DIR + "da_capo_al_coda/da_capo_al_coda.mscx");
+    Score* score = ScoreRW::readScore(
+        PLAYBACK_MODEL_TEST_FILES_DIR + "da_capo_al_coda/da_capo_al_coda.mscx");
 
     ASSERT_TRUE(score);
     ASSERT_EQ(score->parts().size(), 1);
@@ -420,7 +453,9 @@ TEST_F(Engraving_PlaybackModelTests, Da_Capo_Al_Coda)
     model.profilesRepository.set(m_repositoryMock);
     model.load(score);
 
-    const PlaybackEventsMap& result = model.resolveTrackPlaybackData(part->id(), part->instrumentId()).originEvents;
+    const PlaybackEventsMap& result = model.resolveTrackPlaybackData(part->id(),
+                                                                     part->instrumentId()).
+                                      originEvents;
 
     // [THEN] Amount of events does match expectations
     EXPECT_EQ(result.size(), expectedSize);
@@ -459,7 +494,9 @@ TEST_F(Engraving_PlaybackModelTests, Spanners)
     model.profilesRepository.set(m_repositoryMock);
     model.load(score);
 
-    const PlaybackEventsMap& result = model.resolveTrackPlaybackData(part->id(), part->instrumentId()).originEvents;
+    const PlaybackEventsMap& result = model.resolveTrackPlaybackData(part->id(),
+                                                                     part->instrumentId()).
+                                      originEvents;
 
     // [THEN] Amount of events matches expectations
     EXPECT_EQ(result.size(), expectedNumberOfEvents);
@@ -488,11 +525,13 @@ TEST_F(Engraving_PlaybackModelTests, Spanners)
     };
 
     for (size_t i=0; i < expectedNumberOfEvents; ++i) {
-        const mpe::NoteEvent& noteEvent = std::get<mpe::NoteEvent>(result.at(i * QUARTER_NOTE_DURATION).at(0));
+        const mpe::NoteEvent& noteEvent
+            = std::get<mpe::NoteEvent>(result.at(i * QUARTER_NOTE_DURATION).at(0));
 
         EXPECT_EQ(noteEvent.expressionCtx().articulations.size(), 1);
 
-        const ArticulationMap::PairType& articulation = *noteEvent.expressionCtx().articulations.cbegin();
+        const ArticulationMap::PairType& articulation
+            = *noteEvent.expressionCtx().articulations.cbegin();
 
         const ExpectedArticulation& expectedArticulation = expectedArticulations[i];
 
@@ -501,7 +540,8 @@ TEST_F(Engraving_PlaybackModelTests, Spanners)
         } else {
             EXPECT_EQ(articulation.first, expectedArticulation.articulationType);
             EXPECT_EQ(articulation.second.meta.timestamp, expectedArticulation.from);
-            EXPECT_EQ(articulation.second.meta.timestamp + articulation.second.meta.overallDuration, expectedArticulation.to);
+            EXPECT_EQ(articulation.second.meta.timestamp + articulation.second.meta.overallDuration,
+                      expectedArticulation.to);
         }
     }
 }
@@ -534,7 +574,8 @@ TEST_F(Engraving_PlaybackModelTests, Dynamics)
     model.profilesRepository.set(m_repositoryMock);
     model.load(score);
 
-    const DynamicLevelLayers& dynamics = model.resolveTrackPlaybackData(part->id(), part->instrumentId()).dynamics;
+    const DynamicLevelLayers& dynamics = model.resolveTrackPlaybackData(
+        part->id(), part->instrumentId()).dynamics;
     ASSERT_FALSE(dynamics.empty());
     const DynamicLevelMap& dynamicLevelMap = dynamics.begin()->second;
 
@@ -543,7 +584,8 @@ TEST_F(Engraving_PlaybackModelTests, Dynamics)
 
     static constexpr dynamic_level_t piano = dynamicLevelFromType(mpe::DynamicType::p);
     static constexpr dynamic_level_t forte = dynamicLevelFromType(mpe::DynamicType::f);
-    static constexpr dynamic_level_t fortePlusSomething = dynamicLevelFromType(mpe::DynamicType::f) + DYNAMIC_LEVEL_STEP;
+    static constexpr dynamic_level_t fortePlusSomething
+        = dynamicLevelFromType(mpe::DynamicType::f) + DYNAMIC_LEVEL_STEP;
     static constexpr dynamic_level_t pianissimo = dynamicLevelFromType(mpe::DynamicType::pp);
 
     // Start piano
@@ -553,15 +595,27 @@ TEST_F(Engraving_PlaybackModelTests, Dynamics)
     EXPECT_EQ(dynamicLevelMap.at(4 * QUARTER_NOTE_DURATION), piano);
 
     // Gradually grow to forte after that
-    EXPECT_EQ(dynamicLevelMap.at(4 * QUARTER_NOTE_DURATION + (4 * QUARTER_NOTE_DURATION) * 1 / 24), 4312);
-    EXPECT_EQ(dynamicLevelMap.at(4 * QUARTER_NOTE_DURATION + (4 * QUARTER_NOTE_DURATION) * 2 / 24), 4375);
-    EXPECT_EQ(dynamicLevelMap.at(4 * QUARTER_NOTE_DURATION + (4 * QUARTER_NOTE_DURATION) * 3 / 24), piano + (forte - piano) * 3 / 24);
-    EXPECT_EQ(dynamicLevelMap.at(4 * QUARTER_NOTE_DURATION + (4 * QUARTER_NOTE_DURATION) * 7 / 24), 4687);
-    EXPECT_EQ(dynamicLevelMap.at(4 * QUARTER_NOTE_DURATION + (4 * QUARTER_NOTE_DURATION) * 8 / 24), piano + (forte - piano) * 8 / 24);
-    EXPECT_EQ(dynamicLevelMap.at(4 * QUARTER_NOTE_DURATION + (4 * QUARTER_NOTE_DURATION) * 15 / 24), 5187);
-    EXPECT_EQ(dynamicLevelMap.at(4 * QUARTER_NOTE_DURATION + (4 * QUARTER_NOTE_DURATION) * 21 / 24), 5562);
-    EXPECT_EQ(dynamicLevelMap.at(4 * QUARTER_NOTE_DURATION + (4 * QUARTER_NOTE_DURATION) * 22 / 24), piano + (forte - piano) * 22 / 24);
-    EXPECT_EQ(dynamicLevelMap.at(4 * QUARTER_NOTE_DURATION + (4 * QUARTER_NOTE_DURATION) * 23 / 24), 5687);
+    EXPECT_EQ(dynamicLevelMap.at(
+                  4 * QUARTER_NOTE_DURATION + (4 * QUARTER_NOTE_DURATION) * 1 / 24), 4312);
+    EXPECT_EQ(dynamicLevelMap.at(
+                  4 * QUARTER_NOTE_DURATION + (4 * QUARTER_NOTE_DURATION) * 2 / 24), 4375);
+    EXPECT_EQ(dynamicLevelMap.at(
+                  4 * QUARTER_NOTE_DURATION + (4 * QUARTER_NOTE_DURATION) * 3 / 24),
+              piano + (forte - piano) * 3 / 24);
+    EXPECT_EQ(dynamicLevelMap.at(
+                  4 * QUARTER_NOTE_DURATION + (4 * QUARTER_NOTE_DURATION) * 7 / 24), 4687);
+    EXPECT_EQ(dynamicLevelMap.at(
+                  4 * QUARTER_NOTE_DURATION + (4 * QUARTER_NOTE_DURATION) * 8 / 24),
+              piano + (forte - piano) * 8 / 24);
+    EXPECT_EQ(dynamicLevelMap.at(
+                  4 * QUARTER_NOTE_DURATION + (4 * QUARTER_NOTE_DURATION) * 15 / 24), 5187);
+    EXPECT_EQ(dynamicLevelMap.at(
+                  4 * QUARTER_NOTE_DURATION + (4 * QUARTER_NOTE_DURATION) * 21 / 24), 5562);
+    EXPECT_EQ(dynamicLevelMap.at(
+                  4 * QUARTER_NOTE_DURATION + (4 * QUARTER_NOTE_DURATION) * 22 / 24),
+              piano + (forte - piano) * 22 / 24);
+    EXPECT_EQ(dynamicLevelMap.at(
+                  4 * QUARTER_NOTE_DURATION + (4 * QUARTER_NOTE_DURATION) * 23 / 24), 5687);
 
     // Reach forte
     EXPECT_EQ(dynamicLevelMap.at(8 * QUARTER_NOTE_DURATION), forte);
@@ -570,20 +624,30 @@ TEST_F(Engraving_PlaybackModelTests, Dynamics)
     EXPECT_EQ(dynamicLevelMap.at(12 * QUARTER_NOTE_DURATION), forte);
 
     // Gradually grow louder than forte after that
-    EXPECT_EQ(dynamicLevelMap.at(12 * QUARTER_NOTE_DURATION + int(1919 / 24.f * 1) / 480.0 * QUARTER_NOTE_DURATION), 5770);
-    EXPECT_EQ(dynamicLevelMap.at(12 * QUARTER_NOTE_DURATION + int(1919 / 24.f * 2) / 480.0 * QUARTER_NOTE_DURATION),
+    EXPECT_EQ(dynamicLevelMap.at(12 * QUARTER_NOTE_DURATION + int(1919 / 24.f * 1) / 480.0
+                                 * QUARTER_NOTE_DURATION), 5770);
+    EXPECT_EQ(dynamicLevelMap.at(12 * QUARTER_NOTE_DURATION + int(1919 / 24.f * 2) / 480.0
+                                 * QUARTER_NOTE_DURATION),
               forte + (fortePlusSomething - forte) * 2 / 24);
-    EXPECT_EQ(dynamicLevelMap.at(12 * QUARTER_NOTE_DURATION + int(1919 / 24.f * 3) / 480.0 * QUARTER_NOTE_DURATION), 5812);
-    EXPECT_EQ(dynamicLevelMap.at(12 * QUARTER_NOTE_DURATION + int(1919 / 24.f * 7) / 480.0 * QUARTER_NOTE_DURATION), 5895);
-    EXPECT_EQ(dynamicLevelMap.at(12 * QUARTER_NOTE_DURATION + int(1919 / 24.f * 15) / 480.0 * QUARTER_NOTE_DURATION),
+    EXPECT_EQ(dynamicLevelMap.at(12 * QUARTER_NOTE_DURATION + int(1919 / 24.f * 3) / 480.0
+                                 * QUARTER_NOTE_DURATION), 5812);
+    EXPECT_EQ(dynamicLevelMap.at(12 * QUARTER_NOTE_DURATION + int(1919 / 24.f * 7) / 480.0
+                                 * QUARTER_NOTE_DURATION), 5895);
+    EXPECT_EQ(dynamicLevelMap.at(12 * QUARTER_NOTE_DURATION + int(1919 / 24.f * 15) / 480.0
+                                 * QUARTER_NOTE_DURATION),
               forte + (fortePlusSomething - forte) * 15 / 24);
-    EXPECT_EQ(dynamicLevelMap.at(12 * QUARTER_NOTE_DURATION + int(1919 / 24.f * 21) / 480.0 * QUARTER_NOTE_DURATION),
+    EXPECT_EQ(dynamicLevelMap.at(12 * QUARTER_NOTE_DURATION + int(1919 / 24.f * 21) / 480.0
+                                 * QUARTER_NOTE_DURATION),
               forte + (fortePlusSomething - forte) * 21 / 24);
-    EXPECT_EQ(dynamicLevelMap.at(12 * QUARTER_NOTE_DURATION + int(1919 / 24.f * 22) / 480.0 * QUARTER_NOTE_DURATION), 6208);
-    EXPECT_EQ(dynamicLevelMap.at(12 * QUARTER_NOTE_DURATION + int(1919 / 24.f * 23) / 480.0 * QUARTER_NOTE_DURATION), 6229);
+    EXPECT_EQ(dynamicLevelMap.at(12 * QUARTER_NOTE_DURATION + int(1919 / 24.f * 22) / 480.0
+                                 * QUARTER_NOTE_DURATION), 6208);
+    EXPECT_EQ(dynamicLevelMap.at(12 * QUARTER_NOTE_DURATION + int(1919 / 24.f * 23) / 480.0
+                                 * QUARTER_NOTE_DURATION), 6229);
 
     // Reach forte plus something, just before the start of the next measure
-    EXPECT_EQ(dynamicLevelMap.at(12 * QUARTER_NOTE_DURATION + 1919 / 480.0 * QUARTER_NOTE_DURATION), fortePlusSomething);
+    EXPECT_EQ(dynamicLevelMap.at(
+                  12 * QUARTER_NOTE_DURATION + 1919 / 480.0 * QUARTER_NOTE_DURATION),
+              fortePlusSomething);
 
     // Finally, jump to pianissimo
     EXPECT_EQ(dynamicLevelMap.at(16 * QUARTER_NOTE_DURATION), pianissimo);
@@ -601,7 +665,8 @@ TEST_F(Engraving_PlaybackModelTests, Dynamics)
 TEST_F(Engraving_PlaybackModelTests, Pizz_To_Arco_Technique)
 {
     // [GIVEN] Simple piece of score (Violin, 4/4, 120 bpm, Treble Cleff)
-    Score* score = ScoreRW::readScore(PLAYBACK_MODEL_TEST_FILES_DIR + "pizz_to_arco/pizz_to_arco.mscx");
+    Score* score = ScoreRW::readScore(
+        PLAYBACK_MODEL_TEST_FILES_DIR + "pizz_to_arco/pizz_to_arco.mscx");
 
     ASSERT_TRUE(score);
     ASSERT_EQ(score->parts().size(), 1);
@@ -625,7 +690,9 @@ TEST_F(Engraving_PlaybackModelTests, Pizz_To_Arco_Technique)
     model.profilesRepository.set(m_repositoryMock);
     model.load(score);
 
-    const PlaybackEventsMap& result = model.resolveTrackPlaybackData(part->id(), part->instrumentId()).originEvents;
+    const PlaybackEventsMap& result = model.resolveTrackPlaybackData(part->id(),
+                                                                     part->instrumentId()).
+                                      originEvents;
 
     // [THEN] Amount of events does match expectations
     EXPECT_EQ(result.size(), expectedSize);
@@ -634,7 +701,8 @@ TEST_F(Engraving_PlaybackModelTests, Pizz_To_Arco_Technique)
     const mpe::NoteEvent& firstNoteEvent = std::get<mpe::NoteEvent>(result.at(0).at(0));
     EXPECT_EQ(firstNoteEvent.expressionCtx().articulations.size(), 2);
     EXPECT_TRUE(firstNoteEvent.expressionCtx().articulations.contains(ArticulationType::Pizzicato));
-    EXPECT_TRUE(firstNoteEvent.expressionCtx().articulations.contains(ArticulationType::Staccatissimo));
+    EXPECT_TRUE(firstNoteEvent.expressionCtx().articulations.contains(ArticulationType::
+                                                                      Staccatissimo));
 
     // [THEN] The second note has only Pizzicato articulation applied
     const mpe::NoteEvent& secondNoteEvent = std::get<mpe::NoteEvent>(result.at(500000).at(0));
@@ -663,7 +731,8 @@ TEST_F(Engraving_PlaybackModelTests, Pizz_To_Arco_Technique)
 TEST_F(Engraving_PlaybackModelTests, FallbackToStandardArticulation)
 {
     // [GIVEN] Simple piece of score (Winds + Voice, 4/4, 120 bpm, Treble Cleff)
-    Score* score = ScoreRW::readScore(PLAYBACK_MODEL_TEST_FILES_DIR + "wrong_articulations/wrong_articulations.mscx");
+    Score* score = ScoreRW::readScore(
+        PLAYBACK_MODEL_TEST_FILES_DIR + "wrong_articulations/wrong_articulations.mscx");
 
     ASSERT_TRUE(score);
     ASSERT_EQ(score->parts().size(), 2);
@@ -740,7 +809,8 @@ TEST_F(Engraving_PlaybackModelTests, FallbackToStandardArticulation)
 TEST_F(Engraving_PlaybackModelTests, Single_Measure_Repeat)
 {
     // [GIVEN] Simple piece of score (Violin, 4/4, 120 bpm, Treble Cleff)
-    Score* score = ScoreRW::readScore(PLAYBACK_MODEL_TEST_FILES_DIR + "single_measure_repeat/single_measure_repeat.mscx");
+    Score* score = ScoreRW::readScore(
+        PLAYBACK_MODEL_TEST_FILES_DIR + "single_measure_repeat/single_measure_repeat.mscx");
 
     ASSERT_TRUE(score);
     ASSERT_EQ(score->parts().size(), 1);
@@ -760,7 +830,9 @@ TEST_F(Engraving_PlaybackModelTests, Single_Measure_Repeat)
     model.profilesRepository.set(m_repositoryMock);
     model.load(score);
 
-    const PlaybackEventsMap& result = model.resolveTrackPlaybackData(part->id(), part->instrumentId()).originEvents;
+    const PlaybackEventsMap& result = model.resolveTrackPlaybackData(part->id(),
+                                                                     part->instrumentId()).
+                                      originEvents;
 
     // [THEN] Amount of events does match expectations
     EXPECT_EQ(result.size(), expectedSize);
@@ -777,7 +849,8 @@ TEST_F(Engraving_PlaybackModelTests, Single_Measure_Repeat)
 TEST_F(Engraving_PlaybackModelTests, Multi_Measure_Repeat)
 {
     // [GIVEN] Simple piece of score (Violin, 4/4, 120 bpm, Treble Cleff)
-    Score* score = ScoreRW::readScore(PLAYBACK_MODEL_TEST_FILES_DIR + "multi_measure_repeat/multi_measure_repeat.mscx");
+    Score* score = ScoreRW::readScore(
+        PLAYBACK_MODEL_TEST_FILES_DIR + "multi_measure_repeat/multi_measure_repeat.mscx");
 
     ASSERT_TRUE(score);
     ASSERT_EQ(score->parts().size(), 1);
@@ -797,7 +870,9 @@ TEST_F(Engraving_PlaybackModelTests, Multi_Measure_Repeat)
     model.profilesRepository.set(m_repositoryMock);
     model.load(score);
 
-    const PlaybackEventsMap& result = model.resolveTrackPlaybackData(part->id(), part->instrumentId()).originEvents;
+    const PlaybackEventsMap& result = model.resolveTrackPlaybackData(part->id(),
+                                                                     part->instrumentId()).
+                                      originEvents;
 
     // [THEN] Amount of events does match expectations
     EXPECT_EQ(result.size(), expectedSize);
@@ -806,7 +881,8 @@ TEST_F(Engraving_PlaybackModelTests, Multi_Measure_Repeat)
 //! See: https://github.com/musescore/MuseScore/issues/29051
 TEST_F(Engraving_PlaybackModelTests, MeasureRepeat_TiedNotes)
 {
-    Score* score = ScoreRW::readScore(PLAYBACK_MODEL_TEST_FILES_DIR + "measure_repeat_tied_notes.mscx");
+    Score* score = ScoreRW::readScore(
+        PLAYBACK_MODEL_TEST_FILES_DIR + "measure_repeat_tied_notes.mscx");
     ASSERT_TRUE(score);
     ASSERT_EQ(score->parts().size(), 1);
 
@@ -824,7 +900,9 @@ TEST_F(Engraving_PlaybackModelTests, MeasureRepeat_TiedNotes)
     model.setPlayRepeats(true);
     model.load(score);
 
-    const PlaybackEventsMap& result = model.resolveTrackPlaybackData(part->id(), part->instrumentId()).originEvents;
+    const PlaybackEventsMap& result = model.resolveTrackPlaybackData(part->id(),
+                                                                     part->instrumentId()).
+                                      originEvents;
 
     // [THEN] Expected timestamps & durations
     constexpr duration_t expectedDuration = HALF_NOTE_DURATION + HALF_NOTE_DURATION; // 2 tied half notes
@@ -878,7 +956,8 @@ TEST_F(Engraving_PlaybackModelTests, MeasureRepeat_TiedNotes)
 TEST_F(Engraving_PlaybackModelTests, SimpleRepeat_Changes_Notification)
 {
     // [GIVEN] Simple piece of score (Violin, 4/4, 120 bpm, Treble Cleff)
-    Score* score = ScoreRW::readScore(PLAYBACK_MODEL_TEST_FILES_DIR + "repeat_range/repeat_range.mscx");
+    Score* score = ScoreRW::readScore(
+        PLAYBACK_MODEL_TEST_FILES_DIR + "repeat_range/repeat_range.mscx");
 
     ASSERT_TRUE(score);
     ASSERT_EQ(score->parts().size(), 1);
@@ -909,7 +988,9 @@ TEST_F(Engraving_PlaybackModelTests, SimpleRepeat_Changes_Notification)
     model.setSendEventsOnScoreChange(trackId, true);
 
     // [THEN] Updated events map will match our expectations
-    result.mainStream.onReceive(this, [&receivedEventCount](const PlaybackEventsMap& updatedEvents, const DynamicLevelLayers&) {
+    result.mainStream.onReceive(this,
+                                [&receivedEventCount](const PlaybackEventsMap& updatedEvents,
+                                                      const DynamicLevelLayers&) {
         receivedEventCount = updatedEvents.size();
     });
 
@@ -966,7 +1047,9 @@ TEST_F(Engraving_PlaybackModelTests, SimpleRepeat_Changes_Notification)
  */
 TEST_F(Engraving_PlaybackModelTests, TempoChangesDuringNotes)
 {
-    Score* score = ScoreRW::readScore(PLAYBACK_MODEL_TEST_FILES_DIR + "tempo_changes_during_notes/tempo_changes_during_notes.mscx");
+    Score* score = ScoreRW::readScore(
+        PLAYBACK_MODEL_TEST_FILES_DIR
+        + "tempo_changes_during_notes/tempo_changes_during_notes.mscx");
 
     ASSERT_TRUE(score);
     ASSERT_EQ(score->parts().size(), 1);
@@ -987,17 +1070,22 @@ TEST_F(Engraving_PlaybackModelTests, TempoChangesDuringNotes)
     model.profilesRepository.set(m_repositoryMock);
     model.load(score);
 
-    const PlaybackEventsMap& result = model.resolveTrackPlaybackData(part->id(), part->instrumentId()).originEvents;
+    const PlaybackEventsMap& result = model.resolveTrackPlaybackData(part->id(),
+                                                                     part->instrumentId()).
+                                      originEvents;
 
     // [GIVEN] Expected events durations
-    auto quarterAtTempo = [](double tempo) { return static_cast<duration_t>(QUARTER_NOTE_DURATION / (tempo / 120.0)); };
+    auto quarterAtTempo = [](double tempo) {
+        return static_cast<duration_t>(QUARTER_NOTE_DURATION / (tempo / 120.0));
+    };
 
     const std::vector<duration_t> expectedDurations {
         // Tied note of two measures long, with tempo changes in the middle of it
         2 * quarterAtTempo(100) + 4 * quarterAtTempo(10) + 2 * quarterAtTempo(100),
 
         // Tied note of two measures long, with ritenuto over it
-        quarterAtTempo(100) + quarterAtTempo(95) + quarterAtTempo(90) + quarterAtTempo(85) + quarterAtTempo(80) + quarterAtTempo(75)
+        quarterAtTempo(100) + quarterAtTempo(95) + quarterAtTempo(90) + quarterAtTempo(85)
+        + quarterAtTempo(80) + quarterAtTempo(75)
         + quarterAtTempo(70) + quarterAtTempo(65),
 
         // Tied note of two measures long, with tempo changes in the middle of it, with eighth notes tremolo
@@ -1038,7 +1126,8 @@ TEST_F(Engraving_PlaybackModelTests, TempoChangesDuringNotes)
 
         // Same as beginning, but now with pedal
         2 * quarterAtTempo(100) + 4 * quarterAtTempo(10) + 2 * quarterAtTempo(100),
-        quarterAtTempo(100) + quarterAtTempo(95) + quarterAtTempo(90) + quarterAtTempo(85) + quarterAtTempo(80) + quarterAtTempo(75)
+        quarterAtTempo(100) + quarterAtTempo(95) + quarterAtTempo(90) + quarterAtTempo(85)
+        + quarterAtTempo(80) + quarterAtTempo(75)
         + quarterAtTempo(70) + quarterAtTempo(65),
     };
 
@@ -1055,25 +1144,30 @@ TEST_F(Engraving_PlaybackModelTests, TempoChangesDuringNotes)
     size_t index = 0;
     for (const auto& pair : result) {
         for (const auto& event : pair.second) {
-            SCOPED_TRACE("event " + std::to_string(index) + " at timestamp " + std::to_string(pair.first));
+            SCOPED_TRACE("event " + std::to_string(index) + " at timestamp "
+                         + std::to_string(pair.first));
 
             ASSERT_TRUE(index < expectedDurations.size());
 
             ASSERT_TRUE(std::holds_alternative<mpe::NoteEvent>(event));
             const mpe::NoteEvent& noteEvent = std::get<mpe::NoteEvent>(event);
 
-            EXPECT_TRUE(approxEqual(noteEvent.arrangementCtx().nominalDuration, expectedDurations.at(index)));
+            EXPECT_TRUE(approxEqual(noteEvent.arrangementCtx().nominalDuration,
+                                    expectedDurations.at(index)));
 
             if (index >= expectedDurations.size() - 2) { // For the last two notes
                 // [THEN] Expect Pedal to be present
                 EXPECT_EQ(noteEvent.expressionCtx().articulations.size(), 1);
 
-                const ArticulationMap::PairType& articulation = *noteEvent.expressionCtx().articulations.cbegin();
+                const ArticulationMap::PairType& articulation
+                    = *noteEvent.expressionCtx().articulations.cbegin();
 
                 // and have same length as note
                 EXPECT_EQ(articulation.first, ArticulationType::Pedal);
-                EXPECT_TRUE(approxEqual(articulation.second.meta.timestamp, noteEvent.arrangementCtx().nominalTimestamp));
-                EXPECT_TRUE(approxEqual(articulation.second.meta.overallDuration, noteEvent.arrangementCtx().nominalDuration));
+                EXPECT_TRUE(approxEqual(articulation.second.meta.timestamp,
+                                        noteEvent.arrangementCtx().nominalTimestamp));
+                EXPECT_TRUE(approxEqual(articulation.second.meta.overallDuration,
+                                        noteEvent.arrangementCtx().nominalDuration));
             }
 
             ++index;
@@ -1093,7 +1187,8 @@ TEST_F(Engraving_PlaybackModelTests, TempoChangesDuringNotes)
 TEST_F(Engraving_PlaybackModelTests, Metronome_4_4)
 {
     // [GIVEN] Simple piece of score (Violin, 4/4, 120 bpm, Treble Cleff)
-    Score* score = ScoreRW::readScore(PLAYBACK_MODEL_TEST_FILES_DIR + "metronome_4_4/metronome_4_4.mscx");
+    Score* score = ScoreRW::readScore(
+        PLAYBACK_MODEL_TEST_FILES_DIR + "metronome_4_4/metronome_4_4.mscx");
 
     ASSERT_TRUE(score);
     ASSERT_EQ(score->parts().size(), 1);
@@ -1114,7 +1209,8 @@ TEST_F(Engraving_PlaybackModelTests, Metronome_4_4)
     model.setIsMetronomeEnabled(true);
     model.load(score);
 
-    const PlaybackEventsMap& eventsWhenMetronomeEnabled = model.resolveTrackPlaybackData(model.metronomeTrackId()).originEvents;
+    const PlaybackEventsMap& eventsWhenMetronomeEnabled = model.resolveTrackPlaybackData(
+        model.metronomeTrackId()).originEvents;
 
     // [THEN] Amount of events does match expectations
     EXPECT_EQ(eventsWhenMetronomeEnabled.size(), expectedSize);
@@ -1133,7 +1229,8 @@ TEST_F(Engraving_PlaybackModelTests, Metronome_4_4)
     score->changesChannel().send(changes);
 
     // [THEN] Amount of events does match expectations
-    const PlaybackEventsMap& eventsAfterScoreChange = model.resolveTrackPlaybackData(model.metronomeTrackId()).originEvents;
+    const PlaybackEventsMap& eventsAfterScoreChange = model.resolveTrackPlaybackData(
+        model.metronomeTrackId()).originEvents;
     EXPECT_EQ(eventsAfterScoreChange.size(), expectedSize);
     for (const auto& [timestamp, list] : eventsAfterScoreChange) {
         EXPECT_EQ(list.size(), 1);
@@ -1143,7 +1240,8 @@ TEST_F(Engraving_PlaybackModelTests, Metronome_4_4)
     model.setIsMetronomeEnabled(false);
     model.reload();
 
-    const PlaybackEventsMap& eventsWhenMetronomeDisabled = model.resolveTrackPlaybackData(model.metronomeTrackId()).originEvents;
+    const PlaybackEventsMap& eventsWhenMetronomeDisabled = model.resolveTrackPlaybackData(
+        model.metronomeTrackId()).originEvents;
 
     // [THEN] No Metronome events
     EXPECT_TRUE(eventsWhenMetronomeDisabled.empty());
@@ -1181,7 +1279,8 @@ TEST_F(Engraving_PlaybackModelTests, Metronome_6_4_Repeat)
     model.setIsMetronomeEnabled(true);
     model.load(score);
 
-    const PlaybackEventsMap& result = model.resolveTrackPlaybackData(model.metronomeTrackId()).originEvents;
+    const PlaybackEventsMap& result
+        = model.resolveTrackPlaybackData(model.metronomeTrackId()).originEvents;
 
     // [THEN] Amount of events does match expectations
     EXPECT_EQ(result.size(), expectedSize);
@@ -1233,19 +1332,24 @@ TEST_F(Engraving_PlaybackModelTests, Note_Entry_Playback_Note)
     PlaybackData result = model.resolveTrackPlaybackData(part->id(), part->instrumentId());
 
     // [GIVEN] Expected note event
-    const mpe::NoteEvent& expectedEvent = std::get<mpe::NoteEvent>(result.originEvents.at(firstNoteTimestamp).front());
+    const mpe::NoteEvent& expectedEvent
+        = std::get<mpe::NoteEvent>(result.originEvents.at(firstNoteTimestamp).front());
 
     // [THEN] Triggered events map will match our expectations
-    result.offStream.onReceive(this, [firstNoteTimestamp, expectedEvent](const PlaybackEventsMap& triggeredEvents,
-                                                                         const DynamicLevelLayers& triggeredDynamics,
-                                                                         bool flushOffstream) {
+    result.offStream.onReceive(this,
+                               [firstNoteTimestamp,
+                                expectedEvent](const PlaybackEventsMap& triggeredEvents,
+                                               const DynamicLevelLayers&
+                                               triggeredDynamics,
+                                               bool flushOffstream) {
         ASSERT_EQ(triggeredEvents.size(), 1);
         const PlaybackEventList& eventList = triggeredEvents.at(firstNoteTimestamp);
 
         ASSERT_EQ(eventList.size(), 1);
         const mpe::NoteEvent& noteEvent = std::get<mpe::NoteEvent>(eventList.front());
 
-        EXPECT_EQ(noteEvent.arrangementCtx().actualTimestamp, expectedEvent.arrangementCtx().actualTimestamp);
+        EXPECT_EQ(noteEvent.arrangementCtx().actualTimestamp,
+                  expectedEvent.arrangementCtx().actualTimestamp);
         EXPECT_EQ(noteEvent.expressionCtx(), expectedEvent.expressionCtx());
         EXPECT_EQ(noteEvent.pitchCtx(), expectedEvent.pitchCtx());
 
@@ -1293,7 +1397,8 @@ TEST_F(Engraving_PlaybackModelTests, Note_Entry_Playback_Chord)
     int thirdChordPositionTick = 480 * 2;
     timestamp_t thirdChordTimestamp = 500000 * 2;
 
-    const Chord* thirdChord = firstMeasure->findChord(Fraction::fromTicks(thirdChordPositionTick), 0);
+    const Chord* thirdChord
+        = firstMeasure->findChord(Fraction::fromTicks(thirdChordPositionTick), 0);
     ASSERT_TRUE(thirdChord);
     ASSERT_TRUE(thirdChord->notes().size() == expectedNoteCount);
 
@@ -1356,7 +1461,8 @@ TEST_F(Engraving_PlaybackModelTests, Playback_Setup_Data_MultiInstrument)
 {
     // [GIVEN] Score with 12 instruments
     Score* score = ScoreRW::readScore(
-        PLAYBACK_MODEL_TEST_FILES_DIR + "playback_setup_instruments/playback_setup_instruments.mscx");
+        PLAYBACK_MODEL_TEST_FILES_DIR
+        + "playback_setup_instruments/playback_setup_instruments.mscx");
 
     ASSERT_TRUE(score);
     ASSERT_EQ(score->parts().size(), 12);
@@ -1365,27 +1471,44 @@ TEST_F(Engraving_PlaybackModelTests, Playback_Setup_Data_MultiInstrument)
 
     // [GIVEN] Expected setup data for each instrument
     std::unordered_map<String, mpe::PlaybackSetupData> expectedSetupData = {
-        { u"sopranissimo-saxophone", { SoundId::Saxophone, SoundCategory::Winds, { SoundSubCategory::Sopranissimo }, supportsSND } },
-        { u"marching-tenor-drums", { SoundId::Drum, SoundCategory::Percussions, { SoundSubCategory::Marching,
-                                                                                  SoundSubCategory::Snare,
-                                                                                  SoundSubCategory::Tenor } } },
+        { u"sopranissimo-saxophone",
+          { SoundId::Saxophone, SoundCategory::Winds, { SoundSubCategory::Sopranissimo },
+            supportsSND } },
+        { u"marching-tenor-drums",
+          { SoundId::Drum, SoundCategory::Percussions, { SoundSubCategory::Marching,
+                                                         SoundSubCategory::
+                                                         Snare,
+                                                         SoundSubCategory::
+                                                         Tenor } } },
         { u"hand-clap", { SoundId::Clap, SoundCategory::Percussions, { SoundSubCategory::Hand } } },
         { u"guitar-steel", { SoundId::Guitar, SoundCategory::Strings, { SoundSubCategory::Acoustic,
                                                                         SoundSubCategory::Steel,
                                                                         SoundSubCategory::Plucked } } },
-        { u"bass-steel-drums", { SoundId::SteelDrums, SoundCategory::Percussions, { SoundSubCategory::Metal,
-                                                                                    SoundSubCategory::Steel,
-                                                                                    SoundSubCategory::Bass } } },
-        { u"alto-viol", { SoundId::Viol, SoundCategory::Strings, { SoundSubCategory::Alto }, supportsSND } },
-        { u"f-wagner-tuba", { SoundId::Tuba, SoundCategory::Winds, { SoundSubCategory::Wagner }, supportsSND } },
-        { u"bass-harmonica-hohner", { SoundId::Harmonica, SoundCategory::Winds, { SoundSubCategory::Bass,
-                                                                                  SoundSubCategory::Hohner }, supportsSND } },
-        { u"chinese-tom-toms", { SoundId::TomToms, SoundCategory::Percussions, { SoundSubCategory::Chinese } } },
-        { u"electric-piano", { SoundId::Piano, SoundCategory::Keyboards, { SoundSubCategory::Electric } } },
-        { u"crystal-synth", { SoundId::Synthesizer, SoundCategory::Keyboards, { SoundSubCategory::Electric,
-                                                                                SoundSubCategory::FX_Crystal }, supportsSND } },
+        { u"bass-steel-drums",
+          { SoundId::SteelDrums, SoundCategory::Percussions, { SoundSubCategory::Metal,
+                                                               SoundSubCategory
+                                                               ::Steel,
+                                                               SoundSubCategory
+                                                               ::Bass } } },
+        { u"alto-viol",
+          { SoundId::Viol, SoundCategory::Strings, { SoundSubCategory::Alto }, supportsSND } },
+        { u"f-wagner-tuba",
+          { SoundId::Tuba, SoundCategory::Winds, { SoundSubCategory::Wagner }, supportsSND } },
+        { u"bass-harmonica-hohner",
+          { SoundId::Harmonica, SoundCategory::Winds, { SoundSubCategory::Bass,
+                                                        SoundSubCategory::
+                                                        Hohner }, supportsSND } },
+        { u"chinese-tom-toms",
+          { SoundId::TomToms, SoundCategory::Percussions, { SoundSubCategory::Chinese } } },
+        { u"electric-piano",
+          { SoundId::Piano, SoundCategory::Keyboards, { SoundSubCategory::Electric } } },
+        { u"crystal-synth",
+          { SoundId::Synthesizer, SoundCategory::Keyboards, { SoundSubCategory::Electric,
+                                                              SoundSubCategory::
+                                                              FX_Crystal }, supportsSND } },
         { u"boy-soprano", { SoundId::Choir, SoundCategory::Voices, { SoundSubCategory::Soprano,
-                                                                     SoundSubCategory::Boy }, supportsSND } },
+                                                                     SoundSubCategory::Boy },
+                            supportsSND } },
     };
 
     // [WHEN] The articulation profiles repository will be returning profiles for StringsArticulation family

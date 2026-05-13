@@ -246,7 +246,8 @@ void EditStaff::updateInstrument()
     useCustomIndividualName->setChecked(instrLabel.useCustomIndividualName());
     customIndividualNameGroupbox->setEnabled(instrLabel.useCustomIndividualName());
     customLongNameIndividual->setPlainText(TextBase::unEscape(instrLabel.customNameLongIndividual()));
-    customShortNameIndividual->setPlainText(TextBase::unEscape(instrLabel.customNameShortIndividual()));
+    customShortNameIndividual->setPlainText(TextBase::unEscape(
+                                                instrLabel.customNameShortIndividual()));
 
     const InstrumentTemplate* templ = mu::engraving::searchTemplate(m_instrument.id());
     if (templ) {
@@ -517,7 +518,8 @@ void EditStaff::initStaff()
 {
     const INotationPtr notation = this->notation();
     const INotationInteractionPtr interaction = notation ? notation->interaction() : nullptr;
-    auto context = interaction ? interaction->hitElementContext() : INotationInteraction::HitElementContext();
+    auto context
+        = interaction ? interaction->hitElementContext() : INotationInteraction::HitElementContext();
     const EngravingItem* element = context.element;
     Staff* staff = context.staff;
 
@@ -542,7 +544,8 @@ void EditStaff::initStaff()
     } else if (element->isMeasure()) {
         tick = mu::engraving::toMeasure(element)->tick();
     } else if (element->isInstrumentName()) {
-        const mu::engraving::System* system = mu::engraving::toSystem(mu::engraving::toInstrumentName(element)->explicitParent());
+        const mu::engraving::System* system = mu::engraving::toSystem(mu::engraving::toInstrumentName(
+                                                                          element)->explicitParent());
         const Measure* measure = system ? system->firstMeasure() : nullptr;
         staff = element->staff();
 
@@ -584,7 +587,9 @@ std::vector<InstrumentKey> EditStaff::otherInstrumentsInSameGroup() const
         return {};
     }
 
-    const std::unordered_map<Part*, InstrumentName*>& partsWithGroupName = system->ldata()->partsWithGroupName();
+    const std::unordered_map<Part*,
+                             InstrumentName*>& partsWithGroupName
+        = system->ldata()->partsWithGroupName();
     if (!muse::contains(partsWithGroupName, part)) {
         return {};
     }
@@ -604,7 +609,8 @@ std::vector<InstrumentKey> EditStaff::otherInstrumentsInSameGroup() const
             InstrumentKey key;
             key.instrumentId = instrument->id();
             key.partId = p->id();
-            key.tick = Fraction::fromTicks(muse::findLessOrEqual(p->instruments(), m_tick.ticks())->first);
+            key.tick = Fraction::fromTicks(muse::findLessOrEqual(p->instruments(),
+                                                                 m_tick.ticks())->first);
             result.push_back(key);
         }
     }
@@ -638,7 +644,8 @@ void EditStaff::applyPartProperties()
     if (!mu::engraving::Text::validateText(_sn) || !mu::engraving::Text::validateText(_ln)
         || !mu::engraving::Text::validateText(_ssn) || !mu::engraving::Text::validateText(_lsn)) {
         interactive()->warning(muse::trc("notation/staffpartproperties", "Invalid instrument name"),
-                               muse::trc("notation/staffpartproperties", "The instrument name is invalid."));
+                               muse::trc("notation/staffpartproperties",
+                                         "The instrument name is invalid."));
         return;
     }
 
@@ -691,9 +698,11 @@ void EditStaff::applyPartProperties()
     name.setCustomNameLongIndividual(customLongNameIndividual->toPlainText());
     name.setCustomNameShortIndividual(customShortNameIndividual->toPlainText());
 
-    if (name.useCustomGroupName() && (name.customNameLongGroup().empty() || name.customNameShortGroup().empty())) {
+    if (name.useCustomGroupName()
+        && (name.customNameLongGroup().empty() || name.customNameShortGroup().empty())) {
         interactive()->warning(muse::trc("notation/staffpartproperties", "Invalid group name"),
-                               muse::trc("notation/staffpartproperties", "Custom group names cannot be empty."));
+                               muse::trc("notation/staffpartproperties",
+                                         "Custom group names cannot be empty."));
         return;
     }
 
@@ -703,12 +712,16 @@ void EditStaff::applyPartProperties()
     if (m_instrument.id() != prevInstrument.id()) {
         masterNotationParts()->replaceInstrument(m_instrumentKey, m_instrument);
     } else if (m_instrument != prevInstrument) {
-        bool groupNameChanged = name.useCustomGroupName() != prevInstrument.instrumentLabel().useCustomGroupName()
-                                || name.customNameLongGroup() != prevInstrument.instrumentLabel().customNameLongGroup()
-                                || name.customNameShortGroup() != prevInstrument.instrumentLabel().customNameShortGroup();
+        bool groupNameChanged = name.useCustomGroupName()
+                                != prevInstrument.instrumentLabel().useCustomGroupName()
+                                || name.customNameLongGroup()
+                                != prevInstrument.instrumentLabel().customNameLongGroup()
+                                || name.customNameShortGroup()
+                                != prevInstrument.instrumentLabel().customNameShortGroup();
         if (groupNameChanged) {
             notationParts()->setInstrumentGroupNameOptions(otherInstrumentsInSameGroup(),
-                                                           name.useCustomGroupName(), name.customNameLongGroup(),
+                                                           name.useCustomGroupName(),
+                                                           name.customNameLongGroup(),
                                                            name.customNameShortGroup());
         }
         notationParts()->replaceInstrument(m_instrumentKey, m_instrument);
@@ -727,7 +740,8 @@ void EditStaff::applyPartProperties()
 
 void EditStaff::showReplaceInstrumentDialog()
 {
-    async::Promise<InstrumentTemplate> templ = selectInstrumentsScenario()->selectInstrument(m_instrumentKey);
+    async::Promise<InstrumentTemplate> templ = selectInstrumentsScenario()->selectInstrument(
+        m_instrumentKey);
     templ.onResolve(this, [this](const InstrumentTemplate& val) {
         const StaffType* staffType = val.staffTypePreset;
         if (!staffType) {
@@ -787,8 +801,10 @@ void EditStaff::editStringDataClicked()
             m_instrument.setMinPitchP(lowestStringPitch);
 
             // range top should keep the same interval with the highest string it has now
-            m_instrument.setMaxPitchA(m_instrument.maxPitchA() + highestStringPitch - oldHighestStringPitch);
-            m_instrument.setMaxPitchP(m_instrument.maxPitchP() + highestStringPitch - oldHighestStringPitch);
+            m_instrument.setMaxPitchA(
+                m_instrument.maxPitchA() + highestStringPitch - oldHighestStringPitch);
+            m_instrument.setMaxPitchP(
+                m_instrument.maxPitchP() + highestStringPitch - oldHighestStringPitch);
 
             // update dlg controls
             minPitchA->setText(midiCodeToStr(m_instrument.minPitchA()));

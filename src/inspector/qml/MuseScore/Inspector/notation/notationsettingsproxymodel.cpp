@@ -25,7 +25,8 @@
 
 using namespace mu::inspector;
 
-NotationSettingsProxyModel::NotationSettingsProxyModel(QObject* parent, const muse::modularity::ContextPtr& iocCtx,
+NotationSettingsProxyModel::NotationSettingsProxyModel(QObject* parent,
+                                                       const muse::modularity::ContextPtr& iocCtx,
                                                        IElementRepositoryService* repository,
                                                        const ElementKeySet& elementKeySet)
     : AbstractInspectorProxyModel(parent, iocCtx, repository)

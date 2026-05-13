@@ -69,7 +69,9 @@ void WebApi::init()
         m_currentProject = globalContext()->currentProject();
 
         if (m_currentProject) {
-            m_currentProject->saveComplited().onReceive(this, [this](const muse::io::path_t& path, project::SaveMode mode) {
+            m_currentProject->saveComplited().onReceive(this,
+                                                        [this](const muse::io::path_t& path,
+                                                               project::SaveMode mode) {
                 onProjectSaved(path, mode);
             });
         }
@@ -99,7 +101,9 @@ void WebApi::load(const void* source, unsigned int len)
     //! NOTE Write new project
     io::File::writeFile(tempFilePath, data);
 
-    dispatcher()->dispatch("file-open", actions::ActionData::make_arg1(QUrl::fromLocalFile(tempFilePath.toQString())));
+    dispatcher()->dispatch("file-open",
+                           actions::ActionData::make_arg1(QUrl::fromLocalFile(
+                                                              tempFilePath.toQString())));
 }
 
 void WebApi::addSoundFont(const std::string& uri)

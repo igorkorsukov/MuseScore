@@ -30,7 +30,8 @@
 #include "notationscene/iselectinstrumentscenario.h"
 
 namespace mu::instrumentsscene {
-class PartTreeItem : public AbstractLayoutPanelTreeItem, public muse::Contextable, public muse::async::Asyncable
+class PartTreeItem : public AbstractLayoutPanelTreeItem, public muse::Contextable,
+    public muse::async::Asyncable
 {
     Q_OBJECT
 
@@ -41,17 +42,20 @@ class PartTreeItem : public AbstractLayoutPanelTreeItem, public muse::Contextabl
     muse::ContextInject<muse::IInteractive> interactive { this };
 
 public:
-    PartTreeItem(notation::IMasterNotationPtr masterNotation, notation::INotationPtr notation, QObject* parent,
+    PartTreeItem(notation::IMasterNotationPtr masterNotation, notation::INotationPtr notation,
+                 QObject* parent,
                  LayoutPanelItemType::ItemType type = LayoutPanelItemType::ItemType::PART);
 
     virtual void init(const notation::Part* masterPart);
 
     const notation::Part* part() const;
 
-    MoveParams buildMoveParams(int sourceRow, int count, AbstractLayoutPanelTreeItem* destinationParent, int destinationRow) const override;
+    MoveParams buildMoveParams(int sourceRow, int count,
+                               AbstractLayoutPanelTreeItem* destinationParent,
+                               int destinationRow) const override;
 
-    void moveChildren(int sourceRow, int count, AbstractLayoutPanelTreeItem* destinationParent, int destinationRow,
-                      bool updateNotation) override;
+    void moveChildren(int sourceRow, int count, AbstractLayoutPanelTreeItem* destinationParent,
+                      int destinationRow, bool updateNotation) override;
 
     void moveChildrenOnScore(const MoveParams& params) override;
 

@@ -115,7 +115,8 @@ engraving::part_idx_t TablEdit::partIdx(size_t stringIdx, bool& ok) const
     for (const auto& instrument : tefInstruments) {
         upperBound += instrument.stringNumber;
         if (lowerBound <= stringIdx && stringIdx <= upperBound) {
-            LOGN("string %zu lower %zu upper %zu found result %zu", stringIdx, lowerBound, upperBound, result);
+            LOGN("string %zu lower %zu upper %zu found result %zu", stringIdx, lowerBound,
+                 upperBound, result);
             return result;
         }
         ++result;
@@ -213,7 +214,8 @@ static void connectTie(mu::engraving::Chord* chord, Note* note)
             EngravingItem* el = seg->element(track);
             if (el && el->isChord()) {
                 Chord* firstChord = toChord(el);
-                LOGN("firstChord %p tick %d track %zu", firstChord, firstChord->tick().ticks(), track);
+                LOGN("firstChord %p tick %d track %zu", firstChord,
+                     firstChord->tick().ticks(), track);
                 for (Note* firstNote : firstChord->notes()) {
                     LOGN("- string %d", firstNote->string());
                     if (firstNote->string() == note->string()) {
@@ -253,7 +255,8 @@ static String fingeringTextRH(int rightFinger)
     }
 }
 
-static void addNoteToChord(mu::engraving::Chord* chord, const TefNote* tefNote, int stringOffset, int pitch, muse::draw::Color color,
+static void addNoteToChord(mu::engraving::Chord* chord, const TefNote* tefNote, int stringOffset,
+                           int pitch, muse::draw::Color color,
                            std::vector<mu::engraving::Note*>& tiedNotes)
 {
     LOGN("pitch %d", pitch);
@@ -284,7 +287,8 @@ static void addNoteToChord(mu::engraving::Chord* chord, const TefNote* tefNote, 
     }
 }
 
-static void addGraceNotesToChord(mu::engraving::Chord* chord, int pitch, int fret, int string, muse::draw::Color color)
+static void addGraceNotesToChord(mu::engraving::Chord* chord, int pitch, int fret, int string,
+                                 muse::draw::Color color)
 {
     mu::engraving::TDuration durationType(mu::engraving::DurationType::V_INVALID);
     const int ticks { 240 };
@@ -306,7 +310,8 @@ static void addGraceNotesToChord(mu::engraving::Chord* chord, int pitch, int fre
     chord->add(cr);
 }
 
-static void addRest(Segment* segment, track_idx_t track, TDuration tDuration, Fraction length, muse::draw::Color color, bool visible = true)
+static void addRest(Segment* segment, track_idx_t track, TDuration tDuration, Fraction length,
+                    muse::draw::Color color, bool visible = true)
 {
     mu::engraving::Rest* rest = Factory::createRest(segment);
     if (rest) {
@@ -404,7 +409,8 @@ void TablEdit::createContents(const MeasureHandler& measureHandler)
                 } else {
                     LOGN("measure %p", measure);
                 }
-                Segment* segment { measure->getSegment(mu::engraving::SegmentType::ChordRest, tick) };
+                Segment* segment { measure->getSegment(mu::engraving::SegmentType::ChordRest,
+                                                       tick) };
                 if (!segment) {
                     LOGD("error: no segment");
                     continue;
@@ -417,10 +423,12 @@ void TablEdit::createContents(const MeasureHandler& measureHandler)
                 }
 
                 if (firstNote->rest) {
-                    LOGN("    - rest position %d string %d fret %d", firstNote->position, firstNote->string, firstNote->fret);
+                    LOGN("    - rest position %d string %d fret %d", firstNote->position,
+                         firstNote->string, firstNote->fret);
                     addRest(segment, track, tDuration, length, toColor(voice));
                 } else {
-                    LOGN("    - note(s) position %d string %d fret %d", firstNote->position, firstNote->string, firstNote->fret);
+                    LOGN("    - note(s) position %d string %d fret %d", firstNote->position,
+                         firstNote->string, firstNote->fret);
                     mu::engraving::Chord* chord { Factory::createChord(segment) };
                     if (chord) {
                         chord->setTrack(track);
@@ -430,21 +438,28 @@ void TablEdit::createContents(const MeasureHandler& measureHandler)
 
                         const TefInstrument& instrument { tefInstruments.at(part) };
                         if (instrument.stringNumber < 1 || 12 < instrument.stringNumber) {
-                            LOGD("error: invalid instrument.stringNumber %d", instrument.stringNumber);
+                            LOGD("error: invalid instrument.stringNumber %d",
+                                 instrument.stringNumber);
                             continue;
                         }
 
                         for (const auto note : tefNotes) {
                             const auto stringOffset = stringNumberPreviousParts(part);
                             // todo fix magical constant 96 and code duplication
-                            int pitch = 96 - instrument.tuning.at(note->string - stringOffset - 1) + note->fret;
-                            LOGN("      -> string %d fret %d pitch %d", note->string, note->fret, pitch);
+                            int pitch = 96 - instrument.tuning.at(note->string - stringOffset - 1)
+                                        + note->fret;
+                            LOGN("      -> string %d fret %d pitch %d", note->string, note->fret,
+                                 pitch);
                             // note TableEdit's strings start at 1, MuseScore's at 0
-                            addNoteToChord(chord, note, stringOffset, pitch, toColor(voice), tiedNotes);
+                            addNoteToChord(chord, note, stringOffset, pitch, toColor(
+                                               voice), tiedNotes);
                             if (note->hasGrace) {
                                 // todo fix magical constant 96 and code duplication
-                                int gracePitch = 96 - instrument.tuning.at(note->string - stringOffset - 1) + note->graceFret;
-                                addGraceNotesToChord(chord, gracePitch, note->graceFret, note->string - stringOffset - 1, toColor(voice));
+                                int gracePitch = 96 - instrument.tuning.at(
+                                    note->string - stringOffset - 1) + note->graceFret;
+                                addGraceNotesToChord(chord, gracePitch, note->graceFret,
+                                                     note->string - stringOffset - 1,
+                                                     toColor(voice));
                             }
                         }
                         tupletHandler.addCr(measure, chord);
@@ -495,7 +510,8 @@ static Fraction reducedActualLength(const int actual, const int nominalDenominat
         res.setNumerator(res.numerator() / 2);
         res.setDenominator(res.denominator() / 2);
     }
-    LOGN("actual %d nominalDenominator %d res %d/%d", actual, nominalDenominator, res.numerator(), res.denominator());
+    LOGN("actual %d nominalDenominator %d res %d/%d", actual, nominalDenominator,
+         res.numerator(), res.denominator());
     return res;
 }
 
@@ -510,7 +526,9 @@ void TablEdit::createMeasures(const MeasureHandler& measureHandler)
         auto measure = Factory::createMeasure(score->dummy()->system());
         measure->setTick(tick);
         Fraction nominalLength{ tefMeasure.numerator, tefMeasure.denominator };
-        Fraction actualLength{ reducedActualLength(measureHandler.actualSize(tefMeasures, idx), tefMeasure.denominator) };
+        Fraction actualLength{ reducedActualLength(measureHandler.actualSize(tefMeasures,
+                                                                             idx),
+                                                   tefMeasure.denominator) };
         measure->setTimesig(nominalLength);
         measure->setTicks(actualLength);
         measure->setEndBarLineType(BarLineType::NORMAL, 0);
@@ -672,7 +690,8 @@ static void setInstrumentIDs(const std::vector<Part*>& parts)
 
 // Fill one gap (tstart - tend) in this track in this measure with rest(s).
 
-static void fillGap(Measure* measure, track_idx_t track, const Fraction& tstart, const Fraction& tend)
+static void fillGap(Measure* measure, track_idx_t track, const Fraction& tstart,
+                    const Fraction& tend)
 {
     Fraction ctick = tstart;
     Fraction restLen = tend - tstart;
@@ -681,7 +700,8 @@ static void fillGap(Measure* measure, track_idx_t track, const Fraction& tstart,
     auto durList = toDurationList(restLen, true);
     LOGN("durList.size %zu", durList.size());
     for (const auto& dur : durList) {
-        LOGN("type %d dots %d fraction %d/%d", static_cast<int>(dur.type()), dur.dots(), dur.fraction().numerator(),
+        LOGN("type %d dots %d fraction %d/%d", static_cast<int>(dur.type()),
+             dur.dots(), dur.fraction().numerator(),
              dur.fraction().denominator());
         Segment* s = measure->getSegment(SegmentType::ChordRest, ctick);
         addRest(s, track, dur, dur.fraction(), muse::draw::Color::BLACK, false);
@@ -751,12 +771,15 @@ void TablEdit::createScore()
 void TablEdit::createTempo()
 {
     mu::engraving::Measure* measure = score->firstMeasure();
-    mu::engraving::Segment* segment = measure->getSegment(mu::engraving::SegmentType::ChordRest, mu::engraving::Fraction(0, 1));
+    mu::engraving::Segment* segment = measure->getSegment(mu::engraving::SegmentType::ChordRest, mu::engraving::Fraction(
+                                                              0,
+                                                              1));
     mu::engraving::TempoText* tt = new mu::engraving::TempoText(segment);
     tt->setTempo(double(tefHeader.tempo) / 60.0);
     tt->setTrack(0);
     tt->setFollowText(true);
-    muse::String tempoText = mu::engraving::TempoText::duration2tempoTextString(mu::engraving::DurationType::V_QUARTER);
+    muse::String tempoText = mu::engraving::TempoText::duration2tempoTextString(
+        mu::engraving::DurationType::V_QUARTER);
     tempoText += u" = ";
     tempoText += muse::String::number(tefHeader.tempo);
     tt->setXmlText(tempoText);
@@ -766,7 +789,8 @@ void TablEdit::createTempo()
 void TablEdit::createTexts()
 {
     for (const auto& textMarker : tefTextMarkers) {
-        LOGN("position %d string %d text marker %d", textMarker.position, textMarker.string, textMarker.index);
+        LOGN("position %d string %d text marker %d", textMarker.position, textMarker.string,
+             textMarker.index);
         bool ok { true };
         const auto part = partIdx(textMarker.string, ok);
         if (!ok) {
@@ -1168,7 +1192,8 @@ Err TablEdit::import()
     readTefInstruments();
     for (const auto& instrument : tefInstruments) {
         LOGN("stringNumber %d firstString %d midiVoice %d midiBank %d",
-             instrument.stringNumber, instrument.firstString, instrument.midiVoice, instrument.midiBank);
+             instrument.stringNumber, instrument.firstString, instrument.midiVoice,
+             instrument.midiBank);
     }
     readTefReadingList();
     for (const auto& item : tefReadingList) {
@@ -1176,13 +1201,15 @@ Err TablEdit::import()
     }
     readTefContents();
     for (const auto& note : tefContents) {
-        LOGN("position %d rest %d string %d fret %d duration %d length %d dots %d tie %d triplet %d voice %d",
-             note.position, note.rest, note.string, note.fret,
-             note.duration, note.length, note.dots,
-             note.tie, note.triplet, static_cast<int>(note.voice));
+        LOGN(
+            "position %d rest %d string %d fret %d duration %d length %d dots %d tie %d triplet %d voice %d",
+            note.position, note.rest, note.string, note.fret,
+            note.duration, note.length, note.dots,
+            note.tie, note.triplet, static_cast<int>(note.voice));
     }
     for (const auto& textMarker : tefTextMarkers) {
-        LOGN("position %d string %d text marker %d", textMarker.position, textMarker.string, textMarker.index);
+        LOGN("position %d string %d text marker %d", textMarker.position, textMarker.string,
+             textMarker.index);
     }
     createScore();
     return Err::NoError;

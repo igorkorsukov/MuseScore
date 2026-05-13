@@ -29,12 +29,18 @@ class MeasureRepeatModel : public AbstractStyleDialogModel
 {
     Q_OBJECT
 
-    Q_PROPERTY(mu::notation::StyleItem * measureRepeatNumberPos READ measureRepeatNumberPos CONSTANT)
+    Q_PROPERTY(mu::notation::StyleItem
+               * measureRepeatNumberPos READ measureRepeatNumberPos CONSTANT)
     Q_PROPERTY(mu::notation::StyleItem * mrNumberSeries READ mrNumberSeries CONSTANT)
     Q_PROPERTY(mu::notation::StyleItem * oneMeasureRepeatShow1 READ oneMeasureRepeatShow1 CONSTANT)
-    Q_PROPERTY(mu::notation::StyleItem * fourMeasureRepeatShowExtenders READ fourMeasureRepeatShowExtenders CONSTANT)
-    Q_PROPERTY(mu::notation::StyleItem * mrNumberEveryXMeasures READ mrNumberEveryXMeasures CONSTANT)
-    Q_PROPERTY(mu::notation::StyleItem * mrNumberSeriesWithParentheses READ mrNumberSeriesWithParentheses CONSTANT)
+    Q_PROPERTY(
+        mu::notation::StyleItem
+        * fourMeasureRepeatShowExtenders READ fourMeasureRepeatShowExtenders CONSTANT)
+    Q_PROPERTY(mu::notation::StyleItem
+               * mrNumberEveryXMeasures READ mrNumberEveryXMeasures CONSTANT)
+    Q_PROPERTY(
+        mu::notation::StyleItem
+        * mrNumberSeriesWithParentheses READ mrNumberSeriesWithParentheses CONSTANT)
 
     QML_ELEMENT
 

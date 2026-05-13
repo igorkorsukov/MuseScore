@@ -56,7 +56,8 @@ muse::Ret VideoWriter::write(INotationProjectPtr, QIODevice&, const Options&)
     return make_ret(muse::Ret::Code::NotSupported);
 }
 
-muse::Ret VideoWriter::write(INotationProjectPtr project, const muse::io::path_t& filePath, const Options&)
+muse::Ret VideoWriter::write(INotationProjectPtr project, const muse::io::path_t& filePath,
+                             const Options&)
 {
     Config cfg;
 
@@ -111,19 +112,23 @@ muse::Ret VideoWriter::write(INotationProjectPtr project, const muse::io::path_t
     return ret;
 }
 
-muse::Ret VideoWriter::generatePagedOriginalVideo(INotationProjectPtr project, const muse::io::path_t& filePath, const Config& config)
+muse::Ret VideoWriter::generatePagedOriginalVideo(INotationProjectPtr project,
+                                                  const muse::io::path_t& filePath,
+                                                  const Config& config)
 {
     // --score-video -o ./simple5.mp4 ./simple5.mscz
 
     VideoEncoder encoder;
-    if (!encoder.open(filePath, config.width, config.height, config.bitrate, config.fps / 2, config.fps)) {
+    if (!encoder.open(filePath, config.width, config.height, config.bitrate, config.fps / 2,
+                      config.fps)) {
         LOGE() << "failed open encoder";
         return make_ret(muse::Ret::Code::UnknownError);
     }
 
     IMasterNotationPtr masterNotation = project->masterNotation();
 
-    engraving::MasterScore* score = masterNotation->notation()->elements()->msScore()->masterScore();
+    engraving::MasterScore* score
+        = masterNotation->notation()->elements()->msScore()->masterScore();
 
     // Setup Score view
     masterNotation->notation()->setViewMode(notation::ViewMode::PAGE);
@@ -156,7 +161,8 @@ muse::Ret VideoWriter::generatePagedOriginalVideo(INotationProjectPtr project, c
 
     score->style().set(engraving::Sid::pageHeight, config.height / CANVAS_DPI);
     score->style().set(engraving::Sid::pageWidth, config.width / CANVAS_DPI);
-    score->style().set(engraving::Sid::pagePrintableWidth, score->style().styleD(engraving::Sid::pageWidth)
+    score->style().set(engraving::Sid::pagePrintableWidth,
+                       score->style().styleD(engraving::Sid::pageWidth)
                        - score->style().styleD(engraving::Sid::pageOddLeftMargin)
                        - score->style().styleD(engraving::Sid::pageEvenLeftMargin));
 

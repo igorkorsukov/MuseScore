@@ -48,14 +48,16 @@ static bool isSubdivided(const ChordRest* chord, int swingUnit)
     }
 
     const ChordRest* prev = prevChordRest(chord);
-    if (chord->actualTicks().ticks() < swingUnit || (prev && prev->actualTicks().ticks() < swingUnit)) {
+    if (chord->actualTicks().ticks() < swingUnit
+        || (prev && prev->actualTicks().ticks() < swingUnit)) {
         return true;
     }
 
     return false;
 }
 
-void Swing::swingAdjustParams(const Chord* chord, const SwingParameters& params, int& onTime, int& gateTime)
+void Swing::swingAdjustParams(const Chord* chord, const SwingParameters& params, int& onTime,
+                              int& gateTime)
 {
     Fraction tick = chord->rtick() + chord->measure()->anacrusisOffset();
 

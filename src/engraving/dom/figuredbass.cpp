@@ -172,8 +172,10 @@ bool FiguredBassItem::parse(String& str)
     // prefix, digit, suffix and cont.line cannot be ALL empty
     // suffix cannot combine with empty digit
     if ((m_prefix != Modifier::NONE && m_suffix != Modifier::NONE)
-        || (m_prefix == Modifier::NONE && m_digit == FBIDigitNone && m_suffix == Modifier::NONE && m_contLine == ContLine::NONE)
-        || ((m_suffix == Modifier::CROSS || m_suffix == Modifier::BACKSLASH || m_suffix == Modifier::SLASH)
+        || (m_prefix == Modifier::NONE && m_digit == FBIDigitNone && m_suffix == Modifier::NONE
+            && m_contLine == ContLine::NONE)
+        || ((m_suffix == Modifier::CROSS || m_suffix == Modifier::BACKSLASH
+             || m_suffix == Modifier::SLASH)
             && m_digit == FBIDigitNone)) {
         return false;
     }
@@ -953,7 +955,8 @@ void FiguredBass::addItemToLinked(FiguredBassItem* item)
 //    FiguredBass elements are created and looked for only in the first track of the staff.
 //---------------------------------------------------------
 
-FiguredBass* FiguredBass::addFiguredBassToSegment(Segment* seg, track_idx_t track, const Fraction& extTicks, bool* pNew)
+FiguredBass* FiguredBass::addFiguredBassToSegment(Segment* seg, track_idx_t track,
+                                                  const Fraction& extTicks, bool* pNew)
 {
     Fraction endTick;                        // where this FB is initially assumed to end
     staff_idx_t staff = track / VOICES;          // convert track to staff
@@ -1076,28 +1079,44 @@ bool FiguredBassFont::read(XmlReader& e)
             while (e.readNextStartElement()) {
                 const AsciiStringView t(e.name());
                 if (t == "simple") {
-                    displayDigit[int(FiguredBassItem::Style::MODERN)]  [digit][int(FiguredBassItem::Combination::SIMPLE)]
+                    displayDigit[int(FiguredBassItem::Style::MODERN)]  [digit][int(FiguredBassItem::
+                                                                                   Combination::
+                                                                                   SIMPLE)]
                         = e.readText().at(0);
                 } else if (t == "crossed") {
-                    displayDigit[int(FiguredBassItem::Style::MODERN)]  [digit][int(FiguredBassItem::Combination::CROSSED)]
+                    displayDigit[int(FiguredBassItem::Style::MODERN)]  [digit][int(FiguredBassItem::
+                                                                                   Combination::
+                                                                                   CROSSED)]
                         = e.readText().at(0);
                 } else if (t == "backslashed") {
-                    displayDigit[int(FiguredBassItem::Style::MODERN)]  [digit][int(FiguredBassItem::Combination::BACKSLASHED)]
+                    displayDigit[int(FiguredBassItem::Style::MODERN)]  [digit][int(FiguredBassItem::
+                                                                                   Combination::
+                                                                                   BACKSLASHED)]
                         = e.readText().at(0);
                 } else if (t == "slashed") {
-                    displayDigit[int(FiguredBassItem::Style::MODERN)]  [digit][int(FiguredBassItem::Combination::SLASHED)]
+                    displayDigit[int(FiguredBassItem::Style::MODERN)]  [digit][int(FiguredBassItem::
+                                                                                   Combination::
+                                                                                   SLASHED)]
                         = e.readText().at(0);
                 } else if (t == "simpleHistoric") {
-                    displayDigit[int(FiguredBassItem::Style::HISTORIC)][digit][int(FiguredBassItem::Combination::SIMPLE)]
+                    displayDigit[int(FiguredBassItem::Style::HISTORIC)][digit][int(FiguredBassItem::
+                                                                                   Combination::
+                                                                                   SIMPLE)]
                         = e.readText().at(0);
                 } else if (t == "crossedHistoric") {
-                    displayDigit[int(FiguredBassItem::Style::HISTORIC)][digit][int(FiguredBassItem::Combination::CROSSED)]
+                    displayDigit[int(FiguredBassItem::Style::HISTORIC)][digit][int(FiguredBassItem::
+                                                                                   Combination::
+                                                                                   CROSSED)]
                         = e.readText().at(0);
                 } else if (t == "backslashedHistoric") {
-                    displayDigit[int(FiguredBassItem::Style::HISTORIC)][digit][int(FiguredBassItem::Combination::BACKSLASHED)]
+                    displayDigit[int(FiguredBassItem::Style::HISTORIC)][digit][int(FiguredBassItem::
+                                                                                   Combination::
+                                                                                   BACKSLASHED)]
                         = e.readText().at(0);
                 } else if (t == "slashedHistoric") {
-                    displayDigit[int(FiguredBassItem::Style::HISTORIC)][digit][int(FiguredBassItem::Combination::SLASHED)]
+                    displayDigit[int(FiguredBassItem::Style::HISTORIC)][digit][int(FiguredBassItem::
+                                                                                   Combination::
+                                                                                   SLASHED)]
                         = e.readText().at(0);
                 } else {
                     e.unknown();
@@ -1249,10 +1268,14 @@ FiguredBass* Score::addFiguredBass()
     bool bNew = true;
     if (el->isNote()) {
         ChordRest* cr = toNote(el)->chord();
-        fb = FiguredBass::addFiguredBassToSegment(cr->segment(), cr->staffIdx() * VOICES, Fraction(0, 1), &bNew);
+        fb
+            = FiguredBass::addFiguredBassToSegment(cr->segment(), cr->staffIdx() * VOICES,
+                                                   Fraction(0, 1), &bNew);
     } else if (el->isRest()) {
         ChordRest* cr = toRest(el);
-        fb = FiguredBass::addFiguredBassToSegment(cr->segment(), cr->staffIdx() * VOICES, Fraction(0, 1), &bNew);
+        fb
+            = FiguredBass::addFiguredBassToSegment(cr->segment(), cr->staffIdx() * VOICES,
+                                                   Fraction(0, 1), &bNew);
     } else if (el->isFiguredBass()) {
         fb = toFiguredBass(el);
         bNew = false;

@@ -50,8 +50,10 @@ using namespace mu::engraving::read500;
 //   ConnectorInfoReader
 //---------------------------------------------------------
 
-ConnectorInfoReader::ConnectorInfoReader(XmlReader& e, ReadContext* ctx, EngravingItem* current, int track)
-    : ConnectorInfo(current, track), m_reader(&e), m_ctx(ctx), m_connector(nullptr), m_connectorReceiver(current)
+ConnectorInfoReader::ConnectorInfoReader(XmlReader& e, ReadContext* ctx, EngravingItem* current,
+                                         int track)
+    : ConnectorInfo(current, track), m_reader(&e), m_ctx(ctx), m_connector(nullptr),
+    m_connectorReceiver(current)
 {}
 
 //---------------------------------------------------------
@@ -70,7 +72,8 @@ static Location readPositionInfo(ReadContext* ctx, int track)
 //---------------------------------------------------------
 
 ConnectorInfoReader::ConnectorInfoReader(XmlReader& e, ReadContext* ctx, Score* current, int track)
-    : ConnectorInfo(current, readPositionInfo(ctx, track)), m_reader(&e), m_ctx(ctx), m_connector(nullptr), m_connectorReceiver(current)
+    : ConnectorInfo(current, readPositionInfo(ctx, track)), m_reader(&e), m_ctx(ctx), m_connector(
+        nullptr), m_connectorReceiver(current)
 {
     setCurrentUpdated(true);
 }
@@ -98,8 +101,9 @@ bool ConnectorInfoReader::read()
             if (tag == name) {
                 m_connector = Factory::createItemByName(tag, m_connectorReceiver->score()->dummy());
             } else {
-                LOGW("ConnectorInfoReader::read: element tag (%s) does not match connector type (%s). Is the file corrupted?",
-                     tag.ascii(), name.ascii());
+                LOGW(
+                    "ConnectorInfoReader::read: element tag (%s) does not match connector type (%s). Is the file corrupted?",
+                    tag.ascii(), name.ascii());
             }
 
             if (!m_connector) {
@@ -181,7 +185,8 @@ void ConnectorInfoReader::addToScore(bool pasteMode)
         r = r->prev();
     }
     while (r) {
-        bool found = ReadAddConnectorVisitor::visit(ReadAddConnectorTypes {}, r->m_connectorReceiver, r, pasteMode);
+        bool found = ReadAddConnectorVisitor::visit(ReadAddConnectorTypes {},
+                                                    r->m_connectorReceiver, r, pasteMode);
         DO_ASSERT(found);
         r = r->next();
     }
@@ -191,7 +196,8 @@ void ConnectorInfoReader::addToScore(bool pasteMode)
 //   ConnectorInfoReader::readConnector
 //---------------------------------------------------------
 
-void ConnectorInfoReader::readConnector(std::shared_ptr<ConnectorInfoReader> info, XmlReader& e, ReadContext& ctx)
+void ConnectorInfoReader::readConnector(std::shared_ptr<ConnectorInfoReader> info, XmlReader& e,
+                                        ReadContext& ctx)
 {
     if (!info->read()) {
         e.skipCurrentElement();
@@ -251,7 +257,8 @@ EngravingItem* ConnectorInfoReader::releaseConnector()
     return c;
 }
 
-void ConnectorInfoReader::readAddConnector(ChordRest* item, ConnectorInfoReader* info, bool pasteMode)
+void ConnectorInfoReader::readAddConnector(ChordRest* item, ConnectorInfoReader* info,
+                                           bool pasteMode)
 {
     const ElementType type = info->type();
     switch (type) {
@@ -264,7 +271,8 @@ void ConnectorInfoReader::readAddConnector(ChordRest* item, ConnectorInfoReader*
         if (info->isStart()) {
             spanner->setTrack(l.track());
             // trillCueNotes have unreliable tick() while reading so use instead tick from readContext
-            Fraction startTick = item->isChord() && toChord(item)->isTrillCueNote() ? info->curTick() : item->tick();
+            Fraction startTick = item->isChord()
+                                 && toChord(item)->isTrillCueNote() ? info->curTick() : item->tick();
             spanner->setTick(startTick);
             spanner->setStartElement(item);
             if (pasteMode) {
@@ -277,7 +285,8 @@ void ConnectorInfoReader::readAddConnector(ChordRest* item, ConnectorInfoReader*
                     ls->setTick(spanner->tick());
                     for (EngravingObject* linkedCR : item->linkList()) {
                         ChordRest* cr = toChordRest(linkedCR);
-                        if (cr->score() == linkedSpanner->score() && cr->staffIdx() == ls->staffIdx()) {
+                        if (cr->score() == linkedSpanner->score()
+                            && cr->staffIdx() == ls->staffIdx()) {
                             ls->setTrack(cr->track());
                             if (ls->isSlur()) {
                                 ls->setStartElement(cr);
@@ -302,7 +311,8 @@ void ConnectorInfoReader::readAddConnector(ChordRest* item, ConnectorInfoReader*
                     ls->setTick2(spanner->tick2());
                     for (EngravingObject* linkedCR : item->linkList()) {
                         ChordRest* cr = toChordRest(linkedCR);
-                        if (cr->score() == linkedSpanner->score() && cr->staffIdx() == ls->staffIdx()) {
+                        if (cr->score() == linkedSpanner->score()
+                            && cr->staffIdx() == ls->staffIdx()) {
                             ls->setTrack2(cr->track());
                             if (ls->isSlur()) {
                                 ls->setEndElement(cr);
@@ -403,8 +413,10 @@ void ConnectorInfoReader::readAddConnector(Note* item, ConnectorInfoReader* info
                     tie->updatePossibleJumpPoints();
                 }
             } else {
-                bool isNoteAnchoredTextLine = sp->isNoteLine() && toNoteLine(sp)->enforceMinLength();
-                if ((sp->isGlissando() || sp->isGuitarBend() || isNoteAnchoredTextLine) && item->explicitParent()
+                bool isNoteAnchoredTextLine = sp->isNoteLine()
+                                              && toNoteLine(sp)->enforceMinLength();
+                if ((sp->isGlissando() || sp->isGuitarBend() || isNoteAnchoredTextLine)
+                    && item->explicitParent()
                     && item->explicitParent()->isChord()) {
                     toChord(item->explicitParent())->setEndsNoteAnchoredLine(true);
                 }

@@ -61,7 +61,8 @@ TEST_F(Engraving_TimesigTests, timesig01)
     score->cmdAddTimeSig(m, staffIdx, ts, local);
     score->endCmd();
 
-    EXPECT_TRUE(ScoreComp::saveCompareScore(score, u"timesig01.mscx", TIMESIG_DATA_DIR + u"timesig01-ref.mscx"));
+    EXPECT_TRUE(ScoreComp::saveCompareScore(score, u"timesig01.mscx",
+                                            TIMESIG_DATA_DIR + u"timesig01-ref.mscx"));
     delete score;
 }
 
@@ -84,7 +85,8 @@ TEST_F(Engraving_TimesigTests, timesig02)
     score->doLayout();
     score->endCmd();
 
-    EXPECT_TRUE(ScoreComp::saveCompareScore(score, u"timesig-02.mscx", TIMESIG_DATA_DIR + u"timesig-02-ref.mscx"));
+    EXPECT_TRUE(ScoreComp::saveCompareScore(score, u"timesig-02.mscx",
+                                            TIMESIG_DATA_DIR + u"timesig-02-ref.mscx"));
     delete score;
 }
 
@@ -108,7 +110,8 @@ TEST_F(Engraving_TimesigTests, timesig03)
     score->cmdAddTimeSig(m, 0, ts, false);
     score->doLayout();
 
-    EXPECT_TRUE(ScoreComp::saveCompareScore(score, u"timesig-03.mscx", TIMESIG_DATA_DIR + u"timesig-03-ref.mscx"));
+    EXPECT_TRUE(ScoreComp::saveCompareScore(score, u"timesig-03.mscx",
+                                            TIMESIG_DATA_DIR + u"timesig-03-ref.mscx"));
     delete score;
 }
 
@@ -129,7 +132,8 @@ TEST_F(Engraving_TimesigTests, timesig04)
     score->cmdAddTimeSig(m, 0, ts, false);
     score->doLayout();
 
-    EXPECT_TRUE(ScoreComp::saveCompareScore(score, u"timesig-04.mscx", TIMESIG_DATA_DIR + u"timesig-04-ref.mscx"));
+    EXPECT_TRUE(ScoreComp::saveCompareScore(score, u"timesig-04.mscx",
+                                            TIMESIG_DATA_DIR + u"timesig-04-ref.mscx"));
     delete score;
 }
 
@@ -153,7 +157,8 @@ TEST_F(Engraving_TimesigTests, timesig05)
     score->cmdAddTimeSig(m, 0, ts, false);
     score->doLayout();
 
-    EXPECT_TRUE(ScoreComp::saveCompareScore(score, u"timesig-05.mscx", TIMESIG_DATA_DIR + u"timesig-05-ref.mscx"));
+    EXPECT_TRUE(ScoreComp::saveCompareScore(score, u"timesig-05.mscx",
+                                            TIMESIG_DATA_DIR + u"timesig-05-ref.mscx"));
     delete score;
 }
 
@@ -173,7 +178,8 @@ TEST_F(Engraving_TimesigTests, timesig06)
     score->startCmd(TranslatableString::untranslatable("Engraving time signature tests"));
     score->cmdAddTimeSig(m, 0, ts, false);
     score->doLayout();
-    EXPECT_TRUE(ScoreComp::saveCompareScore(score, u"timesig-06.mscx", TIMESIG_DATA_DIR + u"timesig-06-ref.mscx"));
+    EXPECT_TRUE(ScoreComp::saveCompareScore(score, u"timesig-06.mscx",
+                                            TIMESIG_DATA_DIR + u"timesig-06-ref.mscx"));
     score->endCmd();
 
     // Now undo the change, if it crashes, it will fail
@@ -199,7 +205,8 @@ TEST_F(Engraving_TimesigTests, timesig07)
     score->startCmd(TranslatableString::untranslatable("Engraving time signature tests"));
     score->cmdAddTimeSig(m, 0, ts, false);
     score->doLayout();
-    EXPECT_TRUE(ScoreComp::saveCompareScore(score, u"timesig-07.mscx", TIMESIG_DATA_DIR + u"timesig-07-ref.mscx"));
+    EXPECT_TRUE(ScoreComp::saveCompareScore(score, u"timesig-07.mscx",
+                                            TIMESIG_DATA_DIR + u"timesig-07-ref.mscx"));
     score->endCmd();
 
     // Now undo the change, if there is a crash the test will fail
@@ -224,7 +231,8 @@ TEST_F(Engraving_TimesigTests, timesig08)
     Segment* seg = m1->findSegment(SegmentType::TimeSigAnnounce, m1->endTick());
     EngravingItem* el = seg->element(staff2track(1));
 
-    EXPECT_TRUE(el) << "Should be a courtesy signature in the second staff at the end of measure 1.";
+    EXPECT_TRUE(el) <<
+        "Should be a courtesy signature in the second staff at the end of measure 1.";
     delete score;
 }
 
@@ -244,13 +252,15 @@ TEST_F(Engraving_TimesigTests, DISABLED_timesig09)
     score->startCmd(TranslatableString::untranslatable("Engraving time signature tests"));
     score->cmdAddTimeSig(m, 0, ts, false);
     score->doLayout();
-    EXPECT_TRUE(ScoreComp::saveCompareScore(score, u"timesig-09-1.mscx", TIMESIG_DATA_DIR + u"timesig-09-ref.mscx"));
+    EXPECT_TRUE(ScoreComp::saveCompareScore(score, u"timesig-09-1.mscx",
+                                            TIMESIG_DATA_DIR + u"timesig-09-ref.mscx"));
     score->endCmd();
 
     // Now undo the change
     score->undoStack()->undo(0);
     score->doLayout();
-    EXPECT_TRUE(ScoreComp::saveCompareScore(score, u"timesig-09-2.mscx", TIMESIG_DATA_DIR + u"timesig-09.mscx"));
+    EXPECT_TRUE(ScoreComp::saveCompareScore(score, u"timesig-09-2.mscx",
+                                            TIMESIG_DATA_DIR + u"timesig-09.mscx"));
     delete score;
 }
 
@@ -282,7 +292,8 @@ TEST_F(Engraving_TimesigTests, timesig10)
     score->cmdAddTimeSig(m2, 0, ts3, false);
 
     score->doLayout();
-    EXPECT_TRUE(ScoreComp::saveCompareScore(score, u"timesig-10.mscx", TIMESIG_DATA_DIR + u"timesig-10-ref.mscx"));
+    EXPECT_TRUE(ScoreComp::saveCompareScore(score, u"timesig-10.mscx",
+                                            TIMESIG_DATA_DIR + u"timesig-10-ref.mscx"));
     score->endCmd();
     delete score;
 }
@@ -303,9 +314,12 @@ TEST_F(Engraving_TimesigTests, timesig_78216)
     Measure* m3 = m2->nextMeasure();
 
     // verify no timesig exists in segment of final tick of m1, m2, m3
-    EXPECT_FALSE(m1->findSegment(SegmentType::TimeSig, m1->endTick())) << "Should be no timesig at the end of measure 1.";
-    EXPECT_FALSE(m2->findSegment(SegmentType::TimeSig, m2->endTick())) << "Should be no timesig at the end of measure 2.";
-    EXPECT_FALSE(m3->findSegment(SegmentType::TimeSig, m3->endTick())) << "Should be no timesig at the end of measure 3.";
+    EXPECT_FALSE(m1->findSegment(SegmentType::TimeSig,
+                                 m1->endTick())) << "Should be no timesig at the end of measure 1.";
+    EXPECT_FALSE(m2->findSegment(SegmentType::TimeSig,
+                                 m2->endTick())) << "Should be no timesig at the end of measure 2.";
+    EXPECT_FALSE(m3->findSegment(SegmentType::TimeSig,
+                                 m3->endTick())) << "Should be no timesig at the end of measure 3.";
     delete score;
 }
 
@@ -398,8 +412,10 @@ TEST_F(Engraving_TimesigTests, timesig_11)
         if (partScore->isMaster()) {
             continue;
         }
-        Segment* timeSigSeg1 = partScore->tick2segment(secondMeas->tick(), true, SegmentType::TimeSig);
-        Segment* timeSigSeg2 = partScore->tick2segment(thirdMeas->tick(), true, SegmentType::TimeSig);
+        Segment* timeSigSeg1 = partScore->tick2segment(
+            secondMeas->tick(), true, SegmentType::TimeSig);
+        Segment* timeSigSeg2
+            = partScore->tick2segment(thirdMeas->tick(), true, SegmentType::TimeSig);
         EXPECT_TRUE(timeSigSeg1);
         EXPECT_TRUE(timeSigSeg2);
         if (partScore->name() == u"Oboe") {
@@ -424,7 +440,9 @@ TEST_F(Engraving_TimesigTests, endOfMeasureTimeSigChange)
 
     // Check underlying measures in all scores are the lengths expected
 
-    std::array<Fraction, 5> expectedTimeSigs = { Fraction(4, 4), Fraction(4, 4), Fraction(3, 4), Fraction(4, 4), Fraction(4, 4) };
+    std::array<Fraction,
+               5> expectedTimeSigs
+        = { Fraction(4, 4), Fraction(4, 4), Fraction(3, 4), Fraction(4, 4), Fraction(4, 4) };
 
     for (Score* partScore : score->scoreList()) {
         for (Measure* m = partScore->firstMeasure(); m; m = m->nextMeasure()) {
@@ -490,12 +508,14 @@ TEST_F(Engraving_TimesigTests, endOfMeasureMMRTimeSigChange)
     score->endCmd();
 
     // Check part1 m1 (mmr) has end of measure ts
-    Segment* part1M1MMREndSeg = part1M1MM->findSegmentR(SegmentType::TimeSigAnnounce, part1M1MM->ticks());
+    Segment* part1M1MMREndSeg = part1M1MM->findSegmentR(SegmentType::TimeSigAnnounce,
+                                                        part1M1MM->ticks());
     EXPECT_TRUE(part1M1MMREndSeg);
 
     // Check part1 m2 (mmr) has NO beginning ts
     // Ensure segments are removed correctly from underlying measures in ModifyDom::sortMeasureSegments
-    Segment* part1M2MMREndSeg = part2M1MM->findSegmentR(SegmentType::TimeSigAnnounce, part1M2MM->ticks());
+    Segment* part1M2MMREndSeg = part2M1MM->findSegmentR(SegmentType::TimeSigAnnounce,
+                                                        part1M2MM->ticks());
     EXPECT_FALSE(part1M2MMREndSeg);
 
     // Change style setting
@@ -505,13 +525,15 @@ TEST_F(Engraving_TimesigTests, endOfMeasureMMRTimeSigChange)
 
     // Check part2 m1 (mmr & underlying) ts is 6/8
     // Ensure segments are copied correctly to underlying measures in ModifyDom::sortMeasureSegments
-    Segment* part2M1MMRTimeSigSeg = part2M1MM->findSegmentR(SegmentType::TimeSigType, part2M1MM->ticks());
+    Segment* part2M1MMRTimeSigSeg = part2M1MM->findSegmentR(SegmentType::TimeSigType,
+                                                            part2M1MM->ticks());
     EXPECT_TRUE(part2M1MMRTimeSigSeg);
     TimeSig* topTimeSig = toTimeSig(part2M1MMRTimeSigSeg->element(0));
     EXPECT_TRUE(topTimeSig);
     EXPECT_EQ(topTimeSig->sig(), Fraction(6, 8));
 
-    Segment* part2M1UnderlyingTimeSigSeg = part2M1Underlying->findSegmentR(SegmentType::TimeSigType, part2M1Underlying->ticks());
+    Segment* part2M1UnderlyingTimeSigSeg = part2M1Underlying->findSegmentR(SegmentType::TimeSigType,
+                                                                           part2M1Underlying->ticks());
     EXPECT_TRUE(part2M1UnderlyingTimeSigSeg);
     TimeSig* underlyingTimeSig = toTimeSig(part2M1UnderlyingTimeSigSeg->element(0));
     EXPECT_TRUE(underlyingTimeSig);

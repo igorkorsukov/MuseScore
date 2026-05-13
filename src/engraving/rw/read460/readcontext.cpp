@@ -245,8 +245,10 @@ void ReadContext::addConnectorInfo(std::shared_ptr<ConnectorInfoReader> c)
     }
 }
 
-static bool distanceSort(const std::pair<int, std::pair<ConnectorInfoReader*, ConnectorInfoReader*> >& p1,
-                         const std::pair<int, std::pair<ConnectorInfoReader*, ConnectorInfoReader*> >& p2)
+static bool distanceSort(const std::pair<int, std::pair<ConnectorInfoReader*,
+                                                        ConnectorInfoReader*> >& p1,
+                         const std::pair<int, std::pair<ConnectorInfoReader*,
+                                                        ConnectorInfoReader*> >& p2)
 {
     return p1.first < p2.first;
 }
@@ -261,7 +263,8 @@ void ReadContext::reconnectBrokenConnectors()
         return;
     }
     LOGD("Reconnecting broken connectors (%d nodes)", int(_connectors.size()));
-    std::vector<std::pair<int, std::pair<ConnectorInfoReader*, ConnectorInfoReader*> > > brokenPairs;
+    std::vector<std::pair<int,
+                          std::pair<ConnectorInfoReader*, ConnectorInfoReader*> > > brokenPairs;
     for (size_t i = 1; i < _connectors.size(); ++i) {
         for (size_t j = 0; j < i; ++j) {
             ConnectorInfoReader* c1 = _connectors[i].get();
@@ -358,6 +361,7 @@ void ReadContext::clearOrphanedConnectors()
 void ReadContext::addPartAudioSettingCompat(PartAudioSettingsCompat partAudioSetting)
 {
     if (_settingsCompat.audioSettings.count(partAudioSetting.instrumentId.partId) == 0) {
-        _settingsCompat.audioSettings.insert({ partAudioSetting.instrumentId.partId, partAudioSetting });
+        _settingsCompat.audioSettings.insert({ partAudioSetting.instrumentId.partId,
+                                               partAudioSetting });
     }
 }

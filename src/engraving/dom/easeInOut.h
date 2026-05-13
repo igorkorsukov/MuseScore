@@ -50,7 +50,8 @@ public:
     double EvalX(const double t) const
     {
         double tCompl = 1.0 - t;
-        return (3.0 * m_easeIn * tCompl * tCompl + (3.0 - 3.0 * m_easeOut * tCompl - 2.0 * t) * t) * t;
+        return (3.0 * m_easeIn * tCompl * tCompl + (3.0 - 3.0 * m_easeOut * tCompl - 2.0 * t) * t)
+               * t;
     }
 
     double EvalY(const double t) const { return -(t * t) * (2.0 * t - 3.0); }

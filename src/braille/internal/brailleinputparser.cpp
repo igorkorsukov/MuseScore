@@ -30,7 +30,8 @@ namespace mu::engraving {
 static BiePattern pattern_accord = { "accord", { &Braille_FullMeasureAccord } };
 
 static BiePattern pattern_accidentals = { "accidental",
-                                          { &Braille_NaturalAccidental, &Braille_SharpAccidental, &Braille_FlatAccidental } };
+                                          { &Braille_NaturalAccidental, &Braille_SharpAccidental,
+                                            &Braille_FlatAccidental } };
 
 static BiePattern pattern_octaves = { "octave",
                                       { &Braille_Octave0, &Braille_Octave1, &Braille_Octave2,
@@ -38,16 +39,24 @@ static BiePattern pattern_octaves = { "octave",
                                         &Braille_Octave6, &Braille_Octave7, &Braille_Octave8 } };
 
 static BiePattern pattern_notes ={ "note",
-                                   { &Braille_aWhole, &Braille_aHalf, &Braille_aQuarter, &Braille_a8th,
-                                     &Braille_bWhole, &Braille_bHalf, &Braille_bQuarter, &Braille_b8th,
-                                     &Braille_cWhole, &Braille_cHalf, &Braille_cQuarter, &Braille_c8th,
-                                     &Braille_dWhole, &Braille_dHalf, &Braille_dQuarter, &Braille_d8th,
-                                     &Braille_eWhole, &Braille_eHalf, &Braille_eQuarter, &Braille_f8th,
-                                     &Braille_fWhole, &Braille_fHalf, &Braille_fQuarter, &Braille_e8th,
-                                     &Braille_gWhole, &Braille_gHalf, &Braille_gQuarter, &Braille_g8th } };
+                                   { &Braille_aWhole, &Braille_aHalf, &Braille_aQuarter,
+                                     &Braille_a8th,
+                                     &Braille_bWhole, &Braille_bHalf, &Braille_bQuarter,
+                                     &Braille_b8th,
+                                     &Braille_cWhole, &Braille_cHalf, &Braille_cQuarter,
+                                     &Braille_c8th,
+                                     &Braille_dWhole, &Braille_dHalf, &Braille_dQuarter,
+                                     &Braille_d8th,
+                                     &Braille_eWhole, &Braille_eHalf, &Braille_eQuarter,
+                                     &Braille_f8th,
+                                     &Braille_fWhole, &Braille_fHalf, &Braille_fQuarter,
+                                     &Braille_e8th,
+                                     &Braille_gWhole, &Braille_gHalf, &Braille_gQuarter,
+                                     &Braille_g8th } };
 
 static BiePattern pattern_c_notes ={ "c-note",
-                                     { &Braille_cWhole, &Braille_cHalf, &Braille_cQuarter, &Braille_c8th } };
+                                     { &Braille_cWhole, &Braille_cHalf, &Braille_cQuarter,
+                                       &Braille_c8th } };
 
 static BiePattern pattern_dot = { "dot", { &Braille_Dot } };
 static BiePattern pattern_dot_2 = { "dot-2", { &Braille_Dot } };
@@ -58,11 +67,14 @@ static BiePattern pattern_slur_start = { "long-slur-start", { &Braille_LongSlurO
 static BiePattern pattern_slur_stop = { "long-slur-stop", { &Braille_LongSlurCloseBracket } };
 
 static BiePattern pattern_rests ={ "rest",
-                                   { &Braille_RestWhole, &Braille_RestHalf, &Braille_RestQuarter, &Braille_Rest8th } };
+                                   { &Braille_RestWhole, &Braille_RestHalf, &Braille_RestQuarter,
+                                     &Braille_Rest8th } };
 
 static BiePattern pattern_intervals ={ "interval",
-                                       { &Braille_Interval2, &Braille_Interval3, &Braille_Interval4, &Braille_Interval5,
-                                         &Braille_Interval6, &Braille_Interval7, &Braille_Interval8 } };
+                                       { &Braille_Interval2, &Braille_Interval3, &Braille_Interval4,
+                                         &Braille_Interval5,
+                                         &Braille_Interval6, &Braille_Interval7,
+                                         &Braille_Interval8 } };
 
 static BiePattern pattern_fingerings ={ "fingering",
                                         { &Braille_Finger0, &Braille_Finger1, &Braille_Finger2,
@@ -74,7 +86,8 @@ static BiePattern pattern_tuplet_prefix ={ "tuplet-prefix", { &Braille_TupletPre
 static BiePattern pattern_tuplet_suffix ={ "tuplet-suffix", { &Braille_Dot } };
 
 static BiePattern pattern_tuplet_numbers ={ "tuplet-number",
-                                            { &Braille_Lower2, &Braille_Lower3, &Braille_Lower5, &Braille_Lower6,
+                                            { &Braille_Lower2, &Braille_Lower3, &Braille_Lower5,
+                                              &Braille_Lower6,
                                               &Braille_Lower7, &Braille_Lower8, &Braille_Lower9 } };
 
 static int maxPatternLength(BiePattern* pattern)
@@ -283,7 +296,8 @@ bool BieSequencePattern::valid() const
 BieSequencePattern* BieRecognize(std::string braille, bool tuplet_indicator)
 {
     //static const std::string note_input_seq = "{[accord][long-slur-start][accidental][octave](note)[dot][dot-2][dot-3][fingering][note-slur][long-slur-stop][tie]}";
-    static const std::string note_input_seq = "{[accord][long-slur-start][accidental][octave](note)}";
+    static const std::string note_input_seq
+        = "{[accord][long-slur-start][accidental][octave](note)}";
     static BieSequencePattern bie_note_input(BieSequencePatternType::Note, note_input_seq);
 
     //static const std::string rest_input_seq = "{[accord](rest)[dot][dot-2][dot-3][slur]}";
@@ -291,7 +305,8 @@ BieSequencePattern* BieRecognize(std::string braille, bool tuplet_indicator)
     static BieSequencePattern bie_rest_input(BieSequencePatternType::Rest, rest_input_seq);
 
     static const std::string interval_input_seq = "{[accidental][octave](interval)}";
-    static BieSequencePattern bie_interval_input(BieSequencePatternType::Interval, interval_input_seq);
+    static BieSequencePattern bie_interval_input(BieSequencePatternType::Interval,
+                                                 interval_input_seq);
 
     static const std::string tuplet3_seq = "{(tuplet3)}";
     static BieSequencePattern bie_tuplet3(BieSequencePatternType::Tuplet3, tuplet3_seq);

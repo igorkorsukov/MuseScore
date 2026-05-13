@@ -129,16 +129,19 @@ bool PercussionUtilities::editPercussionShortcut(Drumset& drumset, int originPit
     return true;
 }
 
-muse::RetVal<muse::Val> PercussionUtilities::openPercussionShortcutDialog(const Drumset& drumset, int originPitch)
+muse::RetVal<muse::Val> PercussionUtilities::openPercussionShortcutDialog(const Drumset& drumset,
+                                                                          int originPitch)
 {
     muse::UriQuery query("musescore://notation/editpercussionshortcut?modal=true");
 
     const mu::engraving::DrumInstrument& originDrum = drumset.drum(originPitch);
-    query.addParam("originDrum", muse::Val::fromQVariant(drumToQVariantMap(originPitch, originDrum)));
+    query.addParam("originDrum",
+                   muse::Val::fromQVariant(drumToQVariantMap(originPitch, originDrum)));
 
     QVariantList drumsWithShortcut;
     for (int otherPitch = 0; otherPitch < mu::engraving::DRUM_INSTRUMENTS; ++otherPitch) {
-        if (otherPitch == originPitch || !drumset.isValid(otherPitch) || drumset.shortcut(otherPitch).isEmpty()) {
+        if (otherPitch == originPitch || !drumset.isValid(otherPitch)
+            || drumset.shortcut(otherPitch).isEmpty()) {
             continue;
         }
         QVariantMap drumVariant = drumToQVariantMap(otherPitch, drumset.drum(otherPitch));

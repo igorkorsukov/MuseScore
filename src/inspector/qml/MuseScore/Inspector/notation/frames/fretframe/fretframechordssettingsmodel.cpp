@@ -26,7 +26,8 @@
 using namespace mu::inspector;
 using namespace mu::engraving;
 
-FretFrameChordsSettingsModel::FretFrameChordsSettingsModel(QObject* parent, const muse::modularity::ContextPtr& iocCtx,
+FretFrameChordsSettingsModel::FretFrameChordsSettingsModel(QObject* parent,
+                                                           const muse::modularity::ContextPtr& iocCtx,
                                                            IElementRepositoryService* repository)
     : AbstractInspectorModel(parent, iocCtx, repository)
 {
@@ -76,8 +77,9 @@ mu::engraving::FBox* FretFrameChordsSettingsModel::fretBox() const
     return toFBox(m_elementList.first());
 }
 
-void FretFrameChordsSettingsModel::onNotationChanged(const engraving::PropertyIdSet& changedPropertyIdSet,
-                                                     const engraving::StyleIdSet&)
+void FretFrameChordsSettingsModel::onNotationChanged(
+    const engraving::PropertyIdSet& changedPropertyIdSet,
+    const engraving::StyleIdSet&)
 {
     loadProperties(changedPropertyIdSet);
     updateHasInvisibleChords();
@@ -127,7 +129,8 @@ bool FretFrameChordsSettingsModel::hasInvisibleChords() const
 
 void FretFrameChordsSettingsModel::resetList()
 {
-    beginCommand(TranslatableString("undoableAction", "Reset fretboard diagram legend chords list"));
+    beginCommand(TranslatableString("undoableAction",
+                                    "Reset fretboard diagram legend chords list"));
 
     FBox* fbox = fretBox();
     if (fbox) {

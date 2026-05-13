@@ -181,7 +181,8 @@ void TextLayout::computeTextHighResShape(const TextBase* item, TextBase::LayoutD
     ldata->highResShape = shape;
 }
 
-void TextLayout::textHorizontalLayout(const TextBase* item, Shape& shape, double maxBlockWidth, TextBase::LayoutData* ldata)
+void TextLayout::textHorizontalLayout(const TextBase* item, Shape& shape, double maxBlockWidth,
+                                      TextBase::LayoutData* ldata)
 {
     double leftMargin = 0.0;
     double layoutWidth = 0;
@@ -372,7 +373,8 @@ void TextLayout::layoutTextBlock(TextBlock* item, const TextBase* t)
             f.pos.ry() -= yOffset;
 
             RectF textBRect = fm.tightBoundingRect(f.text).translated(f.pos);
-            bool useDynamicSymShape = fragmentFont.type() == Font::Type::MusicSymbol && t->isDynamic();
+            bool useDynamicSymShape = fragmentFont.type() == Font::Type::MusicSymbol
+                                      && t->isDynamic();
             if (useDynamicSymShape) {
                 const Dynamic* dyn = toDynamic(t);
                 SymId symId = TConv::symId(dyn->dynamicType());
@@ -384,11 +386,14 @@ void TextLayout::layoutTextBlock(TextBlock* item, const TextBase* t)
             } else {
                 shape.add(textBRect, t);
             }
-            if (fragmentFont.type() == Font::Type::MusicSymbol || fragmentFont.type() == Font::Type::MusicSymbolText) {
+            if (fragmentFont.type() == Font::Type::MusicSymbol
+                || fragmentFont.type() == Font::Type::MusicSymbolText) {
                 // SEMI-HACK: Music fonts can have huge linespacing because of tall symbols, so instead of using the
                 // font linespacing value we just use the height of the individual fragment with some added margin
 
-                lineSpacing = std::max(lineSpacing, 1.25 * (shape.bbox().height() - shape.bbox().bottom()) + yOffset);
+                lineSpacing
+                    = std::max(lineSpacing,
+                               1.25 * (shape.bbox().height() - shape.bbox().bottom()) + yOffset);
             } else {
                 lineSpacing = std::max(lineSpacing, fm.lineSpacing());
             }
@@ -411,7 +416,8 @@ void TextLayout::substituteMusicFont(Font& font, double size)
     }
 }
 
-double TextLayout::musicSymbolBaseLineAdjust(const TextBlock* block, const TextBase* t, const TextFragment& f,
+double TextLayout::musicSymbolBaseLineAdjust(const TextBlock* block, const TextBase* t,
+                                             const TextFragment& f,
                                              const std::list<TextFragment>::iterator fi)
 {
     Font fragmentFont = f.font(t);
@@ -426,12 +432,15 @@ double TextLayout::musicSymbolBaseLineAdjust(const TextBlock* block, const TextB
     if (block->fragments().size() == 1) {
         refFont = t->font();
     } else {
-        TextFragment& refFragment = fi != block->fragments().begin() ? *(std::prev(fi)) : *(std::next(fi));
+        TextFragment& refFragment = fi
+                                    != block->fragments().begin() ? *(std::prev(fi)) : *(std::next(
+                                                                                             fi));
         refFont = refFragment.font(t);
     }
     FontMetrics refFm(refFont);
 
-    const double middle = (fm.tightBoundingRect(f.text).height() / 2) - fm.tightBoundingRect(f.text).bottom();
+    const double middle = (fm.tightBoundingRect(f.text).height() / 2)
+                          - fm.tightBoundingRect(f.text).bottom();
     const double refXHeight = refFm.capHeight() / 2;
     return refXHeight - middle;
 }

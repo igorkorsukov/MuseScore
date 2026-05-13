@@ -48,8 +48,10 @@ public:
     void paint(QPainter* painter, const QRect& rect, QIcon::Mode mode, QIcon::State state) override;
 
 private:
-    void paintCell(muse::draw::Painter& painter, const muse::RectF& rect, bool selected, bool current) const;
-    void paintBackground(muse::draw::Painter& painter, const muse::RectF& rect, bool selected, bool current) const;
+    void paintCell(muse::draw::Painter& painter, const muse::RectF& rect, bool selected,
+                   bool current) const;
+    void paintBackground(muse::draw::Painter& painter, const muse::RectF& rect, bool selected,
+                         bool current) const;
 
     PaletteCellConstPtr m_cell;
     qreal m_extraMag = 1.0;

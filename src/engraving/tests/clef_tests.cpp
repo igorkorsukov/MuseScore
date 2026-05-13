@@ -46,7 +46,8 @@ TEST_F(Engraving_ClefTests, clef1)
     MasterScore* score = ScoreRW::readScore(CLEF_DATA_DIR + u"clef-1.mscx");
     EXPECT_TRUE(score);
 
-    EXPECT_TRUE(ScoreComp::saveCompareScore(score, u"clef-1.mscx", CLEF_DATA_DIR + u"clef-1-ref.mscx"));
+    EXPECT_TRUE(ScoreComp::saveCompareScore(score, u"clef-1.mscx",
+                                            CLEF_DATA_DIR + u"clef-1-ref.mscx"));
     delete score;
 }
 
@@ -66,7 +67,8 @@ TEST_F(Engraving_ClefTests, clef2)
     score->cmdAddTimeSig(m, 0, ts, false);
 
     score->doLayout();
-    EXPECT_TRUE(ScoreComp::saveCompareScore(score, u"clef-2.mscx", CLEF_DATA_DIR + u"clef-2-ref.mscx"));
+    EXPECT_TRUE(ScoreComp::saveCompareScore(score, u"clef-2.mscx",
+                                            CLEF_DATA_DIR + u"clef-2-ref.mscx"));
     delete score;
 }
 
@@ -82,6 +84,7 @@ TEST_F(Engraving_ClefTests, clef3)
     score->undoChangeClef(score->staff(0), m, ClefType::F);
 
     score->doLayout();
-    EXPECT_TRUE(ScoreComp::saveCompareScore(score, u"clef-3.mscx", CLEF_DATA_DIR + u"clef-3-ref.mscx"));
+    EXPECT_TRUE(ScoreComp::saveCompareScore(score, u"clef-3.mscx",
+                                            CLEF_DATA_DIR + u"clef-3-ref.mscx"));
     delete score;
 }

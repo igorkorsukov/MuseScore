@@ -184,7 +184,8 @@ void TrackList::appendTuplet(Tuplet* srcTuplet, Tuplet* dstTuplet)
         } else if (de->explicitParent() && de->explicitParent()->isSegment()) {
             Segment* seg = toSegment(de->explicitParent());
             for (EngravingItem* ee : seg->annotations()) {
-                bool addSysObject = ee->systemFlag() && !ee->isLinked() && ee->track() == 0 && e->track() == 0;
+                bool addSysObject = ee->systemFlag() && !ee->isLinked() && ee->track() == 0
+                                    && e->track() == 0;
                 if (addSysObject || (!ee->systemFlag() && ee->track() == e->track())) {
                     m_range->m_annotations.push_back({ e->tick(), ee->clone() });
                 }
@@ -251,7 +252,8 @@ void TrackList::append(EngravingItem* e)
         bool accumulateRest = e->isRest() && !empty() && back()->isRest();
         Segment* s          = accumulateRest ? toRest(e)->segment() : 0;
 
-        if (s && !s->score()->isSpannerStartEnd(s->tick(), e->track()) && !s->annotations().size()) {
+        if (s
+            && !s->score()->isSpannerStartEnd(s->tick(), e->track()) && !s->annotations().size()) {
             // akkumulate rests
             Rest* rest  = toRest(back());
             Fraction du = rest->ticks();
@@ -274,7 +276,8 @@ void TrackList::append(EngravingItem* e)
                 ChordRest* src = toChordRest(e);
                 Segment* s1 = src->segment();
                 for (EngravingItem* ee : s1->annotations()) {
-                    bool addSysObject = ee->systemFlag() && !ee->isLinked() && ee->track() == 0 && e->track() == 0;
+                    bool addSysObject = ee->systemFlag() && !ee->isLinked() && ee->track() == 0
+                                        && e->track() == 0;
                     if (addSysObject || (!ee->systemFlag() && ee->track() == e->track())) {
                         m_range->m_annotations.push_back({ s1->tick(), ee->clone() });
                     }
@@ -506,7 +509,8 @@ static bool checkRest(Fraction& rest, Measure*& m, const Fraction& d)
 //    rest    - available time in measure
 //---------------------------------------------------------
 
-Tuplet* TrackList::writeTuplet(Tuplet* parent, Tuplet* tuplet, Measure*& measure, Fraction& rest) const
+Tuplet* TrackList::writeTuplet(Tuplet* parent, Tuplet* tuplet, Measure*& measure,
+                               Fraction& rest) const
 {
     Score* score = measure->score();
     Tuplet* dt   = tuplet->clone();
@@ -560,7 +564,8 @@ Tuplet* TrackList::writeTuplet(Tuplet* parent, Tuplet* tuplet, Measure*& measure
                 Fraction dd = std::min(rest, duration) * ratio;
                 std::vector<TDuration> dl = toDurationList(dd, false);
                 for (const TDuration& k : dl) {
-                    Segment* segment = measure->undoGetSegmentR(SegmentType::ChordRest, measure->ticks() - rest);
+                    Segment* segment = measure->undoGetSegmentR(SegmentType::ChordRest,
+                                                                measure->ticks() - rest);
                     Fraction gd      = k.fraction() / ratio;
                     ChordRest* cr    = toChordRest(e->clone());
                     if (!firstpart) {
@@ -631,7 +636,8 @@ bool TrackList::write(Score* score, const Fraction& tick) const
             }
             bool firstpart = true;
             while (duration > Fraction(0, 1)) {
-                if ((e->isRest() || e->isMeasureRepeat()) && (duration >= remains || e == back()) && (remains == m->ticks())) {
+                if ((e->isRest() || e->isMeasureRepeat()) && (duration >= remains || e == back())
+                    && (remains == m->ticks())) {
                     //
                     // handle full measure rest
                     //
@@ -658,7 +664,8 @@ bool TrackList::write(Score* score, const Fraction& tick) const
                         return false;
                     }
                     for (const TDuration& k : dl) {
-                        segment       = m->undoGetSegmentR(SegmentType::ChordRest, m->ticks() - remains);
+                        segment       = m->undoGetSegmentR(SegmentType::ChordRest,
+                                                           m->ticks() - remains);
                         ChordRest* cr = toChordRest(e->clone());
                         if (!firstpart) {
                             cr->removeMarkings(true);
@@ -823,7 +830,8 @@ void ScoreRange::read(Segment* first, Segment* last, bool readSpanner)
                 continue;
             }
 
-            if (s->tick() >= stick && s->tick() < etick && s->track() >= startTrack && s->track() < endTrack) {
+            if (s->tick() >= stick && s->tick() < etick && s->track() >= startTrack
+                && s->track() < endTrack) {
                 Spanner* ns = toSpanner(s->clone());
                 ns->resetExplicitParent();
                 ns->setStartElement(0);
@@ -894,7 +902,8 @@ void ScoreRange::restoreVolta(Score* score, const Fraction& tick, Volta* v) cons
             break;
         }
         // Last Measure
-        if (m->sectionBreak() || (m->nextMeasure() && (m->nextMeasure()->first(SegmentType::TimeSig)))) {
+        if (m->sectionBreak()
+            || (m->nextMeasure() && (m->nextMeasure()->first(SegmentType::TimeSig)))) {
             break;
         }
     }
@@ -913,7 +922,8 @@ void ScoreRange::restoreVolta(Score* score, const Fraction& tick, Volta* v) cons
                 voltaNewTicks = measureSize;
             } else if (voltaFormerTicks > measureSize) {
                 if ((voltaFormerTicks / measureSize).reduced().denominator() != 1) {
-                    voltaNewTicks = (std::floor((voltaFormerTicks / measureSize).toDouble()) + 1) * measureSize;
+                    voltaNewTicks = (std::floor((voltaFormerTicks / measureSize).toDouble()) + 1)
+                                    * measureSize;
                 }
             }
             if (voltaFormerTicks != voltaNewTicks) {
@@ -984,7 +994,9 @@ bool ScoreRange::write(Score* score, const Fraction& tick) const
                 s->setTick(startMeasureTick);
             }
             if (endMeasureTick != endTick) {
-                s->setTick2(endMeasureTick != startMeasureTick ? endMeasureTick : endMeasure->endTick());
+                s->setTick2(
+                    endMeasureTick
+                    != startMeasureTick ? endMeasureTick : endMeasure->endTick());
             }
         }
         score->undoAddElement(s);
@@ -1087,7 +1099,8 @@ void ScoreRange::backupBarLines(Segment* first, Segment* last)
             if (e && !e->generated()) {
                 BarLinesBackup blBackup;
                 blBackup.sPosition = s->tick();
-                blBackup.formerMeasureStartOrEnd = s->rtick().isZero() || s->rtick() == s->measure()->ticks();
+                blBackup.formerMeasureStartOrEnd = s->rtick().isZero()
+                                                   || s->rtick() == s->measure()->ticks();
                 blBackup.bl = toBarLine(e)->clone();
                 m_barLines.push_back(blBackup);
             }
@@ -1121,7 +1134,8 @@ bool ScoreRange::insertBarLine(Measure* m, const BarLinesBackup& barLine) const
                 m->score()->addElement(nbl);
             } else {
                 // We change BarLineType if necessary to keep END_START repeats if in the middle of a meassure
-                if ((nbl->barLineType() == BarLineType::END_REPEAT) && (bl->barLineType() == BarLineType::START_REPEAT) && middle) {
+                if ((nbl->barLineType() == BarLineType::END_REPEAT)
+                    && (bl->barLineType() == BarLineType::START_REPEAT) && middle) {
                     blt = BarLineType::END_START_REPEAT;
                 }
             }
@@ -1161,9 +1175,11 @@ bool ScoreRange::insertBarLine(Measure* m, const BarLinesBackup& barLine) const
             }
 
             // Adding Set repeats
-            if ((pos == m->tick()) && (bl->barLineType() == BarLineType::START_REPEAT) && blAcrossStaves) {
+            if ((pos == m->tick()) && (bl->barLineType() == BarLineType::START_REPEAT)
+                && blAcrossStaves) {
                 m->setRepeatStart(true);
-            } else if ((pos == m->endTick()) && (bl->barLineType() == BarLineType::END_REPEAT) && blAcrossStaves) {
+            } else if ((pos == m->endTick()) && (bl->barLineType() == BarLineType::END_REPEAT)
+                       && blAcrossStaves) {
                 m->setRepeatEnd(true);
             }
         }
@@ -1172,7 +1188,8 @@ bool ScoreRange::insertBarLine(Measure* m, const BarLinesBackup& barLine) const
     bool processed = false;
 
     // if END_START_REPEAT AND at the end of a Measure
-    if ((barLine.sPosition == m->endTick()) && (barLine.bl->barLineType() == BarLineType::END_START_REPEAT)) {
+    if ((barLine.sPosition == m->endTick())
+        && (barLine.bl->barLineType() == BarLineType::END_START_REPEAT)) {
         // Create END_REPEAT and START_REPEAT (and ignore return value)
         barLine.bl->setBarLineType(BarLineType::END_REPEAT);
         insertBarLine(m, barLine);
@@ -1220,7 +1237,8 @@ void ScoreRange::restoreBarLines(Score* score, const Fraction& tick) const
     for (const BarLinesBackup& bbl : m_barLines) {
         for (Measure* m = score->tick2measure(tick); m; m = m->nextMeasure()) {
             // if inserted within a suitable measure ... to the next barline
-            if (((bbl.sPosition >= m->tick()) && (bbl.sPosition <= m->endTick())) && (insertBarLine(m, bbl))) {
+            if (((bbl.sPosition >= m->tick()) && (bbl.sPosition <= m->endTick()))
+                && (insertBarLine(m, bbl))) {
                 break;
             }
             if (m->tick() > bbl.sPosition) {
@@ -1367,7 +1385,8 @@ void ScoreRange::restoreSpacers(Score* score, const Fraction& tick) const
     {
         // We only add an element if there isn't a previous one of the same Type (UP/DOWN)
         if ((s->spacerType() == SpacerType::UP && !m->vspacerUp(staffIdx))
-            || ((s->spacerType() == SpacerType::DOWN || s->spacerType() == SpacerType::FIXED) && !m->vspacerDown(staffIdx))) {
+            || ((s->spacerType() == SpacerType::DOWN || s->spacerType() == SpacerType::FIXED)
+                && !m->vspacerDown(staffIdx))) {
             Spacer* ns = Factory::createSpacer(m);
             ns->setSpacerType(s->spacerType());
             ns->setGap(s->gap());
@@ -1412,7 +1431,9 @@ bool ScoreRange::endOfMeasureElement(EngravingItem* e) const
     bool result = false;
 
     if (e->isMarker()
-        && ((muse::contains(Marker::RIGHT_MARKERS, toMarker(e)->markerType()) || toMarker(e)->markerType() == MarkerType::FINE))) {
+        && ((muse::contains(Marker::RIGHT_MARKERS,
+                            toMarker(e)->markerType())
+             || toMarker(e)->markerType() == MarkerType::FINE))) {
         result = true;
     } else if (e->isJump()) {
         result = true;
@@ -1463,8 +1484,10 @@ void ScoreRange::restoreJumpsAndMarkers(Score* score, const Fraction& tick) cons
         for (Measure* m = score->tick2measure(tick); m; m = m->nextMeasure()) {
             // Markers: we keep them as long as they are in the measure before the final tick
             // Jumps: we keep them as long as they are in the measure after the start tick
-            if ((endOfMeasureElement(jmb.e) && jmb.sPosition > m->tick() && jmb.sPosition <= m->endTick())
-                || (!endOfMeasureElement(jmb.e) && jmb.sPosition >= m->tick() && jmb.sPosition < m->endTick())) {
+            if ((endOfMeasureElement(jmb.e) && jmb.sPosition > m->tick()
+                 && jmb.sPosition <= m->endTick())
+                || (!endOfMeasureElement(jmb.e) && jmb.sPosition >= m->tick()
+                    && jmb.sPosition < m->endTick())) {
                 addJumpMarker(m, jmb.e);
                 LOGI() << "tpacebes hago restore";
             }

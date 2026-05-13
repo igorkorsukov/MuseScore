@@ -34,17 +34,29 @@ class HammerOnPullOffTappingPageModel : public AbstractStyleDialogModel
     Q_PROPERTY(mu::notation::StyleItem * hopoUpperCase READ hopoUpperCase CONSTANT)
     Q_PROPERTY(mu::notation::StyleItem * hopoShowAll READ hopoShowAll CONSTANT)
 
-    Q_PROPERTY(mu::notation::StyleItem * lhTappingSymbolNormalStave READ lhTappingSymbolNormalStave CONSTANT)
+    Q_PROPERTY(
+        mu::notation::StyleItem
+        * lhTappingSymbolNormalStave READ lhTappingSymbolNormalStave CONSTANT)
     Q_PROPERTY(mu::notation::StyleItem * lhTappingSymbolTab READ lhTappingSymbolTab CONSTANT)
-    Q_PROPERTY(mu::notation::StyleItem * lhTappingShowItemsNormalStave READ lhTappingShowItemsNormalStave CONSTANT)
+    Q_PROPERTY(
+        mu::notation::StyleItem
+        * lhTappingShowItemsNormalStave READ lhTappingShowItemsNormalStave CONSTANT)
     Q_PROPERTY(mu::notation::StyleItem * lhTappingShowItemsTab READ lhTappingShowItemsTab CONSTANT)
-    Q_PROPERTY(mu::notation::StyleItem * lhTappingSlurTopAndBottomNoteOnTab READ lhTappingSlurTopAndBottomNoteOnTab CONSTANT)
+    Q_PROPERTY(
+        mu::notation::StyleItem
+        * lhTappingSlurTopAndBottomNoteOnTab READ lhTappingSlurTopAndBottomNoteOnTab CONSTANT)
 
-    Q_PROPERTY(mu::notation::StyleItem * rhTappingSymbolNormalStave READ rhTappingSymbolNormalStave CONSTANT)
+    Q_PROPERTY(
+        mu::notation::StyleItem
+        * rhTappingSymbolNormalStave READ rhTappingSymbolNormalStave CONSTANT)
     Q_PROPERTY(mu::notation::StyleItem * rhTappingSymbolTab READ rhTappingSymbolTab CONSTANT)
 
-    Q_PROPERTY(mu::notation::StyleItem * hopoAlignLettersStandardStaves READ hopoAlignLettersStandardStaves CONSTANT)
-    Q_PROPERTY(mu::notation::StyleItem * hopoAlignLettersTabStaves READ hopoAlignLettersTabStaves CONSTANT)
+    Q_PROPERTY(
+        mu::notation::StyleItem
+        * hopoAlignLettersStandardStaves READ hopoAlignLettersStandardStaves CONSTANT)
+    Q_PROPERTY(
+        mu::notation::StyleItem
+        * hopoAlignLettersTabStaves READ hopoAlignLettersTabStaves CONSTANT)
 
     QML_ELEMENT
 

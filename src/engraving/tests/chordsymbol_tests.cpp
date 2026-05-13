@@ -204,7 +204,8 @@ TEST_F(Engraving_ChordSymbolTests, testTranspose)
     MasterScore* score = test_pre(u"transpose");
     score->startCmd(TranslatableString::untranslatable("Engraving chord symbol tests"));
     score->cmdSelectAll();
-    Transpose::transpose(score, TransposeMode::BY_INTERVAL, TransposeDirection::UP, Key::C, 4, false, true, true);
+    Transpose::transpose(score, TransposeMode::BY_INTERVAL, TransposeDirection::UP, Key::C, 4,
+                         false, true, true);
     score->endCmd();
     test_post(score, u"transpose");
 }
@@ -214,7 +215,8 @@ TEST_F(Engraving_ChordSymbolTests, testTransposePart)
     MasterScore* score = test_pre(u"transpose-part");
     score->startCmd(TranslatableString::untranslatable("Engraving chord symbol tests"));
     score->cmdSelectAll();
-    Transpose::transpose(score, TransposeMode::BY_INTERVAL, TransposeDirection::UP, Key::C, 4, false, true, true);
+    Transpose::transpose(score, TransposeMode::BY_INTERVAL, TransposeDirection::UP, Key::C, 4,
+                         false, true, true);
     score->endCmd(false, /*layoutAllParts = */ true);
     test_post(score, u"transpose-part");
 }
@@ -303,7 +305,8 @@ TEST_F(Engraving_ChordSymbolTests, testRealizeTransposed)
     MasterScore* score = test_pre(u"transpose");
     //transpose
     score->cmdSelectAll();
-    Transpose::transpose(score, TransposeMode::BY_INTERVAL, TransposeDirection::UP, Key::C, 4, false, true, true);
+    Transpose::transpose(score, TransposeMode::BY_INTERVAL, TransposeDirection::UP, Key::C, 4,
+                         false, true, true);
 
     //realize all chord symbols
     selectAllChordSymbols(score);
@@ -446,7 +449,8 @@ TEST_F(Engraving_ChordSymbolTests, testAddHarmonyToFretDiagram)
 
     Measure* firstMeasure = score->firstMeasure();
     Segment* firstSeg = firstMeasure->findFirstR(SegmentType::ChordRest, Fraction(0, 1));
-    FretDiagram* fretDiag = toFretDiagram(firstSeg->findAnnotation(ElementType::FRET_DIAGRAM, 0, 0));
+    FretDiagram* fretDiag
+        = toFretDiagram(firstSeg->findAnnotation(ElementType::FRET_DIAGRAM, 0, 0));
     EXPECT_TRUE(fretDiag);
 
     score->addText(TextStyleType::HARMONY_A, fretDiag);

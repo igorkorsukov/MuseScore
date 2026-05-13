@@ -50,10 +50,13 @@ static const Settings::Key SCORE_GREY_COLOR("engraving", "engraving/color/scoreG
 static const Settings::Key INVISIBLE_COLOR("engraving", "engraving/colors/invisibleColor");
 static const Settings::Key UNLINKED_COLOR("engraving", "engraving/colors/unlinkedColor");
 
-static const Settings::Key DYNAMICS_APPLY_TO_ALL_VOICES("engraving", "score/dynamicsApplyToAllVoices");
-static const Settings::Key FRETBOARD_DIAGRAMS_AUTO_UPDATE("engraving", "score/fretboardDiagramsAutoUpdate");
+static const Settings::Key DYNAMICS_APPLY_TO_ALL_VOICES("engraving",
+                                                        "score/dynamicsApplyToAllVoices");
+static const Settings::Key FRETBOARD_DIAGRAMS_AUTO_UPDATE("engraving",
+                                                          "score/fretboardDiagramsAutoUpdate");
 
-static const Settings::Key DO_NOT_SAVE_EIDS_FOR_BACK_COMPAT("engraving", "engraving/compat/doNotSaveEIDsForBackCompat");
+static const Settings::Key DO_NOT_SAVE_EIDS_FOR_BACK_COMPAT("engraving",
+                                                            "engraving/compat/doNotSaveEIDsForBackCompat");
 
 struct VoiceColor {
     Settings::Key key;
@@ -88,7 +91,8 @@ void EngravingConfiguration::init()
         Settings::Key key("engraving", "engraving/colors/voice" + std::to_string(voice + 1));
 
         settings()->setDefaultValue(key, Val(DEFAULT_VOICE_COLORS[voice].toQColor()));
-        settings()->setDescription(key, muse::qtrc("engraving", "Voice %1 color").arg(voice + 1).toStdString());
+        settings()->setDescription(key, muse::qtrc("engraving", "Voice %1 color").arg(
+                                       voice + 1).toStdString());
         settings()->setCanBeManuallyEdited(key, true);
         settings()->valueChanged(key).onReceive(this, [this, voice](const Val& val) {
             Color color = val.toQColor();
@@ -101,7 +105,8 @@ void EngravingConfiguration::init()
     }
 
     static constexpr int ALL_VOICES_IDX = VOICES;
-    settings()->setDefaultValue(ALL_VOICES_COLOR, Val(DEFAULT_VOICE_COLORS[ALL_VOICES_IDX].toQColor()));
+    settings()->setDefaultValue(ALL_VOICES_COLOR,
+                                Val(DEFAULT_VOICE_COLORS[ALL_VOICES_IDX].toQColor()));
     settings()->setDescription(ALL_VOICES_COLOR, muse::trc("engraving", "All voices color"));
     settings()->setCanBeManuallyEdited(ALL_VOICES_COLOR, true);
     settings()->valueChanged(ALL_VOICES_COLOR).onReceive(this, [&](const Val& val) {
@@ -119,7 +124,8 @@ void EngravingConfiguration::init()
 
     settings()->setDefaultValue(FRETBOARD_DIAGRAMS_AUTO_UPDATE, Val(true));
     settings()->valueChanged(FRETBOARD_DIAGRAMS_AUTO_UPDATE).onReceive(this, [this](const Val& val) {
-        m_fretboardDiagramsAutoUpdateChanged.send(val.toBool());
+        m_fretboardDiagramsAutoUpdateChanged.send(
+            val.toBool());
     });
 
     settings()->setDefaultValue(FRAME_COLOR, Val(Color("#A0A0A4").toQColor()));
@@ -155,7 +161,8 @@ void EngravingConfiguration::init()
     });
 
     settings()->setDefaultValue(DO_NOT_SAVE_EIDS_FOR_BACK_COMPAT, Val(false));
-    settings()->setDescription(DO_NOT_SAVE_EIDS_FOR_BACK_COMPAT, muse::trc("engraving", "Do not save EIDs"));
+    settings()->setDescription(DO_NOT_SAVE_EIDS_FOR_BACK_COMPAT,
+                               muse::trc("engraving", "Do not save EIDs"));
     settings()->setCanBeManuallyEdited(DO_NOT_SAVE_EIDS_FOR_BACK_COMPAT, false);
 }
 
@@ -227,7 +234,8 @@ SizeF EngravingConfiguration::defaultPageSize() const
 {
     // Needs to be determined only once, therefore static
     static SizeF size = SizeF::fromQSizeF(
-        QPageSize::size(defaultPageSizeIsLetter() ? QPageSize::Letter : QPageSize::A4, QPageSize::Inch));
+        QPageSize::size(defaultPageSizeIsLetter() ? QPageSize::Letter : QPageSize::A4,
+                        QPageSize::Inch));
 
     return size;
 }
@@ -296,7 +304,8 @@ Color EngravingConfiguration::noteBackgroundColor() const
 Color EngravingConfiguration::fontPrimaryColor() const
 {
     return uiConfiguration()
-           ? Color(uiConfiguration()->currentTheme().values[muse::ui::ThemeStyleKey::FONT_PRIMARY_COLOR].toString())
+           ? Color(uiConfiguration()->currentTheme().values[muse::ui::ThemeStyleKey::
+                                                            FONT_PRIMARY_COLOR].toString())
            : Color::BLACK;
 }
 
@@ -305,7 +314,8 @@ Color EngravingConfiguration::voiceColor(voice_idx_t voiceIdx) const
     return VOICE_COLORS[voiceIdx].color;
 }
 
-Color EngravingConfiguration::selectionColor(voice_idx_t voice, bool itemVisible, bool itemIsUnlinkedFromScore) const
+Color EngravingConfiguration::selectionColor(voice_idx_t voice, bool itemVisible,
+                                             bool itemIsUnlinkedFromScore) const
 {
     Color color = itemIsUnlinkedFromScore ? unlinkedColor() : VOICE_COLORS[voice].color;
 

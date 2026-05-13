@@ -28,7 +28,8 @@
 
 using namespace mu::inspector;
 
-FretDiagramSettingsModel::FretDiagramSettingsModel(QObject* parent, const muse::modularity::ContextPtr& iocCtx,
+FretDiagramSettingsModel::FretDiagramSettingsModel(QObject* parent,
+                                                   const muse::modularity::ContextPtr& iocCtx,
                                                    IElementRepositoryService* repository)
     : AbstractInspectorModel(parent, iocCtx, repository)
 {
@@ -49,26 +50,34 @@ void FretDiagramSettingsModel::createProperties()
         emit requestReloadPropertyItems();
     });
 
-    m_stringsCount = buildPropertyItem(mu::engraving::Pid::FRET_STRINGS, [this](const mu::engraving::Pid pid, const QVariant& newValue) {
+    m_stringsCount
+        = buildPropertyItem(mu::engraving::Pid::FRET_STRINGS,
+                            [this](const mu::engraving::Pid pid, const QVariant& newValue) {
         onPropertyValueChanged(pid, newValue);
         loadPropertyItem(m_fingerings);
 
         emit fretDiagramChanged(fretDiagram());
     });
 
-    m_fretsCount = buildPropertyItem(mu::engraving::Pid::FRET_FRETS, [this](const mu::engraving::Pid pid, const QVariant& newValue) {
+    m_fretsCount
+        = buildPropertyItem(mu::engraving::Pid::FRET_FRETS,
+                            [this](const mu::engraving::Pid pid, const QVariant& newValue) {
         onPropertyValueChanged(pid, newValue);
 
         emit fretDiagramChanged(fretDiagram());
     });
 
-    m_fretNumber = buildPropertyItem(mu::engraving::Pid::FRET_OFFSET, [this](const mu::engraving::Pid pid, const QVariant& newValue) {
+    m_fretNumber
+        = buildPropertyItem(mu::engraving::Pid::FRET_OFFSET,
+                            [this](const mu::engraving::Pid pid, const QVariant& newValue) {
         onPropertyValueChanged(pid, newValue.toInt() - 1);
 
         emit fretDiagramChanged(fretDiagram());
     });
 
-    m_isNutVisible = buildPropertyItem(mu::engraving::Pid::FRET_NUT, [this](const mu::engraving::Pid pid, const QVariant& newValue) {
+    m_isNutVisible
+        = buildPropertyItem(mu::engraving::Pid::FRET_NUT,
+                            [this](const mu::engraving::Pid pid, const QVariant& newValue) {
         onPropertyValueChanged(pid, newValue);
 
         emit fretDiagramChanged(fretDiagram());
@@ -78,13 +87,16 @@ void FretDiagramSettingsModel::createProperties()
     m_orientation = buildPropertyItem(mu::engraving::Pid::ORIENTATION);
 
     m_showFingerings
-        = buildPropertyItem(mu::engraving::Pid::FRET_SHOW_FINGERINGS, [this](const mu::engraving::Pid pid, const QVariant& newValue) {
+        = buildPropertyItem(mu::engraving::Pid::FRET_SHOW_FINGERINGS,
+                            [this](const mu::engraving::Pid pid, const QVariant& newValue) {
         onPropertyValueChanged(pid, newValue);
 
         emit fretDiagramChanged(fretDiagram());
     });
 
-    m_fingerings = buildPropertyItem(mu::engraving::Pid::FRET_FINGERING, [this](const mu::engraving::Pid pid, const QVariant& newValue){
+    m_fingerings
+        = buildPropertyItem(mu::engraving::Pid::FRET_FINGERING,
+                            [this](const mu::engraving::Pid pid, const QVariant& newValue){
         onPropertyValueChanged(pid, newValue);
 
         emit fretDiagramChanged(fretDiagram());
@@ -261,7 +273,8 @@ void FretDiagramSettingsModel::setIsMultipleDotsModeOn(bool isMultipleDotsModeOn
 
 void FretDiagramSettingsModel::setCurrentFretDotType(int currentFretDotType)
 {
-    FretDiagramTypes::FretDot newFretDotType = static_cast<FretDiagramTypes::FretDot>(currentFretDotType);
+    FretDiagramTypes::FretDot newFretDotType
+        = static_cast<FretDiagramTypes::FretDot>(currentFretDotType);
 
     if (m_currentFretDotType == newFretDotType) {
         return;

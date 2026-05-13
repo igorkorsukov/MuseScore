@@ -28,7 +28,9 @@ class RestsPageModel : public AbstractStyleDialogModel
 {
     Q_OBJECT
 
-    Q_PROPERTY(mu::notation::StyleItem * multiVoiceRestTwoSpaceOffset READ multiVoiceRestTwoSpaceOffset CONSTANT)
+    Q_PROPERTY(
+        mu::notation::StyleItem
+        * multiVoiceRestTwoSpaceOffset READ multiVoiceRestTwoSpaceOffset CONSTANT)
     Q_PROPERTY(mu::notation::StyleItem * mergeMatchingRests READ mergeMatchingRests CONSTANT)
 
     QML_ELEMENT

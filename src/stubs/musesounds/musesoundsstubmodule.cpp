@@ -41,8 +41,10 @@ std::string MuseSoundsModule::moduleName() const
 
 void MuseSoundsModule::registerExports()
 {
-    globalIoc()->registerExport<IMuseSoundsCheckUpdateService>(mname, new MuseSoundsCheckUpdateServiceStub());
-    globalIoc()->registerExport<IMuseSamplerCheckUpdateService>(mname, new MuseSamplerCheckUpdateServiceStub());
+    globalIoc()->registerExport<IMuseSoundsCheckUpdateService>(mname,
+                                                               new MuseSoundsCheckUpdateServiceStub());
+    globalIoc()->registerExport<IMuseSamplerCheckUpdateService>(mname,
+                                                                new MuseSamplerCheckUpdateServiceStub());
 }
 
 IContextSetup* MuseSoundsModule::newContext(const muse::modularity::ContextPtr& ctx) const
@@ -52,6 +54,8 @@ IContextSetup* MuseSoundsModule::newContext(const muse::modularity::ContextPtr& 
 
 void MuseSoundsContext::registerExports()
 {
-    ioc()->registerExport<IMuseSoundsCheckUpdateScenario>(mname, new MuseSoundsCheckUpdateScenarioStub());
-    ioc()->registerExport<IMuseSamplerCheckUpdateScenario>(mname, new MuseSamplerCheckUpdateScenarioStub());
+    ioc()->registerExport<IMuseSoundsCheckUpdateScenario>(mname,
+                                                          new MuseSoundsCheckUpdateScenarioStub());
+    ioc()->registerExport<IMuseSamplerCheckUpdateScenario>(mname,
+                                                           new MuseSamplerCheckUpdateScenarioStub());
 }

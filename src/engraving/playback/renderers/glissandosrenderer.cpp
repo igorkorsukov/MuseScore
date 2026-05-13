@@ -51,7 +51,8 @@ static std::vector<int> pitchSteps(const Note* note)
     return pitchSteps;
 }
 
-muse::mpe::duration_t GlissandosRenderer::discreteGlissandoStepDuration(const Note* note, const duration_t noteDuration)
+muse::mpe::duration_t GlissandosRenderer::discreteGlissandoStepDuration(const Note* note,
+                                                                        const duration_t noteDuration)
 {
     const std::vector<int> steps = pitchSteps(note);
     if (steps.empty()) {
@@ -61,7 +62,8 @@ muse::mpe::duration_t GlissandosRenderer::discreteGlissandoStepDuration(const No
     return noteDuration / static_cast<float>(steps.size());
 }
 
-void GlissandosRenderer::renderDiscreteGlissando(const Note* note, NominalNoteCtx& ctx, mpe::PlaybackEventList& result)
+void GlissandosRenderer::renderDiscreteGlissando(const Note* note, NominalNoteCtx& ctx,
+                                                 mpe::PlaybackEventList& result)
 {
     const std::vector<int> steps = pitchSteps(note);
     if (steps.empty()) {
@@ -73,7 +75,8 @@ void GlissandosRenderer::renderDiscreteGlissando(const Note* note, NominalNoteCt
     size_t firstStep = 0;
 
     if (note->tieBack()) {
-        mpe::ArticulationMeta& meta = ctx.articulations.at(ArticulationType::DiscreteGlissando).meta;
+        mpe::ArticulationMeta& meta
+            = ctx.articulations.at(ArticulationType::DiscreteGlissando).meta;
         meta.timestamp += durationStep;
         meta.overallDuration -= durationStep;
         firstStep = 1;
@@ -86,7 +89,8 @@ void GlissandosRenderer::renderDiscreteGlissando(const Note* note, NominalNoteCt
         noteCtx.pitchLevel += steps.at(i) * mpe::PITCH_LEVEL_STEP;
 
         const int utick = timestampToTick(noteCtx.chordCtx.score, noteCtx.timestamp);
-        noteCtx.dynamicLevel = ctx.chordCtx.playbackCtx->appliableDynamicLevel(note->track(), utick);
+        noteCtx.dynamicLevel
+            = ctx.chordCtx.playbackCtx->appliableDynamicLevel(note->track(), utick);
 
         updateArticulationBoundaries(ArticulationType::DiscreteGlissando,
                                      noteCtx.timestamp,
@@ -97,7 +101,8 @@ void GlissandosRenderer::renderDiscreteGlissando(const Note* note, NominalNoteCt
     }
 }
 
-void GlissandosRenderer::renderContinuousGlissando(const Note*, NominalNoteCtx& ctx, muse::mpe::PlaybackEventList& result)
+void GlissandosRenderer::renderContinuousGlissando(const Note*, NominalNoteCtx& ctx,
+                                                   muse::mpe::PlaybackEventList& result)
 {
     result.emplace_back(buildNoteEvent(ctx));
 }

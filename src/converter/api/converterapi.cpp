@@ -63,7 +63,8 @@ QString ConverterApi::basename(const QString& filePath) const
     return io::basename(filePath).toQString();
 }
 
-bool ConverterApi::batch(const QString& outDir, const QString& job, const QString& uriQuery, QJSValue progressCallback)
+bool ConverterApi::batch(const QString& outDir, const QString& job, const QString& uriQuery,
+                         QJSValue progressCallback)
 {
     io::path_t jobFile = outDir + "/job.json";
     QByteArray jobData = job.toUtf8();
@@ -74,7 +75,9 @@ bool ConverterApi::batch(const QString& outDir, const QString& job, const QStrin
     }
 
     muse::ProgressPtr progress = std::make_shared<muse::Progress>();
-    progress->progressChanged().onReceive(this, [progressCallback](int64_t current, int64_t total, const std::string& title) {
+    progress->progressChanged().onReceive(this,
+                                          [progressCallback](int64_t current, int64_t total,
+                                                             const std::string& title) {
         QCoreApplication::processEvents();
         if (progressCallback.isCallable()) {
             QJSValueList args;
@@ -86,7 +89,8 @@ bool ConverterApi::batch(const QString& outDir, const QString& job, const QStrin
 
     QCoreApplication::processEvents();
 
-    ret = converter()->batchConvert(jobFile, {}, String(), UriQuery(uriQuery.toStdString()), progress);
+    ret = converter()->batchConvert(jobFile, {}, String(), UriQuery(
+                                        uriQuery.toStdString()), progress);
     if (!ret) {
         LOGE() << ret.toString();
         return false;

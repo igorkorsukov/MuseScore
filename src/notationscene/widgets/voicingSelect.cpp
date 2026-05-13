@@ -37,7 +37,8 @@ VoicingSelect::VoicingSelect(QWidget* parent)
 
 void VoicingSelect::_voicingChanged()
 {
-    emit voicingChanged(interpretBox->currentIndex(), voicingBox->currentIndex(), durationBox->currentIndex());
+    emit voicingChanged(interpretBox->currentIndex(), voicingBox->currentIndex(),
+                        durationBox->currentIndex());
 }
 
 void VoicingSelect::blockVoicingSignals(bool val)

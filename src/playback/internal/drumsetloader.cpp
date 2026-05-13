@@ -32,7 +32,8 @@ using namespace muse::audio;
 using namespace mu::notation;
 using namespace mu::engraving;
 
-void DrumsetLoader::loadDrumset(INotationPtr notation, const InstrumentTrackId& trackId, const AudioResourceMeta& resourceMeta)
+void DrumsetLoader::loadDrumset(INotationPtr notation, const InstrumentTrackId& trackId,
+                                const AudioResourceMeta& resourceMeta)
 {
     TRACEFUNC;
 
@@ -42,7 +43,8 @@ void DrumsetLoader::loadDrumset(INotationPtr notation, const InstrumentTrackId& 
 
     // restore the default drumset when changing from MuseSounds to MS Basic / VST
     if (resourceMeta.type != AudioResourceType::MuseSamplerSoundPack) {
-        const InstrumentTemplate& templ = instrumentsRepository()->instrumentTemplate(trackId.instrumentId);
+        const InstrumentTemplate& templ = instrumentsRepository()->instrumentTemplate(
+            trackId.instrumentId);
         if (!templ.useDrumset) {
             return;
         }
@@ -81,7 +83,8 @@ void DrumsetLoader::loadDrumset(INotationPtr notation, const InstrumentTrackId& 
     m_drumsetCache.emplace(instrumentId, std::move(drumset));
 }
 
-void DrumsetLoader::replaceDrumset(INotationPtr notation, const InstrumentTrackId& trackId, const Drumset& drumset)
+void DrumsetLoader::replaceDrumset(INotationPtr notation, const InstrumentTrackId& trackId,
+                                   const Drumset& drumset)
 {
     const Part* part = notation->parts()->part(trackId.partId);
     if (!part) {

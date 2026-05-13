@@ -36,7 +36,8 @@ class GuitarDiveLayout
 public:
     friend class GuitarBendLayout;
 
-    static void updateDiveSequences(const std::vector<mu::engraving::GuitarBend*>& bends, const LayoutContext& ctx);
+    static void updateDiveSequences(const std::vector<mu::engraving::GuitarBend*>& bends,
+                                    const LayoutContext& ctx);
     static void layoutDiveTabStaff(GuitarBendSegment* item, LayoutContext&);
 
 private:
@@ -46,7 +47,8 @@ private:
     static PointF computeStartPosAboveStaff(GuitarBendSegment* item, LayoutContext& ctx);
     static PointF computeEndPosAboveStaff(GuitarBendSegment* item, LayoutContext&);
 
-    static LineSegment* findPrevHoldOrBendSegment(GuitarBendSegment* item, bool excludeFullReleaseDive = false);
+    static LineSegment* findPrevHoldOrBendSegment(GuitarBendSegment* item,
+                                                  bool excludeFullReleaseDive = false);
 
     static void layoutDip(GuitarBendSegment* item, LayoutContext& ctx);
     static void layoutScoop(GuitarBendSegment* item);

@@ -92,7 +92,8 @@ bool BendsRenderer::isMultibendPart(const Note* note)
     return false;
 }
 
-void BendsRenderer::render(const Note* note, const RenderingContext& ctx, mpe::PlaybackEventList& result)
+void BendsRenderer::render(const Note* note, const RenderingContext& ctx,
+                           mpe::PlaybackEventList& result)
 {
     IF_ASSERT_FAILED(note) {
         return;
@@ -173,8 +174,10 @@ void BendsRenderer::renderMultibend(const Note* startNote, const RenderingContex
 
         const mpe::PlaybackEvent& newEvent = bendEvents.back();
         if (std::holds_alternative<mpe::NoteEvent>(newEvent)) {
-            const mpe::ArrangementContext& arrangementCtx = std::get<mpe::NoteEvent>(newEvent).arrangementCtx();
-            const mpe::timestamp_t timestampTo = arrangementCtx.actualTimestamp + arrangementCtx.actualDuration;
+            const mpe::ArrangementContext& arrangementCtx
+                = std::get<mpe::NoteEvent>(newEvent).arrangementCtx();
+            const mpe::timestamp_t timestampTo = arrangementCtx.actualTimestamp
+                                                 + arrangementCtx.actualDuration;
             bendTimeFactorMap.insert_or_assign(timestampTo, timeFactors(currBend));
         }
 
@@ -182,12 +185,14 @@ void BendsRenderer::renderMultibend(const Note* startNote, const RenderingContex
     }
 
     if (!bendEvents.empty()) {
-        mpe::NoteEvent event = buildBendEvent(startNote, startNoteCtx, bendEvents, bendTimeFactorMap);
+        mpe::NoteEvent event
+            = buildBendEvent(startNote, startNoteCtx, bendEvents, bendTimeFactorMap);
         result.emplace_back(std::move(event));
     }
 }
 
-void BendsRenderer::renderNote(const Note* note, const RenderingContext& ctx, mpe::PlaybackEventList& result)
+void BendsRenderer::renderNote(const Note* note, const RenderingContext& ctx,
+                               mpe::PlaybackEventList& result)
 {
     for (const auto& pair : ctx.commonArticulations) {
         if (!muse::contains(GRACE_NOTE_ARTICULATION_TYPES, pair.first)) {
@@ -195,7 +200,8 @@ void BendsRenderer::renderNote(const Note* note, const RenderingContext& ctx, mp
         }
 
         // This note is either a grace note or a principal note for other grace notes
-        const GraceChordCtx graceCtx = GraceChordCtx::buildCtx(principalChord(note->chord()), pair.first, ctx);
+        const GraceChordCtx graceCtx = GraceChordCtx::buildCtx(principalChord(
+                                                                   note->chord()), pair.first, ctx);
 
         if (note->isGrace()) {
             renderGraceNote(note, graceCtx, result);
@@ -209,7 +215,8 @@ void BendsRenderer::renderNote(const Note* note, const RenderingContext& ctx, mp
     NoteRenderer::render(note, ctx, result);
 }
 
-void BendsRenderer::renderGraceNote(const Note* note, const GraceChordCtx& ctx, mpe::PlaybackEventList& result)
+void BendsRenderer::renderGraceNote(const Note* note, const GraceChordCtx& ctx,
+                                    mpe::PlaybackEventList& result)
 {
     for (const auto& pair : ctx.graceChordCtxList) {
         for (const Note* graceNote : pair.first->notes()) {
@@ -221,7 +228,8 @@ void BendsRenderer::renderGraceNote(const Note* note, const GraceChordCtx& ctx, 
     }
 }
 
-void BendsRenderer::renderSlightBend(const Note* note, const GuitarBend* bend, const RenderingContext& ctx, mpe::PlaybackEventList& result)
+void BendsRenderer::renderSlightBend(const Note* note, const GuitarBend* bend,
+                                     const RenderingContext& ctx, mpe::PlaybackEventList& result)
 {
     NominalNoteCtx slightNoteCtx(note, ctx);
     slightNoteCtx.duration = 0; // aux notes have no duration
@@ -240,7 +248,8 @@ void BendsRenderer::renderSlightBend(const Note* note, const GuitarBend* bend, c
     result.emplace_back(buildNoteEvent(slightNoteCtx));
 }
 
-void BendsRenderer::renderDip(const Note* note, const GuitarBend* bend, const RenderingContext& ctx, mpe::PlaybackEventList& result)
+void BendsRenderer::renderDip(const Note* note, const GuitarBend* bend, const RenderingContext& ctx,
+                              mpe::PlaybackEventList& result)
 {
     NominalNoteCtx dipNoteCtx(note, ctx);
     dipNoteCtx.duration = 0; // aux notes have no duration
@@ -265,7 +274,8 @@ void BendsRenderer::renderDip(const Note* note, const GuitarBend* bend, const Re
     }
 }
 
-void BendsRenderer::renderScoop(const Note* note, const GuitarBend* bend, const RenderingContext& ctx, mpe::PlaybackEventList& result)
+void BendsRenderer::renderScoop(const Note* note, const GuitarBend* bend,
+                                const RenderingContext& ctx, mpe::PlaybackEventList& result)
 {
     NominalNoteCtx scoopNoteCtx(note, ctx);
     scoopNoteCtx.duration = 0; // aux notes have no duration
@@ -308,7 +318,8 @@ BendsRenderer::BendTimeFactors BendsRenderer::timeFactors(const GuitarBend* bend
     return BendTimeFactors { startFactor, targetFactor, endFactor };
 }
 
-RenderingContext BendsRenderer::buildRenderingContext(const Note* note, const RenderingContext& initialCtx)
+RenderingContext BendsRenderer::buildRenderingContext(const Note* note,
+                                                      const RenderingContext& initialCtx)
 {
     // Use the principal chord to build the context
     const Chord* chord = principalChord(note->chord());
@@ -322,8 +333,10 @@ RenderingContext BendsRenderer::buildRenderingContext(const Note* note, const Re
     return ctx;
 }
 
-mpe::NoteEvent BendsRenderer::buildBendEvent(const Note* startNote, const RenderingContext& startNoteCtx,
-                                             const mpe::PlaybackEventList& bendNoteEvents, const BendTimeFactorMap& timeFactorMap)
+mpe::NoteEvent BendsRenderer::buildBendEvent(const Note* startNote,
+                                             const RenderingContext& startNoteCtx,
+                                             const mpe::PlaybackEventList& bendNoteEvents,
+                                             const BendTimeFactorMap& timeFactorMap)
 {
     NominalNoteCtx noteCtx(startNote, startNoteCtx);
 
@@ -351,10 +364,12 @@ mpe::NoteEvent BendsRenderer::buildBendEvent(const Note* startNote, const Render
         const mpe::ArrangementContext& arrangementCtx = noteEvent.arrangementCtx();
 
         if (arrangementCtx.actualDuration != 0) {
-            noteCtx.duration = arrangementCtx.actualTimestamp + arrangementCtx.actualDuration - noteCtx.timestamp;
+            noteCtx.duration = arrangementCtx.actualTimestamp + arrangementCtx.actualDuration
+                               - noteCtx.timestamp;
         }
 
-        const mpe::pitch_level_t offset = noteEvent.pitchCtx().nominalPitchLevel - noteCtx.pitchLevel;
+        const mpe::pitch_level_t offset = noteEvent.pitchCtx().nominalPitchLevel
+                                          - noteCtx.pitchLevel;
         pitchOffsets.emplace_back(arrangementCtx.actualTimestamp, offset);
     }
 
@@ -364,14 +379,17 @@ mpe::NoteEvent BendsRenderer::buildBendEvent(const Note* startNote, const Render
         meta.overallDuration = noteCtx.duration;
     }
 
-    mpe::PitchCurve curve = buildPitchCurve(noteCtx.timestamp, noteCtx.duration, pitchOffsets, timeFactorMap);
+    mpe::PitchCurve curve = buildPitchCurve(noteCtx.timestamp, noteCtx.duration, pitchOffsets,
+                                            timeFactorMap);
     mpe::NoteEvent result = buildNoteEvent(noteCtx, curve);
 
     return result;
 }
 
-mpe::PitchCurve BendsRenderer::buildPitchCurve(mpe::timestamp_t noteTimestamp, mpe::duration_t noteDuration,
-                                               const PitchOffsets& pitchOffsets, const BendTimeFactorMap& timeFactorMap)
+mpe::PitchCurve BendsRenderer::buildPitchCurve(mpe::timestamp_t noteTimestamp,
+                                               mpe::duration_t noteDuration,
+                                               const PitchOffsets& pitchOffsets,
+                                               const BendTimeFactorMap& timeFactorMap)
 {
     auto findFactorsAtTime = [&timeFactorMap](mpe::timestamp_t time) -> const BendTimeFactors& {
         auto it = muse::findLessOrEqual(timeFactorMap, time);
@@ -392,17 +410,24 @@ mpe::PitchCurve BendsRenderer::buildPitchCurve(mpe::timestamp_t noteTimestamp, m
         const BendTimeFactors& factors = findFactorsAtTime(pair.first);
         const float ratio = static_cast<float>(pair.first - noteTimestamp) / noteDuration;
 
-        const mpe::percentage_t nominalOffsetPercent = static_cast<mpe::percentage_t>(ratio * 100.f) * mpe::ONE_PERCENT;
-        const mpe::percentage_t nominalPercentDiff = nominalOffsetPercent - prevNominalOffsetPrecent;
+        const mpe::percentage_t nominalOffsetPercent
+            = static_cast<mpe::percentage_t>(ratio * 100.f) * mpe::ONE_PERCENT;
+        const mpe::percentage_t nominalPercentDiff = nominalOffsetPercent
+                                                     - prevNominalOffsetPrecent;
 
-        const mpe::percentage_t actualOffsetStartPercent = prevNominalOffsetPrecent + nominalPercentDiff * factors.startFactor;
-        const mpe::percentage_t actualOffsetEndPercent = prevNominalOffsetPrecent + nominalPercentDiff * factors.endFactor;
+        const mpe::percentage_t actualOffsetStartPercent = prevNominalOffsetPrecent
+                                                           + nominalPercentDiff
+                                                           * factors.startFactor;
+        const mpe::percentage_t actualOffsetEndPercent = prevNominalOffsetPrecent
+                                                         + nominalPercentDiff * factors.endFactor;
 
         prevNominalOffsetPrecent = nominalOffsetPercent;
 
         const auto& prevOffset = result.rbegin();
-        result.insert_or_assign(std::min(actualOffsetStartPercent, mpe::HUNDRED_PERCENT), prevOffset->second);
-        result.insert_or_assign(std::min(actualOffsetEndPercent, mpe::HUNDRED_PERCENT), pair.second);
+        result.insert_or_assign(std::min(actualOffsetStartPercent,
+                                         mpe::HUNDRED_PERCENT), prevOffset->second);
+        result.insert_or_assign(std::min(actualOffsetEndPercent, mpe::HUNDRED_PERCENT),
+                                pair.second);
     }
 
     return result;

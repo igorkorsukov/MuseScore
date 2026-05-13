@@ -491,7 +491,8 @@ public:
 public:
     virtual void loadInfo(const QString& info) = 0;
     virtual void loadError() = 0;
-    virtual void loadPosition(int currentMeasure, int totalMeasure, int currentTrack, int totalTrack) = 0;
+    virtual void loadPosition(int currentMeasure, int totalMeasure, int currentTrack,
+                              int totalTrack) = 0;
 };
 
 class IOVEStreamLoader
@@ -2664,11 +2665,14 @@ private:
 
     void organizeContainers(int part, int track, Measure* measure, MeasureData* measureData);
     void organizeMusicDatas(int part, int track, Measure* measure, MeasureData* measureData);
-    void organizeCrossMeasureElements(int part, int track, Measure* measure, MeasureData* measureData);
+    void organizeCrossMeasureElements(int part, int track, Measure* measure,
+                                      MeasureData* measureData);
 
-    void organizePairElement(MusicData* data, int part, int track, Measure* measure, MeasureData* measureData);
+    void organizePairElement(MusicData* data, int part, int track, Measure* measure,
+                             MeasureData* measureData);
     void organizeOctaveShift(OctaveShift* octave, Measure* measure, MeasureData* measureData);
-    void organizeWedge(Wedge* wedge, int part, int track, Measure* measure, MeasureData* measureData);
+    void organizeWedge(Wedge* wedge, int part, int track, Measure* measure,
+                       MeasureData* measureData);
 
 private:
     OveSong* m_ove;

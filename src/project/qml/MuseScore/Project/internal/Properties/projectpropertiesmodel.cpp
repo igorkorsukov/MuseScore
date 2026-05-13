@@ -60,19 +60,26 @@ void ProjectPropertiesModel::load()
         { ARRANGER_TAG, muse::qtrc("project", "Arranger"), m_projectMetaInfo.arranger, true },
         { LYRICIST_TAG, muse::qtrc("project", "Lyricist"), m_projectMetaInfo.lyricist, true },
         { TRANSLATOR_TAG, muse::qtrc("project", "Translator"), m_projectMetaInfo.translator, true },
-        { COPYRIGHT_TAG, muse::qtrc("project", "Copyright"), m_projectMetaInfo.copyright, /*isStandard*/ true, /*isMultiLineEdit*/ true },
-        { WORK_NUMBER_TAG, muse::qtrc("project", "Work number"), additionalProperties[WORK_NUMBER_TAG].toString(), true },
-        { MOVEMENT_TITLE_TAG, muse::qtrc("project", "Movement title"), additionalProperties[MOVEMENT_TITLE_TAG].toString(), true },
-        { MOVEMENT_NUMBER_TAG, muse::qtrc("project", "Movement number"), additionalProperties[MOVEMENT_NUMBER_TAG].toString(), true },
-        { CREATION_DATE_TAG, muse::qtrc("project", "Creation date"), m_projectMetaInfo.creationDate.toString(), true },
+        { COPYRIGHT_TAG, muse::qtrc("project", "Copyright"), m_projectMetaInfo.copyright,
+          /*isStandard*/ true, /*isMultiLineEdit*/ true },
+        { WORK_NUMBER_TAG, muse::qtrc("project", "Work number"),
+          additionalProperties[WORK_NUMBER_TAG].toString(), true },
+        { MOVEMENT_TITLE_TAG, muse::qtrc("project", "Movement title"),
+          additionalProperties[MOVEMENT_TITLE_TAG].toString(), true },
+        { MOVEMENT_NUMBER_TAG, muse::qtrc("project", "Movement number"),
+          additionalProperties[MOVEMENT_NUMBER_TAG].toString(), true },
+        { CREATION_DATE_TAG, muse::qtrc("project", "Creation date"),
+          m_projectMetaInfo.creationDate.toString(), true },
         { PLATFORM_TAG, muse::qtrc("project", "Platform"), m_projectMetaInfo.platform, true },
         { SOURCE_TAG, muse::qtrc("project", "Source"), m_projectMetaInfo.source, true },
-        { AUDIO_COM_URL_TAG, muse::qtrc("project", "Audio.com URL"), m_projectMetaInfo.audioComUrl, true }
+        { AUDIO_COM_URL_TAG, muse::qtrc("project", "Audio.com URL"), m_projectMetaInfo.audioComUrl,
+          true }
     };
 
     for (const QString& propertyName : additionalProperties.keys()) {
         if (!isStandardTag(propertyName)) {
-            m_properties.append({ "", propertyName, additionalProperties[propertyName].toString() });
+            m_properties.append({ "", propertyName,
+                                  additionalProperties[propertyName].toString() });
         }
     }
 

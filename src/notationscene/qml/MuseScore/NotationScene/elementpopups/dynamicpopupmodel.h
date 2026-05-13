@@ -73,7 +73,8 @@ private:
     // Represents different pages of the popup, each containing dynamic/hairpin symbols as strings, width, offset and ItemType
     QVariantList m_pages;
 
-    QString xmlTextToQString(const std::string& text, engraving::IEngravingFontPtr engravingFont) const;
+    QString xmlTextToQString(const std::string& text,
+                             engraving::IEngravingFontPtr engravingFont) const;
 
     void updateItemRect() override;
     bool m_placeAbove = true;

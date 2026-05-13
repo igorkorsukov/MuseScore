@@ -108,7 +108,8 @@ void NoteInputBarModel::load()
 {
     MenuItemList items;
 
-    ToolConfig noteInputConfig = uiState()->toolConfig(TOOLBAR_NAME, NotationUiActions::defaultNoteInputBarConfig());
+    ToolConfig noteInputConfig = uiState()->toolConfig(TOOLBAR_NAME,
+                                                       NotationUiActions::defaultNoteInputBarConfig());
 
     int section = 0;
     for (const ToolConfig::Item& citem : noteInputConfig.items) {
@@ -128,7 +129,9 @@ void NoteInputBarModel::load()
             subitems = makeTupletItems();
         }
 
-        MenuItem* item = makeActionItem(uiActionsRegister()->action(citem.action), QString::number(section), subitems);
+        MenuItem* item
+            = makeActionItem(uiActionsRegister()->action(citem.action), QString::number(
+                                 section), subitems);
         items << item;
     }
 
@@ -253,7 +256,8 @@ void NoteInputBarModel::updateNoteDotState()
     int durationDots = noteInputState().duration().dots();
 
     for (const ActionCode& actionCode: dotActions) {
-        updateItemsStateChecked(actionCode, durationDots == NotationUiActions::actionDotCount(actionCode));
+        updateItemsStateChecked(actionCode,
+                                durationDots == NotationUiActions::actionDotCount(actionCode));
     }
 }
 
@@ -277,7 +281,8 @@ void NoteInputBarModel::updateNoteDurationState()
 
     DurationType durationType = resolveCurrentDurationType();
     for (const ActionCode& actionCode: noteActions) {
-        updateItemsStateChecked(actionCode, durationType == NotationUiActions::actionDurationType(actionCode));
+        updateItemsStateChecked(actionCode,
+                                durationType == NotationUiActions::actionDurationType(actionCode));
     }
 }
 
@@ -294,7 +299,8 @@ void NoteInputBarModel::updateNoteAccidentalState()
     AccidentalType accidentalType = noteInputState().accidentalType();
 
     for (const ActionCode& actionCode: accidentalActions) {
-        updateItemsStateChecked(actionCode, accidentalType == NotationUiActions::actionAccidentalType(actionCode));
+        updateItemsStateChecked(actionCode, accidentalType == NotationUiActions::actionAccidentalType(
+                                    actionCode));
     }
 }
 
@@ -342,7 +348,8 @@ void NoteInputBarModel::updateLvState()
 
 void NoteInputBarModel::updateSlurState()
 {
-    bool checked = m_notation ? m_notation->elements()->msScore()->inputState().slur() != nullptr : false;
+    bool checked = m_notation ? m_notation->elements()->msScore()->inputState().slur()
+                   != nullptr : false;
     updateItemsStateChecked(codeFromQString("add-slur"), checked);
 }
 
@@ -358,7 +365,8 @@ void NoteInputBarModel::updateVoicesState()
     int currentVoice = resolveCurrentVoiceIndex();
 
     for (const ActionCode& actionCode: voiceActions) {
-        updateItemsStateChecked(actionCode, currentVoice == NotationUiActions::actionVoice(actionCode));
+        updateItemsStateChecked(actionCode,
+                                currentVoice == NotationUiActions::actionVoice(actionCode));
     }
 }
 
@@ -379,7 +387,9 @@ void NoteInputBarModel::updateArticulationsState()
     };
 
     for (const ActionCode& actionCode: articulationActions) {
-        updateItemsStateChecked(actionCode, isArticulationSelected(NotationUiActions::actionArticulationSymbolId(actionCode)));
+        updateItemsStateChecked(actionCode,
+                                isArticulationSelected(NotationUiActions::actionArticulationSymbolId(
+                                                           actionCode)));
     }
 }
 
@@ -417,8 +427,10 @@ int NoteInputBarModel::resolveCurrentVoiceIndex() const
     int voice = INVALID_VOICE;
     for (const EngravingItem* element : selectedElements) {
         if (element->hasVoiceAssignmentProperties()) {
-            VoiceAssignment voiceAssignment = element->getProperty(Pid::VOICE_ASSIGNMENT).value<VoiceAssignment>();
-            if (voiceAssignment == VoiceAssignment::ALL_VOICE_IN_INSTRUMENT || voiceAssignment == VoiceAssignment::ALL_VOICE_IN_STAFF) {
+            VoiceAssignment voiceAssignment
+                = element->getProperty(Pid::VOICE_ASSIGNMENT).value<VoiceAssignment>();
+            if (voiceAssignment == VoiceAssignment::ALL_VOICE_IN_INSTRUMENT
+                || voiceAssignment == VoiceAssignment::ALL_VOICE_IN_STAFF) {
                 return INVALID_VOICE;
             }
         }
@@ -601,7 +613,9 @@ MenuItemList NoteInputBarModel::makeAddItems()
         makeMenu(TranslatableString("notation", "Frames"), makeFramesItems()),
         makeMenu(TranslatableString("notation", "Text"), makeTextItems()),
         makeMenu(TranslatableString("notation", "Lines"), makeLinesItems()),
-        makeMenu(TranslatableString("notation", "Chords and fretboard diagrams"), makeChordAndFretboardDiagramsItems()),
+        makeMenu(TranslatableString("notation",
+                                    "Chords and fretboard diagrams"),
+                 makeChordAndFretboardDiagramsItems()),
     };
 
     return items;

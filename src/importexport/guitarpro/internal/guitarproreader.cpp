@@ -28,13 +28,16 @@
 #include "engraving/engravingerrors.h"
 
 namespace mu::iex::guitarpro {
-extern mu::engraving::Err importGTP(mu::engraving::MasterScore*, muse::io::IODevice* io, const muse::modularity::ContextPtr& iocCtx,
+extern mu::engraving::Err importGTP(mu::engraving::MasterScore*, muse::io::IODevice* io,
+                                    const muse::modularity::ContextPtr& iocCtx,
                                     bool experimental = false);
 
-muse::Ret GuitarProReader::read(mu::engraving::MasterScore* score, const muse::io::path_t& path, const Options&)
+muse::Ret GuitarProReader::read(mu::engraving::MasterScore* score, const muse::io::path_t& path,
+                                const Options&)
 {
     muse::io::File file(path);
-    mu::engraving::Err err = importGTP(score, &file, iocContext(), guitarProConfiguration()->experimental());
+    mu::engraving::Err err = importGTP(score, &file, iocContext(),
+                                       guitarProConfiguration()->experimental());
 
     if (guitarProConfiguration()->linkedTabStaffCreated()) {
         engraving::Excerpt::createLinkedTabs(score);

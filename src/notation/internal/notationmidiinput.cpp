@@ -60,8 +60,10 @@ static mu::playback::IPlaybackController::PlayParams makeNoteOffParams()
     return params;
 }
 
-NotationMidiInput::NotationMidiInput(IGetScore* getScore, INotationInteractionPtr notationInteraction,
-                                     INotationUndoStackPtr undoStack, const muse::modularity::ContextPtr& iocCtx)
+NotationMidiInput::NotationMidiInput(IGetScore* getScore,
+                                     INotationInteractionPtr notationInteraction,
+                                     INotationUndoStackPtr undoStack,
+                                     const muse::modularity::ContextPtr& iocCtx)
     : muse::Contextable(iocCtx), m_getScore(getScore),
     m_notationInteraction(notationInteraction), m_undoStack(undoStack)
 {
@@ -167,13 +169,16 @@ void NotationMidiInput::doProcessEvents()
         return;
     }
 
-    const bool useDurationAndVelocity = isSoundPreview || configuration()->useMidiVelocityAndDurationDuringNoteInput();
+    const bool useDurationAndVelocity = isSoundPreview
+                                        || configuration()->
+                                        useMidiVelocityAndDurationDuringNoteInput();
 
     for (size_t i = 0; i < m_eventsQueue.size(); ++i) {
         const muse::midi::Event& event = m_eventsQueue.at(i);
         const muse::midi::Event::Opcode opcode = event.opcode();
 
-        if (opcode == muse::midi::Event::Opcode::ControlChange || opcode == muse::midi::Event::Opcode::PitchBend) {
+        if (opcode == muse::midi::Event::Opcode::ControlChange
+            || opcode == muse::midi::Event::Opcode::PitchBend) {
             controllers[opcode] = event; // keep only last received to prevent spam
             continue;
         }
@@ -207,11 +212,13 @@ void NotationMidiInput::doProcessEvents()
 
     if (!notesOn.empty()) {
         if (isNoteInput) {
-            playbackController()->seekElement(notesOn.front(), !useDurationAndVelocity /*flushSound*/);
+            playbackController()->seekElement(notesOn.front(),
+                                              !useDurationAndVelocity /*flushSound*/);
         }
 
         const std::vector<const EngravingItem*> elements(notesOn.begin(), notesOn.end());
-        playbackController()->playElements(elements, makeNoteOnParams(useDurationAndVelocity), true);
+        playbackController()->playElements(elements, makeNoteOnParams(useDurationAndVelocity),
+                                           true);
         m_notesReceivedChannel.send(notesOn);
     }
 
@@ -227,13 +234,15 @@ void NotationMidiInput::startNoteInputIfNeed()
     }
 
     const auto containsNoteOn = [this]() -> bool {
-        return std::any_of(m_eventsQueue.begin(), m_eventsQueue.end(), [](const muse::midi::Event& e) {
+        return std::any_of(m_eventsQueue.begin(),
+                           m_eventsQueue.end(), [](const muse::midi::Event& e) {
             return e.opcode() == muse::midi::Event::Opcode::NoteOn;
         });
     };
 
     if (configuration()->startNoteInputAtSelectedNoteRestWhenPressingMidiKey()) {
-        if (m_notationInteraction->selection()->elementsSelected(NOTE_REST_TYPES) && containsNoteOn()) {
+        if (m_notationInteraction->selection()->elementsSelected(
+                NOTE_REST_TYPES) && containsNoteOn()) {
             dispatcher()->dispatch("note-input");
         }
     }
@@ -246,7 +255,9 @@ void NotationMidiInput::addNoteEventsToInputState()
     const staff_idx_t staffIdx = state.staffIdx();
     const bool useWrittenPitch = configuration()->midiUseWrittenPitch().val;
     const bool playPreviewNotes = configuration()->isPlayPreviewNotesInInputByDuration();
-    const bool useVelocityAndDuration = playPreviewNotes && configuration()->useMidiVelocityAndDurationDuringNoteInput();
+    const bool useVelocityAndDuration = playPreviewNotes
+                                        && configuration()->
+                                        useMidiVelocityAndDurationDuringNoteInput();
 
     NoteValList notesOn;
     NoteValList notesOff;
@@ -270,7 +281,8 @@ void NotationMidiInput::addNoteEventsToInputState()
                 notesOff.push_back(score()->noteVal(event.note(), staffIdx, useWrittenPitch));
             }
             m_holdingNotesInInputByDuration = false;
-        } else if (opcode == muse::midi::Event::Opcode::ControlChange || opcode == muse::midi::Event::Opcode::PitchBend) {
+        } else if (opcode == muse::midi::Event::Opcode::ControlChange
+                   || opcode == muse::midi::Event::Opcode::PitchBend) {
             if (playPreviewNotes) {
                 controllers[opcode] = event; // keep only last received to prevent spam
             }
@@ -290,7 +302,8 @@ void NotationMidiInput::addNoteEventsToInputState()
         noteInput->setInputNotes(notesOn);
 
         if (playPreviewNotes) {
-            playbackController()->playNotes(notesOn, staffIdx, state.segment(), makeNoteOnParams(useVelocityAndDuration));
+            playbackController()->playNotes(notesOn, staffIdx, state.segment(),
+                                            makeNoteOnParams(useVelocityAndDuration));
         }
     }
 }
@@ -355,7 +368,8 @@ Note* NotationMidiInput::addNoteToScore(const muse::midi::Event& e)
         }
     }
 
-    mu::engraving::Note* note = sc->addMidiPitch(inputEv.pitch, inputEv.chord, configuration()->midiUseWrittenPitch().val);
+    mu::engraving::Note* note = sc->addMidiPitch(inputEv.pitch, inputEv.chord,
+                                                 configuration()->midiUseWrittenPitch().val);
 
     sc->activeMidiPitches().push_back(inputEv);
 
@@ -386,7 +400,8 @@ Note* NotationMidiInput::makePreviewNote(const muse::midi::Event& e)
     note->setParent(chord);
     note->setStaffIdx(staffIdx);
 
-    engraving::NoteVal nval = score->noteVal(e.note(), staffIdx, configuration()->midiUseWrittenPitch().val);
+    engraving::NoteVal nval = score->noteVal(e.note(), staffIdx,
+                                             configuration()->midiUseWrittenPitch().val);
     note->setNval(nval);
 
     return note;
@@ -396,9 +411,11 @@ void NotationMidiInput::triggerControllers(const ControllerEventMap& events)
 {
     muse::mpe::ControllerChangeEventList controllers;
 
-    static const std::unordered_map<int, muse::mpe::ControllerChangeEvent::Type> MIDI_CC_TO_EVENT_TYPE {
+    static const std::unordered_map<int,
+                                    muse::mpe::ControllerChangeEvent::Type> MIDI_CC_TO_EVENT_TYPE {
         { muse::midi::MODWHEEL_CONTROLLER, muse::mpe::ControllerChangeEvent::Modulation },
-        { muse::midi::SUSTAIN_PEDAL_CONTROLLER, muse::mpe::ControllerChangeEvent::SustainPedalOnOff },
+        { muse::midi::SUSTAIN_PEDAL_CONTROLLER,
+          muse::mpe::ControllerChangeEvent::SustainPedalOnOff },
     };
 
     const mu::engraving::InputState& is = score()->inputState();
@@ -411,7 +428,8 @@ void NotationMidiInput::triggerControllers(const ControllerEventMap& events)
             cc.type = muse::mpe::ControllerChangeEvent::PitchBend;
             cc.val = static_cast<float>(e.pitchBend14()) / 16383.f;
         } else {
-            cc.type = muse::value(MIDI_CC_TO_EVENT_TYPE, e.index(), muse::mpe::ControllerChangeEvent::Undefined);
+            cc.type = muse::value(MIDI_CC_TO_EVENT_TYPE,
+                                  e.index(), muse::mpe::ControllerChangeEvent::Undefined);
             cc.val = static_cast<float>(e.data()) / 127.f;
         }
 
@@ -490,7 +508,8 @@ void NotationMidiInput::stopRealtime()
 
 void NotationMidiInput::doRealtimeAdvance()
 {
-    if (!isRealtime() || !isNoteInputMode() || (!m_allowRealtimeRests && m_getScore->score()->activeMidiPitches().empty())) {
+    if (!isRealtime() || !isNoteInputMode()
+        || (!m_allowRealtimeRests && m_getScore->score()->activeMidiPitches().empty())) {
         if (m_realtimeTimer.isActive()) {
             stopRealtime();
         }

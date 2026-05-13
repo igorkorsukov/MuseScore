@@ -60,7 +60,8 @@ LHTappingShowItems Tapping::lhShowItems() const
     const MStyle& s = style();
     bool tabStaff = staffType()->isTabStaff();
 
-    return s.styleV(tabStaff ? Sid::lhTappingShowItemsTab : Sid::lhTappingShowItemsNormalStave).value<LHTappingShowItems>();
+    return s.styleV(tabStaff ? Sid::lhTappingShowItemsTab : Sid::lhTappingShowItemsNormalStave).
+           value<LHTappingShowItems>();
 }
 
 void Tapping::styleChanged()
@@ -83,7 +84,8 @@ int Tapping::subtype() const
 
 String Tapping::accessibleInfo() const
 {
-    return String(u"%1 %2").arg(translatedSubtypeUserName(), TConv::userName(ElementType::TAPPING).translated());
+    return String(u"%1 %2").arg(translatedSubtypeUserName(), TConv::userName(
+                                    ElementType::TAPPING).translated());
 }
 
 TranslatableString Tapping::typeUserName() const
@@ -93,7 +95,9 @@ TranslatableString Tapping::typeUserName() const
 
 TranslatableString Tapping::subtypeUserName() const
 {
-    return m_hand == TappingHand::LEFT ? TranslatableString("engraving", "Left-hand") : TranslatableString("engraving", "Right-hand");
+    return m_hand
+           == TappingHand::LEFT ? TranslatableString("engraving", "Left-hand") : TranslatableString(
+        "engraving", "Right-hand");
 }
 
 TappingHalfSlur::TappingHalfSlur(EngravingItem* parent)

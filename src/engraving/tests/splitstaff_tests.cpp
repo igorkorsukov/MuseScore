@@ -39,7 +39,8 @@ public:
 
 void Engraving_SplitStaffTests::splitstaff(int idx, int staffIdx)
 {
-    MasterScore* score = ScoreRW::readScore(SPLITSTAFF_DATA_DIR + String(u"splitstaff0%1.mscx").arg(idx));
+    MasterScore* score
+        = ScoreRW::readScore(SPLITSTAFF_DATA_DIR + String(u"splitstaff0%1.mscx").arg(idx));
     EXPECT_TRUE(score);
 
     score->startCmd(TranslatableString::untranslatable("Engraving split staff tests"));
@@ -47,7 +48,8 @@ void Engraving_SplitStaffTests::splitstaff(int idx, int staffIdx)
     score->endCmd();
 
     EXPECT_TRUE(ScoreComp::saveCompareScore(score, String(u"splitstaff0%1.mscx").arg(idx),
-                                            SPLITSTAFF_DATA_DIR + String(u"splitstaff0%1-ref.mscx").arg(idx)));
+                                            SPLITSTAFF_DATA_DIR
+                                            + String(u"splitstaff0%1-ref.mscx").arg(idx)));
     delete score;
 }
 

@@ -120,7 +120,8 @@ bool MTest::compareFiles(const QString& saveName, const QString& compareWith) co
     return compareFilesFromPaths(saveName, root + "/" + compareWith);
 }
 
-bool MTest::saveCompareScore(Score* score, const QString& saveName, const QString& compareWith) const
+bool MTest::saveCompareScore(Score* score, const QString& saveName,
+                             const QString& compareWith) const
 {
     if (!saveScore(score, saveName)) {
         return false;

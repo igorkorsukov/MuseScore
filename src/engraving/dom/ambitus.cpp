@@ -292,7 +292,8 @@ Ambitus::Ranges Ambitus::estimateRanges() const
 {
     Ambitus::Ranges result;
 
-    Segment* s = segment() ? segment()->measure()->findSegment(SegmentType::ChordRest, segment()->tick()) : nullptr;
+    Segment* s = segment() ? segment()->measure()->findSegment(SegmentType::ChordRest,
+                                                               segment()->tick()) : nullptr;
     for (; s && !s->measure()->sectionBreak(); s = s->nextCR()) {
         for (track_idx_t t = track(); t < track() + VOICES; t++) {
             EngravingItem* e = s->element(t);
@@ -481,8 +482,12 @@ String Ambitus::accessibleInfo() const
     }
     return EngravingItem::accessibleInfo() + u"; "
            + muse::mtrc("engraving", "Top pitch: %1; Bottom pitch: %2")
-           .arg(tpc2name(topTpc(), NoteSpellingType::STANDARD, NoteCaseType::AUTO, false) + String::number(topOctave()),
-                tpc2name(bottomTpc(), NoteSpellingType::STANDARD, NoteCaseType::AUTO, false) + String::number(bottomOctave()));
+           .arg(tpc2name(
+                    topTpc(), NoteSpellingType::STANDARD, NoteCaseType::AUTO,
+                    false) + String::number(topOctave()),
+                tpc2name(
+                    bottomTpc(), NoteSpellingType::STANDARD, NoteCaseType::AUTO,
+                    false) + String::number(bottomOctave()));
 }
 
 AccidentalType Ambitus::accidentalType(int tpc, Key key)

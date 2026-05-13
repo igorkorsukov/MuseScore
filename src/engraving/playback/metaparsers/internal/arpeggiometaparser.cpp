@@ -27,7 +27,8 @@
 using namespace mu::engraving;
 using namespace muse;
 
-void ArpeggioMetaParser::doParse(const EngravingItem* item, const RenderingContext& ctx, mpe::ArticulationMap& result)
+void ArpeggioMetaParser::doParse(const EngravingItem* item, const RenderingContext& ctx,
+                                 mpe::ArticulationMap& result)
 {
     IF_ASSERT_FAILED(item->isArpeggio()) {
         return;

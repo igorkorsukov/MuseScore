@@ -31,7 +31,8 @@ using namespace mu::iex::musicxml;
 
 String MusicXmlInstrument::toString() const
 {
-    return String(u"chan %1 prog %2 vol %3 pan %4 unpitched %5 name '%6' sound '%7' head %8 line %9 stemDir %10")
+    return String(
+        u"chan %1 prog %2 vol %3 pan %4 unpitched %5 name '%6' sound '%7' head %8 line %9 stemDir %10")
            .arg(midiChannel)
            .arg(midiProgram)
            .arg(midiVolume)

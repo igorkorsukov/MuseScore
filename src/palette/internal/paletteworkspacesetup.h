@@ -44,7 +44,8 @@ public:
     void setup();
 
 private:
-    PaletteTreePtr readPalette(const muse::ByteArray& data, const muse::modularity::ContextPtr& iocCtx);
+    PaletteTreePtr readPalette(const muse::ByteArray& data,
+                               const muse::modularity::ContextPtr& iocCtx);
     void writePalette(const PaletteTreePtr& tree, QByteArray& data);
 };
 }

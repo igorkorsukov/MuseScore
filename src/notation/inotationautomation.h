@@ -37,7 +37,8 @@ public:
     virtual QVariant automationLinesData() const = 0;
     virtual muse::async::Notification automationLinesDataChanged() const = 0;
 
-    virtual void requestChangeAutomationPoint(qsizetype lineIdx, qsizetype pointIdx, qreal x, qreal y) = 0;
+    virtual void requestChangeAutomationPoint(qsizetype lineIdx, qsizetype pointIdx, qreal x,
+                                              qreal y) = 0;
 };
 
 using INotationAutomationPtr = std::shared_ptr<INotationAutomation>;

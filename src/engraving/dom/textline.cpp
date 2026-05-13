@@ -126,7 +126,8 @@ static const ElementStyle systemTextLineStyle {
 //---------------------------------------------------------
 
 TextLineSegment::TextLineSegment(Spanner* sp, System* parent, bool system)
-    : TextLineBaseSegment(ElementType::TEXTLINE_SEGMENT, sp, parent, ElementFlag::MOVABLE | ElementFlag::ON_STAFF)
+    : TextLineBaseSegment(ElementType::TEXTLINE_SEGMENT, sp, parent,
+                          ElementFlag::MOVABLE | ElementFlag::ON_STAFF)
 {
     setSystemFlag(system);
     initStyle();

@@ -81,7 +81,8 @@ static void setTempoToScore(Score* score, int tick, double beatsPerSecond, const
 
     auto* data = midiImportOperations.data();
     if (data->trackOpers.showTempoText.value()) {
-        const double tempoInBpm = roundTempo ? qRound(beatsPerSecond * 60.0) : (beatsPerSecond * 60.0);
+        const double tempoInBpm
+            = roundTempo ? qRound(beatsPerSecond * 60.0) : (beatsPerSecond * 60.0);
 
         Measure* measure = score->tick2measure(Fraction::fromTicks(tick));
         if (!measure) {
@@ -105,7 +106,8 @@ static inline double roundToBpm(double beatsPerSecond)
     return qRound(beatsPerSecond * 60.0) / 60.0;
 }
 
-static void applyAllTempoEvents(const std::multimap<int, MTrack>& tracks, Score* score, const bool roundTempo)
+static void applyAllTempoEvents(const std::multimap<int, MTrack>& tracks, Score* score,
+                                const bool roundTempo)
 {
     for (const auto& track: tracks) {
         if (track.second.isDivisionInTps) {         // ticks per second

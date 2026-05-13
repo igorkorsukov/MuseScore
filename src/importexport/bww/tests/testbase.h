@@ -43,7 +43,8 @@ protected:
     bool saveScore(mu::engraving::Score*, const QString& name) const;
 
     bool compareFiles(const QString& saveName, const QString& compareWith) const;
-    bool saveCompareScore(mu::engraving::Score*, const QString& saveName, const QString& compareWith) const;
+    bool saveCompareScore(mu::engraving::Score*, const QString& saveName,
+                          const QString& compareWith) const;
 
     void setRootDir(const QString& root);
 

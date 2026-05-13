@@ -144,7 +144,8 @@ static int distance(const Location& l1, const Location& l2)
     Fraction dfrac = (l2.frac() - l1.frac()).absValue();
     int dpos = dfrac.numerator() * commonDenominator / dfrac.denominator();
     dpos += 10000 * std::abs(l2.measure() - l1.measure());
-    return 1000 * dpos + 100 * std::abs(l2.track() - l1.track()) + 10 * std::abs(l2.note() - l1.note()) + std::abs(
+    return 1000 * dpos + 100 * std::abs(l2.track() - l1.track()) + 10 * std::abs(
+        l2.note() - l1.note()) + std::abs(
         l2.graceIndex() - l1.graceIndex());
 }
 

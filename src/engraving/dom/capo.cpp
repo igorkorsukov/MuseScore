@@ -32,7 +32,8 @@ static const ElementStyle CAPO_STYLE {
 };
 
 Capo::Capo(Segment* parent, TextStyleType textStyleType)
-    : StaffTextBase(ElementType::CAPO, parent, textStyleType, ElementFlag::MOVABLE | ElementFlag::ON_STAFF)
+    : StaffTextBase(ElementType::CAPO, parent, textStyleType,
+                    ElementFlag::MOVABLE | ElementFlag::ON_STAFF)
 {
     initElementStyle(&CAPO_STYLE);
 

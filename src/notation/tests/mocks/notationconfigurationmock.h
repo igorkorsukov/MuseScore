@@ -90,7 +90,8 @@ public:
 
     MOCK_METHOD(bool, useNoteInputCursorInInputByDuration, (), (const, override));
     MOCK_METHOD(void, setUseNoteInputCursorInInputByDuration, (bool), (override));
-    MOCK_METHOD(muse::async::Notification, useNoteInputCursorInInputByDurationChanged, (), (const, override));
+    MOCK_METHOD(muse::async::Notification, useNoteInputCursorInInputByDurationChanged, (),
+                (const, override));
 
     MOCK_METHOD(int, selectionProximity, (), (const, override));
     MOCK_METHOD(void, setSelectionProximity, (int), (override));
@@ -114,15 +115,18 @@ public:
 
     MOCK_METHOD(muse::io::path_t, userStylesPath, (), (const, override));
     MOCK_METHOD(void, setUserStylesPath, (const muse::io::path_t&), (override));
-    MOCK_METHOD(muse::async::Channel<muse::io::path_t>, userStylesPathChanged, (), (const, override));
+    MOCK_METHOD(muse::async::Channel<muse::io::path_t>, userStylesPathChanged, (),
+                (const, override));
 
     MOCK_METHOD(muse::io::path_t, defaultStyleFilePath, (), (const, override));
     MOCK_METHOD(void, setDefaultStyleFilePath, (const muse::io::path_t&), (override));
-    MOCK_METHOD(muse::async::Channel<muse::io::path_t>, defaultStyleFilePathChanged, (), (const, override));
+    MOCK_METHOD(muse::async::Channel<muse::io::path_t>, defaultStyleFilePathChanged, (),
+                (const, override));
 
     MOCK_METHOD(muse::io::path_t, partStyleFilePath, (), (const, override));
     MOCK_METHOD(void, setPartStyleFilePath, (const muse::io::path_t&), (override));
-    MOCK_METHOD(muse::async::Channel<muse::io::path_t>, partStyleFilePathChanged, (), (const, override));
+    MOCK_METHOD(muse::async::Channel<muse::io::path_t>, partStyleFilePathChanged, (),
+                (const, override));
 
     MOCK_METHOD(NoteInputMethod, defaultNoteInputMethod, (), (const, override));
     MOCK_METHOD(void, setDefaultNoteInputMethod, (NoteInputMethod), (override));
@@ -130,11 +134,13 @@ public:
 
     MOCK_METHOD(bool, addAccidentalDotsArticulationsToNextNoteEntered, (), (const, override));
     MOCK_METHOD(void, setAddAccidentalDotsArticulationsToNextNoteEntered, (bool), (override));
-    MOCK_METHOD(muse::async::Notification, addAccidentalDotsArticulationsToNextNoteEnteredChanged, (), (const, override));
+    MOCK_METHOD(muse::async::Notification, addAccidentalDotsArticulationsToNextNoteEnteredChanged,
+                (), (const, override));
 
     MOCK_METHOD(muse::io::path_t, userMusicFontsPath, (), (const, override));
     MOCK_METHOD(void, setUserMusicFontsPath, (const muse::io::path_t&), (override));
-    MOCK_METHOD(muse::async::Channel<muse::io::path_t>, userMusicFontsPathChanged, (), (const, override));
+    MOCK_METHOD(muse::async::Channel<muse::io::path_t>, userMusicFontsPathChanged, (),
+                (const, override));
 
     MOCK_METHOD(bool, isMidiInputEnabled, (), (const, override));
     MOCK_METHOD(void, setIsMidiInputEnabled, (bool), (override));
@@ -142,7 +148,8 @@ public:
 
     MOCK_METHOD(bool, startNoteInputAtSelectedNoteRestWhenPressingMidiKey, (), (const, override));
     MOCK_METHOD(void, setStartNoteInputAtSelectedNoteRestWhenPressingMidiKey, (bool), (override));
-    MOCK_METHOD(muse::async::Notification, startNoteInputAtSelectedNoteRestWhenPressingMidiKeyChanged, (), (const, override));
+    MOCK_METHOD(muse::async::Notification,
+                startNoteInputAtSelectedNoteRestWhenPressingMidiKeyChanged, (), (const, override));
 
     MOCK_METHOD(bool, isAutomaticallyPanEnabled, (), (const, override));
     MOCK_METHOD(void, setIsAutomaticallyPanEnabled, (bool), (override));
@@ -158,11 +165,13 @@ public:
 
     MOCK_METHOD(bool, isPlayPreviewNotesInInputByDuration, (), (const, override));
     MOCK_METHOD(void, setIsPlayPreviewNotesInInputByDuration, (bool), (override));
-    MOCK_METHOD(muse::async::Notification, isPlayPreviewNotesInInputByDurationChanged, (), (const, override));
+    MOCK_METHOD(muse::async::Notification, isPlayPreviewNotesInInputByDurationChanged, (),
+                (const, override));
 
     MOCK_METHOD(bool, playPreviewNotesWithScoreDynamics, (), (const, override));
     MOCK_METHOD(void, setPlayPreviewNotesWithScoreDynamics, (bool), (override));
-    MOCK_METHOD(muse::async::Notification, playPreviewNotesWithScoreDynamicsChanged, (), (const, override));
+    MOCK_METHOD(muse::async::Notification, playPreviewNotesWithScoreDynamicsChanged, (),
+                (const, override));
 
     MOCK_METHOD(bool, isMetronomeEnabled, (), (const, override));
     MOCK_METHOD(void, setIsMetronomeEnabled, (bool), (override));
@@ -176,7 +185,8 @@ public:
 
     MOCK_METHOD(bool, colorNotesOutsideOfUsablePitchRange, (), (const, override));
     MOCK_METHOD(void, setColorNotesOutsideOfUsablePitchRange, (bool), (override));
-    MOCK_METHOD((muse::async::Channel<bool>), colorNotesOutsideOfUsablePitchRangeChanged, (), (const, override));
+    MOCK_METHOD((muse::async::Channel<bool>), colorNotesOutsideOfUsablePitchRangeChanged, (),
+                (const, override));
 
     MOCK_METHOD(bool, warnGuitarBends, (), (const, override));
     MOCK_METHOD(void, setWarnGuitarBends, (bool), (override));
@@ -184,15 +194,18 @@ public:
 
     MOCK_METHOD(int, delayBetweenNotesInRealTimeModeMilliseconds, (), (const, override));
     MOCK_METHOD(void, setDelayBetweenNotesInRealTimeModeMilliseconds, (int), (override));
-    MOCK_METHOD((muse::async::Channel<int>), delayBetweenNotesInRealTimeModeMillisecondsChanged, (), (const, override));
+    MOCK_METHOD((muse::async::Channel<int>), delayBetweenNotesInRealTimeModeMillisecondsChanged, (),
+                (const, override));
 
     MOCK_METHOD(bool, useMidiVelocityAndDurationDuringNoteInput, (), (const, override));
     MOCK_METHOD(void, setUseMidiVelocityAndDurationDuringNoteInput, (bool), (override));
-    MOCK_METHOD(muse::async::Channel<bool>, useMidiVelocityAndDurationDuringNoteInputChanged, (), (const, override));
+    MOCK_METHOD(muse::async::Channel<bool>, useMidiVelocityAndDurationDuringNoteInputChanged, (),
+                (const, override));
 
     MOCK_METHOD(int, notePlayDurationMilliseconds, (), (const, override));
     MOCK_METHOD(void, setNotePlayDurationMilliseconds, (int), (override));
-    MOCK_METHOD((muse::async::Channel<int>), notePlayDurationMillisecondsChanged, (), (const, override));
+    MOCK_METHOD((muse::async::Channel<int>), notePlayDurationMillisecondsChanged, (),
+                (const, override));
 
     MOCK_METHOD(void, setTemplateModeEnabled, (std::optional<bool>), (override));
     MOCK_METHOD(void, setTestModeEnabled, (std::optional<bool>), (override));
@@ -203,7 +216,8 @@ public:
     MOCK_METHOD(muse::io::path_t, userInstrumentsFolder, (), (const, override));
     MOCK_METHOD(muse::io::paths_t, userInstrumentsAndScoreOrdersPaths, (), (const, override));
     MOCK_METHOD(void, setUserInstrumentsFolder, (const muse::io::path_t&), (override));
-    MOCK_METHOD(muse::async::Channel<muse::io::path_t>, userInstrumentsFolderChanged, (), (const, override));
+    MOCK_METHOD(muse::async::Channel<muse::io::path_t>, userInstrumentsFolderChanged, (),
+                (const, override));
 
     MOCK_METHOD(muse::io::path_t, stringTuningsPresetsPath, (), (const, override));
 
@@ -221,6 +235,7 @@ public:
 
     MOCK_METHOD(muse::io::path_t, styleFileImportPath, (), (const, override));
     MOCK_METHOD(void, setStyleFileImportPath, (const muse::io::path_t&), (override));
-    MOCK_METHOD((muse::async::Channel<std::string>), styleFileImportPathChanged, (), (const, override));
+    MOCK_METHOD((muse::async::Channel<std::string>), styleFileImportPathChanged, (),
+                (const, override));
 };
 }

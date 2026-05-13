@@ -27,7 +27,8 @@
 
 using namespace mu::inspector;
 
-RestSettingsProxyModel::RestSettingsProxyModel(QObject* parent, const muse::modularity::ContextPtr& iocCtx,
+RestSettingsProxyModel::RestSettingsProxyModel(QObject* parent,
+                                               const muse::modularity::ContextPtr& iocCtx,
                                                IElementRepositoryService* repository)
     : AbstractInspectorProxyModel(parent, iocCtx, repository)
 {

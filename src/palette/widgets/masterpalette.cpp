@@ -189,7 +189,8 @@ void MasterPalette::currentChanged(QTreeWidgetItem* item, QTreeWidgetItem*)
 
     if (idx > m_idxAllSymbols) {
         if (!m_symbolWidgets.contains(idx)) {
-            String rangeName = std::next(Smufl::smuflRanges().cbegin(), idx - m_idxAllSymbols - 1)->first;
+            String rangeName
+                = std::next(Smufl::smuflRanges().cbegin(), idx - m_idxAllSymbols - 1)->first;
             SymbolDialog* dialog = new SymbolDialog(rangeName.toQString());
             m_symbolWidgets[idx] = dialog;
             stack->addWidget(dialog);

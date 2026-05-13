@@ -234,7 +234,8 @@ int Location::note(const EngravingItem* e)
 //   Location::getLocationProperty
 //---------------------------------------------------------
 
-PropertyValue Location::getLocationProperty(Pid pid, const EngravingItem* start, const EngravingItem* end)
+PropertyValue Location::getLocationProperty(Pid pid, const EngravingItem* start,
+                                            const EngravingItem* end)
 {
     if (!start || !end) {
         return 0;

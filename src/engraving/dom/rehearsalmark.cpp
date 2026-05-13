@@ -55,7 +55,8 @@ static const ElementStyle additionalRehearsalMarkStyle {
 //---------------------------------------------------------
 
 RehearsalMark::RehearsalMark(Segment* parent)
-    : TextBase(ElementType::REHEARSAL_MARK, parent, TextStyleType::REHEARSAL_MARK, ElementFlag::ON_STAFF)
+    : TextBase(ElementType::REHEARSAL_MARK, parent, TextStyleType::REHEARSAL_MARK,
+               ElementFlag::ON_STAFF)
 {
     initElementStyle(&rehearsalMarkStyle);
     setSystemFlag(true);
@@ -70,7 +71,8 @@ bool RehearsalMark::isEditAllowed(EditData& ed) const
     bool ctrlPressed  = ed.modifiers & ControlModifier;
     bool shiftPressed = ed.modifiers & ShiftModifier;
     bool altPressed = ed.modifiers & AltModifier;
-    if (altPressed && !ctrlPressed && !shiftPressed && (ed.key == Key_Left || ed.key == Key_Right)) {
+    if (altPressed && !ctrlPressed && !shiftPressed
+        && (ed.key == Key_Left || ed.key == Key_Right)) {
         return false;
     }
 
@@ -98,7 +100,8 @@ void RehearsalMark::setType(RehearsalMark::Type type)
 
 void RehearsalMark::applyTypeStyle()
 {
-    const auto& elemStyleMap = (m_type == Type::Main ? mainRehearsalMarkStyle : additionalRehearsalMarkStyle);
+    const auto& elemStyleMap
+        = (m_type == Type::Main ? mainRehearsalMarkStyle : additionalRehearsalMarkStyle);
     for (const auto& elem : elemStyleMap) {
         if (propertyFlags(elem.pid) == PropertyFlags::STYLED) {
             setProperty(elem.pid, style().styleV(elem.sid));

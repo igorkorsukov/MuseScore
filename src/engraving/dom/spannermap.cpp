@@ -60,7 +60,8 @@ void SpannerMap::update() const
 //   findContained
 //---------------------------------------------------------
 
-const SpannerMap::IntervalList& SpannerMap::findContained(int start, int stop, bool excludeCollisions) const
+const SpannerMap::IntervalList& SpannerMap::findContained(int start, int stop,
+                                                          bool excludeCollisions) const
 {
     if (m_dirty) {
         update();
@@ -81,7 +82,8 @@ const SpannerMap::IntervalList& SpannerMap::findContained(int start, int stop, b
 //   findOverlapping
 //---------------------------------------------------------
 
-const SpannerMap::IntervalList& SpannerMap::findOverlapping(int start, int stop, bool excludeCollisions) const
+const SpannerMap::IntervalList& SpannerMap::findOverlapping(int start, int stop,
+                                                            bool excludeCollisions) const
 {
     if (m_dirty) {
         update();
@@ -98,7 +100,8 @@ const SpannerMap::IntervalList& SpannerMap::findOverlapping(int start, int stop,
     return m_results;
 }
 
-void SpannerMap::collectIntervals(IntervalList& regularIntervals, IntervalList& collisionFreeIntervals) const
+void SpannerMap::collectIntervals(IntervalList& regularIntervals,
+                                  IntervalList& collisionFreeIntervals) const
 {
     using IntervalsByType = std::map<ElementType, IntervalList>;
     using IntervalsByPart = std::map<ID, IntervalsByType>;

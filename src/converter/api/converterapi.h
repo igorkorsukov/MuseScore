@@ -44,10 +44,12 @@ public:
 
     // work with FS
     Q_INVOKABLE QString selectDir(const QString& title, const QString& dir = QString()) const;
-    Q_INVOKABLE QStringList scanDir(const QString& dir, const QStringList& filters = QStringList()) const;
+    Q_INVOKABLE QStringList scanDir(const QString& dir,
+                                    const QStringList& filters = QStringList()) const;
     Q_INVOKABLE QString basename(const QString& filePath) const;
 
     // convert
-    Q_INVOKABLE bool batch(const QString& outDir, const QString& job, const QString& uriQuery, QJSValue progress = QJSValue());
+    Q_INVOKABLE bool batch(const QString& outDir, const QString& job, const QString& uriQuery,
+                           QJSValue progress = QJSValue());
 };
 }

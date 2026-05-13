@@ -400,7 +400,8 @@ bool TextBase::isEditAllowed(EditData& ed) const
 
 #if defined(Q_OS_WIN)
         // Allow special characters to be typed with AltGr / Ctrl+Alt (they are the same in Windows)
-        if (!ed.s.empty() && (ed.key < Key_A || ed.key > Key_Z) && (ed.key < Key_0 || ed.key > Key_9)) {
+        if (!ed.s.empty() && (ed.key < Key_A || ed.key > Key_Z)
+            && (ed.key < Key_0 || ed.key > Key_9)) {
             return true;
         }
 #endif
@@ -434,7 +435,8 @@ bool TextBase::edit(EditData& ed)
     bool shiftPressed = ed.modifiers & ShiftModifier;
     bool altPressed = ed.modifiers & AltModifier;
 
-    TextCursor::MoveMode mm = shiftPressed ? TextCursor::MoveMode::KeepAnchor : TextCursor::MoveMode::MoveAnchor;
+    TextCursor::MoveMode mm
+        = shiftPressed ? TextCursor::MoveMode::KeepAnchor : TextCursor::MoveMode::MoveAnchor;
 
     bool wasHex = false;
     if (m_hexState >= 0) {
@@ -493,7 +495,8 @@ bool TextBase::edit(EditData& ed)
 
             if (ctrlPressed) {
                 // delete next word
-                cursor->movePosition(TextCursor::MoveOperation::NextWord, TextCursor::MoveMode::KeepAnchor);
+                cursor->movePosition(TextCursor::MoveOperation::NextWord,
+                                     TextCursor::MoveMode::KeepAnchor);
                 int endPosition = cursor->currentPosition();
                 String text = cursor->selectedText();
 
@@ -515,7 +518,8 @@ bool TextBase::edit(EditData& ed)
                             score()->undo(new JoinText(cursor), &ed);
                         }
                     } else {
-                        score()->undo(new RemoveText(cursor, String(cursor->currentCharacter())), &ed);
+                        score()->undo(new RemoveText(cursor, String(
+                                                         cursor->currentCharacter())), &ed);
                     }
                 } else {
                     notifyAboutTextRemoved(startPosition + 1, startPosition, text);
@@ -529,7 +533,8 @@ bool TextBase::edit(EditData& ed)
 
             if (ctrlPressed) {
                 // delete last word
-                cursor->movePosition(TextCursor::MoveOperation::WordLeft, TextCursor::MoveMode::KeepAnchor);
+                cursor->movePosition(TextCursor::MoveOperation::WordLeft,
+                                     TextCursor::MoveMode::KeepAnchor);
                 int endPosition = cursor->currentPosition();
                 String text = cursor->selectedText();
 
@@ -548,7 +553,8 @@ bool TextBase::edit(EditData& ed)
                         if (!cursor->movePosition(TextCursor::MoveOperation::Left)) {
                             return false;
                         }
-                        score()->undo(new RemoveText(cursor, String(cursor->currentCharacter())), &ed);
+                        score()->undo(new RemoveText(cursor, String(
+                                                         cursor->currentCharacter())), &ed);
                     }
                 } else {
                     notifyAboutTextRemoved(startPosition, startPosition - 1, text);
@@ -558,7 +564,8 @@ bool TextBase::edit(EditData& ed)
         }
 
         case Key_Left:
-            if (!m_cursor->movePosition(ctrlPressed ? TextCursor::MoveOperation::WordLeft : TextCursor::MoveOperation::Left, mm)
+            if (!m_cursor->movePosition(ctrlPressed ? TextCursor::MoveOperation::WordLeft :
+                                        TextCursor::MoveOperation::Left, mm)
                 && isLyrics()) {
                 return false;
             }
@@ -569,7 +576,8 @@ bool TextBase::edit(EditData& ed)
             break;
 
         case Key_Right:
-            if (!m_cursor->movePosition(ctrlPressed ? TextCursor::MoveOperation::NextWord : TextCursor::MoveOperation::Right, mm)
+            if (!m_cursor->movePosition(ctrlPressed ? TextCursor::MoveOperation::NextWord :
+                                        TextCursor::MoveOperation::Right, mm)
                 && isLyrics()) {
                 return false;
             }
@@ -634,7 +642,8 @@ bool TextBase::edit(EditData& ed)
             break;
 
         case Key_Space:
-            if ((ed.modifiers & TextEditingControlModifier) || currentFormat->fontFamily() == u"ScoreText") {
+            if ((ed.modifiers & TextEditingControlModifier)
+                || currentFormat->fontFamily() == u"ScoreText") {
                 s = String(Char(0xa0)); // non-breaking space
             } else {
                 if (isFingering() && ed.view()) {
@@ -661,8 +670,10 @@ bool TextBase::edit(EditData& ed)
 
         case Key_A:
             if (ctrlPressed && !shiftPressed) {
-                cursor->movePosition(TextCursor::MoveOperation::Start, TextCursor::MoveMode::MoveAnchor);
-                cursor->movePosition(TextCursor::MoveOperation::End, TextCursor::MoveMode::KeepAnchor);
+                cursor->movePosition(TextCursor::MoveOperation::Start,
+                                     TextCursor::MoveMode::MoveAnchor);
+                cursor->movePosition(TextCursor::MoveOperation::End,
+                                     TextCursor::MoveMode::KeepAnchor);
                 s.clear();
 
                 notifyAboutTextCursorChanged();
@@ -849,7 +860,8 @@ void SplitJoinText::split(EditData* ed)
     TextBase::LayoutData* ldata = t->mutldata();
     CharFormat* charFmt = m_cursor.format();           // take current format
     ldata->blocks.insert(ldata->blocks.begin() + line + 1,
-                         m_cursor.curLine().split(static_cast<int>(m_cursor.column()), t->cursorFromEditData(*ed)));
+                         m_cursor.curLine().split(static_cast<int>(m_cursor.column()),
+                                                  t->cursorFromEditData(*ed)));
     m_cursor.curLine().setEol(true);
 
     m_cursor.setRow(line + 1);
@@ -945,7 +957,9 @@ void TextBase::paste(EditData& ed, const String& txt)
                         assert(i + 1 < txt.size());
                         i++;
                         Char lowSurrogate = txt.at(i);
-                        insertText(ed, String::fromUcs4(Char::surrogateToUcs4(highSurrogate, lowSurrogate)));
+                        insertText(ed,
+                                   String::fromUcs4(Char::surrogateToUcs4(highSurrogate,
+                                                                          lowSurrogate)));
                     } else if (c == '\r') {
                         continue;
                     } else if (c == '\n') {
@@ -1088,7 +1102,8 @@ void ChangeTextProperties::restoreSelection()
     tc.text()->cursor()->setColumn(tc.column());
 }
 
-ChangeTextProperties::ChangeTextProperties(const TextCursor* tc, Pid propId, const PropertyValue& propVal, PropertyFlags flags_)
+ChangeTextProperties::ChangeTextProperties(const TextCursor* tc, Pid propId,
+                                           const PropertyValue& propVal, PropertyFlags flags_)
     : TextEditUndoCommand(*tc)
 {
     m_propertyId = propId;

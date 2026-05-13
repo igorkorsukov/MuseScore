@@ -58,19 +58,25 @@ public:
     static void verticalAdjustBeamedRests(Rest* rest, Beam* beam, LayoutContext& ctx);
     static void checkCrossPosAndStemConsistency(Beam* beam, LayoutContext& ctx);
 
-    static PointF chordBeamAnchor(const Beam* item, const ChordRest* chord, ChordBeamAnchorType anchorType);
+    static PointF chordBeamAnchor(const Beam* item, const ChordRest* chord,
+                                  ChordBeamAnchorType anchorType);
     static double chordBeamAnchorY(const Beam* item, const ChordRest* chord);
     static void setTremAnchors(Beam* item, const LayoutContext& ctx);
 
 private:
     static void beamGraceNotes(LayoutContext& ctx, Chord* mainNote, bool after);
 
-    static void layout2(Beam* item, const LayoutContext& ctx, const std::vector<ChordRest*>& chordRests, SpannerSegmentType, int frag);
+    static void layout2(Beam* item, const LayoutContext& ctx,
+                        const std::vector<ChordRest*>& chordRests, SpannerSegmentType, int frag);
 
-    static void createBeamSegments(Beam* item, const LayoutContext& ctx, const std::vector<ChordRest*>& chordRests);
-    static bool calcIsBeamletBefore(const Beam* item, Chord* chord, int i, int level, bool isAfter32Break, bool isAfter64Break);
-    static void createBeamSegment(Beam* item, ChordRest* startChord, ChordRest* endChord, int level, bool shortStems);
-    static void createBeamletSegment(Beam* item, const LayoutContext& ctx, ChordRest* chord, bool isBefore, int level);
+    static void createBeamSegments(Beam* item, const LayoutContext& ctx,
+                                   const std::vector<ChordRest*>& chordRests);
+    static bool calcIsBeamletBefore(const Beam* item, Chord* chord, int i, int level,
+                                    bool isAfter32Break, bool isAfter64Break);
+    static void createBeamSegment(Beam* item, ChordRest* startChord, ChordRest* endChord, int level,
+                                  bool shortStems);
+    static void createBeamletSegment(Beam* item, const LayoutContext& ctx, ChordRest* chord,
+                                     bool isBefore, int level);
 
     static bool computeUpForMovedCross(Beam* item);
 };

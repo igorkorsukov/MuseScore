@@ -44,20 +44,26 @@
 #include "global/iglobalconfiguration.h"
 
 namespace mu::appshell {
-class NotationStatusBarModel : public QObject, public QQmlParserStatus, public muse::Contextable, public muse::async::Asyncable,
-    public muse::actions::Actionable
+class NotationStatusBarModel : public QObject, public QQmlParserStatus, public muse::Contextable,
+    public muse::async::Asyncable, public muse::actions::Actionable
 {
     Q_OBJECT
     Q_INTERFACES(QQmlParserStatus)
 
     Q_PROPERTY(QString accessibilityInfo READ accessibilityInfo NOTIFY accessibilityInfoChanged)
-    Q_PROPERTY(muse::uicomponents::MenuItem * currentWorkspaceItem READ currentWorkspaceItem CONSTANT)
+    Q_PROPERTY(
+        muse::uicomponents::MenuItem * currentWorkspaceItem READ currentWorkspaceItem CONSTANT)
     Q_PROPERTY(muse::uicomponents::MenuItem * concertPitchItem READ concertPitchItem CONSTANT)
-    Q_PROPERTY(muse::uicomponents::MenuItem * currentViewMode READ currentViewMode NOTIFY currentViewModeChanged)
+    Q_PROPERTY(
+        muse::uicomponents::MenuItem
+        * currentViewMode READ currentViewMode NOTIFY currentViewModeChanged)
     Q_PROPERTY(bool zoomEnabled READ zoomEnabled NOTIFY zoomEnabledChanged)
-    Q_PROPERTY(QVariantList availableViewModeList READ availableViewModeList_property NOTIFY availableViewModeListChanged)
-    Q_PROPERTY(QVariantList availableZoomList READ availableZoomList_property NOTIFY availableZoomListChanged)
-    Q_PROPERTY(int currentZoomPercentage READ currentZoomPercentage WRITE setCurrentZoomPercentage NOTIFY currentZoomPercentageChanged)
+    Q_PROPERTY(
+        QVariantList availableViewModeList READ availableViewModeList_property NOTIFY availableViewModeListChanged)
+    Q_PROPERTY(
+        QVariantList availableZoomList READ availableZoomList_property NOTIFY availableZoomListChanged)
+    Q_PROPERTY(
+        int currentZoomPercentage READ currentZoomPercentage WRITE setCurrentZoomPercentage NOTIFY currentZoomPercentageChanged)
 
     QML_ELEMENT
 
@@ -121,7 +127,8 @@ private:
     void updateConcertPitchItem();
     void updateCurrentWorkspaceItem();
 
-    void dispatch(const muse::actions::ActionCode& code, const muse::actions::ActionData& args = muse::actions::ActionData());
+    void dispatch(const muse::actions::ActionCode& code,
+                  const muse::actions::ActionData& args = muse::actions::ActionData());
 
     notation::ZoomType currentZoomType() const;
 

@@ -38,7 +38,8 @@ public:
     void resolveImports() override;
     void onInit(const muse::IApplication::RunMode&) override;
 
-    muse::modularity::IContextSetup* newContext(const muse::modularity::ContextPtr& ctx) const override;
+    muse::modularity::IContextSetup* newContext(const muse::modularity::ContextPtr& ctx) const
+    override;
 
 private:
     std::shared_ptr<NotationConfiguration> m_configuration;

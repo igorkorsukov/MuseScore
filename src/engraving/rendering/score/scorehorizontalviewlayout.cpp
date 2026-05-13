@@ -60,7 +60,8 @@
 using namespace mu::engraving;
 using namespace mu::engraving::rendering::score;
 
-void ScoreHorizontalViewLayout::layoutHorizontalView(Score* score, LayoutContext& ctx, const Fraction& stick, const Fraction& etick)
+void ScoreHorizontalViewLayout::layoutHorizontalView(Score* score, LayoutContext& ctx,
+                                                     const Fraction& stick, const Fraction& etick)
 {
     ctx.mutState().setEndTick(etick);
 
@@ -231,7 +232,8 @@ void ScoreHorizontalViewLayout::layoutLinear(LayoutContext& ctx)
         MeasureLayout::layout2(m, ctx);
     }
 
-    auto spanners = ctx.dom().spannerMap().findOverlapping(system->tick().ticks(), system->endTick().ticks());
+    auto spanners = ctx.dom().spannerMap().findOverlapping(system->tick().ticks(),
+                                                           system->endTick().ticks());
     for (auto interval : spanners) {
         Spanner* sp = interval.value;
         if (sp->isSlur() && (toSlur(sp)->isCrossStaff() || toSlur(sp)->hasCrossBeams())) {
@@ -281,7 +283,8 @@ void ScoreHorizontalViewLayout::collectLinearSystem(LayoutContext& ctx)
     System* system = ctx.mutDom().systems().front();
     SystemHeaderLayout::setInstrumentNames(system, ctx, /* longNames */ true);
 
-    double targetSystemWidth = ctx.dom().nmeasures() * ctx.conf().styleAbsolute(Sid::minMeasureWidth);
+    double targetSystemWidth = ctx.dom().nmeasures()
+                               * ctx.conf().styleAbsolute(Sid::minMeasureWidth);
     system->setWidth(targetSystemWidth);
 
     double curSystemWidth = 0.0;
@@ -346,7 +349,8 @@ void ScoreHorizontalViewLayout::collectLinearSystem(LayoutContext& ctx)
                     MeasureLayout::createEndBarLines(m, false, ctx);
                     MeasureLayout::setRepeatCourtesiesAndParens(m, ctx);
                     MeasureLayout::updateGraceNotes(m, ctx);
-                    curSystemWidth = HorizontalSpacing::updateSpacingForLastAddedMeasure(system, firstMeasureInLayout);
+                    curSystemWidth = HorizontalSpacing::updateSpacingForLastAddedMeasure(system,
+                                                                                         firstMeasureInLayout);
                     measuresToLayout.insert(m);
                     if (firstMeasureInLayout) {
                         firstMeasureInLayout = false;
@@ -412,7 +416,8 @@ static Segment* findFirstEnabledSegment(Measure* measure)
     return current;
 }
 
-void ScoreHorizontalViewLayout::layoutSegmentsWithDuration(Measure* m, const std::vector<int>& visibleParts)
+void ScoreHorizontalViewLayout::layoutSegmentsWithDuration(Measure* m,
+                                                           const std::vector<int>& visibleParts)
 {
     double currentXPos = 0;
 
@@ -444,7 +449,8 @@ void ScoreHorizontalViewLayout::layoutSegmentsWithDuration(Measure* m, const std
     m->setWidth(currentXPos);
 }
 
-std::pair<double, double> ScoreHorizontalViewLayout::computeCellWidth(const Segment* s, const std::vector<int>& visibleParts)
+std::pair<double, double> ScoreHorizontalViewLayout::computeCellWidth(const Segment* s,
+                                                                      const std::vector<int>& visibleParts)
 {
     if (!s->enabled()) {
         return { 0, 0 };
@@ -522,7 +528,8 @@ std::pair<double, double> ScoreHorizontalViewLayout::computeCellWidth(const Segm
     return { 0, s->minRight() };
 }
 
-ChordRest* ScoreHorizontalViewLayout::chordRestWithMinDuration(const Segment* seg, const std::vector<int>& visibleParts)
+ChordRest* ScoreHorizontalViewLayout::chordRestWithMinDuration(const Segment* seg,
+                                                               const std::vector<int>& visibleParts)
 {
     ChordRest* chordRestWithMinDuration = nullptr;
     int minTicks = std::numeric_limits<int>::max();
@@ -550,7 +557,8 @@ ChordRest* ScoreHorizontalViewLayout::chordRestWithMinDuration(const Segment* se
     return chordRestWithMinDuration;
 }
 
-Fraction ScoreHorizontalViewLayout::calculateQuantumCell(const Measure* m, const std::vector<int>& visibleParts)
+Fraction ScoreHorizontalViewLayout::calculateQuantumCell(const Measure* m,
+                                                         const std::vector<int>& visibleParts)
 {
     Fraction quantum = { 1, 16 };
     for (const Segment& s : m->segments()) {

@@ -170,8 +170,10 @@ TEST_F(Engraving_ParenthesesTests, addParenLinkedStaff)
     EXPECT_TRUE(noteStd->parenthesisInfo());
     EXPECT_TRUE(noteTab->parenthesisInfo());
 
-    EXPECT_TRUE(noteStd->parenthesisInfo()->leftParen()->isLinked(noteTab->parenthesisInfo()->leftParen()));
-    EXPECT_TRUE(noteStd->parenthesisInfo()->rightParen()->isLinked(noteTab->parenthesisInfo()->rightParen()));
+    EXPECT_TRUE(noteStd->parenthesisInfo()->leftParen()->isLinked(noteTab->parenthesisInfo()->
+                                                                  leftParen()));
+    EXPECT_TRUE(noteStd->parenthesisInfo()->rightParen()->isLinked(noteTab->parenthesisInfo()->
+                                                                   rightParen()));
 
     undoAndCheckRemovedLinked(score, singleNoteChordStd, singleNoteChordTab);
 
@@ -219,7 +221,8 @@ TEST_F(Engraving_ParenthesesTests, removeParensBottomNotes)
 
     // Remove parentheses from bottom 2 notes
     std::vector<Note*> notes = chord->notes();
-    std::vector<EngravingItem*> bottomNotes{ notes.at(notes.size() - 2), notes.at(notes.size() - 1) };
+    std::vector<EngravingItem*> bottomNotes{ notes.at(notes.size() - 2),
+                                             notes.at(notes.size() - 1) };
     score->select(bottomNotes, SelectType::ADD);
     score->startCmd(TranslatableString::untranslatable("Parentheses tests remove bottom notes"));
     score->cmdRemoveParenthesesFromNotes();

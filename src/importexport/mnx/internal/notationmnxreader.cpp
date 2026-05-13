@@ -48,24 +48,31 @@ const IMnxConfiguration* NotationMnxReader::mnxConfiguration() const
     return configuration.get();
 }
 
-Ret NotationMnxReader::importJson(MasterScore* score, ByteArray&& jsonData, const io::path_t& path) const
+Ret NotationMnxReader::importJson(MasterScore* score, ByteArray&& jsonData,
+                                  const io::path_t& path) const
 {
     try {
         auto doc = mnx::Document::create(jsonData.constData(), jsonData.size());
         jsonData.clear();
         if (!mnx::validation::schemaValidate(doc)) {
             LOGE() << path << " does not validate to embedded MNX schema.";
-            const bool exactSchemaValidation = mnxConfiguration()->mnxRequireExactSchemaValidation();
+            const bool exactSchemaValidation
+                = mnxConfiguration()->mnxRequireExactSchemaValidation();
             if (!exactSchemaValidation && mnx::validation::hasValidDocumentRoot(doc)) {
-                LOGW() << path << " has a valid document root; importing with exact schema validation disabled.";
+                LOGW() << path <<
+                    " has a valid document root; importing with exact schema validation disabled.";
             } else {
-                return make_ret(Ret::Code::NotSupported, TranslatableString("importexport/mnx", "File is not a valid MNX document.").str);
+                return make_ret(Ret::Code::NotSupported,
+                                TranslatableString("importexport/mnx",
+                                                   "File is not a valid MNX document.").str);
             }
         }
         LOGI() << "MNX import started: schema version=" << doc.mnx().version() << " path=" << path;
         if (doc.global().measures().empty()) {
             LOGE() << path << " contains no measures.";
-            return make_ret(Ret::Code::NotSupported, TranslatableString("importexport/mnx", "File contains no measures.").str);
+            return make_ret(Ret::Code::NotSupported,
+                            TranslatableString("importexport/mnx",
+                                               "File contains no measures.").str);
         }
         MnxImporter importer(score, std::move(doc));
         importer.importMnx();
@@ -77,7 +84,8 @@ Ret NotationMnxReader::importJson(MasterScore* score, ByteArray&& jsonData, cons
     return make_ok();
 }
 
-Ret NotationMnxReader::importMnx(MasterScore* score, ByteArray&& mnxData, const io::path_t& path) const
+Ret NotationMnxReader::importMnx(MasterScore* score, ByteArray&& mnxData,
+                                 const io::path_t& path) const
 {
     /// @todo Eventually this will require unzipping the mnx archive and fishing out the json.
     /// Until the mnx archive format is specced out, we simply treat MNX as raw JSON.

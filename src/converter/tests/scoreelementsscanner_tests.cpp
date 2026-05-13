@@ -34,7 +34,8 @@ static const muse::String CONVERTER_DATA_DIR("data/");
 class Converter_ScoreElementsTests : public ::testing::Test
 {
 public:
-    ElementInfo makeInfo(ElementType type, const String& name = u"", const StringList& notes = {}) const
+    ElementInfo makeInfo(ElementType type, const String& name = u"",
+                         const StringList& notes = {}) const
     {
         ElementInfo info;
         info.type = type;
@@ -67,9 +68,11 @@ TEST_F(Converter_ScoreElementsTests, ScanElements)
     expectedList.emplace_back(makeInfo(ElementType::CLEF, u"Treble clef"));
     expectedList.emplace_back(makeInfo(ElementType::KEYSIG, u"C major / A minor"));
     expectedList.emplace_back(makeInfo(ElementType::TIMESIG, u"4/4 time"));
-    expectedList.emplace_back(makeInfo(ElementType::ARPEGGIO, u"Up arpeggio", { u"C5", u"E5", u"G5", u"B5" }));
+    expectedList.emplace_back(makeInfo(ElementType::ARPEGGIO, u"Up arpeggio",
+                                       { u"C5", u"E5", u"G5", u"B5" }));
     expectedList.emplace_back(makeInfo(ElementType::CHORD, u"", { u"C5", u"E5", u"G5", u"B5" }));
-    expectedList.emplace_back(makeInfo(ElementType::TREMOLO_SINGLECHORD, u"32nd through stem", { u"F4", u"A4", u"C5" }));
+    expectedList.emplace_back(makeInfo(ElementType::TREMOLO_SINGLECHORD, u"32nd through stem",
+                                       { u"F4", u"A4", u"C5" }));
     expectedList.emplace_back(makeInfo(ElementType::REST));
     expectedList.emplace_back(makeInfo(ElementType::BAR_LINE, u"Single barline"));
 

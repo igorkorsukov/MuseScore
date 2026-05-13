@@ -193,7 +193,8 @@ static_assert(GM1_SOUND_DATA.size() == 128);
 
 const InstrumentTemplate* getPreferredInstrument(const GM1Program sound)
 {
-    const std::string_view id = GM1_SOUND_DATA[static_cast<std::uint8_t>(sound)].preferredInstrumentId;
+    const std::string_view id
+        = GM1_SOUND_DATA[static_cast<std::uint8_t>(sound)].preferredInstrumentId;
     InstrumentIndex idx = searchTemplateIndexForId(String::fromUtf8(id));
     if (idx.groupIndex == -1) {
         return nullptr;
@@ -313,7 +314,8 @@ std::set<int> findNotEmptyDrumPitches(const Drumset* drumset)
     return drumPitches;
 }
 
-static bool hasNotDefinedDrumPitch(const std::set<int>& trackPitches, const std::set<int>& drumPitches)
+static bool hasNotDefinedDrumPitch(const std::set<int>& trackPitches,
+                                   const std::set<int>& drumPitches)
 {
     for (const int pitch : trackPitches) {
         if (drumPitches.find(pitch) == drumPitches.end()) {
@@ -348,14 +350,16 @@ static int countMissingPitches(const std::set<int>& p1, const std::set<int>& p2)
     std::vector<int> missingPitches = {};
     missingPitches.reserve(p1.size());
 
-    std::set_difference(p1.begin(), p1.end(), p2.begin(), p2.end(), std::back_inserter(missingPitches));
+    std::set_difference(p1.begin(), p1.end(), p2.begin(), p2.end(),
+                        std::back_inserter(missingPitches));
 
     return static_cast<int>(missingPitches.size());
 }
 
 // find instrument with maximum MIDI program
 // that is less than the track MIDI program, i.e. suitable instrument
-static const InstrumentTemplate* findClosestInstrument(const GM1Program program, const std::set<int>& pitches,
+static const InstrumentTemplate* findClosestInstrument(const GM1Program program,
+                                                       const std::set<int>& pitches,
                                                        const bool isDrumTrack)
 {
     int maxLessProgram = -1;
@@ -536,7 +540,8 @@ void sortInstrumentTemplates(
     const std::pair<int, int>& minMaxPitch)
 {
     std::stable_sort(templates.begin(), templates.end(),
-                     [minMaxPitch](const InstrumentTemplate* templ1, const InstrumentTemplate* templ2) {
+                     [minMaxPitch](const InstrumentTemplate* templ1,
+                                   const InstrumentTemplate* templ2) {
         const int diff1 = findMaxPitchDiff(minMaxPitch, templ1);
         const int diff2 = findMaxPitchDiff(minMaxPitch, templ2);
 
@@ -648,7 +653,8 @@ void createInstruments(Score* score, QList<MTrack>& tracks)
 
         if (part->nstaves() == 1) {
             if (track.mtrack->drumTrack()) {
-                part->staff(0)->setStaffType(Fraction(0, 1), *StaffType::preset(StaffTypes::PERC_DEFAULT));
+                part->staff(0)->setStaffType(Fraction(0, 1),
+                                             *StaffType::preset(StaffTypes::PERC_DEFAULT));
                 if (!instr) {
                     part->instrument()->setDrumset(smDrumset);
                 }

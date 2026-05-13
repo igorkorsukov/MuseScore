@@ -297,7 +297,8 @@ static void setLastOfPart(QList<Bww::MeasureDescription>& measures)
     measures[j].mef.lastOfPart = true;
 }
 
-static QString findNextNextNoteBeam(QList<Bww::MeasureDescription> const& measures, int measureNr, int noteNr)
+static QString findNextNextNoteBeam(QList<Bww::MeasureDescription> const& measures, int measureNr,
+                                    int noteNr)
 {
     for (int i = noteNr + 1; i < measures.at(measureNr).notes.size(); ++i) {
         if (measures.at(measureNr).notes.at(i).grace) {
@@ -595,7 +596,8 @@ void Parser::parseNote()
 {
     LOGD() << "Parser::parseNote() value:" << qPrintable(lex.symValue());
 
-    QRegularExpression rNotes(QRegularExpression::anchoredPattern("(LG|LA|[B-F]|HG|HA)([lr]?)_(1|2|4|8|16|32)"));
+    QRegularExpression rNotes(QRegularExpression::anchoredPattern(
+                                  "(LG|LA|[B-F]|HG|HA)([lr]?)_(1|2|4|8|16|32)"));
     QRegularExpressionMatch rNotesMatch = rNotes.match(lex.symValue());
 
     QStringList caps;
@@ -719,7 +721,8 @@ void Parser::parseGraces()
     QStringList graces = lex.symValue().split(" ");
     for (int i = 0; i < graces.size(); ++i) {
         const QString beam = graceBeam(graces.size(), i);
-        NoteDescription noteDesc(graces.at(i), beam, c_type, dots, false, false, StartStop::ST_NONE, true);
+        NoteDescription noteDesc(graces.at(i), beam, c_type, dots, false, false, StartStop::ST_NONE,
+                                 true);
         if (measures.isEmpty()) {
             errorHandler("cannot append note: no measure");
         } else {
@@ -798,7 +801,8 @@ void Parser::parseSeqNonNotes()
 void Parser::parseSeqNotes()
 {
     LOGD() << "Parser::parseSeqNotes() value:" << qPrintable(lex.symValue());
-    while (lex.symType() == GRACE || lex.symType() == NOTE || lex.symType() == TIE || lex.symType() == TRIPLET)
+    while (lex.symType() == GRACE || lex.symType() == NOTE || lex.symType() == TIE
+           || lex.symType() == TRIPLET)
     {
         if (lex.symType() == GRACE) {
             parseGraces();

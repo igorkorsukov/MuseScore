@@ -51,13 +51,17 @@ class MixerChannelItem : public QObject, public muse::async::Asyncable, public m
 
     Q_PROPERTY(QString title READ title NOTIFY titleChanged)
 
-    Q_PROPERTY(mu::playback::InputResourceItem * inputResourceItem READ inputResourceItem NOTIFY inputResourceItemChanged)
+    Q_PROPERTY(
+        mu::playback::InputResourceItem
+        * inputResourceItem READ inputResourceItem NOTIFY inputResourceItemChanged)
     Q_PROPERTY(
         QList<mu::playback::OutputResourceItem*> outputResourceItemList READ outputResourceItemList NOTIFY outputResourceItemListChanged)
-    Q_PROPERTY(QList<mu::playback::AuxSendItem*> auxSendItemList READ auxSendItemList NOTIFY auxSendItemListChanged)
+    Q_PROPERTY(
+        QList<mu::playback::AuxSendItem*> auxSendItemList READ auxSendItemList NOTIFY auxSendItemListChanged)
 
     Q_PROPERTY(float leftChannelPressure READ leftChannelPressure NOTIFY leftChannelPressureChanged)
-    Q_PROPERTY(float rightChannelPressure READ rightChannelPressure NOTIFY rightChannelPressureChanged)
+    Q_PROPERTY(
+        float rightChannelPressure READ rightChannelPressure NOTIFY rightChannelPressureChanged)
 
     Q_PROPERTY(float volumeLevel READ volumeLevel WRITE setVolumeLevel NOTIFY volumeLevelChanged)
     Q_PROPERTY(int balance READ balance WRITE setBalance NOTIFY balanceChanged)
@@ -88,7 +92,8 @@ public:
 
     MixerChannelItem()
         : muse::Contextable(muse::iocCtxForQmlObject(this)) {}
-    MixerChannelItem(QObject* parent, Type type, bool outputOnly = false, muse::audio::TrackId trackId = -1);
+    MixerChannelItem(QObject* parent, Type type, bool outputOnly = false,
+                     muse::audio::TrackId trackId = -1);
 
     ~MixerChannelItem() override;
 
@@ -181,7 +186,8 @@ protected:
 
     InputResourceItem* buildInputResourceItem();
     OutputResourceItem* buildOutputResourceItem(const muse::audio::AudioFxParams& fxParams);
-    AuxSendItem* buildAuxSendItem(muse::audio::aux_channel_idx_t index, const muse::audio::AuxSendParams& params);
+    AuxSendItem* buildAuxSendItem(muse::audio::aux_channel_idx_t index,
+                                  const muse::audio::AuxSendParams& params);
 
     void addBlankSlots(size_t count);
     void removeBlankSlotsFromEnd(size_t count);

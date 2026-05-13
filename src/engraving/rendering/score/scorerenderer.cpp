@@ -64,7 +64,8 @@ void ScoreRenderer::paintScore(Painter* painter, Score* score, const ScorePaintO
     Paint::paintScore(painter, score, opt);
 }
 
-void ScoreRenderer::paintItem(Painter& painter, const EngravingItem* item, const PaintOptions& opt) const
+void ScoreRenderer::paintItem(Painter& painter, const EngravingItem* item,
+                              const PaintOptions& opt) const
 {
     Paint::paintItem(painter, item, opt);
 }

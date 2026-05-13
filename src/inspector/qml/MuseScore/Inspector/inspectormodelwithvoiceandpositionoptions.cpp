@@ -24,10 +24,11 @@
 using namespace mu::inspector;
 using namespace mu::engraving;
 
-InspectorModelWithVoiceAndPositionOptions::InspectorModelWithVoiceAndPositionOptions(QObject* parent,
-                                                                                     const muse::modularity::ContextPtr& iocCtx,
-                                                                                     IElementRepositoryService* repository,
-                                                                                     ElementType elementType)
+InspectorModelWithVoiceAndPositionOptions::InspectorModelWithVoiceAndPositionOptions(
+    QObject* parent,
+    const muse::modularity::ContextPtr& iocCtx,
+    IElementRepositoryService* repository,
+    ElementType elementType)
     : AbstractInspectorModel(parent, iocCtx, repository, elementType)
 {
     createProperties();
@@ -35,7 +36,9 @@ InspectorModelWithVoiceAndPositionOptions::InspectorModelWithVoiceAndPositionOpt
 
 void InspectorModelWithVoiceAndPositionOptions::createProperties()
 {
-    m_voiceBasedPosition = buildPropertyItem(Pid::DIRECTION, [this](const mu::engraving::Pid pid, const QVariant& newValue) {
+    m_voiceBasedPosition
+        = buildPropertyItem(Pid::DIRECTION,
+                            [this](const mu::engraving::Pid pid, const QVariant& newValue) {
         onPropertyValueChanged(pid, newValue);
         updateIsStaveCenteringAvailable();
     });
@@ -64,7 +67,8 @@ void InspectorModelWithVoiceAndPositionOptions::resetProperties()
     m_centerBetweenStaves->resetToDefault();
 }
 
-void InspectorModelWithVoiceAndPositionOptions::onNotationChanged(const PropertyIdSet&, const StyleIdSet&)
+void InspectorModelWithVoiceAndPositionOptions::onNotationChanged(const PropertyIdSet&,
+                                                                  const StyleIdSet&)
 {
     loadProperties();
 }

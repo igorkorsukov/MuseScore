@@ -138,7 +138,8 @@ void EmptyStavesVisibilityModel::reload()
                 partItem->isVisible = true;
             }
 
-            staffItem->canChangeVisibility = SystemLayout::canChangeSysStaffVisibility(m_system, staffItem->staffIndex);
+            staffItem->canChangeVisibility = SystemLayout::canChangeSysStaffVisibility(m_system,
+                                                                                       staffItem->staffIndex);
             if (staffItem->canChangeVisibility) {
                 // Part visibility can be changed if any of its staves can change visibility
                 partItem->canChangeVisibility = true;
@@ -149,7 +150,8 @@ void EmptyStavesVisibilityModel::reload()
                 if (!mb->isMeasure()) {
                     continue;
                 }
-                if (engraving::toMeasure(mb)->hideStaffIfEmpty(staffIdx) != engraving::AutoOnOff::AUTO) {
+                if (engraving::toMeasure(mb)->hideStaffIfEmpty(staffIdx)
+                    != engraving::AutoOnOff::AUTO) {
                     staffItem->canReset = true;
                     break;
                 }
@@ -268,9 +270,11 @@ bool EmptyStavesVisibilityModel::setData(const QModelIndex& index, const QVarian
     assert(item);
 
     if (StaffItem* staff = dynamic_cast<StaffItem*>(item)) {
-        setStaffVisibility(staff, value.toBool() ? engraving::AutoOnOff::ON : engraving::AutoOnOff::OFF);
+        setStaffVisibility(staff,
+                           value.toBool() ? engraving::AutoOnOff::ON : engraving::AutoOnOff::OFF);
     } else if (PartItem* part = dynamic_cast<PartItem*>(item)) {
-        setPartVisibility(part, value.toBool() ? engraving::AutoOnOff::ON : engraving::AutoOnOff::OFF);
+        setPartVisibility(part,
+                          value.toBool() ? engraving::AutoOnOff::ON : engraving::AutoOnOff::OFF);
     } else {
         return false;
     }
@@ -337,7 +341,8 @@ QHash<int, QByteArray> EmptyStavesVisibilityModel::roleNames() const
 void EmptyStavesVisibilityModel::setPartVisibility(PartItem* partItem, engraving::AutoOnOff value)
 {
     m_notation->undoStack()->prepareChanges(
-        muse::TranslatableString("notation/staffvisibilitypopup", "Change part visibility: %1").arg(partItem->name));
+        muse::TranslatableString("notation/staffvisibilitypopup",
+                                 "Change part visibility: %1").arg(partItem->name));
 
     engraving::Score* score = m_notation->elements()->msScore();
     assert(score);
@@ -351,10 +356,12 @@ void EmptyStavesVisibilityModel::setPartVisibility(PartItem* partItem, engraving
     scheduleUpdateData();
 }
 
-void EmptyStavesVisibilityModel::setStaffVisibility(StaffItem* staffItem, engraving::AutoOnOff value)
+void EmptyStavesVisibilityModel::setStaffVisibility(StaffItem* staffItem,
+                                                    engraving::AutoOnOff value)
 {
     m_notation->undoStack()->prepareChanges(
-        muse::TranslatableString("notation/staffvisibilitypopup", "Change staff visibility: %1").arg(staffItem->name));
+        muse::TranslatableString("notation/staffvisibilitypopup", "Change staff visibility: %1").arg(
+            staffItem->name));
 
     engraving::Score* score = m_notation->elements()->msScore();
     assert(score);
@@ -403,7 +410,8 @@ void EmptyStavesVisibilityModel::doUpdateData()
                 partItem->isVisible = true;
             }
 
-            staffItem->canChangeVisibility = SystemLayout::canChangeSysStaffVisibility(m_system, staffItem->staffIndex);
+            staffItem->canChangeVisibility = SystemLayout::canChangeSysStaffVisibility(m_system,
+                                                                                       staffItem->staffIndex);
             if (staffItem->canChangeVisibility) {
                 // Part visibility can be changed if any of its staves can change visibility
                 partItem->canChangeVisibility = true;
@@ -415,7 +423,8 @@ void EmptyStavesVisibilityModel::doUpdateData()
                 if (!mb->isMeasure()) {
                     continue;
                 }
-                if (engraving::toMeasure(mb)->hideStaffIfEmpty(staffItem->staffIndex) != engraving::AutoOnOff::AUTO) {
+                if (engraving::toMeasure(mb)->hideStaffIfEmpty(staffItem->staffIndex)
+                    != engraving::AutoOnOff::AUTO) {
                     staffItem->canReset = true;
                     break;
                 }
@@ -431,7 +440,8 @@ void EmptyStavesVisibilityModel::doUpdateData()
 
         if (partItem->staves.size() > 1) {
             emit dataChanged(index(0, 0, partModelIndex),
-                             index(static_cast<int>(partItem->staves.size()) - 1, 0, partModelIndex),
+                             index(static_cast<int>(partItem->staves.size()) - 1, 0,
+                                   partModelIndex),
                              { IsVisible, CanReset });
         }
 
@@ -443,7 +453,8 @@ void EmptyStavesVisibilityModel::doUpdateData()
 
 int EmptyStavesVisibilityModel::partIndex(const PartItem* partItem) const
 {
-    auto it = std::find_if(m_parts.begin(), m_parts.end(), [&](const std::unique_ptr<PartItem>& item) {
+    auto it = std::find_if(m_parts.begin(),
+                           m_parts.end(), [&](const std::unique_ptr<PartItem>& item) {
         return item.get() == partItem;
     });
 

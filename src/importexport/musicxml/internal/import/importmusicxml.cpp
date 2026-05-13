@@ -59,7 +59,8 @@ namespace mu::iex::musicxml {
  Show a dialog displaying the MusicXML import error(s).
  */
 #ifndef MUSICXML_NO_INTERACTIVE
-static IInteractive::Button musicXmlImportErrorDialog(const muse::modularity::ContextPtr& ctx, const String& text,
+static IInteractive::Button musicXmlImportErrorDialog(const muse::modularity::ContextPtr& ctx,
+                                                      const String& text,
                                                       const String& detailedText)
 {
     auto interactive = modularity::ioc(ctx)->resolve<IInteractive>("musicxml");
@@ -71,11 +72,12 @@ static IInteractive::Button musicXmlImportErrorDialog(const muse::modularity::Co
     msg += '\n';
     msg += detailedText.toStdString();
 
-    IInteractive::Result ret = interactive->questionSync(text.toStdString(),
-                                                         msg,
-                                                         { IInteractive::Button::Yes, IInteractive::Button::No },
-                                                         IInteractive::Button::No
-                                                         );
+    IInteractive::Result ret = interactive->questionSync(
+        text.toStdString(),
+        msg,
+        { IInteractive::Button::Yes, IInteractive::Button::No },
+        IInteractive::Button::No
+        );
 
     return ret.standardButton();
 }
@@ -115,9 +117,12 @@ Err importMusicXmlfromBuffer(Score* score, const String& /*name*/, const ByteArr
     if (!(pass1_errors.isEmpty() && pass2_errors.isEmpty())) {
 #ifndef MUSICXML_NO_INTERACTIVE
         if (!MScore::noGui) {
-            const String text = muse::mtrc("iex_musicxml", "%Ln error(s) found, import may be incomplete.",
+            const String text = muse::mtrc("iex_musicxml",
+                                           "%Ln error(s) found, import may be incomplete.",
                                            nullptr, int(pass1_errors.size() + pass2_errors.size()));
-            if (musicXmlImportErrorDialog(score->iocContext(), text, pass1.errors() + pass2.errors()) != IInteractive::Button::Yes) {
+            if (musicXmlImportErrorDialog(score->iocContext(), text,
+                                          pass1.errors() + pass2.errors())
+                != IInteractive::Button::Yes) {
                 res = Err::UserAbort;
             }
         }
@@ -195,7 +200,8 @@ static bool extractRootfile(const String& name, ByteArray& data)
  Validate and import MusicXML data from file \a name contained in ByteArray \a data into score \a score.
  */
 
-static Err doValidateAndImport(Score* score, const String& name, const ByteArray& data, bool forceMode)
+static Err doValidateAndImport(Score* score, const String& name, const ByteArray& data,
+                               bool forceMode)
 {
     Err res;
 

@@ -122,8 +122,10 @@ public:
 
 protected:
 
-    SpannerSegment(const ElementType& type, Spanner*, System* parent, ElementFlags f = ElementFlag::ON_STAFF | ElementFlag::MOVABLE);
-    SpannerSegment(const ElementType& type, System* parent, ElementFlags f = ElementFlag::ON_STAFF | ElementFlag::MOVABLE);
+    SpannerSegment(const ElementType& type, Spanner*, System* parent,
+                   ElementFlags f = ElementFlag::ON_STAFF | ElementFlag::MOVABLE);
+    SpannerSegment(const ElementType& type, System* parent,
+                   ElementFlags f = ElementFlag::ON_STAFF | ElementFlag::MOVABLE);
     SpannerSegment(const SpannerSegment&);
 
     PointF m_p2;
@@ -260,7 +262,8 @@ public:
     void reuse(SpannerSegment* seg);              // called when segment from unusedSegments
                                                   // is added back to the spanner.
     int reuseSegments(int number);
-    void fixupSegments(unsigned int targetNumber, std::function<SpannerSegment* (System*)> createSegment);
+    void fixupSegments(unsigned int targetNumber,
+                       std::function<SpannerSegment* (System*)> createSegment);
 
     bool isUserModified() const override;
 

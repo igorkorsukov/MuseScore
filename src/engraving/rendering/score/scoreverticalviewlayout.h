@@ -29,7 +29,8 @@ class ScoreVerticalViewLayout
 {
 public:
 
-    static void layoutVerticalView(Score* score, LayoutContext& ctx, const Fraction& stick, const Fraction& etick);
+    static void layoutVerticalView(Score* score, LayoutContext& ctx, const Fraction& stick,
+                                   const Fraction& etick);
 
 private:
 

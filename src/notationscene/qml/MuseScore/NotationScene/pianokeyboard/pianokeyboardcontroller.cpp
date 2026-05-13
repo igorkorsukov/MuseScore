@@ -128,7 +128,9 @@ void PianoKeyboardController::onNotationChanged()
             updateNotesKeys(notes);
         }, Asyncable::Mode::SetReplace /* FIXME */);
 
-        notation->midiInput()->notesReceived().onReceive(this, [this](const std::vector<const Note*>& notes) {
+        notation->midiInput()->notesReceived().onReceive(this,
+                                                         [this](const std::vector<const Note*>&
+                                                                notes) {
             m_isFromMidi = true;
             updateNotesKeys(notes);
         }, Asyncable::Mode::SetReplace /* FIXME */);
@@ -155,7 +157,8 @@ void PianoKeyboardController::updateNotesKeys(const std::vector<const Note*>& re
     for (const mu::engraving::Note* note : receivedNotes) {
         newKeys.insert(static_cast<piano_key_t>(useWrittenPitch ? note->epitch() : note->ppitch()));
         for (const mu::engraving::Note* otherNote : note->chord()->notes()) {
-            newOtherNotesInChord.insert(static_cast<piano_key_t>(useWrittenPitch ? otherNote->epitch() : otherNote->ppitch()));
+            newOtherNotesInChord.insert(static_cast<piano_key_t>(useWrittenPitch ? otherNote->epitch()
+                                                                 : otherNote->ppitch()));
         }
     }
 }

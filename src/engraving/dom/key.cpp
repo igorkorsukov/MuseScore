@@ -228,7 +228,8 @@ void KeySigEvent::setCustom(bool val)
 
 bool KeySigEvent::operator==(const KeySigEvent& e) const
 {
-    if (e.m_custom != m_custom || e.m_mode != m_mode || e.m_forInstrumentChange != m_forInstrumentChange) {
+    if (e.m_custom != m_custom || e.m_mode != m_mode
+        || e.m_forInstrumentChange != m_forInstrumentChange) {
         return false;
     }
     if (m_custom && !isAtonal()) {
@@ -237,7 +238,8 @@ bool KeySigEvent::operator==(const KeySigEvent& e) const
         }
         for (size_t i = 0; i < m_customKeyDefs.size(); ++i) {
             // check note and sym, don't care xAlt and octAlt
-            if (e.m_customKeyDefs[i].degree != m_customKeyDefs[i].degree || e.m_customKeyDefs[i].sym != m_customKeyDefs[i].sym) {
+            if (e.m_customKeyDefs[i].degree != m_customKeyDefs[i].degree
+                || e.m_customKeyDefs[i].sym != m_customKeyDefs[i].sym) {
                 return false;
             }
             // TODO: position matters // does it?
@@ -436,7 +438,9 @@ SymId KeySigEvent::symInKey(SymId sym, int degree) const
 {
     degree = degInKey(degree);
     int keyval = static_cast<int>(key());
-    int accIndex = std::distance(std::begin(accTable), std::find(std::begin(accTable), std::end(accTable), sym));
+    int accIndex
+        = std::distance(std::begin(accTable),
+                        std::find(std::begin(accTable), std::end(accTable), sym));
 
     // non transposed key
     if (keyval == 0 || std::abs(keyval) > 7) {

@@ -67,7 +67,8 @@ extern Note* prevChordNote(Note* note);
 extern Segment* nextSeg1(Segment* s);
 extern Segment* prevSeg1(Segment* seg);
 
-extern Note* searchTieNote(const Note* note, const Segment* nextSegment = nullptr, const bool disableOverRepeats = true);
+extern Note* searchTieNote(const Note* note, const Segment* nextSegment = nullptr,
+                           const bool disableOverRepeats = true);
 
 extern int absStep(int pitch);
 extern int absStep(int tpc, int pitch);
@@ -79,38 +80,49 @@ extern int pitch2step(int pitch);
 extern int step2pitch(int step);
 int chromaticPitchSteps(const Note* noteL, const Note* noteR, const int nominalDiatonicSteps);
 extern int noteValToLine(const NoteVal& nval, const Staff* staff, const Fraction& tick);
-extern AccidentalVal noteValToAccidentalVal(const NoteVal& nval, const Staff* staff, const Fraction& tick);
+extern AccidentalVal noteValToAccidentalVal(const NoteVal& nval, const Staff* staff,
+                                            const Fraction& tick);
 extern int compareNotesPos(const Note* n1, const Note* n2);
 
 extern Segment* skipTuplet(Tuplet* tuplet);
-extern SymIdList timeSigSymIdsFromString(const String&, TimeSigStyle timeSigStyle = TimeSigStyle::NORMAL);
+extern SymIdList timeSigSymIdsFromString(const String&,
+                                         TimeSigStyle timeSigStyle = TimeSigStyle::NORMAL);
 extern Fraction actualTicks(Fraction duration, Tuplet* tuplet, Fraction timeStretch);
 
-extern bool dragPositionToMeasure(const PointF& pos, const Score* score, Measure** measure, staff_idx_t* staffIdx,
-                                  const double spacingFactor = 0.5);
-extern bool dragPositionToSegment(const PointF& pos, const Measure* measure, const staff_idx_t staffIdx, Segment** segment,
-                                  const double spacingFactor = 0.5, const bool allowTimeAnchor = false);
+extern bool dragPositionToMeasure(const PointF& pos, const Score* score, Measure** measure,
+                                  staff_idx_t* staffIdx, const double spacingFactor = 0.5);
+extern bool dragPositionToSegment(const PointF& pos, const Measure* measure,
+                                  const staff_idx_t staffIdx, Segment** segment,
+                                  const double spacingFactor = 0.5,
+                                  const bool allowTimeAnchor = false);
 extern Segment* segmentOrChordRestSegmentAtSameTick(Segment* segment);
 
 extern double yStaffDifference(const System* system1, const System* system2, staff_idx_t staffIdx1);
 
-extern bool allowRemoveWhenRemovingStaves(EngravingItem* item, staff_idx_t startStaff, staff_idx_t endStaff = 0);
-extern bool moveDownWhenAddingStaves(EngravingItem* item, staff_idx_t startStaff, staff_idx_t endStaff = 0);
+extern bool allowRemoveWhenRemovingStaves(EngravingItem* item, staff_idx_t startStaff,
+                                          staff_idx_t endStaff = 0);
+extern bool moveDownWhenAddingStaves(EngravingItem* item, staff_idx_t startStaff,
+                                     staff_idx_t endStaff = 0);
 
-extern void collectChordsAndRest(Segment* segment, staff_idx_t staffIdx, std::vector<Chord*>& chords, std::vector<Rest*>& rests);
-extern void collectChordsOverlappingRests(Segment* segment, staff_idx_t staffIdx, std::vector<Chord*>& chords);
-extern std::vector<EngravingItem*> collectSystemObjects(const Score* score, const std::vector<Staff*>& staves = {});
+extern void collectChordsAndRest(Segment* segment, staff_idx_t staffIdx,
+                                 std::vector<Chord*>& chords, std::vector<Rest*>& rests);
+extern void collectChordsOverlappingRests(Segment* segment, staff_idx_t staffIdx,
+                                          std::vector<Chord*>& chords);
+extern std::vector<EngravingItem*> collectSystemObjects(const Score* score,
+                                                        const std::vector<Staff*>& staves = {});
 extern std::unordered_set<EngravingItem*> collectElementsAnchoredToChordRest(const ChordRest* cr);
-extern std::unordered_set<EngravingItem*> collectElementsAnchoredToNote(const Note* cr, bool includeForwardTiesSpanners,
-                                                                        bool includeBackwardTiesSpanners);
+extern std::unordered_set<EngravingItem*> collectElementsAnchoredToNote(const Note* cr,
+                                                                        bool includeForwardTiesSpanners, bool includeBackwardTiesSpanners);
 
 extern MeasureBeat findBeat(const Score* score, int tick);
 
-extern bool noteAnchoredSpannerIsInRange(const Spanner*, const Fraction& rangeStart, const Fraction& rangeEnd);
+extern bool noteAnchoredSpannerIsInRange(const Spanner*, const Fraction& rangeStart,
+                                         const Fraction& rangeEnd);
 
 extern Interval ornamentIntervalToGeneralInterval(OrnamentInterval interval);
 
-extern String formatUniqueExcerptName(const String& baseName, const StringList& allExcerptLowerNames);
+extern String formatUniqueExcerptName(const String& baseName,
+                                      const StringList& allExcerptLowerNames);
 
 extern bool isFirstSystemKeySig(const KeySig* ks);
 
@@ -129,7 +141,8 @@ extern PartialLyricsLine* findPrevPartialLyricsLineDash(Lyrics* lyrics);
 
 extern bool isElementInFretBox(const EngravingItem* item);
 
-extern std::vector<EngravingItem*> filterTargetElements(const Selection& sel, EngravingItem* dropElement, bool& unique);
+extern std::vector<EngravingItem*> filterTargetElements(const Selection& sel,
+                                                        EngravingItem* dropElement, bool& unique);
 
 extern Lyrics* searchNextLyrics(Segment* s, staff_idx_t staffIdx, int verse, PlacementV p);
 extern bool noteIsBefore(const Note* n1, const Note* n2);

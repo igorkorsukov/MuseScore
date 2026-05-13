@@ -35,8 +35,10 @@ using namespace muse::draw;
 /// 0`, then the element is only centered horizontally; i.e. vertical alignment
 /// is unchanged from the default so that item will appear at the correct height
 /// on the staff.
-void EngravingItemPreviewPainter::paintPreview(std::shared_ptr<engraving::rendering::ISingleRenderer> render,
-                                               mu::engraving::EngravingItem* element, PaintParams& params)
+void EngravingItemPreviewPainter::paintPreview(
+    std::shared_ptr<engraving::rendering::ISingleRenderer> render,
+    mu::engraving::EngravingItem* element,
+    PaintParams& params)
 {
     IF_ASSERT_FAILED(element && params.painter) {
         return;
@@ -55,7 +57,8 @@ void EngravingItemPreviewPainter::paintPreview(std::shared_ptr<engraving::render
 
     painter->translate(params.xoffset * params.spatium, params.yoffset * params.spatium); // additional offset for element only
 
-    const Score* score = element->score()->paletteScore() ? element->score()->paletteScore() : element->score();
+    const Score* score
+        = element->score()->paletteScore() ? element->score()->paletteScore() : element->score();
     const double sizeRatio = params.spatium / score->style().spatium();
     painter->scale(sizeRatio, sizeRatio); // scale coordinates so element is drawn at correct size
 
@@ -77,8 +80,10 @@ void EngravingItemPreviewPainter::paintPreview(std::shared_ptr<engraving::render
     paintItem(render, element, params);
 }
 
-void EngravingItemPreviewPainter::paintItem(std::shared_ptr<engraving::rendering::ISingleRenderer> render,
-                                            mu::engraving::EngravingItem* element, PaintParams& params)
+void EngravingItemPreviewPainter::paintItem(
+    std::shared_ptr<engraving::rendering::ISingleRenderer> render,
+    mu::engraving::EngravingItem* element,
+    PaintParams& params)
 {
     IF_ASSERT_FAILED(element && params.painter) {
         return;
@@ -133,7 +138,8 @@ double EngravingItemPreviewPainter::paintStaff(PaintParams& params)
     Color staffLinesColor(params.color);
     staffLinesColor.setAlpha(127); //reduce alpha of staff lines to half
     Pen pen(staffLinesColor);
-    pen.setWidthF(engraving::DefaultStyle::defaultStyle().styleS(Sid::staffLineWidth).val() * params.spatium);
+    pen.setWidthF(engraving::DefaultStyle::defaultStyle().styleS(
+                      Sid::staffLineWidth).val() * params.spatium);
     painter->setPen(pen);
 
     const double staffHeight = params.spatium * (params.numStaffLines - 1);

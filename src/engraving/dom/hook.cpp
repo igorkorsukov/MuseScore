@@ -51,7 +51,8 @@ void Hook::setHookType(int i)
 
 PointF Hook::smuflAnchor() const
 {
-    return symSmuflAnchor(m_sym, chord()->up() ? SmuflAnchorId::stemUpNW : SmuflAnchorId::stemDownSW);
+    return symSmuflAnchor(m_sym,
+                          chord()->up() ? SmuflAnchorId::stemUpNW : SmuflAnchorId::stemDownSW);
 }
 
 SymId Hook::symIdForHookIndex(int index, bool straight)

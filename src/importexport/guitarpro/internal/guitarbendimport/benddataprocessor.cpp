@@ -73,7 +73,8 @@ static void createSlightBends(const BendDataContext& bendDataCtx, mu::engraving:
                 const auto& noteBendData = tickInfo.at(noteIndex);
                 GuitarBend* bend = chord->score()->addGuitarBend(GuitarBendType::SLIGHT_BEND, note);
                 IF_ASSERT_FAILED(bend) {
-                    LOGE() << "bend wasn't created for track " << chord->track() << ", tick " << chord->tick().ticks();
+                    LOGE() << "bend wasn't created for track " << chord->track() << ", tick " <<
+                        chord->tick().ticks();
                     continue;
                 }
 
@@ -100,7 +101,8 @@ static void createPreBends(const BendDataContext& bendDataCtx, mu::engraving::Sc
                 const auto& noteBendData = tickInfo.at(noteIndex);
                 GuitarBend* bend = chord->score()->addGuitarBend(GuitarBendType::PRE_BEND, note);
                 IF_ASSERT_FAILED(bend) {
-                    LOGE() << "prebend wasn't created for track " << chord->track() << ", tick " << chord->tick().ticks();
+                    LOGE() << "prebend wasn't created for track " << chord->track() << ", tick " <<
+                        chord->tick().ticks();
                     continue;
                 }
 
@@ -149,7 +151,8 @@ static void createPreBends(const BendDataContext& bendDataCtx, mu::engraving::Sc
     }
 }
 
-static std::vector<Chord*> createGraceChords(Chord* chord, const guitarpro::grace_bend_data_map_t& bendInfo)
+static std::vector<Chord*> createGraceChords(Chord* chord,
+                                             const guitarpro::grace_bend_data_map_t& bendInfo)
 {
     std::vector<Chord*> graceChords;
 
@@ -213,15 +216,19 @@ static void createGraceAfterBends(const BendDataContext& bendDataCtx, mu::engrav
                     graceNote->setTpcFromPitch();
                     graceChord->add(graceNote);
 
-                    GuitarBend* bend = score->addGuitarBend(GuitarBendType::BEND, currentNote, graceNote);
+                    GuitarBend* bend = score->addGuitarBend(GuitarBendType::BEND, currentNote,
+                                                            graceNote);
                     IF_ASSERT_FAILED(bend) {
-                        LOGE() << "grace-after bend wasn't created for track " << graceChord->track() << ", tick " <<
+                        LOGE() << "grace-after bend wasn't created for track " <<
+                            graceChord->track() << ", tick " <<
                             graceChord->tick().ticks();
                         break;
                     }
 
                     int quarterOff = noteData.quarterTones % 2;
-                    bend->setEndNotePitch(bend->startNoteOfChain()->pitch() + noteData.quarterTones / 2, quarterOff);
+                    bend->setEndNotePitch(
+                        bend->startNoteOfChain()->pitch() + noteData.quarterTones / 2,
+                        quarterOff);
                     bend->setStartTimeFactor(noteData.startFactor);
                     bend->setEndTimeFactor(noteData.endFactor);
 
@@ -238,7 +245,8 @@ static void createGraceAfterBends(const BendDataContext& bendDataCtx, mu::engrav
                     if (tieFor && tieFor->endNote()) {
                         Note* tiedNote = tieFor->endNote();
                         mainNote->remove(tieFor);
-                        GuitarBend* bend = score->addGuitarBend(GuitarBendType::BEND, currentNote, tiedNote);
+                        GuitarBend* bend = score->addGuitarBend(GuitarBendType::BEND, currentNote,
+                                                                tiedNote);
                         bend->setEndTimeFactor(lastGraceData.endFactor);
                     }
                 }
@@ -265,18 +273,21 @@ static void createTiedNotesBends(const BendDataContext& bendDataCtx, mu::engravi
                 Note* startNote = chord->notes()[noteIndex];
                 Note* endNote = startNote->tieFor() ? startNote->tieFor()->endNote() : nullptr;
                 if (!endNote) {
-                    LOGE() << "bend import error: not found tied note for track " << track << ", tick " << tick.ticks();
+                    LOGE() << "bend import error: not found tied note for track " << track <<
+                        ", tick " << tick.ticks();
                     continue;
                 }
 
                 GuitarBend* bend = score->addGuitarBend(GuitarBendType::BEND, startNote, endNote);
                 IF_ASSERT_FAILED(bend) {
-                    LOGE() << "bend wasn't created for track " << chord->track() << ", tick " << chord->tick().ticks();
+                    LOGE() << "bend wasn't created for track " << chord->track() << ", tick " <<
+                        chord->tick().ticks();
                     continue;
                 }
 
                 int quarterOff = noteInfo.quarterTones % 2;
-                bend->setEndNotePitch(bend->startNoteOfChain()->pitch() + noteInfo.quarterTones / 2, quarterOff);
+                bend->setEndNotePitch(
+                    bend->startNoteOfChain()->pitch() + noteInfo.quarterTones / 2, quarterOff);
                 bend->setStartTimeFactor(noteInfo.startFactor);
                 bend->setEndTimeFactor(noteInfo.endFactor);
                 endNote->setParenthesesMode(ParenthesesMode::BOTH);
@@ -290,7 +301,8 @@ static void createTiedNotesBends(const BendDataContext& bendDataCtx, mu::engravi
                 while (tie) {
                     Note* nextNote = tie->endNote();
                     IF_ASSERT_FAILED(nextNote) {
-                        LOGE() << "bend import error: not found tied note for track " << track << ", tick " << tick.ticks();
+                        LOGE() << "bend import error: not found tied note for track " << track <<
+                            ", tick " << tick.ticks();
                         break;
                     }
 

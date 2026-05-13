@@ -59,7 +59,9 @@ void GuitarBendLayout::updateSegmentsAndLayout(SLine* item, LayoutContext& ctx)
     unsigned int segmentsNeeded = system1 == system2 ? 1 : 2;
     size_t segmentCount = item->spannerSegments().size();
     if (segmentCount != segmentsNeeded) {
-        item->fixupSegments(segmentsNeeded, [item](System* parent) { return item->createLineSegment(parent); });
+        item->fixupSegments(segmentsNeeded, [item](System* parent) {
+            return item->createLineSegment(parent);
+        });
     }
 
     item->frontSegment()->setSystem(system1);
@@ -107,7 +109,8 @@ void GuitarBendLayout::layoutAngularBend(GuitarBendSegment* item, LayoutContext&
         return;
     }
 
-    if ((bend->bendType() == GuitarBendType::PRE_BEND || bend->bendType() == GuitarBendType::PRE_DIVE)
+    if ((bend->bendType() == GuitarBendType::PRE_BEND
+         || bend->bendType() == GuitarBendType::PRE_DIVE)
         && !startNote->parenthesisInfo()) {
         startNote->setGhost(true);
         startNote->mutldata()->reset();
@@ -121,9 +124,11 @@ void GuitarBendLayout::layoutAngularBend(GuitarBendSegment* item, LayoutContext&
     }
 
     Chord* startChord = startNote->chord();
-    PointF startNotePos = startNote->pos() + startChord->pos() + startChord->segment()->pos() + startChord->measure()->pos();
+    PointF startNotePos = startNote->pos() + startChord->pos() + startChord->segment()->pos()
+                          + startChord->measure()->pos();
     Chord* endChord = endNote->chord();
-    PointF endNotePos = endNote->pos() + endChord->pos() + endChord->segment()->pos() + endChord->measure()->pos();
+    PointF endNotePos = endNote->pos() + endChord->pos() + endChord->segment()->pos()
+                        + endChord->measure()->pos();
 
     const bool up = bend->ldata()->up();
     const int upSign = up ? -1 : 1;
@@ -139,7 +144,8 @@ void GuitarBendLayout::layoutAngularBend(GuitarBendSegment* item, LayoutContext&
     if (item->isSingleBeginType()) {
         startPos = startNotePos;
 
-        double xOff = (isInside ? 1 : 0.5) * startNote->width() + horizontalIndent * startNote->mag();
+        double xOff = (isInside ? 1 : 0.5) * startNote->width() + horizontalIndent
+                      * startNote->mag();
         double yOff = upSign * verticalPadding * startNote->mag();
         if (!isInside) {
             yOff += upSign * 0.5 * startNote->height();
@@ -193,7 +199,8 @@ void GuitarBendLayout::layoutAngularBend(GuitarBendSegment* item, LayoutContext&
     vertexHeight = std::min(vertexHeight, vertexHeightMax);
 
     PointF vertex = 0.5 * relEndPoint;
-    PointF vertexDispl = PointF(upSign * vertexHeight * sin(angle), upSign * vertexHeight * cos(angle));
+    PointF vertexDispl
+        = PointF(upSign * vertexHeight * sin(angle), upSign * vertexHeight * cos(angle));
     vertex += vertexDispl;
 
     PointF vertexAbsCoord = vertex + startPos;
@@ -307,7 +314,8 @@ void GuitarBendLayout::avoidBadStaffLineIntersection(GuitarBendSegment* item, Po
 
     bool isInsideStaff = closestStaffLineY >= 0 && closestStaffLineY <= 4 * spatium;
     if (isInsideStaff && item->autoplace()) {
-        const double minLineDist = 0.5 * item->style().styleAbsolute(Sid::staffLineWidth) + 0.15 * spatium;
+        const double minLineDist = 0.5 * item->style().styleAbsolute(Sid::staffLineWidth) + 0.15
+                                   * spatium;
         double pointLineDist = point.y() - closestStaffLineY;
         if (std::abs(pointLineDist) < minLineDist) {
             point.setY(closestStaffLineY + upSign * minLineDist);
@@ -315,7 +323,8 @@ void GuitarBendLayout::avoidBadStaffLineIntersection(GuitarBendSegment* item, Po
     }
 }
 
-void GuitarBendLayout::adjustX(GuitarBendSegment* item, PointF& startPos, PointF& endPos, const Note* startNote, const Note* endNote)
+void GuitarBendLayout::adjustX(GuitarBendSegment* item, PointF& startPos, PointF& endPos,
+                               const Note* startNote, const Note* endNote)
 {
     GuitarBend* bend = item->guitarBend();
     GuitarBend::LayoutData* layoutData = bend->mutldata();
@@ -325,7 +334,8 @@ void GuitarBendLayout::adjustX(GuitarBendSegment* item, PointF& startPos, PointF
 
     bool adjustStart = item->isSingleBeginType() && ((startChord->stem() && startChord->up() && up)
                                                      || (up && startNote != startChord->upNote())
-                                                     || (!up && startNote != startChord->downNote()));
+                                                     || (!up
+                                                         && startNote != startChord->downNote()));
     bool adjustEnd = item->isSingleEndType() && ((endChord->stem() && !endChord->up() && !up)
                                                  || (up && endNote != endChord->upNote())
                                                  || (!up && endNote != endChord->downNote()));
@@ -340,7 +350,8 @@ void GuitarBendLayout::adjustX(GuitarBendSegment* item, PointF& startPos, PointF
     if (item->isSingleBeginType()) {
         Shape startChordShape = startChord->shape().translate(
             startChord->pos() + startChord->segment()->pos() + startChord->measure()->pos());
-        double pointToClear = startChordShape.rightMostEdgeAtHeight(startPos.y() - vertMargin, startPos.y() + vertMargin);
+        double pointToClear = startChordShape.rightMostEdgeAtHeight(
+            startPos.y() - vertMargin, startPos.y() + vertMargin);
         pointToClear += padding;
         double resultingX = std::max(startPos.x(), pointToClear);
         startPos.setX(resultingX);
@@ -349,7 +360,8 @@ void GuitarBendLayout::adjustX(GuitarBendSegment* item, PointF& startPos, PointF
     if (item->isSingleEndType()) {
         Shape endChordShape = endChord->shape().translate(
             endChord->pos() + endChord->segment()->pos() + endChord->measure()->pos());
-        double pointToClear = endChordShape.leftMostEdgeAtHeight(endPos.y() - vertMargin, endPos.y() + vertMargin);
+        double pointToClear = endChordShape.leftMostEdgeAtHeight(endPos.y() - vertMargin,
+                                                                 endPos.y() + vertMargin);
         pointToClear -= padding;
         double resultingX = std::min(endPos.x(), pointToClear);
         endPos.setX(resultingX);
@@ -363,7 +375,8 @@ void GuitarBendLayout::layoutSlightBend(GuitarBendSegment* item, LayoutContext&)
     assert(startNote);
 
     Chord* startChord = startNote->chord();
-    PointF startNotePos = startNote->pos() + startChord->pos() + startChord->segment()->pos() + startChord->measure()->pos();
+    PointF startNotePos = startNote->pos() + startChord->pos() + startChord->segment()->pos()
+                          + startChord->measure()->pos();
 
     double spatium = item->spatium();
     PointF startPos = startNotePos + PointF(startNote->width() + 0.25 * spatium, -0.25 * spatium);
@@ -413,7 +426,8 @@ void GuitarBendLayout::checkConflictWithOtherBends(GuitarBendSegment* item)
             ldata->setVertexPoint(ldata->vertexPoint() + PointF(endPointMove.x(), 0.0));
 
             GuitarBendText* text = item->bendText();
-            text->mutldata()->setPos(text->ldata()->pos() + endPointMove + PointF(0.35 * text->width(), 0.0));
+            text->mutldata()->setPos(text->ldata()->pos() + endPointMove
+                                     + PointF(0.35 * text->width(), 0.0));
         }
     }
 }
@@ -421,12 +435,14 @@ void GuitarBendLayout::checkConflictWithOtherBends(GuitarBendSegment* item)
 bool GuitarBendLayout::startOnEndNote(GuitarBend* bend)
 {
     GuitarBendType bendT = bend->bendType();
-    if (!(bendT == GuitarBendType::PRE_BEND || bendT == GuitarBendType::GRACE_NOTE_BEND || bendT == GuitarBendType::PRE_DIVE)) {
+    if (!(bendT == GuitarBendType::PRE_BEND || bendT == GuitarBendType::GRACE_NOTE_BEND
+          || bendT == GuitarBendType::PRE_DIVE)) {
         return false;
     }
 
     bool preBendsAlignToGrace = bend->style().styleB(Sid::alignPreBendAndPreDiveToGraceNote);
-    if (!preBendsAlignToGrace && (bendT == GuitarBendType::PRE_BEND || bendT == GuitarBendType::PRE_DIVE)) {
+    if (!preBendsAlignToGrace
+        && (bendT == GuitarBendType::PRE_BEND || bendT == GuitarBendType::PRE_DIVE)) {
         return true;
     }
 
@@ -470,7 +486,8 @@ void GuitarBendLayout::layoutBendTabStaff(GuitarBendSegment* item, LayoutContext
     double spatium = bend->spatium();
     const MStyle& style = item->style();
     const double verticalPad = 0.25 * spatium;
-    const double distAboveTab = style.styleD(Sid::guitarBendHeightAboveTABStaff) * spatium * item->staff()->lineDistance(item->tick());
+    const double distAboveTab = style.styleD(Sid::guitarBendHeightAboveTABStaff) * spatium
+                                * item->staff()->lineDistance(item->tick());
     const double arrowWidth = style.styleAbsolute(Sid::guitarBendArrowWidth);
     const double arrowHeight = style.styleAbsolute(Sid::guitarBendArrowHeight);
     const double lineWidth = item->lineWidth();
@@ -481,11 +498,14 @@ void GuitarBendLayout::layoutBendTabStaff(GuitarBendSegment* item, LayoutContext
     PolygonF arrow;
 
     GuitarBend* prevBend = bend->findPrecedingBend();
-    GuitarBendSegment* prevBendSeg = prevBend && !prevBend->segmentsEmpty() && !prevBend->isFullRelease()
+    GuitarBendSegment* prevBendSeg = prevBend && !prevBend->segmentsEmpty()
+                                     && !prevBend->isFullRelease()
                                      ? toGuitarBendSegment(prevBend->backSegment()) : nullptr;
-    GuitarBendHoldSegment* prevHoldLine = prevBend && prevBend->holdLine() && !prevBend->holdLine()->segmentsEmpty()
+    GuitarBendHoldSegment* prevHoldLine = prevBend && prevBend->holdLine()
+                                          && !prevBend->holdLine()->segmentsEmpty()
                                           && prevBend->endNote() != bend->startNote()
-                                          ? toGuitarBendHoldSegment(prevBend->holdLine()->backSegment()) : nullptr;
+                                          ? toGuitarBendHoldSegment(
+        prevBend->holdLine()->backSegment()) : nullptr;
 
     PointF prevEndPoint = PointF(0.0, 0.0);
     if (prevHoldLine) {
@@ -498,21 +518,25 @@ void GuitarBendLayout::layoutBendTabStaff(GuitarBendSegment* item, LayoutContext
         }
     }
 
-    if (item->isSingleBeginType() && bend->bendType() != GuitarBendType::PRE_BEND && !prevEndPoint.isNull()) {
+    if (item->isSingleBeginType() && bend->bendType() != GuitarBendType::PRE_BEND
+        && !prevEndPoint.isNull()) {
         startPos = prevEndPoint;
     } else {
         startPos = computeStartPos(item, startNote, distAboveTab, verticalPad, arrowHeight);
     }
 
-    endPos = computeEndPos(item, endNote, distAboveTab, verticalPad, arrowHeight, arrowWidth, startPos, prevEndPoint);
+    endPos = computeEndPos(item, endNote, distAboveTab, verticalPad, arrowHeight, arrowWidth,
+                           startPos, prevEndPoint);
     endPos.setX(std::max(startPos.x(), endPos.x())); // Edge case for ultra-ultra-narrow situations: ensure bend doesn't end before its start
 
     vertex = bend->bendType() == GuitarBendType::PRE_BEND && !bend->angledPreBend()
              ? 0.5 * (startPos + endPos) : PointF(endPos.x(), startPos.y());
 
     arrow = bend->isReleaseBend()
-            ? arrow << PointF(0, arrowHeight) << PointF(arrowWidth * .5, 0.0) << PointF(-arrowWidth * .5, 0.0)   // arrow-down
-            : arrow << PointF(0, -arrowHeight) << PointF(arrowWidth * .5, 0.0) << PointF(-arrowWidth * .5, 0.0); // arrow-up
+            ? arrow << PointF(0, arrowHeight) << PointF(arrowWidth * .5, 0.0) << PointF(
+        -arrowWidth * .5, 0.0)                                                                                   // arrow-down
+            : arrow << PointF(0, -arrowHeight) << PointF(arrowWidth * .5, 0.0) << PointF(
+        -arrowWidth * .5, 0.0);                                                                                  // arrow-up
 
     if (bend->isReleaseBend() && !endNote->ghost()) {
         endNote->setGhost(true);
@@ -529,7 +553,8 @@ void GuitarBendLayout::layoutBendTabStaff(GuitarBendSegment* item, LayoutContext
         }
     } else if (bend->bendType() != GuitarBendType::SLIGHT_BEND
                && (!style.styleB(Sid::showFretOnFullBendRelease) || !bend->isFullRelease())) {
-        if (bend->bendType() == GuitarBendType::GRACE_NOTE_BEND || bend->bendType() == GuitarBendType::PRE_BEND) {
+        if (bend->bendType() == GuitarBendType::GRACE_NOTE_BEND
+            || bend->bendType() == GuitarBendType::PRE_BEND) {
             if (!startNote->overrideBendVisibilityRules()) {
                 startNote->setVisible(true);
             }
@@ -552,7 +577,8 @@ void GuitarBendLayout::layoutBendTabStaff(GuitarBendSegment* item, LayoutContext
     TextLayout::layoutBaseTextBase(toTextBase(guitarBendText), ctx);
     double verticalTextPad = 0.2 * spatium;
     PointF centering(-0.5 * guitarBendText->width(),
-                     (bend->isReleaseBend() ? verticalTextPad : -(guitarBendText->height() + verticalTextPad)));
+                     (bend->isReleaseBend() ? verticalTextPad : -(guitarBendText->height()
+                                                                  + verticalTextPad)));
     guitarBendText->mutldata()->setPos(arrow.front() + centering);
 
     GuitarBendLayout::checkConflictWithOtherBends(item);
@@ -575,12 +601,14 @@ void GuitarBendLayout::layoutBendTabStaff(GuitarBendSegment* item, LayoutContext
     item->mutldata()->setBbox(r.normalized());
 }
 
-PointF GuitarBendLayout::computeStartPos(GuitarBendSegment* item, Note* startNote, double distAboveTab, double verticalPad,
+PointF GuitarBendLayout::computeStartPos(GuitarBendSegment* item, Note* startNote,
+                                         double distAboveTab, double verticalPad,
                                          double arrowHeight)
 {
     GuitarBend* bend = item->guitarBend();
     Chord* startChord = startNote->chord();
-    PointF startNotePos = startNote->pos() + startChord->pos() + startChord->segment()->pos() + startChord->measure()->pos();
+    PointF startNotePos = startNote->pos() + startChord->pos() + startChord->segment()->pos()
+                          + startChord->measure()->pos();
 
     const double spatium = item->spatium();
     const double lineWidth = item->lineWidth();
@@ -594,9 +622,11 @@ PointF GuitarBendLayout::computeStartPos(GuitarBendSegment* item, Note* startNot
         startPos = endN->systemPos();
         Chord* endChord = endN->chord();
         bool startFromTheSide = bend->bendType() == GuitarBendType::GRACE_NOTE_BEND
-                                || (endChord->notes().size() > 1 && endN->string() > endChord->upString());
+                                || (endChord->notes().size() > 1
+                                    && endN->string() > endChord->upString());
         if (startFromTheSide) {
-            startPos += PointF(endN->width() + horizontalIndent, -0.5 * endN->height() + 0.5 * lineWidth);
+            startPos += PointF(endN->width() + horizontalIndent,
+                               -0.5 * endN->height() + 0.5 * lineWidth);
         } else {
             startPos += PointF(0.5 * endN->width(), -0.5 * endN->height() - verticalPad);
         }
@@ -622,7 +652,8 @@ PointF GuitarBendLayout::computeStartPos(GuitarBendSegment* item, Note* startNot
 
     if (item->isSingleBeginType()) {
         startPos = startNotePos;
-        startPos += PointF(startNote->width() + horizontalIndent, -0.5 * startNote->height() + 0.5 * lineWidth);
+        startPos += PointF(startNote->width() + horizontalIndent,
+                           -0.5 * startNote->height() + 0.5 * lineWidth);
     } else {
         startPos.setX(system->firstNoteRestSegmentX(true));
         startPos.setY(0.5 * spatium);
@@ -631,12 +662,15 @@ PointF GuitarBendLayout::computeStartPos(GuitarBendSegment* item, Note* startNot
     return startPos;
 }
 
-PointF GuitarBendLayout::computeEndPos(GuitarBendSegment* item, Note* endNote, double distAboveTab, double verticalPad, double arrowHeight,
-                                       double arrowWidth, const PointF& startPos, const PointF& prevEndPoint)
+PointF GuitarBendLayout::computeEndPos(GuitarBendSegment* item, Note* endNote, double distAboveTab,
+                                       double verticalPad, double arrowHeight,
+                                       double arrowWidth, const PointF& startPos,
+                                       const PointF& prevEndPoint)
 {
     GuitarBend* bend = item->guitarBend();
     Chord* endChord = endNote->chord();
-    PointF endNotePos = endNote->pos() + endChord->pos() + endChord->segment()->pos() + endChord->measure()->pos();
+    PointF endNotePos = endNote->pos() + endChord->pos() + endChord->segment()->pos()
+                        + endChord->measure()->pos();
 
     const MStyle& style = item->style();
     const double partialBendHeight = style.styleAbsolute(Sid::guitarBendPartialBendHeight);
@@ -677,7 +711,8 @@ PointF GuitarBendLayout::computeEndPos(GuitarBendSegment* item, Note* endNote, d
             endPos.setX(system->endingXForOpenEndedLines() - 0.5 * arrowWidth);
         }
     }
-    endPos = PointF(endPos.x(), prevEndPoint.isNull() ? -distAboveTab : startPos.y() - partialBendHeight);             // TODO: style
+    endPos = PointF(endPos.x(),
+                    prevEndPoint.isNull() ? -distAboveTab : startPos.y() - partialBendHeight);                         // TODO: style
     endPos.setX(std::max(endPos.x(), startPos.x() + 0.75 * spatium));
 
     return endPos;
@@ -703,7 +738,8 @@ void GuitarBendLayout::layoutHoldLine(GuitarBendHoldSegment* item)
     Note* endNote = item->guitarBendHold()->endNote();
 
     Chord* endChord = endNote->chord();
-    PointF endNotePos = endNote->pos() + endChord->pos() + endChord->segment()->pos() + endChord->measure()->pos();
+    PointF endNotePos = endNote->pos() + endChord->pos() + endChord->segment()->pos()
+                        + endChord->measure()->pos();
 
     GuitarBendSegment* startBendSegment = nullptr;
     if (!startBend->isFullRelease() && !startBend->segmentsEmpty()) {
@@ -723,7 +759,9 @@ void GuitarBendLayout::layoutHoldLine(GuitarBendHoldSegment* item)
     item->setEndBendSeg(endBendSegment);
 
     if (item->isSingleBeginType()) {
-        startPos = startBendSegment->pos() + (startBend->isDive() ? startBendSegment->pos2() : startBendSegment->ldata()->arrow().front());
+        startPos = startBendSegment->pos()
+                   + (startBend->isDive() ? startBendSegment->pos2() : startBendSegment->ldata()->
+                      arrow().front());
         if (!startBend->isDive()) {
             double gap = item->dashLength() * lineWidth;
             startPos += PointF(gap, (startBend->isReleaseBend() ? -0.5 : +0.5) * lineWidth);
@@ -736,7 +774,8 @@ void GuitarBendLayout::layoutHoldLine(GuitarBendHoldSegment* item)
     if (item->isSingleEndType()) {
         if (endBendSegment) {
             GuitarBend* endBend = endBendSegment->guitarBend();
-            if (endBend->bendType() == GuitarBendType::PRE_DIVE || endBend->bendType() == GuitarBendType::PRE_BEND) {
+            if (endBend->bendType() == GuitarBendType::PRE_DIVE
+                || endBend->bendType() == GuitarBendType::PRE_BEND) {
                 Note* note = startOnEndNote(endBend) ? endBend->endNote() : endBend->startNote();
                 endPos.setX(note->systemPos().x() + 0.5 * note->ldata()->bbox().width());
             } else {

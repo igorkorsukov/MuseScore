@@ -52,7 +52,8 @@ ImportedBendInfo BendInfoConverter::fillBendInfo(const Note* note, const PitchVa
             return pvd::INCREASED_PITCH_SAME_TIME;
         }
 
-        return prev.pitch < cur.pitch ? pvd::INCREASED_PITCH_DIFF_TIME : pvd::DECREASED_PITCH_DIFF_TIME;
+        return prev.pitch
+               < cur.pitch ? pvd::INCREASED_PITCH_DIFF_TIME : pvd::DECREASED_PITCH_DIFF_TIME;
     };
 
     auto addPrebendOrHold = [&importedInfo](const PitchValue& start) {

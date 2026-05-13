@@ -53,11 +53,30 @@ public:
         return value(idx).value<Spatium>();
     }
 
-    double   styleAbsolute(Sid idx) const { assert(MStyle::valueType(idx) == P_TYPE::SPATIUM); return valueAbsolute(idx); }
-    String   styleSt(Sid idx) const { assert(MStyle::valueType(idx) == P_TYPE::STRING); return value(idx).value<String>(); }
-    bool     styleB(Sid idx) const { assert(MStyle::valueType(idx) == P_TYPE::BOOL); return value(idx).toBool(); }
-    double   styleD(Sid idx) const { assert(MStyle::valueType(idx) == P_TYPE::REAL); return value(idx).toReal(); }
-    int      styleI(Sid idx) const { /* can be int or enum, so no assert */ return value(idx).toInt(); }
+    double   styleAbsolute(Sid idx) const
+    {
+        assert(MStyle::valueType(idx) == P_TYPE::SPATIUM);
+        return valueAbsolute(idx);
+    }
+    String   styleSt(Sid idx) const
+    {
+        assert(MStyle::valueType(idx) == P_TYPE::STRING);
+        return value(idx).value<String>();
+    }
+    bool     styleB(Sid idx) const
+    {
+        assert(MStyle::valueType(idx) == P_TYPE::BOOL);
+        return value(idx).toBool();
+    }
+    double   styleD(Sid idx) const
+    {
+        assert(MStyle::valueType(idx) == P_TYPE::REAL);
+        return value(idx).toReal();
+    }
+    int      styleI(Sid idx) const   /* can be int or enum, so no assert */
+    {
+        return value(idx).toInt();
+    }
 
     const PropertyValue& value(Sid idx) const;
     double valueAbsolute(Sid idx) const;

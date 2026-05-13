@@ -115,7 +115,10 @@ public:
         ld_field<double> bracketHeight = { "[Bracket] bracketHeight", 0.0 };
         ld_field<double> bracketWidth = { "[Bracket] bracketWidth", 0.0 };
 
-        double h2(LD_ACCESS mode = LD_ACCESS::CHECK) const { return bracketHeight.value(mode) * 0.5; }
+        double h2(LD_ACCESS mode = LD_ACCESS::CHECK) const
+        {
+            return bracketHeight.value(mode) * 0.5;
+        }
     };
     DECLARE_LAYOUTDATA_METHODS(Bracket)
 

@@ -77,21 +77,36 @@ int step2tpc(int step, AccidentalVal alter)
 
 static const int tpcByStepAndKey[int(Key::NUM_OF)][STEP_DELTA_OCTAVE] = {
 // step          C             D             E             F             G             A             B        Key
-    { Tpc::TPC_C_B, Tpc::TPC_D_B, Tpc::TPC_E_B, Tpc::TPC_F_B, Tpc::TPC_G_B, Tpc::TPC_A_B, Tpc::TPC_B_B },  // Cb
-    { Tpc::TPC_C_B, Tpc::TPC_D_B, Tpc::TPC_E_B, Tpc::TPC_F,   Tpc::TPC_G_B, Tpc::TPC_A_B, Tpc::TPC_B_B },  // Gb
-    { Tpc::TPC_C,   Tpc::TPC_D_B, Tpc::TPC_E_B, Tpc::TPC_F,   TPC_G_B,      Tpc::TPC_A_B, Tpc::TPC_B_B },  // Db
-    { Tpc::TPC_C,   Tpc::TPC_D_B, Tpc::TPC_E_B, Tpc::TPC_F,   Tpc::TPC_G,   Tpc::TPC_A_B, Tpc::TPC_B_B },  // Ab
-    { Tpc::TPC_C,   Tpc::TPC_D,   Tpc::TPC_E_B, Tpc::TPC_F,   Tpc::TPC_G,   Tpc::TPC_A_B, Tpc::TPC_B_B },  // Eb
-    { Tpc::TPC_C,   Tpc::TPC_D,   Tpc::TPC_E_B, Tpc::TPC_F,   Tpc::TPC_G,   Tpc::TPC_A,   Tpc::TPC_B_B },  // B
-    { Tpc::TPC_C,   Tpc::TPC_D,   Tpc::TPC_E,   Tpc::TPC_F,   Tpc::TPC_G,   Tpc::TPC_A,   Tpc::TPC_B_B },  // F
-    { Tpc::TPC_C,   Tpc::TPC_D,   Tpc::TPC_E,   Tpc::TPC_F,   Tpc::TPC_G,   Tpc::TPC_A,   Tpc::TPC_B },    // C
-    { Tpc::TPC_C,   Tpc::TPC_D,   Tpc::TPC_E,   Tpc::TPC_F_S, Tpc::TPC_G,   Tpc::TPC_A,   Tpc::TPC_B },    // G
-    { Tpc::TPC_C_S, Tpc::TPC_D,   Tpc::TPC_E,   Tpc::TPC_F_S, Tpc::TPC_G,   Tpc::TPC_A,   Tpc::TPC_B },    // D
-    { Tpc::TPC_C_S, Tpc::TPC_D,   Tpc::TPC_E,   Tpc::TPC_F_S, Tpc::TPC_G_S, Tpc::TPC_A,   Tpc::TPC_B },    // A
-    { Tpc::TPC_C_S, Tpc::TPC_D_S, Tpc::TPC_E,   Tpc::TPC_F_S, Tpc::TPC_G_S, Tpc::TPC_A,   Tpc::TPC_B },    // E
-    { Tpc::TPC_C_S, Tpc::TPC_D_S, Tpc::TPC_E,   Tpc::TPC_F_S, Tpc::TPC_G_S, Tpc::TPC_A_S, Tpc::TPC_B },    // H
-    { Tpc::TPC_C_S, Tpc::TPC_D_S, Tpc::TPC_E_S, Tpc::TPC_F_S, Tpc::TPC_G_S, Tpc::TPC_A_S, Tpc::TPC_B },    // F#
-    { Tpc::TPC_C_S, Tpc::TPC_D_S, Tpc::TPC_E_S, Tpc::TPC_F_S, Tpc::TPC_G_S, Tpc::TPC_A_S, Tpc::TPC_B_S },  // C#
+    { Tpc::TPC_C_B, Tpc::TPC_D_B, Tpc::TPC_E_B, Tpc::TPC_F_B, Tpc::TPC_G_B, Tpc::TPC_A_B,
+      Tpc::TPC_B_B },                                                                                      // Cb
+    { Tpc::TPC_C_B, Tpc::TPC_D_B, Tpc::TPC_E_B, Tpc::TPC_F,   Tpc::TPC_G_B, Tpc::TPC_A_B,
+      Tpc::TPC_B_B },                                                                                      // Gb
+    { Tpc::TPC_C,   Tpc::TPC_D_B, Tpc::TPC_E_B, Tpc::TPC_F,   TPC_G_B,      Tpc::TPC_A_B,
+      Tpc::TPC_B_B },                                                                                      // Db
+    { Tpc::TPC_C,   Tpc::TPC_D_B, Tpc::TPC_E_B, Tpc::TPC_F,   Tpc::TPC_G,   Tpc::TPC_A_B,
+      Tpc::TPC_B_B },                                                                                      // Ab
+    { Tpc::TPC_C,   Tpc::TPC_D,   Tpc::TPC_E_B, Tpc::TPC_F,   Tpc::TPC_G,   Tpc::TPC_A_B,
+      Tpc::TPC_B_B },                                                                                      // Eb
+    { Tpc::TPC_C,   Tpc::TPC_D,   Tpc::TPC_E_B, Tpc::TPC_F,   Tpc::TPC_G,   Tpc::TPC_A,
+      Tpc::TPC_B_B },                                                                                      // B
+    { Tpc::TPC_C,   Tpc::TPC_D,   Tpc::TPC_E,   Tpc::TPC_F,   Tpc::TPC_G,   Tpc::TPC_A,
+      Tpc::TPC_B_B },                                                                                      // F
+    { Tpc::TPC_C,   Tpc::TPC_D,   Tpc::TPC_E,   Tpc::TPC_F,   Tpc::TPC_G,   Tpc::TPC_A,
+      Tpc::TPC_B },                                                                                        // C
+    { Tpc::TPC_C,   Tpc::TPC_D,   Tpc::TPC_E,   Tpc::TPC_F_S, Tpc::TPC_G,   Tpc::TPC_A,
+      Tpc::TPC_B },                                                                                        // G
+    { Tpc::TPC_C_S, Tpc::TPC_D,   Tpc::TPC_E,   Tpc::TPC_F_S, Tpc::TPC_G,   Tpc::TPC_A,
+      Tpc::TPC_B },                                                                                        // D
+    { Tpc::TPC_C_S, Tpc::TPC_D,   Tpc::TPC_E,   Tpc::TPC_F_S, Tpc::TPC_G_S, Tpc::TPC_A,
+      Tpc::TPC_B },                                                                                        // A
+    { Tpc::TPC_C_S, Tpc::TPC_D_S, Tpc::TPC_E,   Tpc::TPC_F_S, Tpc::TPC_G_S, Tpc::TPC_A,
+      Tpc::TPC_B },                                                                                        // E
+    { Tpc::TPC_C_S, Tpc::TPC_D_S, Tpc::TPC_E,   Tpc::TPC_F_S, Tpc::TPC_G_S, Tpc::TPC_A_S,
+      Tpc::TPC_B },                                                                                        // H
+    { Tpc::TPC_C_S, Tpc::TPC_D_S, Tpc::TPC_E_S, Tpc::TPC_F_S, Tpc::TPC_G_S, Tpc::TPC_A_S,
+      Tpc::TPC_B },                                                                                        // F#
+    { Tpc::TPC_C_S, Tpc::TPC_D_S, Tpc::TPC_E_S, Tpc::TPC_F_S, Tpc::TPC_G_S, Tpc::TPC_A_S,
+      Tpc::TPC_B_S },                                                                                      // C#
 };
 
 int step2tpcByKey(int step, Key key)
@@ -239,7 +254,8 @@ int tpc2pitch(int tpc)
 
 int tpc2alterByKey(int tpc, Key key)
 {
-    return (tpc - int(key) - int(Tpc::TPC_MIN) + int(Key::MAX)) / TPC_DELTA_SEMITONE - (int(AccidentalVal::MAX) + 1);
+    return (tpc - int(key) - int(Tpc::TPC_MIN) + int(Key::MAX)) / TPC_DELTA_SEMITONE
+           - (int(AccidentalVal::MAX) + 1);
 }
 
 //---------------------------------------------------------
@@ -247,7 +263,8 @@ int tpc2alterByKey(int tpc, Key key)
 //    return note name
 //---------------------------------------------------------
 
-String tpc2name(int tpc, NoteSpellingType noteSpelling, NoteCaseType noteCase, bool explicitAccidental, bool full)
+String tpc2name(int tpc, NoteSpellingType noteSpelling, NoteCaseType noteCase,
+                bool explicitAccidental, bool full)
 {
     String s;
     String acc;
@@ -259,7 +276,8 @@ String tpc2name(int tpc, NoteSpellingType noteSpelling, NoteCaseType noteCase, b
 //   tpc2name
 //---------------------------------------------------------
 
-void tpc2name(int tpc, NoteSpellingType noteSpelling, NoteCaseType noteCase, String& s, String& acc, bool explicitAccidental, bool full)
+void tpc2name(int tpc, NoteSpellingType noteSpelling, NoteCaseType noteCase, String& s, String& acc,
+              bool explicitAccidental, bool full)
 {
     AccidentalVal accVal;
     tpc2name(tpc, noteSpelling, noteCase, s, accVal);
@@ -337,7 +355,8 @@ void tpc2name(int tpc, NoteSpellingType noteSpelling, NoteCaseType noteCase, Str
 //   tpc2name
 //---------------------------------------------------------
 
-void tpc2name(int tpc, NoteSpellingType noteSpelling, NoteCaseType noteCase, String& s, AccidentalVal& acc)
+void tpc2name(int tpc, NoteSpellingType noteSpelling, NoteCaseType noteCase, String& s,
+              AccidentalVal& acc)
 {
     const char names[]  = "FCGDAEB";
     const char gnames[] = "FCGDAEH";
@@ -393,13 +412,15 @@ Char tpc2stepName(int tpc)
 
 String tpcUserName(int tpc, int pitch, bool explicitAccidental, bool full)
 {
-    String pitchStr = tpc2name(tpc, NoteSpellingType::STANDARD, NoteCaseType::AUTO, explicitAccidental, full);
+    String pitchStr = tpc2name(tpc, NoteSpellingType::STANDARD, NoteCaseType::AUTO,
+                               explicitAccidental, full);
     if (!explicitAccidental) {
         pitchStr.replace(u"b", u"♭");
         pitchStr.replace(u"#", u"♯");
     }
 
-    const String octaveStr = String::number(((pitch - static_cast<int>(tpc2alter(tpc))) / PITCH_DELTA_OCTAVE) - 1);
+    const String octaveStr
+        = String::number(((pitch - static_cast<int>(tpc2alter(tpc))) / PITCH_DELTA_OCTAVE) - 1);
 
     return pitchStr + octaveStr;
 }
@@ -743,9 +764,12 @@ void Score::spellNotelist(std::vector<Note*>& notes)
             }
         }
         if ((end - start) >= 6) {
-            changeAllTpcs(notes[start + 3], tab[(notes[start + 3]->pitch() % 12) * 2 + ((opt & 8) >> 3)]);
-            changeAllTpcs(notes[start + 4], tab[(notes[start + 4]->pitch() % 12) * 2 + ((opt & 16) >> 4)]);
-            changeAllTpcs(notes[start + 5], tab[(notes[start + 5]->pitch() % 12) * 2 + ((opt & 32) >> 5)]);
+            changeAllTpcs(notes[start + 3],
+                          tab[(notes[start + 3]->pitch() % 12) * 2 + ((opt & 8) >> 3)]);
+            changeAllTpcs(notes[start + 4],
+                          tab[(notes[start + 4]->pitch() % 12) * 2 + ((opt & 16) >> 4)]);
+            changeAllTpcs(notes[start + 5],
+                          tab[(notes[start + 5]->pitch() % 12) * 2 + ((opt & 32) >> 5)]);
         }
         if (end == n) {
             int n1 = end - start;
@@ -753,15 +777,18 @@ void Score::spellNotelist(std::vector<Note*>& notes)
             switch (n1 - 6) {
             case 3:
                 k = end - start - 3;
-                changeAllTpcs(notes[end - 3], tab[(notes[end - 3]->pitch() % 12) * 2 + ((opt & (1 << k)) >> k)]);
+                changeAllTpcs(notes[end - 3],
+                              tab[(notes[end - 3]->pitch() % 12) * 2 + ((opt & (1 << k)) >> k)]);
                 [[fallthrough]];
             case 2:
                 k = end - start - 2;
-                changeAllTpcs(notes[end - 2], tab[(notes[end - 2]->pitch() % 12) * 2 + ((opt & (1 << k)) >> k)]);
+                changeAllTpcs(notes[end - 2],
+                              tab[(notes[end - 2]->pitch() % 12) * 2 + ((opt & (1 << k)) >> k)]);
                 [[fallthrough]];
             case 1:
                 k = end - start - 1;
-                changeAllTpcs(notes[end - 1], tab[(notes[end - 1]->pitch() % 12) * 2 + ((opt & (1 << k)) >> k)]);
+                changeAllTpcs(notes[end - 1],
+                              tab[(notes[end - 1]->pitch() % 12) * 2 + ((opt & (1 << k)) >> k)]);
             }
             break;
         }

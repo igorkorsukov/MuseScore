@@ -75,7 +75,8 @@ const ArticulationTypeSet& ArpeggioRenderer::supportedTypes()
     return types;
 }
 
-void ArpeggioRenderer::doRender(const EngravingItem* item, const mpe::ArticulationType preferredType,
+void ArpeggioRenderer::doRender(const EngravingItem* item,
+                                const mpe::ArticulationType preferredType,
                                 const RenderingContext& ctx, mpe::PlaybackEventList& result)
 {
     const Chord* chord = toChord(item);

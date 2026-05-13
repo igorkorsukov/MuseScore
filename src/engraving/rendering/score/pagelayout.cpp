@@ -83,7 +83,9 @@ void PageLayout::getNextPage(LayoutContext& ctx)
     } else {
         state.setPage(dom.pages()[state.pageIdx()]);
         std::vector<System*>& systems = state.page()->systems();
-        state.setPageOldMeasure(systems.empty() || systems.back()->measures().empty() ? nullptr : systems.back()->measures().back());
+        state.setPageOldMeasure(
+            systems.empty()
+            || systems.back()->measures().empty() ? nullptr : systems.back()->measures().back());
         const system_idx_t i = muse::indexOf(systems, state.curSystem());
         if ((i < systems.size()) && i > 0 && systems[i - 1]->page() == state.page()) {
             // Current and previous systems are on the current page.
@@ -165,7 +167,8 @@ void PageLayout::collectPage(LayoutContext& ctx)
         //
         double distance;
         if (ctx.state().prevSystem()) {
-            distance = SystemLayout::minDistance(ctx.state().prevSystem(), ctx.state().curSystem(), ctx);
+            distance = SystemLayout::minDistance(ctx.state().prevSystem(),
+                                                 ctx.state().curSystem(), ctx);
         } else {
             // this is the first system on page
             if (ctx.state().curSystem()->vbox()) {
@@ -219,7 +222,8 @@ void PageLayout::collectPage(LayoutContext& ctx)
                     // TODO: handle next movement
                 }
             } else {
-                nextSystem = ctx.state().systemList().empty() ? 0 : muse::takeFirst(ctx.mutState().systemList());
+                nextSystem = ctx.state().systemList().empty() ? 0 : muse::takeFirst(
+                    ctx.mutState().systemList());
                 if (nextSystem) {
                     ctx.mutDom().systems().push_back(nextSystem);
                 }
@@ -232,7 +236,8 @@ void PageLayout::collectPage(LayoutContext& ctx)
         }
 
         if (ctx.dom().lastSegment()) {
-            float curPercent = static_cast<float>(ctx.state().measureNumber()) / ctx.dom().lastSegment()->measure()->index();
+            float curPercent = static_cast<float>(ctx.state().measureNumber())
+                               / ctx.dom().lastSegment()->measure()->index();
             page->score()->layoutProgressChannel().send(curPercent);
         }
 
@@ -240,10 +245,12 @@ void PageLayout::collectPage(LayoutContext& ctx)
         assert(ctx.state().curSystem() != nextSystem);
         ctx.mutState().setCurSystem(nextSystem);
 
-        bool isPageBreak = !ctx.state().curSystem() || (breakPages && ctx.state().prevSystem()->pageBreak());
+        bool isPageBreak = !ctx.state().curSystem()
+                           || (breakPages && ctx.state().prevSystem()->pageBreak());
 
         if (!isPageBreak) {
-            double dist = SystemLayout::minDistance(ctx.state().prevSystem(), ctx.state().curSystem(), ctx)
+            double dist = SystemLayout::minDistance(ctx.state().prevSystem(),
+                                                    ctx.state().curSystem(), ctx)
                           + ctx.state().curSystem()->height();
             Box* vbox = ctx.state().curSystem()->vbox();
             if (vbox) {
@@ -378,7 +385,8 @@ void PageLayout::collectPage(LayoutContext& ctx)
     // next page, because they may have been altered while collecting the systems.
     MeasureBase* lastOfThisPage = ctx.mutState().page()->systems().back()->measures().back();
     MeasureBase* firstOfNextPage = lastOfThisPage ? lastOfThisPage->next() : nullptr;
-    if (firstOfNextPage && firstOfNextPage->isMeasure() && firstOfNextPage->tick() > ctx.state().endTick()) {
+    if (firstOfNextPage && firstOfNextPage->isMeasure()
+        && firstOfNextPage->tick() > ctx.state().endTick()) {
         for (Segment& segment : toMeasure(firstOfNextPage)->segments()) {
             if (!segment.isType(SegmentType::BarLineType)) {
                 continue;
@@ -394,7 +402,8 @@ void PageLayout::collectPage(LayoutContext& ctx)
     if (ctx.conf().isMode(LayoutMode::SYSTEM)) {
         const System* s = page->systems().back();
         double height = s ? s->pos().y() + s->height() + s->minBottom() : ctx.state().page()->tm();
-        page->mutldata()->setBbox(0.0, 0.0, ctx.conf().loWidth(), height + ctx.state().page()->bm());
+        page->mutldata()->setBbox(0.0, 0.0, ctx.conf().loWidth(),
+                                  height + ctx.state().page()->bm());
     }
 
     layoutCrossStaffElements(ctx, page);
@@ -403,7 +412,8 @@ void PageLayout::collectPage(LayoutContext& ctx)
         SystemLayout::centerElementsBetweenStaves(system);
     }
 
-    if (ctx.conf().styleV(Sid::timeSigPlacement).value<TimeSigPlacement>() == TimeSigPlacement::ACROSS_STAVES
+    if (ctx.conf().styleV(Sid::timeSigPlacement).value<TimeSigPlacement>()
+        == TimeSigPlacement::ACROSS_STAVES
         && ctx.conf().styleB(Sid::timeSigCenterAcrossStaveGroup)) {
         for (const System* system : page->systems()) {
             SystemLayout::centerBigTimeSigsAcrossStaves(system);
@@ -505,7 +515,8 @@ void PageLayout::layoutArticAndFingeringOnCrossStaffBeams(LayoutContext& ctx, Sy
                                 const RectF r = fingering->ldata()->bbox().translated(
                                     fingering->pos() + n->pos() + n->chord()->pos() + segment.pos()
                                     + segment.measure()->pos());
-                                system->staff(fingering->note()->chord()->vStaffIdx())->skyline().add(r, fingering);
+                                system->staff(fingering->note()->chord()->vStaffIdx())->skyline().
+                                add(r, fingering);
                             }
                         }
                     }
@@ -553,7 +564,8 @@ void PageLayout::layoutPage(LayoutContext& ctx, Page* page, double restHeight, d
             for (System* system : page->systems()) {
                 system->move(PointF(0.0, 0.0));
             }
-        } else if ((ctx.conf().viewMode() != LayoutMode::SYSTEM) && ctx.conf().isVerticalSpreadEnabled()) {
+        } else if ((ctx.conf().viewMode() != LayoutMode::SYSTEM)
+                   && ctx.conf().isVerticalSpreadEnabled()) {
             distributeStaves(ctx, page, footerPadding);
         }
 
@@ -563,7 +575,9 @@ void PageLayout::layoutPage(LayoutContext& ctx, Page* page, double restHeight, d
     double maxDist = ctx.conf().maxSystemDistance();
 
     // allocate space as needed to normalize system distance (bottom of one system to top of next)
-    std::sort(sList.begin(), sList.end(), [](System* a, System* b) { return a->distance() - a->height() < b->distance() - b->height(); });
+    std::sort(sList.begin(), sList.end(), [](System* a, System* b) {
+        return a->distance() - a->height() < b->distance() - b->height();
+    });
     System* s0 = sList[0];
     double dist = s0->distance() - s0->height();             // distance for shortest system
     for (size_t i = 1; i < sList.size(); ++i) {
@@ -628,7 +642,8 @@ void PageLayout::distributeStaves(LayoutContext& ctx, Page* page, double footerP
     bool transferCurlyBracket  { false };
     for (System* system : page->systems()) {
         if (system->vbox()) {
-            VerticalGapData* vgd = new VerticalGapData(&ctx.conf().style(), !ngaps++, system, nullptr, nullptr, nullptr, prevYBottom);
+            VerticalGapData* vgd = new VerticalGapData(
+                &ctx.conf().style(), !ngaps++, system, nullptr, nullptr, nullptr, prevYBottom);
             vgd->addSpaceAroundVBox(true);
             prevYBottom = system->y();
             yBottom     = system->y() + system->height();
@@ -653,10 +668,12 @@ void PageLayout::distributeStaves(LayoutContext& ctx, Page* page, double footerP
                 for (const BracketItem* bi : staff->brackets()) {
                     if (bi->bracketType() == BracketType::NORMAL) {
                         addSpaceAroundNormalBracket |= int(staff->idx()) > (endNormalBracket - 1);
-                        endNormalBracket = std::max(endNormalBracket, int(staff->idx() + bi->bracketSpan()));
+                        endNormalBracket
+                            = std::max(endNormalBracket, int(staff->idx() + bi->bracketSpan()));
                     } else if (bi->bracketType() == BracketType::BRACE) {
                         addSpaceAroundCurlyBracket |= int(staff->idx()) > (endCurlyBracket - 1);
-                        endCurlyBracket = std::max(endCurlyBracket, int(staff->idx() + bi->bracketSpan()));
+                        endCurlyBracket
+                            = std::max(endCurlyBracket, int(staff->idx() + bi->bracketSpan()));
                     }
                 }
 
@@ -665,7 +682,9 @@ void PageLayout::distributeStaves(LayoutContext& ctx, Page* page, double footerP
                 }
 
                 VerticalGapData* vgd
-                    = new VerticalGapData(&ctx.conf().style(), !ngaps++, system, staff, sysStaff, nextSpacer, prevYBottom);
+                    = new VerticalGapData(
+                          &ctx.conf().style(), !ngaps++, system, staff, sysStaff, nextSpacer,
+                          prevYBottom);
                 nextSpacer = system->downSpacer(staff->idx());
 
                 if (newSystem) {
@@ -703,10 +722,12 @@ void PageLayout::distributeStaves(LayoutContext& ctx, Page* page, double footerP
     const double staffLowerBorder = ctx.conf().styleAbsolute(Sid::staffLowerBorder);
     const double combinedBottomMargin = page->bm() + footerPadding;
     const double marginToStaff = page->bm() + staffLowerBorder;
-    double spaceRemaining{ std::min(page->height() - combinedBottomMargin - yBottom, page->height() - marginToStaff - prevYBottom) };
+    double spaceRemaining{ std::min(page->height() - combinedBottomMargin - yBottom,
+                                    page->height() - marginToStaff - prevYBottom) };
 
     if (nextSpacer) {
-        spaceRemaining -= std::max(0.0, nextSpacer->absoluteGap() - spacerOffset - staffLowerBorder);
+        spaceRemaining
+            -= std::max(0.0, nextSpacer->absoluteGap() - spacerOffset - staffLowerBorder);
     }
     if (spaceRemaining <= 0.0) {
         return;
@@ -763,7 +784,8 @@ void PageLayout::distributeStaves(LayoutContext& ctx, Page* page, double footerP
     spaceRemaining = std::min(maxPageFill * static_cast<double>(vgdl.size()), spaceRemaining);
     pass = 0;
     ngaps = 1;
-    while (!muse::RealIsNull(spaceRemaining) && !muse::RealIsNull(maxPageFill) && (ngaps > 0) && (++pass < maxPasses)) {
+    while (!muse::RealIsNull(spaceRemaining) && !muse::RealIsNull(maxPageFill) && (ngaps > 0)
+           && (++pass < maxPasses)) {
         ngaps = 0;
         double addedSpace { 0.0 };
         double step { spaceRemaining / vgdl.sumStretchFactor() };
@@ -835,7 +857,8 @@ void PageLayout::layoutSystemDividers(LayoutContext& ctx, Page* page)
     }
 }
 
-void PageLayout::updateSystemDivider(LayoutContext& ctx, System* system, System* nextSystem, SystemDividerType type, bool needsDivider)
+void PageLayout::updateSystemDivider(LayoutContext& ctx, System* system, System* nextSystem,
+                                     SystemDividerType type, bool needsDivider)
 {
     bool left = type == SystemDividerType::LEFT;
     SystemDivider* divider = left ? system->systemDividerLeft() : system->systemDividerRight();
@@ -871,7 +894,8 @@ void PageLayout::updateSystemDivider(LayoutContext& ctx, System* system, System*
     RectF systemBBox = system->ldata()->bbox();
     double xDefault = 0.0;
     if (left) {
-        if (Measure* firstM = system->firstMeasure(); firstM&& ctx.conf().styleB(Sid::dividerLeftAlignToSystemBarline)) {
+        if (Measure* firstM = system->firstMeasure();
+            firstM&& ctx.conf().styleB(Sid::dividerLeftAlignToSystemBarline)) {
             // Align to the outermost left system barline
             double leftMostSystem = firstM->x();
             for (const System* sys : system->page()->systems()) {
@@ -888,7 +912,8 @@ void PageLayout::updateSystemDivider(LayoutContext& ctx, System* system, System*
             xDefault = 0.0;
         }
     } else {
-        if (Measure* lastM = system->lastMeasure(); lastM&& ctx.conf().styleB(Sid::dividerRightAlignToSystemBarline)) {
+        if (Measure* lastM = system->lastMeasure();
+            lastM&& ctx.conf().styleB(Sid::dividerRightAlignToSystemBarline)) {
             // Align to the outermost right system barline
             double rightMostSystem = lastM->x() + lastM->width();
             for (const System* sys : system->page()->systems()) {
@@ -906,10 +931,15 @@ void PageLayout::updateSystemDivider(LayoutContext& ctx, System* system, System*
         }
     }
     double xPos = xDefault
-                  + system->absoluteFromSpatium(left ? ctx.conf().styleS(Sid::dividerLeftX) : ctx.conf().styleS(Sid::dividerRightX));
+                  + system->absoluteFromSpatium(left ? ctx.conf().styleS(
+                                                    Sid::dividerLeftX) : ctx.conf().styleS(Sid::
+                                                                                           dividerRightX));
 
     double yInnerPos = -ldata->bbox().top() - 0.5 * ldata->bbox().height()
-                       + system->absoluteFromSpatium(left ? ctx.conf().styleS(Sid::dividerLeftY) : ctx.conf().styleS(Sid::dividerRightY));
+                       + system->absoluteFromSpatium(left ? ctx.conf().styleS(
+                                                         Sid::dividerLeftY) : ctx.conf().styleS(Sid
+                                                                                                ::
+                                                                                                dividerRightY));
 
     SysStaff* lastVisibleOfThis = system->staff(system->lastVisibleStaff());
     double bottomOfThisSystem = lastVisibleOfThis->bbox().bottom();

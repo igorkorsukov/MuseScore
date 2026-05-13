@@ -99,7 +99,9 @@ bool Read302::readScoreTag(Score* score, XmlReader& e, ReadContext& ctx)
                 ctx.setOriginalSpatium(score->style().spatium());
                 score->style().set(Sid::spatium, sp);
             }
-            score->m_engravingFont = score->engravingFonts()->fontByName(score->style().styleSt(Sid::musicalSymbolFont).toStdString());
+            score->m_engravingFont
+                = score->engravingFonts()->fontByName(score->style().styleSt(
+                                                          Sid::musicalSymbolFont).toStdString());
         } else if (tag == "copyright" || tag == "rights") {
             score->setMetaTag(u"copyright", Text::readXmlText(e, score));
         } else if (tag == "movement-number") {
@@ -309,7 +311,8 @@ void Read302::fixInstrumentId(Instrument* instrument)
         id = u"marching-bass-drums";
     } else if (id.startsWith(u"mdl-")) {
         // See https://github.com/musescore/mdl/blob/master/resources/instruments/mdl_1_3_0.xml
-        if (id == u"mdl-snareline" || id == u"mdl-snareline-a" || id == u"mdl-snaresolo" || id == u"mdl-snaresolo-a") {
+        if (id == u"mdl-snareline" || id == u"mdl-snareline-a" || id == u"mdl-snaresolo"
+            || id == u"mdl-snaresolo-a") {
             id = u"marching-snare";
         } else if (id == u"mdl-tenorline" || id == u"mdl-tenorsolo" || id == u"mdl-flubs") {
             id = u"marching-tenor-drums";
@@ -317,7 +320,8 @@ void Read302::fixInstrumentId(Instrument* instrument)
             id = u"marching-bass-drums";
         } else if (id == u"mdl-cymballine") {
             id = u"marching-cymbals";
-        } else if (id == u"mdl-showtenorline" || id == u"mdl-rail" || id == u"mdl-drumset" || id == u"mdl-sampler") {
+        } else if (id == u"mdl-showtenorline" || id == u"mdl-rail" || id == u"mdl-drumset"
+                   || id == u"mdl-sampler") {
             id = u"drumset";
         }
     }

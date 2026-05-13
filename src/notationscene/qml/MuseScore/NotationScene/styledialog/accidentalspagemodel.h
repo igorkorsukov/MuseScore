@@ -29,12 +29,20 @@ class AccidentalsPageModel : public AbstractStyleDialogModel
 {
     Q_OBJECT
 
-    Q_PROPERTY(mu::notation::StyleItem * bracketedAccidentalPadding READ bracketedAccidentalPadding CONSTANT)
+    Q_PROPERTY(
+        mu::notation::StyleItem
+        * bracketedAccidentalPadding READ bracketedAccidentalPadding CONSTANT)
 
     Q_PROPERTY(mu::notation::StyleItem * accidFollowNoteOffset READ accidFollowNoteOffset CONSTANT)
-    Q_PROPERTY(mu::notation::StyleItem * alignAccidentalOctavesAcrossSubChords READ alignAccidentalOctavesAcrossSubChords CONSTANT)
-    Q_PROPERTY(mu::notation::StyleItem * keepAccidentalSecondsTogether READ keepAccidentalSecondsTogether CONSTANT)
-    Q_PROPERTY(mu::notation::StyleItem * alignOffsetOctaveAccidentals READ alignOffsetOctaveAccidentals CONSTANT)
+    Q_PROPERTY(
+        mu::notation::StyleItem
+        * alignAccidentalOctavesAcrossSubChords READ alignAccidentalOctavesAcrossSubChords CONSTANT)
+    Q_PROPERTY(
+        mu::notation::StyleItem
+        * keepAccidentalSecondsTogether READ keepAccidentalSecondsTogether CONSTANT)
+    Q_PROPERTY(
+        mu::notation::StyleItem
+        * alignOffsetOctaveAccidentals READ alignOffsetOctaveAccidentals CONSTANT)
 
     QML_ELEMENT
 

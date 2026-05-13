@@ -48,8 +48,8 @@ class QDragMoveEvent;
 class QDropEvent;
 
 namespace mu::appshell {
-class ApplicationActionController : public QObject, public muse::Contextable, public muse::actions::Actionable,
-    public muse::async::Asyncable
+class ApplicationActionController : public QObject, public muse::Contextable,
+    public muse::actions::Actionable, public muse::async::Asyncable
 {
     muse::GlobalInject<muse::mi::IMultiWindowsProvider> multiwindowsProvider;
     muse::GlobalInject<IAppShellConfiguration> configuration;

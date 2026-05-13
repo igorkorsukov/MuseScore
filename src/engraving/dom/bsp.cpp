@@ -195,7 +195,8 @@ EngravingItem* BspTree::nearestNeighbor(const PointF& pos)
 //   nearestNeighbor (private)
 //---------------------------------------------------------
 
-void BspTree::nearestNeighbor(const PointF& pos, EngravingItem** bestItem, double& bestDistance, int nodeIndex)
+void BspTree::nearestNeighbor(const PointF& pos, EngravingItem** bestItem, double& bestDistance,
+                              int nodeIndex)
 {
     if (m_nodes.empty()) {
         return;
@@ -207,7 +208,9 @@ void BspTree::nearestNeighbor(const PointF& pos, EngravingItem** bestItem, doubl
     if (node->type == Node::Type::LEAF) {
         for (auto item : m_leaves[node->leafIndex]) {
             PointF itemPos = item->pageBoundingRect().center();
-            double currDistance = std::sqrt(std::pow(pos.x() - itemPos.x(), 2) + std::pow(pos.y() - itemPos.y(), 2));
+            double currDistance
+                = std::sqrt(std::pow(pos.x() - itemPos.x(),
+                                     2) + std::pow(pos.y() - itemPos.y(), 2));
             if (currDistance < bestDistance) {
                 *bestItem = item;
                 bestDistance = currDistance;
@@ -299,7 +302,8 @@ void BspTree::initialize(const RectF& rec, int dep, int index)
         if (node->type == Node::Type::HORIZONTAL) {
             type = Node::Type::VERTICAL;
             rect1.setRect(rec.left(), rec.top(), rec.width(), rec.height() * .5);
-            rect2.setRect(rect1.left(), rect1.bottom(), rect1.width(), rec.height() - rect1.height());
+            rect2.setRect(rect1.left(), rect1.bottom(), rect1.width(),
+                          rec.height() - rect1.height());
             offset1 = rect1.center().x();
             offset2 = rect2.center().x();
         } else {

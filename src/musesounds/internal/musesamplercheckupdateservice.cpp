@@ -78,7 +78,9 @@ Promise<RetVal<bool> > MuseSamplerCheckUpdateService::checkForUpdate()
     return Promise<RetVal<bool> >([this, localVersion](auto resolve, auto) {
         if (localVersion.isNull()) {
             RetVal<bool> result;
-            result.ret = Ret(int(Ret::Code::UnknownError), "Unable to obtain the local MuseSampler version");
+            result.ret
+                = Ret(int(Ret::Code::UnknownError),
+                      "Unable to obtain the local MuseSampler version");
             result.val = false;
             return resolve(result);
         }
@@ -88,15 +90,18 @@ Promise<RetVal<bool> > MuseSamplerCheckUpdateService::checkForUpdate()
         auto receivedData = std::make_shared<QBuffer>();
 
         m_networkManager = networkManagerCreator()->makeNetworkManager();
-        RetVal<Progress> progress = m_networkManager->post(configuration()->checkForMuseSamplerUpdateUrl(),
-                                                           queryBuffer, receivedData,
-                                                           configuration()->headers());
+        RetVal<Progress> progress
+            = m_networkManager->post(configuration()->checkForMuseSamplerUpdateUrl(),
+                                     queryBuffer, receivedData,
+                                     configuration()->headers());
         if (!progress.ret) {
             m_networkManager = nullptr;
             return resolve(RetVal<bool>::make_ret(progress.ret));
         }
 
-        progress.val.finished().onReceive(this, [this, receivedData, localVersion, resolve](const ProgressResult& res) {
+        progress.val.finished().onReceive(this,
+                                          [this, receivedData, localVersion,
+                                           resolve](const ProgressResult& res) {
             RetVal<bool> result = RetVal<bool>::make_ok(false);
 
             if (res.ret) {

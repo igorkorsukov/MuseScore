@@ -62,11 +62,13 @@ void AudioMidiPreferencesModel::setCurrentAudioDriverIndex(int index)
 
         auto promise = interactive()->warning(
             muse::trc("preferences", "No audio devices available"),
-            muse::qtrc("preferences", "The selected audio driver does not have any available audio devices. "
-                                      "MuseScore Studio will use the default audio driver instead. "
-                                      "To use %1, ensure your hardware is set up correctly, "
-                                      "then restart MuseScore Studio and try again.")
-            .arg(QString::fromStdString(audioDriverController()->currentAudioDriverName())).toStdString());
+            muse::qtrc("preferences",
+                       "The selected audio driver does not have any available audio devices. "
+                       "MuseScore Studio will use the default audio driver instead. "
+                       "To use %1, ensure your hardware is set up correctly, "
+                       "then restart MuseScore Studio and try again.")
+            .arg(QString::fromStdString(audioDriverController()->currentAudioDriverName())).
+            toStdString());
 
         promise.onResolve(this, [this, fallback](const muse::IInteractive::Result&) {
             audioDriverController()->changeCurrentAudioDriver(fallback);
@@ -224,7 +226,8 @@ void AudioMidiPreferencesModel::setUseMIDI20Output(bool use)
     midiConfiguration()->setUseMIDI20Output(use);
 }
 
-void AudioMidiPreferencesModel::showMidiError(const MidiDeviceID& deviceId, const std::string& text) const
+void AudioMidiPreferencesModel::showMidiError(const MidiDeviceID& deviceId,
+                                              const std::string& text) const
 {
     // todo: display error
     LOGE() << "failed connect to device, deviceID: " << deviceId << ", err: " << text;
@@ -272,8 +275,10 @@ void AudioMidiPreferencesModel::setAutoProcessOnlineSoundsInBackground(bool valu
     audioConfiguration()->setAutoProcessOnlineSoundsInBackground(value);
 
     if (!value) {
-        if (playbackConfiguration()->onlineSoundsShowProgressBarMode() == playback::OnlineSoundsShowProgressBarMode::DuringPlayback) {
-            playbackConfiguration()->setOnlineSoundsShowProgressBarMode(playback::OnlineSoundsShowProgressBarMode::Always);
+        if (playbackConfiguration()->onlineSoundsShowProgressBarMode()
+            == playback::OnlineSoundsShowProgressBarMode::DuringPlayback) {
+            playbackConfiguration()->setOnlineSoundsShowProgressBarMode(
+                playback::OnlineSoundsShowProgressBarMode::Always);
         }
     }
 }
@@ -289,5 +294,7 @@ void AudioMidiPreferencesModel::setOnlineSoundsShowProgressBarMode(int mode)
         return;
     }
 
-    playbackConfiguration()->setOnlineSoundsShowProgressBarMode(static_cast<playback::OnlineSoundsShowProgressBarMode>(mode));
+    playbackConfiguration()->setOnlineSoundsShowProgressBarMode(static_cast<playback::
+                                                                            OnlineSoundsShowProgressBarMode>(
+                                                                    mode));
 }

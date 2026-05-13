@@ -94,7 +94,8 @@ QVariantList DynamicPopupModel::pages() const
     return m_pages;
 }
 
-QString DynamicPopupModel::xmlTextToQString(const std::string& text, IEngravingFontPtr engravingFont) const
+QString DynamicPopupModel::xmlTextToQString(const std::string& text,
+                                            IEngravingFontPtr engravingFont) const
 {
     const std::string startTag = "<sym>";
     const std::string endTag = "</sym>";
@@ -136,7 +137,8 @@ void DynamicPopupModel::init()
         QVariantList variantPage;
         for (const DynamicPopupModel::PageItem& item : page) {
             QVariantMap variantMap {
-                { "text", xmlTextToQString(Dynamic::dynamicText(item.dynType).toStdString(), engravingFont) },
+                { "text", xmlTextToQString(Dynamic::dynamicText(
+                                               item.dynType).toStdString(), engravingFont) },
                 { "accessibleName", TConv::userName(item.dynType).translated().toQString() },
                 { "width", item.width },
                 { "offset", item.offset },
@@ -157,7 +159,8 @@ void DynamicPopupModel::addOrChangeDynamic(int page, int index)
     }
 
     beginCommand(TranslatableString("undoableAction", "Add dynamic"));
-    m_item->undoChangeProperty(Pid::TEXT, Dynamic::dynamicText(DYN_POPUP_PAGES[page][index].dynType));
+    m_item->undoChangeProperty(Pid::TEXT,
+                               Dynamic::dynamicText(DYN_POPUP_PAGES[page][index].dynType));
     m_item->undoChangeProperty(Pid::DYNAMIC_TYPE, DYN_POPUP_PAGES[page][index].dynType);
     endCommand();
 

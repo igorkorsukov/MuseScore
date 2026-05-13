@@ -215,7 +215,8 @@ bool MStyle::readProperties(XmlReader& e)
                 set(idx, TConv::fromXml(e.readAsciiText(), TimeSigStyle::NORMAL));
                 break;
             case P_TYPE::TIMESIG_MARGIN:
-                set(idx, TConv::fromXml(e.readAsciiText(), TimeSigVSMargin::RIGHT_ALIGN_TO_BARLINE));
+                set(idx,
+                    TConv::fromXml(e.readAsciiText(), TimeSigVSMargin::RIGHT_ALIGN_TO_BARLINE));
                 break;
             case P_TYPE::NOTE_SPELLING_TYPE:
                 set(idx, TConv::fromXml(e.readAsciiText(), NoteSpellingType::STANDARD));
@@ -245,7 +246,8 @@ bool MStyle::readProperties(XmlReader& e)
                 set(idx, TConv::fromXml(e.readAsciiText(), InstrumentNamesAlign::RIGHT_RIGHT));
                 break;
             case P_TYPE::INSTRUMENT_NAMES_FORMAT:
-                set(idx, TConv::fromXml(e.readAsciiText(), InstrumentNamesFormat::NAME_IN_TRANSP_NUM));
+                set(idx, TConv::fromXml(
+                        e.readAsciiText(), InstrumentNamesFormat::NAME_IN_TRANSP_NUM));
                 break;
             default:
                 ASSERT_X(u"unhandled type " + String::number(int(type)));
@@ -563,11 +565,14 @@ void MStyle::read(XmlReader& e, compat::ReadChordListHook* readChordListHook, in
                    || tag == "usePre_3_6_defaults") {
             e.skipCurrentElement(); // obsolete
         } else if (tag == "articulationAnchorDefault" && mscVersion < 410) {
-            set(Sid::articulationAnchorDefault, (int)compat::CompatUtils::translateToNewArticulationAnchor(e.readInt()));
+            set(Sid::articulationAnchorDefault, (int)compat::CompatUtils::translateToNewArticulationAnchor(
+                    e.readInt()));
         } else if (tag == "articulationAnchorLuteFingering" && mscVersion < 410) {
-            set(Sid::articulationAnchorLuteFingering, (int)compat::CompatUtils::translateToNewArticulationAnchor(e.readInt()));
+            set(Sid::articulationAnchorLuteFingering, (int)compat::CompatUtils::translateToNewArticulationAnchor(
+                    e.readInt()));
         } else if (tag == "articulationAnchorOther" && mscVersion < 410) {
-            set(Sid::articulationAnchorOther, (int)compat::CompatUtils::translateToNewArticulationAnchor(e.readInt()));
+            set(Sid::articulationAnchorOther, (int)compat::CompatUtils::translateToNewArticulationAnchor(
+                    e.readInt()));
         } else if (tag == "lineEndToSystemEndDistance") { // renamed in 4.5
             set(Sid::lineEndToBarlineDistance, Spatium(e.readDouble()));
         } else if (tag == "useStandardNoteNames") {     // These settings were collapsed into one enum in 4.6
@@ -591,9 +596,11 @@ void MStyle::read(XmlReader& e, compat::ReadChordListHook* readChordListHook, in
                 set(Sid::chordSymbolSpelling, NoteSpellingType::FRENCH);
             }
         } else if (tag == "chordModifierAdjust" && mscVersion < 460) {
-            set(Sid::chordModifierAdjust, compat::CompatUtils::convertChordExtModUnits(e.readDouble()));
+            set(Sid::chordModifierAdjust,
+                compat::CompatUtils::convertChordExtModUnits(e.readDouble()));
         } else if (tag == "chordExtensionAdjust" && mscVersion < 460) {
-            set(Sid::chordExtensionAdjust, compat::CompatUtils::convertChordExtModUnits(e.readDouble()));
+            set(Sid::chordExtensionAdjust,
+                compat::CompatUtils::convertChordExtModUnits(e.readDouble()));
         } else if (tag == "chordDescriptionFile" && mscVersion < 460) {
             AsciiStringView val = e.readAsciiText();
             if (val == "chords_std.xml") {
@@ -629,11 +636,16 @@ void MStyle::read(XmlReader& e, compat::ReadChordListHook* readChordListHook, in
             AlignH hAlign = hPlacement == PlacementH::LEFT ? AlignH::LEFT
                             : hPlacement == PlacementH::CENTER ? AlignH::HCENTER : AlignH::RIGHT;
             set(Sid::mmRestRangeHPlacement, hAlign);
-        } else if (tag == "measureNumberAllStaves" || tag == "measureNumberAllStaffs" /*old typo*/) {
+        } else if (tag == "measureNumberAllStaves"
+                   || tag == "measureNumberAllStaffs" /*old typo*/) {
             bool allStaves = e.readBool();
-            set(Sid::measureNumberPlacementMode, allStaves ? MeasureNumberPlacement::ON_ALL_STAVES : MeasureNumberPlacement::ABOVE_SYSTEM);
-        } else if (String sTag = String::fromAscii(tag.ascii()); mscVersion < 470 && sTag.contains(u"FrameRound")) {
-            auto i = std::find_if(StyleDef::styleValues.begin(), StyleDef::styleValues.end(), [&](const StyleDef::StyleValue& s) {
+            set(Sid::measureNumberPlacementMode,
+                allStaves ? MeasureNumberPlacement::ON_ALL_STAVES : MeasureNumberPlacement::ABOVE_SYSTEM);
+        } else if (String sTag = String::fromAscii(tag.ascii());
+                   mscVersion < 470 && sTag.contains(u"FrameRound")) {
+            auto i
+                = std::find_if(StyleDef::styleValues.begin(), StyleDef::styleValues.end(),
+                               [&](const StyleDef::StyleValue& s) {
                 return s.xmlName == tag;
             });
             if (i != StyleDef::styleValues.end()) {
@@ -659,8 +671,12 @@ void MStyle::read(XmlReader& e, compat::ReadChordListHook* readChordListHook, in
 
         // Make sure new position styles are initially the same as align values
         // Exclude text styles which had align & position separated in 4.6
-        compat::CompatUtils::setPositionStylesFromAlign(this, { Sid::chordSymbolAAlign, Sid::chordSymbolBAlign, Sid::romanNumeralAlign,
-                                                                Sid::nashvilleNumberAlign, Sid::repeatLeftAlign, Sid::repeatRightAlign });
+        compat::CompatUtils::setPositionStylesFromAlign(this, { Sid::chordSymbolAAlign,
+                                                                Sid::chordSymbolBAlign,
+                                                                Sid::romanNumeralAlign,
+                                                                Sid::nashvilleNumberAlign,
+                                                                Sid::repeatLeftAlign,
+                                                                Sid::repeatRightAlign });
 
         if (value(Sid::chordStyle).value<ChordStylePreset>() == ChordStylePreset::JAZZ) {
             set(Sid::harmonyParenUseSmuflSym, true);

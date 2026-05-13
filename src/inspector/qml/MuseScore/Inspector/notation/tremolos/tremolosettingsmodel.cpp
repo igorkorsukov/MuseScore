@@ -30,7 +30,8 @@
 using namespace mu::inspector;
 using namespace mu::engraving;
 
-TremoloSettingsModel::TremoloSettingsModel(QObject* parent, const muse::modularity::ContextPtr& iocCtx,
+TremoloSettingsModel::TremoloSettingsModel(QObject* parent,
+                                           const muse::modularity::ContextPtr& iocCtx,
                                            IElementRepositoryService* repository)
     : AbstractInspectorModel(parent, iocCtx, repository)
 {
@@ -80,7 +81,8 @@ void TremoloSettingsModel::resetProperties()
     m_direction->resetToDefault();
 }
 
-void TremoloSettingsModel::onNotationChanged(const PropertyIdSet& changedPropertyIdSet, const StyleIdSet&)
+void TremoloSettingsModel::onNotationChanged(const PropertyIdSet& changedPropertyIdSet,
+                                             const StyleIdSet&)
 {
     loadProperties(changedPropertyIdSet);
 }

@@ -32,7 +32,8 @@ class NewInstanceLoadingScreenView : public QWidget
     Q_OBJECT
 
 public:
-    explicit NewInstanceLoadingScreenView(bool forNewScore, const QString& openingFileName, QWidget* parent = nullptr);
+    explicit NewInstanceLoadingScreenView(bool forNewScore, const QString& openingFileName,
+                                          QWidget* parent = nullptr);
 
 private:
     bool event(QEvent* event) override;

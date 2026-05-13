@@ -38,7 +38,10 @@ public:
     VoiceDesc();
     void incrChordRests(int s);
     int numberChordRests() const;
-    int numberChordRests(int s) const { return (s >= 0 && s < engraving::MAX_STAVES) ? m_chordRests[s] : 0; }
+    int numberChordRests(int s) const
+    {
+        return (s >= 0 && s < engraving::MAX_STAVES) ? m_chordRests[s] : 0;
+    }
     int preferredStaff() const;         // Determine preferred staff for this voice
     void setStaff(int s)
     {
@@ -73,7 +76,10 @@ public:
         }
     }
 
-    int staffAlloc(int s) const { return (s >= 0 && s < engraving::MAX_STAVES) ? m_staffAlloc[s] : -1; }
+    int staffAlloc(int s) const
+    {
+        return (s >= 0 && s < engraving::MAX_STAVES) ? m_staffAlloc[s] : -1;
+    }
     muse::String toString() const;
 private:
     int m_chordRests[engraving::MAX_STAVES];        // The number of chordrests on each MusicXML staff

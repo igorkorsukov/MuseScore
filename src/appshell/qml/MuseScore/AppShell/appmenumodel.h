@@ -91,7 +91,8 @@ private:
     bool isMuseSamplerModuleAdded() const;
 
     using muse::uicomponents::AbstractMenuModel::makeMenuItem;
-    muse::uicomponents::MenuItem* makeMenuItem(const muse::actions::ActionCode& actionCode, muse::uicomponents::MenuItemRole role);
+    muse::uicomponents::MenuItem* makeMenuItem(const muse::actions::ActionCode& actionCode,
+                                               muse::uicomponents::MenuItemRole role);
 
     muse::uicomponents::MenuItem* makeFileMenu();
     muse::uicomponents::MenuItemList makeSaveOtherSubItems();
@@ -108,7 +109,8 @@ private:
     muse::uicomponents::MenuItem* makeDiagnosticsMenu();
 
     muse::uicomponents::MenuItemList makeRecentScoresItems();
-    muse::uicomponents::MenuItemList appendClearRecentSection(const muse::uicomponents::MenuItemList& recentScores);
+    muse::uicomponents::MenuItemList appendClearRecentSection(
+        const muse::uicomponents::MenuItemList& recentScores);
 
     muse::uicomponents::MenuItemList makeNotesItems();
     muse::uicomponents::MenuItemList makeIntervalsItems();

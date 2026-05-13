@@ -156,8 +156,10 @@ void TestMidiMapping::testReadChangeOrderWrite(const char* f1, const char* ref, 
         int idx = muse::indexOf(score->staves(), staff);
         if ((idx == p1 || idx == p2)
             && ((idx != 0 && staff->part() == score->staves()[idx - 1]->part())
-                || (idx != score->nstaves() && staff->part() == score->staves()[idx + 1]->part()))) {
-            qDebug() << "You're probably trying to swap a part with several staves. This can lead to wrong results!";
+                || (idx != score->nstaves()
+                    && staff->part() == score->staves()[idx + 1]->part()))) {
+            qDebug() <<
+            "You're probably trying to swap a part with several staves. This can lead to wrong results!";
         }
 
         if (idx != -1) {
@@ -188,7 +190,8 @@ void TestMidiMapping::testReadWriteMusicXML(const char* file, const char* ref)
     score->rebuildMidiMapping();
     score->doLayout();
     QVERIFY(saveMusicXml(score, QString(file) + ".xml"));
-    QVERIFY(saveCompareMusicXmlScore(score, QString(file) + ".xml", MIDIMAPPING_DATA_DIR + ref + ".xml"));
+    QVERIFY(saveCompareMusicXmlScore(score, QString(file) + ".xml",
+                                     MIDIMAPPING_DATA_DIR + ref + ".xml"));
     delete score;
 }
 
@@ -212,7 +215,8 @@ void TestMidiMapping::testReadWriteOther(const char* f1, const char* ref)
     score->doLayout();
     QVERIFY(score);
     score->rebuildMidiMapping();
-    QVERIFY(saveCompareScore(score, qf.completeBaseName() + QString(".mscx"), MIDIMAPPING_DATA_DIR + ref));
+    QVERIFY(saveCompareScore(score, qf.completeBaseName() + QString(".mscx"),
+                             MIDIMAPPING_DATA_DIR + ref));
     delete score;
 }
 

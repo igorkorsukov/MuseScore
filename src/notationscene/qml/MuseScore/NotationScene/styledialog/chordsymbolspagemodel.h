@@ -37,21 +37,35 @@ class ChordSymbolsPageModel : public AbstractStyleDialogModel
     Q_PROPERTY(mu::notation::StyleItem * extensionAdjust READ extensionAdjust CONSTANT)
     Q_PROPERTY(mu::notation::StyleItem * modifierMag READ modifierMag CONSTANT)
     Q_PROPERTY(mu::notation::StyleItem * modifierAdjust READ modifierAdjust CONSTANT)
-    Q_PROPERTY(mu::notation::StyleItem * verticallyStackModifiers READ verticallyStackModifiers CONSTANT)
+    Q_PROPERTY(
+        mu::notation::StyleItem
+        * verticallyStackModifiers READ verticallyStackModifiers CONSTANT)
 
     Q_PROPERTY(mu::notation::StyleItem * chordBassNoteStagger READ chordBassNoteStagger CONSTANT)
     Q_PROPERTY(mu::notation::StyleItem * chordBassNoteScale READ chordBassNoteScale CONSTANT)
-    Q_PROPERTY(mu::notation::StyleItem * polychordDividerThickness READ polychordDividerThickness CONSTANT)
-    Q_PROPERTY(mu::notation::StyleItem * polychordDividerSpacing READ polychordDividerSpacing CONSTANT)
+    Q_PROPERTY(
+        mu::notation::StyleItem
+        * polychordDividerThickness READ polychordDividerThickness CONSTANT)
+    Q_PROPERTY(
+        mu::notation::StyleItem * polychordDividerSpacing READ polychordDividerSpacing CONSTANT)
     Q_PROPERTY(mu::notation::StyleItem * useSmuflSymbols READ useSmuflSymbols CONSTANT)
 
-    Q_PROPERTY(mu::notation::StyleItem * verticallyAlignChordSymbols READ verticallyAlignChordSymbols CONSTANT)
-    Q_PROPERTY(mu::notation::StyleItem * chordAlignmentToNotehead READ chordAlignmentToNotehead CONSTANT)
-    Q_PROPERTY(mu::notation::StyleItem * chordAlignmentToFretboard READ chordAlignmentToFretboard CONSTANT)
-    Q_PROPERTY(mu::notation::StyleItem * chordAlignmentExcludeModifiers READ chordAlignmentExcludeModifiers CONSTANT)
+    Q_PROPERTY(
+        mu::notation::StyleItem
+        * verticallyAlignChordSymbols READ verticallyAlignChordSymbols CONSTANT)
+    Q_PROPERTY(
+        mu::notation::StyleItem
+        * chordAlignmentToNotehead READ chordAlignmentToNotehead CONSTANT)
+    Q_PROPERTY(
+        mu::notation::StyleItem
+        * chordAlignmentToFretboard READ chordAlignmentToFretboard CONSTANT)
+    Q_PROPERTY(
+        mu::notation::StyleItem
+        * chordAlignmentExcludeModifiers READ chordAlignmentExcludeModifiers CONSTANT)
 
     Q_PROPERTY(mu::notation::StyleItem * chordSymbolSpelling READ chordSymbolSpelling CONSTANT)
-    Q_PROPERTY(mu::notation::StyleItem * automaticCapitalization READ automaticCapitalization CONSTANT)
+    Q_PROPERTY(
+        mu::notation::StyleItem * automaticCapitalization READ automaticCapitalization CONSTANT)
     Q_PROPERTY(mu::notation::StyleItem * lowerCaseMinorChords READ lowerCaseMinorChords CONSTANT)
     Q_PROPERTY(mu::notation::StyleItem * lowerCaseBassNotes READ lowerCaseBassNotes CONSTANT)
     Q_PROPERTY(mu::notation::StyleItem * allCapsNoteNames READ allCapsNoteNames CONSTANT)

@@ -32,14 +32,16 @@
 #include "audio/common/audiotypes.h"
 
 namespace mu::playback {
-class AbstractAudioResourceItem : public QObject, public muse::async::Asyncable, public muse::Contextable
+class AbstractAudioResourceItem : public QObject, public muse::async::Asyncable,
+    public muse::Contextable
 {
     Q_OBJECT
 
     Q_PROPERTY(QString title READ title NOTIFY titleChanged)
     Q_PROPERTY(bool isBlank READ isBlank NOTIFY isBlankChanged)
     Q_PROPERTY(bool isActive READ isActive NOTIFY isActiveChanged)
-    Q_PROPERTY(bool hasNativeEditorSupport READ hasNativeEditorSupport NOTIFY hasNativeEditorSupportChanged)
+    Q_PROPERTY(
+        bool hasNativeEditorSupport READ hasNativeEditorSupport NOTIFY hasNativeEditorSupportChanged)
 
     QML_ELEMENT;
     QML_UNCREATABLE("Not creatable as it is an abstract base class")

@@ -110,8 +110,10 @@ static int calcWrittenDiatonicDelta(const Note* note)
     int delta = 0;
     const KeySigEvent kse = staff->keySigEvent(note->tick());
     if (kse.isValid() && !kse.custom()) {
-        int concertRelStep = absStep(concertTpc, concertPitch) - tpc2step(int(Tpc::TPC_C) + int(kse.concertKey()));
-        int writtenRelStep = absStep(writtenTpc, writtenPitch) - tpc2step(int(Tpc::TPC_C) + int(kse.key()));
+        int concertRelStep
+            = absStep(concertTpc, concertPitch) - tpc2step(int(Tpc::TPC_C) + int(kse.concertKey()));
+        int writtenRelStep
+            = absStep(writtenTpc, writtenPitch) - tpc2step(int(Tpc::TPC_C) + int(kse.key()));
         delta = writtenRelStep - concertRelStep;
     } else {
         int expectedWrittenTpc = Transpose::transposeTpc(concertTpc, transpose, true);
@@ -119,7 +121,8 @@ static int calcWrittenDiatonicDelta(const Note* note)
             LOGW() << "Skipping written pitch override with mismatched chromatic pitch:"
                    << " concert=" << tpcUserName(concertTpc, concertPitch, true).toStdString()
                    << " transposed=" << tpcUserName(writtenTpc, writtenPitch, true).toStdString()
-                   << " expectedTransposed=" << tpcUserName(expectedWrittenTpc, writtenPitch, true).toStdString();
+                   << " expectedTransposed=" <<
+                tpcUserName(expectedWrittenTpc, writtenPitch, true).toStdString();
             return 0;
         }
         delta = absStep(writtenTpc, writtenPitch) - absStep(expectedWrittenTpc, writtenPitch);
@@ -514,7 +517,8 @@ bool MnxExporter::createRest(mnx::sequence::Event& mnxEvent, ChordRest* chordRes
                     LOGW() << "Skipping MNX rest staffPosition export; invalid staff step.";
                 }
             } else {
-                LOGW() << "Skipping MNX rest staffPosition export; missing layout position or staff.";
+                LOGW() <<
+                    "Skipping MNX rest staffPosition export; missing layout position or staff.";
             }
         }
     }
@@ -692,7 +696,8 @@ bool MnxExporter::appendEvent(mnx::ContentArray content, ExportContext& ctx, Cho
 {
     const TDuration duration = chordRest->durationType();
     IF_ASSERT_FAILED(duration.type() != DurationType::V_MEASURE) {
-        LOGW() << "appendEvent received V_MEASURE duration; full-measure rests must be exported via sequence.fullMeasure.";
+        LOGW() <<
+            "appendEvent received V_MEASURE duration; full-measure rests must be exported via sequence.fullMeasure.";
         return false;
     }
     const bool isRest = chordRest->isRest();
@@ -990,7 +995,8 @@ void MnxExporter::appendContent(mnx::ContentArray content, ExportContext& ctx,
                     const Chord* chord = toChord(chordRest);
                     const TremoloTwoChord* tremolo = chord->tremoloTwoChord();
                     if (tremolo && tremolo->chord1() == chordRest) {
-                        const size_t lastIdx = appendTremolo(content, ctx, chordRests, idx, chordRest);
+                        const size_t lastIdx = appendTremolo(content, ctx, chordRests, idx,
+                                                             chordRest);
                         if (lastIdx >= idx) {
                             idx = lastIdx;
                             continue;
@@ -1025,7 +1031,8 @@ void MnxExporter::appendContent(mnx::ContentArray content, ExportContext& ctx,
 //   createSequences
 //---------------------------------------------------------
 
-void MnxExporter::createSequences(const Part* part, const Measure* measure, mnx::part::Measure& mnxMeasure)
+void MnxExporter::createSequences(const Part* part, const Measure* measure,
+                                  mnx::part::Measure& mnxMeasure)
 {
     const size_t staves = part->nstaves();
     auto mnxSequences = mnxMeasure.sequences();
@@ -1062,16 +1069,19 @@ void MnxExporter::createSequences(const Part* part, const Measure* measure, mnx:
                     if (rest->durationType().isMeasure()) {
                         if (rest->visible() && !rest->isGap()) {
                             auto fullMeasure = mnxSequence.ensure_fullMeasure();
-                            if (m_exportRestPositions && rest->staff() && rest->ldata() && rest->ldata()->isSetPos()) {
+                            if (m_exportRestPositions && rest->staff() && rest->ldata()
+                                && rest->ldata()->isSetPos()) {
                                 const double lineDist = rest->staff()->lineDistance(rest->tick());
                                 const double staffStep = lineDist * rest->spatium() * 0.5; // half-space
                                 if (staffStep > 0.0) {
                                     const int middleLine = rest->staff()->middleLine(rest->tick());
                                     const double y = rest->pos().y();
-                                    const int lineIndex = static_cast<int>(std::lround(y / staffStep));
+                                    const int lineIndex = static_cast<int>(std::lround(
+                                                                               y / staffStep));
                                     fullMeasure.set_staffPosition(middleLine - lineIndex);
                                 } else {
-                                    LOGW() << "Skipping MNX fullMeasure staffPosition export; invalid staff step.";
+                                    LOGW() <<
+                                        "Skipping MNX fullMeasure staffPosition export; invalid staff step.";
                                 }
                             }
                         } else {
@@ -1084,7 +1094,8 @@ void MnxExporter::createSequences(const Part* part, const Measure* measure, mnx:
                 }
             }
 
-            ExportContext ctx(part, measure, mnxMeasure, static_cast<staff_idx_t>(staffIdx), voice, mnxSequence.staff());
+            ExportContext ctx(part, measure, mnxMeasure, static_cast<staff_idx_t>(staffIdx), voice,
+                              mnxSequence.staff());
             appendContent(mnxSequence.content(), ctx, chordRests, ContentContext::Sequence);
         }
     }

@@ -110,20 +110,24 @@ bool PaletteConfigurationStub::enableExperimental() const
     return false;
 }
 
-ValCh<IPaletteConfiguration::PaletteConfig> PaletteConfigurationStub::paletteConfig(const QString&) const
+ValCh<IPaletteConfiguration::PaletteConfig> PaletteConfigurationStub::paletteConfig(const QString&)
+const
 {
     return ValCh<IPaletteConfiguration::PaletteConfig>();
 }
 
-void PaletteConfigurationStub::setPaletteConfig(const QString&, const IPaletteConfiguration::PaletteConfig&)
+void PaletteConfigurationStub::setPaletteConfig(const QString&,
+                                                const IPaletteConfiguration::PaletteConfig&)
 {
 }
 
-ValCh<IPaletteConfiguration::PaletteCellConfig> PaletteConfigurationStub::paletteCellConfig(const QString&) const
+ValCh<IPaletteConfiguration::PaletteCellConfig> PaletteConfigurationStub::paletteCellConfig(
+    const QString&) const
 {
     return ValCh<IPaletteConfiguration::PaletteCellConfig>();
 }
 
-void PaletteConfigurationStub::setPaletteCellConfig(const QString&, const IPaletteConfiguration::PaletteCellConfig&)
+void PaletteConfigurationStub::setPaletteCellConfig(const QString&,
+                                                    const IPaletteConfiguration::PaletteCellConfig&)
 {
 }

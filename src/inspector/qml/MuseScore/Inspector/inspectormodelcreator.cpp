@@ -86,7 +86,8 @@
 
 using namespace mu::inspector;
 
-AbstractInspectorModel* InspectorModelCreator::newInspectorModel(InspectorModelType modelType, QObject* parent,
+AbstractInspectorModel* InspectorModelCreator::newInspectorModel(InspectorModelType modelType,
+                                                                 QObject* parent,
                                                                  const muse::modularity::ContextPtr& iocCtx,
                                                                  IElementRepositoryService* repository)
 {
@@ -136,9 +137,11 @@ AbstractInspectorModel* InspectorModelCreator::newInspectorModel(InspectorModelT
     case InspectorModelType::TYPE_HAIRPIN:
         return new HairpinSettingsModel(parent, iocCtx, repository);
     case InspectorModelType::TYPE_CRESCENDO:
-        return new HairpinLineSettingsModel(parent, iocCtx, repository, HairpinLineSettingsModel::Crescendo);
+        return new HairpinLineSettingsModel(parent, iocCtx, repository,
+                                            HairpinLineSettingsModel::Crescendo);
     case InspectorModelType::TYPE_DIMINUENDO:
-        return new HairpinLineSettingsModel(parent, iocCtx, repository, HairpinLineSettingsModel::Diminuendo);
+        return new HairpinLineSettingsModel(parent, iocCtx, repository,
+                                            HairpinLineSettingsModel::Diminuendo);
     case InspectorModelType::TYPE_OTTAVA:
         return new OttavaSettingsModel(parent, iocCtx, repository);
     case InspectorModelType::TYPE_VOLTA:
@@ -152,15 +155,20 @@ AbstractInspectorModel* InspectorModelCreator::newInspectorModel(InspectorModelT
     case InspectorModelType::TYPE_VIBRATO:
         return new VibratoSettingsModel(parent, iocCtx, repository);
     case InspectorModelType::TYPE_SLUR:
-        return new SlurAndTieSettingsModel(parent, iocCtx, repository, SlurAndTieSettingsModel::Slur);
+        return new SlurAndTieSettingsModel(parent, iocCtx, repository,
+                                           SlurAndTieSettingsModel::Slur);
     case InspectorModelType::TYPE_TIE:
-        return new SlurAndTieSettingsModel(parent, iocCtx, repository, SlurAndTieSettingsModel::Tie);
+        return new SlurAndTieSettingsModel(parent, iocCtx, repository,
+                                           SlurAndTieSettingsModel::Tie);
     case InspectorModelType::TYPE_LAISSEZ_VIB:
-        return new SlurAndTieSettingsModel(parent, iocCtx, repository, SlurAndTieSettingsModel::LaissezVib);
+        return new SlurAndTieSettingsModel(parent, iocCtx, repository,
+                                           SlurAndTieSettingsModel::LaissezVib);
     case InspectorModelType::TYPE_PARTIAL_TIE:
-        return new SlurAndTieSettingsModel(parent, iocCtx, repository, SlurAndTieSettingsModel::PartialTie);
+        return new SlurAndTieSettingsModel(parent, iocCtx, repository,
+                                           SlurAndTieSettingsModel::PartialTie);
     case InspectorModelType::TYPE_HAMMER_ON_PULL_OFF:
-        return new SlurAndTieSettingsModel(parent, iocCtx, repository, SlurAndTieSettingsModel::HammerOnPullOff);
+        return new SlurAndTieSettingsModel(parent, iocCtx, repository,
+                                           SlurAndTieSettingsModel::HammerOnPullOff);
     case InspectorModelType::TYPE_STAFF_TYPE_CHANGES:
         return new StaffTypeSettingsModel(parent, iocCtx, repository);
     case InspectorModelType::TYPE_TEXT_FRAME:
@@ -178,7 +186,8 @@ AbstractInspectorModel* InspectorModelCreator::newInspectorModel(InspectorModelT
     case InspectorModelType::TYPE_ARTICULATION:
         return new ArticulationSettingsModel(parent, iocCtx, repository);
     case InspectorModelType::TYPE_TAPPING:
-        return new ArticulationSettingsModel(parent, iocCtx, repository, InspectorModelType::TYPE_TAPPING);
+        return new ArticulationSettingsModel(parent, iocCtx, repository,
+                                             InspectorModelType::TYPE_TAPPING);
     case InspectorModelType::TYPE_ORNAMENT:
         return new OrnamentSettingsModel(parent, iocCtx, repository);
     case InspectorModelType::TYPE_AMBITUS:
@@ -208,9 +217,11 @@ AbstractInspectorModel* InspectorModelCreator::newInspectorModel(InspectorModelT
     case InspectorModelType::TYPE_LYRICS:
         return new LyricsSettingsModel(parent, iocCtx, repository);
     case InspectorModelType::TYPE_LYRICS_LINE:
-        return new LyricsLineSettingsModel(parent, iocCtx, repository, LyricsLineSettingsModel::LyricsLine);
+        return new LyricsLineSettingsModel(parent, iocCtx, repository,
+                                           LyricsLineSettingsModel::LyricsLine);
     case InspectorModelType::TYPE_PARTIAL_LYRICS_LINE:
-        return new LyricsLineSettingsModel(parent, iocCtx, repository, LyricsLineSettingsModel::PartialLyricsLine);
+        return new LyricsLineSettingsModel(parent, iocCtx, repository,
+                                           LyricsLineSettingsModel::PartialLyricsLine);
     case InspectorModelType::TYPE_REST:
         return new RestSettingsProxyModel(parent, iocCtx, repository);
     case InspectorModelType::TYPE_REST_BEAM:

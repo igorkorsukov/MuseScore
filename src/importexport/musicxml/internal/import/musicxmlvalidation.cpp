@@ -65,13 +65,15 @@ public:
         : QAbstractMessageHandler(0) {}
     QString getErrors() const { return m_errors; }
 protected:
-    virtual void handleMessage(QtMsgType type, const QString& description, const QUrl& identifier, const QSourceLocation& sourceLocation);
+    virtual void handleMessage(QtMsgType type, const QString& description, const QUrl& identifier,
+                               const QSourceLocation& sourceLocation);
 private:
     QString m_errors;
 };
 
 void ValidatorMessageHandler::handleMessage(QtMsgType type, const QString& description,
-                                            const QUrl& /* identifier */, const QSourceLocation& sourceLocation)
+                                            const QUrl& /* identifier */,
+                                            const QSourceLocation& sourceLocation)
 {
     // convert description from html to text
     QDomDocument desc;
@@ -105,7 +107,8 @@ void ValidatorMessageHandler::handleMessage(QtMsgType type, const QString& descr
         break;
     }
 
-    QString errorStr = typeStr + " " + errorStringWithLocation(sourceLocation.byteOffset(), e.text());
+    QString errorStr = typeStr + " "
+                       + errorStringWithLocation(sourceLocation.byteOffset(), e.text());
 
     // append error, separated by newline if necessary
     if (!m_errors.isEmpty()) {
@@ -167,7 +170,8 @@ static int musicXmlValidationErrorDialog(QString text, QString detailedText)
     QMessageBox errorDialog;
     errorDialog.setIcon(QMessageBox::Question);
     errorDialog.setText(text);
-    errorDialog.setInformativeText(muse::qtrc("iex_musicxml", "Do you want to try to load this file anyway?"));
+    errorDialog.setInformativeText(muse::qtrc("iex_musicxml",
+                                              "Do you want to try to load this file anyway?"));
     errorDialog.setDetailedText(detailedText);
     errorDialog.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
     errorDialog.setDefaultButton(QMessageBox::No);
@@ -194,7 +198,8 @@ Err MusicXmlValidation::validate(const String& name, const muse::ByteArray& data
 
     if (!valid) {
         LOGD("importMusicXml() file '%s' is not a valid MusicXML file", muPrintable(name));
-        QString strErr = muse::qtrc("iex_musicxml", "File “%1” is not a valid MusicXML file.").arg(name);
+        QString strErr = muse::qtrc("iex_musicxml", "File “%1” is not a valid MusicXML file.").arg(
+            name);
         if (MScore::noGui) {
             return Err::NoError;         // might as well try anyhow in converter mode
         }

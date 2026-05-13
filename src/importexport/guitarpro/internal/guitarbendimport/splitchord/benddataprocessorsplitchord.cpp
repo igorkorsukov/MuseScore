@@ -34,9 +34,12 @@
 using namespace mu::engraving;
 
 namespace mu::iex::guitarpro {
-static void createSplitDurationBends(const BendDataContextSplitChord& bendDataCtx, mu::engraving::Score* score);
-static void createSplitDurationBendsForChord(const BendDataContextSplitChord& bendDataCtx, mu::engraving::Chord* chord);
-static void removeReduntantChords(const BendDataContextSplitChord& bendDataCtx, const mu::engraving::Score* score);
+static void createSplitDurationBends(const BendDataContextSplitChord& bendDataCtx,
+                                     mu::engraving::Score* score);
+static void createSplitDurationBendsForChord(const BendDataContextSplitChord& bendDataCtx,
+                                             mu::engraving::Chord* chord);
+static void removeReduntantChords(const BendDataContextSplitChord& bendDataCtx,
+                                  const mu::engraving::Score* score);
 
 BendDataProcessorSplitChord::BendDataProcessorSplitChord(mu::engraving::Score* score)
     : m_score(score)
@@ -49,12 +52,14 @@ void BendDataProcessorSplitChord::processBends(const BendDataContextSplitChord& 
     removeReduntantChords(bendDataCtx, m_score);
 }
 
-static void createSplitDurationBends(const BendDataContextSplitChord& bendDataCtx, mu::engraving::Score* score)
+static void createSplitDurationBends(const BendDataContextSplitChord& bendDataCtx,
+                                     mu::engraving::Score* score)
 {
     for (const auto& [track, trackInfo] : bendDataCtx.bendChordDurations) {
         for (const auto& [mainTick, chordsDurations] : trackInfo) {
             if (chordsDurations.empty()) {
-                LOGE() << "bend import error : no chord duration data for track " << track << ", tick " << mainTick;
+                LOGE() << "bend import error : no chord duration data for track " << track <<
+                    ", tick " << mainTick;
                 continue;
             }
 
@@ -62,13 +67,15 @@ static void createSplitDurationBends(const BendDataContextSplitChord& bendDataCt
             const Measure* mainChordMeasure = score->tick2measure(mainTickFr);
 
             if (!mainChordMeasure) {
-                LOGE() << "bend import error : no valid measure for track " << track << ", tick " << mainTick;
+                LOGE() << "bend import error : no valid measure for track " << track << ", tick " <<
+                    mainTick;
                 return;
             }
 
             Chord* mainChord = mainChordMeasure->findChord(mainTickFr, track);
             if (!mainChord) {
-                LOGE() << "bend import error : no valid chord for track " << track << ", tick " << mainTick;
+                LOGE() << "bend import error : no valid chord for track " << track << ", tick " <<
+                    mainTick;
                 return;
             }
 
@@ -83,26 +90,31 @@ static void createSplitDurationBends(const BendDataContextSplitChord& bendDataCt
             for (size_t i = 1; i < chordsDurations.size(); i++) {
                 Measure* currentMeasure = score->tick2measure(currentTick);
                 if (!currentMeasure) {
-                    LOGE() << "bend import error : no valid measure for track " << track << ", tick " << currentTick.ticks();
+                    LOGE() << "bend import error : no valid measure for track " << track <<
+                        ", tick " << currentTick.ticks();
                     return;
                 }
 
-                Segment* curSegment = currentMeasure->findSegment(SegmentType::ChordRest, currentActualTick);
+                Segment* curSegment = currentMeasure->findSegment(SegmentType::ChordRest,
+                                                                  currentActualTick);
                 Chord* currentChord = nullptr;
                 Fraction currentChordDuration = chordsDurations[i];
-                Fraction actualDuration = (tuplet ? currentChordDuration / tuplet->ratio() : currentChordDuration);
+                Fraction actualDuration
+                    = (tuplet ? currentChordDuration / tuplet->ratio() : currentChordDuration);
 
                 if (curSegment) {
                     currentChord = currentMeasure->findChord(currentTick, track);
                     if (!currentChord) {
-                        LOGE() << "bend import error : no valid chord for track " << track << ", tick " << currentTick.ticks();
+                        LOGE() << "bend import error : no valid chord for track " << track <<
+                            ", tick " << currentTick.ticks();
                         return;
                     }
 
                     currentChord->setTicks(currentChordDuration);
                     currentChord->setDurationType(currentChordDuration);
                 } else {
-                    curSegment = currentMeasure->getSegment(SegmentType::ChordRest, currentActualTick);
+                    curSegment = currentMeasure->getSegment(SegmentType::ChordRest,
+                                                            currentActualTick);
                     currentChord = Factory::createChord(score->dummy()->segment());
                     currentChord->setTrack(track);
                     currentChord->setTicks(currentChordDuration);
@@ -130,7 +142,8 @@ static void createSplitDurationBends(const BendDataContextSplitChord& bendDataCt
     }
 }
 
-static void createSplitDurationBendsForChord(const BendDataContextSplitChord& bendDataCtx, mu::engraving::Chord* chord)
+static void createSplitDurationBendsForChord(const BendDataContextSplitChord& bendDataCtx,
+                                             mu::engraving::Chord* chord)
 {
     Score* score = chord->score();
     int chordTicks = chord->tick().ticks();
@@ -147,13 +160,15 @@ static void createSplitDurationBendsForChord(const BendDataContextSplitChord& be
     const BendChordData& bendChordData = currentTrackData.at(chordTicks);
     const Measure* startMeasure = score->tick2measure(bendChordData.startTick);
     IF_ASSERT_FAILED(startMeasure) {
-        LOGE() << "bend import error : no valid measure for track " << chord->track() << ", tick " << bendChordData.startTick.ticks();
+        LOGE() << "bend import error : no valid measure for track " << chord->track() <<
+            ", tick " << bendChordData.startTick.ticks();
         return;
     }
 
     Chord* startChord = startMeasure->findChord(bendChordData.startTick, chord->track());
     IF_ASSERT_FAILED(startChord) {
-        LOGE() << "bend import error : no valid chord for track " << chord->track() << ", tick " << bendChordData.startTick.ticks();
+        LOGE() << "bend import error : no valid chord for track " << chord->track() << ", tick " <<
+            bendChordData.startTick.ticks();
         return;
     }
 
@@ -161,7 +176,8 @@ static void createSplitDurationBendsForChord(const BendDataContextSplitChord& be
     std::vector<Note*> endChordNotes = chord->notes();
 
     IF_ASSERT_FAILED(startChordNotes.size() == endChordNotes.size()) {
-        LOGE() << "bend import error: start and end chord sizes don't match for track " << chord->track() << ", tick " <<
+        LOGE() << "bend import error: start and end chord sizes don't match for track " <<
+            chord->track() << ", tick " <<
             bendChordData.startTick.ticks();
         return;
     }
@@ -177,7 +193,8 @@ static void createSplitDurationBendsForChord(const BendDataContextSplitChord& be
         Note* startNote = startChordNotes[noteIndex];
         Note* note = endChordNotes[noteIndex];
 
-        if (bendChordData.noteDataByIdx.find(static_cast<int>(noteIndex)) == bendChordData.noteDataByIdx.end()) {
+        if (bendChordData.noteDataByIdx.find(static_cast<int>(noteIndex))
+            == bendChordData.noteDataByIdx.end()) {
             Tie* tie = Factory::createTie(score->dummy());
             startNote->add(tie);
             tie->setEndNote(note);
@@ -189,14 +206,16 @@ static void createSplitDurationBendsForChord(const BendDataContextSplitChord& be
         const int pitch = bendNoteData.quarterTones / 2;
 
         IF_ASSERT_FAILED(startChord != chord) {
-            LOGE() << "bend import error : start and end chords are the same for track " << chord->track() << ", tick " <<
+            LOGE() << "bend import error : start and end chords are the same for track " <<
+                chord->track() << ", tick " <<
                 bendChordData.startTick.ticks();
             return;
         }
 
         GuitarBend* bend = score->addGuitarBend(GuitarBendType::BEND, startNote, note);
         IF_ASSERT_FAILED(bend) {
-            LOGE() << "bend wasn't created for track " << chord->track() << ", tick " << startChord->tick().ticks();
+            LOGE() << "bend wasn't created for track " << chord->track() << ", tick " <<
+                startChord->tick().ticks();
             return;
         }
 
@@ -227,13 +246,16 @@ static void createSplitDurationBendsForChord(const BendDataContextSplitChord& be
     }
 }
 
-static void removeReduntantChords(const BendDataContextSplitChord& bendDataCtx, const mu::engraving::Score* score)
+static void removeReduntantChords(const BendDataContextSplitChord& bendDataCtx,
+                                  const mu::engraving::Score* score)
 {
     for (const auto& [track, trackInfo] : bendDataCtx.reduntantChordTicks) {
         for (const Fraction& tick : trackInfo) {
             const Measure* currentMeasure = score->tick2measure(tick);
             IF_ASSERT_FAILED(currentMeasure) {
-                LOGE() << "bend import error : couldn't remove invalid chord, no valid measure for track " << track << ", tick " <<
+                LOGE() <<
+                    "bend import error : couldn't remove invalid chord, no valid measure for track "
+                       << track << ", tick " <<
                     tick.ticks();
                 continue;
             }
@@ -242,7 +264,9 @@ static void removeReduntantChords(const BendDataContextSplitChord& bendDataCtx, 
             Chord* currentChord = currentMeasure->findChord(tick, track);
 
             IF_ASSERT_FAILED(curSegment && currentChord) {
-                LOGE() << "bend import error : couldn't remove invalid chord, segment or chord was null for track " << track << ", tick " <<
+                LOGE() <<
+                    "bend import error : couldn't remove invalid chord, segment or chord was null for track "
+                       << track << ", tick " <<
                     tick.ticks();
                 continue;
             }

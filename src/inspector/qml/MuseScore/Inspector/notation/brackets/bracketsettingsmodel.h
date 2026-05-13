@@ -32,7 +32,8 @@ class BracketSettingsModel : public AbstractInspectorModel
     QML_ELEMENT;
     QML_UNCREATABLE("Not creatable from QML")
 
-    Q_PROPERTY(mu::inspector::PropertyItem * bracketColumnPosition READ bracketColumnPosition CONSTANT)
+    Q_PROPERTY(
+        mu::inspector::PropertyItem * bracketColumnPosition READ bracketColumnPosition CONSTANT)
     Q_PROPERTY(mu::inspector::PropertyItem * bracketSpanStaves READ bracketSpanStaves CONSTANT)
     Q_PROPERTY(mu::inspector::PropertyItem * longName READ longName CONSTANT)
     Q_PROPERTY(mu::inspector::PropertyItem * shortName READ shortName CONSTANT)
@@ -40,13 +41,15 @@ class BracketSettingsModel : public AbstractInspectorModel
     Q_PROPERTY(mu::inspector::PropertyItem * showBracket READ showBracket CONSTANT)
 
     Q_PROPERTY(bool areSettingsAvailable READ areSettingsAvailable NOTIFY selectionChanged)
-    Q_PROPERTY(int maxBracketColumnPosition READ maxBracketColumnPosition NOTIFY maxBracketColumnPositionChanged)
+    Q_PROPERTY(
+        int maxBracketColumnPosition READ maxBracketColumnPosition NOTIFY maxBracketColumnPositionChanged)
     Q_PROPERTY(int maxBracketSpanStaves READ maxBracketSpanStaves NOTIFY selectionChanged)
     Q_PROPERTY(bool isGroupBracket READ isGroupBracket NOTIFY isGroupBracketChanged)
 
 public:
 
-    explicit BracketSettingsModel(QObject* parent, const muse::modularity::ContextPtr& iocCtx, IElementRepositoryService* repository);
+    explicit BracketSettingsModel(QObject* parent, const muse::modularity::ContextPtr& iocCtx,
+                                  IElementRepositoryService* repository);
 
     void createProperties() override;
     void requestElements() override;

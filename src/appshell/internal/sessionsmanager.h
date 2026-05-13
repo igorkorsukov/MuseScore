@@ -36,7 +36,8 @@
 #include "isessionsmanager.h"
 
 namespace mu::appshell {
-class SessionsManager : public ISessionsManager, public muse::Contextable, public muse::async::Asyncable
+class SessionsManager : public ISessionsManager, public muse::Contextable,
+    public muse::async::Asyncable
 {
     muse::GlobalInject<muse::mi::IMultiWindowsProvider> multiwindowsProvider;
     muse::GlobalInject<project::IProjectConfiguration> projectConfiguration;

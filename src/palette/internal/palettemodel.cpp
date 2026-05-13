@@ -43,7 +43,8 @@ using namespace mu::engraving;
 //   PaletteTreeModel::PaletteTreeModel
 //---------------------------------------------------------
 
-PaletteTreeModel::PaletteTreeModel(PaletteTreePtr tree, const muse::modularity::ContextPtr& ctx, QObject* parent)
+PaletteTreeModel::PaletteTreeModel(PaletteTreePtr tree, const muse::modularity::ContextPtr& ctx,
+                                   QObject* parent)
     : QAbstractItemModel(parent), muse::Contextable(ctx), _paletteTree(tree)
 {
     connect(this, &QAbstractItemModel::dataChanged, this, &PaletteTreeModel::onDataChanged);
@@ -67,7 +68,8 @@ void PaletteTreeModel::onDataChanged(const QModelIndex& topLeft, const QModelInd
 {
     Q_UNUSED(topLeft);
     Q_UNUSED(bottomRight);
-    static const std::set<int> nonPersistentRoles({ CellActiveRole, PaletteExpandedRole, Qt::DecorationRole });
+    static const std::set<int> nonPersistentRoles({ CellActiveRole, PaletteExpandedRole,
+                                                    Qt::DecorationRole });
 
     bool treeChanged = false;
     for (int role : roles) {
@@ -116,7 +118,8 @@ bool PaletteTreeModel::blockTreeChanged(bool block)
 
 Palette* PaletteTreeModel::iptrToPalette(void* iptr, int* idx)
 {
-    const auto palette = std::find_if(palettes().begin(), palettes().end(), [iptr](const PalettePtr& p) {
+    const auto palette
+        = std::find_if(palettes().begin(), palettes().end(), [iptr](const PalettePtr& p) {
         return iptr == p.get();
     });
 
@@ -193,7 +196,8 @@ PaletteCellConstPtr PaletteTreeModel::findCell(const QModelIndex& index) const
 
 PaletteCellPtr PaletteTreeModel::findCell(const QModelIndex& index)
 {
-    return std::const_pointer_cast<PaletteCell>(const_cast<const PaletteTreeModel*>(this)->findCell(index));
+    return std::const_pointer_cast<PaletteCell>(const_cast<const PaletteTreeModel*>(this)->findCell(
+                                                    index));
 }
 
 //---------------------------------------------------------
@@ -220,7 +224,8 @@ QModelIndex PaletteTreeModel::index(int row, int column, const QModelIndex& pare
     }
 
     if (!parent.isValid()) {
-        return createIndex(row, column, const_cast<void*>(static_cast<const void*>(_paletteTree.get())));
+        return createIndex(row, column,
+                           const_cast<void*>(static_cast<const void*>(_paletteTree.get())));
     }
 
     void* iptr = parent.internalPointer();
@@ -337,7 +342,8 @@ QVariant PaletteTreeModel::data(const QModelIndex& index, int role) const
             if (const Palette* pp = iptrToPalette(index.internalPointer())) {
                 extraMag = pp->mag();
             }
-            return QIcon(new PaletteCellIconEngine(cell, extraMag * configuration()->paletteScaling()));
+            return QIcon(new PaletteCellIconEngine(cell,
+                                                   extraMag * configuration()->paletteScaling()));
         }
         case PaletteCellRole:
             return QVariant::fromValue(cell.get());
@@ -514,7 +520,8 @@ bool PaletteTreeModel::setData(const QModelIndex& index, const QVariant& value, 
                 cell->id = newCell->id;
             } else if (map.contains(mimeSymbolFormat)) {
                 const QByteArray elementMimeData = map[mimeSymbolFormat].toByteArray();
-                PaletteCellPtr newCell = PaletteCell::fromElementMimeData(elementMimeData, iocContext());
+                PaletteCellPtr newCell = PaletteCell::fromElementMimeData(elementMimeData,
+                                                                          iocContext());
 
                 cell->element = newCell->element;
                 cell->untranslatedElement = newCell->untranslatedElement;
@@ -610,7 +617,8 @@ QStringList PaletteTreeModel::mimeTypes() const
 //   PaletteTreeModel::canDropMimeData
 //---------------------------------------------------------
 
-bool PaletteTreeModel::canDropMimeData(const QMimeData* data, Qt::DropAction action, int row, int column,
+bool PaletteTreeModel::canDropMimeData(const QMimeData* data, Qt::DropAction action, int row,
+                                       int column,
                                        const QModelIndex& parent) const
 {
     Q_UNUSED(column);
@@ -637,7 +645,8 @@ bool PaletteTreeModel::canDropMimeData(const QMimeData* data, Qt::DropAction act
 //   PaletteTreeModel::dropMimeData
 //---------------------------------------------------------
 
-bool PaletteTreeModel::dropMimeData(const QMimeData* data, Qt::DropAction action, int row, int column,
+bool PaletteTreeModel::dropMimeData(const QMimeData* data, Qt::DropAction action, int row,
+                                    int column,
                                     const QModelIndex& parent)
 {
     Q_UNUSED(column);   // when dropping at the end of palette, column == -1. Probably an effect of proxy models
@@ -701,7 +710,8 @@ bool PaletteTreeModel::moveRows(const QModelIndex& sourceParent, int sourceRow, 
 
     if (!sourceParent.isValid()) {
         // moving palettes
-        if (sourceRow + count > int(palettes().size()) || destinationChild >= int(palettes().size())) {
+        if (sourceRow + count > int(palettes().size())
+            || destinationChild >= int(palettes().size())) {
             return false;
         }
 
@@ -714,7 +724,8 @@ bool PaletteTreeModel::moveRows(const QModelIndex& sourceParent, int sourceRow, 
         // The moved rows are considered to be inserted *before* destinationRow,
         // so if we want to move a row down in the list within the same parent
         // then we should increment the destinationChild index.
-        const int destinationRow = (destinationChild >= sourceRow) ? destinationChild + 1 : destinationChild;
+        const int destinationRow
+            = (destinationChild >= sourceRow) ? destinationChild + 1 : destinationChild;
 
         if (sameParent && sourceRow == destinationRow) {
             return false;
@@ -730,11 +741,13 @@ bool PaletteTreeModel::moveRows(const QModelIndex& sourceParent, int sourceRow, 
         // Performance is much better when doing remove + insert rows instead.
         beginRemoveRows(sourceParent, sourceRow, sourceRow + count - 1);
         movedPalettes.reserve(count);
-        movedPalettes.insert(movedPalettes.end(), std::make_move_iterator(srcBegin), std::make_move_iterator(srcEnd));
+        movedPalettes.insert(movedPalettes.end(), std::make_move_iterator(
+                                 srcBegin), std::make_move_iterator(srcEnd));
         palettes().erase(srcBegin, srcEnd);
         endRemoveRows();
 
-        const int destIdx = (destinationRow < sourceRow) ? destinationRow : (destinationRow - count);
+        const int destIdx
+            = (destinationRow < sourceRow) ? destinationRow : (destinationRow - count);
         auto dest = palettes().begin() + destIdx;
 
         beginInsertRows(destinationParent, destIdx, destIdx + count - 1);
@@ -749,7 +762,8 @@ bool PaletteTreeModel::moveRows(const QModelIndex& sourceParent, int sourceRow, 
     Palette* destPalette = sameParent ? sourcePalette : findPalette(destinationParent);
     if (sourcePalette && destPalette) {
         // moving palette cells
-        if (sourceRow + count > int(sourcePalette->cellsCount()) || destinationChild > int(destPalette->cellsCount())) {
+        if (sourceRow + count > int(sourcePalette->cellsCount())
+            || destinationChild > int(destPalette->cellsCount())) {
             return false;
         }
 
@@ -757,7 +771,8 @@ bool PaletteTreeModel::moveRows(const QModelIndex& sourceParent, int sourceRow, 
         // so if we want to move a row down in the list within the same parent
         // then we should increment the destinationChild index.
         const int destinationRow
-            = (sameParent && destinationChild >= sourceRow) ? destinationChild + 1 : destinationChild;
+            = (sameParent
+               && destinationChild >= sourceRow) ? destinationChild + 1 : destinationChild;
 
         if (sameParent && sourceRow == destinationRow) {
             return false;
@@ -770,7 +785,9 @@ bool PaletteTreeModel::moveRows(const QModelIndex& sourceParent, int sourceRow, 
         auto movedCells(sourcePalette->takeCells(sourceRow, count));
         endRemoveRows();
 
-        const int destIdx = (sameParent && destinationRow >= sourceRow) ? (destinationRow - count) : destinationRow;
+        const int destIdx
+            = (sameParent
+               && destinationRow >= sourceRow) ? (destinationRow - count) : destinationRow;
 
         beginInsertRows(destinationParent, destIdx, destIdx + count - 1);
         destPalette->insertCells(destIdx, movedCells);
@@ -931,7 +948,8 @@ void PaletteTreeModel::retranslate()
 //   PaletteTreeModel::findPaletteCell
 //---------------------------------------------------------
 
-QModelIndex PaletteTreeModel::findPaletteCell(const PaletteCell& cell, const QModelIndex& parent) const
+QModelIndex PaletteTreeModel::findPaletteCell(const PaletteCell& cell,
+                                              const QModelIndex& parent) const
 {
     if (const Palette* pp = findPalette(parent)) {
         const int idx = pp->indexOfCell(cell);
@@ -950,7 +968,8 @@ QModelIndex PaletteTreeModel::findPaletteCell(const PaletteCell& cell, const QMo
 ///   member function of QAbstractItemModel is used.
 //---------------------------------------------------------
 
-QModelIndexList PaletteTreeModel::match(const QModelIndex& start, int role, const QVariant& value, int hits,
+QModelIndexList PaletteTreeModel::match(const QModelIndex& start, int role, const QVariant& value,
+                                        int hits,
                                         Qt::MatchFlags flags) const
 {
     if (role != PaletteCellRole || flags != Qt::MatchExactly || hits != 1
@@ -1052,12 +1071,14 @@ class ExcludePaletteCellFilter : public PaletteCellFilter
     const QPersistentModelIndex paletteIndex; // filter is valid as long as this index is valid too
 
 public:
-    ExcludePaletteCellFilter(const Palette* p, QPersistentModelIndex index, QObject* parent = nullptr)
+    ExcludePaletteCellFilter(const Palette* p, QPersistentModelIndex index,
+                             QObject* parent = nullptr)
         : PaletteCellFilter(parent), excludePalette(p), paletteIndex(index) {}
 
     bool acceptCell(const PaletteCell& cell) const override
     {
-        return paletteIndex.isValid() && -1 == excludePalette->indexOfCell(cell, /* matchName */ false);
+        return paletteIndex.isValid() && -1 == excludePalette->indexOfCell(cell,
+                                                                           /* matchName */ false);
     }
 };
 
@@ -1084,12 +1105,14 @@ PaletteCellFilter* PaletteTreeModel::getFilter(const QModelIndex& index) const
 //   FilterPaletteTreeModel::FilterPaletteTreeModel
 //---------------------------------------------------------
 
-FilterPaletteTreeModel::FilterPaletteTreeModel(PaletteCellFilter* filter, PaletteTreeModel* model, QObject* parent)
+FilterPaletteTreeModel::FilterPaletteTreeModel(PaletteCellFilter* filter, PaletteTreeModel* model,
+                                               QObject* parent)
     : QSortFilterProxyModel(parent), cellFilter(filter)
 {
     cellFilter->setParent(this);
 //       connect(cellFilter, &PaletteCellFilter::filterChanged, this, &QSortFilterProxyModel::invalidate);
-    connect(cellFilter, &PaletteCellFilter::filterChanged, this, &FilterPaletteTreeModel::invalidateFilter);
+    connect(cellFilter, &PaletteCellFilter::filterChanged, this,
+            &FilterPaletteTreeModel::invalidateFilter);
 
     setSourceModel(model);
 }
@@ -1123,7 +1146,8 @@ PaletteCellFilterProxyModel::PaletteCellFilterProxyModel(QObject* parent)
 //   PaletteCellFilterProxyModel::filterAcceptsRow
 //---------------------------------------------------------
 
-bool PaletteCellFilterProxyModel::filterAcceptsRow(int sourceRow, const QModelIndex& sourceParent) const
+bool PaletteCellFilterProxyModel::filterAcceptsRow(int sourceRow,
+                                                   const QModelIndex& sourceParent) const
 {
     const QAbstractItemModel* model = sourceModel();
     const QModelIndex rowIndex = model->index(sourceRow, 0, sourceParent);

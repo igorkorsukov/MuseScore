@@ -39,7 +39,8 @@ protected:
     void flip(EditData*) override;
 
 public:
-    ChangeProperty(EngravingObject* e, Pid i, const PropertyValue& v, PropertyFlags ps = PropertyFlags::NOSTYLE)
+    ChangeProperty(EngravingObject* e, Pid i, const PropertyValue& v,
+                   PropertyFlags ps = PropertyFlags::NOSTYLE)
         : element(e), id(i), property(v), flags(ps) {}
 
     Pid getId() const { return id; }
@@ -53,7 +54,8 @@ public:
 
     bool isFiltered(UndoCommand::Filter f, const EngravingItem* target) const override
     {
-        return f == UndoCommand::Filter::ChangePropertyLinked && muse::contains(target->linkList(), element);
+        return f == UndoCommand::Filter::ChangePropertyLinked && muse::contains(
+            target->linkList(), element);
     }
 };
 
@@ -67,7 +69,8 @@ class ChangeBracketProperty : public ChangeProperty
     void flip(EditData*) override;
 
 public:
-    ChangeBracketProperty(Staff* s, size_t l, Pid i, const PropertyValue& v, PropertyFlags ps = PropertyFlags::NOSTYLE)
+    ChangeBracketProperty(Staff* s, size_t l, Pid i, const PropertyValue& v,
+                          PropertyFlags ps = PropertyFlags::NOSTYLE)
         : ChangeProperty(nullptr, i, v, ps), staff(s), level(l) {}
     UNDO_NAME("ChangeBracketProperty")
     UNDO_CHANGED_OBJECTS({ staff })

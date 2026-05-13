@@ -26,7 +26,8 @@
 using namespace mu::inspector;
 using namespace mu::engraving;
 
-RestBeamSettingsModel::RestBeamSettingsModel(QObject* parent, const muse::modularity::ContextPtr& iocCtx,
+RestBeamSettingsModel::RestBeamSettingsModel(QObject* parent,
+                                             const muse::modularity::ContextPtr& iocCtx,
                                              IElementRepositoryService* repository)
     : AbstractInspectorModel(parent, iocCtx, repository)
 {
@@ -36,7 +37,9 @@ RestBeamSettingsModel::RestBeamSettingsModel(QObject* parent, const muse::modula
     m_beamModesModel = new BeamModesModel(this, iocCtx, repository);
     m_beamModesModel->init();
 
-    connect(m_beamModesModel->mode(), &PropertyItem::propertyModified, this, &AbstractInspectorModel::requestReloadPropertyItems);
+    connect(
+        m_beamModesModel->mode(), &PropertyItem::propertyModified, this,
+        &AbstractInspectorModel::requestReloadPropertyItems);
 }
 
 QObject* RestBeamSettingsModel::beamModesModel() const

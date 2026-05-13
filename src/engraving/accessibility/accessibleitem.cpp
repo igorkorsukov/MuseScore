@@ -95,7 +95,8 @@ AccessibleRoot* AccessibleItem::accessibleRoot() const
         return nullptr;
     }
 
-    RootItem* rootItem = m_element->explicitParent() ? score->rootItem() : score->dummy()->rootItem();
+    RootItem* rootItem
+        = m_element->explicitParent() ? score->rootItem() : score->dummy()->rootItem();
     return dynamic_cast<AccessibleRoot*>(rootItem->accessible().get());
 }
 
@@ -203,7 +204,9 @@ QString AccessibleItem::accessibleName() const
                    .arg(m_element->screenReaderInfo().toQString())
                    .arg(m_element->visible() ? "" : " " + muse::qtrc("engraving", "invisible"))
                    .arg(!barsAndBeats.isEmpty() ? ("; " + barsAndBeats) : "")
-                   .arg((root && root->isRangeSelection()) ? ("; " + muse::qtrc("engraving", "selected")) : "");
+                   .arg((root
+                         && root->isRangeSelection()) ? ("; " + muse::qtrc("engraving",
+                                                                           "selected")) : "");
     return readable(name);
 }
 
@@ -300,7 +303,8 @@ QString AccessibleItem::accessibleText(int startOffset, int endOffset) const
     return text;
 }
 
-QString AccessibleItem::accessibleTextBeforeOffset(int, TextBoundaryType, int* startOffset, int* endOffset) const
+QString AccessibleItem::accessibleTextBeforeOffset(int, TextBoundaryType, int* startOffset,
+                                                   int* endOffset) const
 {
     NOT_IMPLEMENTED;
 
@@ -309,7 +313,8 @@ QString AccessibleItem::accessibleTextBeforeOffset(int, TextBoundaryType, int* s
     return QString();
 }
 
-QString AccessibleItem::accessibleTextAfterOffset(int, TextBoundaryType, int* startOffset, int* endOffset) const
+QString AccessibleItem::accessibleTextAfterOffset(int, TextBoundaryType, int* startOffset,
+                                                  int* endOffset) const
 {
     NOT_IMPLEMENTED;
 
@@ -318,7 +323,8 @@ QString AccessibleItem::accessibleTextAfterOffset(int, TextBoundaryType, int* st
     return QString();
 }
 
-QString AccessibleItem::accessibleTextAtOffset(int offset, TextBoundaryType boundaryType, int* startOffset, int* endOffset) const
+QString AccessibleItem::accessibleTextAtOffset(int offset, TextBoundaryType boundaryType,
+                                               int* startOffset, int* endOffset) const
 {
     if (!m_element || !m_element->isTextBase()) {
         return QString();
@@ -338,21 +344,26 @@ QString AccessibleItem::accessibleTextAtOffset(int offset, TextBoundaryType boun
     switch (boundaryType) {
     case CharBoundary: {
         *startOffset = textCursor->currentPosition();
-        textCursor->movePosition(TextCursor::MoveOperation::Right, TextCursor::MoveMode::KeepAnchor);
+        textCursor->movePosition(TextCursor::MoveOperation::Right,
+                                 TextCursor::MoveMode::KeepAnchor);
         *endOffset = textCursor->currentPosition();
         break;
     }
     case WordBoundary: {
-        textCursor->movePosition(TextCursor::MoveOperation::WordLeft, TextCursor::MoveMode::MoveAnchor);
+        textCursor->movePosition(TextCursor::MoveOperation::WordLeft,
+                                 TextCursor::MoveMode::MoveAnchor);
         *startOffset = textCursor->currentPosition();
-        textCursor->movePosition(TextCursor::MoveOperation::NextWord, TextCursor::MoveMode::KeepAnchor);
+        textCursor->movePosition(TextCursor::MoveOperation::NextWord,
+                                 TextCursor::MoveMode::KeepAnchor);
         *endOffset = textCursor->currentPosition();
         break;
     }
     case LineBoundary: {
-        textCursor->movePosition(TextCursor::MoveOperation::StartOfLine, TextCursor::MoveMode::MoveAnchor);
+        textCursor->movePosition(TextCursor::MoveOperation::StartOfLine,
+                                 TextCursor::MoveMode::MoveAnchor);
         *startOffset = textCursor->currentPosition();
-        textCursor->movePosition(TextCursor::MoveOperation::EndOfLine, TextCursor::MoveMode::KeepAnchor);
+        textCursor->movePosition(TextCursor::MoveOperation::EndOfLine,
+                                 TextCursor::MoveMode::KeepAnchor);
         *endOffset = textCursor->currentPosition();
         break;
     }
@@ -437,7 +448,8 @@ bool AccessibleItem::accessibleIgnored() const
     return false;
 }
 
-muse::async::Channel<IAccessible::Property, muse::Val> AccessibleItem::accessiblePropertyChanged() const
+muse::async::Channel<IAccessible::Property,
+                     muse::Val> AccessibleItem::accessiblePropertyChanged() const
 {
     return m_accessiblePropertyChanged;
 }

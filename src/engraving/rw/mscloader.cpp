@@ -71,7 +71,8 @@ static RetVal<IReaderPtr> makeReader(int version, bool ignoreVersionError)
     return RetVal<IReaderPtr>::make_ok(RWRegister::reader(version));
 }
 
-Ret MscLoader::loadMscz(MasterScore* masterScore, const MscReader& mscReader, rw::ReadInOutData* inOut,
+Ret MscLoader::loadMscz(MasterScore* masterScore, const MscReader& mscReader,
+                        rw::ReadInOutData* inOut,
                         bool ignoreVersionError)
 {
     TRACEFUNC;
@@ -114,7 +115,8 @@ Ret MscLoader::loadMscz(MasterScore* masterScore, const MscReader& mscReader, rw
                 MStyle& style = masterScore->style();
                 ChordList* chordList = masterScore->chordList();
 
-                bool custom = style.styleV(Sid::chordStyle).value<ChordStylePreset>() == ChordStylePreset::CUSTOM;
+                bool custom = style.styleV(Sid::chordStyle).value<ChordStylePreset>()
+                              == ChordStylePreset::CUSTOM;
                 chordList->setCustomChordList(custom);
 
                 // Ensure that `checkChordList` loads the default chord list
@@ -229,7 +231,8 @@ Ret MscLoader::loadMscz(MasterScore* masterScore, const MscReader& mscReader, rw
     return ret;
 }
 
-Ret MscLoader::readMasterScore(MasterScore* score, XmlReader& e, bool ignoreVersionError, ReadInOutData* out,
+Ret MscLoader::readMasterScore(MasterScore* score, XmlReader& e, bool ignoreVersionError,
+                               ReadInOutData* out,
                                compat::ReadStyleHook* styleHook)
 {
     while (e.readNextStartElement()) {

@@ -35,7 +35,8 @@
 #include "ui/iuiactionsregister.h"
 
 namespace mu::preferences {
-class NoteInputPreferencesModel : public QObject, public muse::Contextable, public muse::async::Asyncable
+class NoteInputPreferencesModel : public QObject, public muse::Contextable,
+    public muse::async::Asyncable
 {
     Q_OBJECT
     QML_ELEMENT;
@@ -47,7 +48,8 @@ class NoteInputPreferencesModel : public QObject, public muse::Contextable, publ
     Q_PROPERTY(
         bool useNoteInputCursorInInputByDuration READ useNoteInputCursorInInputByDuration WRITE setUseNoteInputCursorInInputByDuration NOTIFY useNoteInputCursorInInputByDurationChanged)
 
-    Q_PROPERTY(bool midiInputEnabled READ midiInputEnabled WRITE setMidiInputEnabled NOTIFY midiInputEnabledChanged)
+    Q_PROPERTY(
+        bool midiInputEnabled READ midiInputEnabled WRITE setMidiInputEnabled NOTIFY midiInputEnabledChanged)
     Q_PROPERTY(
         bool startNoteInputAtSelectedNoteRestWhenPressingMidiKey READ startNoteInputAtSelectedNoteRestWhenPressingMidiKey WRITE setStartNoteInputAtSelectedNoteRestWhenPressingMidiKey NOTIFY startNoteInputAtSelectedNoteRestWhenPressingMidiKeyChanged)
     Q_PROPERTY(
@@ -59,17 +61,20 @@ class NoteInputPreferencesModel : public QObject, public muse::Contextable, publ
     Q_PROPERTY(
         int delayBetweenNotesInRealTimeModeMilliseconds READ delayBetweenNotesInRealTimeModeMilliseconds WRITE setDelayBetweenNotesInRealTimeModeMilliseconds NOTIFY delayBetweenNotesInRealTimeModeMillisecondsChanged)
 
-    Q_PROPERTY(bool playNotesWhenEditing READ playNotesWhenEditing WRITE setPlayNotesWhenEditing NOTIFY playNotesWhenEditingChanged)
+    Q_PROPERTY(
+        bool playNotesWhenEditing READ playNotesWhenEditing WRITE setPlayNotesWhenEditing NOTIFY playNotesWhenEditingChanged)
     Q_PROPERTY(
         bool playPreviewNotesInInputByDuration READ playPreviewNotesInInputByDuration WRITE setPlayPreviewNotesInInputByDuration NOTIFY playPreviewNotesInInputByDurationChanged)
     Q_PROPERTY(
         int notePlayDurationMilliseconds READ notePlayDurationMilliseconds WRITE setNotePlayDurationMilliseconds NOTIFY notePlayDurationMillisecondsChanged)
-    Q_PROPERTY(bool playChordWhenEditing READ playChordWhenEditing WRITE setPlayChordWhenEditing NOTIFY playChordWhenEditingChanged)
+    Q_PROPERTY(
+        bool playChordWhenEditing READ playChordWhenEditing WRITE setPlayChordWhenEditing NOTIFY playChordWhenEditingChanged)
     Q_PROPERTY(
         bool playChordSymbolWhenEditing READ playChordSymbolWhenEditing WRITE setPlayChordSymbolWhenEditing NOTIFY playChordSymbolWhenEditingChanged)
     Q_PROPERTY(
         bool playPreviewNotesWithScoreDynamics READ playPreviewNotesWithScoreDynamics WRITE setPlayPreviewNotesWithScoreDynamics NOTIFY playPreviewNotesWithScoreDynamicsChanged)
-    Q_PROPERTY(bool playNotesOnMidiInput READ playNotesOnMidiInput WRITE setPlayNotesOnMidiInput NOTIFY playNotesOnMidiInputChanged)
+    Q_PROPERTY(
+        bool playNotesOnMidiInput READ playNotesOnMidiInput WRITE setPlayNotesOnMidiInput NOTIFY playNotesOnMidiInputChanged)
     Q_PROPERTY(
         bool useMidiVelocityAndDurationDuringNoteInput READ useMidiVelocityAndDurationDuringNoteInput WRITE setUseMidiVelocityAndDurationDuringNoteInput NOTIFY useMidiVelocityAndDurationDuringNoteInputChanged)
 

@@ -33,7 +33,8 @@
 namespace mu::engraving {
 class UndoCommand;
 
-class EngravingUndoStackModel : public QAbstractItemModel, public muse::async::Asyncable, public muse::Contextable
+class EngravingUndoStackModel : public QAbstractItemModel, public muse::async::Asyncable,
+    public muse::Contextable
 {
     Q_OBJECT
     QML_ELEMENT;
@@ -81,7 +82,8 @@ private:
 
     void onNotationChanged();
 
-    Item* createItem(Item* parent, const engraving::UndoCommand* undoCommand, bool isCurrent = false);
+    Item* createItem(Item* parent, const engraving::UndoCommand* undoCommand,
+                     bool isCurrent = false);
     Item* itemByModelIndex(const QModelIndex& index) const;
     QVariantMap makeData(const mu::engraving::EngravingObject* el) const;
 

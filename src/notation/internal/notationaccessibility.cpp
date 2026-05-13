@@ -84,7 +84,8 @@ void NotationAccessibility::setEnabled(bool enabled)
     };
 
     EngravingItem* selectedElement = selection()->element();
-    AccessibleItemPtr selectedElementAccItem = selectedElement ? selectedElement->accessible() : nullptr;
+    AccessibleItemPtr selectedElementAccItem
+        = selectedElement ? selectedElement->accessible() : nullptr;
 
     for (AccessibleRoot* root : roots) {
         root->setEnabled(enabled);
@@ -152,16 +153,19 @@ QString NotationAccessibility::rangeAccessibilityInfo() const
 
     EngravingItem::BarBeat startBarbeat = selection()->startSegment()->barbeat();
 
-    QString start = muse::qtrc("engraving", "Start measure: %1").arg(String::number(startBarbeat.bar));
+    QString start = muse::qtrc("engraving", "Start measure: %1").arg(String::number(
+                                                                         startBarbeat.bar));
     if (startBarbeat.displayedBar != startBarbeat.bar) {
-        start += "; " + muse::qtrc("engraving", "Start displayed measure: %1").arg(startBarbeat.displayedBar);
+        start += "; " + muse::qtrc("engraving", "Start displayed measure: %1").arg(
+            startBarbeat.displayedBar);
     }
     start += "; " + muse::qtrc("engraving", "Start beat: %1").arg(startBarbeat.beat);
 
     EngravingItem::BarBeat endBarbeat = endSegment->barbeat();
     QString end = muse::qtrc("engraving", "End measure: %1").arg(String::number(endBarbeat.bar));
     if (endBarbeat.displayedBar != endBarbeat.bar) {
-        end += "; " + muse::qtrc("engraving", "End displayed measure: %1").arg(endBarbeat.displayedBar);
+        end += "; " + muse::qtrc("engraving", "End displayed measure: %1").arg(
+            endBarbeat.displayedBar);
     }
     end += "; " + muse::qtrc("engraving", "End beat: %1").arg(endBarbeat.beat);
 
@@ -185,7 +189,8 @@ QString NotationAccessibility::singleElementAccessibilityInfo() const
     }
 
     if (element->hasStaff()) {
-        QString staff = muse::qtrc("notation", "Staff %1").arg(QString::number(element->staffIdx() + 1));
+        QString staff
+            = muse::qtrc("notation", "Staff %1").arg(QString::number(element->staffIdx() + 1));
 
         QString staffName = element->staff()->part()->longName(element->tick());
         if (staffName.isEmpty()) {
@@ -195,7 +200,8 @@ QString NotationAccessibility::singleElementAccessibilityInfo() const
         if (staffName.isEmpty()) {
             accessibilityInfo = QString("%1; %2").arg(accessibilityInfo).arg(staff);
         } else {
-            accessibilityInfo = QString("%1; %2 (%3)").arg(accessibilityInfo).arg(staff).arg(staffName);
+            accessibilityInfo = QString("%1; %2 (%3)").arg(accessibilityInfo).arg(staff).arg(
+                staffName);
         }
     }
 

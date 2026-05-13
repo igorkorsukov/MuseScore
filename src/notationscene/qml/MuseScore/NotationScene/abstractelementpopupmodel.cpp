@@ -36,7 +36,8 @@ static const QMap<mu::engraving::ElementType, PopupModelType> ELEMENT_POPUP_TYPE
     { mu::engraving::ElementType::CAPO, PopupModelType::TYPE_CAPO },
     { mu::engraving::ElementType::STRING_TUNINGS, PopupModelType::TYPE_STRING_TUNINGS },
     { mu::engraving::ElementType::SOUND_FLAG, PopupModelType::TYPE_SOUND_FLAG },
-    { mu::engraving::ElementType::STAFF_VISIBILITY_INDICATOR, PopupModelType::TYPE_STAFF_VISIBILITY },
+    { mu::engraving::ElementType::STAFF_VISIBILITY_INDICATOR,
+      PopupModelType::TYPE_STAFF_VISIBILITY },
     { mu::engraving::ElementType::DYNAMIC, PopupModelType::TYPE_DYNAMIC },
     { mu::engraving::ElementType::TEXT, PopupModelType::TYPE_TEXT },
     { mu::engraving::ElementType::STAFF_TEXT, PopupModelType::TYPE_TEXT },
@@ -60,8 +61,10 @@ static const QHash<PopupModelType, mu::engraving::ElementTypeSet> POPUP_DEPENDEN
     { PopupModelType::TYPE_HARP_DIAGRAM, { mu::engraving::ElementType::HARP_DIAGRAM } },
     { PopupModelType::TYPE_CAPO, { mu::engraving::ElementType::CAPO } },
     { PopupModelType::TYPE_STRING_TUNINGS, { mu::engraving::ElementType::STRING_TUNINGS } },
-    { PopupModelType::TYPE_SOUND_FLAG, { mu::engraving::ElementType::SOUND_FLAG, mu::engraving::ElementType::STAFF_TEXT } },
-    { PopupModelType::TYPE_STAFF_VISIBILITY, { mu::engraving::ElementType::STAFF_VISIBILITY_INDICATOR } },
+    { PopupModelType::TYPE_SOUND_FLAG,
+      { mu::engraving::ElementType::SOUND_FLAG, mu::engraving::ElementType::STAFF_TEXT } },
+    { PopupModelType::TYPE_STAFF_VISIBILITY,
+      { mu::engraving::ElementType::STAFF_VISIBILITY_INDICATOR } },
     { PopupModelType::TYPE_DYNAMIC, { mu::engraving::ElementType::DYNAMIC } },
     { PopupModelType::TYPE_TEXT,
       { mu::engraving::ElementType::TEXT,
@@ -77,7 +80,9 @@ static const QHash<PopupModelType, mu::engraving::ElementTypeSet> POPUP_DEPENDEN
         mu::engraving::ElementType::FIGURED_BASS,
         mu::engraving::ElementType::TEMPO_TEXT,
         mu::engraving::ElementType::PLAY_COUNT_TEXT } },
-    { PopupModelType::TYPE_PARTIAL_TIE, { mu::engraving::ElementType::PARTIAL_TIE_SEGMENT, mu::engraving::ElementType::TIE_SEGMENT } },
+    { PopupModelType::TYPE_PARTIAL_TIE,
+      { mu::engraving::ElementType::PARTIAL_TIE_SEGMENT,
+          mu::engraving::ElementType::TIE_SEGMENT } },
 };
 
 AbstractElementPopupModel::AbstractElementPopupModel(PopupModelType modelType, QObject* parent)
@@ -131,19 +136,22 @@ bool AbstractElementPopupModel::hasTextStylePopup(const EngravingItem* element)
     return modelType == PopupModelType::TYPE_TEXT;
 }
 
-PopupModelType AbstractElementPopupModel::modelTypeFromElement(const engraving::ElementType& elementType)
+PopupModelType AbstractElementPopupModel::modelTypeFromElement(
+    const engraving::ElementType& elementType)
 {
     return ELEMENT_POPUP_TYPES.value(elementType, PopupModelType::TYPE_UNDEFINED);
 }
 
 muse::PointF AbstractElementPopupModel::fromLogical(muse::PointF point) const
 {
-    return currentNotation()->viewState() ? currentNotation()->viewState()->matrix().map(point) : muse::PointF();
+    return currentNotation()->viewState() ? currentNotation()->viewState()->matrix().map(point) :
+           muse::PointF();
 }
 
 muse::RectF AbstractElementPopupModel::fromLogical(muse::RectF rect) const
 {
-    return currentNotation()->viewState() ? currentNotation()->viewState()->matrix().map(rect) : muse::RectF();
+    return currentNotation()->viewState() ? currentNotation()->viewState()->matrix().map(rect) :
+           muse::RectF();
 }
 
 INotationUndoStackPtr AbstractElementPopupModel::undoStack() const
@@ -197,7 +205,8 @@ INotationPtr AbstractElementPopupModel::currentNotation() const
     return globalContext()->currentNotation();
 }
 
-void AbstractElementPopupModel::changeItemProperty(mu::engraving::Pid id, const PropertyValue& value)
+void AbstractElementPopupModel::changeItemProperty(mu::engraving::Pid id,
+                                                   const PropertyValue& value)
 {
     IF_ASSERT_FAILED(m_item) {
         return;
@@ -208,19 +217,23 @@ void AbstractElementPopupModel::changeItemProperty(mu::engraving::Pid id, const 
         flags = mu::engraving::PropertyFlags::UNSTYLED;
     }
 
-    beginCommand(muse::TranslatableString("undoableAction", "Edit %1").arg(mu::engraving::propertyUserName(id)));
+    beginCommand(muse::TranslatableString("undoableAction",
+                                          "Edit %1").arg(mu::engraving::propertyUserName(id)));
     m_item->undoChangeProperty(id, value, flags);
     endCommand();
     updateNotation();
 }
 
-void AbstractElementPopupModel::changeItemProperty(mu::engraving::Pid id, const PropertyValue& value, mu::engraving::PropertyFlags flags)
+void AbstractElementPopupModel::changeItemProperty(mu::engraving::Pid id,
+                                                   const PropertyValue& value,
+                                                   mu::engraving::PropertyFlags flags)
 {
     IF_ASSERT_FAILED(m_item) {
         return;
     }
 
-    beginCommand(muse::TranslatableString("undoableAction", "Edit %1").arg(mu::engraving::propertyUserName(id)));
+    beginCommand(muse::TranslatableString("undoableAction",
+                                          "Edit %1").arg(mu::engraving::propertyUserName(id)));
     m_item->undoChangeProperty(id, value, flags);
     endCommand();
     updateNotation();

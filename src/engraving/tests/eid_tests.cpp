@@ -42,7 +42,8 @@ TEST_F(Engraving_EIDTests, testRegisteredItems)
     auto checkRegister = [&](EngravingItem* item) {
         EID eid = item->eid();
         if (eid.isValid()) {
-            EngravingObject* registeredItem = item->masterScore()->eidRegister()->itemFromEID(item->eid());
+            EngravingObject* registeredItem = item->masterScore()->eidRegister()->itemFromEID(
+                item->eid());
             EXPECT_TRUE(registeredItem);
             EXPECT_EQ(registeredItem, item);
         }

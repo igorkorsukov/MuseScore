@@ -57,7 +57,8 @@ static bool defaultSizeIsSpatium    = true;
 //---------------------------------------------------------
 
 Image::Image(EngravingItem* parent)
-    : BSymbol(ElementType::IMAGE, parent, ElementFlag::MOVABLE), muse::Contextable(BSymbol::iocContext())
+    : BSymbol(ElementType::IMAGE, parent, ElementFlag::MOVABLE), muse::Contextable(
+        BSymbol::iocContext())
 {
     m_imageType        = ImageType::NONE;
     m_size            = SizeF(0.0, 0.0);

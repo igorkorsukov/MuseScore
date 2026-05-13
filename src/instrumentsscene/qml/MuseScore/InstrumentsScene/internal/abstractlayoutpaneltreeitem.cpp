@@ -122,7 +122,8 @@ void AbstractLayoutPanelTreeItem::appendNewItem()
 {
 }
 
-MoveParams AbstractLayoutPanelTreeItem::buildMoveParams(int, int, AbstractLayoutPanelTreeItem*, int) const
+MoveParams AbstractLayoutPanelTreeItem::buildMoveParams(int, int, AbstractLayoutPanelTreeItem*,
+                                                        int) const
 {
     UNREACHABLE;
     return MoveParams();
@@ -183,7 +184,9 @@ void AbstractLayoutPanelTreeItem::setParentItem(AbstractLayoutPanelTreeItem* par
     m_parent = parent;
 }
 
-AbstractLayoutPanelTreeItem* AbstractLayoutPanelTreeItem::childAtId(const ID& id, LayoutPanelItemType::ItemType type) const
+AbstractLayoutPanelTreeItem* AbstractLayoutPanelTreeItem::childAtId(const ID& id,
+                                                                    LayoutPanelItemType::ItemType type)
+const
 {
     for (AbstractLayoutPanelTreeItem* item: m_children) {
         if (item->m_id == id && item->m_type == type) {

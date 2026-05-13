@@ -113,7 +113,8 @@ RetVal<ProjectMeta> MscMetaReader::readMeta(const muse::io::path_t& filePath) co
     return meta;
 }
 
-muse::RetVal<CloudProjectInfo> MscMetaReader::readCloudProjectInfo(const muse::io::path_t& filePath) const
+muse::RetVal<CloudProjectInfo> MscMetaReader::readCloudProjectInfo(const muse::io::path_t& filePath)
+const
 {
     TRACEFUNC;
 

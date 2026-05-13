@@ -157,7 +157,8 @@ BestTrack findBestTrack(
 
 bool isTitlePrefix(const QString& text)
 {
-    return text.left(int(TEXT_PREFIX.size())) == QString::fromUtf8(TEXT_PREFIX.data(), int(TEXT_PREFIX.size()));
+    return text.left(int(TEXT_PREFIX.size()))
+           == QString::fromUtf8(TEXT_PREFIX.data(), int(TEXT_PREFIX.size()));
 }
 
 void addTitleToScore(Score* score, const QString& string, int textCounter)
@@ -237,7 +238,8 @@ void addLyricsToScore(
 
         QString text = MidiCharset::convertToCharset(it->second);
         if (originalTime != ReducedFraction(0, 1) || !isTitlePrefix(text)) {     // not title
-            score->addLyrics(quantizedTime.fraction(), staffAddTo->idx(), removeSlashes(text).toHtmlEscaped());
+            score->addLyrics(quantizedTime.fraction(), staffAddTo->idx(), removeSlashes(
+                                 text).toHtmlEscaped());
         }
     }
 }

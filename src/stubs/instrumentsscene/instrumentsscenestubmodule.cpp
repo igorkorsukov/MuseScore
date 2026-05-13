@@ -46,5 +46,6 @@ IContextSetup* InstrumentsSceneModule::newContext(const muse::modularity::Contex
 
 void InstrumentsSceneContext::registerExports()
 {
-    ioc()->registerExport<notation::ISelectInstrumentsScenario>(mname, new SelectInstrumentsScenarioStub());
+    ioc()->registerExport<notation::ISelectInstrumentsScenario>(mname,
+                                                                new SelectInstrumentsScenarioStub());
 }

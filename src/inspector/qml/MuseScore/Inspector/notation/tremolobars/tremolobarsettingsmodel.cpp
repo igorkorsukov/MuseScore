@@ -28,7 +28,8 @@
 
 using namespace mu::inspector;
 
-TremoloBarSettingsModel::TremoloBarSettingsModel(QObject* parent, const muse::modularity::ContextPtr& iocCtx,
+TremoloBarSettingsModel::TremoloBarSettingsModel(QObject* parent,
+                                                 const muse::modularity::ContextPtr& iocCtx,
                                                  IElementRepositoryService* repository)
     : AbstractInspectorModel(parent, iocCtx, repository)
 {
@@ -40,7 +41,9 @@ TremoloBarSettingsModel::TremoloBarSettingsModel(QObject* parent, const muse::mo
 
 void TremoloBarSettingsModel::createProperties()
 {
-    m_type = buildPropertyItem(mu::engraving::Pid::TREMOLOBAR_TYPE, [this](const mu::engraving::Pid pid, const QVariant& newValue) {
+    m_type
+        = buildPropertyItem(mu::engraving::Pid::TREMOLOBAR_TYPE,
+                            [this](const mu::engraving::Pid pid, const QVariant& newValue) {
         onPropertyValueChanged(pid, newValue);
 
         if (newValue.toInt() != static_cast<int>(TremoloBarTypes::TremoloBarType::TYPE_CUSTOM)) {
@@ -48,7 +51,9 @@ void TremoloBarSettingsModel::createProperties()
         }
     });
 
-    m_curve = buildPropertyItem(mu::engraving::Pid::TREMOLOBAR_CURVE, [this](const mu::engraving::Pid pid, const QVariant& newValue) {
+    m_curve
+        = buildPropertyItem(mu::engraving::Pid::TREMOLOBAR_CURVE,
+                            [this](const mu::engraving::Pid pid, const QVariant& newValue) {
         onPropertyValueChanged(pid, newValue);
 
         emit requestReloadPropertyItems();

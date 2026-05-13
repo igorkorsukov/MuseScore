@@ -38,7 +38,8 @@ class MusicXmlPart
 {
 public:
     MusicXmlPart(muse::String id = {}, muse::String name = {});
-    void addMeasureNumberAndDuration(muse::String measureNumber, engraving::Fraction measureDuration);
+    void addMeasureNumberAndDuration(muse::String measureNumber,
+                                     engraving::Fraction measureDuration);
     muse::String getId() const { return m_id; }
     muse::String toString() const;
     VoiceList voicelist;           // the voice map information TODO: make private
@@ -48,7 +49,8 @@ public:
     MusicXmlIntervalList _intervals;                       ///< Transpositions
     engraving::Interval interval(const engraving::Fraction f) const;
     int octaveShift(const engraving::staff_idx_t staff, const engraving::Fraction f) const;
-    void addOctaveShift(const engraving::staff_idx_t staff, const int shift, const engraving::Fraction f);
+    void addOctaveShift(const engraving::staff_idx_t staff, const int shift,
+                        const engraving::Fraction f);
     void calcOctaveShifts();
     void setName(muse::String nm) { m_name = nm; }
     muse::String getName() const { return m_name; }
@@ -60,7 +62,10 @@ public:
     bool getPrintAbbr() const { return m_printAbbr; }
     std::map<int, int> staffNumberToIndex() const { return m_staffNumberToIndex; }
     int staffNumberToIndex(const int staffNumber) const;
-    void insertStaffNumberToIndex(const int staffNumber, const int staffIndex) { m_staffNumberToIndex.insert({ staffNumber, staffIndex }); }
+    void insertStaffNumberToIndex(const int staffNumber, const int staffIndex)
+    {
+        m_staffNumberToIndex.insert({ staffNumber, staffIndex });
+    }
     LyricNumberHandler& lyricNumberHandler() { return m_lyricNumberHandler; }
     const LyricNumberHandler& lyricNumberHandler() const { return m_lyricNumberHandler; }
     void setMaxStaff(const int staff);

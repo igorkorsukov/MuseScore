@@ -30,6 +30,7 @@ class SelectInstrumentsScenarioStub : public notation::ISelectInstrumentsScenari
 public:
     muse::async::Promise<notation::PartInstrumentListScoreOrder> selectInstruments() const override;
     muse::async::Promise<notation::InstrumentTemplate> selectInstrument(
-        const notation::InstrumentKey& currentInstrumentKey = notation::InstrumentKey()) const override;
+        const notation::InstrumentKey& currentInstrumentKey = notation::InstrumentKey()) const
+    override;
 };
 }

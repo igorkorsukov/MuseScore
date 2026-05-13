@@ -33,7 +33,8 @@
 #include "interactive/iinteractive.h"
 
 namespace mu::playback {
-class OnlineSoundsController : public muse::actions::Actionable, public muse::async::Asyncable, public muse::Contextable
+class OnlineSoundsController : public muse::actions::Actionable, public muse::async::Asyncable,
+    public muse::Contextable
 {
     muse::GlobalInject<IPlaybackConfiguration> configuration;
     muse::ContextInject<muse::audio::IPlayback> playback = { this };
@@ -47,7 +48,8 @@ public:
 
     void reset();
 
-    void addOnlineTrack(const muse::audio::TrackId trackId, const muse::audio::AudioResourceMeta& meta);
+    void addOnlineTrack(const muse::audio::TrackId trackId,
+                        const muse::audio::AudioResourceMeta& meta);
     void removeOnlineTrack(const muse::audio::TrackId trackId);
 
     bool shouldShowOnlineSoundsProcessingError(bool isPlaying) const;
@@ -59,7 +61,8 @@ public:
 
 private:
     void listenProcessingProgress(const muse::audio::TrackId trackId);
-    void showLimitReachedErrorIfNeed(const muse::audio::InputProcessingProgress::StatusInfo& status);
+    void showLimitReachedErrorIfNeed(
+        const muse::audio::InputProcessingProgress::StatusInfo& status);
 
     void processOnlineSounds();
     void clearOnlineSoundsCache();

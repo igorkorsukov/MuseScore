@@ -94,7 +94,8 @@ void RestLayout::layoutRest(const Rest* item, Rest::LayoutData* ldata, const Lay
             }
             // symbol needed; if not exist, create, if exists, update duration
             if (!item->tabDur()) {
-                const_cast<Rest*>(item)->setTabDur(new TabDurationSymbol(const_cast<Rest*>(item), stt, type, dots));
+                const_cast<Rest*>(item)->setTabDur(new TabDurationSymbol(const_cast<Rest*>(item),
+                                                                         stt, type, dots));
             } else {
                 item->tabDur()->setDuration(type, dots, stt);
             }
@@ -136,7 +137,8 @@ void RestLayout::layoutRest(const Rest* item, Rest::LayoutData* ldata, const Lay
     }
 
     const_cast<Rest*>(item)->checkDots();
-    double visibleX = item->symWidthNoLedgerLines(ldata) + ctx.conf().styleAbsolute(Sid::dotNoteDistance) * item->mag();
+    double visibleX = item->symWidthNoLedgerLines(ldata) + ctx.conf().styleAbsolute(
+        Sid::dotNoteDistance) * item->mag();
     double visibleDX = ctx.conf().styleAbsolute(Sid::dotDotDistance) * item->mag();
     double invisibleX = item->symWidthNoLedgerLines(ldata);
     double y = item->dotLine() * item->spatium() * .5;
@@ -154,7 +156,8 @@ void RestLayout::layoutRest(const Rest* item, Rest::LayoutData* ldata, const Lay
     }
 }
 
-void RestLayout::fillShape(const Rest* item, Rest::LayoutData* ldata, const LayoutConfiguration& conf)
+void RestLayout::fillShape(const Rest* item, Rest::LayoutData* ldata,
+                           const LayoutConfiguration& conf)
 {
     switch (item->type()) {
     case ElementType::REST:
@@ -169,7 +172,8 @@ void RestLayout::fillShape(const Rest* item, Rest::LayoutData* ldata, const Layo
     }
 }
 
-void RestLayout::resolveVerticalRestConflicts(LayoutContext& ctx, Segment* segment, staff_idx_t staffIdx)
+void RestLayout::resolveVerticalRestConflicts(LayoutContext& ctx, Segment* segment,
+                                              staff_idx_t staffIdx)
 {
     std::vector<Rest*> rests;
     std::vector<Chord*> chords;
@@ -198,7 +202,8 @@ void RestLayout::resolveVerticalRestConflicts(LayoutContext& ctx, Segment* segme
     resolveRestVSRest(rests, staff, segment, ctx);
 }
 
-void RestLayout::resolveRestVSChord(std::vector<Rest*>& rests, std::vector<Chord*>& chords, const Staff* staff, Segment* segment)
+void RestLayout::resolveRestVSChord(std::vector<Rest*>& rests, std::vector<Chord*>& chords,
+                                    const Staff* staff, Segment* segment)
 {
     Fraction tick = segment->tick();
     int lines = staff->lines(tick);
@@ -217,7 +222,8 @@ void RestLayout::resolveRestVSChord(std::vector<Rest*>& rests, std::vector<Chord
                 continue;
             }
 
-            bool restAbove = rest->voice() < chord->voice() || (chord->slash() && !(rest->voice() % 2));
+            bool restAbove = rest->voice() < chord->voice()
+                             || (chord->slash() && !(rest->voice() % 2));
             int upSign = restAbove ? -1 : 1;
             double restYOffset = rest->offset().y();
             bool ignoreYOffset = (restAbove && restYOffset > 0) || (!restAbove && restYOffset < 0);
@@ -238,8 +244,10 @@ void RestLayout::resolveRestVSChord(std::vector<Rest*>& rests, std::vector<Chord
                             : chordShape.verticalClearance(restShape);
             } else {
                 Note* limitNote = restAbove ? chord->upNote() : chord->downNote();
-                RectF noteShape = limitNote->symBbox(limitNote->noteHead()).translated(limitNote->pos());
-                clearance = restAbove ? noteShape.top() - restShape.bottom() : restShape.top() - noteShape.bottom();
+                RectF noteShape = limitNote->symBbox(limitNote->noteHead()).translated(
+                    limitNote->pos());
+                clearance = restAbove ? noteShape.top() - restShape.bottom() : restShape.top()
+                            - noteShape.bottom();
                 minRestToChordClearance = 0.0;
             }
 
@@ -256,7 +264,9 @@ void RestLayout::resolveRestVSChord(std::vector<Rest*>& rests, std::vector<Chord
 
             rest->verticalClearance().setLocked(true);
             bool outAboveStaff = restAbove && restShape.bottom() + margin < minRestToChordClearance;
-            bool outBelowStaff = !restAbove && restShape.top() - margin > (lines - 1) * lineDistance - minRestToChordClearance;
+            bool outBelowStaff = !restAbove
+                                 && restShape.top() - margin
+                                 > (lines - 1) * lineDistance - minRestToChordClearance;
             bool useHalfSpaceSteps = (outAboveStaff || outBelowStaff) && !isWholeOrHalf;
             double yMove;
             if (useHalfSpaceSteps) {
@@ -306,7 +316,8 @@ void RestLayout::resolveRestVSRest(std::vector<Rest*>& rests, const Staff* staff
             continue;
         }
 
-        if (muse::contains(rest1->ldata()->mergedRests, rest2) || muse::contains(rest2->ldata()->mergedRests, rest1)) {
+        if (muse::contains(rest1->ldata()->mergedRests,
+                           rest2) || muse::contains(rest2->ldata()->mergedRests, rest1)) {
             continue;
         }
 
@@ -361,13 +372,15 @@ void RestLayout::resolveRestVSRest(std::vector<Rest*>& rests, const Staff* staff
 
             ChordRest* beam1Start = beam1->elements().front();
             ChordRest* beam1End = beam1->elements().back();
-            double y1Start = BeamLayout::chordBeamAnchorY(beam1, beam1Start) - beam1Start->pagePos().y();
+            double y1Start
+                = BeamLayout::chordBeamAnchorY(beam1, beam1Start) - beam1Start->pagePos().y();
             double y1End = BeamLayout::chordBeamAnchorY(beam1, beam1End) - beam1End->pagePos().y();
             double beam1Ymid = 0.5 * (y1Start + y1End);
 
             ChordRest* beam2Start = beam2->elements().front();
             ChordRest* beam2End = beam2->elements().back();
-            double y2Start = BeamLayout::chordBeamAnchorY(beam2, beam2Start) - beam2Start->pagePos().y();
+            double y2Start
+                = BeamLayout::chordBeamAnchorY(beam2, beam2Start) - beam2Start->pagePos().y();
             double y2End = BeamLayout::chordBeamAnchorY(beam2, beam2End) - beam2End->pagePos().y();
             double beam2Ymid = 0.5 * (y2Start + y2End);
 
@@ -400,8 +413,10 @@ void RestLayout::resolveRestVSRest(std::vector<Rest*>& rests, const Staff* staff
             TLayout::layoutBeam(beam2, ctx);
         }
 
-        bool rest1IsWholeOrHalf = rest1->isWholeRest() || rest1->durationType() == DurationType::V_HALF;
-        bool rest2IsWholeOrHalf = rest2->isWholeRest() || rest2->durationType() == DurationType::V_HALF;
+        bool rest1IsWholeOrHalf = rest1->isWholeRest()
+                                  || rest1->durationType() == DurationType::V_HALF;
+        bool rest2IsWholeOrHalf = rest2->isWholeRest()
+                                  || rest2->durationType() == DurationType::V_HALF;
 
         if (rest1IsWholeOrHalf) {
             updateSymbol(rest1, rest1->mutldata());
@@ -423,7 +438,8 @@ void RestLayout::alignRests(const System* system, LayoutContext& ctx)
 
         Rest* firstRest = group.front();
         const bool alignUpwards = firstRest->voice() == 0;
-        const double lineDist = firstRest->staff()->lineDistance(firstRest->tick()) * firstRest->spatium();
+        const double lineDist = firstRest->staff()->lineDistance(firstRest->tick())
+                                * firstRest->spatium();
 
         double yOuterRest = alignUpwards ? DBL_MAX : -DBL_MAX;
         for (Rest* rest : group) {
@@ -433,7 +449,10 @@ void RestLayout::alignRests(const System* system, LayoutContext& ctx)
         for (Rest* rest : group) {
             double yCur = rest->ldata()->pos().y();
             double yResult = yOuterRest;
-            double restVertClearance = lineDist * (alignUpwards ? rest->verticalClearance().above() : rest->verticalClearance().below());
+            double restVertClearance = lineDist
+                                       * (alignUpwards ? rest->verticalClearance().above() : rest->
+                                          verticalClearance().
+                                          below());
             double vertPadding = lineDist;
             restVertClearance = std::max(0.0, restVertClearance - vertPadding);
             double requiredMove = yOuterRest - yCur;
@@ -471,7 +490,8 @@ RestGroups RestLayout::computeRestGroups(const System* system, LayoutContext& ct
 
                 for (const Segment* segment = measure->first(SegmentType::ChordRest); segment;
                      segment = segment->next(SegmentType::ChordRest)) {
-                    if (interruptionPointsOnThisVoice.size() > 0 && segment->rtick() >= interruptionPointsOnThisVoice.front()) {
+                    if (interruptionPointsOnThisVoice.size() > 0
+                        && segment->rtick() >= interruptionPointsOnThisVoice.front()) {
                         restGroups.push_back(RestGroup());
                         interruptionPointsOnThisVoice.pop_front();
                     }
@@ -492,7 +512,8 @@ RestGroups RestLayout::computeRestGroups(const System* system, LayoutContext& ct
     return restGroups;
 }
 
-InterruptionPoints RestLayout::computeInterruptionPoints(const Measure* measure, staff_idx_t staffIdx)
+InterruptionPoints RestLayout::computeInterruptionPoints(const Measure* measure,
+                                                         staff_idx_t staffIdx)
 {
     // Start with sets to get automatic uniqueness and ordering
     std::array<std::set<Fraction>, VOICES> interruptionPointSets;
@@ -501,7 +522,8 @@ InterruptionPoints RestLayout::computeInterruptionPoints(const Measure* measure,
     track_idx_t eTrack = sTrack + VOICES;
 
     // Compute all-voices interruptions
-    for (const Segment* segment = measure->first(SegmentType::ChordRest); segment; segment = segment->next(SegmentType::ChordRest)) {
+    for (const Segment* segment = measure->first(SegmentType::ChordRest); segment;
+         segment = segment->next(SegmentType::ChordRest)) {
         for (track_idx_t track = sTrack; track < eTrack; ++track) {
             EngravingItem* item = segment->element(track);
             if (!item) {
@@ -511,12 +533,15 @@ InterruptionPoints RestLayout::computeInterruptionPoints(const Measure* measure,
             // TODO: The fact that "merged" rests exists in both voices and are just graphically overlapped is a messy way of
             // doing it and way too fragile, because it means that any logic that may move one rest can break the "merging".
             // A more solid way of merging rests would be to *delete* the second voice rests, i.e. turn them into gap rests [M.S.].
-            const bool hasMergedRest = item->isRest() && !toRest(item)->ldata()->mergedRests.empty();
-            const bool invisible = item->isChord() ? toChord(item)->allElementsInvisible() : !item->visible();
+            const bool hasMergedRest = item->isRest()
+                                       && !toRest(item)->ldata()->mergedRests.empty();
+            const bool invisible
+                = item->isChord() ? toChord(item)->allElementsInvisible() : !item->visible();
             if (gapRest || hasMergedRest || invisible) {
                 for (voice_idx_t voice = 0; voice < VOICES; ++voice) {
                     interruptionPointSets[voice].insert(segment->rtick());
-                    interruptionPointSets[voice].insert(segment->rtick() + toChordRest(item)->actualTicks());
+                    interruptionPointSets[voice].insert(segment->rtick() + toChordRest(
+                                                            item)->actualTicks());
                 }
                 break;
             }
@@ -546,14 +571,16 @@ InterruptionPoints RestLayout::computeInterruptionPoints(const Measure* measure,
 
         // If BeamMode is AUTO or NONE check measure beaming
         const Groups& groups = chordRest->staff()->group(chordRest->tick());
-        BeamMode beamModeMeasure = groups.beamMode(chordRest->rtick().ticks(), chordRest->durationType().type());
+        BeamMode beamModeMeasure = groups.beamMode(
+            chordRest->rtick().ticks(), chordRest->durationType().type());
         return beamModeMeasure == BeamMode::BEGIN;
     };
 
     // Compute voice-spefic interruptions
     for (voice_idx_t voice = 0; voice < VOICES; ++voice) {
         track_idx_t track = sTrack + voice;
-        for (const Segment* segment = measure->first(SegmentType::ChordRest); segment; segment = segment->next(SegmentType::ChordRest)) {
+        for (const Segment* segment = measure->first(SegmentType::ChordRest); segment;
+             segment = segment->next(SegmentType::ChordRest)) {
             if (ChordRest* thisCR = toChordRest(segment->element(track))) {
                 if (thisCR->isRest()) {
                     const Segment* prevSegment = segment->prevWithElementsOnTrack(track);
@@ -609,7 +636,9 @@ void RestLayout::checkFullMeasureRestCollisions(const System* system, LayoutCont
             }
 
             double xRest = fullMeasureRest->pagePos().x() - system->pagePos().x();
-            Shape restShape = fullMeasureRest->shape().translate(PointF(xRest, fullMeasureRest->ldata()->pos().y()));
+            Shape restShape
+                = fullMeasureRest->shape().translate(PointF(xRest,
+                                                            fullMeasureRest->ldata()->pos().y()));
 
             Shape measureShape;
             for (const Segment& segment : measure->segments()) {
@@ -630,13 +659,16 @@ void RestLayout::checkFullMeasureRestCollisions(const System* system, LayoutCont
             }
 
             const double spatium = fullMeasureRest->spatium();
-            const double lineDist = fullMeasureRest->staff()->lineDistance(fullMeasureRest->tick()) * spatium;
+            const double lineDist
+                = fullMeasureRest->staff()->lineDistance(fullMeasureRest->tick()) * spatium;
             const double minHorizontalDistance = 4 * spatium;
             const double minVertClearance = 0.75 * spatium;
 
             bool alignAbove = fullMeasureRest->voice() == 0;
-            double verticalClearance = alignAbove ? restShape.verticalClearance(measureShape, minHorizontalDistance)
-                                       : measureShape.verticalClearance(restShape, minHorizontalDistance);
+            double verticalClearance = alignAbove ? restShape.verticalClearance(measureShape,
+                                                                                minHorizontalDistance)
+                                       : measureShape.verticalClearance(restShape,
+                                                                        minHorizontalDistance);
 
             if (verticalClearance < minVertClearance) {
                 double diff = minVertClearance - verticalClearance;
@@ -672,7 +704,8 @@ void RestLayout::fillShape(const Rest* item, Rest::LayoutData* ldata)
     ldata->setShape(shape);
 }
 
-void RestLayout::fillShape(const MMRest* item, MMRest::LayoutData* ldata, const LayoutConfiguration& conf)
+void RestLayout::fillShape(const MMRest* item, MMRest::LayoutData* ldata,
+                           const LayoutConfiguration& conf)
 {
     Shape shape(Shape::Type::Composite);
 
@@ -696,7 +729,10 @@ int RestLayout::computeVoiceOffset(const Rest* item, Rest::LayoutData* ldata)
     ldata->mergedRests.clear();
     Segment* s = item->segment();
     Measure* measure = item->measure();
-    bool offsetVoices = s && measure && (item->voice() > 0 || measure->hasVoices(item->staffIdx(), item->tick(), item->actualTicks()));
+    bool offsetVoices = s && measure
+                        && (item->voice() > 0
+                            || measure->hasVoices(item->staffIdx(), item->tick(),
+                                                  item->actualTicks()));
     if (offsetVoices && item->voice() == 0) {
         // do not offset voice 1 rest if there exists a matching invisible rest in voice 2;
         EngravingItem* e = s->element(item->track() + 1);
@@ -736,7 +772,8 @@ int RestLayout::computeVoiceOffset(const Rest* item, Rest::LayoutData* ldata)
             if (e) {
                 if (e->isRest()) {
                     Rest* r = toRest(e);
-                    if (r->globalTicks() == item->globalTicks() && r->durationType() == item->durationType()) {
+                    if (r->globalTicks() == item->globalTicks()
+                        && r->durationType() == item->durationType()) {
                         matchFound = true;
                         ldata->mergedRests.push_back(r);
                         continue;
@@ -768,7 +805,8 @@ int RestLayout::computeWholeOrBreveRestOffset(const Rest* item, int voiceOffset,
     int lineMove = 0;
     if (item->isWholeRest()) {
         bool moveToLineAbove = (lines > 5)
-                               || ((lines > 1 || voiceOffset == -1 || voiceOffset == 2) && !(voiceOffset == -2 || voiceOffset == 1));
+                               || ((lines > 1 || voiceOffset == -1 || voiceOffset == 2)
+                                   && !(voiceOffset == -2 || voiceOffset == 1));
         if (moveToLineAbove) {
             lineMove = -1;
         }

@@ -129,7 +129,8 @@ Staff* Staff::findLinkedInScore(const Score* score) const
     return nullptr;
 }
 
-track_idx_t Staff::getLinkedTrackInStaff(const Staff* linkedStaff, const track_idx_t originalTrack) const
+track_idx_t Staff::getLinkedTrackInStaff(const Staff* linkedStaff,
+                                         const track_idx_t originalTrack) const
 {
     IF_ASSERT_FAILED(linkedStaff && originalTrack != muse::nidx) {
         return muse::nidx;
@@ -228,13 +229,15 @@ void Staff::undoSetShowMeasureNumbers(bool show)
     if (show) {
         undoChangeProperty(Pid::SHOW_MEASURE_NUMBERS, isTopStave ? AutoOnOff::AUTO : AutoOnOff::ON);
     } else {
-        undoChangeProperty(Pid::SHOW_MEASURE_NUMBERS, isTopStave ? AutoOnOff::OFF : AutoOnOff::AUTO);
+        undoChangeProperty(Pid::SHOW_MEASURE_NUMBERS,
+                           isTopStave ? AutoOnOff::OFF : AutoOnOff::AUTO);
     }
 }
 
 bool Staff::shouldShowMeasureNumbers() const
 {
-    MeasureNumberPlacement placementMode = style().styleV(Sid::measureNumberPlacementMode).value<MeasureNumberPlacement>();
+    MeasureNumberPlacement placementMode
+        = style().styleV(Sid::measureNumberPlacementMode).value<MeasureNumberPlacement>();
     switch (placementMode) {
     case MeasureNumberPlacement::ABOVE_SYSTEM:
         return score()->staves().front() == this;
@@ -243,7 +246,8 @@ bool Staff::shouldShowMeasureNumbers() const
     case MeasureNumberPlacement::ON_SYSTEM_OBJECT_STAVES:
     {
         bool isTopStave = score()->staves().front() == this;
-        return (isTopStave && m_showMeasureNumbers != AutoOnOff::OFF) || (isSystemObjectStaff() && m_showMeasureNumbers == AutoOnOff::ON);
+        return (isTopStave && m_showMeasureNumbers != AutoOnOff::OFF)
+               || (isSystemObjectStaff() && m_showMeasureNumbers == AutoOnOff::ON);
     }
     case MeasureNumberPlacement::ON_ALL_STAVES:
         return show();
@@ -264,7 +268,8 @@ bool Staff::isSystemObjectStaff() const
 
 bool Staff::hasSystemObjectsBelowBottomStaff() const
 {
-    return isSystemObjectStaff() && isLastOfScore() && style().styleB(Sid::systemObjectsBelowBottomStaff);
+    return isSystemObjectStaff() && isLastOfScore() && style().styleB(
+        Sid::systemObjectsBelowBottomStaff);
 }
 
 String Staff::individualStaffNameLong(const Fraction& tick) const
@@ -531,8 +536,11 @@ void Staff::updateVisibilityVoices(const Staff* masterStaff, const TracksMap& tr
 
     voice_idx_t voiceIndex = 0;
     for (voice_idx_t voice = 0; voice < VOICES; voice++) {
-        std::vector<track_idx_t> masterStaffTracks = muse::values(tracks, masterStaffIdx * VOICES + voice % VOICES);
-        bool isVoiceVisible = muse::contains(masterStaffTracks, staffIdx * VOICES + voiceIndex % VOICES);
+        std::vector<track_idx_t> masterStaffTracks = muse::values(tracks,
+                                                                  masterStaffIdx * VOICES + voice
+                                                                  % VOICES);
+        bool isVoiceVisible = muse::contains(masterStaffTracks,
+                                             staffIdx * VOICES + voiceIndex % VOICES);
         if (isVoiceVisible) {
             voices[voice] = true;
             voiceIndex++;
@@ -623,14 +631,18 @@ ClefTypeList Staff::clefType(const Fraction& tick) const
         // Clef compatibility based on instrument (override StaffGroup)
         StaffGroup staffGroup = staffType(tick)->group();
         if (staffGroup != StaffGroup::TAB) {
-            staffGroup = part()->instrument(tick)->useDrumset() ? StaffGroup::PERCUSSION : StaffGroup::STANDARD;
+            staffGroup
+                = part()->instrument(tick)->useDrumset() ? StaffGroup::PERCUSSION : StaffGroup::
+                  STANDARD;
         }
 
         switch (staffGroup) {
         case StaffGroup::TAB:
         {
             ClefType sct = ClefType(style().styleI(Sid::tabClef));
-            ct = staffType(tick)->lines() <= 4 ? ClefTypeList(sct == ClefType::TAB ? ClefType::TAB4 : ClefType::TAB4_SERIF) : ClefTypeList(
+            ct = staffType(tick)->lines() <= 4 ? ClefTypeList(
+                sct
+                == ClefType::TAB ? ClefType::TAB4 : ClefType::TAB4_SERIF) : ClefTypeList(
                 sct == ClefType::TAB ? ClefType::TAB : ClefType::TAB_SERIF);
         }
         break;
@@ -1081,7 +1093,8 @@ const CapoParams& Staff::capo(const Fraction& tick) const
     return it == m_capoMap.cend() ? dummy : it->second;
 }
 
-void Staff::insertCapoParams(const Fraction& tick, const CapoParams& params, bool ignoreNotationUpdate)
+void Staff::insertCapoParams(const Fraction& tick, const CapoParams& params,
+                             bool ignoreNotationUpdate)
 {
     if (ignoreNotationUpdate) {
         m_capoMap.insert_or_assign(tick.ticks(), params);
@@ -1169,7 +1182,8 @@ void Staff::removeCapoParams(const mu::engraving::Fraction& tick)
 bool Staff::shouldMergeMatchingRests() const
 {
     return mergeMatchingRests() == AutoOnOff::ON
-           || (mergeMatchingRests() == AutoOnOff::AUTO && style().value(Sid::mergeMatchingRests).toBool());
+           || (mergeMatchingRests() == AutoOnOff::AUTO
+               && style().value(Sid::mergeMatchingRests).toBool());
 }
 
 //---------------------------------------------------------
@@ -1870,7 +1884,8 @@ PropertyValue Staff::propertyDefault(Pid id) const
 void Staff::setLocalSpatium(double oldVal, double newVal, Fraction tick)
 {
     const int intEndTick = m_staffTypeList.staffTypeRange(tick).second;
-    const Fraction etick = (intEndTick == -1) ? score()->lastMeasure()->endTick() : Fraction::fromTicks(intEndTick);
+    const Fraction etick
+        = (intEndTick == -1) ? score()->lastMeasure()->endTick() : Fraction::fromTicks(intEndTick);
 
     staff_idx_t staffIdx = idx();
     track_idx_t startTrack = staffIdx * VOICES;

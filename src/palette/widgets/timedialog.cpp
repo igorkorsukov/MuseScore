@@ -75,7 +75,8 @@ TimeEditor::TimeEditor(QWidget* parent)
 
     _dirty = false;
 
-    if (configuration()->useFactorySettings() || !sp->readFromFile(configuration()->timeSignaturesDirPath().toQString())) {
+    if (configuration()->useFactorySettings()
+        || !sp->readFromFile(configuration()->timeSignaturesDirPath().toQString())) {
         Fraction sig(4, 4);
         groups->setSig(sig, Groups::endings(sig), zText->text(), nText->text());
     }
@@ -106,7 +107,8 @@ bool TimeEditor::showTimePalette() const
 
 void TimeEditor::addClicked()
 {
-    auto ts = mu::engraving::Factory::makeTimeSig(paletteScoreProvider()->paletteScore()->dummy()->segment());
+    auto ts = mu::engraving::Factory::makeTimeSig(
+        paletteScoreProvider()->paletteScore()->dummy()->segment());
     ts->setSig(Fraction(zNominal->value(), denominator()));
     ts->setGroups(groups->groups());
 

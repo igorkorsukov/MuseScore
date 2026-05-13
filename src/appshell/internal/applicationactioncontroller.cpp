@@ -62,13 +62,18 @@ void ApplicationActionController::init()
 
     dispatcher()->reg(this, "about-musescore", this, &ApplicationActionController::openAboutDialog);
     dispatcher()->reg(this, "about-qt", this, &ApplicationActionController::openAboutQtDialog);
-    dispatcher()->reg(this, "about-musicxml", this, &ApplicationActionController::openAboutMusicXMLDialog);
-    dispatcher()->reg(this, "online-handbook", this, &ApplicationActionController::openOnlineHandbookPage);
+    dispatcher()->reg(this, "about-musicxml", this,
+                      &ApplicationActionController::openAboutMusicXMLDialog);
+    dispatcher()->reg(this, "online-handbook", this,
+                      &ApplicationActionController::openOnlineHandbookPage);
     dispatcher()->reg(this, "ask-help", this, &ApplicationActionController::openAskForHelpPage);
-    dispatcher()->reg(this, "accessibility-statement", this, &ApplicationActionController::openAccessibilityStatementPage);
-    dispatcher()->reg(this, "preference-dialog", this, &ApplicationActionController::openPreferencesDialog);
+    dispatcher()->reg(this, "accessibility-statement", this,
+                      &ApplicationActionController::openAccessibilityStatementPage);
+    dispatcher()->reg(this, "preference-dialog", this,
+                      &ApplicationActionController::openPreferencesDialog);
 
-    dispatcher()->reg(this, "revert-factory", this, &ApplicationActionController::revertToFactorySettings);
+    dispatcher()->reg(this, "revert-factory", this,
+                      &ApplicationActionController::revertToFactorySettings);
 
     dispatcher()->reg(this, "manage-plugins", [this]() {
         interactive()->open("musescore://home?section=plugins");
@@ -135,7 +140,8 @@ QWindow* ApplicationActionController::qWindow() const
     return mainWindow() ? mainWindow()->qWindow() : nullptr;
 }
 
-ApplicationActionController::DragTarget ApplicationActionController::dragTarget(const QUrl& url) const
+ApplicationActionController::DragTarget ApplicationActionController::dragTarget(const QUrl& url)
+const
 {
     if (projectFilesController()->isUrlSupported(url)) {
         return DragTarget::ProjectFile;
@@ -337,7 +343,8 @@ void ApplicationActionController::doOpenPreferencesDialog()
 
 void ApplicationActionController::revertToFactorySettings()
 {
-    std::string title = muse::trc("appshell", "Are you sure you want to revert to factory settings?");
+    std::string title
+        = muse::trc("appshell", "Are you sure you want to revert to factory settings?");
     std::string question = muse::trc("appshell", "This action will reset all your app preferences and delete all custom palettes and custom shortcuts. "
                                                  "The list of recent scores will also be cleared.\n\n"
                                                  "This action will not delete any of your scores.");
@@ -348,7 +355,9 @@ void ApplicationActionController::revertToFactorySettings()
     int revertBtn = int(IInteractive::Button::Apply);
     auto promise = interactive()->warning(title, question,
                                           { cancelBtn,
-                                            IInteractive::ButtonData(revertBtn, muse::trc("appshell", "Revert")) },
+                                            IInteractive::ButtonData(revertBtn,
+                                                                     muse::trc("appshell",
+                                                                               "Revert")) },
                                           cancelBtn.btn, { muse::IInteractive::Option::WithIcon },
                                           muse::trc("appshell", "Revert to factory settings"));
 
@@ -360,15 +369,23 @@ void ApplicationActionController::revertToFactorySettings()
         static constexpr bool KEEP_DEFAULT_SETTINGS = false;
         static constexpr bool NOTIFY_ABOUT_CHANGES = false;
         static constexpr bool NOTIFY_OTHER_INSTANCES = false;
-        configuration()->revertToFactorySettings(KEEP_DEFAULT_SETTINGS, NOTIFY_ABOUT_CHANGES, NOTIFY_OTHER_INSTANCES);
+        configuration()->revertToFactorySettings(KEEP_DEFAULT_SETTINGS, NOTIFY_ABOUT_CHANGES,
+                                                 NOTIFY_OTHER_INSTANCES);
 
-        std::string title = muse::trc("appshell", "Would you like to restart MuseScore Studio now?");
-        std::string question = muse::trc("appshell", "MuseScore Studio needs to be restarted for these changes to take effect.");
+        std::string title = muse::trc("appshell",
+                                      "Would you like to restart MuseScore Studio now?");
+        std::string question
+            = muse::trc("appshell",
+                        "MuseScore Studio needs to be restarted for these changes to take effect.");
 
         int restartBtn = int(IInteractive::Button::Apply);
         auto promise = interactive()->question(title, question,
-                                               { interactive()->buttonData(IInteractive::Button::Cancel),
-                                                 IInteractive::ButtonData(restartBtn, muse::trc("appshell", "Restart"), true) },
+                                               { interactive()->buttonData(IInteractive::Button::
+                                                                           Cancel),
+                                                 IInteractive::ButtonData(restartBtn,
+                                                                          muse::trc("appshell",
+                                                                                    "Restart"),
+                                                                          true) },
                                                restartBtn);
 
         promise.onResolve(this, [this](const IInteractive::Result& res) {

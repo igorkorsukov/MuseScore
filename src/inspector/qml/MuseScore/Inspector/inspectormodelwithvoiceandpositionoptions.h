@@ -39,7 +39,8 @@ class InspectorModelWithVoiceAndPositionOptions : public AbstractInspectorModel
     Q_PROPERTY(mu::inspector::PropertyItem * voiceAssignment READ voiceAssignment CONSTANT)
     Q_PROPERTY(mu::inspector::PropertyItem * voice READ voice CONSTANT)
     Q_PROPERTY(mu::inspector::PropertyItem * centerBetweenStaves READ centerBetweenStaves CONSTANT)
-    Q_PROPERTY(bool isMultiStaffInstrument READ isMultiStaffInstrument WRITE setIsMultiStaffInstrument NOTIFY isMultiStaffInstrumentChanged)
+    Q_PROPERTY(
+        bool isMultiStaffInstrument READ isMultiStaffInstrument WRITE setIsMultiStaffInstrument NOTIFY isMultiStaffInstrumentChanged)
     Q_PROPERTY(
         bool isStaveCenteringAvailable READ isStaveCenteringAvailable WRITE setIsStaveCenteringAvailable NOTIFY isStaveCenteringAvailableChanged)
 
@@ -51,7 +52,8 @@ class InspectorModelWithVoiceAndPositionOptions : public AbstractInspectorModel
     Q_PROPERTY(QString shortcutUseAllVoicesStaff READ shortcutUseAllVoicesStaff CONSTANT)
 
 public:
-    explicit InspectorModelWithVoiceAndPositionOptions(QObject* parent, const muse::modularity::ContextPtr& iocCtx,
+    explicit InspectorModelWithVoiceAndPositionOptions(QObject* parent,
+                                                       const muse::modularity::ContextPtr& iocCtx,
                                                        IElementRepositoryService* repository,
                                                        ElementType elementType = ElementType::INVALID);
 

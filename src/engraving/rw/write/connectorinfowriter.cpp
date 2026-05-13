@@ -36,7 +36,8 @@
 using namespace mu::engraving;
 using namespace mu::engraving::write;
 
-ConnectorInfoWriter::ConnectorInfoWriter(XmlWriter& xml, WriteContext* ctx, const EngravingItem* current,
+ConnectorInfoWriter::ConnectorInfoWriter(XmlWriter& xml, WriteContext* ctx,
+                                         const EngravingItem* current,
                                          const EngravingItem* connector,
                                          int track,
                                          Fraction frac)
@@ -79,7 +80,8 @@ void ConnectorInfoWriter::write()
 //   SpannerWriter::fillSpannerPosition
 //---------------------------------------------------------
 
-void SpannerWriter::fillSpannerPosition(Location& l, const MeasureBase* m, const Fraction& tick, bool clipboardmode)
+void SpannerWriter::fillSpannerPosition(Location& l, const MeasureBase* m, const Fraction& tick,
+                                        bool clipboardmode)
 {
     if (clipboardmode) {
         l.setMeasure(0);
@@ -100,7 +102,8 @@ void SpannerWriter::fillSpannerPosition(Location& l, const MeasureBase* m, const
 //   SpannerWriter::SpannerWriter
 //---------------------------------------------------------
 
-SpannerWriter::SpannerWriter(XmlWriter& xml, WriteContext* ctx, const EngravingItem* current, const Spanner* sp, int track, Fraction frac,
+SpannerWriter::SpannerWriter(XmlWriter& xml, WriteContext* ctx, const EngravingItem* current,
+                             const Spanner* sp, int track, Fraction frac,
                              bool start)
     : ConnectorInfoWriter(xml, ctx, current, sp, track, frac)
 {

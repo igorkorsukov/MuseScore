@@ -74,7 +74,8 @@ Ornament::Ornament(const Ornament& o)
 Ornament::~Ornament()
 {
     std::fill(std::begin(m_notesAboveAndBelow), std::end(m_notesAboveAndBelow), nullptr);
-    std::fill(std::begin(m_accidentalsAboveAndBelow), std::end(m_accidentalsAboveAndBelow), nullptr);
+    std::fill(std::begin(m_accidentalsAboveAndBelow), std::end(m_accidentalsAboveAndBelow),
+              nullptr);
 
     if (m_cueNoteChord && m_cueNoteChord->notes().size()) {
         m_cueNoteChord->notes().clear();
@@ -242,7 +243,8 @@ bool Ornament::hasFullIntervalChoice() const
 bool Ornament::showCueNote()
 {
     if (m_showCueNote == AutoOnOff::AUTO) {
-        return (hasFullIntervalChoice() && style().styleB(Sid::trillAlwaysShowCueNote)) || _intervalAbove.step != IntervalStep::SECOND;
+        return (hasFullIntervalChoice() && style().styleB(Sid::trillAlwaysShowCueNote))
+               || _intervalAbove.step != IntervalStep::SECOND;
     }
 
     return m_showCueNote == AutoOnOff::ON;
@@ -293,11 +295,14 @@ void Ornament::computeNotesAboveAndBelow(AccidentalState* accState)
             note->setAccidentalType(Accidental::value2subtype(tpc2alter(note->tpc())));
         }
 
-        bool autoMode = (above && _intervalAbove.type == IntervalType::AUTO) || (!above && _intervalBelow.type == IntervalType::AUTO);
+        bool autoMode = (above && _intervalAbove.type == IntervalType::AUTO)
+                        || (!above && _intervalBelow.type == IntervalType::AUTO);
         if (autoMode) {
             // NOTE: In AUTO mode, the ornament note should match not only any alteration from the
             // key signature, but also any alteration present in the measure before this point.
-            int intervalSteps = above ? static_cast<int>(_intervalAbove.step) : -static_cast<int>(_intervalBelow.step);
+            int intervalSteps
+                = above ? static_cast<int>(_intervalAbove.step) : -static_cast<int>(_intervalBelow.
+                                                                                    step);
             note->transposeDiatonic(intervalSteps, false, true);
             if (m_trillOldCompatAccidental) {
                 mapOldTrillAccidental(note, mainNote);
@@ -306,11 +311,13 @@ void Ornament::computeNotesAboveAndBelow(AccidentalState* accState)
                 int pitchLine = absStep(note->tpc(), note->epitch());
                 AccidentalVal accidentalVal = accState->accidentalVal(pitchLine);
                 AccidentalVal noteAccidentalVal = tpc2alter(note->tpc());
-                int accidentalDiff = static_cast<int>(accidentalVal) - static_cast<int>(noteAccidentalVal);
+                int accidentalDiff = static_cast<int>(accidentalVal)
+                                     - static_cast<int>(noteAccidentalVal);
                 note->transpose(Interval(0, accidentalDiff), true);
             }
         } else {
-            Interval interval = Interval::fromOrnamentInterval(above ? _intervalAbove : _intervalBelow);
+            Interval interval = Interval::fromOrnamentInterval(
+                above ? _intervalAbove : _intervalBelow);
             if (!above) {
                 interval.flip();
             }
@@ -447,7 +454,8 @@ SymId Ornament::fromTrillType(TrillType trillType)
 void Ornament::mapOldTrillAccidental(Note* note, const Note* mainNote)
 {
     // Compatibility with trills pre-4.1
-    AccidentalVal oldCompatValue = Accidental::subtype2value(m_trillOldCompatAccidental->accidentalType());
+    AccidentalVal oldCompatValue = Accidental::subtype2value(
+        m_trillOldCompatAccidental->accidentalType());
     AccidentalVal noteAccidentalVal = tpc2alter(note->tpc());
     int accidentalDiff = static_cast<int>(oldCompatValue) - static_cast<int>(noteAccidentalVal);
     note->transpose(Interval(0, accidentalDiff), true);

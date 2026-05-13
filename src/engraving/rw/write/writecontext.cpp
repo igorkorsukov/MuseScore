@@ -41,7 +41,8 @@ bool WriteContext::canWriteNoteIdx(size_t noteIdx, size_t totalNotesInChord) con
     }
 
     const Selection& sel = m_score->selection();
-    return _filter.value().canSelectNoteIdx(noteIdx, totalNotesInChord, sel.rangeContainsMultiNoteChords());
+    return _filter.value().canSelectNoteIdx(noteIdx, totalNotesInChord,
+                                            sel.rangeContainsMultiNoteChords());
 }
 
 bool WriteContext::canWriteVoice(track_idx_t track) const

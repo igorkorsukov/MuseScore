@@ -34,11 +34,13 @@ public:
 
     MOCK_METHOD(muse::io::path_t, defaultStyleFilePath, (), (const, override));
     MOCK_METHOD(void, setDefaultStyleFilePath, (const muse::io::path_t&), (override));
-    MOCK_METHOD(muse::async::Channel<muse::io::path_t>, defaultStyleFilePathChanged, (), (const, override));
+    MOCK_METHOD(muse::async::Channel<muse::io::path_t>, defaultStyleFilePathChanged, (),
+                (const, override));
 
     MOCK_METHOD(muse::io::path_t, partStyleFilePath, (), (const, override));
     MOCK_METHOD(void, setPartStyleFilePath, (const muse::io::path_t&), (override));
-    MOCK_METHOD(muse::async::Channel<muse::io::path_t>, partStyleFilePathChanged, (), (const, override));
+    MOCK_METHOD(muse::async::Channel<muse::io::path_t>, partStyleFilePathChanged, (),
+                (const, override));
 
     MOCK_METHOD(SizeF, defaultPageSize, (), (const, override));
 
@@ -60,15 +62,18 @@ public:
 
     MOCK_METHOD(Color, selectionColor, (engraving::voice_idx_t, bool, bool), (const, override));
     MOCK_METHOD(void, setSelectionColor, (engraving::voice_idx_t, Color), (override));
-    MOCK_METHOD((muse::async::Channel<engraving::voice_idx_t, Color>), selectionColorChanged, (), (const, override));
+    MOCK_METHOD((muse::async::Channel<engraving::voice_idx_t, Color>), selectionColorChanged, (),
+                (const, override));
 
     MOCK_METHOD(bool, dynamicsApplyToAllVoices, (), (const, override));
     MOCK_METHOD(void, setDynamicsApplyToAllVoices, (bool), (override));
-    MOCK_METHOD((muse::async::Channel<bool>), dynamicsApplyToAllVoicesChanged, (), (const, override));
+    MOCK_METHOD((muse::async::Channel<bool>), dynamicsApplyToAllVoicesChanged, (),
+                (const, override));
 
     MOCK_METHOD(bool, autoUpdateFretboardDiagrams, (), (const, override));
     MOCK_METHOD(void, setAutoUpdateFretboardDiagrams, (bool), (override));
-    MOCK_METHOD((muse::async::Channel<bool>), autoUpdateFretboardDiagramsChanged, (), (const, override));
+    MOCK_METHOD((muse::async::Channel<bool>), autoUpdateFretboardDiagramsChanged, (),
+                (const, override));
 
     MOCK_METHOD(Color, formattingColor, (), (const, override));
     MOCK_METHOD(muse::async::Channel<Color>, formattingColorChanged, (), (const, override));

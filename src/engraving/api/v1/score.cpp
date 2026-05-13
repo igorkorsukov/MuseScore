@@ -197,7 +197,8 @@ void Score::setPartSharpFlat(apiv1::Part* part, int sharpFlat)
         return;
     }
 
-    mu::engraving::EditPart::setPartSharpFlat(score(), part->part(), mu::engraving::PreferSharpFlat(sharpFlat));
+    mu::engraving::EditPart::setPartSharpFlat(score(), part->part(),
+                                              mu::engraving::PreferSharpFlat(sharpFlat));
 }
 
 void Score::setInstrumentName(apiv1::Part* part, apiv1::Fraction* tick, const QString& name)
@@ -214,7 +215,8 @@ void Score::setInstrumentName(apiv1::Part* part, apiv1::Fraction* tick, const QS
     mu::engraving::EditPart::setInstrumentName(score(), part->part(), tick->fraction(), name);
 }
 
-void Score::setInstrumentAbbreviature(apiv1::Part* part, apiv1::Fraction* tick, const QString& abbreviature)
+void Score::setInstrumentAbbreviature(apiv1::Part* part, apiv1::Fraction* tick,
+                                      const QString& abbreviature)
 {
     if (!part) {
         LOGW("setInstrumentAbbreviature: part is null");
@@ -225,7 +227,8 @@ void Score::setInstrumentAbbreviature(apiv1::Part* part, apiv1::Fraction* tick, 
         return;
     }
 
-    mu::engraving::EditPart::setInstrumentAbbreviature(score(), part->part(), tick->fraction(), abbreviature);
+    mu::engraving::EditPart::setInstrumentAbbreviature(score(), part->part(),
+                                                       tick->fraction(), abbreviature);
 }
 
 void Score::setStaffType(apiv1::Staff* staff, int staffTypeId)
@@ -235,7 +238,8 @@ void Score::setStaffType(apiv1::Staff* staff, int staffTypeId)
         return;
     }
 
-    mu::engraving::EditPart::setStaffType(score(), staff->staff(), mu::engraving::StaffTypes(staffTypeId));
+    mu::engraving::EditPart::setStaffType(score(), staff->staff(),
+                                          mu::engraving::StaffTypes(staffTypeId));
 }
 
 void Score::removeParts(QList<apiv1::Part*> parts)
@@ -285,7 +289,8 @@ void Score::moveParts(QList<apiv1::Part*> sourceParts, apiv1::Part* destinationP
     mu::engraving::EditPart::moveParts(score(), domParts, destinationPart->part(), insertMode == 1);
 }
 
-void Score::moveStaves(QList<apiv1::Staff*> sourceStaves, apiv1::Staff* destinationStaff, int insertMode)
+void Score::moveStaves(QList<apiv1::Staff*> sourceStaves, apiv1::Staff* destinationStaff,
+                       int insertMode)
 {
     if (!destinationStaff) {
         LOGW("moveStaves: destinationStaff is null");
@@ -301,7 +306,8 @@ void Score::moveStaves(QList<apiv1::Staff*> sourceStaves, apiv1::Staff* destinat
         domStaves.push_back(s->staff());
     }
 
-    mu::engraving::EditPart::moveStaves(score(), domStaves, destinationStaff->staff(), insertMode == 1);
+    mu::engraving::EditPart::moveStaves(score(), domStaves,
+                                        destinationStaff->staff(), insertMode == 1);
 }
 
 void Score::addSystemObjects(QList<apiv1::Staff*> staves)
@@ -343,7 +349,8 @@ void Score::moveSystemObjects(apiv1::Staff* sourceStaff, apiv1::Staff* destinati
         return;
     }
 
-    mu::engraving::EditPart::moveSystemObjects(score(), sourceStaff->staff(), destinationStaff->staff());
+    mu::engraving::EditPart::moveSystemObjects(score(),
+                                               sourceStaff->staff(), destinationStaff->staff());
 }
 
 Staff* Score::appendStaff(Part* destinationPart)
@@ -353,7 +360,8 @@ Staff* Score::appendStaff(Part* destinationPart)
         return nullptr;
     }
 
-    mu::engraving::Staff* staff = mu::engraving::EditPart::appendStaff(score(), destinationPart->part());
+    mu::engraving::Staff* staff = mu::engraving::EditPart::appendStaff(
+        score(), destinationPart->part());
     return staff ? wrap<Staff>(staff, Ownership::SCORE) : nullptr;
 }
 
@@ -368,7 +376,8 @@ Staff* Score::appendLinkedStaff(Staff* sourceStaff, Part* destinationPart)
         return nullptr;
     }
 
-    mu::engraving::Staff* staff = mu::engraving::EditPart::appendLinkedStaff(score(), sourceStaff->staff(), destinationPart->part());
+    mu::engraving::Staff* staff = mu::engraving::EditPart::appendLinkedStaff(
+        score(), sourceStaff->staff(), destinationPart->part());
     return staff ? wrap<Staff>(staff, Ownership::SCORE) : nullptr;
 }
 
@@ -397,7 +406,8 @@ void Score::replaceDrumset(Part* part, apiv1::Fraction* tick, Drumset* drumset)
         return;
     }
 
-    mu::engraving::EditPart::replaceDrumset(score(), part->part(), tick->fraction(), *drumset->drumset());
+    mu::engraving::EditPart::replaceDrumset(score(), part->part(),
+                                            tick->fraction(), *drumset->drumset());
 }
 
 void Score::insertPart(const QString& instrumentId, int index)
@@ -447,7 +457,8 @@ void Score::setScoreOrder(const QString& orderId)
 
 Segment* Score::firstSegment(int segmentType)
 {
-    return wrap<Segment>(score()->firstSegment(engraving::SegmentType(segmentType)), Ownership::SCORE);
+    return wrap<Segment>(score()->firstSegment(engraving::SegmentType(
+                                                   segmentType)), Ownership::SCORE);
 }
 
 Measure* Score::tick2measure(Fraction* f)
@@ -466,7 +477,8 @@ Segment* Score::findSegmentAtTick(int segmentTypes, Fraction* f)
         return nullptr;
     }
     mu::engraving::Measure* measure = score()->tick2measure(tick);
-    mu::engraving::Segment* segment = measure->findSegment(engraving::SegmentType(segmentTypes), tick);
+    mu::engraving::Segment* segment = measure->findSegment(engraving::SegmentType(
+                                                               segmentTypes), tick);
     return segment ? wrap<Segment>(segment, Ownership::SCORE) : nullptr;
 }
 

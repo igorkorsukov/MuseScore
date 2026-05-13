@@ -56,8 +56,10 @@ std::unique_ptr<ElementGroup> HairpinWithDynamicsDragGroup::detectFor(HairpinSeg
     EngravingItem* itemSnappedBefore = hs->ldata()->itemSnappedBefore();
     EngravingItem* itemSnappedAfter = hs->ldata()->itemSnappedAfter();
 
-    Dynamic* startDynamic = itemSnappedBefore && itemSnappedBefore->isDynamic() ? toDynamic(itemSnappedBefore) : nullptr;
-    Dynamic* endDynamic = itemSnappedAfter && itemSnappedAfter->isDynamic() ? toDynamic(itemSnappedAfter) : nullptr;
+    Dynamic* startDynamic = itemSnappedBefore && itemSnappedBefore->isDynamic() ? toDynamic(
+        itemSnappedBefore) : nullptr;
+    Dynamic* endDynamic = itemSnappedAfter && itemSnappedAfter->isDynamic() ? toDynamic(
+        itemSnappedAfter) : nullptr;
 
     // Include only dragged dynamics to this group
     if (!isDragged(startDynamic)) {
@@ -68,12 +70,14 @@ std::unique_ptr<ElementGroup> HairpinWithDynamicsDragGroup::detectFor(HairpinSeg
     }
 
     if (startDynamic || endDynamic) {
-        return std::unique_ptr<ElementGroup>(new HairpinWithDynamicsDragGroup(startDynamic, hs, endDynamic));
+        return std::unique_ptr<ElementGroup>(new HairpinWithDynamicsDragGroup(startDynamic, hs,
+                                                                              endDynamic));
     }
     return nullptr;
 }
 
-std::unique_ptr<ElementGroup> HairpinWithDynamicsDragGroup::detectFor(Dynamic* d, std::function<bool(const EngravingItem*)> isDragged)
+std::unique_ptr<ElementGroup> HairpinWithDynamicsDragGroup::detectFor(Dynamic* d,
+                                                                      std::function<bool(const EngravingItem*)> isDragged)
 {
     Hairpin* leftHairpin = nullptr;
     Hairpin* rightHairpin = nullptr;
@@ -148,7 +152,8 @@ void HairpinWithDynamicsDragGroup::endDrag(EditData& ed)
     }
 }
 
-std::unique_ptr<ElementGroup> DynamicNearHairpinsDragGroup::detectFor(Dynamic* d, std::function<bool(const EngravingItem*)> isDragged)
+std::unique_ptr<ElementGroup> DynamicNearHairpinsDragGroup::detectFor(Dynamic* d,
+                                                                      std::function<bool(const EngravingItem*)> isDragged)
 {
     Hairpin* leftHairpin = nullptr;
     Hairpin* rightHairpin = nullptr;
@@ -164,7 +169,8 @@ std::unique_ptr<ElementGroup> DynamicNearHairpinsDragGroup::detectFor(Dynamic* d
     }
 
     if (leftHairpin || rightHairpin) {
-        return std::unique_ptr<ElementGroup>(new DynamicNearHairpinsDragGroup(leftHairpin, d, rightHairpin));
+        return std::unique_ptr<ElementGroup>(new DynamicNearHairpinsDragGroup(leftHairpin, d,
+                                                                              rightHairpin));
     }
     return nullptr;
 }
@@ -209,20 +215,24 @@ void DynamicNearHairpinsDragGroup::endDrag(EditData& ed)
 // DynamicExpressionDragGroup
 //-------------------------------------------------------
 
-std::unique_ptr<ElementGroup> DynamicExpressionDragGroup::detectFor(Dynamic* d, std::function<bool(const EngravingItem*)> isDragged)
+std::unique_ptr<ElementGroup> DynamicExpressionDragGroup::detectFor(Dynamic* d,
+                                                                    std::function<bool(const EngravingItem*)> isDragged)
 {
     Expression* snappedExpression = d->snappedExpression();
     if (snappedExpression && !isDragged(snappedExpression)) {
-        return std::unique_ptr<DynamicExpressionDragGroup>(new DynamicExpressionDragGroup(d, snappedExpression));
+        return std::unique_ptr<DynamicExpressionDragGroup>(new DynamicExpressionDragGroup(d,
+                                                                                          snappedExpression));
     }
     return nullptr;
 }
 
-std::unique_ptr<ElementGroup> DynamicExpressionDragGroup::detectFor(Expression* e, std::function<bool(const EngravingItem*)> isDragged)
+std::unique_ptr<ElementGroup> DynamicExpressionDragGroup::detectFor(Expression* e,
+                                                                    std::function<bool(const EngravingItem*)> isDragged)
 {
     Dynamic* snappedDynamic = e->snappedDynamic();
     if (snappedDynamic && !isDragged(snappedDynamic)) {
-        return std::unique_ptr<DynamicExpressionDragGroup>(new DynamicExpressionDragGroup(snappedDynamic, e));
+        return std::unique_ptr<DynamicExpressionDragGroup>(new DynamicExpressionDragGroup(
+                                                               snappedDynamic, e));
     }
     return nullptr;
 }

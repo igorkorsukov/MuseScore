@@ -50,7 +50,8 @@ void CanvasPreferencesModel::setupConnections()
     notationSceneConfiguration()->isLimitCanvasScrollAreaChanged().onNotify(this, [this]() {
         emit limitScrollAreaChanged();
     });
-    notationConfiguration()->selectionProximityChanged().onReceive(this, [this](int selectionProximity) {
+    notationConfiguration()->selectionProximityChanged().onReceive(this,
+                                                                   [this](int selectionProximity) {
         emit selectionProximityChanged(selectionProximity);
     });
 }
@@ -58,10 +59,14 @@ void CanvasPreferencesModel::setupConnections()
 QVariantList CanvasPreferencesModel::zoomTypes() const
 {
     QVariantList types = {
-        QVariantMap { { "title", zoomTypeTitle(ZoomType::Percentage).qTranslated() }, { "value", static_cast<int>(ZoomType::Percentage) } },
-        QVariantMap { { "title", zoomTypeTitle(ZoomType::PageWidth).qTranslated() }, { "value", static_cast<int>(ZoomType::PageWidth) } },
-        QVariantMap { { "title", zoomTypeTitle(ZoomType::WholePage).qTranslated() }, { "value", static_cast<int>(ZoomType::WholePage) } },
-        QVariantMap { { "title", zoomTypeTitle(ZoomType::TwoPages).qTranslated() }, { "value", static_cast<int>(ZoomType::TwoPages) } }
+        QVariantMap { { "title", zoomTypeTitle(ZoomType::Percentage).qTranslated() },
+            { "value", static_cast<int>(ZoomType::Percentage) } },
+        QVariantMap { { "title", zoomTypeTitle(ZoomType::PageWidth).qTranslated() },
+            { "value", static_cast<int>(ZoomType::PageWidth) } },
+        QVariantMap { { "title", zoomTypeTitle(ZoomType::WholePage).qTranslated() },
+            { "value", static_cast<int>(ZoomType::WholePage) } },
+        QVariantMap { { "title", zoomTypeTitle(ZoomType::TwoPages).qTranslated() },
+            { "value", static_cast<int>(ZoomType::TwoPages) } }
     };
 
     return types;

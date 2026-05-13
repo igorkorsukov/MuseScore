@@ -39,7 +39,8 @@ std::string PlaybackModule::moduleName() const
 
 void PlaybackModule::registerExports()
 {
-    globalIoc()->registerExport<IPlaybackConfiguration>(moduleName(), new PlaybackConfigurationStub());
+    globalIoc()->registerExport<IPlaybackConfiguration>(moduleName(),
+                                                        new PlaybackConfigurationStub());
 }
 
 IContextSetup* PlaybackModule::newContext(const muse::modularity::ContextPtr& ctx) const

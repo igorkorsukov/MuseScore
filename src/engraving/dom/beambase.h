@@ -98,7 +98,10 @@ public:
     void doSetDirection(DirectionV val) { m_direction = val; }
     virtual void setDirection(DirectionV v) = 0;
 
-    inline int directionIdx() const { return (m_direction == DirectionV::AUTO || m_direction == DirectionV::DOWN) ? 0 : 1; }
+    inline int directionIdx() const
+    {
+        return (m_direction == DirectionV::AUTO || m_direction == DirectionV::DOWN) ? 0 : 1;
+    }
 
     const std::vector<BeamSegment*>& beamSegments() const { return m_beamSegments; }
     std::vector<BeamSegment*>& beamSegments() { return m_beamSegments; }
@@ -111,7 +114,8 @@ public:
     PointF& endAnchor() { return m_endAnchor; }
     void setEndAnchor(const PointF& p) { m_endAnchor = p; }
 
-    void undoChangeProperty(Pid id, const PropertyValue& v, PropertyFlags ps = PropertyFlags::NOSTYLE) override;
+    void undoChangeProperty(Pid id, const PropertyValue& v,
+                            PropertyFlags ps = PropertyFlags::NOSTYLE) override;
 
     struct NotePosition {
         int line;
@@ -187,7 +191,8 @@ public:
     DECLARE_LAYOUTDATA_METHODS(BeamBase)
 
 protected:
-    BeamBase(const ElementType& type, EngravingItem* parent, ElementFlags flags = ElementFlag::ON_STAFF);
+    BeamBase(const ElementType& type, EngravingItem* parent,
+             ElementFlags flags = ElementFlag::ON_STAFF);
     BeamBase(const BeamBase&);
     std::vector<BeamSegment*> m_beamSegments;
     PointF m_startAnchor;

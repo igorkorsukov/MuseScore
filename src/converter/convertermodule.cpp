@@ -47,7 +47,8 @@ void ConverterModule::registerApi()
     }
 }
 
-muse::modularity::IContextSetup* ConverterModule::newContext(const muse::modularity::ContextPtr& ctx) const
+muse::modularity::IContextSetup* ConverterModule::newContext(
+    const muse::modularity::ContextPtr& ctx) const
 {
     return new ConverterModuleContext(ctx);
 }

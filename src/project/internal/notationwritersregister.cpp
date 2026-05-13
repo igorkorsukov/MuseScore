@@ -24,7 +24,8 @@
 
 using namespace mu::project;
 
-void NotationWritersRegister::reg(const std::vector<std::string>& suffixes, INotationWriterPtr writer)
+void NotationWritersRegister::reg(const std::vector<std::string>& suffixes,
+                                  INotationWriterPtr writer)
 {
     for (const std::string& suffix : suffixes) {
         m_writers.insert({ suffix, writer });

@@ -111,7 +111,10 @@ public:
     // Composite
     void add(const Shape& s);
     void add(const ShapeElement& shapeEl);
-    void add(const RectF& r, const EngravingItem* p, bool ignoreForLayout) { add(ShapeElement(r, p, ignoreForLayout)); }
+    void add(const RectF& r, const EngravingItem* p, bool ignoreForLayout)
+    {
+        add(ShapeElement(r, p, ignoreForLayout));
+    }
     void add(const RectF& r, const EngravingItem* p) { add(ShapeElement(r, p)); }
     void add(const RectF& r) { add(ShapeElement(r)); }
 

@@ -363,10 +363,12 @@ std::list<EngravingObject*> SpannerSegment::linkListForPropertyPropagation() con
     }
 
     for (const EngravingObject* linkedSpanner : m_spanner->linkList()) {
-        if (linkedSpanner == m_spanner || toSpanner(linkedSpanner)->placement() != m_spanner->placement()) {
+        if (linkedSpanner == m_spanner
+            || toSpanner(linkedSpanner)->placement() != m_spanner->placement()) {
             continue;
         }
-        const std::vector<SpannerSegment*>& linkedSegments = toSpanner(linkedSpanner)->spannerSegments();
+        const std::vector<SpannerSegment*>& linkedSegments
+            = toSpanner(linkedSpanner)->spannerSegments();
         if (linkedSegments.empty()) {
             continue;
         }
@@ -723,7 +725,8 @@ void Spanner::computeStartElement()
         toChord(oldStartElement)->removeStartingSpanner(this);
     }
 
-    Chord* startChord = m_startElement && m_startElement->isChord() ? toChord(m_startElement) : nullptr;
+    Chord* startChord = m_startElement
+                        && m_startElement->isChord() ? toChord(m_startElement) : nullptr;
     if (startChord) {
         startChord->addStartingSpanner(this);
     }
@@ -990,7 +993,8 @@ ChordRest* Spanner::startCR()
         // TODO: This is a bit weird and prevents this method from being const...
         m_startElement = findStartCR();
     }
-    return (m_startElement && m_startElement->isChordRest()) ? toChordRest(m_startElement) : nullptr;
+    return (m_startElement
+            && m_startElement->isChordRest()) ? toChordRest(m_startElement) : nullptr;
 }
 
 //---------------------------------------------------------
@@ -1071,14 +1075,18 @@ Segment* Spanner::startSegment() const
 
     Segment* startSeg = score()->tick2segment(startTick, true, SegmentType::ChordRest, mmRest);
 
-    if (!startSeg || !startSeg->hasElements(staffIdx) || (isVoiceSpecific() && !startSeg->element(trackIdx))) {
+    if (!startSeg || !startSeg->hasElements(staffIdx)
+        || (isVoiceSpecific() && !startSeg->element(trackIdx))) {
         startSeg = score()->tick2segment(startTick, true, SegmentType::TimeTick, mmRest);
     }
 
     if (!startSeg && startTick < score()->endTick()) {
-        Measure* measure = mmRest ? score()->tick2measureMM(startTick) : score()->tick2measure(startTick);
+        Measure* measure = mmRest ? score()->tick2measureMM(startTick) : score()->tick2measure(
+            startTick);
         if (measure) {
-            TimeTickAnchor* anchor = EditTimeTickAnchors::createTimeTickAnchor(measure, startTick - measure->tick(), track2staff(trackIdx));
+            TimeTickAnchor* anchor = EditTimeTickAnchors::createTimeTickAnchor(measure,
+                                                                               startTick - measure->tick(), track2staff(
+                                                                                   trackIdx));
             IF_ASSERT_FAILED(anchor) {
                 return nullptr;
             }
@@ -1109,14 +1117,18 @@ Segment* Spanner::endSegment() const
 
     Segment* endSeg = score()->tick2segment(endTick, true, SegmentType::ChordRest, mmRest);
 
-    if (!endSeg || !endSeg->hasElements(staffIdx) || (isVoiceSpecific() && !endSeg->element(trackIdx))) {
+    if (!endSeg || !endSeg->hasElements(staffIdx)
+        || (isVoiceSpecific() && !endSeg->element(trackIdx))) {
         endSeg = score()->tick2segment(endTick, true, SegmentType::TimeTick, mmRest);
     }
 
     if (!endSeg && !endTick.isZero()) {
-        Measure* measure = mmRest ? score()->tick2measureMM(endTick) : score()->tick2measure(endTick);
+        Measure* measure
+            = mmRest ? score()->tick2measureMM(endTick) : score()->tick2measure(endTick);
         if (measure) {
-            TimeTickAnchor* anchor = EditTimeTickAnchors::createTimeTickAnchor(measure, endTick - measure->tick(), track2staff(trackIdx));
+            TimeTickAnchor* anchor = EditTimeTickAnchors::createTimeTickAnchor(measure,
+                                                                               endTick - measure->tick(), track2staff(
+                                                                                   trackIdx));
             EditTimeTickAnchors::updateLayout(measure);
             return anchor->segment();
         }
@@ -1135,9 +1147,11 @@ bool Spanner::elementAppliesToTrack(const track_idx_t refTrack) const
         return refTrack == track() || refTrack == track2();
     }
 
-    const VoiceAssignment voiceAssignment = getProperty(Pid::VOICE_ASSIGNMENT).value<VoiceAssignment>();
+    const VoiceAssignment voiceAssignment
+        = getProperty(Pid::VOICE_ASSIGNMENT).value<VoiceAssignment>();
 
-    return EngravingItem::elementAppliesToTrack(track(), refTrack, voiceAssignment, part()) || EngravingItem::elementAppliesToTrack(
+    return EngravingItem::elementAppliesToTrack(track(), refTrack, voiceAssignment,
+                                                part()) || EngravingItem::elementAppliesToTrack(
         track2(), refTrack, voiceAssignment, part());
 }
 
@@ -1519,7 +1533,8 @@ int Spanner::reuseSegments(int number)
 //    Previously unused segments are added via reuse() call
 //---------------------------------------------------------
 
-void Spanner::fixupSegments(unsigned int targetNumber, std::function<SpannerSegment* (System* parent)> createSegment)
+void Spanner::fixupSegments(unsigned int targetNumber,
+                            std::function<SpannerSegment* (System* parent)> createSegment)
 {
     const int diff = targetNumber - int(nsegments());
     if (diff == 0) {
@@ -1603,7 +1618,8 @@ String SpannerSegment::formatBarsAndBeats() const
         return EngravingItem::formatBarsAndBeats();
     }
 
-    return formatStartBarsAndBeats(spanner->startSegment()) + u' ' + formatEndBarsAndBeats(endSegment);
+    return formatStartBarsAndBeats(spanner->startSegment()) + u' ' + formatEndBarsAndBeats(
+        endSegment);
 }
 
 String SpannerSegment::formatStartBarsAndBeats(const Segment* segment) const
@@ -1612,7 +1628,8 @@ String SpannerSegment::formatStartBarsAndBeats(const Segment* segment) const
     String result = muse::mtrc("engraving", "Start measure: %1").arg(String::number(barbeat.bar));
 
     if (barbeat.displayedBar != barbeat.bar) {
-        result += u"; " + muse::mtrc("engraving", "Start displayed measure: %1").arg(barbeat.displayedBar);
+        result += u"; " + muse::mtrc("engraving", "Start displayed measure: %1").arg(
+            barbeat.displayedBar);
     }
 
     result += u"; " + muse::mtrc("engraving", "Start beat: %1").arg(barbeat.beat);
@@ -1625,7 +1642,8 @@ String SpannerSegment::formatEndBarsAndBeats(const Segment* segment) const
     String result = muse::mtrc("engraving", "End measure: %1").arg(String::number(barbeat.bar));
 
     if (barbeat.displayedBar != barbeat.bar) {
-        result += u"; " + muse::mtrc("engraving", "End displayed measure: %1").arg(barbeat.displayedBar);
+        result += u"; " + muse::mtrc("engraving", "End displayed measure: %1").arg(
+            barbeat.displayedBar);
     }
 
     result += u"; " + muse::mtrc("engraving", "End beat: %1").arg(barbeat.beat);

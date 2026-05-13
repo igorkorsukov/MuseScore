@@ -239,10 +239,12 @@ void StaffSettingsModel::setHideWhenEmpty(int value)
         return;
     }
 
-    currentNotation()->undoStack()->prepareChanges(muse::TranslatableString("undoableAction", "Change staff settings"));
+    currentNotation()->undoStack()->prepareChanges(muse::TranslatableString("undoableAction",
+                                                                            "Change staff settings"));
 
     Staff* mutableStaff = const_cast<Staff*>(staff);
-    mutableStaff->undoChangeProperty(Pid::HIDE_WHEN_EMPTY, PropertyValue(static_cast<AutoOnOff>(value)));
+    mutableStaff->undoChangeProperty(Pid::HIDE_WHEN_EMPTY,
+                                     PropertyValue(static_cast<AutoOnOff>(value)));
 
     currentNotation()->undoStack()->commitChanges();
 
@@ -302,7 +304,8 @@ void StaffSettingsModel::setShowIfEntireSystemEmpty(bool value)
         return;
     }
 
-    currentNotation()->undoStack()->prepareChanges(muse::TranslatableString("undoableAction", "Change staff settings"));
+    currentNotation()->undoStack()->prepareChanges(muse::TranslatableString("undoableAction",
+                                                                            "Change staff settings"));
 
     Staff* mutableStaff = const_cast<Staff*>(staff);
     mutableStaff->undoChangeProperty(Pid::SHOW_IF_ENTIRE_SYSTEM_EMPTY, PropertyValue(value));
@@ -348,7 +351,8 @@ void StaffSettingsModel::createLinkedStaff()
     }
 
     Staff* linkedStaff = sourceStaff->clone();
-    if (!masterNotationParts()->appendLinkedStaff(linkedStaff, sourceStaff->id(), sourceStaff->part()->id())) {
+    if (!masterNotationParts()->appendLinkedStaff(linkedStaff, sourceStaff->id(),
+                                                  sourceStaff->part()->id())) {
         linkedStaff->unlink();
         delete linkedStaff;
     }

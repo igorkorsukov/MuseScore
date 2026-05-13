@@ -66,7 +66,8 @@ public:
     const muse::draw::Transform& transform() const override;
 
     void drawPath(const muse::draw::PainterPath& path) override;
-    void drawPolygon(const muse::PointF* points, size_t pointCount, muse::draw::PolygonMode mode) override;
+    void drawPolygon(const muse::PointF* points, size_t pointCount,
+                     muse::draw::PolygonMode mode) override;
 
     void drawText(const muse::PointF& point, const muse::String& text) override;
     void drawText(const muse::RectF& rect, int flags, const muse::String& text) override;
@@ -74,11 +75,13 @@ public:
     void drawSymbol(const muse::PointF& point, char32_t ucs4Code) override;
 
     void drawPixmap(const muse::PointF& p, const muse::draw::Pixmap& pm) override;
-    void drawTiledPixmap(const muse::RectF& rect, const muse::draw::Pixmap& pm, const muse::PointF& offset = muse::PointF()) override;
+    void drawTiledPixmap(const muse::RectF& rect, const muse::draw::Pixmap& pm,
+                         const muse::PointF& offset = muse::PointF()) override;
 
 #ifndef NO_QT_SUPPORT
     void drawPixmap(const muse::PointF& point, const QPixmap& pm) override;
-    void drawTiledPixmap(const muse::RectF& rect, const QPixmap& pm, const muse::PointF& offset = muse::PointF()) override;
+    void drawTiledPixmap(const muse::RectF& rect, const QPixmap& pm,
+                         const muse::PointF& offset = muse::PointF()) override;
 #endif
 
     bool hasClipping() const override;

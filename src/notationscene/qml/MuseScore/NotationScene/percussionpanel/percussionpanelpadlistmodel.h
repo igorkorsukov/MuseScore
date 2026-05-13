@@ -36,7 +36,8 @@
 #include "percussionpanelpadmodel.h"
 
 namespace mu::notation {
-class PercussionPanelPadListModel : public QAbstractListModel, public muse::Contextable, public muse::async::Asyncable
+class PercussionPanelPadListModel : public QAbstractListModel, public muse::Contextable,
+    public muse::async::Asyncable
 {
     Q_OBJECT
 
@@ -68,7 +69,11 @@ public:
 
     bool hasActivePads() const { return m_drumset; }
 
-    int numColumns() const { return m_drumset ? static_cast<int>(m_drumset->percussionPanelColumns()) : DEFAULT_NUM_COLUMNS; }
+    int numColumns() const
+    {
+        return m_drumset ? static_cast<int>(m_drumset->percussionPanelColumns()) :
+               DEFAULT_NUM_COLUMNS;
+    }
     int numPads() const { return m_padModels.count(); }
 
     void setDrumset(const engraving::Drumset* drumset);
@@ -84,7 +89,11 @@ public:
     void focusLastActivePad();
 
     muse::async::Notification hasActivePadsChanged() const { return m_hasActivePadsChanged; }
-    muse::async::Channel<PercussionPanelPadModel::PadAction, int /*pitch*/> padActionRequested() const { return m_padActionRequestChannel; }
+    muse::async::Channel<PercussionPanelPadModel::PadAction,
+                         int /*pitch*/> padActionRequested() const
+    {
+        return m_padActionRequestChannel;
+    }
 
 signals:
     void numPadsChanged();
@@ -120,6 +129,7 @@ private:
     int m_padSwapStartIndex = -1;
 
     muse::async::Notification m_hasActivePadsChanged;
-    muse::async::Channel<PercussionPanelPadModel::PadAction, int /*pitch*/> m_padActionRequestChannel;
+    muse::async::Channel<PercussionPanelPadModel::PadAction,
+                         int /*pitch*/> m_padActionRequestChannel;
 };
 }

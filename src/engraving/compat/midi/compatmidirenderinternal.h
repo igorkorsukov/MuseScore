@@ -97,13 +97,20 @@ static const std::vector<OrnamentExcursion> excursions = {
     { SymId::ornamentTremblement,         any, _32nd, { 1, 0 }, { 1, 0 },        false, true, {} },
     { SymId::brassMuteClosed,        defstyle, _32nd, {},    { 0 },             false, true, {} },                        // regular hand-stopped brass
     { SymId::ornamentPrallMordent,        any, _32nd, {},    { 1, 0, -1, 0 },   false, true, {} },
-    { SymId::ornamentLinePrall,           any, _32nd, { 2, 2, 2 }, { 1, 0 },       true,  true, {} },
-    { SymId::ornamentUpPrall,             any, _16th, { -1, 0 }, { 1, 0 },        true,  true, { 1, 0 } },                        // p 144 Ex 152 [1]
-    { SymId::ornamentUpMordent,           any, _16th, { -1, 0 }, { 1, 0 },        true,  true, { -1, 0 } },                        // p 144 Ex 152 [1]
-    { SymId::ornamentPrecompMordentUpperPrefix, any, _16th, { 1, 1, 1, 0 }, { 1, 0 },    true,  true, {} },                        // p136 Cadence Appuyee [1] [2]
-    { SymId::ornamentDownMordent,         any, _16th, { 1, 1, 1, 0 }, { 1, 0 },    true,  true, { -1, 0 } },                        // p136 Cadence Appuyee + mordent [1] [2]
-    { SymId::ornamentPrallUp,             any, _16th, { 1, 0 }, { 1, 0 },        true,  true, { -1, 0 } },                        // p136 Double Cadence [1]
-    { SymId::ornamentPrallDown,           any, _16th, { 1, 0 }, { 1, 0 },        true,  true, { -1, 0, 0, 0 } },                        // p144 ex 153 [1]
+    { SymId::ornamentLinePrall,           any, _32nd, { 2, 2, 2 }, { 1, 0 },       true,  true,
+      {} },
+    { SymId::ornamentUpPrall,             any, _16th, { -1, 0 }, { 1, 0 },        true,  true,
+      { 1, 0 } },                                                                                                                 // p 144 Ex 152 [1]
+    { SymId::ornamentUpMordent,           any, _16th, { -1, 0 }, { 1, 0 },        true,  true,
+      { -1, 0 } },                                                                                                                 // p 144 Ex 152 [1]
+    { SymId::ornamentPrecompMordentUpperPrefix, any, _16th, { 1, 1, 1, 0 }, { 1, 0 },    true,
+      true, {} },                                                                                                                  // p136 Cadence Appuyee [1] [2]
+    { SymId::ornamentDownMordent,         any, _16th, { 1, 1, 1, 0 }, { 1, 0 },    true,  true,
+      { -1, 0 } },                                                                                                                  // p136 Cadence Appuyee + mordent [1] [2]
+    { SymId::ornamentPrallUp,             any, _16th, { 1, 0 }, { 1, 0 },        true,  true,
+      { -1, 0 } },                                                                                                                // p136 Double Cadence [1]
+    { SymId::ornamentPrallDown,           any, _16th, { 1, 0 }, { 1, 0 },        true,  true,
+      { -1, 0, 0, 0 } },                                                                                                                // p144 ex 153 [1]
     { SymId::ornamentPrecompSlide,        any, _32nd, {},    { 0 },          false, true, {} }
 
     // [1] Some of the articulations/ornaments in the excursions table above come from
@@ -168,7 +175,8 @@ public:
 
         std::unordered_map<track_idx_t, VelocityMap> velocitiesByTrack;
         std::unordered_map<track_idx_t, VelocityMap> velocityMultiplicationsByTrack;
-        std::unordered_map<String, std::unordered_set<String> > articulationsWithoutValuesByInstrument;
+        std::unordered_map<String,
+                           std::unordered_set<String> > articulationsWithoutValuesByInstrument;
 
         std::shared_ptr<ChannelLookup> channels = std::make_shared<ChannelLookup>();
         std::shared_ptr<PauseMap> pauseMap = std::make_shared<PauseMap>();
@@ -183,16 +191,19 @@ public:
 
 private:
 
-    void renderStaff(EventsHolder& events, const Staff* sctx, PitchWheelRenderer& pitchWheelRenderer);
+    void renderStaff(EventsHolder& events, const Staff* sctx,
+                     PitchWheelRenderer& pitchWheelRenderer);
 
     void renderSpanners(EventsHolder& events, PitchWheelRenderer& pitchWheelRenderer);
-    void doRenderSpanners(EventsHolder& events, Spanner* s, uint32_t channel, PitchWheelRenderer& pitchWheelRenderer,
-                          MidiInstrumentEffect effect);
+    void doRenderSpanners(EventsHolder& events, Spanner* s, uint32_t channel,
+                          PitchWheelRenderer& pitchWheelRenderer, MidiInstrumentEffect effect);
 
-    void collectMeasureEvents(EventsHolder& events, Measure const* m, const Staff* sctx, int tickOffset,
-                              PitchWheelRenderer& pitchWheelRenderer, std::array<Chord*, VOICES>& prevChords);
-    void doCollectMeasureEvents(EventsHolder& events, Measure const* m, const Staff* sctx, int tickOffset,
-                                PitchWheelRenderer& pitchWheelRenderer, std::array<Chord*, VOICES>& prevChords);
+    void collectMeasureEvents(EventsHolder& events, Measure const* m, const Staff* sctx,
+                              int tickOffset, PitchWheelRenderer& pitchWheelRenderer,
+                              std::array<Chord*, VOICES>& prevChords);
+    void doCollectMeasureEvents(EventsHolder& events, Measure const* m, const Staff* sctx,
+                                int tickOffset, PitchWheelRenderer& pitchWheelRenderer,
+                                std::array<Chord*, VOICES>& prevChords);
 
     struct ChordParams {
         bool letRing = false;
@@ -202,8 +213,10 @@ private:
     };
 
     ChordParams collectChordParams(const Chord* chord, int tickOffset) const;
-    void collectGraceBeforeChordEvents(Chord* chord, Chord* prevChord, EventsHolder& events, double veloMultiplier, Staff* st,
-                                       int tickOffset, PitchWheelRenderer& pitchWheelRenderer, MidiInstrumentEffect effect);
+    void collectGraceBeforeChordEvents(Chord* chord, Chord* prevChord, EventsHolder& events,
+                                       double veloMultiplier, Staff* st, int tickOffset,
+                                       PitchWheelRenderer& pitchWheelRenderer,
+                                       MidiInstrumentEffect effect);
     void fillArticulationsInfo();
 
     Score* score = nullptr;

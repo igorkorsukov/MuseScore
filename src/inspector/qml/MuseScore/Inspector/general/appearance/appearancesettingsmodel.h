@@ -42,13 +42,16 @@ class AppearanceSettingsModel : public AbstractInspectorModel
     Q_PROPERTY(mu::inspector::PropertyItem * color READ color CONSTANT)
     Q_PROPERTY(mu::inspector::PropertyItem * arrangeOrder READ arrangeOrder CONSTANT)
     Q_PROPERTY(mu::inspector::PropertyItem * offset READ offset CONSTANT)
-    Q_PROPERTY(bool isSnappedToGrid READ isSnappedToGrid WRITE setIsSnappedToGrid NOTIFY isSnappedToGridChanged)
-    Q_PROPERTY(bool isVerticalOffsetAvailable READ isVerticalOffsetAvailable NOTIFY isVerticalOffsetAvailableChanged)
+    Q_PROPERTY(
+        bool isSnappedToGrid READ isSnappedToGrid WRITE setIsSnappedToGrid NOTIFY isSnappedToGridChanged)
+    Q_PROPERTY(
+        bool isVerticalOffsetAvailable READ isVerticalOffsetAvailable NOTIFY isVerticalOffsetAvailableChanged)
 
     muse::GlobalInject<notation::INotationConfiguration> notationConfiguration;
 
 public:
-    explicit AppearanceSettingsModel(QObject* parent, const muse::modularity::ContextPtr& iocCtx, IElementRepositoryService* repository);
+    explicit AppearanceSettingsModel(QObject* parent, const muse::modularity::ContextPtr& iocCtx,
+                                     IElementRepositoryService* repository);
 
     Q_INVOKABLE void pushBackwardsInOrder();
     Q_INVOKABLE void pushForwardsInOrder();

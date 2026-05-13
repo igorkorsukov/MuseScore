@@ -97,7 +97,8 @@ void PlaybackConfigurationStub::setMixerSectionVisible(MixerSectionType, bool)
 {
 }
 
-muse::async::Channel<MixerSectionType, bool> PlaybackConfigurationStub::isMixerSectionVisibleChanged() const
+muse::async::Channel<MixerSectionType,
+                     bool> PlaybackConfigurationStub::isMixerSectionVisibleChanged() const
 {
     return {};
 }
@@ -111,7 +112,8 @@ void PlaybackConfigurationStub::setAuxSendVisible(aux_channel_idx_t, bool)
 {
 }
 
-muse::async::Channel<aux_channel_idx_t, bool> PlaybackConfigurationStub::isAuxSendVisibleChanged() const
+muse::async::Channel<aux_channel_idx_t,
+                     bool> PlaybackConfigurationStub::isAuxSendVisibleChanged() const
 {
     return {};
 }
@@ -125,12 +127,14 @@ void PlaybackConfigurationStub::setAuxChannelVisible(aux_channel_idx_t, bool) co
 {
 }
 
-muse::async::Channel<aux_channel_idx_t, bool> PlaybackConfigurationStub::isAuxChannelVisibleChanged() const
+muse::async::Channel<aux_channel_idx_t,
+                     bool> PlaybackConfigurationStub::isAuxChannelVisibleChanged() const
 {
     return {};
 }
 
-gain_t PlaybackConfigurationStub::defaultAuxSendValue(aux_channel_idx_t, AudioSourceType, const muse::String&) const
+gain_t PlaybackConfigurationStub::defaultAuxSendValue(aux_channel_idx_t, AudioSourceType,
+                                                      const muse::String&) const
 {
     return 0.f;
 }
@@ -213,7 +217,8 @@ void PlaybackConfigurationStub::setShouldShowOnlineSoundsProcessingError(bool)
 {
 }
 
-muse::async::Notification PlaybackConfigurationStub::shouldShowOnlineSoundsProcessingErrorChanged() const
+muse::async::Notification PlaybackConfigurationStub::shouldShowOnlineSoundsProcessingErrorChanged()
+const
 {
     return {};
 }

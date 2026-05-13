@@ -34,7 +34,8 @@ static const QMap<mu::engraving::ElementType, InspectorModelType> NOTE_PART_TYPE
     { mu::engraving::ElementType::HOOK, InspectorModelType::TYPE_HOOK },
 };
 
-NoteSettingsProxyModel::NoteSettingsProxyModel(QObject* parent, const muse::modularity::ContextPtr& iocCtx,
+NoteSettingsProxyModel::NoteSettingsProxyModel(QObject* parent,
+                                               const muse::modularity::ContextPtr& iocCtx,
                                                IElementRepositoryService* repository)
     : AbstractInspectorProxyModel(parent, iocCtx, repository)
 {
@@ -53,13 +54,16 @@ NoteSettingsProxyModel::NoteSettingsProxyModel(QObject* parent, const muse::modu
 
     setModels(models);
 
-    m_repository->elementsUpdated().onReceive(this, [this](const QList<mu::engraving::EngravingItem*>& newElements) {
+    m_repository->elementsUpdated().onReceive(this,
+                                              [this](const QList<mu::engraving::EngravingItem*>&
+                                                     newElements) {
         updateProperties();
         onElementsUpdated(newElements);
     }, Mode::SetReplace /* override AbstractInspectorModel's callback */);
 }
 
-void NoteSettingsProxyModel::onElementsUpdated(const QList<mu::engraving::EngravingItem*>& newElements)
+void NoteSettingsProxyModel::onElementsUpdated(
+    const QList<mu::engraving::EngravingItem*>& newElements)
 {
     if (!selection() || selection()->isRange()) {
         // Don't update the default sub model if the selection is a range (see issue #30581)
@@ -69,7 +73,8 @@ void NoteSettingsProxyModel::onElementsUpdated(const QList<mu::engraving::Engrav
     setDefaultSubModelType(defaultType);
 }
 
-InspectorModelType NoteSettingsProxyModel::resolveDefaultSubModelType(const QList<mu::engraving::EngravingItem*>& newElements) const
+InspectorModelType NoteSettingsProxyModel::resolveDefaultSubModelType(
+    const QList<mu::engraving::EngravingItem*>& newElements) const
 {
     InspectorModelType defaultModelType = InspectorModelType::TYPE_NOTEHEAD;
 

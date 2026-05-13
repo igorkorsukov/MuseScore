@@ -34,7 +34,8 @@ class FretFrameSettingsProxyModel : public AbstractInspectorProxyModel
     QML_UNCREATABLE("Not creatable from QML")
 
 public:
-    explicit FretFrameSettingsProxyModel(QObject* parent, const muse::modularity::ContextPtr& iocCtx,
+    explicit FretFrameSettingsProxyModel(QObject* parent,
+                                         const muse::modularity::ContextPtr& iocCtx,
                                          IElementRepositoryService* repository);
 };
 }

@@ -63,7 +63,8 @@ Fraction TupletHandler::doTuplet(const TefNote* const tefNote)
         count = 0;
         totalLength = 0;
     }
-    LOGN("after inTuplet %d count %d totalLength %d res %d/%d", inTuplet, count, totalLength, res.numerator(), res.denominator());
+    LOGN("after inTuplet %d count %d totalLength %d res %d/%d", inTuplet, count, totalLength,
+         res.numerator(), res.denominator());
     return res;
 }
 
@@ -74,7 +75,8 @@ void TupletHandler::addCr(Measure* measure, ChordRest* cr)
 {
     if (inTuplet && !tuplet) {
         tuplet = Factory::createTuplet(measure);
-        LOGN("new tuplet %p cr ticks %d/%d", tuplet, cr->ticks().numerator(), cr->ticks().denominator());
+        LOGN("new tuplet %p cr ticks %d/%d", tuplet, cr->ticks().numerator(),
+             cr->ticks().denominator());
         tuplet->setParent(measure);
         tuplet->setTrack(cr->track());
         tuplet->setRatio({ 3, 2 });

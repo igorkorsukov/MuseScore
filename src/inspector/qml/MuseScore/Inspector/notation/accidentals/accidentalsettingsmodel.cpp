@@ -28,7 +28,8 @@
 using namespace mu::inspector;
 using namespace mu::engraving;
 
-AccidentalSettingsModel::AccidentalSettingsModel(QObject* parent, const muse::modularity::ContextPtr& iocCtx,
+AccidentalSettingsModel::AccidentalSettingsModel(QObject* parent,
+                                                 const muse::modularity::ContextPtr& iocCtx,
                                                  IElementRepositoryService* repository)
     : AbstractInspectorModel(parent, iocCtx, repository)
 {
@@ -43,7 +44,8 @@ void AccidentalSettingsModel::createProperties()
     m_bracketType = buildPropertyItem(mu::engraving::Pid::ACCIDENTAL_BRACKET);
     m_isSmall = buildPropertyItem(mu::engraving::Pid::SMALL);
     m_stackingOrderOffset = buildPropertyItem(mu::engraving::Pid::ACCIDENTAL_STACKING_ORDER_OFFSET,
-                                              [this](const mu::engraving::Pid pid, const QVariant& newValue) {
+                                              [this](const mu::engraving::Pid pid,
+                                                     const QVariant& newValue) {
         onPropertyValueChanged(pid, newValue);
         loadPropertyItem(m_stackingOrderOffset);
     });

@@ -147,14 +147,18 @@ void Segment::removeElement(track_idx_t track)
 //---------------------------------------------------------
 
 Segment::Segment(Measure* m)
-    : EngravingItem(ElementType::SEGMENT, m->score(), ElementFlag::EMPTY | ElementFlag::ENABLED | ElementFlag::NOT_SELECTABLE)
+    : EngravingItem(ElementType::SEGMENT,
+                    m->score(),
+                    ElementFlag::EMPTY | ElementFlag::ENABLED | ElementFlag::NOT_SELECTABLE)
 {
     setParent(m);
     init();
 }
 
 Segment::Segment(Measure* m, SegmentType st, const Fraction& t)
-    : EngravingItem(ElementType::SEGMENT, m->score(), ElementFlag::EMPTY | ElementFlag::ENABLED | ElementFlag::NOT_SELECTABLE)
+    : EngravingItem(ElementType::SEGMENT,
+                    m->score(),
+                    ElementFlag::EMPTY | ElementFlag::ENABLED | ElementFlag::NOT_SELECTABLE)
 {
     setParent(m);
 //      assert(t >= Fraction(0,1));
@@ -580,7 +584,8 @@ Segment* Segment::nextCR(track_idx_t track, bool sameStaff) const
 //    get the next ChordRest, start at this segment
 //---------------------------------------------------------
 
-ChordRest* Segment::nextChordRest(track_idx_t track, bool backwards, bool stopAtMeasureBoundary) const
+ChordRest* Segment::nextChordRest(track_idx_t track, bool backwards,
+                                  bool stopAtMeasureBoundary) const
 {
     const Segment* seg = this;
     while (seg) {
@@ -637,7 +642,8 @@ void Segment::removeStaff(staff_idx_t staff)
 {
     track_idx_t track = staff * VOICES;
     m_elist.erase(m_elist.begin() + track, m_elist.begin() + track + VOICES);
-    m_preAppendedItems.erase(m_preAppendedItems.begin() + track, m_preAppendedItems.begin() + track + VOICES);
+    m_preAppendedItems.erase(m_preAppendedItems.begin() + track,
+                             m_preAppendedItems.begin() + track + VOICES);
     m_shapes.erase(m_shapes.begin() + staff);
 
     for (EngravingItem* e : m_annotations) {
@@ -1108,7 +1114,9 @@ bool Segment::isTupletSubdivisionOnStaff(staff_idx_t staffIdx) const
 
 bool Segment::isInsideTupletOnStaff(staff_idx_t staffIdx) const
 {
-    const Segment* refCRSeg = isChordRestType() && hasElements(staffIdx) ? this : prev1WithElemsOnStaff(staffIdx, SegmentType::ChordRest);
+    const Segment* refCRSeg = isChordRestType()
+                              && hasElements(staffIdx) ? this : prev1WithElemsOnStaff(staffIdx,
+                                                                                      SegmentType::ChordRest);
     if (!refCRSeg || refCRSeg->measure() != measure()) {
         return false;
     }
@@ -1388,7 +1396,8 @@ bool Segment::allElementsInvisible() const
 ///  return true if an annotation of type type or and element is found in the track range
 //---------------------------------------------------------
 
-bool Segment::hasAnnotationOrElement(ElementType type, track_idx_t minTrack, track_idx_t maxTrack) const
+bool Segment::hasAnnotationOrElement(ElementType type, track_idx_t minTrack,
+                                     track_idx_t maxTrack) const
 {
     for (const EngravingItem* e : m_annotations) {
         if (e->type() == type && e->track() >= minTrack && e->track() <= maxTrack) {
@@ -1404,7 +1413,8 @@ bool Segment::hasAnnotationOrElement(ElementType type, track_idx_t minTrack, tra
 ///  or nullptr if nothing was found.
 //---------------------------------------------------------
 
-EngravingItem* Segment::findAnnotation(ElementType type, track_idx_t minTrack, track_idx_t maxTrack) const
+EngravingItem* Segment::findAnnotation(ElementType type, track_idx_t minTrack,
+                                       track_idx_t maxTrack) const
 {
     for (EngravingItem* e : m_annotations) {
         if (e->type() == type && e->track() >= minTrack && e->track() <= maxTrack) {
@@ -1420,7 +1430,8 @@ EngravingItem* Segment::findAnnotation(ElementType type, track_idx_t minTrack, t
 ///  or an empty list if nothing was found.
 //---------------------------------------------------------
 
-std::vector<EngravingItem*> Segment::findAnnotations(ElementType type, track_idx_t minTrack, track_idx_t maxTrack) const
+std::vector<EngravingItem*> Segment::findAnnotations(ElementType type, track_idx_t minTrack,
+                                                     track_idx_t maxTrack) const
 {
     std::vector<EngravingItem*> found;
     for (EngravingItem* e : m_annotations) {
@@ -1461,7 +1472,8 @@ void Segment::clearAnnotations()
 void Segment::scanElements(std::function<void(EngravingItem*)> func)
 {
     bool scanAllTimeSigs = (isType(SegmentType::TimeSigType)
-                            && style().styleV(Sid::timeSigPlacement).value<TimeSigPlacement>() != TimeSigPlacement::NORMAL);
+                            && style().styleV(Sid::timeSigPlacement).value<TimeSigPlacement>()
+                            != TimeSigPlacement::NORMAL);
     for (size_t track = 0; track < score()->nstaves() * VOICES; ++track) {
         size_t staffIdx = track / VOICES;
         bool thisMeasureVisible = measure()->visible(staffIdx) && score()->staff(staffIdx)->show();
@@ -1521,7 +1533,8 @@ EngravingItem* Segment::firstElementForNavigation(staff_idx_t staff) const
 EngravingItem* Segment::lastElementForNavigation(staff_idx_t staff) const
 {
     if (segmentType() == SegmentType::ChordRest) {
-        for (int voice = static_cast<int>(staff * VOICES + (VOICES - 1)); voice / static_cast<int>(VOICES) == static_cast<int>(staff);
+        for (int voice = static_cast<int>(staff * VOICES + (VOICES - 1));
+             voice / static_cast<int>(VOICES) == static_cast<int>(staff);
              voice--) {
             EngravingItem* el = element(voice);
             if (!el) {            //there is no chord or rest on this voice
@@ -1554,7 +1567,9 @@ EngravingItem* Segment::getElement(staff_idx_t staff) const
     segmentType();
     if (segmentType() == SegmentType::ChordRest) {
         return firstElementForNavigation(staff);
-    } else if (segmentType() & (SegmentType::EndBarLine | SegmentType::BarLine | SegmentType::StartRepeatBarLine)) {
+    } else if (segmentType()
+               & (SegmentType::EndBarLine | SegmentType::BarLine
+                  | SegmentType::StartRepeatBarLine)) {
         for (int i = static_cast<int>(staff); i >= 0; i--) {
             if (!element(i * VOICES)) {
                 continue;
@@ -2112,7 +2127,8 @@ EngravingItem* Segment::nextElement(staff_idx_t activeStaff)
 
         for (SpannerSegment* spannerSeg : system()->spannerSegments()) {
             if (spannerSeg->staffIdx() == activeStaff && spannerSeg->isHammerOnPullOffSegment()) {
-                for (HammerOnPullOffText* hopoText : toHammerOnPullOffSegment(spannerSeg)->hopoText()) {
+                for (HammerOnPullOffText* hopoText :
+                     toHammerOnPullOffSegment(spannerSeg)->hopoText()) {
                     if (hopoText->startChord() && hopoText->startChord()->segment() == this) {
                         return hopoText;
                     }
@@ -2121,7 +2137,8 @@ EngravingItem* Segment::nextElement(staff_idx_t activeStaff)
         }
 
         Segment* nextSegment = seg->next1MMenabled();
-        for (; nextSegment && nextSegment->isTimeTickType(); nextSegment = nextSegment->next1MMenabled()) {
+        for (; nextSegment && nextSegment->isTimeTickType();
+             nextSegment = nextSegment->next1MMenabled()) {
             if (EngravingItem* annotation = nextSegment->firstAnnotation(activeStaff)) {
                 return annotation;
             }
@@ -2323,8 +2340,10 @@ EngravingItem* Segment::prevElement(staff_idx_t activeStaff)
         } else {
             System* system = seg->system();
             for (SpannerSegment* spannerSeg : system->spannerSegments()) {
-                if (spannerSeg->staffIdx() == activeStaff && spannerSeg->isHammerOnPullOffSegment()) {
-                    for (HammerOnPullOffText* hopoText : toHammerOnPullOffSegment(spannerSeg)->hopoText()) {
+                if (spannerSeg->staffIdx() == activeStaff
+                    && spannerSeg->isHammerOnPullOffSegment()) {
+                    for (HammerOnPullOffText* hopoText :
+                         toHammerOnPullOffSegment(spannerSeg)->hopoText()) {
                         if (hopoText->endChord() && hopoText->endChord()->segment() == seg) {
                             return hopoText;
                         }
@@ -2596,7 +2615,8 @@ void Segment::createShape(staff_idx_t staffIdx)
         track_idx_t effectiveTrack = e->vStaffIdx() * VOICES + e->voice();
         if (effectiveTrack >= strack && effectiveTrack < etrack) {
             setVisible(true);
-            if (e->isRest() && toRest(e)->isFullMeasureRest() && measure()->hasVoices(e->staffIdx())) {
+            if (e->isRest() && toRest(e)->isFullMeasureRest()
+                && measure()->hasVoices(e->staffIdx())) {
                 // A full measure rest in a measure with multiple voices must be ignored
                 // Unless the measure is made of *only* full rests
                 bool isAllFullRests = true;
@@ -2615,7 +2635,8 @@ void Segment::createShape(staff_idx_t staffIdx)
                 continue;
             }
             if (e->addToSkyline() || (e->isChordRest() && toChordRest(e)->lyrics().size() > 0)) {
-                s.add(e->shape().translate((e->isClef() ? e->ldata()->pos() : e->pos()) + e->staffOffset()));
+                s.add(e->shape().translate((e->isClef() ? e->ldata()->pos() : e->pos())
+                                           + e->staffOffset()));
             }
             // Non-standard trills display a cue note that we must add to shape here
             if (e->isChord()) {
@@ -2659,10 +2680,12 @@ void Segment::createShape(staff_idx_t staffIdx)
                 if (Harmony* harmony = toFretDiagram(e)->harmony()) {
                     RectF harmBbox = harmony->ldata()->bbox().translated(harmony->pos() + e->pos());
                     if (Parenthesis* p = harmony->leftParen()) {
-                        harmBbox.unite(p->ldata()->bbox().translated(p->pos() + harmony->pos() + e->pos()));
+                        harmBbox.unite(p->ldata()->bbox().translated(p->pos() + harmony->pos()
+                                                                     + e->pos()));
                     }
                     if (Parenthesis* p = harmony->rightParen()) {
-                        harmBbox.unite(p->ldata()->bbox().translated(p->pos() + harmony->pos() + e->pos()));
+                        harmBbox.unite(p->ldata()->bbox().translated(p->pos() + harmony->pos()
+                                                                     + e->pos()));
                     }
                     s.addHorizontalSpacing(harmony, harmBbox.left(), harmBbox.right());
                 }
@@ -2740,7 +2763,8 @@ void Segment::addArticulationsToShape(const Chord* chord, Shape& shape)
     if (ornament) {
         Chord* cueNoteChord = ornament->cueNoteChord();
         if (cueNoteChord && cueNoteChord->upNote()->addToSkyline()) {
-            shape.add(cueNoteChord->shape().translate(cueNoteChord->pos() + cueNoteChord->staffOffset()));
+            shape.add(cueNoteChord->shape().translate(cueNoteChord->pos()
+                                                      + cueNoteChord->staffOffset()));
         }
     }
 }
@@ -2754,7 +2778,9 @@ double Segment::minRight() const
 {
     double distance = 0.0;
     for (Shape sh : shapes()) {
-        sh.remove_if([](ShapeElement& el) { return el.item() && el.item()->isArticulationOrFermata(); });
+        sh.remove_if([](ShapeElement& el) {
+            return el.item() && el.item()->isArticulationOrFermata();
+        });
         distance = std::max(distance, sh.right());
     }
     return distance;
@@ -2764,7 +2790,9 @@ double Segment::minLeft() const
 {
     double distance = -DBL_MAX;
     for (Shape sh : shapes()) {
-        sh.remove_if([](ShapeElement& el) { return el.item() && el.item()->isArticulationOrFermata(); });
+        sh.remove_if([](ShapeElement& el) {
+            return el.item() && el.item()->isArticulationOrFermata();
+        });
         double l = sh.left();
         if (l > distance) {
             distance = l;
@@ -2786,33 +2814,39 @@ double Segment::spacing() const
 bool Segment::hasTimeSigAboveStaves() const
 {
     return isType(SegmentType::TimeSigType)
-           && style().styleV(Sid::timeSigPlacement).value<TimeSigPlacement>() == TimeSigPlacement::ABOVE_STAVES;
+           && style().styleV(Sid::timeSigPlacement).value<TimeSigPlacement>()
+           == TimeSigPlacement::ABOVE_STAVES;
 }
 
 bool Segment::makeSpaceForTimeSigAboveStaves() const
 {
     bool makeSpace = style().styleB(Sid::timeSigCenterOnBarline)
-                     ? style().styleV(Sid::timeSigVSMarginCentered).value<TimeSigVSMargin>() == TimeSigVSMargin::CREATE_SPACE
-                     : style().styleV(Sid::timeSigVSMarginNonCentered).value<TimeSigVSMargin>() == TimeSigVSMargin::CREATE_SPACE;
+                     ? style().styleV(Sid::timeSigVSMarginCentered).value<TimeSigVSMargin>()
+                     == TimeSigVSMargin::CREATE_SPACE
+                     : style().styleV(Sid::timeSigVSMarginNonCentered).value<TimeSigVSMargin>()
+                     == TimeSigVSMargin::CREATE_SPACE;
     return hasTimeSigAboveStaves() && makeSpace;
 }
 
 bool Segment::hasTimeSigAcrossStaves() const
 {
     return isType(SegmentType::TimeSigType)
-           && style().styleV(Sid::timeSigPlacement).value<TimeSigPlacement>() == TimeSigPlacement::ACROSS_STAVES;
+           && style().styleV(Sid::timeSigPlacement).value<TimeSigPlacement>()
+           == TimeSigPlacement::ACROSS_STAVES;
 }
 
 bool Segment::canWriteSpannerStartEnd(track_idx_t track, const Spanner* spanner) const
 {
     staff_idx_t staffIdx = track2staff(track);
-    if (isChordRestType() && (element(track) || (!spanner->isVoiceSpecific() && hasElements(staffIdx)))) {
+    if (isChordRestType()
+        && (element(track) || (!spanner->isVoiceSpecific() && hasElements(staffIdx)))) {
         return true;
     }
 
     if (isTimeTickType()) {
         Segment* crSegAtSameTick
-            = score()->tick2segment(tick(), true, SegmentType::ChordRest, style().styleB(Sid::createMultiMeasureRests));
+            = score()->tick2segment(tick(), true, SegmentType::ChordRest,
+                                    style().styleB(Sid::createMultiMeasureRests));
         if (!crSegAtSameTick || !crSegAtSameTick->canWriteSpannerStartEnd(track, spanner)) {
             return true;
         }
@@ -2899,9 +2933,11 @@ Fraction Segment::shortestChordRest() const
     Fraction shortest = measure()->ticks(); // Initializing at the highest possible value ( = time signature of the measure)
     Fraction cur = measure()->ticks();
     for (auto elem : elist()) {
-        if (!elem || !elem->staff()->show() || !elem->isChordRest() || (elem->isRest() && toRest(elem)->isGap())
+        if (!elem || !elem->staff()->show() || !elem->isChordRest()
+            || (elem->isRest() && toRest(elem)->isGap())
             || (!elem->visible()
-                && measure()->hasVoices(elem->staffIdx(), measure()->tick(), measure()->ticks(), /*considerInvisible*/ true))) {
+                && measure()->hasVoices(elem->staffIdx(), measure()->tick(), measure()->ticks(),
+                                        /*considerInvisible*/ true))) {
             continue;
         }
         cur = toChordRest(elem)->actualTicks();
@@ -2940,8 +2976,10 @@ bool Segment::goesBefore(const Segment* nextSegment) const
 
     bool thisIsClef = isClefType();
     bool nextIsClef = nextSegment->isClefType();
-    bool thisIsBarline = isType(SegmentType::BarLine | SegmentType::EndBarLine | SegmentType::StartRepeatBarLine);
-    bool nextIsBarline = nextSegment->isType(SegmentType::BarLine | SegmentType::EndBarLine | SegmentType::StartRepeatBarLine);
+    bool thisIsBarline = isType(
+        SegmentType::BarLine | SegmentType::EndBarLine | SegmentType::StartRepeatBarLine);
+    bool nextIsBarline = nextSegment->isType(
+        SegmentType::BarLine | SegmentType::EndBarLine | SegmentType::StartRepeatBarLine);
 
     bool thisIsStartRepeat = isStartRepeatBarLineType();
     bool nextIsStartRepeat = nextSegment->isStartRepeatBarLineType();
@@ -2952,8 +2990,11 @@ bool Segment::goesBefore(const Segment* nextSegment) const
 
     // Place non header clefs AFTER header clefs, key signatures, time signatures
     const bool firstSystemMeasure = meas->findSegmentR(SegmentType::HeaderClef, Fraction(0, 1));
-    bool thisIsHeader = isHeaderClefType() || (rtick() == Fraction(0, 1) && firstSystemMeasure && !thisIsClef);
-    bool nextIsHeader = nextSegment->isHeaderClefType() || (nextSegment->rtick() == Fraction(0, 1) && firstSystemMeasure && !nextIsClef);
+    bool thisIsHeader = isHeaderClefType()
+                        || (rtick() == Fraction(0, 1) && firstSystemMeasure && !thisIsClef);
+    bool nextIsHeader = nextSegment->isHeaderClefType()
+                        || (nextSegment->rtick()
+                            == Fraction(0, 1) && firstSystemMeasure && !nextIsClef);
 
     bool thisIsEndOfMeasure = endOfMeasureChange();
 
@@ -2967,10 +3008,12 @@ bool Segment::goesBefore(const Segment* nextSegment) const
     }
 
     // Place key signatures and time signatures in correct place when "Allow changes between end-start repeats" is enabled
-    if ((thisIsKeySig || thisIsTimeSig || thisIsClef) && nextIsStartRepeat && thisMeasureIsStartRepeat && prevMeasureIsEndRepeat) {
+    if ((thisIsKeySig || thisIsTimeSig || thisIsClef) && nextIsStartRepeat
+        && thisMeasureIsStartRepeat && prevMeasureIsEndRepeat) {
         return style().styleB(Sid::changesBetweenEndStartRepeat);
     }
-    if ((nextIsKeySig || nextIsTimeSig || nextIsClef) && thisIsStartRepeat && thisMeasureIsStartRepeat && prevMeasureIsEndRepeat) {
+    if ((nextIsKeySig || nextIsTimeSig || nextIsClef) && thisIsStartRepeat
+        && thisMeasureIsStartRepeat && prevMeasureIsEndRepeat) {
         return !style().styleB(Sid::changesBetweenEndStartRepeat);
     }
 
@@ -2996,13 +3039,15 @@ bool Segment::goesBefore(const Segment* nextSegment) const
         return clefPos == ClefToBarlinePosition::AFTER;
     }
 
-    if (thisIsClef && (nextIsKeySig || nextIsTimeSig) && rtick() == Fraction(0, 1) && nextSegment->rtick() == Fraction(0, 1)
+    if (thisIsClef && (nextIsKeySig || nextIsTimeSig)
+        && rtick() == Fraction(0, 1) && nextSegment->rtick() == Fraction(0, 1)
         && !nextIsHeader && thisMeasureIsStartRepeat && prevMeasureIsEndRepeat) {
         // Between repeats
         return true;
     }
 
-    if ((thisIsKeySig || thisIsTimeSig) && nextIsClef && rtick() == Fraction(0, 1) && nextSegment->rtick() == Fraction(0, 1)
+    if ((thisIsKeySig || thisIsTimeSig) && nextIsClef
+        && rtick() == Fraction(0, 1) && nextSegment->rtick() == Fraction(0, 1)
         && !thisIsHeader && thisMeasureIsStartRepeat && prevMeasureIsEndRepeat) {
         // Between repeats
         return false;

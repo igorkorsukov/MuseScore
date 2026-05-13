@@ -37,7 +37,8 @@
 #include "interactive/iinteractive.h"
 
 namespace mu::preferences {
-class AudioMidiPreferencesModel : public QObject, public muse::Contextable, public muse::async::Asyncable
+class AudioMidiPreferencesModel : public QObject, public muse::Contextable,
+    public muse::async::Asyncable
 {
     Q_OBJECT
     QML_ELEMENT;
@@ -52,9 +53,11 @@ class AudioMidiPreferencesModel : public QObject, public muse::Contextable, publ
     Q_PROPERTY(QString midiOutputDeviceId READ midiOutputDeviceId NOTIFY midiOutputDeviceIdChanged)
 
     Q_PROPERTY(bool isMIDI20OutputSupported READ isMIDI20OutputSupported CONSTANT)
-    Q_PROPERTY(bool useMIDI20Output READ useMIDI20Output WRITE setUseMIDI20Output NOTIFY useMIDI20OutputChanged)
+    Q_PROPERTY(
+        bool useMIDI20Output READ useMIDI20Output WRITE setUseMIDI20Output NOTIFY useMIDI20OutputChanged)
 
-    Q_PROPERTY(bool muteHiddenInstruments READ muteHiddenInstruments WRITE setMuteHiddenInstruments NOTIFY muteHiddenInstrumentsChanged)
+    Q_PROPERTY(
+        bool muteHiddenInstruments READ muteHiddenInstruments WRITE setMuteHiddenInstruments NOTIFY muteHiddenInstrumentsChanged)
 
     Q_PROPERTY(
         bool shouldShowOnlineSoundsProcessingError READ shouldShowOnlineSoundsProcessingError WRITE setShouldShowOnlineSoundsProcessingError NOTIFY shouldShowOnlineSoundsProcessingErrorChanged)

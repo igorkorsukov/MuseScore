@@ -58,7 +58,8 @@ void Engraving_RhythmicGroupingTests::group(const char* p1, const char* p2, size
     score->endCmd();
     score->doLayout();
 
-    EXPECT_TRUE(ScoreComp::saveCompareScore(score, String::fromUtf8(p1), RHYTHMICGRP_DATA_DIR + String::fromUtf8(p2)));
+    EXPECT_TRUE(ScoreComp::saveCompareScore(score, String::fromUtf8(p1),
+                                            RHYTHMICGRP_DATA_DIR + String::fromUtf8(p2)));
 
     delete score;
 }
@@ -105,7 +106,8 @@ TEST_F(Engraving_RhythmicGroupingTests, groupShortenNotes)
 
 TEST_F(Engraving_RhythmicGroupingTests, groupMaintainSelection)
 {
-    MasterScore* score = ScoreRW::readScore(RHYTHMICGRP_DATA_DIR + String::fromUtf8("groupSubbeats.mscx"));
+    MasterScore* score
+        = ScoreRW::readScore(RHYTHMICGRP_DATA_DIR + String::fromUtf8("groupSubbeats.mscx"));
     ASSERT_TRUE(score);
 
     score->cmdSelectAll();
@@ -131,7 +133,8 @@ TEST_F(Engraving_RhythmicGroupingTests, groupMaintainSelection)
 
 TEST_F(Engraving_RhythmicGroupingTests, groupMaintainSelectionMultipleStaves)
 {
-    MasterScore* score = ScoreRW::readScore(RHYTHMICGRP_DATA_DIR + String::fromUtf8("group8ths4-4.mscx"));
+    MasterScore* score
+        = ScoreRW::readScore(RHYTHMICGRP_DATA_DIR + String::fromUtf8("group8ths4-4.mscx"));
     ASSERT_TRUE(score);
 
     score->cmdSelectAll();

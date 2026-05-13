@@ -32,7 +32,9 @@ class ImageSettingsModel : public AbstractInspectorModel
     QML_ELEMENT;
     QML_UNCREATABLE("Not creatable from QML")
 
-    Q_PROPERTY(mu::inspector::PropertyItem * shouldScaleToFrameSize READ shouldScaleToFrameSize CONSTANT)
+    Q_PROPERTY(
+        mu::inspector::PropertyItem
+        * shouldScaleToFrameSize READ shouldScaleToFrameSize CONSTANT)
     Q_PROPERTY(mu::inspector::PropertyItem * height READ height CONSTANT)
     Q_PROPERTY(mu::inspector::PropertyItem * width READ width CONSTANT)
     Q_PROPERTY(mu::inspector::PropertyItem * isAspectRatioLocked READ isAspectRatioLocked CONSTANT)
@@ -40,7 +42,8 @@ class ImageSettingsModel : public AbstractInspectorModel
     Q_PROPERTY(mu::inspector::PropertyItem * isImageFramed READ isImageFramed CONSTANT)
 
 public:
-    explicit ImageSettingsModel(QObject* parent, const muse::modularity::ContextPtr& iocCtx, IElementRepositoryService* repository);
+    explicit ImageSettingsModel(QObject* parent, const muse::modularity::ContextPtr& iocCtx,
+                                IElementRepositoryService* repository);
 
     PropertyItem* shouldScaleToFrameSize() const;
     PropertyItem* height() const;

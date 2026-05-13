@@ -37,7 +37,8 @@ using mu::engraving::IntervalType;
 using mu::engraving::P_TYPE;
 using mu::engraving::Ornament;
 
-OrnamentSettingsModel::OrnamentSettingsModel(QObject* parent, const muse::modularity::ContextPtr& iocCtx,
+OrnamentSettingsModel::OrnamentSettingsModel(QObject* parent,
+                                             const muse::modularity::ContextPtr& iocCtx,
                                              IElementRepositoryService* repository)
     : AbstractInspectorModel(parent, iocCtx, repository)
 {
@@ -83,12 +84,14 @@ void OrnamentSettingsModel::createProperties()
     m_intervalBelow = buildPropertyItem(Pid::INTERVAL_BELOW, onIntervalChanged);
 
     m_intervalStep = buildPropertyItem(Pid::INTERVAL_ABOVE, [this](Pid id, const QVariant& newValue) {
-        IntervalStep step = IntervalStep(newValue.toInt());
+        IntervalStep step = IntervalStep(
+            newValue.toInt());
         setIntervalStep(id, step);
     });
 
     m_intervalType = buildPropertyItem(Pid::INTERVAL_ABOVE, [this](Pid id, const QVariant& newValue) {
-        IntervalType type = IntervalType(newValue.toInt());
+        IntervalType type = IntervalType(
+            newValue.toInt());
         setIntervalType(id, type);
     });
 
@@ -105,7 +108,8 @@ void OrnamentSettingsModel::requestElements()
 void OrnamentSettingsModel::loadProperties()
 {
     auto convertIntevalValue = [](const QVariant& elementPropertyValue) -> QVariant {
-        PropertyValue propertyValue = PropertyValue::fromQVariant(elementPropertyValue, P_TYPE::ORNAMENT_INTERVAL);
+        PropertyValue propertyValue = PropertyValue::fromQVariant(elementPropertyValue,
+                                                                  P_TYPE::ORNAMENT_INTERVAL);
         OrnamentInterval interval = propertyValue.value<OrnamentInterval>();
         OrnamentTypes::BasicInterval basicInterval = OrnamentTypes::BasicInterval::TYPE_INVALID;
 
@@ -115,7 +119,8 @@ void OrnamentSettingsModel::loadProperties()
             basicInterval = OrnamentTypes::BasicInterval::TYPE_MAJOR_SECOND;
         } else if (interval.step == IntervalStep::SECOND && interval.type == IntervalType::MINOR) {
             basicInterval = OrnamentTypes::BasicInterval::TYPE_MINOR_SECOND;
-        } else if (interval.step == IntervalStep::SECOND && interval.type == IntervalType::AUGMENTED) {
+        } else if (interval.step == IntervalStep::SECOND
+                   && interval.type == IntervalType::AUGMENTED) {
             basicInterval = OrnamentTypes::BasicInterval::TYPE_AUGMENTED_SECOND;
         }
 
@@ -128,13 +133,15 @@ void OrnamentSettingsModel::loadProperties()
     loadPropertyItem(m_intervalBelow, convertIntevalValue);
 
     loadPropertyItem(m_intervalStep, [](const QVariant& elementPropertyValue) -> QVariant {
-        PropertyValue propertyValue = PropertyValue::fromQVariant(elementPropertyValue, P_TYPE::ORNAMENT_INTERVAL);
+        PropertyValue propertyValue
+            = PropertyValue::fromQVariant(elementPropertyValue, P_TYPE::ORNAMENT_INTERVAL);
         OrnamentInterval interval = propertyValue.value<OrnamentInterval>();
         return static_cast<int>(interval.step);
     });
 
     loadPropertyItem(m_intervalType, [](const QVariant& elementPropertyValue) -> QVariant {
-        PropertyValue propertyValue = PropertyValue::fromQVariant(elementPropertyValue, P_TYPE::ORNAMENT_INTERVAL);
+        PropertyValue propertyValue
+            = PropertyValue::fromQVariant(elementPropertyValue, P_TYPE::ORNAMENT_INTERVAL);
         OrnamentInterval interval = propertyValue.value<OrnamentInterval>();
         return static_cast<int>(interval.type);
     });
@@ -266,7 +273,8 @@ void OrnamentSettingsModel::setIntervalStep(Pid id, engraving::IntervalStep step
 
         OrnamentInterval interval = toOrnament(item)->intervalAbove();
         interval.step = step;
-        if (interval.isPerfect() && (interval.type == IntervalType::MAJOR || interval.type == IntervalType::MINOR)) {
+        if (interval.isPerfect()
+            && (interval.type == IntervalType::MAJOR || interval.type == IntervalType::MINOR)) {
             interval.type = IntervalType::PERFECT;
         } else if (!interval.isPerfect() && interval.type == IntervalType::PERFECT) {
             interval.type = IntervalType::AUTO;

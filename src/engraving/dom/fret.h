@@ -168,7 +168,8 @@ public:
     void clear();
     bool isClear() const;
 
-    void undoSetFretDot(int _string, int _fret, bool _add = false, FretDotType _dtype = FretDotType::NORMAL);
+    void undoSetFretDot(int _string, int _fret, bool _add = false,
+                        FretDotType _dtype = FretDotType::NORMAL);
     void undoSetFretMarker(int _string, FretMarkerType _mtype);
     void undoSetFretBarre(int _string, int _fret, bool _add = false);
     void undoFretClear();

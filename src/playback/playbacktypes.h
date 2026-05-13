@@ -91,7 +91,8 @@ struct SoundProfile {
 
     SoundProfileData data;
 
-    const muse::audio::AudioResourceMeta& findResource(const muse::mpe::PlaybackSetupData& key) const
+    const muse::audio::AudioResourceMeta& findResource(const muse::mpe::PlaybackSetupData& key)
+    const
     {
         auto search = data.find(key);
         if (search != data.cend()) {

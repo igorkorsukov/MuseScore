@@ -28,7 +28,8 @@
 
 using namespace mu::inspector;
 
-KeySignatureSettingsModel::KeySignatureSettingsModel(QObject* parent, const muse::modularity::ContextPtr& iocCtx,
+KeySignatureSettingsModel::KeySignatureSettingsModel(QObject* parent,
+                                                     const muse::modularity::ContextPtr& iocCtx,
                                                      IElementRepositoryService* repository)
     : AbstractInspectorModel(parent, iocCtx, repository)
 {
@@ -64,7 +65,8 @@ void KeySignatureSettingsModel::loadProperties()
 
         const engraving::Measure* measure = element->findMeasure();
         const engraving::Measure* prevMeasure = measure ? measure->prevMeasure() : nullptr;
-        const engraving::LayoutBreak* sectionBreak = prevMeasure ? prevMeasure->sectionBreakElement() : nullptr;
+        const engraving::LayoutBreak* sectionBreak
+            = prevMeasure ? prevMeasure->sectionBreakElement() : nullptr;
         if (sectionBreak && !sectionBreak->showCourtesy()) {
             enableCourtesy = false;
         }

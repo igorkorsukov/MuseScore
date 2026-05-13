@@ -58,7 +58,8 @@ std::vector<Clef*> InsertRemoveMeasures::getCourtesyClefs(Measure* m)
     std::vector<Clef*> startClefs;
     if (m->prev() && m->prev()->isMeasure()) {
         Measure* prevMeasure = toMeasure(m->prev());
-        const Segment* clefSeg = prevMeasure->findSegmentR(SegmentType::Clef | SegmentType::HeaderClef, prevMeasure->ticks());
+        const Segment* clefSeg = prevMeasure->findSegmentR(
+            SegmentType::Clef | SegmentType::HeaderClef, prevMeasure->ticks());
         if (clefSeg) {
             for (size_t st = 0; st < score->nstaves(); ++st) {
                 EngravingItem* clef = clefSeg->element(staff2track(static_cast<int>(st)));
@@ -89,7 +90,9 @@ void InsertRemoveMeasures::insertMeasures()
         fs = toMeasure(fm)->first();
         ls = toMeasure(lm)->last();
         for (Segment* s = fs; s && s != ls; s = s->next1()) {
-            if (!s->enabled() || !(s->segmentType() & (SegmentType::Clef | SegmentType::HeaderClef | SegmentType::KeySig))) {
+            if (!s->enabled()
+                || !(s->segmentType()
+                     & (SegmentType::Clef | SegmentType::HeaderClef | SegmentType::KeySig))) {
                 continue;
             }
             for (track_idx_t track = 0; track < score->ntracks(); track += VOICES) {
@@ -162,7 +165,8 @@ void InsertRemoveMeasures::insertMeasures()
                 }
 
                 if (!stIcon) {
-                    LOGD() << "StaffTypeChange icon is missing in measure " << measure->measureNumber();
+                    LOGD() << "StaffTypeChange icon is missing in measure " <<
+                    measure->measureNumber();
                 }
 
                 stRange = staff->staffTypeRange(tick);
@@ -281,7 +285,8 @@ void InsertRemoveMeasures::removeMeasures()
                 }
 
                 if (!stIcon) {
-                    LOGD() << "StaffTypeChange icon is missing in measure " << measure->measureNumber();
+                    LOGD() << "StaffTypeChange icon is missing in measure " <<
+                    measure->measureNumber();
                 }
 
                 stRange = staff->staffTypeRange(tick);
@@ -325,7 +330,8 @@ void InsertRemoveMeasures::removeMeasures()
 
         std::set<Spanner*> spannersCopy = score->unmanagedSpanners();
         for (Spanner* sp : spannersCopy) {
-            if ((sp->tick() >= tick1 && sp->tick() < tick2) || (sp->tick2() >= tick1 && sp->tick2() < tick2)) {
+            if ((sp->tick() >= tick1 && sp->tick() < tick2)
+                || (sp->tick2() >= tick1 && sp->tick2() < tick2)) {
                 sp->removeUnmanaged();
             }
         }

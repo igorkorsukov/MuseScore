@@ -576,7 +576,9 @@ bool Measure::showMeasureNumberInAutoMode() const
 
     // Measure numbers should not show on first measure unless specified with Sid::showMeasureNumberOne
     // except, when showing numbers on each measure, and first measure is after anacrusis - then show always
-    if (isFirstInSection() || (prevMeasure->excludeFromNumbering() && prevMeasure->isFirstInSection() && interval != 1)) {
+    if (isFirstInSection()
+        || (prevMeasure->excludeFromNumbering() && prevMeasure->isFirstInSection()
+            && interval != 1)) {
         return style().styleB(Sid::showMeasureNumberOne);
     }
 
@@ -585,7 +587,8 @@ bool Measure::showMeasureNumberInAutoMode() const
         //   1) This is the first measure of the system OR
         //   2) The previous measure in the system is the first, and is excluded from numbering.
         return isFirstInSystem()
-               || (prevMeasure && prevMeasure->excludeFromNumbering() && prevMeasure->isFirstInSystem());
+               || (prevMeasure && prevMeasure->excludeFromNumbering()
+                   && prevMeasure->isFirstInSystem());
     } else {
         // In the case of an interval, we should show the measure number either if:
         //   1) We should show them every measure
@@ -596,7 +599,8 @@ bool Measure::showMeasureNumberInAutoMode() const
         //   2) (measureNumber + 1) % interval == 0 (or 1 if measure number one is numbered.)
         // If measure number 1 is numbered, and the interval is let's say 5, then we should number #1, 6, 11, 16, etc.
         // If measure number 1 is not numbered, with the same interval (5), then we should number #5, 10, 15, 20, etc.
-        return ((measureNumber() + 1) % interval) == (style().styleB(Sid::showMeasureNumberOne) ? 1 : 0);
+        return ((measureNumber() + 1) % interval)
+               == (style().styleB(Sid::showMeasureNumberOne) ? 1 : 0);
     }
 }
 
@@ -606,7 +610,8 @@ bool Measure::showMeasureNumberOnStaff(staff_idx_t staffIdx) const
         return false;
     }
 
-    return showMeasureNumber() && score()->staff(staffIdx)->shouldShowMeasureNumbers() && !score()->allStavesInvisible();
+    return showMeasureNumber() && score()->staff(staffIdx)->shouldShowMeasureNumbers()
+           && !score()->allStavesInvisible();
 }
 
 //---------------------------------------------------------
@@ -1362,7 +1367,8 @@ RectF Measure::staffPageBoundingRect(staff_idx_t staffIdx) const
     }
     RectF sysStaffPageBbox = s->staff(staffIdx)->bbox().translated(s->pagePos());
     RectF measurePageBbox = pageBoundingRect();
-    return RectF(measurePageBbox.x(), sysStaffPageBbox.y(), measurePageBbox.width(), sysStaffPageBbox.height());
+    return RectF(measurePageBbox.x(), sysStaffPageBbox.y(),
+                 measurePageBbox.width(), sysStaffPageBbox.height());
 }
 
 //---------------------------------------------------------
@@ -1567,7 +1573,8 @@ EngravingItem* Measure::drop(EditData& data)
 
         Bracket* b = toBracket(e);
         if (sel.isRange()) {
-            score()->undoAddBracket(staff, level, b->bracketType(), sel.staffEnd() - sel.staffStart());
+            score()->undoAddBracket(staff, level, b->bracketType(),
+                                    sel.staffEnd() - sel.staffStart());
         } else {
             score()->undoAddBracket(staff, level, b->bracketType(), 1);
         }
@@ -1872,7 +1879,9 @@ void Measure::adjustToLen(Fraction nf, bool appendRestsIfNecessary)
         if (nl > ol) {
             // move EndBarLine, TimeSigAnnounce, KeySigAnnounce
             for (Segment* seg = m->first(); seg; seg = seg->next()) {
-                if (seg->segmentType() & (SegmentType::EndBarLine | SegmentType::CourtesyTimeSigType | SegmentType::CourtesyKeySigType)) {
+                if (seg->segmentType()
+                    & (SegmentType::EndBarLine | SegmentType::CourtesyTimeSigType
+                       | SegmentType::CourtesyKeySigType)) {
                     seg->setRtick(nl);
                 }
             }
@@ -1907,23 +1916,28 @@ void Measure::adjustToLen(Fraction nf, bool appendRestsIfNecessary)
             // if measure value didn't change, stick to whole measure rest
             if (m_timesig == nf) {
                 rest->undoChangeProperty(Pid::DURATION, nf * stretch);
-                rest->undoChangeProperty(Pid::DURATION_TYPE_WITH_DOTS, DurationTypeWithDots(DurationType::V_MEASURE));
+                rest->undoChangeProperty(Pid::DURATION_TYPE_WITH_DOTS,
+                                         DurationTypeWithDots(DurationType::V_MEASURE));
             } else {          // if measure value did change, represent with rests actual measure value
                 // convert the measure duration in a list of values (no dots for rests)
                 std::vector<TDuration> durList = toRhythmicDurationList(nf * stretch,
                                                                         /*isRest=*/ true,
-                                                                        /*rtickStart=*/ Fraction(0, 1),
-                                                                        /*nominal=*/ score()->sigmap()->timesig(tick().ticks()).nominal(),
+                                                                        /*rtickStart=*/ Fraction(0,
+                                                                                                 1),
+                                                                        /*nominal=*/ score()->sigmap()->timesig(
+                                                                            tick().ticks()).nominal(),
                                                                         /*measure=*/ this,
                                                                         /*maxDots=*/ 0,
                                                                         stretch);
                 if (durList.empty()) {
-                    LOGD("Could not make durations for: %d/%d", (nf * stretch).numerator(), (nf * stretch).denominator());
+                    LOGD("Could not make durations for: %d/%d", (nf * stretch).numerator(),
+                         (nf * stretch).denominator());
                     continue;
                 }
                 // set the existing rest to the first value of the duration list
                 TDuration firstDur = durList[0];
-                rest->undoChangeProperty(Pid::DURATION, firstDur.isMeasure() ? ticks() : firstDur.fraction());
+                rest->undoChangeProperty(Pid::DURATION,
+                                         firstDur.isMeasure() ? ticks() : firstDur.fraction());
                 rest->undoChangeProperty(Pid::DURATION_TYPE_WITH_DOTS, durList[0].typeWithDots());
 
                 // add rests for any other duration list value
@@ -2050,7 +2064,8 @@ bool Measure::stemless(staff_idx_t staffIdx) const
         return false;
     }
 
-    return staff->stemless(tick()) || m_mstaves[staffIdx]->stemless() || staff->staffType(tick())->stemless();
+    return staff->stemless(tick()) || m_mstaves[staffIdx]->stemless()
+           || staff->staffType(tick())->stemless();
 }
 
 //---------------------------------------------------------
@@ -2098,7 +2113,8 @@ bool Measure::isAnacrusis() const
 {
     const MeasureBase* pm = prev();
 
-    if (excludeFromNumbering() || !pm || pm->isBox() || pm->lineBreak() || pm->pageBreak() || pm->sectionBreak()) {
+    if (excludeFromNumbering() || !pm || pm->isBox() || pm->lineBreak() || pm->pageBreak()
+        || pm->sectionBreak()) {
         if (timesig() - ticks() > Fraction(0, 1)) {
             return true;
         }
@@ -2318,7 +2334,8 @@ void Measure::checkMultiVoices(staff_idx_t staffIdx)
 //   hasVoices
 //---------------------------------------------------------
 
-bool Measure::hasVoices(staff_idx_t staffIdx, Fraction stick, Fraction len, bool considerInvisible) const
+bool Measure::hasVoices(staff_idx_t staffIdx, Fraction stick, Fraction len,
+                        bool considerInvisible) const
 {
     Staff* st = score()->staff(staffIdx);
     if (st->isTabStaff(stick)) {
@@ -2473,7 +2490,8 @@ bool Measure::isCutawayClef(staff_idx_t staffIdx) const
     if (!score()->staff(staffIdx) || !m_mstaves[staffIdx]) {
         return false;
     }
-    bool empty = (score()->staff(staffIdx)->cutaway() && isEmpty(staffIdx)) || !m_mstaves[staffIdx]->visible();
+    bool empty = (score()->staff(staffIdx)->cutaway() && isEmpty(staffIdx))
+                 || !m_mstaves[staffIdx]->visible();
     if (!empty) {
         return false;
     }
@@ -2605,7 +2623,8 @@ bool Measure::isOnlyDeletedRests(track_idx_t track) const
         if (s->segmentType() != st || !s->element(track)) {
             continue;
         }
-        if (s->element(track)->isRest() ? !toRest(s->element(track))->isGap() : !s->element(track)->isRest()) {
+        if (s->element(track)->isRest() ? !toRest(s->element(track))->isGap() : !s->element(track)->
+            isRest()) {
             return false;
         }
     }
@@ -2799,7 +2818,8 @@ Fraction Measure::snapNote(const Fraction& /*tick*/, const PointF p, int staff) 
 ///   \returns The segment that was found.
 //---------------------------------------------------------
 
-Segment* Measure::searchSegment(double x, SegmentType st, track_idx_t strack, track_idx_t etrack, const Segment* preferredSegment,
+Segment* Measure::searchSegment(double x, SegmentType st, track_idx_t strack, track_idx_t etrack,
+                                const Segment* preferredSegment,
                                 double spacingFactor) const
 {
     const track_idx_t lastTrack = etrack - 1;
@@ -3056,7 +3076,8 @@ int Measure::measureRepeatCount(staff_idx_t staffIdx) const
     return m_mstaves[staffIdx]->measureRepeatCount();
 }
 
-bool Measure::containsMeasureRepeat(const staff_idx_t staffIdxFrom, const staff_idx_t staffIdxTo) const
+bool Measure::containsMeasureRepeat(const staff_idx_t staffIdxFrom,
+                                    const staff_idx_t staffIdxTo) const
 {
     for (staff_idx_t idx = staffIdxFrom; idx <= staffIdxTo; ++idx) {
         if (measureRepeatCount(idx) > 0) {
@@ -3088,7 +3109,8 @@ bool Measure::isMeasureRepeatGroup(staff_idx_t staffIdx) const
 
 bool Measure::isMeasureRepeatGroupWithNextM(staff_idx_t staffIdx) const
 {
-    if (!isMeasureRepeatGroup(staffIdx) || !nextMeasure() || !nextMeasure()->isMeasureRepeatGroup(staffIdx)) {
+    if (!isMeasureRepeatGroup(staffIdx) || !nextMeasure()
+        || !nextMeasure()->isMeasureRepeatGroup(staffIdx)) {
         return false;
     }
     if (measureRepeatCount(staffIdx) == nextMeasure()->measureRepeatCount(staffIdx) - 1) {
@@ -3141,7 +3163,8 @@ MeasureRepeat* Measure::measureRepeatElement(staff_idx_t staffIdx) const
         track_idx_t etrack = staff2track(staffIdx + 1);
         for (track_idx_t track = strack; track < etrack; ++track) {
             // should only be in first track, but just in case
-            for (Segment* s = m->first(SegmentType::ChordRest); s; s = s->next(SegmentType::ChordRest)) {
+            for (Segment* s = m->first(SegmentType::ChordRest); s;
+                 s = s->next(SegmentType::ChordRest)) {
                 // should only be in first segment, but just in case
                 EngravingItem* e = s->element(track);
                 if (e && e->isMeasureRepeat()) {
@@ -3348,7 +3371,8 @@ double Measure::firstNoteRestSegmentX(bool leading) const
                 if (seg->isStartRepeatBarLineType()) {
                     margin = style().styleAbsolute(Sid::lineEndToBarlineDistance);
                 }
-                return std::min(seg->measure()->pos().x() + seg->pos().x() + width + margin, noteRestPos);
+                return std::min(
+                    seg->measure()->pos().x() + seg->pos().x() + width + margin, noteRestPos);
             } else if (!isFirstInSystem() && !isFirstInSection() && prevMeasure()) {
                 const BarLine* endBl = prevMeasure()->endBarLine();
                 const Segment* endBlSeg = endBl ? endBl->segment() : nullptr;
@@ -3364,7 +3388,9 @@ double Measure::firstNoteRestSegmentX(bool leading) const
 
                 const double startBlMargin = style().styleAbsolute(Sid::barlineToLineStartDistance);
 
-                return std::min(endBlSeg->measure()->pos().x() + endBlSeg->pos().x() + width + startBlMargin, noteRestPos);
+                return std::min(
+                    endBlSeg->measure()->pos().x() + endBlSeg->pos().x() + width + startBlMargin,
+                    noteRestPos);
             } else {
                 return noteRestPos;
             }
@@ -3397,7 +3423,8 @@ double Measure::endingXForOpenEndedLines() const
 
 String Measure::accessibleInfo() const
 {
-    return String(u"%1: %2").arg(EngravingItem::accessibleInfo(), String::number(measureNumber() + 1));
+    return String(u"%1: %2").arg(EngravingItem::accessibleInfo(), String::number(
+                                     measureNumber() + 1));
 }
 
 void Measure::styleChanged()
@@ -3422,7 +3449,8 @@ void Measure::computeTicks()
         segment->setTicks(nextTick - segment->rtick());
     }
 
-    for (Segment* segment = first(SegmentType::TimeTick); segment; segment = segment->next(SegmentType::TimeTick)) {
+    for (Segment* segment = first(SegmentType::TimeTick); segment;
+         segment = segment->next(SegmentType::TimeTick)) {
         segment->setTicks(Fraction(0, 1));
         Segment* nextSegment = segment->next();
         while (nextSegment) {

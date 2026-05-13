@@ -159,7 +159,8 @@ bool MeiExporter::write(std::string& meiData)
 
         libmei::AttConverter converter;
         libmei::meiVersion_MEIVERSION meiVersion = libmei::meiVersion_MEIVERSION_5_1plusbasic;
-        m_mei.append_attribute("meiversion") = (converter.MeiVersionMeiversionToStr(meiVersion)).c_str();
+        m_mei.append_attribute("meiversion")
+            = (converter.MeiVersionMeiversionToStr(meiVersion)).c_str();
 
         this->writeHeader();
 
@@ -335,7 +336,8 @@ bool MeiExporter::writeScoreDef()
     std::vector<int> staffGrpEnds(m_score->staves().size(), 0);
 
     const Measure* measure = nullptr;
-    for (MeasureBase* mBase2 = m_score->measures()->first(); mBase2 != nullptr; mBase2 = mBase2->next()) {
+    for (MeasureBase* mBase2 = m_score->measures()->first(); mBase2 != nullptr;
+         mBase2 = mBase2->next()) {
         if (!measure && mBase2->isMeasure()) {
             // the first actual measure we are going built the scoreDef from
             measure = toMeasure(mBase2);
@@ -527,7 +529,8 @@ bool MeiExporter::writeScoreDefChange()
     const TimeSig* scoreDefTimeSig = nullptr;
     if (m_timeSig) {
         for (size_t staff = 0; staff < m_score->nstaves(); staff++) {
-            const TimeSig* current = dynamic_cast<const TimeSig*>(m_timeSig->element(staff2track(staff)));
+            const TimeSig* current
+                = dynamic_cast<const TimeSig*>(m_timeSig->element(staff2track(staff)));
             if (scoreDefTimeSig) {
                 // Compare the current and the previous one, stop if they are different
                 if (!current || (*current) != (*scoreDefTimeSig)) {
@@ -547,7 +550,8 @@ bool MeiExporter::writeScoreDefChange()
     const KeySig* scoreDefKeySig = nullptr;
     if (m_keySig) {
         for (size_t staff = 0; staff < m_score->nstaves(); staff++) {
-            const KeySig* current = dynamic_cast<const KeySig*>(m_keySig->element(staff2track(staff)));
+            const KeySig* current = dynamic_cast<const KeySig*>(m_keySig->element(staff2track(
+                                                                                      staff)));
             if (scoreDefKeySig) {
                 if (!current || (current->key() != scoreDefKeySig->key())) {
                     scoreDefKeySig = nullptr;
@@ -563,12 +567,14 @@ bool MeiExporter::writeScoreDefChange()
     }
 
     // m_currentNode is the last measure and we need to prepend the scoreDef
-    pugi::xml_node scoreDefNode = m_currentNode.parent().insert_child_before("scoreDef", m_currentNode);
+    pugi::xml_node scoreDefNode = m_currentNode.parent().insert_child_before("scoreDef",
+                                                                             m_currentNode);
     libmei::ScoreDef meiScoreDef;
 
     // Single timesig change
     if (scoreDefTimeSig) {
-        libmei::StaffDef timeSigDef = Convert::meterToMEI(scoreDefTimeSig->sig(), scoreDefTimeSig->timeSigType());
+        libmei::StaffDef timeSigDef = Convert::meterToMEI(
+            scoreDefTimeSig->sig(), scoreDefTimeSig->timeSigType());
         meiScoreDef.SetMeterSym(timeSigDef.GetMeterSym());
         meiScoreDef.SetMeterUnit(timeSigDef.GetMeterUnit());
         meiScoreDef.SetMeterCount(timeSigDef.GetMeterCount());
@@ -585,13 +591,15 @@ bool MeiExporter::writeScoreDefChange()
             pugi::xml_node staffDefNode = staffGrpNode.append_child();
             libmei::StaffDef meiStaffDef;
             if (!scoreDefTimeSig && m_timeSig) {
-                const TimeSig* timeSig = dynamic_cast<const TimeSig*>(m_timeSig->element(staff2track(staff)));
+                const TimeSig* timeSig
+                    = dynamic_cast<const TimeSig*>(m_timeSig->element(staff2track(staff)));
                 if (timeSig) {
                     meiStaffDef = Convert::meterToMEI(timeSig->sig(), timeSig->timeSigType());
                 }
             }
             if (!scoreDefKeySig && m_keySig) {
-                const KeySig* keySig = dynamic_cast<const KeySig*>(m_keySig->element(staff2track(staff)));
+                const KeySig* keySig
+                    = dynamic_cast<const KeySig*>(m_keySig->element(staff2track(staff)));
                 if (keySig) {
                     meiStaffDef.SetKeysig(Convert::keyToMEI(keySig->key()));
                 }
@@ -611,7 +619,8 @@ bool MeiExporter::writeScoreDefChange()
  * Increments in ends the ending position of the staffGrp to be closed by MeiExporter::writeStaffGrpEnd.
  */
 
-bool MeiExporter::writeStaffGrpStart(const Staff* staff, std::vector<int>& ends, const Part* staffGrpPart)
+bool MeiExporter::writeStaffGrpStart(const Staff* staff, std::vector<int>& ends,
+                                     const Part* staffGrpPart)
 {
     IF_ASSERT_FAILED(staff) {
         return false;
@@ -619,7 +628,8 @@ bool MeiExporter::writeStaffGrpStart(const Staff* staff, std::vector<int>& ends,
 
     for (size_t j = 0; j < staff->bracketLevels() + 1; j++) {
         if (staff->bracketType(j) != BracketType::NO_BRACKET) {
-            libmei::StaffGrp meiStaffGrp = Convert::staffGrpToMEI(staff->bracketType(j), staff->barLineSpan());
+            libmei::StaffGrp meiStaffGrp = Convert::staffGrpToMEI(staff->bracketType(
+                                                                      j), staff->barLineSpan());
             // mark at which staff we will need to close the staffGrp
             int end = static_cast<int>(staff->idx() + staff->bracketSpan(j)) - 1;
             // Something is wrong, maybe a staff was delete in the MuseScore file?
@@ -663,7 +673,8 @@ bool MeiExporter::writeStaffGrpEnd(const Staff* staff, std::vector<int>& ends)
  * Write the initial staff definitions.
  */
 
-bool MeiExporter::writeStaffDef(const Staff* staff, const Measure* measure, const Part* part, bool isPart)
+bool MeiExporter::writeStaffDef(const Staff* staff, const Measure* measure, const Part* part,
+                                bool isPart)
 {
     IF_ASSERT_FAILED(staff && measure && part) {
         return false;
@@ -703,7 +714,8 @@ bool MeiExporter::writeStaffDef(const Staff* staff, const Measure* measure, cons
             for (track_idx_t track = startTrack; track < endTrack; ++track) {
                 TimeSig* timeSig = toTimeSig(timeSigSeg->element(track));
                 if (timeSig) {
-                    libmei::StaffDef timeSigDef = Convert::meterToMEI(timeSig->sig(), timeSig->timeSigType());
+                    libmei::StaffDef timeSigDef = Convert::meterToMEI(
+                        timeSig->sig(), timeSig->timeSigType());
                     meiStaffDef.SetMeterSym(timeSigDef.GetMeterSym());
                     meiStaffDef.SetMeterUnit(timeSigDef.GetMeterUnit());
                     meiStaffDef.SetMeterCount(timeSigDef.GetMeterCount());
@@ -796,7 +808,9 @@ bool MeiExporter::writeInstrDef(pugi::xml_node node, const Part* part)
 bool MeiExporter::writeEnding(const Measure* measure)
 {
     std::vector<const Volta*> voltas = this->findVoltasInMeasure(measure);
-    auto voltaIter = std::find_if(voltas.begin(), voltas.end(), [measure](const Volta* volta) { return volta->startMeasure() == measure; });
+    auto voltaIter = std::find_if(voltas.begin(), voltas.end(), [measure](const Volta* volta) {
+        return volta->startMeasure() == measure;
+    });
 
     if (voltaIter != voltas.end()) {
         libmei::Ending meiEnding = Convert::endingToMEI(*voltaIter);
@@ -831,7 +845,8 @@ bool MeiExporter::writeEndingEnd(const Measure* measure)
  * Prepends a scoreDef change if a changing key signature or time signature is encountered in the content.
  */
 
-bool MeiExporter::writeMeasure(const Measure* measure, int& measureN, bool& isFirst, bool& wasPreviousIrregular)
+bool MeiExporter::writeMeasure(const Measure* measure, int& measureN, bool& isFirst,
+                               bool& wasPreviousIrregular)
 {
     IF_ASSERT_FAILED(measure) {
         return false;
@@ -855,7 +870,8 @@ bool MeiExporter::writeMeasure(const Measure* measure, int& measureN, bool& isFi
         switch (item->type()) {
         case ElementType::JUMP: success = success && this->writeRepeatMark(toJump(item), measure);
             break;
-        case ElementType::MARKER: success = success && this->writeRepeatMark(toMarker(item), measure);
+        case ElementType::MARKER: success = success
+                                            && this->writeRepeatMark(toMarker(item), measure);
             break;
         default: break;
         }
@@ -863,43 +879,62 @@ bool MeiExporter::writeMeasure(const Measure* measure, int& measureN, bool& isFi
 
     for (auto controlEvent : m_startingControlEventList) {
         if (controlEvent.first->isArpeggio()) {
-            success = success && this->writeArpeg(toArpeggio(controlEvent.first), controlEvent.second);
+            success = success && this->writeArpeg(toArpeggio(
+                                                      controlEvent.first), controlEvent.second);
         } else if (controlEvent.first->isBreath()) {
-            success = success && this->writeBreath(toBreath(controlEvent.first), controlEvent.second);
+            success = success
+                      && this->writeBreath(toBreath(controlEvent.first), controlEvent.second);
         } else if (controlEvent.first->isDynamic()) {
-            success = success && this->writeDynam(toDynamic(controlEvent.first), controlEvent.second);
-        } else if (controlEvent.first->isExpression() || controlEvent.first->isPlayTechAnnotation()) {
-            success = success && this->writeDir(toTextBase(controlEvent.first), controlEvent.second);
+            success = success
+                      && this->writeDynam(toDynamic(controlEvent.first), controlEvent.second);
+        } else if (controlEvent.first->isExpression()
+                   || controlEvent.first->isPlayTechAnnotation()) {
+            success = success
+                      && this->writeDir(toTextBase(controlEvent.first), controlEvent.second);
         } else if (controlEvent.first->isFermata()) {
-            success = success && this->writeFermata(toFermata(controlEvent.first), controlEvent.second);
+            success = success && this->writeFermata(toFermata(
+                                                        controlEvent.first), controlEvent.second);
         } else if (controlEvent.first->isFiguredBass()) {
-            success = success && this->writeFb(toFiguredBass(controlEvent.first), controlEvent.second);
+            success = success && this->writeFb(toFiguredBass(
+                                                   controlEvent.first), controlEvent.second);
         } else if (controlEvent.first->isFingering()) {
-            success = success && this->writeFing(toFingering(controlEvent.first), controlEvent.second);
+            success = success && this->writeFing(toFingering(
+                                                     controlEvent.first), controlEvent.second);
         } else if (controlEvent.first->isGlissando()) {
-            success = success && this->writeGliss(toGlissando(controlEvent.first), controlEvent.second);
+            success = success && this->writeGliss(toGlissando(
+                                                      controlEvent.first), controlEvent.second);
         } else if (controlEvent.first->isHairpin()) {
-            success = success && this->writeHairpin(toHairpin(controlEvent.first), controlEvent.second);
+            success = success && this->writeHairpin(toHairpin(
+                                                        controlEvent.first), controlEvent.second);
         } else if (controlEvent.first->isHarmony()) {
-            success = success && this->writeHarm(toHarmony(controlEvent.first), controlEvent.second);
+            success = success
+                      && this->writeHarm(toHarmony(controlEvent.first), controlEvent.second);
         } else if (controlEvent.first->isHarpPedalDiagram()) {
-            success = success && this->writeHarpPedal(toHarpPedalDiagram(controlEvent.first), controlEvent.second);
+            success = success && this->writeHarpPedal(toHarpPedalDiagram(
+                                                          controlEvent.first), controlEvent.second);
         } else if (controlEvent.first->isOrnament()) {
-            success = success && this->writeOrnament(toOrnament(controlEvent.first), controlEvent.second);
+            success = success && this->writeOrnament(toOrnament(
+                                                         controlEvent.first), controlEvent.second);
         } else if (controlEvent.first->isOttava()) {
-            success = success && this->writeOctave(toOttava(controlEvent.first), controlEvent.second);
+            success = success
+                      && this->writeOctave(toOttava(controlEvent.first), controlEvent.second);
         } else if (controlEvent.first->isPedal()) {
             success = success && this->writePedal(toPedal(controlEvent.first), controlEvent.second);
         } else if (controlEvent.first->isRehearsalMark()) {
-            success = success && this->writeRehearsalMark(toRehearsalMark(controlEvent.first), controlEvent.second);
+            success = success && this->writeRehearsalMark(toRehearsalMark(
+                                                              controlEvent.first),
+                                                          controlEvent.second);
         } else if (controlEvent.first->isSlur()) {
             success = success && this->writeSlur(toSlur(controlEvent.first), controlEvent.second);
         } else if (controlEvent.first->isStaffText()) {
-            success = success && this->writeDir(toTextBase(controlEvent.first), controlEvent.second);
+            success = success
+                      && this->writeDir(toTextBase(controlEvent.first), controlEvent.second);
         } else if (controlEvent.first->isSystemText()) {
-            success = success && this->writeDir(toTextBase(controlEvent.first), controlEvent.second);
+            success = success
+                      && this->writeDir(toTextBase(controlEvent.first), controlEvent.second);
         } else if (controlEvent.first->isTempoText()) {
-            success = success && this->writeTempo(toTempoText(controlEvent.first), controlEvent.second);
+            success = success && this->writeTempo(toTempoText(
+                                                      controlEvent.first), controlEvent.second);
         } else if (controlEvent.first->isTie()) {
             success = success && this->writeTie(toTie(controlEvent.first), controlEvent.second);
         } else if (controlEvent.first->isTrill()) {
@@ -910,7 +945,8 @@ bool MeiExporter::writeMeasure(const Measure* measure, int& measureN, bool& isFi
 
     for (auto controlEvent : m_tstampControlEventMap) {
         if (controlEvent.first->isFermata()) {
-            success = success && this->writeFermata(toFermata(controlEvent.first), controlEvent.second.first,
+            success = success && this->writeFermata(toFermata(
+                                                        controlEvent.first), controlEvent.second.first,
                                                     controlEvent.second.second);
         }
     }
@@ -1085,7 +1121,8 @@ bool MeiExporter::writeArtic(const ChordLine* chordline)
  * Closing beam and tuplet only change the bool parameters and actually closing the elements is happening in MeiExporter::writeBeamAndTupletEnd
  */
 
-bool MeiExporter::writeBeamAndTuplet(const ChordRest* chordRest, bool& closingBeam, bool& closingTuplet, bool& closingBeamInTuplet)
+bool MeiExporter::writeBeamAndTuplet(const ChordRest* chordRest, bool& closingBeam,
+                                     bool& closingTuplet, bool& closingBeamInTuplet)
 {
     IF_ASSERT_FAILED(chordRest) {
         return false;
@@ -1096,7 +1133,8 @@ bool MeiExporter::writeBeamAndTuplet(const ChordRest* chordRest, bool& closingBe
     const Beam* beamInTuplet = nullptr;
 
     if (beam && tuplet) {
-        if ((beam->elements().front() == chordRest) && ((tuplet->elements().front() == chordRest))) {
+        if ((beam->elements().front() == chordRest)
+            && ((tuplet->elements().front() == chordRest))) {
             if (beam->elements().size() < tuplet->elements().size()) {
                 beamInTuplet = beam;
                 beam = nullptr;
@@ -1127,7 +1165,8 @@ bool MeiExporter::writeBeamAndTuplet(const ChordRest* chordRest, bool& closingBe
  * Close beam and tuplet elements according to the parameters calculated in MeiExporter::writeBeamAndTuplet
  */
 
-bool MeiExporter::writeBeamAndTupletEnd(bool closingBeam, bool closingTuplet, bool closingBeamInTuplet)
+bool MeiExporter::writeBeamAndTupletEnd(bool closingBeam, bool closingTuplet,
+                                        bool closingBeamInTuplet)
 {
     // non critical asserts
     if (closingBeamInTuplet) {
@@ -1169,7 +1208,8 @@ bool MeiExporter::writeBeam(const Beam* beam, const ChordRest* chordRest, bool& 
         libmei::Beam meiBeam;
         m_currentNode = m_currentNode.append_child();
         meiBeam.Write(m_currentNode, this->getLayerXmlIdFor(BEAM_L));
-    } else if ((chordRest->beamMode() == BeamMode::BEGIN16) || (chordRest->beamMode() == BeamMode::BEGIN32)) {
+    } else if ((chordRest->beamMode() == BeamMode::BEGIN16)
+               || (chordRest->beamMode() == BeamMode::BEGIN32)) {
         pugi::xml_node lastInBeam = this->getLastChordRest(m_currentNode);
         // We have already written one chord/rest element in the beam, the last one is the one we need to modify
         if (lastInBeam) {
@@ -1841,7 +1881,8 @@ bool MeiExporter::writeFermata(const Fermata* fermata, const std::string& starti
  * Write a fermata with a staffNs and tstamp
  */
 
-bool MeiExporter::writeFermata(const Fermata* fermata, const libmei::xsdPositiveInteger_List& staffNs, double tstamp)
+bool MeiExporter::writeFermata(const Fermata* fermata,
+                               const libmei::xsdPositiveInteger_List& staffNs, double tstamp)
 {
     IF_ASSERT_FAILED(fermata) {
         return false;
@@ -1956,7 +1997,8 @@ bool MeiExporter::writeHarm(const Harmony* harmony, const std::string& startid)
  * Write a harpPedal.
  */
 
-bool MeiExporter::writeHarpPedal(const HarpPedalDiagram* harpPedalDiagram, const std::string& startid)
+bool MeiExporter::writeHarpPedal(const HarpPedalDiagram* harpPedalDiagram,
+                                 const std::string& startid)
 {
     IF_ASSERT_FAILED(harpPedalDiagram) {
         return false;
@@ -2170,7 +2212,8 @@ bool MeiExporter::writeTempo(const TempoText* tempoText, const std::string& star
     pugi::xml_node tempoNode = m_currentNode.append_child();
     libmei::Tempo meiTempo = Convert::tempoToMEI(tempoText, meiLines);
     if (tempoText->tick() == tempoText->measure()->tick()) {
-        double tstamp = Convert::tstampFromFraction(tempoText->tick() - tempoText->measure()->tick(), tempoText->measure()->timesig());
+        double tstamp = Convert::tstampFromFraction(
+            tempoText->tick() - tempoText->measure()->tick(), tempoText->measure()->timesig());
         meiTempo.SetTstamp(tstamp);
     } else {
         meiTempo.SetStartid(startid);
@@ -2272,7 +2315,8 @@ bool MeiExporter::writeBeamTypeAtt(const ChordRest* chordRest, libmei::AttTyped&
  * Write the cross-staff attribute (@staff) for a ChordRest (i.e., chord, note, rest or space).
  */
 
-bool MeiExporter::writeStaffIdentAtt(const ChordRest* chordRest, const Staff* staff, libmei::AttStaffIdent& staffIdentAtt)
+bool MeiExporter::writeStaffIdentAtt(const ChordRest* chordRest, const Staff* staff,
+                                     libmei::AttStaffIdent& staffIdentAtt)
 {
     if (chordRest->staffMove() != 0) {
         staff_idx_t staffN = staff->idx() + chordRest->staffMove() + 1;
@@ -2318,7 +2362,8 @@ bool MeiExporter::isCurrentNode(const libmei::Element& element)
 std::vector<const Volta*> MeiExporter::findVoltasInMeasure(const Measure* measure)
 {
     std::vector<const Volta*> voltas;
-    auto spanners = m_score->spannerMap().findOverlapping(measure->tick().ticks(), measure->endTick().ticks());
+    auto spanners = m_score->spannerMap().findOverlapping(measure->tick().ticks(),
+                                                          measure->endTick().ticks());
     for (auto interval : spanners) {
         Spanner* spanner = interval.value;
         if (spanner && spanner->isVolta()) {
@@ -2360,7 +2405,9 @@ void MeiExporter::fillControlEventMap(const std::string& xmlId, const ChordRest*
     auto spanners = smap.findOverlapping(chordRest->tick().ticks(), chordRest->tick().ticks());
     for (auto interval : spanners) {
         Spanner* spanner = interval.value;
-        if (spanner && (spanner->isHairpin() || spanner->isOttava() || spanner->isPedal() || spanner->isSlur() || spanner->isTrill())) {
+        if (spanner
+            && (spanner->isHairpin() || spanner->isOttava() || spanner->isPedal()
+                || spanner->isSlur() || spanner->isTrill())) {
             if (spanner->startCR() == chordRest) {
                 m_startingControlEventList.push_back(std::make_pair(spanner, "#" + xmlId));
             } else if (spanner->endCR() == chordRest) {
@@ -2427,7 +2474,8 @@ std::string MeiExporter::findStartIdFor(const EngravingItem* item)
  * See MeiExporter::addJumpToRepeatMarks
  */
 
-void MeiExporter::addToRepeatMarkList(const EngravingItem* repeatMark, pugi::xml_node node, const std::string& xmlId)
+void MeiExporter::addToRepeatMarkList(const EngravingItem* repeatMark, pugi::xml_node node,
+                                      const std::string& xmlId)
 {
     IF_ASSERT_FAILED(repeatMark) {
         return;
@@ -2458,7 +2506,9 @@ void MeiExporter::addJumpToRepeatMarks()
             // For each jump, lookup the Marker that has the label matching the jumpTo
             const Jump* jump = toJump(item.m_repeatMark);
             item.m_jumptToLabel = jump->jumpTo().toStdString();
-            auto jumpTo = std::find_if(m_repeatMarks.begin(), m_repeatMarks.end(), [jump](RepeatMark& item) {
+            auto jumpTo
+                = std::find_if(m_repeatMarks.begin(),
+                               m_repeatMarks.end(), [jump](RepeatMark& item) {
                 if (!item.m_repeatMark->isMarker()) {
                     return false;
                 }
@@ -2472,14 +2522,18 @@ void MeiExporter::addJumpToRepeatMarks()
             }
 
             // Try to see if we have a playUntil Marker and a continueAt Marker
-            auto playUntil = std::find_if(m_repeatMarks.begin(), m_repeatMarks.end(), [jump](RepeatMark& item) {
+            auto playUntil
+                = std::find_if(m_repeatMarks.begin(),
+                               m_repeatMarks.end(), [jump](RepeatMark& item) {
                 if (!item.m_repeatMark->isMarker()) {
                     return false;
                 }
                 const Marker* marker = toMarker(item.m_repeatMark);
                 return marker->label() == jump->playUntil();
             });
-            auto continueAt = std::find_if(m_repeatMarks.begin(), m_repeatMarks.end(), [jump](RepeatMark& item) {
+            auto continueAt
+                = std::find_if(m_repeatMarks.begin(),
+                               m_repeatMarks.end(), [jump](RepeatMark& item) {
                 if (!item.m_repeatMark->isMarker()) {
                     return false;
                 }
@@ -2505,7 +2559,8 @@ void MeiExporter::addJumpToRepeatMarks()
  * Add the Fermata to the m_tstampControlEventMap with the appropriate @staff and @tstamp values.
  */
 
-bool MeiExporter::addFermataToMap(const track_idx_t track, const Segment* segment, const Measure* measure)
+bool MeiExporter::addFermataToMap(const track_idx_t track, const Segment* segment,
+                                  const Measure* measure)
 {
     IF_ASSERT_FAILED(segment) {
         return false;
@@ -2517,7 +2572,8 @@ bool MeiExporter::addFermataToMap(const track_idx_t track, const Segment* segmen
             libmei::xsdPositiveInteger_List staffNs;
             staffNs.push_back(static_cast<int>(staffN));
             double tstamp = Convert::tstampFromFraction(measure->ticks(), measure->timesig());
-            m_tstampControlEventMap.push_back(std::make_pair(toFermata(annotation), std::make_pair(staffNs, tstamp)));
+            m_tstampControlEventMap.push_back(std::make_pair(toFermata(annotation),
+                                                             std::make_pair(staffNs, tstamp)));
         }
     }
 
@@ -2547,7 +2603,9 @@ pugi::xml_node MeiExporter::getLastChordRest(pugi::xml_node node)
     pugi::xml_node chordRest;
 
     for (pugi::xml_node child : node.children()) {
-        if (this->isNode(child, u"chord") || this->isNode(child, u"note") || this->isNode(child, u"rest")) {
+        if (this->isNode(child,
+                         u"chord")
+            || this->isNode(child, u"note") || this->isNode(child, u"rest")) {
             chordRest = child;
         }
     }
@@ -2559,7 +2617,8 @@ pugi::xml_node MeiExporter::getLastChordRest(pugi::xml_node node)
  * For spanners starting and ending on the same element (hairpin, ottava), the @endid is added directly together with a @dur
  */
 
-void MeiExporter::addNodeToOpenControlEvents(pugi::xml_node node, const Spanner* spanner, const std::string& startid)
+void MeiExporter::addNodeToOpenControlEvents(pugi::xml_node node, const Spanner* spanner,
+                                             const std::string& startid)
 {
     if (spanner->startElement() && (spanner->startElement() == spanner->endElement())) {
         // Add a @endid
@@ -2647,7 +2706,8 @@ std::string MeiExporter::baseEncodeInt(uint32_t value, uint8_t base)
         return "";
     }
 
-    static const std::string base62Chars = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    static const std::string base62Chars
+        = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
     std::string base62;
     if (value < base) {
@@ -2765,7 +2825,8 @@ std::string MeiExporter::getLayerXmlId()
 {
     // Reset the layer sub-counters when a new layer starts
     this->resetLayerIDs();
-    return String("m%1s%2l%3").arg(m_measureCounter).arg(m_staffCounter).arg(++m_layerCounter).toStdString();
+    return String("m%1s%2l%3").arg(m_measureCounter).arg(m_staffCounter).arg(++m_layerCounter).
+           toStdString();
 }
 
 /**
@@ -2778,11 +2839,15 @@ std::string MeiExporter::getLayerXmlIdFor(layerElementCounter elementType)
     if (MEI_COUNTER_BASED_IDS) {
         // m (Measure) / s (Staff) / l (Layer) / ? Layer element type
         // The layer element abbreviation is given in the MeiExporter::s_layerXmlIdMap
-        id = String("m%1s%2l%3%4%5").arg(m_measureCounter).arg(m_staffCounter).arg(m_layerCounter).arg(MeiExporter::s_layerXmlIdMap.at(
-                                                                                                           elementType)).arg(++(
-                                                                                                                                 m_layerCounterFor
-                                                                                                                                 .at(
-                                                                                                                                     elementType)));
+        id
+            = String("m%1s%2l%3%4%5").arg(m_measureCounter).arg(m_staffCounter).arg(m_layerCounter).
+              arg(MeiExporter::s_layerXmlIdMap.at(
+                      elementType))
+              .arg(++(
+                       m_layerCounterFor
+                       .
+                       at(
+                           elementType)));
     }
     return id.toStdString();
 }

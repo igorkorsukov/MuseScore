@@ -68,18 +68,24 @@ private:
     static Lyrics* findNextLyrics(const ChordRest* endChordRest, int verseNumber);
 
     static void computeVerticalPositions(staff_idx_t staffIdx, System* system, LayoutContext& ctx);
-    static void collectLyricsVerses(staff_idx_t staffIdx, System* system, LyricsVersesMap& lyricsVersesAbove,
+    static void collectLyricsVerses(staff_idx_t staffIdx, System* system,
+                                    LyricsVersesMap& lyricsVersesAbove,
                                     LyricsVersesMap& lyricsVersesBelow);
 
     static void setDefaultPositions(staff_idx_t staffIdx, const LyricsVersesMap& lyricsVersesAbove,
                                     const LyricsVersesMap& lyricsVersesBelow, LayoutContext& ctx);
 
-    static void checkCollisionsWithStaffElements(System* system, staff_idx_t staffIdx,  LayoutContext& ctx,
-                                                 const LyricsVersesMap& lyricsVersesAbove, const LyricsVersesMap& lyricsVersesBelow);
-    static SkylineLine createSkylineForVerse(int verse, bool north, const LyricsVersesMap& lyricsVerses, System* system);
-    static void moveThisVerseAndOuterOnes(int verse, int lastVerse, bool above, double diff, const LyricsVersesMap& lyricsVerses);
+    static void checkCollisionsWithStaffElements(System* system, staff_idx_t staffIdx,
+                                                 LayoutContext& ctx,
+                                                 const LyricsVersesMap& lyricsVersesAbove,
+                                                 const LyricsVersesMap& lyricsVersesBelow);
+    static SkylineLine createSkylineForVerse(int verse, bool north,
+                                             const LyricsVersesMap& lyricsVerses, System* system);
+    static void moveThisVerseAndOuterOnes(int verse, int lastVerse, bool above, double diff,
+                                          const LyricsVersesMap& lyricsVerses);
 
-    static void addToSkyline(System* system, staff_idx_t staffIdx, LayoutContext& ctx, const LyricsVersesMap& lyricsVersesAbove,
+    static void addToSkyline(System* system, staff_idx_t staffIdx, LayoutContext& ctx,
+                             const LyricsVersesMap& lyricsVersesAbove,
                              const LyricsVersesMap& lyricsVersesBelow);
 
     static double lyricsLineStartX(const LyricsLineSegment* item);

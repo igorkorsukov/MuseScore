@@ -62,7 +62,9 @@ void MidiInputOutputController::init()
         }
     });
 
-    midiInPort()->eventReceived().onReceive(this, [this](const muse::midi::tick_t tick, const muse::midi::Event& event) {
+    midiInPort()->eventReceived().onReceive(this,
+                                            [this](const muse::midi::tick_t tick,
+                                                   const muse::midi::Event& event) {
         if (!configuration()->isMidiInputEnabled()) {
             return;
         }
@@ -106,10 +108,12 @@ void MidiInputOutputController::checkConnection(const muse::midi::MidiDeviceID& 
         return false;
     };
 
-    if (!preferredDeviceId.empty() && preferredDeviceId != currentDeviceId && containsDevice(availableDevices, preferredDeviceId)) {
+    if (!preferredDeviceId.empty() && preferredDeviceId != currentDeviceId
+        && containsDevice(availableDevices, preferredDeviceId)) {
         Ret ret = connectCallback(preferredDeviceId);
         if (!ret) {
-            LOGW() << "failed connect to device, deviceID: " << preferredDeviceId << ", err: " << ret.text();
+            LOGW() << "failed connect to device, deviceID: " << preferredDeviceId << ", err: " <<
+                ret.text();
         }
 
         return;
@@ -130,7 +134,8 @@ void MidiInputOutputController::checkConnection(const muse::midi::MidiDeviceID& 
     }
 }
 
-void MidiInputOutputController::onMidiEventReceived(const muse::midi::tick_t tick, const muse::midi::Event& event)
+void MidiInputOutputController::onMidiEventReceived(const muse::midi::tick_t tick,
+                                                    const muse::midi::Event& event)
 {
     UNUSED(tick)
 
@@ -152,7 +157,8 @@ void MidiInputOutputController::onMidiEventReceived(const muse::midi::tick_t tic
     }
 }
 
-muse::midi::MidiDeviceID MidiInputOutputController::firstAvailableDeviceId(const muse::midi::MidiDeviceList& devices) const
+muse::midi::MidiDeviceID MidiInputOutputController::firstAvailableDeviceId(
+    const muse::midi::MidiDeviceList& devices) const
 {
     for (const muse::midi::MidiDevice& device : devices) {
         if (device.id == muse::midi::NONE_DEVICE_ID) {

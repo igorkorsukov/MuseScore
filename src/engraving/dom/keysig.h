@@ -50,7 +50,10 @@ public:
     void setKey(Key concertKey);
 
     Segment* segment() const { return (Segment*)explicitParent(); }
-    Measure* measure() const { return explicitParent() ? (Measure*)explicitParent()->explicitParent() : nullptr; }
+    Measure* measure() const
+    {
+        return explicitParent() ? (Measure*)explicitParent()->explicitParent() : nullptr;
+    }
 
     Key key() const { return m_sig.key(); }
     Key concertKey() const { return m_sig.concertKey(); }
@@ -76,7 +79,10 @@ public:
     bool hideNaturals() const { return m_hideNaturals; }
     void setHideNaturals(bool hide) { m_hideNaturals = hide; }
 
-    void setForInstrumentChange(bool forInstrumentChange) { m_sig.setForInstrumentChange(forInstrumentChange); }
+    void setForInstrumentChange(bool forInstrumentChange)
+    {
+        m_sig.setForInstrumentChange(forInstrumentChange);
+    }
     bool forInstrumentChange() const { return m_sig.forInstrumentChange(); }
 
     PropertyValue getProperty(Pid propertyId) const override;

@@ -50,7 +50,8 @@ PartListModel::PartListModel(QObject* parent)
     : QAbstractListModel(parent), muse::Contextable(muse::iocCtxForQmlObject(this)),
     m_selectionModel(new ItemMultiSelectionModel(this))
 {
-    connect(m_selectionModel, &ItemMultiSelectionModel::selectionChanged, this, &PartListModel::selectionChanged);
+    connect(m_selectionModel, &ItemMultiSelectionModel::selectionChanged, this,
+            &PartListModel::selectionChanged);
 }
 
 void PartListModel::load()
@@ -126,7 +127,9 @@ void PartListModel::createNewPart()
 {
     TRACEFUNC;
 
-    QString name = mu::engraving::formatUniqueExcerptName(muse::mtrc("notation", "Part"), collectExcerptLowerNames(m_excerpts)).toQString();
+    QString name = mu::engraving::formatUniqueExcerptName(muse::mtrc("notation",
+                                                                     "Part"), collectExcerptLowerNames(
+                                                              m_excerpts)).toQString();
     IExcerptNotationPtr newExcerpt = masterNotation()->createEmptyExcerpt(name);
 
     int index = m_excerpts.size();
@@ -284,7 +287,8 @@ void PartListModel::copyPart(int partIndex)
 
     IExcerptNotationPtr copy = m_excerpts[partIndex]->clone();
     String baseName = String::fromQString(copy->name()) + u" " + muse::mtrc("notation", "(copy)");
-    copy->setName(mu::engraving::formatUniqueExcerptName(baseName, collectExcerptLowerNames(m_excerpts)));
+    copy->setName(mu::engraving::formatUniqueExcerptName(baseName,
+                                                         collectExcerptLowerNames(m_excerpts)));
 
     insertNewExcerpt(partIndex + 1, copy);
 }

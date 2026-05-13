@@ -42,14 +42,17 @@ public:
     MOCK_METHOD(void, toggleVisible, (), (override));
 
     MOCK_METHOD(EngravingItem*, hitElement, (const muse::PointF&, float), (const, override));
-    MOCK_METHOD(std::vector<EngravingItem*>, hitElements, (const muse::PointF&, float), (const, override));
+    MOCK_METHOD(std::vector<EngravingItem*>, hitElements, (const muse::PointF&, float),
+                (const, override));
     MOCK_METHOD(Staff*, hitStaff, (const muse::PointF&), (const, override));
 
     MOCK_METHOD(const HitElementContext&, hitElementContext, (), (const, override));
     MOCK_METHOD(void, setHitElementContext, (const HitElementContext&), (override));
 
     MOCK_METHOD(void, moveChordNoteSelection, (MoveDirection), (override));
-    MOCK_METHOD(void, select, (const std::vector<EngravingItem*>&, SelectType, engraving::staff_idx_t), (override));
+    MOCK_METHOD(void, select,
+                (const std::vector<EngravingItem*>&, SelectType, engraving::staff_idx_t),
+                (override));
     MOCK_METHOD(void, selectAndStartEditIfNeeded, (EngravingItem*), (override));
     MOCK_METHOD(void, selectAll, (), (override));
     MOCK_METHOD(void, selectSection, (), (override));
@@ -64,20 +67,25 @@ public:
     MOCK_METHOD(INotationSelectionFilterPtr, selectionFilter, (), (const, override));
 
     MOCK_METHOD(bool, isDragStarted, (), (const, override));
-    MOCK_METHOD(void, startDrag, (const std::vector<EngravingItem*>&, const muse::PointF&, const IsDraggable&), (override));
+    MOCK_METHOD(void, startDrag,
+                (const std::vector<EngravingItem*>&, const muse::PointF&, const IsDraggable&),
+                (override));
     MOCK_METHOD(void, drag, (const muse::PointF&, const muse::PointF&, DragMode), (override));
     MOCK_METHOD(void, endDrag, (), (override));
     MOCK_METHOD(muse::async::Notification, dragChanged, (), (const, override));
 
     MOCK_METHOD(bool, isOutgoingDragElementAllowed, (const EngravingItem*), (const, override));
-    MOCK_METHOD(void, startOutgoingDragElement, (const EngravingItem*, QObject*, const muse::PointF&), (override));
+    MOCK_METHOD(void, startOutgoingDragElement, (const EngravingItem*, QObject*,
+                                                 const muse::PointF&), (override));
     MOCK_METHOD(void, startOutgoingDragRange, (QObject*), (override));
     MOCK_METHOD(bool, isOutgoingDragStarted, (), (const, override));
     MOCK_METHOD(void, endOutgoingDrag, (), (override));
 
     MOCK_METHOD(bool, startDropSingle, (const QByteArray&), (override));
     MOCK_METHOD(bool, startDropRange, (const QByteArray&), (override));
-    MOCK_METHOD(bool, startDropRange, (const Fraction&, const Fraction&, engraving::staff_idx_t, size_t, bool), (override));
+    MOCK_METHOD(bool, startDropRange,
+                (const Fraction&, const Fraction&, engraving::staff_idx_t, size_t, bool),
+                (override));
     MOCK_METHOD(bool, startDropImage, (const QUrl&), (override));
     MOCK_METHOD(bool, updateDropSingle, (const muse::PointF&, Qt::KeyboardModifiers), (override));
     MOCK_METHOD(bool, updateDropRange, (const muse::PointF&, std::optional<bool>), (override));
@@ -88,7 +96,8 @@ public:
     MOCK_METHOD(void, endDrop, (), (override));
     MOCK_METHOD(muse::async::Notification, dropChanged, (), (const, override));
 
-    MOCK_METHOD(bool, applyPaletteElement, (mu::engraving::EngravingItem*, Qt::KeyboardModifiers), (override));
+    MOCK_METHOD(bool, applyPaletteElement, (mu::engraving::EngravingItem*, Qt::KeyboardModifiers),
+                (override));
     MOCK_METHOD(void, undo, (), (override));
     MOCK_METHOD(void, redo, (), (override));
     MOCK_METHOD(void, undoRedoToIndex, (size_t idx), (override));
@@ -212,12 +221,14 @@ public:
     MOCK_METHOD(void, addStretch, (qreal), (override));
 
     MOCK_METHOD(Measure*, selectedMeasure, (), (const, override));
-    MOCK_METHOD(void, addTimeSignature, (Measure*, engraving::staff_idx_t, TimeSignature*), (override));
+    MOCK_METHOD(void, addTimeSignature, (Measure*, engraving::staff_idx_t, TimeSignature*),
+                (override));
 
     MOCK_METHOD(void, explodeSelectedStaff, (), (override));
     MOCK_METHOD(void, implodeSelectedStaff, (), (override));
 
-    MOCK_METHOD(void, realizeSelectedChordSymbols, (bool, Voicing, HarmonyDurationType), (override));
+    MOCK_METHOD(void, realizeSelectedChordSymbols, (bool, Voicing, HarmonyDurationType),
+                (override));
     MOCK_METHOD(void, extendToNextNote, (), (override));
     MOCK_METHOD(void, removeSelectedMeasures, (), (override));
     MOCK_METHOD(void, removeSelectedRange, (), (override));
@@ -277,10 +288,12 @@ public:
     MOCK_METHOD(void, toggleOrnament, (mu::engraving::SymId), (override));
     MOCK_METHOD(void, changeAccidental, (mu::engraving::AccidentalType), (override));
     MOCK_METHOD(void, transposeSemitone, (int), (override));
-    MOCK_METHOD(void, transposeDiatonicAlterations, (mu::engraving::TransposeDirection), (override));
+    MOCK_METHOD(void, transposeDiatonicAlterations, (mu::engraving::TransposeDirection),
+                (override));
     MOCK_METHOD(void, toggleAutoplace, (bool), (override));
     MOCK_METHOD(void, getLocation, (), (override));
-    MOCK_METHOD(void, execute, (void (mu::engraving::Score::*)(), const muse::TranslatableString&), (override));
+    MOCK_METHOD(void, execute,
+                (void (mu::engraving::Score::*)(), const muse::TranslatableString&), (override));
 
     MOCK_METHOD(void, showItem, (const mu::engraving::EngravingItem*, int), (override));
     MOCK_METHOD(muse::async::Channel<ShowItemRequest>, showItemRequested, (), (const, override));

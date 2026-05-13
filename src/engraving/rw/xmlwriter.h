@@ -35,13 +35,17 @@ public:
     XmlWriter(muse::io::IODevice* dev);
     ~XmlWriter();
 
-    const std::vector<std::pair<const EngravingObject*, AsciiStringView> >& elements() const { return _elements; }
+    const std::vector<std::pair<const EngravingObject*, AsciiStringView> >& elements() const
+    {
+        return _elements;
+    }
     void setRecordElements(bool record) { _recordElements = record; }
 
     void startElementRaw(const String& name);
     void startElement(const AsciiStringView& name, const Attributes& attrs = {});
     void startElement(const EngravingObject* se, const Attributes& attrs = {});
-    void startElement(const AsciiStringView& name, const EngravingObject* se, const Attributes& attrs = {});
+    void startElement(const AsciiStringView& name, const EngravingObject* se,
+                      const Attributes& attrs = {});
 
     void tag(const AsciiStringView& name, const Attributes& attrs = {});
     void tag(const AsciiStringView& name, const Value& body);
@@ -50,9 +54,11 @@ public:
     void tagRaw(const String& elementWithAttrs, const Value& body = Value());
 
     void tagProperty(Pid id, const PropertyValue& data, const PropertyValue& def = PropertyValue());
-    void tagProperty(const AsciiStringView&, const PropertyValue& data, const PropertyValue& def = PropertyValue());
+    void tagProperty(const AsciiStringView&, const PropertyValue& data,
+                     const PropertyValue& def = PropertyValue());
 
-    void tagFraction(const AsciiStringView& name, const Fraction& v, const Fraction& def = Fraction());
+    void tagFraction(const AsciiStringView& name, const Fraction& v,
+                     const Fraction& def = Fraction());
     void tagPoint(const AsciiStringView& name, const PointF& v);
 
     void writeXml(const String&, String s);

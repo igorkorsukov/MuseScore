@@ -49,7 +49,8 @@ class Painter;
 }
 
 #define DECLARE_LAYOUTDATA_METHODS(Class) \
-    const LayoutData* ldata() const { return static_cast<const Class::LayoutData*>(EngravingItem::ldata()); } \
+    const LayoutData* ldata() const { return static_cast<const Class::LayoutData*>(EngravingItem:: \
+                                                                                   ldata()); } \
     LayoutData* mutldata() { return static_cast<Class::LayoutData*>(EngravingItem::mutldata()); } \
     LayoutData* createLayoutData() const override { return new Class::LayoutData(); } \
 
@@ -220,7 +221,10 @@ public:
 
     virtual bool isInteractionAvailable() const;
 
-    bool sizeIsSpatiumDependent() const override { return !flag(ElementFlag::SIZE_SPATIUM_DEPENDENT); }
+    bool sizeIsSpatiumDependent() const override
+    {
+        return !flag(ElementFlag::SIZE_SPATIUM_DEPENDENT);
+    }
     void setSizeIsSpatiumDependent(bool v) { setFlag(ElementFlag::SIZE_SPATIUM_DEPENDENT, !v); }
     bool offsetIsSpatiumDependent() const override;
 
@@ -274,7 +278,8 @@ public:
     virtual int subtype() const { return -1; }                    // for select gui
 
 //       virtual ElementGroup getElementGroup() { return SingleElementGroup(this); }
-    virtual std::unique_ptr<ElementGroup> getDragGroup(std::function<bool(const EngravingItem*)> /*isDragged*/)
+    virtual std::unique_ptr<ElementGroup> getDragGroup(
+        std::function<bool(const EngravingItem*)> /*isDragged*/)
     {
         return std::unique_ptr<ElementGroup>(new SingleElementGroup(this));
     }
@@ -319,7 +324,10 @@ public:
     virtual Grip initialEditModeGrip() const { return Grip::NO_GRIP; }
     virtual Grip defaultGrip() const { return Grip::NO_GRIP; }
     /** muse::Returns grips positions in page coordinates. */
-    virtual std::vector<PointF> gripsPositions(const EditData& = EditData()) const { return std::vector<PointF>(); }
+    virtual std::vector<PointF> gripsPositions(const EditData& = EditData()) const
+    {
+        return std::vector<PointF>();
+    }
 
     bool hasGrips() const;
 
@@ -366,7 +374,8 @@ public:
     void undoAddElement(EngravingItem* element, bool addToLinkedStaves = true);
 
     static ElementType readType(XmlReader& node, PointF*, Fraction*);
-    static EngravingItem* readMimeData(Score* score, const muse::ByteArray& data, PointF*, Fraction*);
+    static EngravingItem* readMimeData(Score* score, const muse::ByteArray& data, PointF*,
+                                       Fraction*);
 
     virtual muse::ByteArray mimeData(const PointF& dragOffset = PointF()) const;
 /**
@@ -429,7 +438,11 @@ public:
 
     bool autoplace() const;
     virtual void setAutoplace(bool v) { setFlag(ElementFlag::NO_AUTOPLACE, !v); }
-    bool addToSkyline() const { return !(m_flags & (ElementFlag::INVISIBLE | ElementFlag::NO_AUTOPLACE)) && !ldata()->isSkipDraw(); }
+    bool addToSkyline() const
+    {
+        return !(m_flags & (ElementFlag::INVISIBLE | ElementFlag::NO_AUTOPLACE))
+               && !ldata()->isSkipDraw();
+    }
 
     bool excludeVerticalAlign() const { return m_excludeVerticalAlign; }
     void setExcludeVerticalAlign(bool v) { m_excludeVerticalAlign = v; }
@@ -443,9 +456,12 @@ public:
     bool custom(Pid) const;
     virtual bool isUserModified() const;
 
-    void drawSymbol(SymId id, muse::draw::Painter* p, const PointF& o = PointF(), double scale = 1.0) const;
-    void drawSymbols(const SymIdList&, muse::draw::Painter* p, const PointF& o = PointF(), double scale = 1.0) const;
-    void drawSymbols(const SymIdList&, muse::draw::Painter* p, const PointF& o, const SizeF& scale) const;
+    void drawSymbol(SymId id, muse::draw::Painter* p,
+                    const PointF& o = PointF(), double scale = 1.0) const;
+    void drawSymbols(const SymIdList&, muse::draw::Painter* p,
+                     const PointF& o = PointF(), double scale = 1.0) const;
+    void drawSymbols(const SymIdList&, muse::draw::Painter* p, const PointF& o,
+                     const SizeF& scale) const;
     double symHeight(SymId id) const;
     double symWidth(SymId id) const;
     double symWidth(const SymIdList&) const;
@@ -486,9 +502,13 @@ public:
 
     double styleP(Sid idx) const;
 
-    virtual void setParenthesesMode(const ParenthesesMode& v, bool addToLinked = true, bool generated = false);
+    virtual void setParenthesesMode(const ParenthesesMode& v, bool addToLinked = true,
+                                    bool generated = false);
     ParenthesesMode parenthesesMode() const;
-    inline Parenthesis* paren(const DirectionH& dir) const { return dir == DirectionH::LEFT ? m_leftParenthesis : m_rightParenthesis; }
+    inline Parenthesis* paren(const DirectionH& dir) const
+    {
+        return dir == DirectionH::LEFT ? m_leftParenthesis : m_rightParenthesis;
+    }
     Parenthesis* leftParen() const { return m_leftParenthesis; }
     Parenthesis* rightParen() const { return m_rightParenthesis; }
     void setLeftParen(Parenthesis* paren) { m_leftParenthesis = paren; }
@@ -523,7 +543,10 @@ public:
             //m_pos.reset();
         }
 
-        virtual bool isValid() const { return m_shape.has_value() && m_shape.value().bbox().isValid(); }
+        virtual bool isValid() const
+        {
+            return m_shape.has_value() && m_shape.value().bbox().isValid();
+        }
 
         bool isSkipDraw() const { return m_isSkipDraw; }
         void setIsSkipDraw(bool val) { m_isSkipDraw = val; }
@@ -543,9 +566,19 @@ public:
         void setPos(double x, double y) { doSetPos(x, y); }
         void setPosX(double x) { doSetPos(x, pos(LD_ACCESS::MAYBE_NOTINITED).y()); }
         void setPosY(double y) { doSetPos(pos(LD_ACCESS::MAYBE_NOTINITED).x(), y); }
-        void move(const PointF& p) { doSetPos(pos(LD_ACCESS::MAYBE_NOTINITED).x() + p.x(), pos(LD_ACCESS::MAYBE_NOTINITED).y() + p.y()); }
-        void moveX(double x) { doSetPos(pos(LD_ACCESS::MAYBE_NOTINITED).x() + x, pos(LD_ACCESS::MAYBE_NOTINITED).y()); }
-        void moveY(double y) { doSetPos(pos(LD_ACCESS::MAYBE_NOTINITED).x(), pos(LD_ACCESS::MAYBE_NOTINITED).y() + y); }
+        void move(const PointF& p)
+        {
+            doSetPos(pos(LD_ACCESS::MAYBE_NOTINITED).x() + p.x(), pos(
+                         LD_ACCESS::MAYBE_NOTINITED).y() + p.y());
+        }
+        void moveX(double x)
+        {
+            doSetPos(pos(LD_ACCESS::MAYBE_NOTINITED).x() + x, pos(LD_ACCESS::MAYBE_NOTINITED).y());
+        }
+        void moveY(double y)
+        {
+            doSetPos(pos(LD_ACCESS::MAYBE_NOTINITED).x(), pos(LD_ACCESS::MAYBE_NOTINITED).y() + y);
+        }
 
         bool isSetBbox() const { return m_shape.has_value(); }
         void clearBbox() { m_shape.reset(); }
@@ -597,7 +630,11 @@ public:
         void disconnectItemSnappedBefore();
         void connectItemSnappedAfter(EngravingItem* itemAfter);
         void disconnectItemSnappedAfter();
-        void disconnectSnappedItems() { disconnectItemSnappedBefore(); disconnectItemSnappedAfter(); }
+        void disconnectSnappedItems()
+        {
+            disconnectItemSnappedBefore();
+            disconnectItemSnappedAfter();
+        }
         EngravingItem* itemSnappedBefore() const { return m_itemSnappedBefore; }
         EngravingItem* itemSnappedAfter() const { return m_itemSnappedAfter; }
 
@@ -633,7 +670,10 @@ public:
         }
 
         Shape& mutShape() { return m_shape.mut_value(); }
-        bool isShapeComposite() const { return m_shape.has_value() && m_shape.value().isComposite(); }
+        bool isShapeComposite() const
+        {
+            return m_shape.has_value() && m_shape.value().isComposite();
+        }
 
         friend class EngravingItem;
 
@@ -657,8 +697,14 @@ public:
     Shape shape(LD_ACCESS mode = LD_ACCESS::CHECK) const { return ldata()->shape(mode); }
     virtual double baseLine() const { return -height(); }
 
-    RectF pageBoundingRect(LD_ACCESS mode = LD_ACCESS::CHECK) const { return ldata()->bbox(mode).translated(pagePos()); }
-    RectF canvasBoundingRect(LD_ACCESS mode = LD_ACCESS::CHECK) const { return ldata()->bbox(mode).translated(canvasPos()); }
+    RectF pageBoundingRect(LD_ACCESS mode = LD_ACCESS::CHECK) const
+    {
+        return ldata()->bbox(mode).translated(pagePos());
+    }
+    RectF canvasBoundingRect(LD_ACCESS mode = LD_ACCESS::CHECK) const
+    {
+        return ldata()->bbox(mode).translated(canvasPos());
+    }
 
     virtual PointF staffOffset() const;
     double staffOffsetY() const { return staffOffset().y(); }
@@ -668,7 +714,8 @@ public:
     void unlinkPropertyFromMaster(Pid id);
     void relinkPropertiesToMaster(PropertyGroup propGroup);
     void relinkPropertyToMaster(Pid propertyId);
-    PropertyPropagation propertyPropagation(const EngravingItem* destinationItem, Pid propertyId) const;
+    PropertyPropagation propertyPropagation(const EngravingItem* destinationItem,
+                                            Pid propertyId) const;
     virtual bool canBeExcludedFromOtherParts() const { return false; }
     virtual void manageExclusionFromParts(bool exclude);
 
@@ -703,7 +750,8 @@ public:
     //! ---------------------
 
 protected:
-    EngravingItem(const ElementType& type, EngravingObject* parent = nullptr, ElementFlags = ElementFlag::NOTHING);
+    EngravingItem(const ElementType& type, EngravingObject* parent = nullptr,
+                  ElementFlags = ElementFlag::NOTHING);
     EngravingItem(const EngravingItem&, bool link = false);
 
 #ifndef ENGRAVING_NO_ACCESSIBILITY
@@ -720,8 +768,8 @@ protected:
 
     track_idx_t m_track = muse::nidx;         // staffIdx * VOICES + voice
 
-    static bool elementAppliesToTrack(const track_idx_t elementTrack, const track_idx_t refTrack, const VoiceAssignment voiceAssignment,
-                                      const Part* part);
+    static bool elementAppliesToTrack(const track_idx_t elementTrack, const track_idx_t refTrack,
+                                      const VoiceAssignment voiceAssignment, const Part* part);
 
 private:
 

@@ -33,7 +33,8 @@ class PageTypeListModel : public QAbstractListModel
     Q_OBJECT
     QML_ELEMENT
 
-    Q_PROPERTY(int currentPageSizeId READ currentPageSizeId WRITE setCurrentPageSizeId NOTIFY currentPageSizeIdChanged)
+    Q_PROPERTY(
+        int currentPageSizeId READ currentPageSizeId WRITE setCurrentPageSizeId NOTIFY currentPageSizeIdChanged)
 
 public:
     enum RoleNames {

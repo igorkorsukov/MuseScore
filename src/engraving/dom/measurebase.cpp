@@ -107,7 +107,8 @@ System* MeasureBase::prevNonVBoxSystem() const
     }
 
     System* prevSystem = curSystem;
-    for (const MeasureBase* mb = this; mb && prevSystem == curSystem; mb = mmRests ? mb->prevMM() : mb->prev()) {
+    for (const MeasureBase* mb = this; mb && prevSystem == curSystem;
+         mb = mmRests ? mb->prevMM() : mb->prev()) {
         if (mb->isMeasure() || mb->isHBox()) {
             prevSystem = mb->system();
         } else {
@@ -127,7 +128,8 @@ System* MeasureBase::nextNonVBoxSystem() const
     }
 
     System* nextSystem = curSystem;
-    for (const MeasureBase* mb = this; mb && nextSystem == curSystem; mb = mmRests ? mb->nextMM() : mb->next()) {
+    for (const MeasureBase* mb = this; mb && nextSystem == curSystem;
+         mb = mmRests ? mb->nextMM() : mb->next()) {
         if (mb->isMeasure() || mb->isHBox()) {
             nextSystem = mb->system();
         } else {
@@ -390,9 +392,11 @@ void MeasureBase::scanElements(std::function<void(EngravingItem*)> func)
         for (EngravingItem* e : m_el) {
             staff_idx_t staffIdx = e->staffIdx();
             if (staffIdx != muse::nidx && staffIdx >= score()->staves().size()) {
-                LOGD("MeasureBase::scanElements: bad staffIdx %zu in element %s", staffIdx, e->typeName());
+                LOGD("MeasureBase::scanElements: bad staffIdx %zu in element %s", staffIdx,
+                     e->typeName());
             }
-            if ((e->track() == muse::nidx) || e->systemFlag() || toMeasure(this)->visible(staffIdx)) {
+            if ((e->track() == muse::nidx) || e->systemFlag()
+                || toMeasure(this)->visible(staffIdx)) {
                 e->scanElements(func);
             }
         }
@@ -469,7 +473,8 @@ void MeasureBase::undoSetBreak(bool v, LayoutBreakType type)
     }
 
     if (v) {
-        MeasureBase* mb = (isMeasure() && toMeasure(this)->isMMRest()) ? toMeasure(this)->mmRestLast() : this;
+        MeasureBase* mb
+            = (isMeasure() && toMeasure(this)->isMMRest()) ? toMeasure(this)->mmRestLast() : this;
         LayoutBreak* lb = Factory::createLayoutBreak(mb);
         lb->setLayoutBreakType(type);
         lb->setTrack(0);

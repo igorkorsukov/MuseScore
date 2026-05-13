@@ -124,7 +124,8 @@ QString AccessibleRoot::staffInfo() const
     return m_staffInfo;
 }
 
-void AccessibleRoot::updateStaffInfo(const AccessibleItemWeakPtr newAccessibleItem, const AccessibleItemWeakPtr oldAccessibleItem,
+void AccessibleRoot::updateStaffInfo(const AccessibleItemWeakPtr newAccessibleItem,
+                                     const AccessibleItemWeakPtr oldAccessibleItem,
                                      bool voiceStaffInfoChange)
 {
     m_staffInfo = "";
@@ -142,7 +143,8 @@ void AccessibleRoot::updateStaffInfo(const AccessibleItemWeakPtr newAccessibleIt
 
         if (newStaffIdx != oldStaffIdx) {
             auto element = newItem->element();
-            QString staff = muse::qtrc("engraving", "Staff %1").arg(QString::number(element->staffIdx() + 1));
+            QString staff
+                = muse::qtrc("engraving", "Staff %1").arg(QString::number(element->staffIdx() + 1));
 
             QString staffName = element->staff()->part()->longName(element->tick());
             if (staffName.isEmpty()) {

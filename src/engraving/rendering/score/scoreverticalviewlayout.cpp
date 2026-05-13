@@ -41,7 +41,8 @@
 using namespace mu::engraving;
 using namespace mu::engraving::rendering::score;
 
-void ScoreVerticalViewLayout::layoutVerticalView(Score* score, LayoutContext& ctx, const Fraction& stick, const Fraction& etick)
+void ScoreVerticalViewLayout::layoutVerticalView(Score* score, LayoutContext& ctx,
+                                                 const Fraction& stick, const Fraction& etick)
 {
     ctx.mutState().setEndTick(etick);
 
@@ -84,7 +85,8 @@ void ScoreVerticalViewLayout::layoutVerticalView(Score* score, LayoutContext& ct
         ctx.mutState().setSystemList(muse::mid(score->systems(), systemIndex));
 
         if (systemIndex == 0) {
-            ctx.mutState().setNextMeasure(ctx.conf().isShowVBox() ? score->first() : score->firstMeasure());
+            ctx.mutState().setNextMeasure(
+                ctx.conf().isShowVBox() ? score->first() : score->firstMeasure());
         } else {
             System* prevSystem = score->systems()[systemIndex - 1];
             ctx.mutState().setNextMeasure(prevSystem->measures().back()->next());
@@ -106,8 +108,10 @@ void ScoreVerticalViewLayout::layoutVerticalView(Score* score, LayoutContext& ct
             if (layoutBreak && layoutBreak->startWithMeasureOne()) {
                 ctx.mutState().setMeasureNumber(0);
             } else {
-                ctx.mutState().setMeasureNumber(ctx.state().nextMeasure()->prevMeasure()->measureNumber()                      // will be adjusted later with respect
-                                                + (ctx.state().nextMeasure()->prevMeasure()->excludeFromNumbering() ? 0 : 1)); // to the user-defined offset.
+                ctx.mutState().setMeasureNumber(
+                    ctx.state().nextMeasure()->prevMeasure()->measureNumber()                                                  // will be adjusted later with respect
+                    + (ctx.state().nextMeasure()->prevMeasure()->
+                       excludeFromNumbering() ? 0 : 1));                                                                       // to the user-defined offset.
             }
             ctx.mutState().setTick(ctx.state().nextMeasure()->tick());
         }
@@ -136,7 +140,8 @@ void ScoreVerticalViewLayout::layoutVerticalView(Score* score, LayoutContext& ct
         muse::DeleteAll(score->pages());
         score->pages().clear();
 
-        ctx.mutState().setNextMeasure(ctx.conf().isShowVBox() ? score->first() : score->firstMeasure());
+        ctx.mutState().setNextMeasure(
+            ctx.conf().isShowVBox() ? score->first() : score->firstMeasure());
     }
 
     ctx.mutState().setPrevMeasure(nullptr);
@@ -177,7 +182,8 @@ void ScoreVerticalViewLayout::doLayout(LayoutContext& ctx)
         //    c) this page ends with the same measure as the previous layout
         //    pageOldMeasure will be last measure from previous layout if range was completed on or before this page
         //    it will be nullptr if this page was never laid out or if we collected a system for next page
-    } while (ctx.state().curSystem() && !(ctx.state().rangeDone() && lmb == ctx.state().pageOldMeasure()));
+    } while (ctx.state().curSystem()
+             && !(ctx.state().rangeDone() && lmb == ctx.state().pageOldMeasure()));
     // && page->system(0)->measures().back()->tick() > endTick // FIXME: perhaps the first measure was meant? Or last system?
 
     if (!ctx.state().curSystem()) {
@@ -196,5 +202,6 @@ void ScoreVerticalViewLayout::doLayout(LayoutContext& ctx)
             p->invalidateBspTree();
         }
     }
-    ctx.mutDom().systems().insert(ctx.mutDom().systems().end(), ctx.state().systemList().begin(), ctx.state().systemList().end());
+    ctx.mutDom().systems().insert(ctx.mutDom().systems().end(),
+                                  ctx.state().systemList().begin(), ctx.state().systemList().end());
 }

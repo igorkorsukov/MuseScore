@@ -37,8 +37,9 @@ class ScoreRangeUtilities
 {
 public:
     static std::vector<muse::RectF> boundingArea(
-        const engraving::Score* score, const engraving::Segment* startSegment, const engraving::Segment* endSegment,
-        engraving::staff_idx_t startStaffIndex, engraving::staff_idx_t endStaffIndex);
+        const engraving::Score* score, const engraving::Segment* startSegment,
+        const engraving::Segment* endSegment, engraving::staff_idx_t startStaffIndex,
+        engraving::staff_idx_t endStaffIndex);
 
 private:
     struct RangeSection {
@@ -51,8 +52,10 @@ private:
         const engraving::Segment* rangeStartSegment, const engraving::Segment* rangeEndSegment);
 
     static engraving::staff_idx_t firstVisibleStaffIdx(
-        const engraving::Score* score, const engraving::System* system, engraving::staff_idx_t startStaffIndex);
+        const engraving::Score* score, const engraving::System* system,
+        engraving::staff_idx_t startStaffIndex);
     static engraving::staff_idx_t lastVisibleStaffIdx(
-        const engraving::Score* score, const engraving::System* system, engraving::staff_idx_t endStaffIndex);
+        const engraving::Score* score, const engraving::System* system,
+        engraving::staff_idx_t endStaffIndex);
 };
 }

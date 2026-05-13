@@ -28,7 +28,8 @@
 
 using namespace mu::inspector;
 
-ClefSettingsModel::ClefSettingsModel(QObject* parent, const muse::modularity::ContextPtr& iocCtx, IElementRepositoryService* repository)
+ClefSettingsModel::ClefSettingsModel(QObject* parent, const muse::modularity::ContextPtr& iocCtx,
+                                     IElementRepositoryService* repository)
     : AbstractInspectorModel(parent, iocCtx, repository)
 {
     setModelType(InspectorModelType::TYPE_CLEF);
@@ -118,7 +119,8 @@ void ClefSettingsModel::updatePropertiesAvailable()
 
         const engraving::Measure* measure = item->findMeasure();
         const engraving::Measure* prevMeasure = measure ? measure->prevMeasure() : nullptr;
-        const engraving::LayoutBreak* sectionBreak = prevMeasure ? prevMeasure->sectionBreakElement() : nullptr;
+        const engraving::LayoutBreak* sectionBreak
+            = prevMeasure ? prevMeasure->sectionBreakElement() : nullptr;
         if (sectionBreak && !sectionBreak->showCourtesy()) {
             enableCourtesy = false;
         }

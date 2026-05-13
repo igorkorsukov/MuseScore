@@ -110,7 +110,8 @@ public:
         Qt::MouseButtons buttons = Qt::NoButton;
 
         QWheelEvent* ev = new QWheelEvent(pos,  globalPos,  pixelDelta,  angleDelta,
-                                          buttons, modifiers, Qt::ScrollPhase::NoScrollPhase, false);
+                                          buttons, modifiers, Qt::ScrollPhase::NoScrollPhase,
+                                          false);
 
         m_events << ev;
 
@@ -122,7 +123,8 @@ public:
         Qt::KeyboardModifiers modifiers = Qt::NoModifier,
         QPointF pos = QPointF(100, 100)) const
     {
-        QMouseEvent* ev = new QMouseEvent(QMouseEvent::Type::MouseButtonPress, pos, pos, button, {}, modifiers);
+        QMouseEvent* ev = new QMouseEvent(QMouseEvent::Type::MouseButtonPress, pos, pos, button, {},
+                                          modifiers);
 
         m_events << ev;
 
@@ -162,12 +164,15 @@ public:
         return nullptr;
     }
 
-    INotationInteraction::HitElementContext hitContext(engraving::MasterScore* score, HitContextConfig config) const
+    INotationInteraction::HitElementContext hitContext(engraving::MasterScore* score,
+                                                       HitContextConfig config) const
     {
         INotationInteraction::HitElementContext context;
 
         Measure* firstMeasure = score->firstMeasure();
-        Segment* segment = config.start ? firstMeasure->segments().firstCRSegment() : firstMeasure->segments().last();
+        Segment* segment
+            = config.start ? firstMeasure->segments().firstCRSegment() : firstMeasure->segments().
+              last();
         ChordRest* chord = segment->nextChordRest(0, !config.start);
 
         context.element = findElement(config.elementType, chord);
@@ -176,7 +181,8 @@ public:
         return context;
     }
 
-    INotationInteraction::HitElementContext hitMeasureContext(engraving::MasterScore* score, int index) const
+    INotationInteraction::HitElementContext hitMeasureContext(engraving::MasterScore* score,
+                                                              int index) const
     {
         INotationInteraction::HitElementContext context;
 
@@ -197,7 +203,8 @@ public:
 };
 
 namespace mu::playback {
-inline bool operator==(const IPlaybackController::PlayParams& p1, const IPlaybackController::PlayParams& p2)
+inline bool operator==(const IPlaybackController::PlayParams& p1,
+                       const IPlaybackController::PlayParams& p2)
 {
     return p1.duration == p2.duration && p1.flushSound == p2.flushSound;
 }
@@ -274,7 +281,8 @@ TEST_F(NotationViewInputControllerTests, DISABLED_WheelEvent_Zoom)
     EXPECT_CALL(m_view, toLogical(QPointF(100, 100)))
     .WillOnce(Return(PointF(100, 100)));
 
-    m_controller->wheelEvent(make_wheelEvent(QPoint(), QPoint(0, 120), Qt::ControlModifier, QPointF(100, 100)));
+    m_controller->wheelEvent(make_wheelEvent(QPoint(), QPoint(0, 120), Qt::ControlModifier,
+                                             QPointF(100, 100)));
 }
 
 /**
@@ -288,7 +296,8 @@ TEST_F(NotationViewInputControllerTests, Mouse_Press_Range_Start_Drag_From_Selec
     engraving::MasterScore* score = engraving::ScoreRW::readScore(TEST_SCORE_PATH);
 
     //! [GIVEN] User selected new note that was already selected
-    INotationInteraction::HitElementContext newContext = hitContext(score, { ElementType::NOTE, false /*last note*/ });
+    INotationInteraction::HitElementContext newContext = hitContext(score, { ElementType::NOTE,
+                                                                             false /*last note*/ });
     newContext.element->setSelected(true);
 
     std::vector<EngravingItem*> selectedElements {
@@ -340,7 +349,8 @@ TEST_F(NotationViewInputControllerTests, Mouse_Press_Range_Start_Drag_From_Selec
     .Times(0);
 
     //! [WHEN] User pressed left mouse button
-    m_controller->mousePressEvent(make_mousePressEvent(Qt::LeftButton, Qt::NoModifier, QPointF(100, 100)));
+    m_controller->mousePressEvent(make_mousePressEvent(Qt::LeftButton, Qt::NoModifier,
+                                                       QPointF(100, 100)));
 }
 
 /**
@@ -354,7 +364,8 @@ TEST_F(NotationViewInputControllerTests, Mouse_Press_On_Selected_Text_Element)
     engraving::MasterScore* score = engraving::ScoreRW::readScore(TEST_SCORE_PATH);
 
     //! [GIVEN] Previous selected dynamic
-    INotationInteraction::HitElementContext oldContext = hitContext(score, { ElementType::DYNAMIC });
+    INotationInteraction::HitElementContext oldContext
+        = hitContext(score, { ElementType::DYNAMIC });
 
     //! [GIVEN] User selected new dynamic that was already selected
     INotationInteraction::HitElementContext newContext = oldContext;
@@ -411,7 +422,8 @@ TEST_F(NotationViewInputControllerTests, Mouse_Press_On_Selected_Text_Element)
     .Times(1);
 
     //! [WHEN] User pressed left mouse button
-    m_controller->mousePressEvent(make_mousePressEvent(Qt::LeftButton, Qt::NoModifier, QPointF(100, 100)));
+    m_controller->mousePressEvent(make_mousePressEvent(Qt::LeftButton, Qt::NoModifier,
+                                                       QPointF(100, 100)));
 }
 
 /**
@@ -425,7 +437,8 @@ TEST_F(NotationViewInputControllerTests, Mouse_Press_On_Selected_Non_Text_Elemen
     engraving::MasterScore* score = engraving::ScoreRW::readScore(TEST_SCORE_PATH);
 
     //! [GIVEN] Previous selected hairpin
-    INotationInteraction::HitElementContext oldContext = hitContext(score, { ElementType::HAIRPIN });
+    INotationInteraction::HitElementContext oldContext
+        = hitContext(score, { ElementType::HAIRPIN });
 
     //! [GIVEN] User selected new hairpin that was already selected
     INotationInteraction::HitElementContext newContext = oldContext;
@@ -484,7 +497,8 @@ TEST_F(NotationViewInputControllerTests, Mouse_Press_On_Selected_Non_Text_Elemen
     .Times(0);
 
     //! [WHEN] User pressed left mouse button
-    m_controller->mousePressEvent(make_mousePressEvent(Qt::LeftButton, Qt::NoModifier, QPointF(100, 100)));
+    m_controller->mousePressEvent(make_mousePressEvent(Qt::LeftButton, Qt::NoModifier,
+                                                       QPointF(100, 100)));
 }
 
 /**
@@ -499,10 +513,12 @@ TEST_F(NotationViewInputControllerTests, Mouse_Press_Range_Start_Play_From_First
     engraving::MasterScore* score = engraving::ScoreRW::readScore(TEST_SCORE_PATH);
 
     //! [GIVEN] Previous selected note
-    INotationInteraction::HitElementContext oldContext = hitContext(score, { ElementType::NOTE, true /*first note*/ });
+    INotationInteraction::HitElementContext oldContext = hitContext(score, { ElementType::NOTE,
+                                                                             true /*first note*/ });
 
     //! [GIVEN] User selected new note that is located after the previous selected note
-    INotationInteraction::HitElementContext newContext = hitContext(score, { ElementType::NOTE, false /*last note*/ });
+    INotationInteraction::HitElementContext newContext = hitContext(score, { ElementType::NOTE,
+                                                                             false /*last note*/ });
 
     EXPECT_CALL(*m_interaction, hitElement(_, _))
     .WillOnce(Return(newContext.element));
@@ -555,7 +571,8 @@ TEST_F(NotationViewInputControllerTests, Mouse_Press_Range_Start_Play_From_First
     .WillOnce(ReturnRef(selectElements));
 
     //! [WHEN] User pressed left mouse button with ShiftModifier on the new note
-    m_controller->mousePressEvent(make_mousePressEvent(Qt::LeftButton, Qt::ShiftModifier, QPointF(100, 100)));
+    m_controller->mousePressEvent(make_mousePressEvent(Qt::LeftButton, Qt::ShiftModifier,
+                                                       QPointF(100, 100)));
 }
 
 /**
@@ -603,7 +620,8 @@ TEST_F(NotationViewInputControllerTests, Mouse_Press_On_Already_Selected_Range)
     .Times(0);
 
     //! [WHEN] User pressed left mouse button
-    m_controller->mousePressEvent(make_mousePressEvent(Qt::LeftButton, Qt::NoModifier, QPointF(100, 100)));
+    m_controller->mousePressEvent(make_mousePressEvent(Qt::LeftButton, Qt::NoModifier,
+                                                       QPointF(100, 100)));
 }
 
 /**
@@ -651,7 +669,8 @@ TEST_F(NotationViewInputControllerTests, Mouse_Press_Shift_On_Already_Selected_R
     .WillOnce(ReturnRef(selectElements));
 
     //! [WHEN] User pressed left mouse button
-    m_controller->mousePressEvent(make_mousePressEvent(Qt::LeftButton, Qt::ShiftModifier, QPointF(100, 100)));
+    m_controller->mousePressEvent(make_mousePressEvent(Qt::LeftButton, Qt::ShiftModifier,
+                                                       QPointF(100, 100)));
 }
 
 /**
@@ -712,7 +731,8 @@ TEST_F(NotationViewInputControllerTests, Mouse_Press_On_Already_Selected_Element
     .WillByDefault(Return(false));
 
     //! [WHEN] User pressed left mouse button with NoModifier on the new note
-    m_controller->mousePressEvent(make_mousePressEvent(Qt::LeftButton, Qt::NoModifier, QPointF(100, 100)));
+    m_controller->mousePressEvent(make_mousePressEvent(Qt::LeftButton, Qt::NoModifier,
+                                                       QPointF(100, 100)));
 }
 
 /**
@@ -726,10 +746,12 @@ TEST_F(NotationViewInputControllerTests, Mouse_Press_On_Range)
     engraving::MasterScore* score = engraving::ScoreRW::readScore(TEST_SCORE_PATH);
 
     //! [GIVEN] Previous selected measure
-    INotationInteraction::HitElementContext oldContext = hitMeasureContext(score, 0 /*first measure*/);
+    INotationInteraction::HitElementContext oldContext
+        = hitMeasureContext(score, 0 /*first measure*/);
 
     //! [GIVEN] User selected new measure that is located after the previous selected measure
-    INotationInteraction::HitElementContext newContext = hitMeasureContext(score, 1 /*second measure*/);
+    INotationInteraction::HitElementContext newContext
+        = hitMeasureContext(score, 1 /*second measure*/);
     EXPECT_CALL(*m_interaction, hitElement(_, _))
     .WillOnce(Return(newContext.element));
 
@@ -774,7 +796,8 @@ TEST_F(NotationViewInputControllerTests, Mouse_Press_On_Range)
     .WillOnce(ReturnRef(selectElements));
 
     //! [WHEN] User pressed left mouse button with ShiftModifier on the new note
-    m_controller->mousePressEvent(make_mousePressEvent(Qt::LeftButton, Qt::ShiftModifier, QPointF(100, 100)));
+    m_controller->mousePressEvent(make_mousePressEvent(Qt::LeftButton, Qt::ShiftModifier,
+                                                       QPointF(100, 100)));
 }
 
 /**
@@ -788,7 +811,8 @@ TEST_F(NotationViewInputControllerTests, Mouse_Press_On_Range_Context_Menu)
     engraving::MasterScore* score = engraving::ScoreRW::readScore(TEST_SCORE_PATH);
 
     //! [GIVEN] User selected a measure
-    INotationInteraction::HitElementContext selectMeasureContext = hitMeasureContext(score, 0 /*first measure*/);
+    INotationInteraction::HitElementContext selectMeasureContext
+        = hitMeasureContext(score, 0 /*first measure*/);
 
     //! [GIVEN] User pressed the right button on the selected measure, same context
     INotationInteraction::HitElementContext contextMenuOnMeasureContext = selectMeasureContext;
@@ -850,10 +874,12 @@ TEST_F(NotationViewInputControllerTests, Mouse_Press_On_Range_Context_Menu)
 #endif
 
     //! [WHEN] User pressed left mouse button with ShiftModifier on the new measure
-    m_controller->mousePressEvent(make_mousePressEvent(Qt::LeftButton, Qt::ShiftModifier, QPointF(100, 100)));
+    m_controller->mousePressEvent(make_mousePressEvent(Qt::LeftButton, Qt::ShiftModifier,
+                                                       QPointF(100, 100)));
 
     //! [WHEN] User pressed right mouse button with NoModifier on the selected measure
-    m_controller->mousePressEvent(make_mousePressEvent(Qt::RightButton, Qt::NoModifier, QPointF(100, 100)));
+    m_controller->mousePressEvent(make_mousePressEvent(Qt::RightButton, Qt::NoModifier,
+                                                       QPointF(100, 100)));
 }
 
 /**
@@ -867,10 +893,12 @@ TEST_F(NotationViewInputControllerTests, Mouse_Press_On_Range_Context_Menu_New_S
     engraving::MasterScore* score = engraving::ScoreRW::readScore(TEST_SCORE_PATH);
 
     //! [GIVEN] User selected a measure
-    INotationInteraction::HitElementContext selectMeasureContext = hitMeasureContext(score, 0 /*first measure*/);
+    INotationInteraction::HitElementContext selectMeasureContext
+        = hitMeasureContext(score, 0 /*first measure*/);
 
     //! [GIVEN] User pressed the right button on the selected measure, same context
-    INotationInteraction::HitElementContext contextMenuOnMeasureContext = hitMeasureContext(score, 1 /*second measure*/);
+    INotationInteraction::HitElementContext contextMenuOnMeasureContext
+        = hitMeasureContext(score, 1 /*second measure*/);
 
     EXPECT_CALL(*m_interaction, hitElement(_, _))
     .WillOnce(Return(selectMeasureContext.element))
@@ -926,7 +954,8 @@ TEST_F(NotationViewInputControllerTests, Mouse_Press_On_Range_Context_Menu_New_S
     EXPECT_CALL(*m_playbackController, seekElement(selectMeasureContext.element, FLUSH_SOUND))
     .WillOnce(Return());
 
-    EXPECT_CALL(*m_playbackController, seekElement(contextMenuOnMeasureContext.element, FLUSH_SOUND))
+    EXPECT_CALL(*m_playbackController,
+                seekElement(contextMenuOnMeasureContext.element, FLUSH_SOUND))
     .WillOnce(Return());
 
 #if QT_VERSION >= QT_VERSION_CHECK(6, 9, 0)
@@ -938,8 +967,10 @@ TEST_F(NotationViewInputControllerTests, Mouse_Press_On_Range_Context_Menu_New_S
 #endif
 
     //! [WHEN] User pressed left mouse button with ShiftModifier on the new measure
-    m_controller->mousePressEvent(make_mousePressEvent(Qt::LeftButton, Qt::ShiftModifier, QPointF(100, 100)));
+    m_controller->mousePressEvent(make_mousePressEvent(Qt::LeftButton, Qt::ShiftModifier,
+                                                       QPointF(100, 100)));
 
     //! [WHEN] User pressed right mouse button with NoModifier on the selected measure
-    m_controller->mousePressEvent(make_mousePressEvent(Qt::RightButton, Qt::NoModifier, QPointF(100, 100)));
+    m_controller->mousePressEvent(make_mousePressEvent(Qt::RightButton, Qt::NoModifier,
+                                                       QPointF(100, 100)));
 }

@@ -89,7 +89,8 @@ bool SlurSegment::isEditAllowed(EditData& ed) const
     const bool moveEnd = ed.curGrip == Grip::END || ed.curGrip == Grip::DRAG;
 
     if (!((ed.modifiers & ShiftModifier) && (isSingleType()
-                                             || (isBeginType() && moveStart) || (isEndType() && moveEnd)))) {
+                                             || (isBeginType() && moveStart)
+                                             || (isEndType() && moveEnd)))) {
         return false;
     }
 
@@ -205,7 +206,8 @@ bool SlurSegment::edit(EditData& ed)
         return false;
     }
     if (cr && (cr != e1 || isPartialSlur)) {
-        if (cr->staff() != e->staff() && (cr->staffType()->isTabStaff() || e->staffType()->isTabStaff())) {
+        if (cr->staff() != e->staff()
+            && (cr->staffType()->isTabStaff() || e->staffType()->isTabStaff())) {
             return false; // Cross-staff slurs don't make sense for TAB staves
         }
         if (cr->staff()->isLinked(e->staff())) {
@@ -232,7 +234,9 @@ void SlurSegment::changeAnchor(EditData& ed, EngravingItem* element)
     // save current start/end elements
     for (EngravingObject* e : spanner()->linkList()) {
         Spanner* sp = toSpanner(e);
-        score()->undoStack()->pushWithoutPerforming(new ChangeStartEndSpanner(sp, sp->startElement(), sp->endElement()));
+        score()->undoStack()->pushWithoutPerforming(new ChangeStartEndSpanner(sp,
+                                                                              sp->startElement(),
+                                                                              sp->endElement()));
     }
 
     if (ed.curGrip == Grip::START) {
@@ -289,7 +293,8 @@ void SlurSegment::dragGrip(EditData& ed)
             if (e && e->isNote()) {
                 Note* note = toNote(e);
                 Fraction tick = note->chord()->tick();
-                if ((g == Grip::END && tick > slr->tick()) || (g == Grip::START && tick < slr->tick2())) {
+                if ((g == Grip::END && tick > slr->tick())
+                    || (g == Grip::START && tick < slr->tick2())) {
                     if (km != (ShiftModifier | ControlModifier)) {
                         Chord* c = note->chord();
                         ed.view()->setDropTarget(note);
@@ -361,7 +366,8 @@ double SlurSegment::dottedWidth() const
 
 Color SlurSegment::curColor(const rendering::PaintOptions& opt) const
 {
-    return EngravingItem::curColor(getProperty(Pid::VISIBLE).toBool(), getProperty(Pid::COLOR).value<Color>(), opt);
+    return EngravingItem::curColor(getProperty(Pid::VISIBLE).toBool(), getProperty(
+                                       Pid::COLOR).value<Color>(), opt);
 }
 
 Slur::Slur(const Slur& s)
@@ -411,7 +417,8 @@ void Slur::undoSetIncoming(bool incoming)
         return;
     }
 
-    undoChangeProperty(Pid::PARTIAL_SPANNER_DIRECTION, calcIncomingDirection(incoming), PropertyFlags::UNSTYLED);
+    undoChangeProperty(Pid::PARTIAL_SPANNER_DIRECTION, calcIncomingDirection(
+                           incoming), PropertyFlags::UNSTYLED);
 }
 
 void Slur::undoSetOutgoing(bool outgoing)
@@ -420,7 +427,8 @@ void Slur::undoSetOutgoing(bool outgoing)
         return;
     }
 
-    undoChangeProperty(Pid::PARTIAL_SPANNER_DIRECTION, calcOutgoingDirection(outgoing), PropertyFlags::UNSTYLED);
+    undoChangeProperty(Pid::PARTIAL_SPANNER_DIRECTION, calcOutgoingDirection(
+                           outgoing), PropertyFlags::UNSTYLED);
 }
 
 void Slur::setIncoming(bool incoming)
@@ -450,9 +458,12 @@ PartialSpannerDirection Slur::calcIncomingDirection(bool incoming)
             firstSeg->setSlurOffset(Grip::START, PointF(0, 0));
         }
         dir = _partialSpannerDirection
-              == PartialSpannerDirection::OUTGOING ? PartialSpannerDirection::BOTH : PartialSpannerDirection::INCOMING;
+              == PartialSpannerDirection::OUTGOING ? PartialSpannerDirection::BOTH :
+              PartialSpannerDirection::INCOMING;
     } else {
-        dir = _partialSpannerDirection == PartialSpannerDirection::BOTH ? PartialSpannerDirection::OUTGOING : PartialSpannerDirection::NONE;
+        dir = _partialSpannerDirection
+              == PartialSpannerDirection::BOTH ? PartialSpannerDirection::OUTGOING :
+              PartialSpannerDirection::NONE;
     }
     return dir;
 }
@@ -466,21 +477,26 @@ PartialSpannerDirection Slur::calcOutgoingDirection(bool outgoing)
             lastSeg->setSlurOffset(Grip::END, PointF(0, 0));
         }
         dir = _partialSpannerDirection
-              == PartialSpannerDirection::INCOMING ? PartialSpannerDirection::BOTH : PartialSpannerDirection::OUTGOING;
+              == PartialSpannerDirection::INCOMING ? PartialSpannerDirection::BOTH :
+              PartialSpannerDirection::OUTGOING;
     } else {
-        dir = _partialSpannerDirection == PartialSpannerDirection::BOTH ? PartialSpannerDirection::INCOMING : PartialSpannerDirection::NONE;
+        dir = _partialSpannerDirection
+              == PartialSpannerDirection::BOTH ? PartialSpannerDirection::INCOMING :
+              PartialSpannerDirection::NONE;
     }
     return dir;
 }
 
 bool Slur::isIncoming() const
 {
-    return _partialSpannerDirection == PartialSpannerDirection::BOTH || _partialSpannerDirection == PartialSpannerDirection::INCOMING;
+    return _partialSpannerDirection == PartialSpannerDirection::BOTH
+           || _partialSpannerDirection == PartialSpannerDirection::INCOMING;
 }
 
 bool Slur::isOutgoing() const
 {
-    return _partialSpannerDirection == PartialSpannerDirection::BOTH || _partialSpannerDirection == PartialSpannerDirection::OUTGOING;
+    return _partialSpannerDirection == PartialSpannerDirection::BOTH
+           || _partialSpannerDirection == PartialSpannerDirection::OUTGOING;
 }
 
 void Slur::undoChangeStartEndElements(ChordRest* scr, ChordRest* ecr)
@@ -541,7 +557,8 @@ bool Slur::isCrossStaff()
 
 bool Slur::hasCrossBeams()
 {
-    return (startCR() && startCR()->beam() && startCR()->beam()->cross()) || (endCR() && endCR()->beam() && endCR()->beam()->cross());
+    return (startCR() && startCR()->beam() && startCR()->beam()->cross())
+           || (endCR() && endCR()->beam() && endCR()->beam()->cross());
 }
 
 PropertyValue Slur::getProperty(Pid propertyId) const

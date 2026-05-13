@@ -40,7 +40,8 @@ static constexpr QSize loadingScreenSize(800, 380);
 static const QColor messageColor("#F1F1EE");
 
 static const QString website("www.musescore.org");
-static constexpr QRectF websiteRect(loadingScreenSize.width() - 48, loadingScreenSize.height() - 48, 0, 0);
+static constexpr QRectF websiteRect(loadingScreenSize.width() - 48, loadingScreenSize.height() - 48,
+                                    0, 0);
 
 static const QColor versionNumberColor("#19F3FF");
 static constexpr qreal versionNumberSpacing = 5.0;
@@ -66,7 +67,8 @@ bool LoadingScreenView::event(QEvent* event)
 
 void LoadingScreenView::draw(QPainter* painter)
 {
-    painter->setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing | QPainter::SmoothPixmapTransform);
+    painter->setRenderHints(
+        QPainter::Antialiasing | QPainter::TextAntialiasing | QPainter::SmoothPixmapTransform);
 
     // Draw background
     m_backgroundRenderer->render(painter);
@@ -78,17 +80,22 @@ void LoadingScreenView::draw(QPainter* painter)
     QPen pen(messageColor);
     painter->setPen(pen);
 
-    Qt::AlignmentFlag alignment = layoutDirection() == Qt::RightToLeft ? Qt::AlignLeft : Qt::AlignRight;
+    Qt::AlignmentFlag alignment = layoutDirection()
+                                  == Qt::RightToLeft ? Qt::AlignLeft : Qt::AlignRight;
 
     // Draw website URL
     QRectF websiteBoundingRect;
-    painter->drawText(websiteRect, Qt::AlignBottom | alignment | Qt::TextDontClip, website, &websiteBoundingRect);
+    painter->drawText(websiteRect, Qt::AlignBottom | alignment | Qt::TextDontClip, website,
+                      &websiteBoundingRect);
 
     // Draw version number
     pen.setColor(versionNumberColor);
     painter->setPen(pen);
 
-    painter->drawText(websiteRect.translated(0.0, -websiteBoundingRect.height() - versionNumberSpacing),
+    painter->drawText(websiteRect.translated(0.0,
+                                             -websiteBoundingRect.height() - versionNumberSpacing),
                       Qt::AlignBottom | alignment | Qt::TextDontClip,
-                      muse::qtrc("appshell", "Version %1").arg(muse::BaseApplication::appFullVersion().toString()));
+                      muse::qtrc("appshell",
+                                 "Version %1").arg(
+                          muse::BaseApplication::appFullVersion().toString()));
 }

@@ -44,11 +44,13 @@ public:
     static void changeAccidental(Score* score, AccidentalType idx);
     static void changeAccidental(Score* score, Note* note, AccidentalType accidental);
     static void undoChangePitch(Score* score, Note* note, int pitch, int tpc1, int tpc2);
-    static void undoChangeFretting(Score* score, Note* note, int pitch, int string, int fret, int tpc1, int tpc2);
+    static void undoChangeFretting(Score* score, Note* note, int pitch, int string, int fret,
+                                   int tpc1, int tpc2);
     static void upDown(Score* score, bool up, UpDownMode mode);
 private:
     static void changeAccidental2(Note* n, int pitch, int tpc);
-    static void upDownChromatic(bool up, int pitch, Note* n, Key key, int tpc1, int tpc2, int& newPitch, int& newTpc1, int& newTpc2);
+    static void upDownChromatic(bool up, int pitch, Note* n, Key key, int tpc1, int tpc2,
+                                int& newPitch, int& newTpc1, int& newTpc2);
 };
 
 class ChangeVelocity : public UndoCommand

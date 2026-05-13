@@ -37,12 +37,14 @@ namespace mu::notation {
 class MasterNotation;
 class NotationInteraction;
 class NotationPlayback;
-class Notation : virtual public INotation, public IGetScore, public muse::Contextable, public muse::async::Asyncable
+class Notation : virtual public INotation, public IGetScore, public muse::Contextable,
+    public muse::async::Asyncable
 {
     muse::GlobalInject<INotationConfiguration> configuration;
 
 public:
-    explicit Notation(MasterNotation* master, const muse::modularity::ContextPtr& iocCtx, engraving::Score* score = nullptr);
+    explicit Notation(MasterNotation* master, const muse::modularity::ContextPtr& iocCtx,
+                      engraving::Score* score = nullptr);
     ~Notation() override;
 
     const muse::modularity::ContextPtr& iocContext() const override;

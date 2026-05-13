@@ -144,7 +144,8 @@ void Beam::addChordRest(ChordRest* a)
             for (size_t i = 0; i < m_elements.size(); ++i) {
                 Segment* s = m_elements[i]->segment();
                 if ((s->tick() > a->segment()->tick())
-                    || ((s->tick() == a->segment()->tick()) && (a->segment()->next(SegmentType::ChordRest) == s))
+                    || ((s->tick() == a->segment()->tick())
+                        && (a->segment()->next(SegmentType::ChordRest) == s))
                     ) {
                     m_elements.insert(m_elements.begin() + i, a);
                     return;
@@ -222,10 +223,13 @@ void Beam::move(const PointF& offset)
     }
 }
 
-void Beam::calcBeamBreaks(const ChordRest* cr, const ChordRest* prevCr, int level, bool& isBroken16, bool& isBroken32) const
+void Beam::calcBeamBreaks(const ChordRest* cr, const ChordRest* prevCr, int level, bool& isBroken16,
+                          bool& isBroken32) const
 {
     BeamMode beamMode = cr->beamMode();
-    if (cr->isRest() && (beamMode == BeamMode::MID || beamMode == BeamMode::BEGIN16 || beamMode == BeamMode::BEGIN32)) {
+    if (cr->isRest()
+        && (beamMode == BeamMode::MID || beamMode == BeamMode::BEGIN16
+            || beamMode == BeamMode::BEGIN32)) {
         // when a rest has beamMode MID we can just ignore it entirely and allow any beams to continue through
         switch (beamMode) {
         case BeamMode::MID:
@@ -251,8 +255,10 @@ void Beam::calcBeamBreaks(const ChordRest* cr, const ChordRest* prevCr, int leve
 
     bool isManuallyBroken16 = level >= 1 && beamMode == BeamMode::BEGIN16;
     bool isManuallyBroken32 = level >= 2 && beamMode == BeamMode::BEGIN32;
-    bool isDefaultBroken16 = beamMode == BeamMode::AUTO && level >= 1 && defaultBeamMode == BeamMode::BEGIN16;
-    bool isDefaultBroken32 = beamMode == BeamMode::AUTO && level >= 2 && defaultBeamMode == BeamMode::BEGIN32;
+    bool isDefaultBroken16 = beamMode == BeamMode::AUTO && level >= 1
+                             && defaultBeamMode == BeamMode::BEGIN16;
+    bool isDefaultBroken32 = beamMode == BeamMode::AUTO && level >= 2
+                             && defaultBeamMode == BeamMode::BEGIN32;
 
     isBroken16 = isManuallyBroken16 || isDefaultBroken16;
     isBroken32 = isManuallyBroken32 || isDefaultBroken32;
@@ -812,7 +818,8 @@ void Beam::clearBeamSegments()
 BeamSegment::BeamSegment(EngravingItem* b)
     : parentElement(b)
 {
-    DO_ASSERT(parentElement->isType(ElementType::BEAM) || parentElement->isType(ElementType::TREMOLO_TWOCHORD));
+    DO_ASSERT(parentElement->isType(ElementType::BEAM)
+              || parentElement->isType(ElementType::TREMOLO_TWOCHORD));
 }
 
 Shape BeamSegment::shape() const

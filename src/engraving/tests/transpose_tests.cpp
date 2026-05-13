@@ -80,7 +80,8 @@ public:
 
         // transpose diatonic fourth down
         score->startCmd(TranslatableString::untranslatable("Engraving transpose tests"));
-        Transpose::transpose(score, TransposeMode::DIATONICALLY, TransposeDirection::DOWN, Key::C, 3,
+        Transpose::transpose(score, TransposeMode::DIATONICALLY, TransposeDirection::DOWN, Key::C,
+                             3,
                              true, false, false);
         score->endCmd();
         EXPECT_TRUE(ScoreComp::saveCompareScore(score, writeFile1, reference1));

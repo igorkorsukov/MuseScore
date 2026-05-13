@@ -79,7 +79,8 @@ void Engraving_CopyPasteSymbolListTests::copypastecommon(MasterScore* score, con
     score->doLayout();
 
     EXPECT_TRUE(ScoreComp::saveCompareScore(score, String("copypastesymbollist-%1.mscx").arg(name),
-                                            CPSYMBOLLIST_DATA_DIR + String("copypastesymbollist-%1-ref.mscx").arg(name)));
+                                            CPSYMBOLLIST_DATA_DIR
+                                            + String("copypastesymbollist-%1-ref.mscx").arg(name)));
     delete score;
 }
 
@@ -88,7 +89,9 @@ void Engraving_CopyPasteSymbolListTests::copypastecommon(MasterScore* score, con
 //---------------------------------------------------------
 void Engraving_CopyPasteSymbolListTests::copypaste(const char16_t* name, ElementType type)
 {
-    MasterScore* score = ScoreRW::readScore(CPSYMBOLLIST_DATA_DIR + String("copypastesymbollist-%1.mscx").arg(name));
+    MasterScore* score
+        = ScoreRW::readScore(CPSYMBOLLIST_DATA_DIR
+                             + String("copypastesymbollist-%1.mscx").arg(name));
     EXPECT_TRUE(score);
 
     EngravingItem* el = Factory::createItem(type, score->dummy());
@@ -159,7 +162,9 @@ TEST_F(Engraving_CopyPasteSymbolListTests, DISABLED_copypasteFermataRest)
 //---------------------------------------------------------
 void Engraving_CopyPasteSymbolListTests::copypastepart(const char16_t* name, ElementType type)
 {
-    MasterScore* score = ScoreRW::readScore(CPSYMBOLLIST_DATA_DIR + String("copypastesymbollist-%1.mscx").arg(name));
+    MasterScore* score
+        = ScoreRW::readScore(CPSYMBOLLIST_DATA_DIR
+                             + String("copypastesymbollist-%1.mscx").arg(name));
     EXPECT_TRUE(score);
     score->doLayout();
 
@@ -183,9 +188,12 @@ TEST_F(Engraving_CopyPasteSymbolListTests, copypasteRange)
 //    select all elements of type in 2 first measures
 //    in both staves and copy paste
 //---------------------------------------------------------
-void Engraving_CopyPasteSymbolListTests::copypastedifferentvoice(const char16_t* name, ElementType type)
+void Engraving_CopyPasteSymbolListTests::copypastedifferentvoice(const char16_t* name,
+                                                                 ElementType type)
 {
-    MasterScore* score = ScoreRW::readScore(CPSYMBOLLIST_DATA_DIR + String(u"copypastesymbollist-%1.mscx").arg(name));
+    MasterScore* score
+        = ScoreRW::readScore(CPSYMBOLLIST_DATA_DIR + String(u"copypastesymbollist-%1.mscx").arg(
+                                 name));
     EXPECT_TRUE(score);
     score->doLayout();
 

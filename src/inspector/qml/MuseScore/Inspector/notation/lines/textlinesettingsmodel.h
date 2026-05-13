@@ -48,16 +48,22 @@ class TextLineSettingsModel : public InspectorModelWithVoiceAndPositionOptions
     Q_PROPERTY(mu::inspector::PropertyItem * startHookHeight READ startHookHeight CONSTANT)
     Q_PROPERTY(mu::inspector::PropertyItem * endHookHeight READ endHookHeight CONSTANT)
 
-    Q_PROPERTY(mu::inspector::PropertyItem * startLineArrowHeight READ startLineArrowHeight CONSTANT)
+    Q_PROPERTY(mu::inspector::PropertyItem
+               * startLineArrowHeight READ startLineArrowHeight CONSTANT)
     Q_PROPERTY(mu::inspector::PropertyItem * startLineArrowWidth READ startLineArrowWidth CONSTANT)
     Q_PROPERTY(mu::inspector::PropertyItem * endLineArrowHeight READ endLineArrowHeight CONSTANT)
     Q_PROPERTY(mu::inspector::PropertyItem * endLineArrowWidth READ endLineArrowWidth CONSTANT)
-    Q_PROPERTY(mu::inspector::PropertyItem * startFilledArrowHeight READ startFilledArrowHeight CONSTANT)
-    Q_PROPERTY(mu::inspector::PropertyItem * startFilledArrowWidth READ startFilledArrowWidth CONSTANT)
-    Q_PROPERTY(mu::inspector::PropertyItem * endFilledArrowHeight READ endFilledArrowHeight CONSTANT)
+    Q_PROPERTY(
+        mu::inspector::PropertyItem
+        * startFilledArrowHeight READ startFilledArrowHeight CONSTANT)
+    Q_PROPERTY(
+        mu::inspector::PropertyItem * startFilledArrowWidth READ startFilledArrowWidth CONSTANT)
+    Q_PROPERTY(mu::inspector::PropertyItem
+               * endFilledArrowHeight READ endFilledArrowHeight CONSTANT)
     Q_PROPERTY(mu::inspector::PropertyItem * endFilledArrowWidth READ endFilledArrowWidth CONSTANT)
 
-    Q_PROPERTY(mu::inspector::PropertyItem * gapBetweenTextAndLine READ gapBetweenTextAndLine CONSTANT)
+    Q_PROPERTY(
+        mu::inspector::PropertyItem * gapBetweenTextAndLine READ gapBetweenTextAndLine CONSTANT)
 
     Q_PROPERTY(mu::inspector::PropertyItem * placement READ placement CONSTANT)
 
@@ -65,24 +71,30 @@ class TextLineSettingsModel : public InspectorModelWithVoiceAndPositionOptions
     Q_PROPERTY(mu::inspector::PropertyItem * beginningTextOffset READ beginningTextOffset CONSTANT)
 
     Q_PROPERTY(mu::inspector::PropertyItem * continuousText READ continuousText CONSTANT)
-    Q_PROPERTY(mu::inspector::PropertyItem * continuousTextOffset READ continuousTextOffset CONSTANT)
+    Q_PROPERTY(mu::inspector::PropertyItem
+               * continuousTextOffset READ continuousTextOffset CONSTANT)
 
     Q_PROPERTY(mu::inspector::PropertyItem * endText READ endText CONSTANT)
     Q_PROPERTY(mu::inspector::PropertyItem * endTextOffset READ endTextOffset CONSTANT)
 
-    Q_PROPERTY(QVariantList possibleStartHookTypes READ possibleStartHookTypes NOTIFY possibleStartHookTypesChanged)
-    Q_PROPERTY(QVariantList possibleEndHookTypes READ possibleEndHookTypes NOTIFY possibleEndHookTypesChanged)
+    Q_PROPERTY(
+        QVariantList possibleStartHookTypes READ possibleStartHookTypes NOTIFY possibleStartHookTypesChanged)
+    Q_PROPERTY(
+        QVariantList possibleEndHookTypes READ possibleEndHookTypes NOTIFY possibleEndHookTypesChanged)
 
     Q_PROPERTY(bool showStartHookHeight READ showStartHookHeight NOTIFY showStartHookHeightChanged)
     Q_PROPERTY(bool showEndHookHeight READ showEndHookHeight NOTIFY showEndHookHeightChanged)
-    Q_PROPERTY(bool showStartArrowSettings READ showStartArrowSettings NOTIFY showStartArrowSettingsChanged)
-    Q_PROPERTY(bool showEndArrowSettings READ showEndArrowSettings NOTIFY showEndArrowSettingsChanged)
+    Q_PROPERTY(
+        bool showStartArrowSettings READ showStartArrowSettings NOTIFY showStartArrowSettingsChanged)
+    Q_PROPERTY(
+        bool showEndArrowSettings READ showEndArrowSettings NOTIFY showEndArrowSettingsChanged)
 
     Q_PROPERTY(bool startFilledArrow READ startFilledArrow NOTIFY startFilledArrowChanged)
     Q_PROPERTY(bool endFilledArrow READ endFilledArrow NOTIFY endFilledArrowChanged)
 
 public:
-    explicit TextLineSettingsModel(QObject* parent, const muse::modularity::ContextPtr& iocCtx, IElementRepositoryService* repository,
+    explicit TextLineSettingsModel(QObject* parent, const muse::modularity::ContextPtr& iocCtx,
+                                   IElementRepositoryService* repository,
                                    mu::engraving::ElementType elementType = mu::engraving::ElementType::TEXTLINE_BASE);
 
     PropertyItem* isLineVisible() const;
@@ -144,7 +156,8 @@ protected:
         muse::ui::IconCode::Code icon = muse::ui::IconCode::Code::NONE;
         QString title;
 
-        HookTypeInfo(mu::engraving::HookType type, muse::ui::IconCode::Code icon, const QString& title)
+        HookTypeInfo(mu::engraving::HookType type, muse::ui::IconCode::Code icon,
+                     const QString& title)
             : type(static_cast<int>(type)), icon(icon), title(title)
         {
         }

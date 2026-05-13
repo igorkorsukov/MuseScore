@@ -31,7 +31,8 @@
 #include "actions/iactionsdispatcher.h"
 
 namespace mu::instrumentsscene {
-class LayoutPanelContextMenuModel : public muse::uicomponents::AbstractMenuModel, public muse::actions::Actionable
+class LayoutPanelContextMenuModel : public muse::uicomponents::AbstractMenuModel,
+    public muse::actions::Actionable
 {
     Q_OBJECT
 

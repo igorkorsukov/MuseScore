@@ -87,21 +87,25 @@ struct HarmonyMapKey
 
     bool operator<(const HarmonyMapKey& other) const
     {
-        return std::tie(keys, rootTpc, bassTpc) < std::tie(other.keys, other.rootTpc, other.bassTpc);
+        return std::tie(keys, rootTpc,
+                        bassTpc) < std::tie(other.keys, other.rootTpc, other.bassTpc);
     }
 
     bool operator==(const HarmonyMapKey& other) const
     {
-        return std::tie(keys, rootTpc, bassTpc) == std::tie(other.keys, other.rootTpc, other.bassTpc);
+        return std::tie(keys, rootTpc,
+                        bassTpc) == std::tie(other.keys, other.rootTpc, other.bassTpc);
     }
 };
 
 static std::map<HarmonyMapKey /*key*/, std::vector<DiagramInfo> > s_harmonyToDiagramMap;
-static std::unordered_map<String /*pattern*/, std::vector<String /*harmonyName*/> > s_diagramPatternToHarmoniesMap;
+static std::unordered_map<String /*pattern*/,
+                          std::vector<String /*harmonyName*/> > s_diagramPatternToHarmoniesMap;
 
 static const muse::io::path_t HARMONY_TO_DIAGRAM_FILE_PATH("://data/harmony_to_diagram.xml");
 
-static HarmonyMapKey createHarmonyMapKey(const String& harmony, const NoteSpellingType& spellingType, const ChordList* cl)
+static HarmonyMapKey createHarmonyMapKey(const String& harmony,
+                                         const NoteSpellingType& spellingType, const ChordList* cl)
 {
     String s = harmony;
     NoteCaseType noteCase;
@@ -323,7 +327,8 @@ void FretDiagram::setStrings(int n)
             }
 
             m_barres[fret].startString = std::max(0, m_barres[fret].startString + difference);
-            m_barres[fret].endString   = m_barres[fret].endString == -1 ? -1 : m_barres[fret].endString + difference;
+            m_barres[fret].endString   = m_barres[fret].endString
+                                         == -1 ? -1 : m_barres[fret].endString + difference;
         }
     }
 
@@ -372,7 +377,8 @@ void FretDiagram::init(StringData* stringData, Chord* chord)
 //    where we actually need to pass a fret val.
 //---------------------------------------------------------
 
-void FretDiagram::setDot(int string, int fret, bool add /*= false*/, FretDotType dtype /*= FretDotType::NORMAL*/)
+void FretDiagram::setDot(int string, int fret, bool add /*= false*/,
+                         FretDotType dtype /*= FretDotType::NORMAL*/)
 {
     if (fret == 0) {
         removeDot(string, fret);
@@ -398,7 +404,8 @@ void FretDiagram::setDot(int string, int fret, bool add /*= false*/, FretDotType
 void FretDiagram::addDotForDotStyleBarre(int string, int fret)
 {
     if (m_dots[string].empty()) {
-        m_dots[string].push_back(FretItem::Dot(fret, FretDotType::NORMAL, /*isPartOfSlurBarre*/ true));
+        m_dots[string].push_back(FretItem::Dot(fret, FretDotType::NORMAL,
+                                               /*isPartOfSlurBarre*/ true));
     }
 }
 
@@ -435,7 +442,8 @@ void FretDiagram::setBarre(int startString, int endString, int fret)
 {
     if (startString == -1) {
         removeBarre(fret);
-    } else if (startString >= 0 && endString >= -1 && startString < m_strings && endString < m_strings) {
+    } else if (startString >= 0 && endString >= -1 && startString < m_strings
+               && endString < m_strings) {
         m_barres[fret] = FretItem::Barre(startString, endString);
     }
 }
@@ -470,7 +478,8 @@ void FretDiagram::setBarre(int string, int fret, bool add /*= false*/)
 //   undoSetFretDot
 //---------------------------------------------------------
 
-void FretDiagram::undoSetFretDot(int _string, int _fret, bool _add /*= true*/, FretDotType _dtype /*= FretDotType::NORMAl*/)
+void FretDiagram::undoSetFretDot(int _string, int _fret, bool _add /*= true*/,
+                                 FretDotType _dtype /*= FretDotType::NORMAl*/)
 {
     for (EngravingObject* e : linkList()) {
         FretDiagram* fd = toFretDiagram(e);
@@ -828,7 +837,8 @@ std::vector<DiagramInfo> FretDiagram::patternsFromHarmony(const String& harmonyN
 
     String _harmonyName = harmonyName;
 
-    NoteSpellingType spellingType = style().styleV(Sid::chordSymbolSpelling).value<NoteSpellingType>();
+    NoteSpellingType spellingType
+        = style().styleV(Sid::chordSymbolSpelling).value<NoteSpellingType>();
     HarmonyMapKey key = createHarmonyMapKey(_harmonyName, spellingType, score()->chordList());
 
     return muse::value(s_harmonyToDiagramMap, key);
@@ -985,7 +995,8 @@ void FretDiagram::add(EngravingItem* e)
 
             String pattern = patternFromDiagram();
             if (!pattern.empty()) {
-                std::vector<String> matchedHarmonies = muse::value(s_diagramPatternToHarmoniesMap, pattern);
+                std::vector<String> matchedHarmonies = muse::value(s_diagramPatternToHarmoniesMap,
+                                                                   pattern);
                 if (!matchedHarmonies.empty()) {
                     m_harmony->setHarmony(matchedHarmonies.front());
                 }
@@ -1088,7 +1099,8 @@ void FretDiagram::undoChangeProperty(Pid id, const PropertyValue& v, PropertyFla
         }
 
         for (EngravingItem* item : parentSeg->annotations()) {
-            if ((!item->isFretDiagram() && !item->isHarmony()) || item == this || track2staff(item->track()) != staffIdx()) {
+            if ((!item->isFretDiagram() && !item->isHarmony()) || item == this
+                || track2staff(item->track()) != staffIdx()) {
                 continue;
             }
 
@@ -1265,7 +1277,8 @@ String FretDiagram::screenReaderInfo() const
             int max = int(fretsWithDots.size());
             for (int j = 0; j < max; j++) {
                 if (j == max - 1) {
-                    fretInfo = muse::mtrc("engraving", "%1 and %2").arg(fretInfo).arg(fretsWithDots[j]);
+                    fretInfo
+                        = muse::mtrc("engraving", "%1 and %2").arg(fretInfo).arg(fretsWithDots[j]);
                 } else {
                     fretInfo = String(u"%1 %2").arg(fretInfo).arg(fretsWithDots[j]);
                 }
@@ -1273,7 +1286,8 @@ String FretDiagram::screenReaderInfo() const
         }
 
         //: Omit the "%n " for the singular translation (and the "(s)" too)
-        String dotsInfo = muse::mtrc("engraving", "%n dot(s) on fret(s) %1", "", dotsCount).arg(fretInfo);
+        String dotsInfo = muse::mtrc("engraving", "%n dot(s) on fret(s) %1", "", dotsCount).arg(
+            fretInfo);
 
         detailedInfo = String(u"%1 %2 %3 %4").arg(detailedInfo, stringIdent, markerName, dotsInfo);
     }
@@ -1291,13 +1305,16 @@ String FretDiagram::screenReaderInfo() const
         if (b.startString == 0 && (b.endString == -1 || b.endString == m_strings - 1)) {
             newBarreInfo = muse::mtrc("engraving", "barré %1").arg(fretInfo);
         } else {
-            String startPart = muse::mtrc("engraving", "beginning string %1").arg(b.startString + 1);
+            String startPart
+                = muse::mtrc("engraving", "beginning string %1").arg(b.startString + 1);
             String endPart;
             if (b.endString != -1) {
                 endPart = muse::mtrc("engraving", "and ending string %1").arg(b.endString + 1);
             }
 
-            newBarreInfo = muse::mtrc("engraving", "partial barré %1 %2 %3").arg(fretInfo, startPart, endPart);
+            newBarreInfo = muse::mtrc("engraving", "partial barré %1 %2 %3").arg(fretInfo,
+                                                                                 startPart,
+                                                                                 endPart);
         }
 
         barreInfo = String(u"%1 %2").arg(barreInfo, newBarreInfo);
@@ -1310,7 +1327,8 @@ String FretDiagram::screenReaderInfo() const
     }
 
     String chordName = m_harmony
-                       ? muse::mtrc("engraving", "with chord symbol %1").arg(m_harmony->generateScreenReaderInfo())
+                       ? muse::mtrc("engraving", "with chord symbol %1").arg(
+        m_harmony->generateScreenReaderInfo())
                        : muse::mtrc("engraving", "without chord symbol");
 
     String basicInfo = String(u"%1 %2").arg(translatedTypeUserName(), chordName);
@@ -1329,7 +1347,9 @@ void FretDiagram::setFingering(std::vector<int> v)
 
 FretDiagram* FretDiagram::makeFromHarmonyOrFretDiagram(const EngravingItem* harmonyOrFretDiagram)
 {
-    IF_ASSERT_FAILED(!harmonyOrFretDiagram || !harmonyOrFretDiagram->isHarmony() || !harmonyOrFretDiagram->isFretDiagram()) {
+    IF_ASSERT_FAILED(
+        !harmonyOrFretDiagram || !harmonyOrFretDiagram->isHarmony()
+        || !harmonyOrFretDiagram->isFretDiagram()) {
         return nullptr;
     }
 
@@ -1343,14 +1363,16 @@ FretDiagram* FretDiagram::makeFromHarmonyOrFretDiagram(const EngravingItem* harm
         fretDiagram->updateDiagram(harmony->plainText());
 
         fretDiagram->add(harmony);
-    } else if (harmonyOrFretDiagram->isHarmony() && harmonyOrFretDiagram->parentItem()->isFretDiagram()) {
+    } else if (harmonyOrFretDiagram->isHarmony()
+               && harmonyOrFretDiagram->parentItem()->isFretDiagram()) {
         fretDiagram = toFretDiagram(harmonyOrFretDiagram->parentItem())->clone();
     } else if (harmonyOrFretDiagram->isFretDiagram()) {
         fretDiagram = toFretDiagram(harmonyOrFretDiagram)->clone();
         fretDiagram->setOffset(PointF());
         if (!fretDiagram->harmony()) {
             //! generate from diagram and add harmony
-            fretDiagram->add(Factory::createHarmony(harmonyOrFretDiagram->score()->dummy()->segment()));
+            fretDiagram->add(Factory::createHarmony(
+                                 harmonyOrFretDiagram->score()->dummy()->segment()));
         }
     }
 
@@ -1390,8 +1412,10 @@ bool FretDiagram::isCustom(const String& harmonyNameForCompare) const
         readHarmonyToDiagramFile(HARMONY_TO_DIAGRAM_FILE_PATH);
     }
 
-    NoteSpellingType spellingType = style().styleV(Sid::chordSymbolSpelling).value<NoteSpellingType>();
-    HarmonyMapKey key = createHarmonyMapKey(harmonyNameForCompare, spellingType, score()->chordList());
+    NoteSpellingType spellingType
+        = style().styleV(Sid::chordSymbolSpelling).value<NoteSpellingType>();
+    HarmonyMapKey key = createHarmonyMapKey(harmonyNameForCompare, spellingType,
+                                            score()->chordList());
 
     std::vector<DiagramInfo> availableDiagrams = muse::value(s_harmonyToDiagramMap, key);
     if (availableDiagrams.empty()) {

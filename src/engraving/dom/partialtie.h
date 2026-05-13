@@ -46,7 +46,8 @@ class PartialTie : public Tie
     OBJECT_ALLOCATOR(engraving, PartialTie)
     DECLARE_CLASSOF(ElementType::PARTIAL_TIE);
 
-    M_PROPERTY2(PartialSpannerDirection, partialSpannerDirection, setPartialSpannerDirection, PartialSpannerDirection::OUTGOING)
+    M_PROPERTY2(PartialSpannerDirection, partialSpannerDirection, setPartialSpannerDirection,
+                PartialSpannerDirection::OUTGOING)
 
 public:
     PartialTie(Note* parent);
@@ -55,7 +56,10 @@ public:
 
     PartialTie* clone() const override { return new PartialTie(*this); }
 
-    inline bool isOutgoing() const { return _partialSpannerDirection == PartialSpannerDirection::OUTGOING; }
+    inline bool isOutgoing() const
+    {
+        return _partialSpannerDirection == PartialSpannerDirection::OUTGOING;
+    }
 
     PropertyValue getProperty(Pid propertyId) const override;
     PropertyValue propertyDefault(Pid propertyId) const override;
@@ -74,10 +78,19 @@ public:
     Note* startNote() const override;
 
     PartialTieSegment* frontSegment() { return toPartialTieSegment(Spanner::frontSegment()); }
-    const PartialTieSegment* frontSegment() const { return toPartialTieSegment(Spanner::frontSegment()); }
+    const PartialTieSegment* frontSegment() const
+    {
+        return toPartialTieSegment(Spanner::frontSegment());
+    }
     PartialTieSegment* backSegment() { return toPartialTieSegment(Spanner::backSegment()); }
-    const PartialTieSegment* backSegment() const { return toPartialTieSegment(Spanner::backSegment()); }
+    const PartialTieSegment* backSegment() const
+    {
+        return toPartialTieSegment(Spanner::backSegment());
+    }
     PartialTieSegment* segmentAt(int n) { return toPartialTieSegment(Spanner::segmentAt(n)); }
-    const PartialTieSegment* segmentAt(int n) const { return toPartialTieSegment(Spanner::segmentAt(n)); }
+    const PartialTieSegment* segmentAt(int n) const
+    {
+        return toPartialTieSegment(Spanner::segmentAt(n));
+    }
 };
 }

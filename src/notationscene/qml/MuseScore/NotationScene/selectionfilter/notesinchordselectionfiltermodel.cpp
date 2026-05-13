@@ -35,7 +35,8 @@ NotesInChordSelectionFilterModel::NotesInChordSelectionFilterModel(QObject* pare
 
 bool NotesInChordSelectionFilterModel::enabled() const
 {
-    const INotationSelectionPtr selection = currentNotationInteraction() ? currentNotationInteraction()->selection() : nullptr;
+    const INotationSelectionPtr selection
+        = currentNotationInteraction() ? currentNotationInteraction()->selection() : nullptr;
     if (!selection || !selection->isRange()) {
         return false;
     }
@@ -76,22 +77,26 @@ bool NotesInChordSelectionFilterModel::isNoneSelected() const
 
 bool NotesInChordSelectionFilterModel::isFiltered(const SelectionFilterTypesVariant& variant) const
 {
-    const NotesInChordSelectionFilterTypes type = std::get<NotesInChordSelectionFilterTypes>(variant);
+    const NotesInChordSelectionFilterTypes type
+        = std::get<NotesInChordSelectionFilterTypes>(variant);
     if (type == NotesInChordSelectionFilterTypes::TOP_NOTE) {
         // TOP_NOTE is considered filtered if the associated index is filtered, OR if TOP_NOTE itself is filtered...
         const NotesInChordSelectionFilterTypes indexType = typeForNoteIdx(m_topNoteIdx);
         if (indexType != NotesInChordSelectionFilterTypes::NONE) {
-            return AbstractSelectionFilterModel::isFiltered(type) || AbstractSelectionFilterModel::isFiltered(indexType);
+            return AbstractSelectionFilterModel::isFiltered(type)
+                   || AbstractSelectionFilterModel::isFiltered(indexType);
         }
     }
     return AbstractSelectionFilterModel::isFiltered(variant);
 }
 
-void NotesInChordSelectionFilterModel::setFiltered(const SelectionFilterTypesVariant& variant, bool filtered)
+void NotesInChordSelectionFilterModel::setFiltered(const SelectionFilterTypesVariant& variant,
+                                                   bool filtered)
 {
     AbstractSelectionFilterModel::setFiltered(variant, filtered);
 
-    const NotesInChordSelectionFilterTypes type = std::get<NotesInChordSelectionFilterTypes>(variant);
+    const NotesInChordSelectionFilterTypes type
+        = std::get<NotesInChordSelectionFilterTypes>(variant);
     const bool topNoteIsNormal = m_topNoteIdx < NUM_NOTES_IN_CHORD_SELECTION_FILTER_TYPES - 1;
     if (type == NotesInChordSelectionFilterTypes::TOP_NOTE && topNoteIsNormal) {
         // Toggling TOP_NOTE should also toggle the flag for the associated index...
@@ -102,13 +107,16 @@ void NotesInChordSelectionFilterModel::setFiltered(const SelectionFilterTypesVar
 
 bool NotesInChordSelectionFilterModel::isAllowed(const SelectionFilterTypesVariant& variant) const
 {
-    const NotesInChordSelectionFilterTypes type = std::get<NotesInChordSelectionFilterTypes>(variant);
-    return noteIdxForType(type) < m_topNoteIdx || type == NotesInChordSelectionFilterTypes::TOP_NOTE;
+    const NotesInChordSelectionFilterTypes type
+        = std::get<NotesInChordSelectionFilterTypes>(variant);
+    return noteIdxForType(type) < m_topNoteIdx
+           || type == NotesInChordSelectionFilterTypes::TOP_NOTE;
 }
 
 bool NotesInChordSelectionFilterModel::includeSingleNotes() const
 {
-    return currentNotationSelectionFilter() ? currentNotationSelectionFilter()->includeSingleNotes() : false;
+    return currentNotationSelectionFilter() ? currentNotationSelectionFilter()->includeSingleNotes()
+           : false;
 }
 
 void NotesInChordSelectionFilterModel::setIncludeSingleNotes(bool include)
@@ -138,9 +146,11 @@ bool NotesInChordSelectionFilterModel::multipleIndicesSelected() const
     return false;
 }
 
-QString NotesInChordSelectionFilterModel::titleForType(const SelectionFilterTypesVariant& variant) const
+QString NotesInChordSelectionFilterModel::titleForType(const SelectionFilterTypesVariant& variant)
+const
 {
-    const NotesInChordSelectionFilterTypes type = std::get<NotesInChordSelectionFilterTypes>(variant);
+    const NotesInChordSelectionFilterTypes type
+        = std::get<NotesInChordSelectionFilterTypes>(variant);
 
     switch (type) {
     case NotesInChordSelectionFilterTypes::ALL:
@@ -168,7 +178,8 @@ QString NotesInChordSelectionFilterModel::titleForType(const SelectionFilterType
     return {};
 }
 
-size_t NotesInChordSelectionFilterModel::noteIdxForType(const NotesInChordSelectionFilterTypes& type) const
+size_t NotesInChordSelectionFilterModel::noteIdxForType(
+    const NotesInChordSelectionFilterTypes& type) const
 {
     switch (type) {
     case NotesInChordSelectionFilterTypes::SEVENTH_NOTE: return 6;
@@ -186,7 +197,8 @@ size_t NotesInChordSelectionFilterModel::noteIdxForType(const NotesInChordSelect
     return muse::nidx;
 }
 
-NotesInChordSelectionFilterTypes NotesInChordSelectionFilterModel::typeForNoteIdx(size_t noteIdx) const
+NotesInChordSelectionFilterTypes NotesInChordSelectionFilterModel::typeForNoteIdx(size_t noteIdx)
+const
 {
     const size_t topIndex = NUM_NOTES_IN_CHORD_SELECTION_FILTER_TYPES - 1;
     if (noteIdx >= topIndex) {
@@ -201,7 +213,8 @@ NotesInChordSelectionFilterTypes NotesInChordSelectionFilterModel::typeForNoteId
 void NotesInChordSelectionFilterModel::updateTopNoteIdx()
 {
     const INotationSelectionFilterPtr filter = currentNotationSelectionFilter();
-    const INotationSelectionPtr selection = currentNotationInteraction() ? currentNotationInteraction()->selection() : nullptr;
+    const INotationSelectionPtr selection
+        = currentNotationInteraction() ? currentNotationInteraction()->selection() : nullptr;
     const INotationSelectionRangePtr range = selection ? selection->range() : nullptr;
     if (!filter || !range) {
         m_topNoteIdx = muse::nidx;

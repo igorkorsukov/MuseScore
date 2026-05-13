@@ -33,12 +33,18 @@ static const std::string module_name("iex_musicxml");
 static const Settings::Key MUSICXML_IMPORT_BREAKS_KEY(module_name, "import/musicXml/importBreaks");
 static const Settings::Key MUSICXML_IMPORT_LAYOUT_KEY(module_name, "import/musicXml/importLayout");
 static const Settings::Key MUSICXML_EXPORT_LAYOUT_KEY(module_name, "export/musicXml/exportLayout");
-static const Settings::Key MUSICXML_EXPORT_MU3_COMPAT_KEY(module_name, "export/musicXml/exportMu3Compat");
-static const Settings::Key MUSICXML_EXPORT_BREAKS_TYPE_KEY(module_name, "export/musicXml/exportBreaks");
-static const Settings::Key MUSICXML_EXPORT_INVISIBLE_ELEMENTS_KEY(module_name, "export/musicXml/exportInvisibleElements");
-static const Settings::Key MIGRATION_APPLY_EDWIN_FOR_XML(module_name, "import/compatibility/apply_edwin_for_xml");
-static const Settings::Key MIGRATION_NOT_ASK_AGAIN_KEY(module_name, "import/compatibility/do_not_ask_me_again");
-static const Settings::Key MUSICXML_IMPORT_INFER_TEXT_TYPE(module_name, "import/musicXml/importInferTextType");
+static const Settings::Key MUSICXML_EXPORT_MU3_COMPAT_KEY(module_name,
+                                                          "export/musicXml/exportMu3Compat");
+static const Settings::Key MUSICXML_EXPORT_BREAKS_TYPE_KEY(module_name,
+                                                           "export/musicXml/exportBreaks");
+static const Settings::Key MUSICXML_EXPORT_INVISIBLE_ELEMENTS_KEY(module_name,
+                                                                  "export/musicXml/exportInvisibleElements");
+static const Settings::Key MIGRATION_APPLY_EDWIN_FOR_XML(module_name,
+                                                         "import/compatibility/apply_edwin_for_xml");
+static const Settings::Key MIGRATION_NOT_ASK_AGAIN_KEY(module_name,
+                                                       "import/compatibility/do_not_ask_me_again");
+static const Settings::Key MUSICXML_IMPORT_INFER_TEXT_TYPE(module_name,
+                                                           "import/musicXml/importInferTextType");
 
 void MusicXmlConfiguration::init()
 {
@@ -57,9 +63,11 @@ void MusicXmlConfiguration::init()
     settings()->setDescription(MUSICXML_EXPORT_MU3_COMPAT_KEY,
                                //: Means that less information will be included in exported MusicXML files,
                                //: to prevent errors when importing them into MuseScore 3
-                               muse::trc("iex_musicxml", "Limit MusicXML export for compatibility with MuseScore 3"));
+                               muse::trc("iex_musicxml",
+                                         "Limit MusicXML export for compatibility with MuseScore 3"));
     settings()->setCanBeManuallyEdited(MUSICXML_EXPORT_MU3_COMPAT_KEY, true);
-    settings()->setDefaultValue(MUSICXML_EXPORT_BREAKS_TYPE_KEY, Val(MusicXmlExportBreaksType::All));
+    settings()->setDefaultValue(MUSICXML_EXPORT_BREAKS_TYPE_KEY,
+                                Val(MusicXmlExportBreaksType::All));
     settings()->setDefaultValue(MUSICXML_EXPORT_INVISIBLE_ELEMENTS_KEY, Val(false));
     settings()->setDescription(MUSICXML_EXPORT_INVISIBLE_ELEMENTS_KEY,
                                muse::trc("iex_musicxml", "Export invisible elements to MusicXML"));
@@ -77,7 +85,8 @@ void MusicXmlConfiguration::init()
 
     settings()->setDefaultValue(MUSICXML_IMPORT_INFER_TEXT_TYPE, Val(false));
     settings()->valueChanged(MUSICXML_IMPORT_INFER_TEXT_TYPE).onReceive(this, [this](const Val& val) {
-        m_inferTextTypeChanged.send(val.toBool());
+        m_inferTextTypeChanged.send(
+            val.toBool());
     });
 }
 

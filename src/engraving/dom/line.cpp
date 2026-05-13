@@ -167,14 +167,22 @@ std::vector<LineF> LineSegment::gripAnchorLines(Grip grip) const
     const PointF pageOffset = p ? p->pos() : PointF();
     switch (grip) {
     case Grip::START:
-        result.push_back(LineF(leftAnchorPosition(y), gripsPositions().at(static_cast<int>(Grip::START))).translated(pageOffset));
+        result.push_back(LineF(leftAnchorPosition(y),
+                               gripsPositions().at(static_cast<int>(Grip::START))).translated(
+                             pageOffset));
         break;
     case Grip::END:
-        result.push_back(LineF(rightAnchorPosition(y), gripsPositions().at(static_cast<int>(Grip::END))).translated(pageOffset));
+        result.push_back(LineF(rightAnchorPosition(y),
+                               gripsPositions().at(static_cast<int>(Grip::END))).translated(
+                             pageOffset));
         break;
     case Grip::MIDDLE:
-        result.push_back(LineF(leftAnchorPosition(y), gripsPositions().at(static_cast<int>(Grip::START))).translated(pageOffset));
-        result.push_back(LineF(rightAnchorPosition(y), gripsPositions().at(static_cast<int>(Grip::END))).translated(pageOffset));
+        result.push_back(LineF(leftAnchorPosition(y),
+                               gripsPositions().at(static_cast<int>(Grip::START))).translated(
+                             pageOffset));
+        result.push_back(LineF(rightAnchorPosition(y),
+                               gripsPositions().at(static_cast<int>(Grip::END))).translated(
+                             pageOffset));
         break;
     default:
         break;
@@ -432,7 +440,8 @@ Segment* LineSegment::findSegmentForGrip(Grip grip, PointF pos) const
     System* sys = system();
     const std::vector<System*> foundSystems = score()->searchSystem(pos, sys, spacingFactor);
 
-    if (!foundSystems.empty() && !muse::contains(foundSystems, sys) && foundSystems[0]->staves().size()) {
+    if (!foundSystems.empty()
+        && !muse::contains(foundSystems, sys) && foundSystems[0]->staves().size()) {
         sys = foundSystems[0];
     }
 
@@ -450,7 +459,8 @@ Segment* LineSegment::findSegmentForGrip(Grip grip, PointF pos) const
     // Lines that don't allow time anchors can anchor to the last segment in the score (see also LineSegment::findNewAnchorSegment)
     if (seg && !allowTimeAnchor() && grip == Grip::END) {
         Segment* last = score()->lastSegment();
-        const bool lastSegIsClosest = std::abs(last->canvasX() - pos.x()) < std::abs(seg->canvasX() - pos.x());
+        const bool lastSegIsClosest = std::abs(last->canvasX() - pos.x()) < std::abs(
+            seg->canvasX() - pos.x());
         if (lastSegIsClosest) {
             return last;
         }
@@ -534,7 +544,8 @@ LineSegment* LineSegment::rebaseAnchor(Grip grip, Segment* newSeg)
 
     Fraction newSegTick = newSeg->tick();
     Fraction startTick = left ? newSegTick : l->tick();
-    Fraction endTick = left ? l->tick2() : (newSegTick == startTick ? newSegTick + newSeg->ticks() : newSegTick);
+    Fraction endTick
+        = left ? l->tick2() : (newSegTick == startTick ? newSegTick + newSeg->ticks() : newSegTick);
 
     if (endTick <= startTick) {
         if (left) {
@@ -563,7 +574,8 @@ LineSegment* LineSegment::rebaseAnchor(Grip grip, Segment* newSeg)
     const Segment* newTickSeg = left ? l->startSegment() : l->endSegment();
     const System* newSpannerSystem = newTickSeg->measure()->system();
 
-    if ((oldLineSegSystem && newSeg->system() != oldLineSegSystem) || oldSpannerSystem != newSpannerSystem) {
+    if ((oldLineSegSystem && newSeg->system() != oldLineSegSystem)
+        || oldSpannerSystem != newSpannerSystem) {
         renderer()->layoutItem(l);
         return l->segmentsEmpty() ? nullptr : left ? l->frontSegment() : l->backSegment();
     } else if (anchorChanged) {
@@ -598,16 +610,19 @@ void LineSegment::rebaseAnchors(EditData& ed, Grip grip)
 
     // don't change anchors on keyboard adjustment or if Ctrl is pressed
     // (Ctrl+Left/Right is handled elsewhere!)
-    if (ed.key == Key_Left || ed.key == Key_Right || ed.key == Key_Up || ed.key == Key_Down || ed.modifiers & ControlModifier) {
+    if (ed.key == Key_Left || ed.key == Key_Right || ed.key == Key_Up || ed.key == Key_Down
+        || ed.modifiers & ControlModifier) {
         return;
     }
 
     const Segment* startSeg = line()->startSegment();
     const Segment* endSeg = line()->endSegment();
     const double xDistanceFromStartSegment = startSeg && startSeg->system() == system()
-                                             ? (startSeg->x() + startSeg->measure()->x()) - ldata()->pos().x() : 0.0;
+                                             ? (startSeg->x() + startSeg->measure()->x())
+                                             - ldata()->pos().x() : 0.0;
     const double xDistanceFromEndSegment = endSeg && endSeg->system() == system()
-                                           ? (endSeg->x() + endSeg->measure()->x()) - (ldata()->pos().x() + ipos2().x()) : 0.0;
+                                           ? (endSeg->x() + endSeg->measure()->x())
+                                           - (ldata()->pos().x() + ipos2().x()) : 0.0;
 
     switch (grip) {
     case Grip::START:
@@ -626,7 +641,9 @@ void LineSegment::rebaseAnchors(EditData& ed, Grip grip)
         // while not setting line position to something
         // inappropriate.
         Segment* seg = findSegmentForGrip(grip, ed.pos
-                                          + (left ? PointF(xDistanceFromStartSegment, 0.0) : PointF(xDistanceFromEndSegment, 0.0)));
+                                          + (left ? PointF(xDistanceFromStartSegment,
+                                                           0.0) : PointF(xDistanceFromEndSegment,
+                                                                         0.0)));
         LineSegment* newLineSegment = rebaseAnchor(grip, seg);
 
         if (newLineSegment) {
@@ -680,8 +697,11 @@ void LineSegment::rebaseAnchors(EditData& ed, Grip grip)
         PointF cpos = canvasPos();
         cpos.setY(system()->staffCanvasYpage(l->staffIdx()));           // prevent cross-system move
 
-        Segment* seg1 = findSegmentForGrip(Grip::START, cpos + PointF(xDistanceFromStartSegment, 0.0));
-        Segment* seg2 = findSegmentForGrip(Grip::END, cpos + pos2() + PointF(xDistanceFromEndSegment, 0.0));
+        Segment* seg1 = findSegmentForGrip(Grip::START, cpos + PointF(xDistanceFromStartSegment,
+                                                                      0.0));
+        Segment* seg2
+            = findSegmentForGrip(Grip::END,
+                                 cpos + pos2() + PointF(xDistanceFromEndSegment, 0.0));
 
         if (!(seg1 && seg2 && seg1->system() == seg2->system() && seg1->system() == system())) {
             return;
@@ -744,7 +764,8 @@ void LineSegment::dragGrip(EditData& ed)
                 Note* noteNew = toNote(e);
                 Note* sNote   = toNote(l->startElement());
                 // do not change anchor if new note is before start note
-                if (sNote && sNote->chord() && noteNew->chord() && sNote->chord()->tick() < noteNew->chord()->tick()) {
+                if (sNote && sNote->chord() && noteNew->chord()
+                    && sNote->chord()->tick() < noteNew->chord()->tick()) {
                     score()->undoChangeSpannerElements(l, sNote, noteNew);
 
                     m_offset2 += noteOld->canvasPos() - noteNew->canvasPos();
@@ -834,13 +855,15 @@ double LineSegment::absoluteFromSpatium(const Spatium& sp) const
     return line()->absoluteFromSpatium(sp);
 }
 
-void LineSegment::undoMoveStartEndAndSnappedItems(EditData& ed, bool moveStart, bool moveEnd, Segment* s1, Segment* s2)
+void LineSegment::undoMoveStartEndAndSnappedItems(EditData& ed, bool moveStart, bool moveEnd,
+                                                  Segment* s1, Segment* s2)
 {
     bool moveSnapped = !(ed.modifiers & AltModifier);
     SLine* thisLine = line();
     if (moveStart) {
         Fraction tickDiff = s1->tick() - thisLine->tick();
-        if (EngravingItem* itemSnappedBefore = ldata()->itemSnappedBefore(); itemSnappedBefore && moveSnapped) {
+        if (EngravingItem* itemSnappedBefore = ldata()->itemSnappedBefore();
+            itemSnappedBefore && moveSnapped) {
             if (itemSnappedBefore->isTextBase()) {
                 MoveElementAnchors::moveSegment(itemSnappedBefore, s1, tickDiff);
             } else if (itemSnappedBefore->isLineSegment()) {
@@ -853,7 +876,8 @@ void LineSegment::undoMoveStartEndAndSnappedItems(EditData& ed, bool moveStart, 
     }
     if (moveEnd) {
         Fraction tickDiff = s2->tick() - thisLine->tick2();
-        if (EngravingItem* itemSnappedAfter = thisLine->backSegment()->ldata()->itemSnappedAfter(); itemSnappedAfter && moveSnapped) {
+        if (EngravingItem* itemSnappedAfter = thisLine->backSegment()->ldata()->itemSnappedAfter();
+            itemSnappedAfter && moveSnapped) {
             if (itemSnappedAfter->isTextBase()) {
                 MoveElementAnchors::moveSegment(itemSnappedAfter, s2, tickDiff);
             } else if (itemSnappedAfter->isLineSegment()) {

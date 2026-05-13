@@ -31,7 +31,8 @@ public:
 
     void registerExports() override;
 
-    muse::modularity::IContextSetup* newContext(const muse::modularity::ContextPtr& ctx) const override;
+    muse::modularity::IContextSetup* newContext(const muse::modularity::ContextPtr& ctx) const
+    override;
 };
 
 class MuseSoundsContext : public muse::modularity::IContextSetup

@@ -176,7 +176,8 @@ struct SaveLocation
 
     SaveLocation() = default;
 
-    SaveLocation(SaveLocationType type, const std::variant<muse::io::path_t, CloudProjectInfo>& data = {})
+    SaveLocation(SaveLocationType type, const std::variant<muse::io::path_t,
+                                                           CloudProjectInfo>& data = {})
         : type(type), data(data) {}
 
     SaveLocation(const muse::io::path_t& localPath)

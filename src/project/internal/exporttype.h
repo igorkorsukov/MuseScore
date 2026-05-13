@@ -55,7 +55,8 @@ struct ExportType
     std::vector<std::string> filter() const;
     bool hasSubtypes() const;
 
-    static ExportType makeWithSuffixes(const QStringList& suffixes, const QString& name, const QString& filterName,
+    static ExportType makeWithSuffixes(const QStringList& suffixes, const QString& name,
+                                       const QString& filterName,
                                        const QString& settingsPagePath = QString());
     static ExportType makeWithSubtypes(const ExportTypeList& subtypes, const QString& name);
 

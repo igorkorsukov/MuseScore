@@ -50,16 +50,19 @@ void CorruptScoreDevToolsModel::corruptOpenScore()
             }
 
             mu::engraving::Measure* measure = mu::engraving::toMeasure(measureBase);
-            mu::engraving::Segment* firstSegment = measure->first(mu::engraving::SegmentType::ChordRest);
+            mu::engraving::Segment* firstSegment = measure->first(
+                mu::engraving::SegmentType::ChordRest);
 
-            for (mu::engraving::Segment* s = firstSegment; s; s = s->next(mu::engraving::SegmentType::ChordRest)) {
+            for (mu::engraving::Segment* s = firstSegment; s;
+                 s = s->next(mu::engraving::SegmentType::ChordRest)) {
                 mu::engraving::EngravingItem* element = s->element(0);
                 if (!element) {
                     continue;
                 }
 
                 mu::engraving::ChordRest* cr = toChordRest(element);
-                cr->undoChangeProperty(mu::engraving::Pid::DURATION, mu::engraving::Fraction::fromString(u"0/4"));
+                cr->undoChangeProperty(mu::engraving::Pid::DURATION, mu::engraving::Fraction::fromString(
+                                           u"0/4"));
             }
         }
     }

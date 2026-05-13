@@ -66,7 +66,8 @@ public:
     bool operator<(const QTreeWidgetItem& other) const override
     {
         if (treeWidget()->sortColumn() == Column::PITCH) {
-            return data(Column::PITCH, Qt::UserRole).toInt() < other.data(Column::PITCH, Qt::UserRole).toInt();
+            return data(Column::PITCH, Qt::UserRole).toInt() < other.data(Column::PITCH,
+                                                                          Qt::UserRole).toInt();
         }
 
         return QTreeWidgetItem::operator<(other);
@@ -131,7 +132,9 @@ struct SymbolIcon {
         const qreal& yStShift = (h - mag * bbox.height()) / 2 - mag * bbox.top();
         const muse::PointF& stPtPos = muse::PointF(xStShift, yStShift);
 
-        painter.setPen(Color(CustomizeKitDialog::uiConfiguration()->currentTheme().values[muse::ui::FONT_PRIMARY_COLOR].toString()));
+        painter.setPen(Color(CustomizeKitDialog::uiConfiguration()->currentTheme().values[muse::ui::
+                                                                                          FONT_PRIMARY_COLOR
+                             ].toString()));
         painter.setBrush(Color::transparent);
 
         CustomizeKitDialog::engravingFonts()->fallbackFont()->draw(id, &painter, mag, stPtPos);
@@ -164,7 +167,8 @@ CustomizeKitDialog::CustomizeKitDialog(QWidget* parent)
     connect(noteHead, &QComboBox::currentIndexChanged, this, &CustomizeKitDialog::valueChanged);
     connect(staffLine, &QSpinBox::valueChanged, this, &CustomizeKitDialog::valueChanged);
     connect(voice, &QComboBox::currentIndexChanged, this, &CustomizeKitDialog::valueChanged);
-    connect(stemDirection, &QComboBox::currentIndexChanged, this, &CustomizeKitDialog::valueChanged);
+    connect(stemDirection, &QComboBox::currentIndexChanged, this,
+            &CustomizeKitDialog::valueChanged);
     connect(shortcut, &QPushButton::clicked, this, &CustomizeKitDialog::defineShortcut);
     connect(loadButton, &QPushButton::clicked, this, &CustomizeKitDialog::load);
     connect(saveButton, &QPushButton::clicked, this, &CustomizeKitDialog::save);
@@ -252,10 +256,12 @@ CustomizeKitDialog::CustomizeKitDialog(QWidget* parent)
     wholeCmb->setCurrentIndex(quarterCmb->findData(static_cast<int>(SymId::noteheadWhole)));
     halfCmb->setCurrentIndex(quarterCmb->findData(static_cast<int>(SymId::noteheadHalf)));
     quarterCmb->setCurrentIndex(quarterCmb->findData(static_cast<int>(SymId::noteheadBlack)));
-    doubleWholeCmb->setCurrentIndex(quarterCmb->findData(static_cast<int>(SymId::noteheadDoubleWhole)));
+    doubleWholeCmb->setCurrentIndex(quarterCmb->findData(
+                                        static_cast<int>(SymId::noteheadDoubleWhole)));
 
     connect(customGbox, &QGroupBox::toggled, this, &CustomizeKitDialog::customGboxToggled);
-    connect(quarterCmb, &QComboBox::currentIndexChanged, this, &CustomizeKitDialog::customQuarterChanged);
+    connect(quarterCmb, &QComboBox::currentIndexChanged, this,
+            &CustomizeKitDialog::customQuarterChanged);
 
     quarterCmb->setAccessibleName(quarterLbl->text() + " " + quarterCmb->currentText());
     halfCmb->setAccessibleName(halfLbl->text() + " " + halfCmb->currentText());
@@ -300,7 +306,8 @@ void CustomizeKitDialog::customGboxToggled(bool checked)
 QTreeWidgetItem* CustomizeKitDialog::loadPitchesList()
 {
     const INotationInteractionPtr interaction = m_notation->interaction();
-    const mu::engraving::Note* note = dynamic_cast<mu::engraving::Note*>(interaction->contextItem());
+    const mu::engraving::Note* note
+        = dynamic_cast<mu::engraving::Note*>(interaction->contextItem());
     const int originPitch = note ? note->pitch() : -1;
 
     pitchList->blockSignals(true);
@@ -395,7 +402,8 @@ void CustomizeKitDialog::initDrumsetAndKey()
     }
 
     mu::engraving::Part* part = hitContextValid ? context.staff->part() : state.staff()->part();
-    mu::engraving::Fraction tick = hitContextValid ? context.element->tick() : state.segment()->tick();
+    mu::engraving::Fraction tick
+        = hitContextValid ? context.element->tick() : state.segment()->tick();
     mu::engraving::Instrument* inst = part ? part->instrument(tick) : nullptr;
     IF_ASSERT_FAILED(inst && inst->useDrumset()) {
         return;
@@ -432,30 +440,55 @@ void CustomizeKitDialog::cancel()
 void CustomizeKitDialog::fillCustomNoteheadsDataFromComboboxes(int pitch)
 {
     m_editedDrumset.drum(pitch).notehead = NoteHeadGroup::HEAD_CUSTOM;
-    m_editedDrumset.drum(pitch).noteheads[int(NoteHeadType::HEAD_WHOLE)] = static_cast<SymId>(wholeCmb->currentData().toInt());
-    m_editedDrumset.drum(pitch).noteheads[int(NoteHeadType::HEAD_QUARTER)] = static_cast<SymId>(quarterCmb->currentData().toInt());
-    m_editedDrumset.drum(pitch).noteheads[int(NoteHeadType::HEAD_HALF)] = static_cast<SymId>(halfCmb->currentData().toInt());
-    m_editedDrumset.drum(pitch).noteheads[int(NoteHeadType::HEAD_BREVIS)] = static_cast<SymId>(doubleWholeCmb->currentData().toInt());
+    m_editedDrumset.drum(pitch).noteheads[int(NoteHeadType::HEAD_WHOLE)]
+        = static_cast<SymId>(wholeCmb->currentData().toInt());
+    m_editedDrumset.drum(pitch).noteheads[int(NoteHeadType::HEAD_QUARTER)]
+        = static_cast<SymId>(quarterCmb->currentData().toInt());
+    m_editedDrumset.drum(pitch).noteheads[int(NoteHeadType::HEAD_HALF)]
+        = static_cast<SymId>(halfCmb->currentData().toInt());
+    m_editedDrumset.drum(pitch).noteheads[int(NoteHeadType::HEAD_BREVIS)]
+        = static_cast<SymId>(doubleWholeCmb->currentData().toInt());
 }
 
 void CustomizeKitDialog::fillNoteheadsComboboxes(bool customGroup, int pitch)
 {
     if (customGroup) {
-        wholeCmb->setCurrentIndex(quarterCmb->findData(static_cast<int>(m_editedDrumset.noteHeads(pitch, NoteHeadType::HEAD_WHOLE))));
-        halfCmb->setCurrentIndex(quarterCmb->findData(static_cast<int>(m_editedDrumset.noteHeads(pitch, NoteHeadType::HEAD_HALF))));
-        quarterCmb->setCurrentIndex(quarterCmb->findData(static_cast<int>(m_editedDrumset.noteHeads(pitch, NoteHeadType::HEAD_QUARTER))));
-        doubleWholeCmb->setCurrentIndex(quarterCmb->findData(static_cast<int>(m_editedDrumset.noteHeads(pitch,
-                                                                                                        NoteHeadType::HEAD_BREVIS))));
+        wholeCmb->setCurrentIndex(quarterCmb->findData(static_cast<int>(m_editedDrumset.noteHeads(
+                                                                            pitch,
+                                                                            NoteHeadType::HEAD_WHOLE))));
+        halfCmb->setCurrentIndex(quarterCmb->findData(static_cast<int>(m_editedDrumset.noteHeads(
+                                                                           pitch,
+                                                                           NoteHeadType::HEAD_HALF))));
+        quarterCmb->setCurrentIndex(quarterCmb->findData(static_cast<int>(m_editedDrumset.noteHeads(
+                                                                              pitch,
+                                                                              NoteHeadType::
+                                                                              HEAD_QUARTER))));
+        doubleWholeCmb->setCurrentIndex(quarterCmb->findData(static_cast<int>(m_editedDrumset.
+                                                                              noteHeads(pitch,
+                                                                                        NoteHeadType
+                                                                                        ::
+                                                                                        HEAD_BREVIS))));
     } else {
         const auto group = m_editedDrumset.drum(pitch).notehead;
         if (group == NoteHeadGroup::HEAD_INVALID) {
             return;
         }
 
-        wholeCmb->setCurrentIndex(quarterCmb->findData(static_cast<int>(Note::noteHead(0, group, NoteHeadType::HEAD_WHOLE))));
-        halfCmb->setCurrentIndex(quarterCmb->findData(static_cast<int>(Note::noteHead(0, group, NoteHeadType::HEAD_HALF))));
-        quarterCmb->setCurrentIndex(quarterCmb->findData(static_cast<int>(Note::noteHead(0, group, NoteHeadType::HEAD_QUARTER))));
-        doubleWholeCmb->setCurrentIndex(quarterCmb->findData(static_cast<int>(Note::noteHead(0, group, NoteHeadType::HEAD_BREVIS))));
+        wholeCmb->setCurrentIndex(quarterCmb->findData(static_cast<int>(Note::noteHead(0, group,
+                                                                                       NoteHeadType
+                                                                                       ::HEAD_WHOLE))));
+        halfCmb->setCurrentIndex(quarterCmb->findData(static_cast<int>(Note::noteHead(0, group,
+                                                                                      NoteHeadType::
+                                                                                      HEAD_HALF))));
+        quarterCmb->setCurrentIndex(quarterCmb->findData(static_cast<int>(Note::noteHead(0, group,
+                                                                                         NoteHeadType
+                                                                                         ::
+                                                                                         HEAD_QUARTER))));
+        doubleWholeCmb->setCurrentIndex(quarterCmb->findData(static_cast<int>(Note::noteHead(0,
+                                                                                             group,
+                                                                                             NoteHeadType
+                                                                                             ::
+                                                                                             HEAD_BREVIS))));
     }
 }
 
@@ -541,7 +574,8 @@ void CustomizeKitDialog::valueChanged()
     }
     int pitch = pitchList->currentItem()->data(Column::PITCH, Qt::UserRole).toInt();
     m_editedDrumset.drum(pitch).name          = name->text();
-    if (customGbox->isChecked() || noteHead->currentIndex() == noteHead->findData(int(NoteHeadGroup::HEAD_CUSTOM))) {
+    if (customGbox->isChecked()
+        || noteHead->currentIndex() == noteHead->findData(int(NoteHeadGroup::HEAD_CUSTOM))) {
         fillCustomNoteheadsDataFromComboboxes(pitch);
         setCustomNoteheadsGUIEnabled(true);
     } else {
@@ -574,7 +608,8 @@ void CustomizeKitDialog::updateExample()
     int v         = m_editedDrumset.voice(pitch);
     DirectionV dir = m_editedDrumset.stemDirection(pitch);
     bool up = (DirectionV::UP == dir) || (DirectionV::AUTO == dir && line > 4);
-    std::shared_ptr<Chord> chord = Factory::makeChord(paletteScoreProvider()->paletteScore()->dummy()->segment());
+    std::shared_ptr<Chord> chord = Factory::makeChord(
+        paletteScoreProvider()->paletteScore()->dummy()->segment());
     chord->setDurationType(DurationType::V_QUARTER);
     chord->setStemDirection(dir);
     chord->setTrack(v);
@@ -588,7 +623,8 @@ void CustomizeKitDialog::updateExample()
     note->setPos(0.0, paletteScoreProvider()->paletteScore()->style().spatium() * .5 * line);
     note->setHeadType(NoteHeadType::HEAD_QUARTER);
     note->setHeadGroup(nh);
-    note->mutldata()->cachedNoteheadSym.set_value(static_cast<SymId>(quarterCmb->currentData().toInt()));
+    note->mutldata()->cachedNoteheadSym.set_value(
+        static_cast<SymId>(quarterCmb->currentData().toInt()));
     chord->add(note);
     Stem* stem = Factory::createStem(chord.get());
     stem->setParent(chord.get());
@@ -604,9 +640,11 @@ void CustomizeKitDialog::updateExample()
 
 void CustomizeKitDialog::load()
 {
-    std::vector<std::string> filter = { muse::trc("palette", "MuseScore drumset file") + " (*.drm)" };
+    std::vector<std::string> filter
+        = { muse::trc("palette", "MuseScore drumset file") + " (*.drm)" };
     muse::io::path_t dir = notationConfiguration()->userStylesPath();
-    muse::io::path_t fname = interactive()->selectOpeningFileSync(muse::trc("palette", "Load drumset"), dir, filter);
+    muse::io::path_t fname
+        = interactive()->selectOpeningFileSync(muse::trc("palette", "Load drumset"), dir, filter);
 
     if (fname.empty()) {
         return;
@@ -624,7 +662,8 @@ void CustomizeKitDialog::load()
             if (e.attribute("version") != Constants::MSC_VERSION_STR) {
                 auto result = interactive()->warningSync(
                     muse::trc("palette", "Drumset file too old"),
-                    muse::trc("palette", "MuseScore Studio may not be able to load this drumset file."), {
+                    muse::trc("palette",
+                              "MuseScore Studio may not be able to load this drumset file."), {
                     muse::IInteractive::Button::Cancel,
                     muse::IInteractive::Button::Ignore
                 }, muse::IInteractive::Button::Cancel);
@@ -655,9 +694,12 @@ void CustomizeKitDialog::load()
 
 void CustomizeKitDialog::save()
 {
-    std::vector<std::string> filter = { muse::trc("palette", "MuseScore drumset file") + " (*.drm)" };
+    std::vector<std::string> filter
+        = { muse::trc("palette", "MuseScore drumset file") + " (*.drm)" };
     muse::io::path_t dir = notationConfiguration()->userStylesPath();
-    muse::io::path_t fname = interactive()->selectSavingFileSync(muse::trc("palette", "Save drumset"), dir, filter);
+    muse::io::path_t fname = interactive()->selectSavingFileSync(muse::trc("palette",
+                                                                           "Save drumset"), dir,
+                                                                 filter);
 
     if (fname.empty()) {
         return;
@@ -672,7 +714,9 @@ void CustomizeKitDialog::save()
     xml.endElement();
     xml.flush();
     if (outBuf.hasError()) {
-        QString s = muse::qtrc("palette", "Writing file failed: %1").arg(QString::fromStdString(outBuf.errorString()));
+        QString s
+            = muse::qtrc("palette",
+                         "Writing file failed: %1").arg(QString::fromStdString(outBuf.errorString()));
         interactive()->error(muse::trc("palette", "Write drumset"), s.toStdString());
     }
 
@@ -705,7 +749,8 @@ void CustomizeKitDialog::defineShortcut()
     }
 
     const QString editedShortcutText = m_editedDrumset.shortcut(originPitch);
-    shortcut->setText(!editedShortcutText.isEmpty() ? editedShortcutText : muse::qtrc("shortcuts", "None"));
+    shortcut->setText(!editedShortcutText.isEmpty() ? editedShortcutText : muse::qtrc("shortcuts",
+                                                                                      "None"));
     item->setText(Column::SHORTCUT, !editedShortcutText.isEmpty() ? editedShortcutText : QString());
     // TODO: Update the item of the conflict shortcut too (#26226)
 

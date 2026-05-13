@@ -46,9 +46,18 @@ struct MeasureStatus
 struct SimplifiedItem {
     int first { 0 };
     int last { 0 };
-    constexpr bool isConsecutiveWith(const SimplifiedItem& rhs) const { return last + 1 == rhs.first; }
-    constexpr bool operator==(const SimplifiedItem& rhs) const { return first == rhs.first && last == rhs.last; }
-    constexpr bool overlapsWith(const SimplifiedItem& rhs) const { return !(rhs.last < first || rhs.first > last); }
+    constexpr bool isConsecutiveWith(const SimplifiedItem& rhs) const
+    {
+        return last + 1 == rhs.first;
+    }
+    constexpr bool operator==(const SimplifiedItem& rhs) const
+    {
+        return first == rhs.first && last == rhs.last;
+    }
+    constexpr bool overlapsWith(const SimplifiedItem& rhs) const
+    {
+        return !(rhs.last < first || rhs.first > last);
+    }
     constexpr SimplifiedItem& operator+=(const SimplifiedItem& rhs)
     {
         if (isConsecutiveWith(rhs)) {
@@ -64,7 +73,8 @@ public:
     void calculate(const size_t nMeasures, const std::vector<TefReadingListItem>& tefReadingList);
     const std::vector<MeasureStatus>& status() const { return m_status; }
 private:
-    void initializeList(const size_t nMeasures, const std::vector<TefReadingListItem>& tefReadingList);
+    void initializeList(const size_t nMeasures,
+                        const std::vector<TefReadingListItem>& tefReadingList);
     void analyze();
     std::vector<SimplifiedItem> m_list;
     std::vector<MeasureStatus> m_status;

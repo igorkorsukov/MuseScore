@@ -55,7 +55,8 @@ protected:
         return note;
     }
 
-    void testPartialTies(const String& score, const Fraction& startPointLocation, const std::vector<Fraction>& jumpPointLocations)
+    void testPartialTies(const String& score, const Fraction& startPointLocation,
+                         const std::vector<Fraction>& jumpPointLocations)
     {
         openScore(score, startPointLocation, jumpPointLocations);
 
@@ -74,7 +75,8 @@ protected:
         deleteStartTie();
     }
 
-    void openScore(const String& score, const Fraction& startPointLocation, const std::vector<Fraction>& jumpPointLocations)
+    void openScore(const String& score, const Fraction& startPointLocation,
+                   const std::vector<Fraction>& jumpPointLocations)
     {
         m_masterScore = ScoreRW::readScore(PARTIALTIE_DATA_DIR + score + u".mscx");
 
@@ -319,11 +321,13 @@ protected:
         EXPECT_FALSE(tieBeforeSegno->jumpPoint());
     }
 
-    void saveAndLoad(const String& score, const Fraction& startPointLocation, const std::vector<Fraction>& jumpPointLocations)
+    void saveAndLoad(const String& score, const Fraction& startPointLocation,
+                     const std::vector<Fraction>& jumpPointLocations)
     {
         // Save score
         const String savePath = score + u".mscx";
-        EXPECT_TRUE(ScoreComp::saveCompareScore(m_masterScore, savePath, PARTIALTIE_DATA_DIR + score + u"-ref.mscx"));
+        EXPECT_TRUE(ScoreComp::saveCompareScore(m_masterScore, savePath,
+                                                PARTIALTIE_DATA_DIR + score + u"-ref.mscx"));
         delete m_masterScore;
         m_masterScore = nullptr;
         m_startNote = nullptr;
@@ -348,7 +352,8 @@ protected:
         }
     }
 
-    void testPartialTieListSelection(const String& score, const Fraction& startPointLocation, const Fraction& secondNoteLocation,
+    void testPartialTieListSelection(const String& score, const Fraction& startPointLocation,
+                                     const Fraction& secondNoteLocation,
                                      const std::vector<Fraction>& jumpPointLocations)
     {
         openScore(score, startPointLocation, jumpPointLocations);
@@ -403,7 +408,8 @@ TEST_F(Engraving_PartialTieTests, voltaCoda)
     const String test = u"volta_coda";
 
     const Fraction startPointTick = Fraction(3, 4);
-    const std::vector<Fraction> jumpPoints = { Fraction(4, 4), Fraction(8, 4), Fraction(12, 4), Fraction(16, 4) };
+    const std::vector<Fraction> jumpPoints
+        = { Fraction(4, 4), Fraction(8, 4), Fraction(12, 4), Fraction(16, 4) };
 
     testPartialTies(test, startPointTick, jumpPoints);
 }
@@ -474,7 +480,8 @@ TEST_F(Engraving_PartialTieTests, copyPartialTiesAndSlurs)
     score->endCmd();
     score->doLayout();
     EXPECT_TRUE(ScoreComp::saveCompareScore(score, String(u"copyPastePartials01.mscx"),
-                                            PARTIALTIE_DATA_DIR + String(u"copyPastePartials01-ref.mscx")));
+                                            PARTIALTIE_DATA_DIR
+                                            + String(u"copyPastePartials01-ref.mscx")));
 
     // Paste staff 0, m3
     EXPECT_TRUE(m3->first(SegmentType::ChordRest)->element(0));
@@ -484,7 +491,8 @@ TEST_F(Engraving_PartialTieTests, copyPartialTiesAndSlurs)
     score->endCmd();
     score->doLayout();
     EXPECT_TRUE(ScoreComp::saveCompareScore(score, String(u"copyPastePartials02.mscx"),
-                                            PARTIALTIE_DATA_DIR + String(u"copyPastePartials02-ref.mscx")));
+                                            PARTIALTIE_DATA_DIR
+                                            + String(u"copyPastePartials02-ref.mscx")));
 
     // Paste staff 0, m4
     EXPECT_TRUE(m4->first(SegmentType::ChordRest)->element(0));
@@ -494,7 +502,8 @@ TEST_F(Engraving_PartialTieTests, copyPartialTiesAndSlurs)
     score->endCmd();
     score->doLayout();
     EXPECT_TRUE(ScoreComp::saveCompareScore(score, String(u"copyPastePartials03.mscx"),
-                                            PARTIALTIE_DATA_DIR + String(u"copyPastePartials03-ref.mscx")));
+                                            PARTIALTIE_DATA_DIR
+                                            + String(u"copyPastePartials03-ref.mscx")));
 
     // Paste staff 1, m4
     EXPECT_TRUE(m4->first(SegmentType::ChordRest)->element(4));
@@ -504,7 +513,8 @@ TEST_F(Engraving_PartialTieTests, copyPartialTiesAndSlurs)
     score->endCmd();
     score->doLayout();
     EXPECT_TRUE(ScoreComp::saveCompareScore(score, String(u"copyPastePartials04.mscx"),
-                                            PARTIALTIE_DATA_DIR + String(u"copyPastePartials04-ref.mscx")));
+                                            PARTIALTIE_DATA_DIR
+                                            + String(u"copyPastePartials04-ref.mscx")));
 }
 
 TEST_F(Engraving_PartialTieTests, partialTieListSelection)

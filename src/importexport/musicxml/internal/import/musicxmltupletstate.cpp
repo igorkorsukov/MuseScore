@@ -38,7 +38,9 @@ using namespace mu::iex::musicxml;
  and fraction * fullDuration equals duration.
  */
 
-void MusicXmlTupletState::determineTupletFractionAndFullDuration(const Fraction duration, Fraction& fraction, Fraction& fullDuration)
+void MusicXmlTupletState::determineTupletFractionAndFullDuration(const Fraction duration,
+                                                                 Fraction& fraction,
+                                                                 Fraction& fullDuration)
 {
     fraction = duration;
     fullDuration = Fraction(1, 1);
@@ -356,7 +358,8 @@ MusicXmlTupletFlags MusicXmlTupletState::determineTupletAction(const Fraction no
             || (actNotes == 1 && norNotes == 1)) {           // incorrect ??? check scenario incomplete tuplet w/o start
             if (actNotes > norNotes && !isTupletFilled(normalType, timeMod)) {
                 missingCurrentDuration = missingTupletDuration(duration);
-                LOGD("current tuplet incomplete, missing %s", muPrintable(missingCurrentDuration.toString()));
+                LOGD("current tuplet incomplete, missing %s",
+                     muPrintable(missingCurrentDuration.toString()));
             }
 
             *this = {};

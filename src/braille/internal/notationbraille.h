@@ -42,11 +42,13 @@ namespace mu::engraving {
 class Score;
 class Selection;
 
-class NotationBraille : public mu::braille::INotationBraille, public muse::Contextable, public muse::async::Asyncable
+class NotationBraille : public mu::braille::INotationBraille, public muse::Contextable,
+    public muse::async::Asyncable
 {
     muse::GlobalInject<braille::IBrailleConfiguration> brailleConfiguration;
     muse::GlobalInject<muse::IGlobalConfiguration> globalConfiguration;
-    muse::ContextInject<muse::accessibility::IAccessibilityController> accessibilityController = { this };
+    muse::ContextInject<muse::accessibility::IAccessibilityController> accessibilityController
+        = { this };
     muse::ContextInject<context::IGlobalContext> globalContext = { this };
     muse::ContextInject<playback::IPlaybackController> playbackController = { this };
     muse::ContextInject<muse::actions::IActionsDispatcher> dispatcher = { this };

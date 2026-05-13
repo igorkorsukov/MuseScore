@@ -25,7 +25,8 @@
 
 using namespace mu::inspector;
 
-LyricsLineSettingsModel::LyricsLineSettingsModel(QObject* parent, const muse::modularity::ContextPtr& iocCtx,
+LyricsLineSettingsModel::LyricsLineSettingsModel(QObject* parent,
+                                                 const muse::modularity::ContextPtr& iocCtx,
                                                  IElementRepositoryService* repository,
                                                  ElementType elementType)
     : AbstractInspectorModel(parent, iocCtx, repository)

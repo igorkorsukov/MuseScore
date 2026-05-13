@@ -23,7 +23,8 @@
 
 using namespace mu::project;
 
-void NotationReadersRegister::reg(const std::vector<std::string>& suffixes, INotationReaderPtr reader)
+void NotationReadersRegister::reg(const std::vector<std::string>& suffixes,
+                                  INotationReaderPtr reader)
 {
     for (const std::string& suffix : suffixes) {
         m_readers.insert({ suffix, reader });

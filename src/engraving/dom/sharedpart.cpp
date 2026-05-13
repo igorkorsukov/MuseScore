@@ -39,7 +39,9 @@ void SharedPart::addOriginPart(Part* p)
             order[parts[i]] = i;
         }
 
-        auto it = std::lower_bound(m_originParts.begin(), m_originParts.end(), p, [&order](Part* part1, Part* part2) {
+        auto it
+            = std::lower_bound(m_originParts.begin(), m_originParts.end(), p,
+                               [&order](Part* part1, Part* part2) {
             return order[part1] < order[part2];
         });
 

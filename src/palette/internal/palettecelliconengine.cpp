@@ -44,7 +44,8 @@ QIconEngine* PaletteCellIconEngine::clone() const
     return new PaletteCellIconEngine(m_cell, m_extraMag);
 }
 
-void PaletteCellIconEngine::paint(QPainter* qp, const QRect& rect, QIcon::Mode mode, QIcon::State state)
+void PaletteCellIconEngine::paint(QPainter* qp, const QRect& rect, QIcon::Mode mode,
+                                  QIcon::State state)
 {
     Painter p(qp, "palettecell");
     p.save();
@@ -53,7 +54,8 @@ void PaletteCellIconEngine::paint(QPainter* qp, const QRect& rect, QIcon::Mode m
     p.restore();
 }
 
-void PaletteCellIconEngine::paintCell(Painter& painter, const RectF& rect, bool selected, bool current) const
+void PaletteCellIconEngine::paintCell(Painter& painter, const RectF& rect, bool selected,
+                                      bool current) const
 {
     paintBackground(painter, rect, selected, current);
 
@@ -84,7 +86,8 @@ void PaletteCellIconEngine::paintCell(Painter& painter, const RectF& rect, bool 
     notation::EngravingItemPreviewPainter::paintPreview(engravingRender(), element, params);
 }
 
-void PaletteCellIconEngine::paintBackground(Painter& painter, const RectF& rect, bool selected, bool current) const
+void PaletteCellIconEngine::paintBackground(Painter& painter, const RectF& rect, bool selected,
+                                            bool current) const
 {
     if (current || selected) {
         QColor c(configuration()->accentColor());

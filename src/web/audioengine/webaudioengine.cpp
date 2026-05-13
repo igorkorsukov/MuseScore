@@ -68,7 +68,10 @@ void WebAudioEngine::init()
         class ThreadNameProvider : public IThreadNameProvider
         {
         public:
-            const std::string& threadName(const std::thread::id&) const { return muse::runtime::threadName(); }
+            const std::string& threadName(const std::thread::id&) const
+            {
+                return muse::runtime::threadName();
+            }
         };
 
         LogLayout ll("${time} | ${type|5} | ${thread|15} | ${tag|15} | ${message}");

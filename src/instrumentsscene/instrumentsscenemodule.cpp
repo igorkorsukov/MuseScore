@@ -46,7 +46,9 @@ void InstrumentsSceneModule::resolveImports()
 {
     auto ir = globalIoc()->resolve<interactive::IInteractiveUriRegister>(mname);
     if (ir) {
-        ir->registerQmlUri(Uri("musescore://instruments/select"), "MuseScore.InstrumentsScene", "InstrumentsDialog");
+        ir->registerQmlUri(Uri(
+                               "musescore://instruments/select"), "MuseScore.InstrumentsScene",
+                           "InstrumentsDialog");
     }
 }
 
@@ -61,7 +63,8 @@ void InstrumentsSceneContext::registerExports()
 {
     m_actionsController = std::make_shared<InstrumentsActionsController>(iocContext());
 
-    ioc()->registerExport<notation::ISelectInstrumentsScenario>(mname, new SelectInstrumentsScenario(iocContext()));
+    ioc()->registerExport<notation::ISelectInstrumentsScenario>(mname, new SelectInstrumentsScenario(
+                                                                    iocContext()));
 }
 
 void InstrumentsSceneContext::resolveImports()

@@ -64,7 +64,8 @@ struct RenderingContext {
 };
 
 inline RenderingContext buildRenderingCtx(const Chord* chord, const int tickPositionOffset,
-                                          const muse::mpe::ArticulationsProfilePtr profile, const PlaybackContextPtr playbackCtx,
+                                          const muse::mpe::ArticulationsProfilePtr profile,
+                                          const PlaybackContextPtr playbackCtx,
                                           const muse::mpe::ArticulationMap& articulations = {})
 {
     int chordPosTick = chord->tick().ticks();
@@ -73,14 +74,17 @@ inline RenderingContext buildRenderingCtx(const Chord* chord, const int tickPosi
 
     const Score* score = chord->score();
 
-    auto chordTnD = timestampAndDurationFromStartAndDurationTicks(score, chordPosTick, chordDurationTicks, tickPositionOffset);
+    auto chordTnD = timestampAndDurationFromStartAndDurationTicks(score, chordPosTick,
+                                                                  chordDurationTicks,
+                                                                  tickPositionOffset);
 
     BeatsPerSecond bps = score->tempomap()->multipliedTempo(chordPosTick);
     TimeSigFrac timeSignatureFraction = score->sigmap()->timesig(chordPosTick).timesig();
 
     RenderingContext ctx{ chordTnD.timestamp,
                           chordTnD.duration,
-                          playbackCtx->appliableDynamicLevel(chord->track(), chordPosTickWithOffset),
+                          playbackCtx->appliableDynamicLevel(chord->track(),
+                                                             chordPosTickWithOffset),
                           chordPosTick,
                           chordPosTick + chordDurationTicks,
                           chordDurationTicks,
@@ -126,7 +130,8 @@ struct NominalNoteCtx {
     }
 };
 
-inline muse::mpe::NoteEvent buildNoteEvent(const NominalNoteCtx& ctx, const muse::mpe::PitchCurve& pitchCurve = {})
+inline muse::mpe::NoteEvent buildNoteEvent(const NominalNoteCtx& ctx,
+                                           const muse::mpe::PitchCurve& pitchCurve = {})
 {
     return muse::mpe::NoteEvent(ctx.timestamp,
                                 ctx.duration,

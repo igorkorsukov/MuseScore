@@ -45,7 +45,8 @@ namespace mu::engraving {
 MasterScore* MTest::readScore(const QString& name)
 {
     muse::io::path_t path = root + "/" + name;
-    MasterScore* score = mu::engraving::compat::ScoreAccess::createMasterScoreWithBaseStyle(nullptr);
+    MasterScore* score
+        = mu::engraving::compat::ScoreAccess::createMasterScoreWithBaseStyle(nullptr);
     score->setFileInfoProvider(std::make_shared<LocalFileInfoProvider>(path));
     std::string suffix = muse::io::suffix(path);
 
@@ -113,7 +114,8 @@ bool MTest::compareFiles(const QString& saveName, const QString& compareWith) co
     return compareFilesFromPaths(saveName, root + "/" + compareWith);
 }
 
-bool MTest::saveCompareScore(Score* score, const QString& saveName, const QString& compareWith) const
+bool MTest::saveCompareScore(Score* score, const QString& saveName,
+                             const QString& compareWith) const
 {
     if (!saveScore(score, saveName)) {
         return false;

@@ -62,7 +62,8 @@ static bool saveBraille(MasterScore* score, const String& saveName)
     return res;
 }
 
-static bool saveCompareBrailleScore(MasterScore* score, const String& saveName, const String& compareWithLocalPath)
+static bool saveCompareBrailleScore(MasterScore* score, const String& saveName,
+                                    const String& compareWithLocalPath)
 {
     EXPECT_TRUE(saveBraille(score, saveName));
     return ScoreComp::compareFiles(saveName,  ScoreRW::rootPath() + u"/" + compareWithLocalPath);
@@ -75,7 +76,8 @@ void Braille_Tests::brailleSaveTest(const char* file)
     EXPECT_TRUE(score);
     fixupScore(score);
     score->doLayout();
-    EXPECT_TRUE(saveCompareBrailleScore(score, fileName + ".brf", BRAILLE_DIR + fileName + "_ref.brf"));
+    EXPECT_TRUE(saveCompareBrailleScore(score, fileName + ".brf",
+                                        BRAILLE_DIR + fileName + "_ref.brf"));
     delete score;
 }
 

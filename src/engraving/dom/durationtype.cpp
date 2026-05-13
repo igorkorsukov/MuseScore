@@ -251,7 +251,8 @@ bool TDuration::hasStem() const
 
 void TDuration::shiftType(int nSteps, bool stepDotted)
 {
-    if (m_val == DurationType::V_MEASURE || m_val == DurationType::V_INVALID || m_val == DurationType::V_ZERO) {
+    if (m_val == DurationType::V_MEASURE || m_val == DurationType::V_INVALID
+        || m_val == DurationType::V_ZERO) {
         setType(DurationType::V_INVALID);
     } else {
         int newValue;
@@ -490,7 +491,8 @@ std::vector<TDuration> toDurationList(Fraction l, bool useDots, int maxDots, boo
         maxDots = 0;
     }
 
-    for (TDuration dd(l, true, maxDots); dd.isValid() && l.numerator() > 0; dd = TDuration(l, true, maxDots, dd.type())) {
+    for (TDuration dd(l, true, maxDots); dd.isValid() && l.numerator() > 0;
+         dd = TDuration(l, true, maxDots, dd.type())) {
         dList.push_back(dd);
         l -= dd.fraction();
     }
@@ -540,7 +542,8 @@ std::vector<TDuration> toRhythmicDurationList(const Fraction& l, bool isRest, Fr
 //   populateRhythmicList
 //---------------------------------------------------------
 
-void populateRhythmicList(std::vector<TDuration>* dList, const Fraction& l, bool isRest, const Fraction& rtickStart,
+void populateRhythmicList(std::vector<TDuration>* dList, const Fraction& l, bool isRest,
+                          const Fraction& rtickStart,
                           const TimeSigFrac& nominal, int maxDots)
 {
     Fraction rtickEnd = rtickStart + l;
@@ -552,7 +555,8 @@ void populateRhythmicList(std::vector<TDuration>* dList, const Fraction& l, bool
 
     int startLevel            = nominal.rtick2subbeatLevel(rtickStart.ticks());
     int endLevel              = nominal.rtick2subbeatLevel(rtickEnd.ticks());
-    int strongestLevelCrossed = nominal.strongestSubbeatLevelInRange(rtickStart.ticks(), rtickEnd.ticks(), &rtickSplit);   // sets rtickSplit
+    int strongestLevelCrossed = nominal.strongestSubbeatLevelInRange(
+        rtickStart.ticks(), rtickEnd.ticks(), &rtickSplit);                                                                // sets rtickSplit
 
     if ((startLevel < 0) || (endLevel < 0) || (strongestLevelCrossed < 0)) {
         // Beyond maximum subbeat level so just split into largest possible durations.
@@ -587,9 +591,11 @@ void populateRhythmicList(std::vector<TDuration>* dList, const Fraction& l, bool
         bool useLast = startBeat <= BeatType::SIMPLE_UNSTRESSED;     // split on the later beat if starting on a beat
 
         BeatType strongestBeatCrossed = nominal.strongestBeatInRange(rtickStart.ticks(),
-                                                                     rtickEnd.ticks(), &dUnitsCrossed, &rtickSplit, useLast);
+                                                                     rtickEnd.ticks(), &dUnitsCrossed, &rtickSplit,
+                                                                     useLast);
 
-        needToSplit = forceRhythmicSplit(isRest, startBeat, endBeat, dUnitsCrossed, strongestBeatCrossed, nominal);
+        needToSplit = forceRhythmicSplit(isRest, startBeat, endBeat, dUnitsCrossed,
+                                         strongestBeatCrossed, nominal);
     }
 
     if (!needToSplit) {
@@ -617,7 +623,8 @@ void populateRhythmicList(std::vector<TDuration>* dList, const Fraction& l, bool
 
     // Recurse to see if we need to split further before adding to list
     populateRhythmicList(dList, leftSplit, isRest, rtickStart, nominal, maxDots);
-    populateRhythmicList(dList, rightSplit, isRest, Fraction::fromTicks(rtickSplit), nominal, maxDots);
+    populateRhythmicList(dList, rightSplit, isRest, Fraction::fromTicks(
+                             rtickSplit), nominal, maxDots);
 }
 
 //---------------------------------------------------------
@@ -642,7 +649,9 @@ void splitCompoundBeatsForList(std::vector<TDuration>* dList, const Fraction& l,
             Fraction leftSplit = Fraction::fromTicks(splitTicks);
             Fraction rightSplit = l - leftSplit;
             populateRhythmicList(dList, leftSplit, isRest, rtickStart, nominal, maxDots);       // this side is ok to proceed
-            splitCompoundBeatsForList(dList, rightSplit, isRest, rtickStart + Fraction::fromTicks(splitTicks), nominal, maxDots);       // not checked yet
+            splitCompoundBeatsForList(dList, rightSplit, isRest,
+                                      rtickStart + Fraction::fromTicks(splitTicks), nominal,
+                                      maxDots);                                                                                         // not checked yet
             return;
         }
     }
@@ -656,7 +665,8 @@ void splitCompoundBeatsForList(std::vector<TDuration>* dList, const Fraction& l,
             Fraction rightSplit = Fraction::fromTicks(splitTicks);
             Fraction leftSplit = l - rightSplit;
             populateRhythmicList(dList, leftSplit, isRest, rtickStart, nominal, maxDots);       // must add leftSplit to list first
-            populateRhythmicList(dList, rightSplit, isRest, rtickEnd - Fraction::fromTicks(splitTicks), nominal, maxDots);
+            populateRhythmicList(dList, rightSplit, isRest,
+                                 rtickEnd - Fraction::fromTicks(splitTicks), nominal, maxDots);
             return;
         }
     }
@@ -689,7 +699,8 @@ void splitCompoundBeatsForList(std::vector<TDuration>* dList, const Fraction& l,
 //---------------------------------------------------------
 
 bool forceRhythmicSplit(bool isRest, BeatType startBeat, BeatType endBeat,
-                        int dUnitsCrossed, BeatType strongestBeatCrossed, const TimeSigFrac& nominal)
+                        int dUnitsCrossed, BeatType strongestBeatCrossed,
+                        const TimeSigFrac& nominal)
 {
     // Assumption: Notes were split at measure boundary before this function was
     // called. (Necessary because timeSig might be different in next measure.)
@@ -697,12 +708,14 @@ bool forceRhythmicSplit(bool isRest, BeatType startBeat, BeatType endBeat,
     // Assumption: compound notes have already been split where they enter a compound beat.
     // (Necessary because the split beat is not always the strongest beat in this case.)
     assert(!nominal.isCompound() || strongestBeatCrossed >= BeatType::COMPOUND_SUBBEAT
-           || (startBeat <= BeatType::COMPOUND_UNSTRESSED && endBeat <= BeatType::COMPOUND_UNSTRESSED));
+           || (startBeat <= BeatType::COMPOUND_UNSTRESSED
+               && endBeat <= BeatType::COMPOUND_UNSTRESSED));
 
     // SPECIAL CASES
 
     // nothing can cross a stressed beat in an irregular time signature
-    if (strongestBeatCrossed <= BeatType::SIMPLE_STRESSED && !nominal.isTriple() && !nominal.isDuple()) {
+    if (strongestBeatCrossed <= BeatType::SIMPLE_STRESSED && !nominal.isTriple()
+        && !nominal.isDuple()) {
         return true;
     }
     if (isRest) {
@@ -719,9 +732,11 @@ bool forceRhythmicSplit(bool isRest, BeatType startBeat, BeatType endBeat,
     // GENERAL RULES
 
     if (nominal.isCompound()) {
-        return forceRhythmicSplitCompound(isRest, startBeat, endBeat, dUnitsCrossed, strongestBeatCrossed);
+        return forceRhythmicSplitCompound(isRest, startBeat, endBeat, dUnitsCrossed,
+                                          strongestBeatCrossed);
     } else {
-        return forceRhythmicSplitSimple(isRest, startBeat, endBeat, dUnitsCrossed, strongestBeatCrossed);
+        return forceRhythmicSplitSimple(isRest, startBeat, endBeat, dUnitsCrossed,
+                                        strongestBeatCrossed);
     }
 }
 
@@ -729,22 +744,29 @@ bool forceRhythmicSplit(bool isRest, BeatType startBeat, BeatType endBeat,
 //   forceRhythmicSplitCompound
 //---------------------------------------------------------
 
-bool forceRhythmicSplitCompound(bool isRest, BeatType startBeat, BeatType endBeat, int dUnitsCrossed, BeatType strongestBeatCrossed)
+bool forceRhythmicSplitCompound(bool isRest, BeatType startBeat, BeatType endBeat,
+                                int dUnitsCrossed, BeatType strongestBeatCrossed)
 {
     switch (strongestBeatCrossed) {
     case BeatType::COMPOUND_STRESSED:
         // Assumption: compound notes have already been split where they enter a compound beat.
-        assert(startBeat <= BeatType::COMPOUND_UNSTRESSED && endBeat <= BeatType::COMPOUND_UNSTRESSED);
+        assert(
+            startBeat <= BeatType::COMPOUND_UNSTRESSED
+            && endBeat <= BeatType::COMPOUND_UNSTRESSED);
         // Notes are guaranteed to and start on a compound beat so we can pretend we have a simple measure.
-        return forceRhythmicSplitSimple(isRest, startBeat, endBeat, dUnitsCrossed / 3, BeatType::SIMPLE_STRESSED);
+        return forceRhythmicSplitSimple(isRest, startBeat, endBeat, dUnitsCrossed / 3,
+                                        BeatType::SIMPLE_STRESSED);
     case BeatType::COMPOUND_UNSTRESSED:
         // Same assumption as before
-        assert(startBeat <= BeatType::COMPOUND_UNSTRESSED && endBeat <= BeatType::COMPOUND_UNSTRESSED);
+        assert(
+            startBeat <= BeatType::COMPOUND_UNSTRESSED
+            && endBeat <= BeatType::COMPOUND_UNSTRESSED);
         // No further conditions since note are guaranteed to start and end on a compound beat.
         return false;
     case BeatType::COMPOUND_SUBBEAT:
         // don't split anything that takes up a full compound beat
-        if (startBeat <= BeatType::COMPOUND_UNSTRESSED && endBeat <= BeatType::COMPOUND_UNSTRESSED) {
+        if (startBeat <= BeatType::COMPOUND_UNSTRESSED
+            && endBeat <= BeatType::COMPOUND_UNSTRESSED) {
             return false;
         }
         // split rests that don't start on a compound beat
@@ -752,9 +774,11 @@ bool forceRhythmicSplitCompound(bool isRest, BeatType startBeat, BeatType endBea
             return true;
         }
         // Remaining groupings within compound triplets are the same as for simple triple (3/4, 3/8, etc.)
-        return forceRhythmicSplitSimple(isRest, startBeat, endBeat, dUnitsCrossed, BeatType::SIMPLE_UNSTRESSED);
+        return forceRhythmicSplitSimple(isRest, startBeat, endBeat, dUnitsCrossed,
+                                        BeatType::SIMPLE_UNSTRESSED);
     default:         // BeatType::SUBBEAT
-        return forceRhythmicSplitSimple(isRest, startBeat, endBeat, dUnitsCrossed, strongestBeatCrossed);
+        return forceRhythmicSplitSimple(isRest, startBeat, endBeat, dUnitsCrossed,
+                                        strongestBeatCrossed);
     }
 }
 
@@ -765,7 +789,8 @@ bool forceRhythmicSplitCompound(bool isRest, BeatType startBeat, BeatType endBea
 //    >, >= instead of == and != when appropriate. (See sig.h)
 //---------------------------------------------------------
 
-bool forceRhythmicSplitSimple(bool isRest, BeatType startBeat, BeatType endBeat, int beatsCrossed, BeatType strongestBeatCrossed)
+bool forceRhythmicSplitSimple(bool isRest, BeatType startBeat, BeatType endBeat, int beatsCrossed,
+                              BeatType strongestBeatCrossed)
 {
     switch (strongestBeatCrossed) {
     case BeatType::SIMPLE_STRESSED:

@@ -35,7 +35,8 @@ using namespace muse::ui;
 static const std::string MODULE_NAME("palette");
 static const Settings::Key PALETTE_SCALE(MODULE_NAME, "application/paletteScale");
 static const Settings::Key PALETTE_USE_SINGLE(MODULE_NAME, "application/useSinglePalette");
-static const Settings::Key IS_SINGLE_CLICK_TO_OPEN_PALETTE(MODULE_NAME, "application/singleClickToOpenPalette");
+static const Settings::Key IS_SINGLE_CLICK_TO_OPEN_PALETTE(MODULE_NAME,
+                                                           "application/singleClickToOpenPalette");
 static const Settings::Key IS_PALETTE_DRAG_ENABLED(MODULE_NAME, "application/paletteDragEnabled");
 
 void PaletteConfiguration::init()
@@ -54,8 +55,10 @@ void PaletteConfiguration::init()
     settings()->setDefaultValue(IS_SINGLE_CLICK_TO_OPEN_PALETTE, Val(true));
 
     m_isSingleClickToOpenPalette.val = settings()->value(IS_SINGLE_CLICK_TO_OPEN_PALETTE).toBool();
-    settings()->valueChanged(IS_SINGLE_CLICK_TO_OPEN_PALETTE).onReceive(this, [this](const Val& newValue) {
-        m_isSingleClickToOpenPalette.set(newValue.toBool());
+    settings()->valueChanged(IS_SINGLE_CLICK_TO_OPEN_PALETTE).onReceive(this,
+                                                                        [this](const Val& newValue) {
+        m_isSingleClickToOpenPalette.set(
+            newValue.toBool());
     });
 
     settings()->setDefaultValue(IS_PALETTE_DRAG_ENABLED, Val(true));
@@ -165,7 +168,8 @@ bool PaletteConfiguration::enableExperimental() const
     return globalConfiguration()->enableExperimental();
 }
 
-ValCh<PaletteConfiguration::PaletteConfig> PaletteConfiguration::paletteConfig(const QString& paletteId) const
+ValCh<PaletteConfiguration::PaletteConfig> PaletteConfiguration::paletteConfig(
+    const QString& paletteId) const
 {
     if (!m_paletteConfigs.contains(paletteId)) {
         m_paletteConfigs[paletteId] = ValCh<PaletteConfig>();
@@ -179,7 +183,8 @@ void PaletteConfiguration::setPaletteConfig(const QString& paletteId, const Pale
     m_paletteConfigs[paletteId].set(config);
 }
 
-ValCh<PaletteConfiguration::PaletteCellConfig> PaletteConfiguration::paletteCellConfig(const QString& cellId) const
+ValCh<PaletteConfiguration::PaletteCellConfig> PaletteConfiguration::paletteCellConfig(
+    const QString& cellId) const
 {
     if (!m_paletteCellsConfigs.contains(cellId)) {
         m_paletteCellsConfigs[cellId] = ValCh<PaletteCellConfig>();
@@ -188,7 +193,8 @@ ValCh<PaletteConfiguration::PaletteCellConfig> PaletteConfiguration::paletteCell
     return m_paletteCellsConfigs[cellId];
 }
 
-void PaletteConfiguration::setPaletteCellConfig(const QString& cellId, const PaletteCellConfig& config)
+void PaletteConfiguration::setPaletteCellConfig(const QString& cellId,
+                                                const PaletteCellConfig& config)
 {
     m_paletteCellsConfigs[cellId].set(config);
 }

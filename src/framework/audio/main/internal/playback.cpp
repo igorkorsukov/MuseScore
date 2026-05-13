@@ -92,7 +92,9 @@ async::Promise<Ret> Playback::init()
 
         auto initContext = [this, resolve]() {
             //! NOTE The message context here is global, and the context ID is the data in the message
-            Msg msg = rpc::make_request(rpc::GLOBAL_CTX_ID, MsgCode::ContextInit, RpcPacker::pack(ctxId()));
+            Msg msg
+                = rpc::make_request(rpc::GLOBAL_CTX_ID, MsgCode::ContextInit,
+                                    RpcPacker::pack(ctxId()));
             channel()->send(msg, [this, resolve](const Msg& res) {
                 ONLY_AUDIO_MAIN_THREAD;
                 Ret ret;
@@ -110,7 +112,9 @@ async::Promise<Ret> Playback::init()
         if (startAudioController()->isAudioStarted()) {
             initContext();
         } else {
-            startAudioController()->isAudioStartedChanged().onReceive(this, [this, initContext](bool arg) {
+            startAudioController()->isAudioStartedChanged().onReceive(this,
+                                                                      [this,
+                                                                       initContext](bool arg) {
                 LOGD() << "isAudioStartedChanged: " << arg;
                 if (arg) {
                     initContext();
@@ -138,7 +142,8 @@ void Playback::deinit()
     m_saveSoundTrackProgressStreamInited = false;
     m_saveSoundTrackProgressStreamId = 0;
 
-    channel()->send(rpc::make_request(rpc::GLOBAL_CTX_ID, MsgCode::ContextDeinit, RpcPacker::pack(ctxId())));
+    channel()->send(rpc::make_request(rpc::GLOBAL_CTX_ID, MsgCode::ContextDeinit,
+                                      RpcPacker::pack(ctxId())));
     m_inited.set(false);
 }
 
@@ -177,7 +182,8 @@ async::Promise<AudioResourceMetaList> Playback::availableInputResources() const
             ONLY_AUDIO_MAIN_THREAD;
             RetVal<AudioResourceMetaList> ret;
             IF_ASSERT_FAILED(RpcPacker::unpack(res.data, ret)) {
-                doReject(MsgCode::GetAvailableInputResources, reject, audio::make_ret(Err::InvalidRpcData));
+                doReject(MsgCode::GetAvailableInputResources, reject,
+                         audio::make_ret(Err::InvalidRpcData));
                 return;
             }
             if (ret.ret) {
@@ -190,17 +196,21 @@ async::Promise<AudioResourceMetaList> Playback::availableInputResources() const
     }, PromiseType::AsyncByBody);
 }
 
-async::Promise<SoundPresetList> Playback::availableSoundPresets(const AudioResourceMeta& resourceMeta) const
+async::Promise<SoundPresetList> Playback::availableSoundPresets(
+    const AudioResourceMeta& resourceMeta) const
 {
     ONLY_AUDIO_MAIN_THREAD;
     return async::make_promise<SoundPresetList>([this, resourceMeta](auto resolve, auto reject) {
         ONLY_AUDIO_MAIN_THREAD;
-        Msg msg = rpc::make_request(ctxId(), MsgCode::GetAvailableSoundPresets, RpcPacker::pack(resourceMeta));
+        Msg msg
+            = rpc::make_request(ctxId(), MsgCode::GetAvailableSoundPresets,
+                                RpcPacker::pack(resourceMeta));
         channel()->send(msg, [resolve, reject](const Msg& res) {
             ONLY_AUDIO_MAIN_THREAD;
             RetVal<SoundPresetList> ret;
             IF_ASSERT_FAILED(RpcPacker::unpack(res.data, ret)) {
-                doReject(MsgCode::GetAvailableSoundPresets, reject, audio::make_ret(Err::InvalidRpcData));
+                doReject(MsgCode::GetAvailableSoundPresets, reject,
+                         audio::make_ret(Err::InvalidRpcData));
                 return;
             }
             if (ret.ret) {
@@ -223,7 +233,8 @@ async::Promise<AudioResourceMetaList> Playback::availableOutputResources() const
             ONLY_AUDIO_MAIN_THREAD;
             RetVal<AudioResourceMetaList> ret;
             IF_ASSERT_FAILED(RpcPacker::unpack(res.data, ret)) {
-                doReject(MsgCode::GetAvailableOutputResources, reject, audio::make_ret(Err::InvalidRpcData));
+                doReject(MsgCode::GetAvailableOutputResources, reject,
+                         audio::make_ret(Err::InvalidRpcData));
                 return;
             }
             if (ret.ret) {
@@ -291,17 +302,21 @@ async::Promise<TrackId, TrackParams> Playback::addTrack(const TrackName& trackNa
     });
 #else
     ONLY_AUDIO_MAIN_THREAD;
-    return async::make_promise<TrackId, TrackParams>([this, trackName, playbackData, params](auto resolve, auto reject) {
+    return async::make_promise<TrackId,
+                               TrackParams>([this, trackName, playbackData, params](auto resolve,
+                                                                                    auto reject) {
         ONLY_AUDIO_MAIN_THREAD;
 
-        ByteArray data = RpcPacker::pack(trackName, reinterpret_cast<uint64_t>(playbackData), params);
+        ByteArray data = RpcPacker::pack(trackName, reinterpret_cast<uint64_t>(playbackData),
+                                         params);
 
         Msg msg = rpc::make_request(ctxId(), MsgCode::AddTrackWithIODevice, data);
         channel()->send(msg, [resolve, reject](const Msg& res) {
             ONLY_AUDIO_MAIN_THREAD;
             RetVal2<TrackId, TrackParams> ret;
             IF_ASSERT_FAILED(RpcPacker::unpack(res.data, ret)) {
-                doReject(MsgCode::AddTrackWithIODevice, reject, audio::make_ret(Err::InvalidRpcData));
+                doReject(MsgCode::AddTrackWithIODevice, reject,
+                         audio::make_ret(Err::InvalidRpcData));
                 return;
             }
             if (ret.ret) {
@@ -321,20 +336,26 @@ async::Promise<TrackId, TrackParams> Playback::addTrack(const TrackName& trackNa
                                                         const TrackParams& params)
 {
     ONLY_AUDIO_MAIN_THREAD;
-    return async::make_promise<TrackId, TrackParams>([this, trackName, playbackData, params](auto resolve, auto reject) {
+    return async::make_promise<TrackId,
+                               TrackParams>([this, trackName, playbackData, params](auto resolve,
+                                                                                    auto reject) {
         ONLY_AUDIO_MAIN_THREAD;
 
-        rpc::StreamId mainStreamId = channel()->addSendStream(StreamName::PlaybackDataMainStream, playbackData.mainStream);
-        rpc::StreamId offStreamId = channel()->addSendStream(StreamName::PlaybackDataOffStream, playbackData.offStream);
+        rpc::StreamId mainStreamId
+            = channel()->addSendStream(StreamName::PlaybackDataMainStream, playbackData.mainStream);
+        rpc::StreamId offStreamId
+            = channel()->addSendStream(StreamName::PlaybackDataOffStream, playbackData.offStream);
 
-        ByteArray data = RpcPacker::pack(trackName, playbackData, params, mainStreamId, offStreamId);
+        ByteArray data = RpcPacker::pack(trackName, playbackData, params, mainStreamId,
+                                         offStreamId);
 
         Msg msg = rpc::make_request(ctxId(), MsgCode::AddTrackWithPlaybackData, data);
         channel()->send(msg, [resolve, reject](const Msg& res) {
             ONLY_AUDIO_MAIN_THREAD;
             RetVal2<TrackId, TrackParams> ret;
             IF_ASSERT_FAILED(RpcPacker::unpack(res.data, ret)) {
-                doReject(MsgCode::AddTrackWithPlaybackData, reject, audio::make_ret(Err::InvalidRpcData));
+                doReject(MsgCode::AddTrackWithPlaybackData, reject,
+                         audio::make_ret(Err::InvalidRpcData));
                 return;
             }
             if (ret.ret) {
@@ -347,12 +368,15 @@ async::Promise<TrackId, TrackParams> Playback::addTrack(const TrackName& trackNa
     }, PromiseType::AsyncByBody);
 }
 
-async::Promise<TrackId, TrackParams> Playback::addAuxTrack(const TrackName& trackName, const TrackParams& params)
+async::Promise<TrackId, TrackParams> Playback::addAuxTrack(const TrackName& trackName,
+                                                           const TrackParams& params)
 {
     ONLY_AUDIO_MAIN_THREAD;
-    return async::make_promise<TrackId, TrackParams>([this, trackName, params](auto resolve, auto reject) {
+    return async::make_promise<TrackId,
+                               TrackParams>([this, trackName, params](auto resolve, auto reject) {
         ONLY_AUDIO_MAIN_THREAD;
-        Msg msg = rpc::make_request(ctxId(), MsgCode::AddAuxTrack, RpcPacker::pack(trackName, params));
+        Msg msg
+            = rpc::make_request(ctxId(), MsgCode::AddAuxTrack, RpcPacker::pack(trackName, params));
         channel()->send(msg, [resolve, reject](const Msg& res) {
             ONLY_AUDIO_MAIN_THREAD;
             RetVal2<TrackId, TrackParams> ret;
@@ -422,28 +446,32 @@ async::Promise<TrackParams> Playback::params(const TrackId trackId) const
 void Playback::setSourceParams(const TrackId trackId, const AudioSourceParams& params)
 {
     ONLY_AUDIO_MAIN_THREAD;
-    Msg msg = rpc::make_request(ctxId(), MsgCode::SetSourceParams, RpcPacker::pack(trackId, params));
+    Msg msg
+        = rpc::make_request(ctxId(), MsgCode::SetSourceParams, RpcPacker::pack(trackId, params));
     channel()->send(msg);
 }
 
 void Playback::setControlParams(const TrackId trackId, const ControlParams& params)
 {
     ONLY_AUDIO_MAIN_THREAD;
-    Msg msg = rpc::make_request(ctxId(), MsgCode::SetControlParams, RpcPacker::pack(trackId, params));
+    Msg msg
+        = rpc::make_request(ctxId(), MsgCode::SetControlParams, RpcPacker::pack(trackId, params));
     channel()->send(msg);
 }
 
 void Playback::setFxChainParams(const TrackId trackId, const AudioFxChain& params)
 {
     ONLY_AUDIO_MAIN_THREAD;
-    Msg msg = rpc::make_request(ctxId(), MsgCode::SetFxChainParams, RpcPacker::pack(trackId, params));
+    Msg msg
+        = rpc::make_request(ctxId(), MsgCode::SetFxChainParams, RpcPacker::pack(trackId, params));
     channel()->send(msg);
 }
 
 void Playback::setAuxSendsParams(const TrackId trackId, const AuxSendsParams& params)
 {
     ONLY_AUDIO_MAIN_THREAD;
-    Msg msg = rpc::make_request(ctxId(), MsgCode::SetAuxSendsParams, RpcPacker::pack(trackId, params));
+    Msg msg = rpc::make_request(ctxId(), MsgCode::SetAuxSendsParams, RpcPacker::pack(trackId,
+                                                                                     params));
     channel()->send(msg);
 }
 
@@ -490,26 +518,31 @@ void Playback::processInput(const TrackId trackId) const
     channel()->send(msg);
 }
 
-muse::async::Promise<InputProcessingProgress> Playback::inputProcessingProgress(const TrackId trackId) const
+muse::async::Promise<InputProcessingProgress> Playback::inputProcessingProgress(
+    const TrackId trackId) const
 {
     ONLY_AUDIO_MAIN_THREAD;
     return async::make_promise<InputProcessingProgress>([this, trackId](auto resolve, auto reject) {
         ONLY_AUDIO_MAIN_THREAD;
-        Msg msg = rpc::make_request(ctxId(), MsgCode::GetInputProcessingProgress, RpcPacker::pack(trackId));
+        Msg msg
+            = rpc::make_request(ctxId(), MsgCode::GetInputProcessingProgress,
+                                RpcPacker::pack(trackId));
         channel()->send(msg, [this, resolve, reject](const Msg& res) {
             ONLY_AUDIO_MAIN_THREAD;
             Ret ret;
             bool isStarted = false;
             StreamId streamId = 0;
             IF_ASSERT_FAILED(RpcPacker::unpack(res.data, ret, isStarted, streamId)) {
-                doReject(MsgCode::GetInputProcessingProgress, reject, audio::make_ret(Err::InvalidRpcData));
+                doReject(MsgCode::GetInputProcessingProgress, reject,
+                         audio::make_ret(Err::InvalidRpcData));
                 return;
             }
 
             if (ret) {
                 InputProcessingProgress prog;
                 prog.isStarted = isStarted;
-                channel()->addReceiveStream(StreamName::InputProcessingProgressStream, streamId, prog.processedChannel);
+                channel()->addReceiveStream(StreamName::InputProcessingProgressStream, streamId,
+                                            prog.processedChannel);
                 (void)resolve(prog);
             } else {
                 doReject(MsgCode::GetInputProcessingProgress, reject, ret);
@@ -579,12 +612,15 @@ async::Promise<AudioSignalChanges> Playback::masterSignalChanges() const
     return signalChanges(MASTER_TRACK_ID);
 }
 
-async::Promise<bool> Playback::saveSoundTrack(const SoundTrackFormat& format, io::IODevice& dstDevice)
+async::Promise<bool> Playback::saveSoundTrack(const SoundTrackFormat& format,
+                                              io::IODevice& dstDevice)
 {
     ONLY_AUDIO_MAIN_THREAD;
     return async::make_promise<bool>([this, format, &dstDevice](auto resolve, auto reject) {
         ONLY_AUDIO_MAIN_THREAD;
-        Msg msg = rpc::make_request(ctxId(), MsgCode::SaveSoundTrack, RpcPacker::pack(format, reinterpret_cast<uintptr_t>(&dstDevice)));
+        Msg msg
+            = rpc::make_request(ctxId(), MsgCode::SaveSoundTrack,
+                                RpcPacker::pack(format, reinterpret_cast<uintptr_t>(&dstDevice)));
         channel()->send(msg, [resolve, reject](const Msg& res) {
             ONLY_AUDIO_MAIN_THREAD;
             Ret ret;

@@ -134,7 +134,8 @@ public:
 
     bool addAccidentalDotsArticulationsToNextNoteEntered() const override;
     void setAddAccidentalDotsArticulationsToNextNoteEntered(bool value) override;
-    muse::async::Notification addAccidentalDotsArticulationsToNextNoteEnteredChanged() const override;
+    muse::async::Notification addAccidentalDotsArticulationsToNextNoteEnteredChanged() const
+    override;
 
     muse::io::path_t userMusicFontsPath() const override;
     void setUserMusicFontsPath(const muse::io::path_t& path) override;
@@ -146,7 +147,8 @@ public:
 
     bool startNoteInputAtSelectedNoteRestWhenPressingMidiKey() const override;
     void setStartNoteInputAtSelectedNoteRestWhenPressingMidiKey(bool value) override;
-    muse::async::Notification startNoteInputAtSelectedNoteRestWhenPressingMidiKeyChanged() const override;
+    muse::async::Notification startNoteInputAtSelectedNoteRestWhenPressingMidiKeyChanged() const
+    override;
 
     bool isAutomaticallyPanEnabled() const override;
     void setIsAutomaticallyPanEnabled(bool enabled)  override;

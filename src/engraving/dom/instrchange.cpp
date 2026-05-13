@@ -54,14 +54,16 @@ static const ElementStyle instrumentChangeStyle {
 //---------------------------------------------------------
 
 InstrumentChange::InstrumentChange(EngravingItem* parent)
-    : TextBase(ElementType::INSTRUMENT_CHANGE, parent, TextStyleType::INSTRUMENT_CHANGE, ElementFlag::MOVABLE | ElementFlag::ON_STAFF)
+    : TextBase(ElementType::INSTRUMENT_CHANGE, parent, TextStyleType::INSTRUMENT_CHANGE,
+               ElementFlag::MOVABLE | ElementFlag::ON_STAFF)
 {
     initElementStyle(&instrumentChangeStyle);
     m_instrument = new Instrument();
 }
 
 InstrumentChange::InstrumentChange(const Instrument& i, EngravingItem* parent)
-    : TextBase(ElementType::INSTRUMENT_CHANGE, parent, TextStyleType::INSTRUMENT_CHANGE, ElementFlag::MOVABLE | ElementFlag::ON_STAFF)
+    : TextBase(ElementType::INSTRUMENT_CHANGE, parent, TextStyleType::INSTRUMENT_CHANGE,
+               ElementFlag::MOVABLE | ElementFlag::ON_STAFF)
 {
     initElementStyle(&instrumentChangeStyle);
     m_instrument = new Instrument(i);
@@ -108,7 +110,8 @@ void InstrumentChange::setupInstrument(const Instrument* instrument)
         // Introduce cleff change only if the new clef *symbol* is different from the old one
         if (ClefInfo::symId(oldClefType) != ClefInfo::symId(newClefType)) {
             // If instrument change is at the start of a measure, use the measure as the element, as this will place the instrument change before the barline.
-            EngravingItem* element = rtick().isZero() ? toEngravingItem(findMeasure()) : toEngravingItem(this);
+            EngravingItem* element
+                = rtick().isZero() ? toEngravingItem(findMeasure()) : toEngravingItem(this);
             score()->undoChangeClef(part->staff(i), element, newClefType, true);
         }
     }

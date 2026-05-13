@@ -340,7 +340,8 @@ AccidentalType Accidental::value2MicrotonalSubtype(AccidentalVal val, int quarte
     case AccidentalVal::FLAT2:
         return quarterOff == 1 ? AccidentalType::FLAT2_ARROW_UP : AccidentalType::FLAT2_ARROW_DOWN;
     case AccidentalVal::SHARP2:
-        return quarterOff == 1 ? AccidentalType::SHARP2_ARROW_UP : AccidentalType::SHARP2_ARROW_DOWN;
+        return quarterOff
+               == 1 ? AccidentalType::SHARP2_ARROW_UP : AccidentalType::SHARP2_ARROW_DOWN;
     default:
         return value2subtype(val);
     }
@@ -454,10 +455,12 @@ EngravingItem* Accidental::drop(EditData& data)
     case ElementType::ACTION_ICON:
         switch (toActionIcon(e)->actionType()) {
         case ActionIconType::PARENTHESES:
-            undoChangeProperty(Pid::ACCIDENTAL_BRACKET, int(AccidentalBracket::PARENTHESIS), PropertyFlags::NOSTYLE);
+            undoChangeProperty(Pid::ACCIDENTAL_BRACKET, int(AccidentalBracket::PARENTHESIS),
+                               PropertyFlags::NOSTYLE);
             break;
         case ActionIconType::BRACKETS:
-            undoChangeProperty(Pid::ACCIDENTAL_BRACKET, int(AccidentalBracket::BRACKET), PropertyFlags::NOSTYLE);
+            undoChangeProperty(Pid::ACCIDENTAL_BRACKET, int(AccidentalBracket::BRACKET),
+                               PropertyFlags::NOSTYLE);
             break;
         default:
             LOGD("unknown icon type");

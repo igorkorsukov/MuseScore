@@ -31,7 +31,8 @@ class GraceNotesMetaParser : public MetaParserBase<GraceNotesMetaParser>
 protected:
     friend MetaParserBase;
 
-    static void doParse(const EngravingItem* item, const RenderingContext& ctx, muse::mpe::ArticulationMap& result);
+    static void doParse(const EngravingItem* item, const RenderingContext& ctx,
+                        muse::mpe::ArticulationMap& result);
 };
 }
 

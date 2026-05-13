@@ -50,15 +50,19 @@ void MuseSoundsModule::registerExports()
 
     globalIoc()->registerExport<IMuseSoundsConfiguration>(mname, m_configuration);
     globalIoc()->registerExport<IMuseSoundsRepository>(mname, m_repository);
-    globalIoc()->registerExport<IMuseSamplerCheckUpdateService>(mname, new MuseSamplerCheckUpdateService());
-    globalIoc()->registerExport<IMuseSoundsCheckUpdateService>(mname, new MuseSoundsCheckUpdateService());
+    globalIoc()->registerExport<IMuseSamplerCheckUpdateService>(mname,
+                                                                new MuseSamplerCheckUpdateService());
+    globalIoc()->registerExport<IMuseSoundsCheckUpdateService>(mname,
+                                                               new MuseSoundsCheckUpdateService());
 }
 
 void MuseSoundsModule::resolveImports()
 {
     auto ir = globalIoc()->resolve<interactive::IInteractiveUriRegister>(mname);
     if (ir) {
-        ir->registerQmlUri(Uri("musescore://musesounds/musesoundsreleaseinfo"), "MuseScore.MuseSounds", "MuseSoundsReleaseInfoDialog");
+        ir->registerQmlUri(Uri(
+                               "musescore://musesounds/musesoundsreleaseinfo"), "MuseScore.MuseSounds",
+                           "MuseSoundsReleaseInfoDialog");
     }
 }
 
@@ -75,6 +79,9 @@ IContextSetup* MuseSoundsModule::newContext(const muse::modularity::ContextPtr& 
 
 void MuseSoundsModuleContext::registerExports()
 {
-    ioc()->registerExport<IMuseSoundsCheckUpdateScenario>(mname, new MuseSoundsCheckUpdateScenario(iocContext()));
-    ioc()->registerExport<IMuseSamplerCheckUpdateScenario>(mname, new MuseSamplerCheckUpdateScenario(iocContext()));
+    ioc()->registerExport<IMuseSoundsCheckUpdateScenario>(mname,
+                                                          new MuseSoundsCheckUpdateScenario(
+                                                              iocContext()));
+    ioc()->registerExport<IMuseSamplerCheckUpdateScenario>(mname, new MuseSamplerCheckUpdateScenario(
+                                                               iocContext()));
 }

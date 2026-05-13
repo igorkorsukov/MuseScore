@@ -28,7 +28,8 @@
 using namespace mu::inspector;
 using namespace mu::engraving;
 
-FretFrameSettingsModel::FretFrameSettingsModel(QObject* parent, const muse::modularity::ContextPtr& iocCtx,
+FretFrameSettingsModel::FretFrameSettingsModel(QObject* parent,
+                                               const muse::modularity::ContextPtr& iocCtx,
                                                IElementRepositoryService* repository)
     : AbstractInspectorModel(parent, iocCtx, repository)
 {
@@ -44,14 +45,16 @@ void FretFrameSettingsModel::createProperties()
     });
     m_diagramScale = buildPropertyItem(Pid::FRET_FRAME_DIAGRAM_SCALE,
                                        [this](const mu::engraving::Pid pid, const QVariant& newValue) {
-        onPropertyValueChanged(pid, newValue.toDouble() / 100);
+        onPropertyValueChanged(pid,
+                               newValue.toDouble() / 100);
     });
     m_columnGap = buildPropertyItem(Pid::FRET_FRAME_COLUMN_GAP);
     m_rowGap = buildPropertyItem(Pid::FRET_FRAME_ROW_GAP);
     m_chordsPerRow = buildPropertyItem(Pid::FRET_FRAME_CHORDS_PER_ROW);
 
     m_horizontalAlignment
-        = buildPropertyItem(mu::engraving::Pid::FRET_FRAME_H_ALIGN, [this](const mu::engraving::Pid pid, const QVariant& newValue) {
+        = buildPropertyItem(mu::engraving::Pid::FRET_FRAME_H_ALIGN,
+                            [this](const mu::engraving::Pid pid, const QVariant& newValue) {
         onPropertyValueChanged(pid, newValue.toInt());
 
         emit requestReloadPropertyItems();
@@ -115,7 +118,8 @@ void FretFrameSettingsModel::resetProperties()
     m_paddingToNotationBelow->resetToDefault();
 }
 
-void FretFrameSettingsModel::onNotationChanged(const PropertyIdSet& changedPropertyIdSet, const StyleIdSet&)
+void FretFrameSettingsModel::onNotationChanged(const PropertyIdSet& changedPropertyIdSet,
+                                               const StyleIdSet&)
 {
     loadProperties(changedPropertyIdSet);
 }

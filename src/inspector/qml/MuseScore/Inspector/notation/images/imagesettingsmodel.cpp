@@ -28,7 +28,8 @@
 using namespace mu::inspector;
 using namespace mu::engraving;
 
-ImageSettingsModel::ImageSettingsModel(QObject* parent, const muse::modularity::ContextPtr& iocCtx, IElementRepositoryService* repository)
+ImageSettingsModel::ImageSettingsModel(QObject* parent, const muse::modularity::ContextPtr& iocCtx,
+                                       IElementRepositoryService* repository)
     : AbstractInspectorModel(parent, iocCtx, repository)
 {
     setModelType(InspectorModelType::TYPE_IMAGE);
@@ -49,7 +50,8 @@ void ImageSettingsModel::createProperties()
     });
 
     m_height = buildPropertyItem(Pid::IMAGE_HEIGHT, [this](const Pid pid, const QVariant& newValue) {
-        onPropertyValueChanged(pid, newValue);
+        onPropertyValueChanged(pid,
+                               newValue);
 
         if (m_isAspectRatioLocked->value().toBool()) {
             emit requestReloadPropertyItems();
@@ -103,7 +105,8 @@ void ImageSettingsModel::resetProperties()
     m_isImageFramed->resetToDefault();
 }
 
-void ImageSettingsModel::onNotationChanged(const PropertyIdSet& changedPropertyIdSet, const StyleIdSet&)
+void ImageSettingsModel::onNotationChanged(const PropertyIdSet& changedPropertyIdSet,
+                                           const StyleIdSet&)
 {
     loadProperties(changedPropertyIdSet);
 }

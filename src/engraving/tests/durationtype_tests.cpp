@@ -51,7 +51,8 @@ TEST_F(Engraving_DurationTypeTests, halfDuration)
     EXPECT_TRUE(score);
 
     score->inputState().setTrack(0);
-    score->inputState().setSegment(score->tick2segment(Fraction(0, 1), false, SegmentType::ChordRest));
+    score->inputState().setSegment(score->tick2segment(Fraction(0,
+                                                                1), false, SegmentType::ChordRest));
     score->inputState().setDuration(DurationType::V_WHOLE);
     score->inputState().setNoteEntryMode(true);
 
@@ -80,7 +81,8 @@ TEST_F(Engraving_DurationTypeTests, doubleDuration)
     EXPECT_TRUE(score);
 
     score->inputState().setTrack(0);
-    score->inputState().setSegment(score->tick2segment(Fraction(0, 1), false, SegmentType::ChordRest));
+    score->inputState().setSegment(score->tick2segment(Fraction(0,
+                                                                1), false, SegmentType::ChordRest));
     score->inputState().setDuration(DurationType::V_128TH);
     score->inputState().setNoteEntryMode(true);
 
@@ -109,7 +111,8 @@ TEST_F(Engraving_DurationTypeTests, decDurationDotted)
     EXPECT_TRUE(score);
 
     score->inputState().setTrack(0);
-    score->inputState().setSegment(score->tick2segment(Fraction(0, 1), false, SegmentType::ChordRest));
+    score->inputState().setSegment(score->tick2segment(Fraction(0,
+                                                                1), false, SegmentType::ChordRest));
     score->inputState().setDuration(DurationType::V_WHOLE);
     score->inputState().setNoteEntryMode(true);
 
@@ -142,7 +145,8 @@ TEST_F(Engraving_DurationTypeTests, incDurationDotted)
     EXPECT_TRUE(score);
 
     score->inputState().setTrack(0);
-    score->inputState().setSegment(score->tick2segment(Fraction(0, 1), false, SegmentType::ChordRest));
+    score->inputState().setSegment(score->tick2segment(Fraction(0,
+                                                                1), false, SegmentType::ChordRest));
     score->inputState().setDuration(DurationType::V_128TH);
     score->inputState().setNoteEntryMode(true);
 

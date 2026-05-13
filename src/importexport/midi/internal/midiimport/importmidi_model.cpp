@@ -562,7 +562,8 @@ void TracksModel::reset(const MidiOperations::Opers& opers,
                 const int numeratorIndex = (int)_opers.timeSigNumerator.value();
                 const int denominatorIndex = (int)_opers.timeSigDenominator.value();
 
-                return _values[numeratorIndex] + " / " + _values[_numeratorCount + denominatorIndex];
+                return _values[numeratorIndex] + " / "
+                       + _values[_numeratorCount + denominatorIndex];
             }
 
             void setValue(const QVariant& value, int /*trackIndex*/) override
@@ -573,12 +574,14 @@ void TracksModel::reset(const MidiOperations::Opers& opers,
                            "Invalid size of the time signature value list");
 
                 bool ok = false;
-                _opers.timeSigNumerator.setValue((MidiOperations::TimeSigNumerator)list[0].toInt(&ok));
+                _opers.timeSigNumerator.setValue((MidiOperations::TimeSigNumerator)list[0].toInt(
+                                                     &ok));
 
                 Q_ASSERT_X(ok, "MIDI import operations", "Invalid numerator value");
 
                 ok = false;
-                _opers.timeSigDenominator.setValue((MidiOperations::TimeSigDenominator)list[1].toInt(&ok));
+                _opers.timeSigDenominator.setValue((MidiOperations::TimeSigDenominator)list[1].toInt(
+                                                       &ok));
 
                 Q_ASSERT_X(ok, "MIDI import operations", "Invalid denominator value");
             }

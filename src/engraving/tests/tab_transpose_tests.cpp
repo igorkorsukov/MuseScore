@@ -83,7 +83,8 @@ static void transposeScore(MasterScore* score, int semitones)
     score->cmdSelectAll();
     score->startCmd(TranslatableString::untranslatable("fretting test"));
 
-    const TransposeDirection dir = semitones < 0 ? TransposeDirection::DOWN : TransposeDirection::UP;
+    const TransposeDirection dir = semitones
+                                   < 0 ? TransposeDirection::DOWN : TransposeDirection::UP;
     const int abs = std::abs(semitones);
     const int remainder = abs % 12;
     const int octaves = abs / 12;
@@ -113,23 +114,29 @@ protected:
     void TearDown() override
     {
         if (m_mock) {
-            ON_CALL(*m_mock, preferSameStringForTranspose()).WillByDefault(::testing::Return(false));
+            ON_CALL(*m_mock,
+                    preferSameStringForTranspose()).WillByDefault(::testing::Return(false));
             ON_CALL(*m_mock, negativeFretsAllowed()).WillByDefault(::testing::Return(false));
-            ON_CALL(*m_mock, keepDeadNotesUnchangedOnTranspose()).WillByDefault(::testing::Return(false));
+            ON_CALL(*m_mock,
+                    keepDeadNotesUnchangedOnTranspose()).WillByDefault(::testing::Return(false));
         }
     }
 
     void setFrettingFlags(bool preferSameStringForTranspose, bool negativeFretsAllowed)
     {
         ASSERT_NE(m_mock, nullptr);
-        ON_CALL(*m_mock, preferSameStringForTranspose()).WillByDefault(::testing::Return(preferSameStringForTranspose));
-        ON_CALL(*m_mock, negativeFretsAllowed()).WillByDefault(::testing::Return(negativeFretsAllowed));
+        ON_CALL(*m_mock,
+                preferSameStringForTranspose()).WillByDefault(::testing::Return(
+                                                                  preferSameStringForTranspose));
+        ON_CALL(*m_mock,
+                negativeFretsAllowed()).WillByDefault(::testing::Return(negativeFretsAllowed));
     }
 
     void setKeepDeadNotes(bool keep)
     {
         ASSERT_NE(m_mock, nullptr);
-        ON_CALL(*m_mock, keepDeadNotesUnchangedOnTranspose()).WillByDefault(::testing::Return(keep));
+        ON_CALL(*m_mock,
+                keepDeadNotesUnchangedOnTranspose()).WillByDefault(::testing::Return(keep));
     }
 
     ECMock* m_mock = nullptr;
@@ -188,7 +195,9 @@ static void assertDeadNotesUnchangedByTransposeImpl(MasterScore* score)
 
     std::vector<TabNote> deadAfterRemaining = deadAfter;
     for (const auto& db : deadBefore) {
-        auto it = std::find_if(deadAfterRemaining.begin(), deadAfterRemaining.end(), [&](const TabNote& da) {
+        auto it
+            = std::find_if(deadAfterRemaining.begin(),
+                           deadAfterRemaining.end(), [&](const TabNote& da) {
             return da.string == db.string && da.fret == db.fret && da.pitch == db.pitch && da.dead == db.dead;
         });
         EXPECT_NE(it, deadAfterRemaining.end())

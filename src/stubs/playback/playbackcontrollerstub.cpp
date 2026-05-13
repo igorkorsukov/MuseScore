@@ -48,7 +48,9 @@ void PlaybackControllerStub::reset()
 {
 }
 
-muse::async::Channel<muse::audio::secs_t, muse::midi::tick_t> PlaybackControllerStub::currentPlaybackPositionChanged() const
+muse::async::Channel<muse::audio::secs_t,
+                     muse::midi::tick_t> PlaybackControllerStub::currentPlaybackPositionChanged()
+const
 {
     return muse::async::Channel<muse::audio::secs_t, muse::midi::tick_t>();
 }
@@ -63,7 +65,8 @@ muse::async::Channel<bool> PlaybackControllerStub::playbackInitedChanged() const
     return {};
 }
 
-const IPlaybackController::InstrumentTrackIdMap& PlaybackControllerStub::instrumentTrackIdMap() const
+const IPlaybackController::InstrumentTrackIdMap& PlaybackControllerStub::instrumentTrackIdMap()
+const
 {
     static const InstrumentTrackIdMap m;
     return m;
@@ -90,33 +93,39 @@ std::string PlaybackControllerStub::auxChannelName(muse::audio::aux_channel_idx_
     return "";
 }
 
-muse::async::Channel<muse::audio::aux_channel_idx_t, std::string> PlaybackControllerStub::auxChannelNameChanged() const
+muse::async::Channel<muse::audio::aux_channel_idx_t,
+                     std::string> PlaybackControllerStub::auxChannelNameChanged() const
 {
     return {};
 }
 
-muse::async::Promise<muse::audio::SoundPresetList> PlaybackControllerStub::availableSoundPresets(const engraving::InstrumentTrackId&) const
+muse::async::Promise<muse::audio::SoundPresetList> PlaybackControllerStub::availableSoundPresets(
+    const engraving::InstrumentTrackId&) const
 {
     return muse::async::Promise<muse::audio::SoundPresetList>([](auto /*resolve*/, auto reject) {
         return reject(int(muse::Ret::Code::UnknownError), "stub");
     });
 }
 
-const PlaybackControllerStub::SoloMuteState& PlaybackControllerStub::trackSoloMuteState(const engraving::InstrumentTrackId&) const
+const PlaybackControllerStub::SoloMuteState& PlaybackControllerStub::trackSoloMuteState(
+    const engraving::InstrumentTrackId&) const
 {
     static const SoloMuteState state;
     return state;
 }
 
-void PlaybackControllerStub::setTrackSoloMuteState(const engraving::InstrumentTrackId&, const SoloMuteState&)
+void PlaybackControllerStub::setTrackSoloMuteState(const engraving::InstrumentTrackId&,
+                                                   const SoloMuteState&)
 {
 }
 
-void PlaybackControllerStub::playElements(const std::vector<const notation::EngravingItem*>&, const PlayParams&, bool)
+void PlaybackControllerStub::playElements(const std::vector<const notation::EngravingItem*>&,
+                                          const PlayParams&, bool)
 {
 }
 
-void PlaybackControllerStub::playNotes(const notation::NoteValList&, notation::staff_idx_t, const notation::Segment*,
+void PlaybackControllerStub::playNotes(const notation::NoteValList&, notation::staff_idx_t,
+                                       const notation::Segment*,
                                        const PlayParams&)
 {
 }
@@ -125,7 +134,8 @@ void PlaybackControllerStub::playMetronome(int)
 {
 }
 
-void PlaybackControllerStub::triggerControllers(const muse::mpe::ControllerChangeEventList&, notation::staff_idx_t, int)
+void PlaybackControllerStub::triggerControllers(const muse::mpe::ControllerChangeEventList&,
+                                                notation::staff_idx_t, int)
 {
 }
 
@@ -204,7 +214,8 @@ void PlaybackControllerStub::setIsExportingAudio(bool)
 {
 }
 
-const std::map<muse::audio::TrackId, muse::audio::AudioResourceMeta>& PlaybackControllerStub::onlineSounds() const
+const std::map<muse::audio::TrackId,
+               muse::audio::AudioResourceMeta>& PlaybackControllerStub::onlineSounds() const
 {
     static const std::map<muse::audio::TrackId, muse::audio::AudioResourceMeta> dummy;
     return dummy;

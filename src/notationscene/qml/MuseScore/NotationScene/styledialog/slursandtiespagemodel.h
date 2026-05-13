@@ -33,14 +33,17 @@ class SlursAndTiesPageModel : public AbstractStyleDialogModel
     Q_PROPERTY(mu::notation::StyleItem * slurMidWidth READ slurMidWidth CONSTANT)
     Q_PROPERTY(mu::notation::StyleItem * slurDottedWidth READ slurDottedWidth CONSTANT)
     Q_PROPERTY(mu::notation::StyleItem * slurMinDistance READ slurMinDistance CONSTANT)
-    Q_PROPERTY(mu::notation::StyleItem * angleHangingSlursAwayFromStaff READ angleHangingSlursAwayFromStaff CONSTANT)
+    Q_PROPERTY(
+        mu::notation::StyleItem
+        * angleHangingSlursAwayFromStaff READ angleHangingSlursAwayFromStaff CONSTANT)
     Q_PROPERTY(mu::notation::StyleItem * tieEndWidth READ tieEndWidth CONSTANT)
     Q_PROPERTY(mu::notation::StyleItem * tieMidWidth READ tieMidWidth CONSTANT)
     Q_PROPERTY(mu::notation::StyleItem * tieDottedWidth READ tieDottedWidth CONSTANT)
     Q_PROPERTY(mu::notation::StyleItem * tieMinDistance READ tieMinDistance CONSTANT)
     Q_PROPERTY(mu::notation::StyleItem * minTieLength READ minTieLength CONSTANT)
     Q_PROPERTY(mu::notation::StyleItem * minHangingTieLength READ minHangingTieLength CONSTANT)
-    Q_PROPERTY(mu::notation::StyleItem * tiePlacementSingleNote READ tiePlacementSingleNote CONSTANT)
+    Q_PROPERTY(mu::notation::StyleItem
+               * tiePlacementSingleNote READ tiePlacementSingleNote CONSTANT)
     Q_PROPERTY(mu::notation::StyleItem * tiePlacementChord READ tiePlacementChord CONSTANT)
     Q_PROPERTY(mu::notation::StyleItem * tieDotsPlacement READ tieDotsPlacement CONSTANT)
     Q_PROPERTY(mu::notation::StyleItem * minLaissezVibLength READ minLaissezVibLength CONSTANT)

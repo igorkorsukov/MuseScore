@@ -29,7 +29,8 @@
 
 using namespace mu::inspector;
 
-TimeSignatureSettingsModel::TimeSignatureSettingsModel(QObject* parent, const muse::modularity::ContextPtr& iocCtx,
+TimeSignatureSettingsModel::TimeSignatureSettingsModel(QObject* parent,
+                                                       const muse::modularity::ContextPtr& iocCtx,
                                                        IElementRepositoryService* repository)
     : AbstractInspectorModel(parent, iocCtx, repository)
 {
@@ -42,19 +43,25 @@ TimeSignatureSettingsModel::TimeSignatureSettingsModel(QObject* parent, const mu
 void TimeSignatureSettingsModel::createProperties()
 {
     m_horizontalScale = buildPropertyItem(mu::engraving::Pid::SCALE,
-                                          [this](const mu::engraving::Pid pid, const QVariant& newValue) {
-        onPropertyValueChanged(pid, QSizeF(newValue.toDouble(), m_verticalScale->value().toDouble()));
+                                          [this](const mu::engraving::Pid pid,
+                                                 const QVariant& newValue) {
+        onPropertyValueChanged(pid, QSizeF(newValue.toDouble(),
+                                           m_verticalScale->value().toDouble()));
     },
-                                          [this](const mu::engraving::Sid sid, const QVariant& newValue) {
+                                          [this](const mu::engraving::Sid sid,
+                                                 const QVariant& newValue) {
         updateStyleValue(sid, QSizeF(newValue.toDouble(), m_verticalScale->value().toDouble()));
         emit requestReloadPropertyItems();
     });
 
     m_verticalScale = buildPropertyItem(mu::engraving::Pid::SCALE,
-                                        [this](const mu::engraving::Pid pid, const QVariant& newValue) {
-        onPropertyValueChanged(pid, QSizeF(m_horizontalScale->value().toDouble(), newValue.toDouble()));
+                                        [this](const mu::engraving::Pid pid,
+                                               const QVariant& newValue) {
+        onPropertyValueChanged(pid,
+                               QSizeF(m_horizontalScale->value().toDouble(), newValue.toDouble()));
     },
-                                        [this](const mu::engraving::Sid sid, const QVariant& newValue) {
+                                        [this](const mu::engraving::Sid sid,
+                                               const QVariant& newValue) {
         updateStyleValue(sid, QSizeF(m_horizontalScale->value().toDouble(), newValue.toDouble()));
         emit requestReloadPropertyItems();
     });
@@ -88,7 +95,8 @@ void TimeSignatureSettingsModel::loadProperties()
 
         const engraving::Measure* measure = element->findMeasure();
         const engraving::Measure* prevMeasure = measure ? measure->prevMeasure() : nullptr;
-        const engraving::LayoutBreak* sectionBreak = prevMeasure ? prevMeasure->sectionBreakElement() : nullptr;
+        const engraving::LayoutBreak* sectionBreak
+            = prevMeasure ? prevMeasure->sectionBreakElement() : nullptr;
         if (sectionBreak && !sectionBreak->showCourtesy()) {
             enableCourtesy = false;
             break;

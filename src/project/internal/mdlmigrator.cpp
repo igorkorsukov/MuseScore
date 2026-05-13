@@ -106,7 +106,8 @@ bool MdlMigrator::loadDrumset(Drumset* drumset, path_t path)
             const String verString = xml.attribute("version");
             const int version = String(verString).remove(u".").toInt(&ok);
             IF_ASSERT_FAILED(ok && version <= Constants::MSC_VERSION) {
-                LOGW("Loading drumset from unrecognized MuseScore version <%s>", verString.toAscii().constData());
+                LOGW("Loading drumset from unrecognized MuseScore version <%s>",
+                     verString.toAscii().constData());
             }
             while (xml.readNextStartElement()) {
                 if (xml.name() == "Drum") {
@@ -121,7 +122,8 @@ bool MdlMigrator::loadDrumset(Drumset* drumset, path_t path)
     return true;
 }
 
-void MdlMigrator::remapPitches(track_idx_t startTrack, track_idx_t endTrack, Fraction startTick, Fraction endTick,
+void MdlMigrator::remapPitches(track_idx_t startTrack, track_idx_t endTrack, Fraction startTick,
+                               Fraction endTick,
                                const RepitchFunc& repitch)
 {
     const auto repitchChord = [repitch] (Chord* chord) {

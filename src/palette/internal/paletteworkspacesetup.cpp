@@ -40,7 +40,8 @@ using namespace muse::workspace;
 
 static const AsciiStringView PALETTE_XML_TAG("PaletteBox");
 
-PaletteTreePtr PaletteWorkspaceSetup::readPalette(const ByteArray& data, const muse::modularity::ContextPtr& iocCtx)
+PaletteTreePtr PaletteWorkspaceSetup::readPalette(const ByteArray& data,
+                                                  const muse::modularity::ContextPtr& iocCtx)
 {
     ByteArray ba = ByteArray::fromRawData(data.constData(), data.size());
     auto buf = Buffer::opened(IODevice::ReadOnly, &ba);
@@ -111,8 +112,10 @@ void PaletteWorkspaceSetup::setup()
         }
         paletteProvider()->setUserPaletteTree(tree);
 
-        if (paletteScoreProvider()->paletteScore()->mscVersion() < engraving::Constants::MSC_VERSION) {
-            LOGD() << "Workspace file found with palette file version " << paletteScoreProvider()->paletteScore()->mscVersion() <<
+        if (paletteScoreProvider()->paletteScore()->mscVersion()
+            < engraving::Constants::MSC_VERSION) {
+            LOGD() << "Workspace file found with palette file version " <<
+            paletteScoreProvider()->paletteScore()->mscVersion() <<
                 ". Migrating palette file to " << engraving::Constants::MSC_VERSION;
             saveData();
         }

@@ -207,7 +207,8 @@ void NotationPageModel::updateDrumsetPanelVisibility()
 
         //! NOTE: ensure we don't dispatch it multiple times in succession
         muse::async::Async::call(this, [=]() {
-            dispatcher()->dispatch("dock-set-open", ActionData::make_arg2<QString, bool>(DRUMSET_PANEL_NAME, open));
+            dispatcher()->dispatch("dock-set-open",
+                                   ActionData::make_arg2<QString, bool>(DRUMSET_PANEL_NAME, open));
         });
     };
 
@@ -247,7 +248,9 @@ void NotationPageModel::updatePercussionPanelVisibility()
 
         //! NOTE: ensure we don't dispatch it multiple times in succession
         muse::async::Async::call(this, [=]() {
-            dispatcher()->dispatch("dock-set-open", ActionData::make_arg2<QString, bool>(PERCUSSION_PANEL_NAME, open));
+            dispatcher()->dispatch("dock-set-open",
+                                   ActionData::make_arg2<QString, bool>(PERCUSSION_PANEL_NAME,
+                                                                        open));
         });
     };
 
@@ -257,7 +260,8 @@ void NotationPageModel::updatePercussionPanelVisibility()
         return;
     }
 
-    const PercussionPanelAutoShowMode autoShowMode = notationConfiguration()->percussionPanelAutoShowMode();
+    const PercussionPanelAutoShowMode autoShowMode
+        = notationConfiguration()->percussionPanelAutoShowMode();
     const INotationPtr notation = globalContext()->currentNotation();
     if (!notation || !notation->elements() || autoShowMode == PercussionPanelAutoShowMode::NEVER) {
         return;
@@ -265,7 +269,8 @@ void NotationPageModel::updatePercussionPanelVisibility()
 
     const INotationNoteInputPtr noteInput = notation->interaction()->noteInput();
     const bool autoClose = notationConfiguration()->autoClosePercussionPanel();
-    if (noteInput && !noteInput->isNoteInputMode() && autoShowMode == PercussionPanelAutoShowMode::UNPITCHED_STAFF_NOTE_INPUT) {
+    if (noteInput && !noteInput->isNoteInputMode()
+        && autoShowMode == PercussionPanelAutoShowMode::UNPITCHED_STAFF_NOTE_INPUT) {
         if (autoClose) {
             setPercussionPanelOpen(false);
         }

@@ -31,7 +31,8 @@ using namespace muse;
 using namespace mu::engraving;
 using namespace mu::notation;
 
-Ret NotationSoloMuteState::read(const engraving::MscReader& reader, const muse::io::path_t& pathPrefix)
+Ret NotationSoloMuteState::read(const engraving::MscReader& reader,
+                                const muse::io::path_t& pathPrefix)
 {
     const ByteArray json = reader.readAudioSettingsJsonFile(pathPrefix);
 
@@ -86,13 +87,15 @@ Ret NotationSoloMuteState::write(io::IODevice* out)
     return make_ret(Ret::Code::Ok);
 }
 
-bool NotationSoloMuteState::trackSoloMuteStateExists(const engraving::InstrumentTrackId& partId) const
+bool NotationSoloMuteState::trackSoloMuteStateExists(const engraving::InstrumentTrackId& partId)
+const
 {
     auto search = m_trackSoloMuteStatesMap.find(partId);
     return search != m_trackSoloMuteStatesMap.end();
 }
 
-const INotationSoloMuteState::SoloMuteState& NotationSoloMuteState::trackSoloMuteState(const InstrumentTrackId& partId) const
+const INotationSoloMuteState::SoloMuteState& NotationSoloMuteState::trackSoloMuteState(
+    const InstrumentTrackId& partId) const
 {
     auto search = m_trackSoloMuteStatesMap.find(partId);
 
@@ -104,7 +107,8 @@ const INotationSoloMuteState::SoloMuteState& NotationSoloMuteState::trackSoloMut
     return search->second;
 }
 
-void NotationSoloMuteState::setTrackSoloMuteState(const InstrumentTrackId& partId, const SoloMuteState& state)
+void NotationSoloMuteState::setTrackSoloMuteState(const InstrumentTrackId& partId,
+                                                  const SoloMuteState& state)
 {
     auto it = m_trackSoloMuteStatesMap.find(partId);
     if (it != m_trackSoloMuteStatesMap.end() && it->second == state) {
@@ -123,7 +127,9 @@ void NotationSoloMuteState::removeTrackSoloMuteState(const engraving::Instrument
     }
 }
 
-muse::async::Channel<InstrumentTrackId, INotationSoloMuteState::SoloMuteState> NotationSoloMuteState::trackSoloMuteStateChanged() const
+muse::async::Channel<InstrumentTrackId,
+                     INotationSoloMuteState::SoloMuteState> NotationSoloMuteState::
+trackSoloMuteStateChanged() const
 {
     return m_trackSoloMuteStateChanged;
 }

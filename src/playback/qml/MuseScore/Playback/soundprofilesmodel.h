@@ -39,7 +39,8 @@ class SoundProfilesModel : public QAbstractListModel, public muse::Contextable
 {
     Q_OBJECT
 
-    Q_PROPERTY(QString activeProfile READ activeProfile WRITE setActiveProfile NOTIFY activeProfileChanged)
+    Q_PROPERTY(
+        QString activeProfile READ activeProfile WRITE setActiveProfile NOTIFY activeProfileChanged)
     Q_PROPERTY(
         QString defaultProjectsProfile READ defaultProjectsProfile WRITE setDefaultProjectsProfile NOTIFY defaultProjectsProfileChanged)
     Q_PROPERTY(

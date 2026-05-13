@@ -30,19 +30,26 @@ constexpr int MAX_DENOMINATOR = 64;
 constexpr Fraction ONE_DOT_DURATION_MULTIPLIER(3, 2);
 constexpr Fraction TWO_DOTS_DURATION_MULTIPLIER(7, 4);
 
-static Fraction findClosestDisplayableDuration(const Fraction& totalDuration, const Fraction& targetDuration, int maxDenominator,
+static Fraction findClosestDisplayableDuration(const Fraction& totalDuration,
+                                               const Fraction& targetDuration, int maxDenominator,
                                                bool skipFirstBest);
-static std::vector<Fraction> fillDurationsByProportions(const Fraction& totalDuration, const std::vector<Fraction>& proportions,
+static std::vector<Fraction> fillDurationsByProportions(const Fraction& totalDuration,
+                                                        const std::vector<Fraction>& proportions,
                                                         int maxDenominator, bool skipFirstBest);
 static bool canBeRepresentedAsDottedNote(const Fraction& duration, int maxDenominator);
-static std::vector<Fraction> bruteForceSplit(const Fraction& totalDuration, const std::vector<Fraction>& proportions, int maxDenominator);
-static std::vector<Fraction> bruteForceSplitInTwo(const Fraction& target, const std::vector<Fraction>& proportions,
+static std::vector<Fraction> bruteForceSplit(const Fraction& totalDuration,
+                                             const std::vector<Fraction>& proportions,
+                                             int maxDenominator);
+static std::vector<Fraction> bruteForceSplitInTwo(const Fraction& target,
+                                                  const std::vector<Fraction>& proportions,
                                                   const std::vector<Fraction>& durations);
-static std::vector<Fraction> bruteForceSplitInThree(const Fraction& target, const std::vector<Fraction>& durations);
+static std::vector<Fraction> bruteForceSplitInThree(const Fraction& target,
+                                                    const std::vector<Fraction>& durations);
 
 static std::vector<Fraction> generateDurations(int maxDenominator);
 
-std::vector<Fraction> BendChordDurationSplitter::findValidNoteSplit(const Fraction& totalDuration, const std::vector<Fraction>& proportions,
+std::vector<Fraction> BendChordDurationSplitter::findValidNoteSplit(const Fraction& totalDuration,
+                                                                    const std::vector<Fraction>& proportions,
                                                                     int maxDenominator)
 {
     if (proportions.size() == 1) {
@@ -56,12 +63,15 @@ std::vector<Fraction> BendChordDurationSplitter::findValidNoteSplit(const Fracti
     std::vector<Fraction> durations;
 
     do {
-        durations = fillDurationsByProportions(totalDuration, proportions, maxDenominator, skipFirstBest);
+        durations = fillDurationsByProportions(totalDuration, proportions, maxDenominator,
+                                               skipFirstBest);
 
-        Fraction accumulatedDuration = std::accumulate(durations.begin(), durations.end(), Fraction(0, 1));
+        Fraction accumulatedDuration
+            = std::accumulate(durations.begin(), durations.end(), Fraction(0, 1));
         Fraction lastDuration = totalDuration - accumulatedDuration;
 
-        if (lastDuration.isNotZero() && !lastDuration.negative() && canBeRepresentedAsDottedNote(lastDuration, maxDenominator)) {
+        if (lastDuration.isNotZero() && !lastDuration.negative()
+            && canBeRepresentedAsDottedNote(lastDuration, maxDenominator)) {
             durations.push_back(lastDuration);
             splitReached = true;
         } else if (!skipFirstBest) {
@@ -75,14 +85,16 @@ std::vector<Fraction> BendChordDurationSplitter::findValidNoteSplit(const Fracti
     return durations;
 }
 
-static std::vector<Fraction> fillDurationsByProportions(const Fraction& totalDuration, const std::vector<Fraction>& proportions,
+static std::vector<Fraction> fillDurationsByProportions(const Fraction& totalDuration,
+                                                        const std::vector<Fraction>& proportions,
                                                         int maxDenominator, bool skipFirstBest)
 {
     std::vector<Fraction> durations;
 
     for (size_t i = 0; i < proportions.size() - 1; i++) {
         Fraction targetDuration = totalDuration * proportions[i];
-        Fraction closestDuration = findClosestDisplayableDuration(totalDuration, targetDuration, maxDenominator,
+        Fraction closestDuration = findClosestDisplayableDuration(totalDuration, targetDuration,
+                                                                  maxDenominator,
                                                                   i == 0 ? skipFirstBest : false);
         durations.push_back(closestDuration);
     }
@@ -90,7 +102,9 @@ static std::vector<Fraction> fillDurationsByProportions(const Fraction& totalDur
     return durations;
 }
 
-static std::vector<Fraction> bruteForceSplit(const Fraction& totalDuration, const std::vector<Fraction>& proportions, int maxDenominator)
+static std::vector<Fraction> bruteForceSplit(const Fraction& totalDuration,
+                                             const std::vector<Fraction>& proportions,
+                                             int maxDenominator)
 {
     auto durations = generateDurations(maxDenominator);
     std::sort(durations.begin(), durations.end());
@@ -102,7 +116,8 @@ static std::vector<Fraction> bruteForceSplit(const Fraction& totalDuration, cons
     return bruteForceSplitInThree(totalDuration, durations);
 }
 
-static std::vector<Fraction> bruteForceSplitInTwo(const Fraction& target, const std::vector<Fraction>& proportions,
+static std::vector<Fraction> bruteForceSplitInTwo(const Fraction& target,
+                                                  const std::vector<Fraction>& proportions,
                                                   const std::vector<Fraction>& durations)
 {
     if (proportions.front() < proportions.back()) {
@@ -126,7 +141,8 @@ static std::vector<Fraction> bruteForceSplitInTwo(const Fraction& target, const 
     return {};
 }
 
-static std::vector<Fraction> bruteForceSplitInThree(const Fraction& target, const std::vector<Fraction>& durations)
+static std::vector<Fraction> bruteForceSplitInThree(const Fraction& target,
+                                                    const std::vector<Fraction>& durations)
 {
     for (auto it1 = durations.begin(); it1 != durations.end(); ++it1) {
         for (auto it2 = it1; it2 != durations.end(); ++it2) {
@@ -152,7 +168,9 @@ static std::vector<Fraction> generateDurations(int maxDenominator)
     return durations;
 }
 
-static Fraction findClosestDisplayableDuration(const Fraction& totalDuration, const Fraction& targetDuration, int requestedDenominator,
+static Fraction findClosestDisplayableDuration(const Fraction& totalDuration,
+                                               const Fraction& targetDuration,
+                                               int requestedDenominator,
                                                bool skipFirstBest)
 {
     Fraction closestFraction = Fraction(0, 1);
@@ -163,7 +181,8 @@ static Fraction findClosestDisplayableDuration(const Fraction& totalDuration, co
 
     bool firstBestSkipped = false;
 
-    for (int candidateNumerator = 1; candidateNumerator < requestedDenominator; candidateNumerator++) {
+    for (int candidateNumerator = 1; candidateNumerator < requestedDenominator;
+         candidateNumerator++) {
         double originalFraction = static_cast<double>(numerator) / denominator;
         double candidateFraction = static_cast<double>(candidateNumerator) / requestedDenominator;
 
@@ -172,7 +191,8 @@ static Fraction findClosestDisplayableDuration(const Fraction& totalDuration, co
         if (difference < minDifference) {
             Fraction resultCandidateFraction(candidateNumerator, requestedDenominator);
             resultCandidateFraction = std::max(resultCandidateFraction, smallestFraction);
-            resultCandidateFraction = std::min(resultCandidateFraction, totalDuration - smallestFraction);
+            resultCandidateFraction = std::min(resultCandidateFraction,
+                                               totalDuration - smallestFraction);
 
             if (canBeRepresentedAsDottedNote(resultCandidateFraction, requestedDenominator)) {
                 if (skipFirstBest && !firstBestSkipped) {
@@ -193,7 +213,8 @@ static bool canBeRepresentedAsDottedNote(const Fraction& duration, int maxDenomi
     int denom = 1;
     while (denom <= std::min(maxDenominator, MAX_DENOMINATOR)) {
         Fraction base(1, denom);
-        if (duration == base || duration == base * ONE_DOT_DURATION_MULTIPLIER || duration == base * TWO_DOTS_DURATION_MULTIPLIER) {
+        if (duration == base || duration == base * ONE_DOT_DURATION_MULTIPLIER
+            || duration == base * TWO_DOTS_DURATION_MULTIPLIER) {
             return true;
         }
 

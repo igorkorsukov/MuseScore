@@ -180,7 +180,9 @@ void Read206::readTimeSigMap(TimeSigMap* map, XmlReader& e, read400::ReadContext
 
 static std::map<String, std::map<Sid, PropertyValue> > excessTextStyles206;
 
-void Read206::readTextStyle206(MStyle* style, XmlReader& e, ReadContext& ctx, std::map<String, std::map<Sid, PropertyValue> >& excessStyles)
+void Read206::readTextStyle206(MStyle* style, XmlReader& e, ReadContext& ctx, std::map<String,
+                                                                                       std::map<Sid,
+                                                                                                PropertyValue> >& excessStyles)
 {
     String family = u"FreeSerif";
     double size = 10;
@@ -387,8 +389,11 @@ void Read206::readTextStyle206(MStyle* style, XmlReader& e, ReadContext& ctx, st
                 LOGD("User style index %d outside of range.", idx);
                 return;
             }
-            Sid sid[] = { Sid::user1Name, Sid::user2Name, Sid::user3Name, Sid::user4Name, Sid::user5Name, Sid::user6Name,
-                          Sid::user7Name, Sid::user8Name, Sid::user9Name, Sid::user10Name, Sid::user11Name, Sid::user12Name };
+            Sid sid[]
+                = { Sid::user1Name, Sid::user2Name, Sid::user3Name, Sid::user4Name, Sid::user5Name,
+                    Sid::user6Name,
+                    Sid::user7Name, Sid::user8Name, Sid::user9Name, Sid::user10Name,
+                    Sid::user11Name, Sid::user12Name };
             style->set(sid[idx], name);
         }
     }
@@ -728,7 +733,8 @@ static void readDrumset206(Drumset* ds, XmlReader& e)
                             SymId oldId = Read206::articulationNames2SymId206(oldArticulationName);
                             div.articulationName = Articulation::symId2ArticulationName(oldId);
                         } else if (taga == "tremolo") {
-                            div.tremolo = TConv::fromXml(e.readAsciiText(), TremoloType::INVALID_TREMOLO);
+                            div.tremolo = TConv::fromXml(
+                                e.readAsciiText(), TremoloType::INVALID_TREMOLO);
                         }
                     }
                     ds->drum(pitch).addVariant(div);
@@ -982,7 +988,8 @@ static void readNote206(Note* note, XmlReader& e, ReadContext& ctx)
     note->setPitch(clampPitch(note->pitch()));
 
     if (!tpcIsValid(note->tpc1()) && !tpcIsValid(note->tpc2())) {
-        Key key = (note->staff() && note->chord()) ? note->staff()->key(note->chord()->tick()) : Key::C;
+        Key key
+            = (note->staff() && note->chord()) ? note->staff()->key(note->chord()->tick()) : Key::C;
         int tpc = pitch2tpc(note->pitch(), key, Prefer::NEAREST);
         if (note->concertPitch()) {
             note->setTpc1(tpc);
@@ -1177,10 +1184,12 @@ bool Read206::readNoteProperties206(Note* note, XmlReader& e, ReadContext& ctx)
         s->setTrack(note->track());
         read400::TRead::read(s, e, ctx);
         if (s->sym() == SymId::noteheadParenthesisLeft) {
-            note->setParenthesesMode(note->rightParen() ? ParenthesesMode::BOTH : ParenthesesMode::LEFT);
+            note->setParenthesesMode(
+                note->rightParen() ? ParenthesesMode::BOTH : ParenthesesMode::LEFT);
             ctx.score()->deleteLater(s);
         } else if (s->sym() == SymId::noteheadParenthesisRight) {
-            note->setParenthesesMode(note->leftParen() ? ParenthesesMode::BOTH : ParenthesesMode::RIGHT);
+            note->setParenthesesMode(
+                note->leftParen() ? ParenthesesMode::BOTH : ParenthesesMode::RIGHT);
             ctx.score()->deleteLater(s);
         } else {
             note->add(s);
@@ -1226,8 +1235,10 @@ bool Read206::readNoteProperties206(Note* note, XmlReader& e, ReadContext& ctx)
             if (sp->isTie()) {
                 note->setTieBack(toTie(sp));
             } else {
-                bool isNoteAnchoredTextLine = sp->isNoteLine() && toNoteLine(sp)->enforceMinLength();
-                if ((sp->isGlissando() || isNoteAnchoredTextLine) && note->explicitParent() && note->explicitParent()->isChord()) {
+                bool isNoteAnchoredTextLine = sp->isNoteLine()
+                                              && toNoteLine(sp)->enforceMinLength();
+                if ((sp->isGlissando() || isNoteAnchoredTextLine) && note->explicitParent()
+                    && note->explicitParent()->isChord()) {
                     toChord(note->explicitParent())->setEndsNoteAnchoredLine(true);
                 }
                 note->addSpannerBack(sp);
@@ -1330,7 +1341,8 @@ static String ReadStyleName206(String xmlTag)
 //    before setting anything else.
 //---------------------------------------------------------
 
-static bool readTextPropertyStyle206(String xmlTag, ReadContext& ctx, TextBase* t, EngravingItem* be)
+static bool readTextPropertyStyle206(String xmlTag, ReadContext& ctx, TextBase* t,
+                                     EngravingItem* be)
 {
     String s = ReadStyleName206(xmlTag);
 
@@ -1346,7 +1358,8 @@ static bool readTextPropertyStyle206(String xmlTag, ReadContext& ctx, TextBase* 
             t->initTextStyleType(TextStyleType::DEFAULT);
             std::map<Sid, PropertyValue> styleVals = excessTextStyles206[s];
             for (const auto& p : *textStyle(TextStyleType::USER1)) {
-                if (t->getProperty(p.pid) == t->propertyDefault(p.pid) && styleVals.find(p.sid) != styleVals.end()) {
+                if (t->getProperty(p.pid) == t->propertyDefault(p.pid)
+                    && styleVals.find(p.sid) != styleVals.end()) {
                     t->setProperty(p.pid, styleVals[p.sid]);
                 }
             }
@@ -1532,7 +1545,8 @@ static void readTempoText(TempoText* t, XmlReader& e, ReadContext& ctx)
     }
     // check sanity
     if (t->xmlText().isEmpty()) {
-        t->setXmlText(String(u"<sym>metNoteQuarterUp</sym> = %1").arg(int(lrint(t->tempo().toBPM().val))));
+        t->setXmlText(String(u"<sym>metNoteQuarterUp</sym> = %1").arg(int(lrint(t->tempo().toBPM().
+                                                                                val))));
         t->setVisible(false);
     } else {
         t->setXmlText(t->xmlText().replace(u"<sym>unicode", u"<sym>met"));
@@ -1617,7 +1631,9 @@ static void readTuplet206(Tuplet* tuplet, XmlReader& e, ReadContext& ctx)
             _number->setColor(tuplet->color());
             _number->setTrack(tuplet->track());
             // move property flags from _number
-            for (auto p : { Pid::FONT_FACE, Pid::FONT_SIZE, Pid::FONT_STYLE, Pid::ALIGN, Pid::SIZE_SPATIUM_DEPENDENT }) {
+            for (auto p :
+                 { Pid::FONT_FACE, Pid::FONT_SIZE, Pid::FONT_STYLE, Pid::ALIGN,
+                   Pid::SIZE_SPATIUM_DEPENDENT }) {
                 tuplet->setPropertyFlags(p, _number->propertyFlags(p));
             }
         } else if (!Read206::readTupletProperties206(e, ctx, tuplet)) {
@@ -1754,7 +1770,8 @@ bool Read206::readChordRestProperties206(XmlReader& e, ReadContext& ctx, ChordRe
                 &&            // rest durations are initialized to full measure duration when
                               // created upon reading the <Rest> tag (see Measure::read() )
                               // so a V_WHOLE rest in a measure of 4/4 or less => V_MEASURE
-                (ch->actualDurationType() == DurationType::V_WHOLE && ch->ticks() <= Fraction(4, 4))) {
+                (ch->actualDurationType() == DurationType::V_WHOLE
+                 && ch->ticks() <= Fraction(4, 4))) {
                 // old pre 2.0 scores: convert
                 ch->setDurationType(DurationType::V_MEASURE);
             } else {    // not from old score: set duration fraction from duration type
@@ -2223,7 +2240,8 @@ static void readVolta206(XmlReader& e, ReadContext& ctx, Volta* volta)
     }
     if (volta->anchor() != Volta::VOLTA_ANCHOR) {
         // Volta strictly assumes that its anchor is measure, so don't let old scores override this.
-        LOGW("Correcting volta anchor type from %d to %d", int(volta->anchor()), int(Volta::VOLTA_ANCHOR));
+        LOGW("Correcting volta anchor type from %d to %d", int(volta->anchor()),
+             int(Volta::VOLTA_ANCHOR));
         volta->setAnchor(Volta::VOLTA_ANCHOR);
     }
     CompatUtils::resetHookHeightSign(volta);
@@ -2263,7 +2281,8 @@ static void readPedal(XmlReader& e, ReadContext& ctx, Pedal* pedal)
     if (!continueTextTag) {
         pedal->setContinueText(String());
         pedal->setPropertyFlags(Pid::CONTINUE_TEXT, PropertyFlags::UNSTYLED);
-    } else if (pedal->continueText() == pedal->propertyDefault(Pid::CONTINUE_TEXT).value<String>()) {
+    } else if (pedal->continueText()
+               == pedal->propertyDefault(Pid::CONTINUE_TEXT).value<String>()) {
         pedal->setPropertyFlags(Pid::CONTINUE_TEXT, PropertyFlags::STYLED);
     }
     if (!endTextTag) {
@@ -2725,7 +2744,9 @@ static void readMeasure206(Measure* m, int staffIdx, XmlReader& e, ReadContext& 
                             if (barLineSpan) {
                                 fermataBelow->setTrack(staff2track(bl->staffIdx() + *barLineSpan));
                             } else {
-                                fermataBelow->setTrack(staff2track(bl->staffIdx() + ctx.getStaffBarLineSpan(staffIdx)));
+                                fermataBelow->setTrack(staff2track(bl->staffIdx()
+                                                                   + ctx.getStaffBarLineSpan(
+                                                                       staffIdx)));
                             }
                         }
                     } else {
@@ -2935,7 +2956,8 @@ static void readMeasure206(Measure* m, int staffIdx, XmlReader& e, ReadContext& 
             } else {
                 bool firstSegment = false;
                 // the first clef may be missing and is added later in layout
-                for (Segment* s = m->segments().first(); s && s->tick() == ctx.tick(); s = s->next()) {
+                for (Segment* s = m->segments().first(); s && s->tick() == ctx.tick();
+                     s = s->next()) {
                     if (s->segmentType() == SegmentType::Clef
                         // hack: there may be other segment types which should
                         // generate a clef at current position
@@ -2961,7 +2983,8 @@ static void readMeasure206(Measure* m, int staffIdx, XmlReader& e, ReadContext& 
                         }
                     }
                     if (!segment) {
-                        segment = Factory::createSegment(m, SegmentType::Clef, ctx.tick() - m->tick());
+                        segment = Factory::createSegment(m, SegmentType::Clef,
+                                                         ctx.tick() - m->tick());
                         m->segments().insert(segment, ns);
                     }
                 } else {
@@ -2974,7 +2997,10 @@ static void readMeasure206(Measure* m, int staffIdx, XmlReader& e, ReadContext& 
             }
 
             // Clef segments are sorted on layout now.  Previously, clef barline position could be out of sync with segment placement.
-            if (ctx.tick() != Fraction(0, 1) && ctx.tick() == m->tick() && !(m->prevMeasure() && m->prevMeasure()->repeatEnd())) {
+            if (ctx.tick()
+                != Fraction(0,
+                            1) && ctx.tick() == m->tick()
+                && !(m->prevMeasure() && m->prevMeasure()->repeatEnd())) {
                 clef->setClefToBarlinePosition(ClefToBarlinePosition::AFTER);
             }
 
@@ -2999,7 +3025,8 @@ static void readMeasure206(Measure* m, int staffIdx, XmlReader& e, ReadContext& 
                 m->setTimesig(ts->sig() / timeStretch);
 
                 if (irregular) {
-                    ctx.compatTimeSigMap()->add(m->tick().ticks(), SigEvent(m->ticks(), m->timesig()));
+                    ctx.compatTimeSigMap()->add(m->tick().ticks(), SigEvent(m->ticks(),
+                                                                            m->timesig()));
                     ctx.compatTimeSigMap()->add(m->endTick().ticks(), SigEvent(m->timesig()));
                 } else {
                     m->setTicks(m->timesig());
@@ -3013,7 +3040,8 @@ static void readMeasure206(Measure* m, int staffIdx, XmlReader& e, ReadContext& 
             Fraction curTick = ctx.tick();
             // if key sig not at beginning of measure => courtesy key sig
             bool courtesySig = (curTick == m->endTick());
-            segment = m->getSegment(courtesySig ? SegmentType::KeySigAnnounce : SegmentType::KeySig, curTick);
+            segment = m->getSegment(courtesySig ? SegmentType::KeySigAnnounce : SegmentType::KeySig,
+                                    curTick);
             segment->add(ks);
             if (!courtesySig) {
                 staff->setKey(curTick, ks->keySigEvent());
@@ -3079,7 +3107,8 @@ static void readMeasure206(Measure* m, int staffIdx, XmlReader& e, ReadContext& 
             // for symbols attached to anything but a measure
             el->setTrack(ctx.track());
             read400::TRead::readItem(el, e, ctx);
-            if (el->staff() && (el->isHarmony() || el->isFretDiagram() || el->isInstrumentChange())) {
+            if (el->staff()
+                && (el->isHarmony() || el->isFretDiagram() || el->isInstrumentChange())) {
                 adjustPlacement(el);
             }
             CompatUtils::migrateOffsetPre302(el, ctx.mscVersion());
@@ -3269,7 +3298,9 @@ static void readStaffContent206(Score* score, XmlReader& e, ReadContext& ctx)
 
             if (tag == "Measure") {
                 if (lastReadBox) {
-                    lastReadBox->setBottomGap(lastReadBox->bottomGap() + lastReadBox->propertyDefault(Pid::BOTTOM_GAP).value<Spatium>());
+                    lastReadBox->setBottomGap(
+                        lastReadBox->bottomGap() + lastReadBox->propertyDefault(
+                            Pid::BOTTOM_GAP).value<Spatium>());
                     lastReadBox = nullptr;
                 }
                 readMeasureLast = true;
@@ -3366,7 +3397,8 @@ static void readStaffContent206(Score* score, XmlReader& e, ReadContext& ctx)
 //   readStyle
 //---------------------------------------------------------
 
-static void readStyle206(MStyle* style, XmlReader& e, ReadContext& ctx, ReadChordListHook& readChordListHook)
+static void readStyle206(MStyle* style, XmlReader& e, ReadContext& ctx,
+                         ReadChordListHook& readChordListHook)
 {
     excessTextStyles206.clear();
     while (e.readNextStartElement()) {
@@ -3488,7 +3520,9 @@ bool Read206::readScoreTag(Score* score, XmlReader& e, ReadContext& ctx)
                 ctx.setOriginalSpatium(score->style().spatium());
                 score->style().set(Sid::spatium, sp);
             }
-            score->setEngravingFont(score->engravingFonts()->fontByName(score->style().styleSt(Sid::musicalSymbolFont).toStdString()));
+            score->setEngravingFont(score->engravingFonts()->fontByName(score->style().styleSt(Sid::
+                                                                                               musicalSymbolFont)
+                                                                        .toStdString()));
         } else if (tag == "copyright" || tag == "rights") {
             Text* text = Factory::createText(score->dummy(), TextStyleType::DEFAULT, false);
             readText206(e, ctx, text, text);

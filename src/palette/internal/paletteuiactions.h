@@ -29,12 +29,14 @@
 #include "async/asyncable.h"
 
 namespace mu::palette {
-class PaletteUiActions : public muse::ui::IUiActionsModule, public muse::async::Asyncable, public muse::Contextable
+class PaletteUiActions : public muse::ui::IUiActionsModule, public muse::async::Asyncable,
+    public muse::Contextable
 {
     muse::ContextInject<context::IUiContextResolver> uicontextResolver = { this };
 
 public:
-    PaletteUiActions(std::shared_ptr<PaletteActionsController> controller, const muse::modularity::ContextPtr& iocCtx);
+    PaletteUiActions(std::shared_ptr<PaletteActionsController> controller,
+                     const muse::modularity::ContextPtr& iocCtx);
 
     void init();
 

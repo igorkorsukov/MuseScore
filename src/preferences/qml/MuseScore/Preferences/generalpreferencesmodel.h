@@ -37,28 +37,36 @@
 #include "shortcuts/ishortcutsconfiguration.h"
 
 namespace mu::preferences {
-class GeneralPreferencesModel : public QObject, public muse::Contextable, public muse::async::Asyncable
+class GeneralPreferencesModel : public QObject, public muse::Contextable,
+    public muse::async::Asyncable
 {
     Q_OBJECT
     QML_ELEMENT;
 
     Q_PROPERTY(QVariantList languages READ languages NOTIFY languagesChanged)
-    Q_PROPERTY(QString currentLanguageCode READ currentLanguageCode WRITE setCurrentLanguageCode NOTIFY currentLanguageCodeChanged)
+    Q_PROPERTY(
+        QString currentLanguageCode READ currentLanguageCode WRITE setCurrentLanguageCode NOTIFY currentLanguageCodeChanged)
 
     Q_PROPERTY(QStringList keyboardLayouts READ keyboardLayouts CONSTANT)
-    Q_PROPERTY(QString currentKeyboardLayout READ currentKeyboardLayout WRITE setCurrentKeyboardLayout NOTIFY currentKeyboardLayoutChanged)
+    Q_PROPERTY(
+        QString currentKeyboardLayout READ currentKeyboardLayout WRITE setCurrentKeyboardLayout NOTIFY currentKeyboardLayoutChanged)
 
-    Q_PROPERTY(bool isOSCRemoteControl READ isOSCRemoteControl WRITE setIsOSCRemoteControl NOTIFY isOSCRemoteControlChanged)
+    Q_PROPERTY(
+        bool isOSCRemoteControl READ isOSCRemoteControl WRITE setIsOSCRemoteControl NOTIFY isOSCRemoteControlChanged)
     Q_PROPERTY(int oscPort READ oscPort WRITE setOscPort NOTIFY oscPortChanged)
 
-    Q_PROPERTY(bool restartRequired READ restartRequired WRITE setRestartRequired NOTIFY restartRequiredChanged)
+    Q_PROPERTY(
+        bool restartRequired READ restartRequired WRITE setRestartRequired NOTIFY restartRequiredChanged)
 
     Q_PROPERTY(QVariantList startupModes READ startupModes CONSTANT)
-    Q_PROPERTY(int currentStartupMode READ currentStartupMode WRITE setCurrentStartupMode NOTIFY currentStartupModeChanged)
-    Q_PROPERTY(QString startupScorePath READ startupScorePath WRITE setStartupScorePath NOTIFY startupScorePathChanged)
+    Q_PROPERTY(
+        int currentStartupMode READ currentStartupMode WRITE setCurrentStartupMode NOTIFY currentStartupModeChanged)
+    Q_PROPERTY(
+        QString startupScorePath READ startupScorePath WRITE setStartupScorePath NOTIFY startupScorePathChanged)
     Q_PROPERTY(QStringList scorePathFilter READ scorePathFilter CONSTANT)
 
-    Q_PROPERTY(bool showWelcomeDialog READ showWelcomeDialog WRITE setShowWelcomeDialog NOTIFY showWelcomeDialogChanged)
+    Q_PROPERTY(
+        bool showWelcomeDialog READ showWelcomeDialog WRITE setShowWelcomeDialog NOTIFY showWelcomeDialogChanged)
 
     muse::GlobalInject<appshell::IAppShellConfiguration> configuration;
     muse::GlobalInject<muse::languages::ILanguagesConfiguration> languagesConfiguration;

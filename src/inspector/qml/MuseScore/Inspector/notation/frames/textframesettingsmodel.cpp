@@ -26,7 +26,8 @@
 using namespace mu::inspector;
 using namespace mu::engraving;
 
-TextFrameSettingsModel::TextFrameSettingsModel(QObject* parent, const muse::modularity::ContextPtr& iocCtx,
+TextFrameSettingsModel::TextFrameSettingsModel(QObject* parent,
+                                               const muse::modularity::ContextPtr& iocCtx,
                                                IElementRepositoryService* repository)
     : AbstractInspectorModel(parent, iocCtx, repository)
 {
@@ -84,7 +85,8 @@ void TextFrameSettingsModel::resetProperties()
     m_paddingToNotationBelow->resetToDefault();
 }
 
-void TextFrameSettingsModel::onNotationChanged(const PropertyIdSet& changedPropertyIdSet, const StyleIdSet&)
+void TextFrameSettingsModel::onNotationChanged(const PropertyIdSet& changedPropertyIdSet,
+                                               const StyleIdSet&)
 {
     loadProperties(changedPropertyIdSet);
 }

@@ -50,8 +50,10 @@ using namespace mu::engraving::read400;
 //   ConnectorInfoReader
 //---------------------------------------------------------
 
-ConnectorInfoReader::ConnectorInfoReader(XmlReader& e, ReadContext* ctx, EngravingItem* current, int track)
-    : ConnectorInfo(current, track), m_reader(&e), m_ctx(ctx), m_connector(nullptr), m_connectorReceiver(current)
+ConnectorInfoReader::ConnectorInfoReader(XmlReader& e, ReadContext* ctx, EngravingItem* current,
+                                         int track)
+    : ConnectorInfo(current, track), m_reader(&e), m_ctx(ctx), m_connector(nullptr),
+    m_connectorReceiver(current)
 {}
 
 //---------------------------------------------------------
@@ -70,7 +72,8 @@ static Location readPositionInfo(ReadContext* ctx, int track)
 //---------------------------------------------------------
 
 ConnectorInfoReader::ConnectorInfoReader(XmlReader& e, ReadContext* ctx, Score* current, int track)
-    : ConnectorInfo(current, readPositionInfo(ctx, track)), m_reader(&e), m_ctx(ctx), m_connector(nullptr), m_connectorReceiver(current)
+    : ConnectorInfo(current, readPositionInfo(ctx, track)), m_reader(&e), m_ctx(ctx), m_connector(
+        nullptr), m_connectorReceiver(current)
 {
     setCurrentUpdated(true);
 }
@@ -98,8 +101,9 @@ bool ConnectorInfoReader::read()
             if (tag == name) {
                 m_connector = Factory::createItemByName(tag, m_connectorReceiver->score()->dummy());
             } else {
-                LOGW("ConnectorInfoReader::read: element tag (%s) does not match connector type (%s). Is the file corrupted?",
-                     tag.ascii(), name.ascii());
+                LOGW(
+                    "ConnectorInfoReader::read: element tag (%s) does not match connector type (%s). Is the file corrupted?",
+                    tag.ascii(), name.ascii());
             }
 
             if (!m_connector) {
@@ -176,7 +180,8 @@ void ConnectorInfoReader::addToScore(bool pasteMode)
         r = r->prev();
     }
     while (r) {
-        bool found = ReadAddConnectorVisitor::visit(ReadAddConnectorTypes {}, r->m_connectorReceiver, r, pasteMode);
+        bool found = ReadAddConnectorVisitor::visit(ReadAddConnectorTypes {},
+                                                    r->m_connectorReceiver, r, pasteMode);
         DO_ASSERT(found);
         r = r->next();
     }
@@ -186,7 +191,8 @@ void ConnectorInfoReader::addToScore(bool pasteMode)
 //   ConnectorInfoReader::readConnector
 //---------------------------------------------------------
 
-void ConnectorInfoReader::readConnector(std::shared_ptr<ConnectorInfoReader> info, XmlReader& e, ReadContext& ctx)
+void ConnectorInfoReader::readConnector(std::shared_ptr<ConnectorInfoReader> info, XmlReader& e,
+                                        ReadContext& ctx)
 {
     if (!info->read()) {
         e.skipCurrentElement();
@@ -246,7 +252,8 @@ EngravingItem* ConnectorInfoReader::releaseConnector()
     return c;
 }
 
-void ConnectorInfoReader::readAddConnector(ChordRest* item, ConnectorInfoReader* info, bool pasteMode)
+void ConnectorInfoReader::readAddConnector(ChordRest* item, ConnectorInfoReader* info,
+                                           bool pasteMode)
 {
     const ElementType type = info->type();
     switch (type) {
@@ -388,8 +395,10 @@ void ConnectorInfoReader::readAddConnector(Note* item, ConnectorInfoReader* info
             if (sp->isTie()) {
                 item->setTieBack(toTie(sp));
             } else {
-                bool isNoteAnchoredTextLine = sp->isNoteLine() && toNoteLine(sp)->enforceMinLength();
-                if ((sp->isGlissando() || isNoteAnchoredTextLine) && item->explicitParent() && item->explicitParent()->isChord()) {
+                bool isNoteAnchoredTextLine = sp->isNoteLine()
+                                              && toNoteLine(sp)->enforceMinLength();
+                if ((sp->isGlissando() || isNoteAnchoredTextLine) && item->explicitParent()
+                    && item->explicitParent()->isChord()) {
                     toChord(item->explicitParent())->setEndsNoteAnchoredLine(true);
                 }
                 item->addSpannerBack(sp);

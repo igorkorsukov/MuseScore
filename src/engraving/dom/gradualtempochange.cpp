@@ -296,18 +296,23 @@ bool GradualTempoChange::adjustForRehearsalMark(bool start) const
         return false;
     }
 
-    const RehearsalMark* rehearsalMark = toRehearsalMark(segment->findAnnotation(ElementType::REHEARSAL_MARK, track(), track()));
+    const RehearsalMark* rehearsalMark
+        = toRehearsalMark(segment->findAnnotation(ElementType::REHEARSAL_MARK, track(), track()));
     if (!rehearsalMark) {
         return false;
     }
 
     double staffHeight = staff() && placeBelow() ? staff()->staffHeight(tick()) : 0.0;
-    double tempoChangePos = staffHeight + defaultPos().y() + (autoplace() ? absoluteFromSpatium(minDistance()) : 0.0);
-    RectF rehearsalMarkBbox = rehearsalMark ? rehearsalMark->ldata()->bbox().translated(rehearsalMark->pos()) : RectF();
+    double tempoChangePos = staffHeight + defaultPos().y()
+                            + (autoplace() ? absoluteFromSpatium(minDistance()) : 0.0);
+    RectF rehearsalMarkBbox = rehearsalMark ? rehearsalMark->ldata()->bbox().translated(
+        rehearsalMark->pos()) : RectF();
 
     const bool sameSide = placeAbove() == rehearsalMark->placeAbove();
-    const bool collision = muse::RealIsEqualOrMore(rehearsalMarkBbox.bottom(), tempoChangePos) && muse::RealIsEqualOrLess(
-        rehearsalMarkBbox.top(), tempoChangePos);
+    const bool collision
+        = muse::RealIsEqualOrMore(rehearsalMarkBbox.bottom(),
+                                  tempoChangePos) && muse::RealIsEqualOrLess(
+              rehearsalMarkBbox.top(), tempoChangePos);
 
     return sameSide && collision;
 }
@@ -321,13 +326,17 @@ PointF GradualTempoChange::linePos(Grip grip, System** system) const
     }
 
     const Segment* segment = start ? startSegment() : endSegment();
-    const RehearsalMark* rehearsalMark = toRehearsalMark(segment->findAnnotation(ElementType::REHEARSAL_MARK, track(), track()));
-    RectF rehearsalMarkBbox = rehearsalMark ? rehearsalMark->ldata()->bbox().translated(rehearsalMark->pos()) : RectF();
+    const RehearsalMark* rehearsalMark
+        = toRehearsalMark(segment->findAnnotation(ElementType::REHEARSAL_MARK, track(), track()));
+    RectF rehearsalMarkBbox = rehearsalMark ? rehearsalMark->ldata()->bbox().translated(
+        rehearsalMark->pos()) : RectF();
 
     PointF rehearsalMarkPos = segment->pos() + segment->measure()->pos();
     rehearsalMarkBbox.translate(rehearsalMarkPos);
 
-    Text* text = start ? toGradualTempoChangeSegment(frontSegment())->text() : toGradualTempoChangeSegment(backSegment())->endText();
+    Text* text
+        = start ? toGradualTempoChangeSegment(frontSegment())->text() : toGradualTempoChangeSegment(
+              backSegment())->endText();
 
     const double sp = spatium();
 
@@ -411,7 +420,8 @@ GradualTempoChangeSegment* GradualTempoChangeSegment::findElementToSnapBefore() 
     auto intervals = score()->spannerMap().findOverlapping(startTick.ticks(), startTick.ticks());
     for (auto interval : intervals) {
         Spanner* spanner = interval.value;
-        bool isValidTempoChange = spanner->isGradualTempoChange() && !spanner->segmentsEmpty() && spanner->visible()
+        bool isValidTempoChange = spanner->isGradualTempoChange() && !spanner->segmentsEmpty()
+                                  && spanner->visible()
                                   && spanner != thisTempoChange;
         if (!isValidTempoChange) {
             continue;
@@ -460,7 +470,8 @@ TempoText* GradualTempoChangeSegment::findElementToSnapAfter() const
         if (segmentTick < refTick) {
             break;
         }
-        EngravingItem* tempoText = segment->findAnnotation(ElementType::TEMPO_TEXT, track(), track());
+        EngravingItem* tempoText
+            = segment->findAnnotation(ElementType::TEMPO_TEXT, track(), track());
         if (tempoText && tempoText->placeAbove() == placeAbove() && tempoText->visible()) {
             return toTempoText(tempoText);
         }

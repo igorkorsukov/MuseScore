@@ -37,7 +37,8 @@
 #include "applicationactioncontroller.h"
 
 namespace mu::appshell {
-class ApplicationUiActions : public muse::ui::IUiActionsModule, public muse::Contextable, public muse::async::Asyncable
+class ApplicationUiActions : public muse::ui::IUiActionsModule, public muse::Contextable,
+    public muse::async::Asyncable
 {
     muse::GlobalInject<IAppShellConfiguration> configuration;
     muse::GlobalInject<braille::IBrailleConfiguration> brailleConfiguration;
@@ -46,7 +47,8 @@ class ApplicationUiActions : public muse::ui::IUiActionsModule, public muse::Con
     muse::ContextInject<muse::dock::IDockWindowProvider> dockWindowProvider = { this };
 
 public:
-    ApplicationUiActions(std::shared_ptr<ApplicationActionController> controller, const muse::modularity::ContextPtr& iocCtx);
+    ApplicationUiActions(std::shared_ptr<ApplicationActionController> controller,
+                         const muse::modularity::ContextPtr& iocCtx);
 
     void init();
 

@@ -96,7 +96,8 @@ void CommonAudioDriverConfigurationModel::deviceSelected(const QString& deviceId
     bool ok = audioDriverController()->selectOutputDevice(deviceId.toStdString());
     if (!ok) {
         interactive()->error("",
-                             muse::trc("appshell/preferences", "The driver for this device could not be opened."));
+                             muse::trc("appshell/preferences",
+                                       "The driver for this device could not be opened."));
     }
 }
 
@@ -108,7 +109,8 @@ unsigned int CommonAudioDriverConfigurationModel::bufferSize() const
 
 QList<unsigned int> CommonAudioDriverConfigurationModel::bufferSizeList() const
 {
-    std::vector<samples_t> bufferSizes = audioDriverController()->availableOutputDeviceBufferSizes();
+    std::vector<samples_t> bufferSizes
+        = audioDriverController()->availableOutputDeviceBufferSizes();
 
     QList<unsigned int> result;
     result.reserve(bufferSizes.size());
@@ -132,7 +134,8 @@ unsigned int CommonAudioDriverConfigurationModel::sampleRate() const
 
 QList<unsigned int> CommonAudioDriverConfigurationModel::sampleRateList() const
 {
-    std::vector<sample_rate_t> sampleRates = audioDriverController()->availableOutputDeviceSampleRates();
+    std::vector<sample_rate_t> sampleRates
+        = audioDriverController()->availableOutputDeviceSampleRates();
 
     QList<unsigned int> result;
     result.reserve(sampleRates.size());

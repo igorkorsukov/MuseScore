@@ -41,7 +41,8 @@ class PercussionPanelPadModel : public QObject, public muse::async::Asyncable
     Q_PROPERTY(QString keyboardShortcut READ keyboardShortcut NOTIFY keyboardShortcutChanged)
     Q_PROPERTY(QString midiNote READ midiNote NOTIFY midiNoteChanged)
 
-    Q_PROPERTY(QVariant notationPreviewItem READ notationPreviewItemVariant NOTIFY notationPreviewItemChanged)
+    Q_PROPERTY(
+        QVariant notationPreviewItem READ notationPreviewItemVariant NOTIFY notationPreviewItemChanged)
 
     Q_PROPERTY(QList<QVariantMap> contextMenuItems READ contextMenuItems CONSTANT)
 
@@ -69,7 +70,8 @@ public:
     QList<QVariantMap> contextMenuItems() const;
     Q_INVOKABLE void handleMenuItem(const QString& itemId);
 
-    Q_INVOKABLE void triggerPad(const Qt::KeyboardModifiers& modifiers = Qt::KeyboardModifier::NoModifier);
+    Q_INVOKABLE void triggerPad(
+        const Qt::KeyboardModifiers& modifiers = Qt::KeyboardModifier::NoModifier);
 
     enum class PadAction {
         TRIGGER_STANDARD,

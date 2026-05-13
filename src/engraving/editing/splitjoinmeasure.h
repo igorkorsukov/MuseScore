@@ -34,6 +34,7 @@ public:
     static void splitMeasure(MasterScore* masterScore, const Fraction& tick);
 
     /// Joins the measures from tick1 up to (including) tick2.
-    static void joinMeasures(MasterScore* masterScore, const Fraction& tick1, const Fraction& tick2);
+    static void joinMeasures(MasterScore* masterScore, const Fraction& tick1,
+                             const Fraction& tick2);
 };
 }

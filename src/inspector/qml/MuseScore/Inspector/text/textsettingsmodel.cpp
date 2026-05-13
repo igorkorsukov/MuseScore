@@ -37,7 +37,8 @@
 using namespace mu::inspector;
 using namespace mu::engraving;
 
-TextSettingsModel::TextSettingsModel(QObject* parent, const muse::modularity::ContextPtr& iocCtx, IElementRepositoryService* repository)
+TextSettingsModel::TextSettingsModel(QObject* parent, const muse::modularity::ContextPtr& iocCtx,
+                                     IElementRepositoryService* repository)
     : AbstractInspectorModel(parent, iocCtx, repository)
 {
     setSectionType(InspectorSectionType::SECTION_TEXT);
@@ -61,24 +62,37 @@ void TextSettingsModel::createProperties()
     m_fontSize = buildPropertyItem(Pid::FONT_SIZE);
     m_textLineSpacing = buildPropertyItem(mu::engraving::Pid::TEXT_LINE_SPACING);
 
-    m_horizontalAlignment = buildPropertyItem(mu::engraving::Pid::ALIGN, [this](const mu::engraving::Pid pid, const QVariant& newValue) {
-        onPropertyValueChanged(pid, QVariantList({ newValue.toInt(), m_verticalAlignment->value().toInt() }));
+    m_horizontalAlignment
+        = buildPropertyItem(mu::engraving::Pid::ALIGN,
+                            [this](const mu::engraving::Pid pid, const QVariant& newValue) {
+        onPropertyValueChanged(pid,
+                               QVariantList({ newValue.toInt(),
+                                              m_verticalAlignment->value().toInt() }));
     }, [this](const mu::engraving::Sid sid, const QVariant& newValue) {
-        updateStyleValue(sid, QVariantList({ newValue.toInt(), m_verticalAlignment->value().toInt() }));
+        updateStyleValue(sid,
+                         QVariantList({ newValue.toInt(), m_verticalAlignment->value().toInt() }));
         emit requestReloadPropertyItems();
     });
 
-    m_verticalAlignment = buildPropertyItem(mu::engraving::Pid::ALIGN, [this](const mu::engraving::Pid pid, const QVariant& newValue) {
-        onPropertyValueChanged(pid, QVariantList({ m_horizontalAlignment->value().toInt(), newValue.toInt() }));
+    m_verticalAlignment
+        = buildPropertyItem(mu::engraving::Pid::ALIGN,
+                            [this](const mu::engraving::Pid pid, const QVariant& newValue) {
+        onPropertyValueChanged(pid,
+                               QVariantList({ m_horizontalAlignment->value().toInt(),
+                                              newValue.toInt() }));
     }, [this](const mu::engraving::Sid sid, const QVariant& newValue) {
-        updateStyleValue(sid, QVariantList({ m_horizontalAlignment->value().toInt(), newValue.toInt() }));
+        updateStyleValue(sid,
+                         QVariantList({ m_horizontalAlignment->value().toInt(),
+                                        newValue.toInt() }));
         emit requestReloadPropertyItems();
     });
 
     m_horizontalPosition = buildPropertyItem(Pid::POSITION);
 
     m_symbolSize = buildPropertyItem(mu::engraving::Pid::MUSIC_SYMBOL_SIZE);
-    m_symbolScale = buildPropertyItem(mu::engraving::Pid::MUSICAL_SYMBOLS_SCALE, [this](const Pid pid, const QVariant& newValue) {
+    m_symbolScale
+        = buildPropertyItem(mu::engraving::Pid::MUSICAL_SYMBOLS_SCALE,
+                            [this](const Pid pid, const QVariant& newValue) {
         onPropertyValueChanged(pid, newValue.toDouble() / 100);
     }, [this](const Sid sid, const QVariant& newValue) {
         updateStyleValue(sid, newValue.toDouble() / 100);
@@ -87,7 +101,9 @@ void TextSettingsModel::createProperties()
 
     m_isSizeSpatiumDependent = buildPropertyItem(mu::engraving::Pid::SIZE_SPATIUM_DEPENDENT);
 
-    m_frameType = buildPropertyItem(mu::engraving::Pid::FRAME_TYPE, [this](const mu::engraving::Pid pid, const QVariant& newValue) {
+    m_frameType
+        = buildPropertyItem(mu::engraving::Pid::FRAME_TYPE,
+                            [this](const mu::engraving::Pid pid, const QVariant& newValue) {
         onPropertyValueChanged(pid, newValue);
 
         updateFramePropertiesAvailability();
@@ -99,7 +115,9 @@ void TextSettingsModel::createProperties()
     m_frameMargin = buildPropertyItem(mu::engraving::Pid::FRAME_PADDING);
     m_frameCornerRadius = buildPropertyItem(mu::engraving::Pid::FRAME_ROUND);
 
-    m_textType = buildPropertyItem(mu::engraving::Pid::TEXT_STYLE, [this](const mu::engraving::Pid pid, const QVariant& newValue) {
+    m_textType
+        = buildPropertyItem(mu::engraving::Pid::TEXT_STYLE,
+                            [this](const mu::engraving::Pid pid, const QVariant& newValue) {
         onPropertyValueChanged(pid, newValue);
         emit requestReloadPropertyItems();
     });
@@ -164,7 +182,8 @@ void TextSettingsModel::loadProperties(const PropertyIdSet& propertyIdSet)
 
     if (muse::contains(propertyIdSet, Pid::FONT_STYLE)) {
         loadPropertyItem(m_fontStyle, [](const QVariant& elementPropertyValue) -> QVariant {
-            return elementPropertyValue.toInt() == static_cast<int>(mu::engraving::FontStyle::Undefined)
+            return elementPropertyValue.toInt()
+                   == static_cast<int>(mu::engraving::FontStyle::Undefined)
                    ? QVariant() : elementPropertyValue.toInt();
         });
 
@@ -173,7 +192,8 @@ void TextSettingsModel::loadProperties(const PropertyIdSet& propertyIdSet)
 
     if (muse::contains(propertyIdSet, Pid::FONT_SIZE)) {
         loadPropertyItem(m_fontSize, [](const QVariant& elementPropertyValue) -> QVariant {
-            return muse::RealIsEqual(elementPropertyValue.toDouble(), mu::engraving::TextBase::UNDEFINED_FONT_SIZE)
+            return muse::RealIsEqual(elementPropertyValue.toDouble(),
+                                     mu::engraving::TextBase::UNDEFINED_FONT_SIZE)
                    ? QVariant() : elementPropertyValue.toDouble();
         });
 
@@ -206,7 +226,8 @@ void TextSettingsModel::loadProperties(const PropertyIdSet& propertyIdSet)
 
     if (muse::contains(propertyIdSet, Pid::MUSICAL_SYMBOLS_SCALE)) {
         loadPropertyItem(m_symbolScale, [](const QVariant& elementPropertyValue) -> QVariant {
-            return static_cast<int>(muse::DataFormatter::roundDouble(elementPropertyValue.toDouble() * 100.0));
+            return static_cast<int>(muse::DataFormatter::roundDouble(elementPropertyValue.toDouble()
+                                                                     * 100.0));
         });
     }
 
@@ -242,7 +263,8 @@ void TextSettingsModel::loadProperties(const PropertyIdSet& propertyIdSet)
     }
     if (muse::contains(propertyIdSet, Pid::TEXT_SCRIPT_ALIGN)) {
         loadPropertyItem(m_textScriptAlignment, [](const QVariant& elementPropertyValue) -> QVariant {
-            return elementPropertyValue.toInt() == static_cast<int>(mu::engraving::VerticalAlignment::AlignUndefined)
+            return elementPropertyValue.toInt()
+                   == static_cast<int>(mu::engraving::VerticalAlignment::AlignUndefined)
                    ? QVariant() : elementPropertyValue.toInt();
         });
     }
@@ -285,7 +307,8 @@ void TextSettingsModel::resetProperties()
     m_textScriptAlignment->resetToDefault();
 }
 
-void TextSettingsModel::onNotationChanged(const PropertyIdSet& changedProperyIds, const StyleIdSet& changedStyleIds)
+void TextSettingsModel::onNotationChanged(const PropertyIdSet& changedProperyIds,
+                                          const StyleIdSet& changedStyleIds)
 {
     loadProperties(changedProperyIds);
 
@@ -523,7 +546,8 @@ void TextSettingsModel::setAreStaffTextPropertiesAvailable(bool areStaffTextProp
     emit areStaffTextPropertiesAvailableChanged(m_areStaffTextPropertiesAvailable);
 }
 
-void TextSettingsModel::setIsSpecialCharactersInsertionAvailable(bool isSpecialCharactersInsertionAvailable)
+void TextSettingsModel::setIsSpecialCharactersInsertionAvailable(
+    bool isSpecialCharactersInsertionAvailable)
 {
     if (m_isSpecialCharactersInsertionAvailable == isSpecialCharactersInsertionAvailable) {
         return;
@@ -643,7 +667,8 @@ void TextSettingsModel::updateFramePropertiesAvailability()
     m_frameFillColor->setIsEnabled(isFrameVisible);
     m_frameMargin->setIsEnabled(isFrameVisible);
     m_frameCornerRadius->setIsEnabled(
-        static_cast<TextTypes::FrameType>(m_frameType->value().toInt()) == TextTypes::FrameType::FRAME_TYPE_SQUARE);
+        static_cast<TextTypes::FrameType>(m_frameType->value().toInt())
+        == TextTypes::FrameType::FRAME_TYPE_SQUARE);
 }
 
 void TextSettingsModel::updateStaffPropertiesAvailability()
@@ -782,11 +807,14 @@ void TextSettingsModel::updateCenterPositionText()
         }
 
         if (item->parent()->isBox()) {
-            setCenterPositionText(muse::qtrc("inspector", "Horizontally center text box within frame"));
+            setCenterPositionText(muse::qtrc("inspector",
+                                             "Horizontally center text box within frame"));
         } else if (item->isTextBase() && toTextBase(item)->positionRelativeToNoteheadRest()) {
-            setCenterPositionText(muse::qtrc("inspector", "Horizontally center text box to note/rest"));
+            setCenterPositionText(muse::qtrc("inspector",
+                                             "Horizontally center text box to note/rest"));
         } else {
-            setCenterPositionText(muse::qtrc("inspector", "Horizontally center text box to barline"));
+            setCenterPositionText(muse::qtrc("inspector",
+                                             "Horizontally center text box to barline"));
         }
         return;
     }

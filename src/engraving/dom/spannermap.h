@@ -48,7 +48,8 @@ public:
     const IntervalList& findOverlapping(int start, int stop, bool excludeCollisions = false) const;
     const std::multimap<int, Spanner*>& map() const { return *this; }
 
-    void collectIntervals(IntervalList& regularIntervals, IntervalList& collisionFreeIntervals) const;
+    void collectIntervals(IntervalList& regularIntervals,
+                          IntervalList& collisionFreeIntervals) const;
 
     const_reverse_it crbegin() const { return std::multimap<int, Spanner*>::crbegin(); }
     const_reverse_it crend() const { return std::multimap<int, Spanner*>::crend(); }

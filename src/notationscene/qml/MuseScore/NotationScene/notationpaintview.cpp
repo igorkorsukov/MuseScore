@@ -36,7 +36,9 @@ void NotationPaintView::onLoadNotation(INotationPtr notation)
     setMatrix(notation->viewState()->matrix());
     m_isLocalMatrixUpdate = false;
 
-    notation->viewState()->matrixChanged().onReceive(this, [this](const Transform& matrix, NotationPaintView* sender) {
+    notation->viewState()->matrixChanged().onReceive(this,
+                                                     [this](const Transform& matrix,
+                                                            NotationPaintView* sender) {
         if (sender != this) {
             m_isLocalMatrixUpdate = true;
             setMatrix(matrix);
@@ -62,7 +64,8 @@ void NotationPaintView::initZoomAndPosition()
     }
 }
 
-void NotationPaintView::onMatrixChanged(const Transform& oldMatrix, const Transform& newMatrix, bool overrideZoomType)
+void NotationPaintView::onMatrixChanged(const Transform& oldMatrix, const Transform& newMatrix,
+                                        bool overrideZoomType)
 {
     AbstractNotationPaintView::onMatrixChanged(oldMatrix, newMatrix, overrideZoomType);
 

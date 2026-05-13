@@ -36,6 +36,8 @@ std::string ProjectModule::moduleName() const
 
 void ProjectModule::registerExports()
 {
-    globalIoc()->registerExport<IProjectConfiguration>(moduleName(), new ProjectConfigurationStub());
-    globalIoc()->registerExport<IRecentFilesController>(moduleName(), new RecentFilesControllerStub());
+    globalIoc()->registerExport<IProjectConfiguration>(moduleName(),
+                                                       new ProjectConfigurationStub());
+    globalIoc()->registerExport<IRecentFilesController>(moduleName(),
+                                                        new RecentFilesControllerStub());
 }

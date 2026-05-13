@@ -37,7 +37,8 @@ namespace mu::engraving {
 //   StaffTextBase
 //---------------------------------------------------------
 
-StaffTextBase::StaffTextBase(const ElementType& type, Segment* parent, TextStyleType tid, ElementFlags flags)
+StaffTextBase::StaffTextBase(const ElementType& type, Segment* parent, TextStyleType tid,
+                             ElementFlags flags)
     : TextBase(type, parent, tid, flags)
 {
     setSwingParameters(Constants::DIVISION / 2, 60);

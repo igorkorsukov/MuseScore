@@ -68,7 +68,8 @@ int harmonicOvertone(Note* note, float harmonicValue, int harmonicType)
 
 std::vector<int> standardTuningFor(int midiProgram, int stringsCount)
 {
-    static const std::map<std::pair<int, /* program */ int /* strings count */>, std::vector<int> > tunings {
+    static const std::map<std::pair<int, /* program */ int /* strings count */>,
+                          std::vector<int> > tunings {
         // Guitars 6 strings
         { { 25, 6 }, { 40, 45, 50, 55, 59, 64 } },
         { { 26, 6 }, { 40, 45, 50, 55, 59, 64 } },
@@ -127,13 +128,15 @@ Chord* getLocatedChord(mu::engraving::Score* score, Fraction tickFr, track_idx_t
 {
     const Measure* measure = score->tick2measure(tickFr);
     if (!measure) {
-        LOGE() << "bend import error: no valid measure for track " << track << ", tick " << tickFr.ticks();
+        LOGE() << "bend import error: no valid measure for track " << track << ", tick " <<
+            tickFr.ticks();
         return nullptr;
     }
 
     Chord* chord = measure->findChord(tickFr, track);
     if (!chord) {
-        LOGE() << "bend import error: no valid chord for track " << track << ", tick " << tickFr.ticks();
+        LOGE() << "bend import error: no valid chord for track " << track << ", tick " <<
+            tickFr.ticks();
         return nullptr;
     }
 

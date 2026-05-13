@@ -47,7 +47,8 @@
 namespace mu::inspector {
 using MeasurementUnits = CommonTypes::MeasurementUnits;
 
-class AbstractInspectorModel : public QObject, public muse::async::Asyncable, public muse::Contextable
+class AbstractInspectorModel : public QObject, public muse::async::Asyncable,
+    public muse::Contextable
 {
     Q_OBJECT
 
@@ -57,8 +58,10 @@ class AbstractInspectorModel : public QObject, public muse::async::Asyncable, pu
     Q_PROPERTY(InspectorModelType modelType READ modelType CONSTANT)
     Q_PROPERTY(bool isEmpty READ isEmpty NOTIFY isEmptyChanged)
 
-    Q_PROPERTY(bool isSystemObjectBelowBottomStaff READ isSystemObjectBelowBottomStaff NOTIFY isSystemObjectBelowBottomStaffChanged)
-    Q_PROPERTY(mu::inspector::CommonTypes::MeasurementUnits measurementUnits READ measurementUnits NOTIFY measurementUnitsChanged)
+    Q_PROPERTY(
+        bool isSystemObjectBelowBottomStaff READ isSystemObjectBelowBottomStaff NOTIFY isSystemObjectBelowBottomStaffChanged)
+    Q_PROPERTY(
+        mu::inspector::CommonTypes::MeasurementUnits measurementUnits READ measurementUnits NOTIFY measurementUnitsChanged)
 
     QML_ELEMENT;
     QML_UNCREATABLE("Not creatable as it is abstract base class")
@@ -175,8 +178,9 @@ public:
     static ElementKey makeKey(const mu::engraving::EngravingItem* item);
     static InspectorModelType modelTypeByElementKey(const ElementKey& elementKey);
     static std::set<InspectorModelType> modelTypesByElementKeys(const ElementKeySet& elementKeySet);
-    static std::set<InspectorSectionType> sectionTypesByElementKeys(const ElementKeySet& elementKeySet, bool isRange,
-                                                                    const QList<mu::engraving::EngravingItem*>& selectedElementList = {});
+    static std::set<InspectorSectionType> sectionTypesByElementKeys(
+        const ElementKeySet& elementKeySet, bool isRange,
+        const QList<mu::engraving::EngravingItem*>& selectedElementList = {});
     virtual bool isEmpty() const;
 
     virtual void createProperties() = 0;
@@ -197,7 +201,8 @@ public:
     virtual bool shouldUpdateWhenEmpty() const;
     virtual bool shouldUpdateOnEmptyPropertyAndStyleIdSets() const;
 
-    mu::engraving::PropertyIdSet propertyIdSetFromStyleIdSet(const mu::engraving::StyleIdSet& styleIdSet) const;
+    mu::engraving::PropertyIdSet propertyIdSetFromStyleIdSet(
+        const mu::engraving::StyleIdSet& styleIdSet) const;
 
 public slots:
     void setTitle(QString title);
@@ -221,27 +226,31 @@ signals:
 protected:
     void setElementType(mu::engraving::ElementType type);
 
-    PropertyItem* buildPropertyItem(const mu::engraving::Pid& pid, std::function<void(const mu::engraving::Pid propertyId,
-                                                                                      const QVariant& newValue)> onPropertyChangedCallBack =
+    PropertyItem* buildPropertyItem(const mu::engraving::Pid& pid,
+                                    std::function<void(const mu::engraving::Pid propertyId,
+                                                       const QVariant& newValue)> onPropertyChangedCallBack =
                                     nullptr, std::function<void(const mu::engraving::Sid styleId,
                                                                 const
-                                                                QVariant& newValue)> onStyleChangedCallBack = nullptr,
-                                    std::function<void(const mu::engraving::Pid propertyId)> onPropertyResetCallBack = nullptr);
-    PointFPropertyItem* buildPointFPropertyItem(const mu::engraving::Pid& pid, std::function<void(const mu::engraving::Pid propertyId,
-                                                                                                  const QVariant& newValue)>
-                                                onPropertyChangedCallBack = nullptr,
-                                                std::function<void(const mu::engraving::Pid propertyId)> onPropertyResetCallBack = nullptr);
+                                                                QVariant& newValue)> onStyleChangedCallBack = nullptr, std::function<void(const mu::engraving::Pid propertyId)> onPropertyResetCallBack = nullptr);
+    PointFPropertyItem* buildPointFPropertyItem(const mu::engraving::Pid& pid,
+                                                std::function<void(const mu::engraving::Pid propertyId,
+                                                                   const QVariant& newValue)>
+                                                onPropertyChangedCallBack = nullptr, std::function<void(const mu::engraving::Pid propertyId)> onPropertyResetCallBack = nullptr);
 
     using ConvertPropertyValueFunc = std::function<QVariant (const QVariant&)>;
-    void loadPropertyItem(PropertyItem* propertyItem, ConvertPropertyValueFunc convertElementPropertyValueFunc = nullptr);
-    void loadPropertyItem(PropertyItem* propertyItem, const QList<engraving::EngravingItem*>& elements,
+    void loadPropertyItem(PropertyItem* propertyItem,
+                          ConvertPropertyValueFunc convertElementPropertyValueFunc = nullptr);
+    void loadPropertyItem(PropertyItem* propertyItem,
+                          const QList<engraving::EngravingItem*>& elements,
                           ConvertPropertyValueFunc convertElementPropertyValueFunc = nullptr);
 
     bool isNotationExisting() const;
 
-    engraving::PropertyValue valueToElementUnits(const mu::engraving::Pid& pid, const QVariant& value,
+    engraving::PropertyValue valueToElementUnits(const mu::engraving::Pid& pid,
+                                                 const QVariant& value,
                                                  const mu::engraving::EngravingItem* element) const;
-    QVariant valueFromElementUnits(const mu::engraving::Pid& pid, const engraving::PropertyValue& value,
+    QVariant valueFromElementUnits(const mu::engraving::Pid& pid,
+                                   const engraving::PropertyValue& value,
                                    const mu::engraving::EngravingItem* element) const;
 
     notation::INotationStylePtr style() const;
@@ -266,9 +275,11 @@ protected:
 
 protected slots:
     void onPropertyValueChanged(const mu::engraving::Pid pid, const QVariant& newValue);
-    void setPropertyValue(const QList<mu::engraving::EngravingItem*>& items, const mu::engraving::Pid pid, const QVariant& newValue);
+    void setPropertyValue(const QList<mu::engraving::EngravingItem*>& items,
+                          const mu::engraving::Pid pid, const QVariant& newValue);
     void onPropertyValueReset(const mu::engraving::Pid pid);
-    void resetPropertyValue(const QList<mu::engraving::EngravingItem*>& items, const mu::engraving::Pid pid);
+    void resetPropertyValue(const QList<mu::engraving::EngravingItem*>& items,
+                            const mu::engraving::Pid pid);
     void updateProperties();
     void updateIsSystemObjectBelowBottomStaff();
     void updatemeasurementUnits();
@@ -276,13 +287,12 @@ protected slots:
 private:
     static bool showPartsSection(const QList<mu::engraving::EngravingItem*>& selectedElementList);
 
-    void initPropertyItem(PropertyItem* propertyItem, std::function<void(const mu::engraving::Pid propertyId,
-                                                                         const QVariant& newValue)> onPropertyChangedCallBack = nullptr,
-                          std::function<void(const mu::engraving::Sid styleId,
-                                             const
-                                             QVariant
-                                             & newValue)> onStyleChangedCallBack = nullptr,
-                          std::function<void(const mu::engraving::Pid propertyId)> onPropertyResetCallBack = nullptr);
+    void initPropertyItem(PropertyItem* propertyItem,
+                          std::function<void(const mu::engraving::Pid propertyId,
+                                             const QVariant& newValue)> onPropertyChangedCallBack = nullptr, std::function<void(const mu::engraving::Sid styleId,
+                                                                                                                                const
+                                                                                                                                QVariant
+                                                                                                                                & newValue)> onStyleChangedCallBack = nullptr, std::function<void(const mu::engraving::Pid propertyId)> onPropertyResetCallBack = nullptr);
 
     mu::engraving::Sid styleIdByPropertyId(const mu::engraving::Pid pid) const;
 

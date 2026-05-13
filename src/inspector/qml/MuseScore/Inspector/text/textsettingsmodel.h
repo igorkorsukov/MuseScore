@@ -61,18 +61,26 @@ class TextSettingsModel : public AbstractInspectorModel
 
     Q_PROPERTY(QVariantList textStyles READ textStyles NOTIFY textStylesChanged)
 
-    Q_PROPERTY(bool areTextPropertiesAvailable READ areTextPropertiesAvailable NOTIFY areTextPropertiesAvailableChanged)
-    Q_PROPERTY(bool areStaffTextPropertiesAvailable READ areStaffTextPropertiesAvailable NOTIFY areStaffTextPropertiesAvailableChanged)
+    Q_PROPERTY(
+        bool areTextPropertiesAvailable READ areTextPropertiesAvailable NOTIFY areTextPropertiesAvailableChanged)
+    Q_PROPERTY(
+        bool areStaffTextPropertiesAvailable READ areStaffTextPropertiesAvailable NOTIFY areStaffTextPropertiesAvailableChanged)
     Q_PROPERTY(
         bool isSpecialCharactersInsertionAvailable READ isSpecialCharactersInsertionAvailable NOTIFY isSpecialCharactersInsertionAvailableChanged)
-    Q_PROPERTY(bool isDynamicSpecificSettings READ isDynamicSpecificSettings NOTIFY isDynamicSpecificSettingsChanged)
-    Q_PROPERTY(bool isHorizontalAlignmentAvailable READ isHorizontalAlignmentAvailable NOTIFY isHorizontalAlignmentAvailableChanged)
-    Q_PROPERTY(bool isSymbolSizeAvailable READ isSymbolSizeAvailable NOTIFY isSymbolSizeAvailableChanged)
-    Q_PROPERTY(bool isScriptSizeAvailable READ isScriptSizeAvailable NOTIFY isScriptSizeAvailableChanged)
-    Q_PROPERTY(bool isLineSpacingAvailable READ isLineSpacingAvailable NOTIFY isLineSpacingAvailableChanged)
+    Q_PROPERTY(
+        bool isDynamicSpecificSettings READ isDynamicSpecificSettings NOTIFY isDynamicSpecificSettingsChanged)
+    Q_PROPERTY(
+        bool isHorizontalAlignmentAvailable READ isHorizontalAlignmentAvailable NOTIFY isHorizontalAlignmentAvailableChanged)
+    Q_PROPERTY(
+        bool isSymbolSizeAvailable READ isSymbolSizeAvailable NOTIFY isSymbolSizeAvailableChanged)
+    Q_PROPERTY(
+        bool isScriptSizeAvailable READ isScriptSizeAvailable NOTIFY isScriptSizeAvailableChanged)
+    Q_PROPERTY(
+        bool isLineSpacingAvailable READ isLineSpacingAvailable NOTIFY isLineSpacingAvailableChanged)
     Q_PROPERTY(bool isPositionAvailable READ isPositionAvailable NOTIFY isPositionAvailableChanged)
 
-    Q_PROPERTY(bool usePositionRelativeToLine READ usePositionRelativeToLine NOTIFY usePositionRelativeToLineChanged)
+    Q_PROPERTY(
+        bool usePositionRelativeToLine READ usePositionRelativeToLine NOTIFY usePositionRelativeToLineChanged)
     Q_PROPERTY(QString leftPositionText READ leftPositionText NOTIFY leftPositionTextChanged)
     Q_PROPERTY(QString centerPositionText READ centerPositionText NOTIFY centerPositionTextChanged)
     Q_PROPERTY(QString rightPositionText READ rightPositionText NOTIFY rightPositionTextChanged)
@@ -80,7 +88,8 @@ class TextSettingsModel : public AbstractInspectorModel
     muse::ContextInject<muse::actions::IActionsDispatcher> dispatcher = { this };
 
 public:
-    explicit TextSettingsModel(QObject* parent, const muse::modularity::ContextPtr& iocCtx, IElementRepositoryService* repository);
+    explicit TextSettingsModel(QObject* parent, const muse::modularity::ContextPtr& iocCtx,
+                               IElementRepositoryService* repository);
 
     Q_INVOKABLE void insertSpecialCharacters();
     Q_INVOKABLE void showStaffTextProperties();

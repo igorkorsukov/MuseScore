@@ -28,7 +28,8 @@
 #include "ibrailleconfiguration.h"
 
 namespace mu::engraving {
-class BrailleConfiguration : public mu::braille::IBrailleConfiguration, public muse::async::Asyncable
+class BrailleConfiguration : public mu::braille::IBrailleConfiguration,
+    public muse::async::Asyncable
 {
 public:
     void init();

@@ -30,7 +30,8 @@ public:
 private:
 
     struct SplashConfig {
-        appshell::SplashScreen::SplashScreenType type = appshell::SplashScreen::SplashScreenType::Default;
+        appshell::SplashScreen::SplashScreenType type
+            = appshell::SplashScreen::SplashScreenType::Default;
         bool forNewScore = false;
         QString openingFileName;
     };
@@ -39,7 +40,8 @@ private:
 
     void applyCommandLineOptions(const std::shared_ptr<muse::CmdOptions>& options) override;
 
-    std::shared_ptr<muse::CmdOptions> makeContextOptions(const muse::StringList& args) const override;
+    std::shared_ptr<muse::CmdOptions> makeContextOptions(const muse::StringList& args) const
+    override;
     void showContextSplash(const muse::modularity::ContextPtr& ctxId) override;
     QString mainWindowQmlPath(const QString& platform) const override;
     void doStartupScenario(const muse::modularity::ContextPtr& ctxId) override;

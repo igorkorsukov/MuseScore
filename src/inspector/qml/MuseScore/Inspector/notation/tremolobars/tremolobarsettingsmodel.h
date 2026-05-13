@@ -37,10 +37,12 @@ class TremoloBarSettingsModel : public AbstractInspectorModel
     Q_PROPERTY(mu::inspector::PropertyItem * lineThickness READ lineThickness CONSTANT)
     Q_PROPERTY(mu::inspector::PropertyItem * scale READ scale CONSTANT)
 
-    Q_PROPERTY(bool areSettingsAvailable READ areSettingsAvailable NOTIFY areSettingsAvailableChanged)
+    Q_PROPERTY(
+        bool areSettingsAvailable READ areSettingsAvailable NOTIFY areSettingsAvailableChanged)
 
 public:
-    explicit TremoloBarSettingsModel(QObject* parent, const muse::modularity::ContextPtr& iocCtx, IElementRepositoryService* repository);
+    explicit TremoloBarSettingsModel(QObject* parent, const muse::modularity::ContextPtr& iocCtx,
+                                     IElementRepositoryService* repository);
 
     void createProperties() override;
     void requestElements() override;

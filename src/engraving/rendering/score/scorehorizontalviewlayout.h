@@ -29,7 +29,8 @@ class ScoreHorizontalViewLayout
 {
 public:
 
-    static void layoutHorizontalView(Score* score, LayoutContext& ctx, const Fraction& stick, const Fraction& etick);
+    static void layoutHorizontalView(Score* score, LayoutContext& ctx, const Fraction& stick,
+                                     const Fraction& etick);
 
 private:
     static void layoutLinear(LayoutContext& ctx, bool layoutAll);
@@ -44,12 +45,14 @@ private:
     /*! \brief callulate width of segment and additional spacing of segment depends on duration of segment
      *  \return pair of {spacing, width}
      */
-    static std::pair<double, double> computeCellWidth(const Segment* s, const std::vector<int>& visibleParts);
+    static std::pair<double, double> computeCellWidth(const Segment* s,
+                                                      const std::vector<int>& visibleParts);
 
     /*! \brief get among all ChordRests of segment the ChordRest with minimum ticks,
     * take into account visibleParts
     */
-    static ChordRest* chordRestWithMinDuration(const Segment* seg, const std::vector<int>& visibleParts);
+    static ChordRest* chordRestWithMinDuration(const Segment* seg,
+                                               const std::vector<int>& visibleParts);
 
     static Fraction calculateQuantumCell(const Measure* m, const std::vector<int>& visibleParts);
 };

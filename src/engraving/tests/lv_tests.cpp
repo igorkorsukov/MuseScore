@@ -58,7 +58,8 @@ TEST_F(Engraving_LVTests, LV_Double_Notehead_test)
     score->doLayout();
 
     score->inputState().setTrack(0);
-    score->inputState().setSegment(score->tick2segment(Fraction(0, 1), false, SegmentType::ChordRest));
+    score->inputState().setSegment(score->tick2segment(Fraction(0,
+                                                                1), false, SegmentType::ChordRest));
     score->inputState().setDuration(DurationType::V_QUARTER);
     score->inputState().setNoteEntryMode(true);
 

@@ -47,7 +47,8 @@ public:
         Cancel
     };
 
-    Button warning(const std::string& title, const std::string& text, const std::set<Button>& buttons = { Ok, Cancel });
+    Button warning(const std::string& title, const std::string& text,
+                   const std::set<Button>& buttons = { Ok, Cancel });
 };
 }
 

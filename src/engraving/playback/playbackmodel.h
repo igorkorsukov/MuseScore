@@ -85,7 +85,8 @@ public:
     muse::mpe::PlaybackData& resolveTrackPlaybackData(const InstrumentTrackId& trackId);
     muse::mpe::PlaybackData& resolveTrackPlaybackData(const ID& partId, const String& instrumentId);
 
-    void triggerEventsForItems(const std::vector<const EngravingItem*>& items, muse::mpe::duration_t duration, bool flushSound);
+    void triggerEventsForItems(const std::vector<const EngravingItem*>& items,
+                               muse::mpe::duration_t duration, bool flushSound);
     void triggerMetronome(int tick);
     void triggerCountIn(int tick, muse::mpe::duration_t& countInDuration);
 
@@ -115,37 +116,44 @@ private:
     InstrumentTrackId idKey(const std::vector<const EngravingItem*>& items) const;
     InstrumentTrackId idKey(const ID& partId, const String& instrumentId) const;
 
-    void update(const int tickFrom, const int tickTo, const track_idx_t trackFrom, const track_idx_t trackTo,
-                ChangedTrackIdSet* trackChanges = nullptr);
+    void update(const int tickFrom, const int tickTo, const track_idx_t trackFrom,
+                const track_idx_t trackTo, ChangedTrackIdSet* trackChanges = nullptr);
     void updateSetupData();
     void updateContext(const track_idx_t trackFrom, const track_idx_t trackTo);
     void updateContext(const InstrumentTrackId& trackId);
-    void updateEvents(const int tickFrom, const int tickTo, const track_idx_t trackFrom, const track_idx_t trackTo,
-                      ChangedTrackIdSet* trackChanges = nullptr);
+    void updateEvents(const int tickFrom, const int tickTo, const track_idx_t trackFrom,
+                      const track_idx_t trackTo, ChangedTrackIdSet* trackChanges = nullptr);
 
     void reloadMetronomeEvents();
 
-    void processSegment(const int tickPositionOffset, const Segment* segment, const std::set<staff_idx_t>& staffIdxSet,
+    void processSegment(const int tickPositionOffset, const Segment* segment,
+                        const std::set<staff_idx_t>& staffIdxSet,
                         bool isFirstChordRestSegmentOfMeasure, ChangedTrackIdSet* trackChanges);
-    void processMeasureRepeat(const int tickPositionOffset, const MeasureRepeat* measureRepeat, const Measure* currentMeasure,
-                              const staff_idx_t staffIdx, ChangedTrackIdSet* trackChanges);
+    void processMeasureRepeat(const int tickPositionOffset, const MeasureRepeat* measureRepeat,
+                              const Measure* currentMeasure, const staff_idx_t staffIdx,
+                              ChangedTrackIdSet* trackChanges);
 
     bool hasToReloadTracks(const ScoreChanges& changes) const;
     bool hasToReloadScore(const ScoreChanges& changes) const;
 
     void clearExpiredTracks();
     void clearExpiredContexts(const track_idx_t trackFrom, const track_idx_t trackTo);
-    void clearExpiredEvents(const int tickFrom, const int tickTo, const track_idx_t trackFrom, const track_idx_t trackTo,
-                            ChangedTrackIdSet* trackChanges = nullptr);
+    void clearExpiredEvents(const int tickFrom, const int tickTo, const track_idx_t trackFrom,
+                            const track_idx_t trackTo, ChangedTrackIdSet* trackChanges = nullptr);
     void collectChangesTracks(const InstrumentTrackId& trackId, ChangedTrackIdSet* result);
-    void notifyAboutChanges(const InstrumentTrackIdSet& oldTracks, const InstrumentTrackIdSet& changedTracks);
+    void notifyAboutChanges(const InstrumentTrackIdSet& oldTracks,
+                            const InstrumentTrackIdSet& changedTracks);
 
     void sendEvents(const InstrumentTrackId& trackId);
 
-    void removeEventsFromRange(const track_idx_t trackFrom, const track_idx_t trackTo, const muse::mpe::timestamp_t timestampFrom = -1,
-                               const muse::mpe::timestamp_t timestampTo = -1, ChangedTrackIdSet* trackChanges = nullptr);
-    void removeTrackEvents(const InstrumentTrackId& trackId, const muse::mpe::timestamp_t timestampFrom = -1,
-                           const muse::mpe::timestamp_t timestampTo = -1, ChangedTrackIdSet* trackChanges = nullptr);
+    void removeEventsFromRange(const track_idx_t trackFrom, const track_idx_t trackTo,
+                               const muse::mpe::timestamp_t timestampFrom = -1,
+                               const muse::mpe::timestamp_t timestampTo = -1,
+                               ChangedTrackIdSet* trackChanges = nullptr);
+    void removeTrackEvents(const InstrumentTrackId& trackId,
+                           const muse::mpe::timestamp_t timestampFrom = -1,
+                           const muse::mpe::timestamp_t timestampTo = -1,
+                           ChangedTrackIdSet* trackChanges = nullptr);
 
     bool shouldSkipChanges(const ScoreChanges& changes) const;
 
@@ -154,7 +162,8 @@ private:
 
     const RepeatList& repeatList() const;
 
-    muse::mpe::ArticulationsProfilePtr defaultActiculationProfile(const InstrumentTrackId& trackId) const;
+    muse::mpe::ArticulationsProfilePtr defaultActiculationProfile(const InstrumentTrackId& trackId)
+    const;
 
     PlaybackContextPtr playbackCtx(const InstrumentTrackId& trackId);
 

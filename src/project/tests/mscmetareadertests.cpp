@@ -45,7 +45,8 @@ muse::io::path_t getDataPath(const stdfs::path& relativePath)
 TEST(ProjectMscMetaReaderTests, testReadFromMeta)
 {
     auto metaReader = std::make_shared<MscMetaReader>();
-    muse::RetVal<ProjectMeta> maybeMeta = metaReader->readMeta(getDataPath("from_meta/from_meta.mscx"));
+    muse::RetVal<ProjectMeta> maybeMeta
+        = metaReader->readMeta(getDataPath("from_meta/from_meta.mscx"));
     ASSERT_TRUE(maybeMeta.ret);
 
     const ProjectMeta& meta = maybeMeta.val;
@@ -71,7 +72,8 @@ TEST(ProjectMscMetaReaderTests, testReadFromMeta)
 TEST(ProjectMscMetaReaderTests, testReadFromMetaAndBox)
 {
     auto metaReader = std::make_shared<MscMetaReader>();
-    muse::RetVal<ProjectMeta> maybeMeta = metaReader->readMeta(getDataPath("from_meta_and_box/from_meta_and_box.mscx"));
+    muse::RetVal<ProjectMeta> maybeMeta
+        = metaReader->readMeta(getDataPath("from_meta_and_box/from_meta_and_box.mscx"));
     ASSERT_TRUE(maybeMeta.ret);
 
     const ProjectMeta& meta = maybeMeta.val;
@@ -97,7 +99,8 @@ TEST(ProjectMscMetaReaderTests, testReadFromMetaAndBox)
 TEST(ProjectMscMetaReaderTests, testReadCloudInfo)
 {
     auto metaReader = std::make_shared<MscMetaReader>();
-    muse::RetVal<CloudProjectInfo> maybeCloudInfo = metaReader->readCloudProjectInfo(getDataPath("from_meta/from_meta.mscx"));
+    muse::RetVal<CloudProjectInfo> maybeCloudInfo
+        = metaReader->readCloudProjectInfo(getDataPath("from_meta/from_meta.mscx"));
     ASSERT_TRUE(maybeCloudInfo.ret);
 
     const CloudProjectInfo& cloudInfo = maybeCloudInfo.val;

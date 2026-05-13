@@ -88,7 +88,8 @@ static Drumset* createDrumset(const mnx::Part& mnxPart, const mnx::Document& doc
     Drumset* drumset = new Drumset();
     Drumset* defaultDrumset = mu::engraving::smDrumset;
     for (int i = 0; i < DRUM_INSTRUMENTS; ++i) {
-        drumset->drum(i) = DrumInstrument(String(), NoteHeadGroup::HEAD_INVALID, 0, DirectionV::AUTO);
+        drumset->drum(i)
+            = DrumInstrument(String(), NoteHeadGroup::HEAD_INVALID, 0, DirectionV::AUTO);
     }
 
     const auto sounds = doc.global().sounds();
@@ -118,7 +119,8 @@ static Drumset* createDrumset(const mnx::Part& mnxPart, const mnx::Document& doc
         return -1;
     };
     for (auto& entry : kitEntries) {
-        if (entry.component.sound() && sounds && sounds->contains(entry.component.sound().value())) {
+        if (entry.component.sound() && sounds
+            && sounds->contains(entry.component.sound().value())) {
             const auto sound = sounds->at(entry.component.sound().value());
             if (const auto midiNumber = sound.midiNumber()) {
                 entry.midiPitch = static_cast<int>(midiNumber.value());
@@ -135,18 +137,21 @@ static Drumset* createDrumset(const mnx::Part& mnxPart, const mnx::Document& doc
             continue;
         }
         int fallbackPitch = defaultDrumset
-                            ? defaultDrumset->defaultPitchForLine(middleLine - entry.component.staffPosition())
+                            ? defaultDrumset->defaultPitchForLine(
+            middleLine - entry.component.staffPosition())
                             : -1;
         if (!pitchIsValid(fallbackPitch) || usedPitches[fallbackPitch]) {
             fallbackPitch = findFallbackPitch();
         }
         if (!pitchIsValid(fallbackPitch)) {
-            LOGW() << "Kit component \"" << entry.id << "\" lacks a valid MIDI pitch and no fallback is available.";
+            LOGW() << "Kit component \"" << entry.id <<
+                "\" lacks a valid MIDI pitch and no fallback is available.";
             continue;
         }
         entry.midiPitch = fallbackPitch;
         usedPitches[fallbackPitch] = true;
-        LOGW() << "Kit component \"" << entry.id << "\" lacks a valid MIDI pitch. Using fallback pitch "
+        LOGW() << "Kit component \"" << entry.id <<
+            "\" lacks a valid MIDI pitch. Using fallback pitch "
                << fallbackPitch << ".";
     }
 
@@ -157,8 +162,10 @@ static Drumset* createDrumset(const mnx::Part& mnxPart, const mnx::Document& doc
         kitComponentToMidi[{ partIdx, entry.id }] = entry.midiPitch;
 
         const bool hasDefault = defaultDrumset && defaultDrumset->isValid(entry.midiPitch);
-        NoteHeadGroup notehead = hasDefault ? defaultDrumset->noteHead(entry.midiPitch) : NoteHeadGroup::HEAD_NORMAL;
-        DirectionV stemDirection = hasDefault ? defaultDrumset->stemDirection(entry.midiPitch) : DirectionV::AUTO;
+        NoteHeadGroup notehead
+            = hasDefault ? defaultDrumset->noteHead(entry.midiPitch) : NoteHeadGroup::HEAD_NORMAL;
+        DirectionV stemDirection
+            = hasDefault ? defaultDrumset->stemDirection(entry.midiPitch) : DirectionV::AUTO;
         int voice = hasDefault ? defaultDrumset->voice(entry.midiPitch) : 0;
         String shortcut = hasDefault ? defaultDrumset->shortcut(entry.midiPitch) : String();
 
@@ -166,7 +173,8 @@ static Drumset* createDrumset(const mnx::Part& mnxPart, const mnx::Document& doc
         if (entry.component.name()) {
             name = String::fromStdString(entry.component.name().value());
         }
-        if (name.isEmpty() && entry.component.sound() && sounds && sounds->contains(entry.component.sound().value())) {
+        if (name.isEmpty() && entry.component.sound() && sounds
+            && sounds->contains(entry.component.sound().value())) {
             const auto sound = sounds->at(entry.component.sound().value());
             if (const auto soundName = sound.name()) {
                 name = String::fromStdString(soundName.value());
@@ -178,7 +186,8 @@ static Drumset* createDrumset(const mnx::Part& mnxPart, const mnx::Document& doc
         }
 
         int line = middleLine - entry.component.staffPosition();
-        drumset->drum(entry.midiPitch) = DrumInstrument(name, notehead, line, stemDirection, -1, -1, voice, shortcut);
+        drumset->drum(entry.midiPitch) = DrumInstrument(name, notehead, line, stemDirection, -1, -1,
+                                                        voice, shortcut);
         if (notehead == NoteHeadGroup::HEAD_CUSTOM && hasDefault) {
             for (int type = 0; type < static_cast<int>(NoteHeadType::HEAD_TYPES); ++type) {
                 drumset->drum(entry.midiPitch).noteheads[type]
@@ -195,7 +204,8 @@ static Drumset* createDrumset(const mnx::Part& mnxPart, const mnx::Document& doc
 //   Populate a MuseScore Instrument from an MNX part definition.
 //---------------------------------------------------------
 
-static void loadInstrument(mnx::Document& doc, Part* part, mnx::Part& mnxPart, Instrument* instrument,
+static void loadInstrument(mnx::Document& doc, Part* part, mnx::Part& mnxPart,
+                           Instrument* instrument,
                            std::map<std::pair<size_t, std::string>, int>& kitComponentToMidi)
 {
     // Initialize drumset
@@ -218,10 +228,12 @@ static void loadInstrument(mnx::Document& doc, Part* part, mnx::Part& mnxPart, I
     // Transposition
     // MNX transposition has opposite signs.
     if (const std::optional<mnx::part::PartTransposition> mnxTransp = mnxPart.transposition()) {
-        instrument->setTranspose(Interval(-mnxTransp->interval().staffDistance(), -mnxTransp->interval().halfSteps()));
+        instrument->setTranspose(Interval(-mnxTransp->interval().staffDistance(),
+                                          -mnxTransp->interval().halfSteps()));
         const auto keyFifthsFlip = mnxTransp->keyFifthsFlipAt();
         part->setPreferSharpFlat(toMuseScorePreferSharpFlat(keyFifthsFlip.value_or(0)));
-        const Interval mnxTranspose(mnxTransp->interval().staffDistance(), mnxTransp->interval().halfSteps());
+        const Interval mnxTranspose(mnxTransp->interval().staffDistance(),
+                                    mnxTransp->interval().halfSteps());
         const int updatedFlipAt = toMnxKeyFifthsFlipValue(part->preferSharpFlat(), mnxTranspose);
         if (keyFifthsFlip && keyFifthsFlip.value() != updatedFlipAt) {
             LOGW() << "MNX keyFifthsFlipAt value (" << keyFifthsFlip.value()
@@ -261,7 +273,8 @@ staff_idx_t MnxImporter::mnxLayoutStaffToStaffIdx(const mnx::layout::Staff& mnxS
         if (const auto part = mnxDocument().getEntityMap().tryGet<mnx::Part>(source.part())) {
             return mnxPartStaffToStaffIdx(part.value(), source.staff());
         } else {
-            LOGE() << "Staff source points to invalid part\"" << source.part() << "\" " << source.pointer().to_string();
+            LOGE() << "Staff source points to invalid part\"" << source.part() << "\" " <<
+                source.pointer().to_string();
             LOGE() << source.dump(2);
         }
     }
@@ -342,11 +355,13 @@ void MnxImporter::setAndStyleProperty(EngravingObject* e, Pid id, PropertyValue 
 
 Fraction MnxImporter::mnxMeasurePosToTick(const mnx::MeasureRhythmicPosition& measPos)
 {
-    const auto globalMeas = mnxDocument().getEntityMap().get<mnx::global::Measure>(measPos.measure());
+    const auto globalMeas
+        = mnxDocument().getEntityMap().get<mnx::global::Measure>(measPos.measure());
     const size_t measIdx = globalMeas.calcArrayIndex();
     const Fraction measTick = muse::value(m_mnxMeasToTick, measIdx, Fraction(-1, 1));
     IF_ASSERT_FAILED(measTick.positive()) {
-        throw std::logic_error("MNX global measure at " + std::to_string(measIdx) + " was not mapped.");
+        throw std::logic_error("MNX global measure at " + std::to_string(
+                                   measIdx) + " was not mapped.");
     }
     return measTick + toMuseScoreRTick(measPos.position());
 }
@@ -495,9 +510,11 @@ void MnxImporter::importBrackets()
             if (overrideSpan.barlineOverride == mnx::StaffGroupBarlineOverride::Unified) {
                 localSpan = true;
             }
-            const size_t groupSize = static_cast<size_t>(overrideSpan.endStaff - overrideSpan.startStaff + 1);
+            const size_t groupSize
+                = static_cast<size_t>(overrideSpan.endStaff - overrideSpan.startStaff + 1);
             if (priority > groupSize) {
-                mensurStriche = overrideSpan.barlineOverride == mnx::StaffGroupBarlineOverride::Mensurstrich;
+                mensurStriche = overrideSpan.barlineOverride
+                                == mnx::StaffGroupBarlineOverride::Mensurstrich;
                 priority = groupSize;
             }
         }
@@ -543,7 +560,8 @@ void MnxImporter::createKeySig(engraving::Measure* measure, int keyFifths)
 {
     const Key concertKey = toMuseScoreKey(keyFifths);
     if (concertKey == Key::INVALID) {
-        LOGE() << "invalid mnx key fifths " << keyFifths << " for measure " << measure->measureIndex();
+        LOGE() << "invalid mnx key fifths " << keyFifths << " for measure " <<
+            measure->measureIndex();
         return;
     }
     for (staff_idx_t idx = 0; idx < m_score->nstaves(); idx++) {
@@ -557,8 +575,11 @@ void MnxImporter::createKeySig(engraving::Measure* measure, int keyFifths)
                 throw std::logic_error("Staff " + std::to_string(idx) + " is not mapped.");
             }
             const mnx::Part mnxPart = mnxDocument().parts().at(mnxPartIndex);
-            if (const std::optional<mnx::part::PartTransposition>& partTransposition = mnxPart.transposition()) {
-                int transpFifths = partTransposition->calcTransposedKey(mnx::KeySignature::make(keyFifths)).fifths;
+            if (const std::optional<mnx::part::PartTransposition>& partTransposition =
+                    mnxPart.transposition()) {
+                int transpFifths
+                    = partTransposition->calcTransposedKey(mnx::KeySignature::make(keyFifths)).
+                      fifths;
                 const Key transpKey = toMuseScoreKey(transpFifths);
                 if (transpKey != Key::INVALID) {
                     keySigEvent.setKey(transpKey);
@@ -621,9 +642,11 @@ void MnxImporter::setBarline(engraving::Measure* measure, const mnx::global::Bar
             if (overrideSpan.barlineOverride == mnx::StaffGroupBarlineOverride::Unified) {
                 localSpan = true;
             }
-            const size_t groupSize = static_cast<size_t>(overrideSpan.endStaff - overrideSpan.startStaff + 1);
+            const size_t groupSize
+                = static_cast<size_t>(overrideSpan.endStaff - overrideSpan.startStaff + 1);
             if (priority > groupSize) {
-                mensurStriche = overrideSpan.barlineOverride == mnx::StaffGroupBarlineOverride::Mensurstrich;
+                mensurStriche = overrideSpan.barlineOverride
+                                == mnx::StaffGroupBarlineOverride::Mensurstrich;
                 mensurLast = mensurStriche && idx == overrideSpan.endStaff;
                 priority = groupSize;
             }
@@ -672,7 +695,8 @@ void MnxImporter::createVolta(engraving::Measure* measure, const mnx::global::En
     for (int countdown = ending.duration() - 1; countdown > 0; countdown--) {
         Measure* next = endMeasure->nextMeasure();
         if (!next) {
-            LOGW() << "Ending at " << ending.pointer().to_string() << " specifies non-existent end measure.";
+            LOGW() << "Ending at " << ending.pointer().to_string() <<
+                " specifies non-existent end measure.";
             LOGW() << ending.dump(2);
         }
         endMeasure = next;
@@ -833,10 +857,12 @@ void MnxImporter::importGlobalMeasures()
             createJumpOrMarker(measure, fine->location().fraction(), MarkerType::FINE);
         }
         if (const std::optional<mnx::global::Jump>& jump = mnxMeasure.jump()) {
-            createJumpOrMarker(measure, jump->location().fraction(), toMuseScoreJumpType(jump->type()));
+            createJumpOrMarker(measure, jump->location().fraction(),
+                               toMuseScoreJumpType(jump->type()));
         }
         if (const std::optional<mnx::global::Segno>& segno = mnxMeasure.segno()) {
-            createJumpOrMarker(measure, segno->location().fraction(), MarkerType::SEGNO, segno->glyph());
+            createJumpOrMarker(measure,
+                               segno->location().fraction(), MarkerType::SEGNO, segno->glyph());
         }
         if (const std::optional<mnx::Array<mnx::global::Tempo> >& tempos = mnxMeasure.tempos()) {
             for (const auto& tempo : tempos.value()) {
@@ -872,7 +898,8 @@ void MnxImporter::importGlobalMeasures()
 //   Import clefs for a part's staves within a measure.
 //---------------------------------------------------------
 
-void MnxImporter::createClefs(const mnx::Part& mnxPart, const mnx::Array<mnx::part::PositionedClef>& mnxClefs,
+void MnxImporter::createClefs(const mnx::Part& mnxPart,
+                              const mnx::Array<mnx::part::PositionedClef>& mnxClefs,
                               engraving::Measure* measure)
 {
     /// @todo honor the MNX clef glyph if MuseScore ever allows it.
@@ -885,7 +912,8 @@ void MnxImporter::createClefs(const mnx::Part& mnxPart, const mnx::Array<mnx::pa
         ClefType clefType = toMuseScoreClefType(mnxClef.clef());
         if (clefType != ClefType::INVALID) {
             const bool isHeader = !measure->prevMeasure() && rTick.isZero();
-            Segment* clefSeg = measure->getSegmentR(isHeader ? SegmentType::HeaderClef : SegmentType::Clef, rTick);
+            Segment* clefSeg = measure->getSegmentR(
+                isHeader ? SegmentType::HeaderClef : SegmentType::Clef, rTick);
             Clef* clef = Factory::createClef(clefSeg);
             clef->setTrack(staff2track(staffIdx));
             clef->setConcertClef(clefType);

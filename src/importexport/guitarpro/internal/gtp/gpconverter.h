@@ -25,7 +25,8 @@ class GPConverter : public muse::Contextable
     muse::GlobalInject<mu::engraving::IEngravingConfiguration> engravingConfiguration;
 
 public:
-    GPConverter(mu::engraving::Score* score, std::unique_ptr<GPDomModel>&& gpDom, const muse::modularity::ContextPtr& iocCtx);
+    GPConverter(mu::engraving::Score* score, std::unique_ptr<GPDomModel>&& gpDom,
+                const muse::modularity::ContextPtr& iocCtx);
 
     void convertGP();
 
@@ -85,7 +86,8 @@ private:
     void addBarline(const GPMasterBar* mB, Measure* measure, int32_t masterBarIndex);
 
     void addTie(const GPNote* gpnote, Note* note, TieMap& ties);
-    void addFretDiagram(const GPBeat* gpnote, ChordRest* note, const Context& ctx, bool asHarmony = true);
+    void addFretDiagram(const GPBeat* gpnote, ChordRest* note, const Context& ctx,
+                        bool asHarmony = true);
     ChordRest* addChordRest(const GPBeat* beats, const Context& ctx);
     void addOrnament(const GPNote* gpnote, Note* note);
     void addVibratoLeftHand(const GPNote* gpnote, Note* note);

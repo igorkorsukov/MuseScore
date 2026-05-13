@@ -123,7 +123,8 @@ void Score::pasteChordRest(ChordRest* cr, const Fraction& t)
     // otherwise, we need to convert to duration rest(s)
     // and potentially split the rest up (eg, 5/4 => whole + quarter)
     bool convertMeasureRest = cr->isRest() && cr->durationType().type() == DurationType::V_MEASURE
-                              && (tick != measure->tick() || cr->actualTicksAt(tick) != measure->ticks());
+                              && (tick != measure->tick()
+                                  || cr->actualTicksAt(tick) != measure->ticks());
 
     Fraction measureEnd = measure->endTick();
     bool isGrace = cr->isChord() && toChord(cr)->noteType() != NoteType::NORMAL;
@@ -155,7 +156,8 @@ void Score::pasteChordRest(ChordRest* cr, const Fraction& t)
     // but due to rounding, it might appear from actualTicks() that the last note is too long by a couple of ticks
 
     Staff* stf = cr->staff();
-    if (!isGrace && !cr->tuplet() && (tick + cr->actualTicksAt(tick) > measureEnd || partialCopy || convertMeasureRest)) {
+    if (!isGrace && !cr->tuplet()
+        && (tick + cr->actualTicksAt(tick) > measureEnd || partialCopy || convertMeasureRest)) {
         if (cr->isChord()) {
             // split Chord
             Chord* c = toChord(cr);
@@ -170,8 +172,10 @@ void Score::pasteChordRest(ChordRest* cr, const Fraction& t)
                 Fraction timeStretch = stf->timeStretch(tick);
                 Fraction mlen = (measure->endTick() - tick) * timeStretch;
                 Fraction len = mlen > rest ? rest : mlen;
-                std::vector<TDuration> dl = toRhythmicDurationList(len, false, (tick - measure->tick()) * timeStretch,
-                                                                   sigmap()->timesig(tick).nominal(), measure, MAX_DOTS, timeStretch);
+                std::vector<TDuration> dl
+                    = toRhythmicDurationList(len, false, (tick - measure->tick()) * timeStretch,
+                                             sigmap()->timesig(
+                                                 tick).nominal(), measure, MAX_DOTS, timeStretch);
                 if (dl.empty()) {
                     LOGD("Could not make durations for: %d/%d", len.numerator(), len.denominator());
                     return;
@@ -218,8 +222,10 @@ void Score::pasteChordRest(ChordRest* cr, const Fraction& t)
                 Fraction timeStretch = stf->timeStretch(tick);
                 Fraction mlen = (measure->endTick() - tick) * timeStretch;
                 Fraction len  = rest > mlen ? mlen : rest;
-                std::vector<TDuration> dl = toRhythmicDurationList(len, true, (tick - measure->tick()) * timeStretch,
-                                                                   sigmap()->timesig(tick).nominal(), measure, MAX_DOTS, timeStretch);
+                std::vector<TDuration> dl
+                    = toRhythmicDurationList(len, true, (tick - measure->tick()) * timeStretch,
+                                             sigmap()->timesig(
+                                                 tick).nominal(), measure, MAX_DOTS, timeStretch);
                 if (dl.empty()) {
                     LOGD("Could not make durations for: %d/%d", len.numerator(), len.denominator());
                     return;
@@ -247,7 +253,8 @@ void Score::pasteChordRest(ChordRest* cr, const Fraction& t)
                     Fraction len  = rest > mlen ? mlen : rest;
                     std::vector<TDuration> dl = toDurationList(len, false);
                     if (dl.empty()) {
-                        LOGD("Could not make durations for: %d/%d", len.numerator(), len.denominator());
+                        LOGD("Could not make durations for: %d/%d", len.numerator(),
+                             len.denominator());
                         return;
                     }
                     TDuration d = dl[0];
@@ -285,7 +292,9 @@ bool Score::cmdRepeatListSelection()
     InputState& is = inputState();
 
     std::vector<Note*> notes = m_selection.noteList();
-    std::sort(notes.begin(), notes.end(), [](const Note* a, const Note* b) { return a->track() < b->track(); });
+    std::sort(notes.begin(), notes.end(), [](const Note* a, const Note* b) {
+        return a->track() < b->track();
+    });
 
     std::vector<EngravingItem*> toSelect;
     std::unordered_set<const Chord*> foundChords;
@@ -332,7 +341,8 @@ bool Score::cmdRepeatListSelection()
 
         toSelect.push_back(newNote);
 
-        const Parenthesis* leftParen = n->parenthesisInfo() ? n->parenthesisInfo()->leftParen() : nullptr;
+        const Parenthesis* leftParen
+            = n->parenthesisInfo() ? n->parenthesisInfo()->leftParen() : nullptr;
         if (!leftParen) {
             continue;
         }
@@ -372,7 +382,8 @@ bool Score::cmdRepeatListSelection()
 static ChordRest* replaceWithRest(ChordRest* target)
 {
     target->score()->undoRemoveElement(target);
-    return target->score()->addRest(target->segment(), target->track(), target->ticks(), target->tuplet());
+    return target->score()->addRest(target->segment(), target->track(),
+                                    target->ticks(), target->tuplet());
 }
 
 static Note* prepareTarget(ChordRest* target, Note* with, const Fraction& duration)
@@ -402,7 +413,8 @@ static Note* prepareTarget(ChordRest* target, Note* with, const Fraction& durati
     }
 
     segment = target->score()->setNoteRest(segment, target->track(),
-                                           with->noteVal(), duration, stemDirection, false, {}, false, &target->score()->inputState());
+                                           with->noteVal(), duration, stemDirection, false, {}, false,
+                                           &target->score()->inputState());
     return toChord(segment->nextChordRest(target->track()))->upNote();
 }
 
@@ -412,7 +424,8 @@ static EngravingItem* prepareTarget(EngravingItem* target, Note* with, const Fra
         return prepareTarget(toNote(target)->chord(), with, duration);
     }
     if (target->isChordRest()
-        && (toChordRest(target)->ticks() != duration || toChordRest(target)->durationType().type() == DurationType::V_MEASURE)) {
+        && (toChordRest(target)->ticks() != duration
+            || toChordRest(target)->durationType().type() == DurationType::V_MEASURE)) {
         return prepareTarget(toChordRest(target), with, duration);
     }
     return target;
@@ -455,7 +468,8 @@ static EngravingItem* pasteSystemObject(EditData& srcData, EngravingItem* target
     EngravingItem* pastedItem = nullptr;
 
     for (EngravingItem* obj : topSystemObjects) {
-        const bool visible = obj->type() == srcData.dropElement->type() && obj->tick() == targetTick;
+        const bool visible = obj->type() == srcData.dropElement->type()
+                             && obj->tick() == targetTick;
 
         EngravingItem* copy = obj->linkedClone();
         copy->setVisible(visible);
@@ -554,7 +568,8 @@ bool Score::cmdPasteSymbol(muse::ByteArray& data, MuseScoreView* view, Fraction 
     PointF dragOffset;
     Fraction duration(1, 4);
 
-    std::unique_ptr<EngravingItem> el(EngravingItem::readMimeData(this, data, &dragOffset, &duration));
+    std::unique_ptr<EngravingItem> el(EngravingItem::readMimeData(this, data, &dragOffset,
+                                                                  &duration));
     if (!el) {
         return false;
     }
@@ -605,7 +620,8 @@ bool Score::cmdPasteSymbol(muse::ByteArray& data, MuseScoreView* view, Fraction 
         if (!el->isNote() || (target = prepareTarget(target, toNote(el.get()), duration))) {
             ddata.dropElement = el->clone();
 
-            EngravingItem* dropped = systemObj ? pasteSystemObject(ddata, target) : target->drop(ddata);
+            EngravingItem* dropped = systemObj ? pasteSystemObject(ddata, target) : target->drop(
+                ddata);
             if (dropped) {
                 droppedElements.emplace_back(dropped);
             }

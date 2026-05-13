@@ -32,7 +32,8 @@
 #include "imusesoundsrepository.h"
 
 namespace mu::musesounds {
-class MuseSoundsListModel : public QAbstractListModel, public muse::async::Asyncable, public muse::Contextable
+class MuseSoundsListModel : public QAbstractListModel, public muse::async::Asyncable,
+    public muse::Contextable
 {
     Q_OBJECT
 

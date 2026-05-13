@@ -28,7 +28,8 @@
 using namespace mu::iex::musicxml;
 using namespace mu::engraving;
 
-muse::Ret MusicXmlReader::read(MasterScore* score, const muse::io::path_t& path, const Options& options)
+muse::Ret MusicXmlReader::read(MasterScore* score, const muse::io::path_t& path,
+                               const Options& options)
 {
     Err err = Err::FileUnknownType;
     std::string suffix = muse::io::suffix(path);

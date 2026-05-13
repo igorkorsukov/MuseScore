@@ -183,7 +183,8 @@ void VelocityMap::addDynamic(Fraction tick, int value)
 ///   velocity event.
 //---------------------------------------------------------
 
-void VelocityMap::addHairpin(Fraction stick, Fraction etick, int change, ChangeMethod method, ChangeDirection direction)
+void VelocityMap::addHairpin(Fraction stick, Fraction etick, int change, ChangeMethod method,
+                             ChangeDirection direction)
 {
     change = std::abs(change);
     change *= (direction == ChangeDirection::INCREASING) ? 1 : -1;
@@ -213,7 +214,8 @@ void VelocityMap::sortHairpins()
             // Sort hairpinEvents so that the longest hairpins come first -
             // this is important for when we remove hairpins/dynamics enclosed within other
             // hairpins during stage 1.
-            std::sort(hairpinEvents.begin(), hairpinEvents.end(), VelocityMap::compareHairpinEvents);
+            std::sort(hairpinEvents.begin(), hairpinEvents.end(),
+                      VelocityMap::compareHairpinEvents);
             for (auto& event : hairpinEvents) {
                 insert({ tick, event });
             }
@@ -277,7 +279,8 @@ void VelocityMap::resolveHairpinCollisions()
 ///   readjust lengths of any colliding hairpins
 //---------------------------------------------------------
 
-void VelocityMap::adjustCollidingHairpinsLength(std::vector<bool>& startsInHairpin, EndPointsVector& endPoints)
+void VelocityMap::adjustCollidingHairpinsLength(std::vector<bool>& startsInHairpin,
+                                                EndPointsVector& endPoints)
 {
     // moveTo stores the events that need to be moved to a Fraction position
     std::map<Fraction, VelocityEvent> moveTo;
@@ -380,7 +383,8 @@ void VelocityMap::addMissingDynamicsAfterHairpins()
     auto nextDynamicVal = [](int previousDynamicValue, ChangeDirection hairpinDirection) {
         int newVal
             = (hairpinDirection
-               == ChangeDirection::INCREASING ? previousDynamicValue + VelocityMap::STEP : previousDynamicValue - VelocityMap::STEP);
+               == ChangeDirection::INCREASING ? previousDynamicValue
+               + VelocityMap::STEP : previousDynamicValue - VelocityMap::STEP);
         return std::clamp(newVal, VelocityMap::MIN_VALUE, VelocityMap::MAX_VALUE);
     };
 
@@ -508,8 +512,10 @@ void VelocityMap::fillHairpinsCache()
         }
 
         // And finally... if something's wrong, make it not wrong
-        if ((event.m_cachedStartVal > event.m_cachedEndVal && event.m_direction == ChangeDirection::INCREASING)
-            || (event.m_cachedStartVal < event.m_cachedEndVal && event.m_direction == ChangeDirection::DECREASING)) {
+        if ((event.m_cachedStartVal > event.m_cachedEndVal
+             && event.m_direction == ChangeDirection::INCREASING)
+            || (event.m_cachedStartVal < event.m_cachedEndVal
+                && event.m_direction == ChangeDirection::DECREASING)) {
             event.m_cachedEndVal = event.m_cachedStartVal;
         }
     }
@@ -533,7 +539,8 @@ void VelocityMap::setup()
 ///   returns a list of changes in a range, and their start and end points
 //---------------------------------------------------------
 
-std::vector<std::pair<Fraction, Fraction> > VelocityMap::changesInRange(Fraction stick, Fraction etick) const
+std::vector<std::pair<Fraction, Fraction> > VelocityMap::changesInRange(Fraction stick,
+                                                                        Fraction etick) const
 {
     std::vector<std::pair<Fraction, Fraction> > tempChanges;
 

@@ -238,7 +238,8 @@ PropertyValue PropertyValue::fromQVariant(const QVariant& v, P_TYPE type)
         IF_ASSERT_FAILED(l.size() == 2) {
             return PropertyValue();
         }
-        return PropertyValue(OrnamentInterval(IntervalStep(l.at(0).toInt()), IntervalType(l.at(1).toInt())));
+        return PropertyValue(OrnamentInterval(IntervalStep(l.at(0).toInt()),
+                                              IntervalType(l.at(1).toInt())));
     } break;
     case P_TYPE::ORNAMENT_SHOW_ACCIDENTAL: return PropertyValue(OrnamentShowAccidental(v.toInt()));
     case P_TYPE::GLISS_STYLE:   return PropertyValue(GlissandoStyle(v.toInt()));
@@ -293,8 +294,10 @@ PropertyValue PropertyValue::fromQVariant(const QVariant& v, P_TYPE type)
     case P_TYPE::NOTELINE_PLACEMENT_TYPE:    return PropertyValue(NoteLineEndPlacement(v.toInt()));
     case P_TYPE::TIE_PLACEMENT:    return PropertyValue(TiePlacement(v.toInt()));
     case P_TYPE::TIE_DOTS_PLACEMENT: return PropertyValue(TieDotsPlacement(v.toInt()));
-    case P_TYPE::LYRICS_DASH_SYSTEM_START_TYPE:    return PropertyValue(LyricsDashSystemStart(v.toInt()));
-    case P_TYPE::PARTIAL_SPANNER_DIRECTION:    return PropertyValue(PartialSpannerDirection(v.toInt()));
+    case P_TYPE::LYRICS_DASH_SYSTEM_START_TYPE:    return PropertyValue(LyricsDashSystemStart(v.
+                                                                                              toInt()));
+    case P_TYPE::PARTIAL_SPANNER_DIRECTION:    return PropertyValue(PartialSpannerDirection(
+                                                                        v.toInt()));
     case P_TYPE::VOICE_ASSIGNMENT: return PropertyValue(VoiceAssignment(v.toInt()));
     case P_TYPE::AUTO_ON_OFF:      return PropertyValue(AutoOnOff(v.toInt()));
     case P_TYPE::AUTO_CUSTOM_HIDE: return PropertyValue(AutoCustomHide(v.toInt()));

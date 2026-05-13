@@ -416,7 +416,8 @@ collectDurations(const std::map<ReducedFraction, Node>& nodes,
         }
         const auto tupletRatio = findTupletRatio(it1->first, it2->first, tupletsInBar);
         const auto duration = tupletRatio * (it2->first - it1->first);
-        auto list = mu::engraving::toDurationList(duration.fraction(), useDots, 1, printRestRemains);
+        auto list
+            = mu::engraving::toDurationList(duration.fraction(), useDots, 1, printRestRemains);
         for (const auto& dur : list) {
             resultDurations.push_back({ tupletRatio, dur });
         }

@@ -241,7 +241,8 @@ QString NotationMeta::timesig(const mu::engraving::Score* score)
 {
     size_t staves = score->nstaves();
     size_t tracks = staves * mu::engraving::VOICES;
-    const mu::engraving::Segment* timeSigSegment = score->firstSegmentMM(mu::engraving::SegmentType::TimeSig);
+    const mu::engraving::Segment* timeSigSegment = score->firstSegmentMM(
+        mu::engraving::SegmentType::TimeSig);
     if (!timeSigSegment) {
         return QString();
     }
@@ -267,7 +268,9 @@ std::pair<int, QString> NotationMeta::tempo(const mu::engraving::Score* score)
 {
     int tempo = 0;
     QString tempoText;
-    for (const mu::engraving::Segment* segment = score->firstSegmentMM(mu::engraving::SegmentType::All); segment;
+    for (const mu::engraving::Segment* segment =
+             score->firstSegmentMM(mu::engraving::SegmentType::All);
+         segment;
          segment = segment->next1MM()) {
         auto annotations = segment->annotations();
         for (const mu::engraving::EngravingItem* annotation : annotations) {
@@ -307,14 +310,17 @@ QJsonArray NotationMeta::partsJsonArray(const mu::engraving::Score* score)
 QJsonObject NotationMeta::pageFormatJson(const mu::engraving::MStyle& style)
 {
     QJsonObject format;
-    format.insert("height", round(style.styleD(mu::engraving::Sid::pageHeight) * mu::engraving::INCH));
-    format.insert("width", round(style.styleD(mu::engraving::Sid::pageWidth) * mu::engraving::INCH));
+    format.insert("height", round(style.styleD(
+                                      mu::engraving::Sid::pageHeight) * mu::engraving::INCH));
+    format.insert("width",
+                  round(style.styleD(mu::engraving::Sid::pageWidth) * mu::engraving::INCH));
     format.insert("twosided", boolToString(style.styleB(mu::engraving::Sid::pageTwosided)));
 
     return format;
 }
 
-static void findTextByType(TextStyleType textStyleType, QStringList& strings, mu::engraving::EngravingItem* element)
+static void findTextByType(TextStyleType textStyleType, QStringList& strings,
+                           mu::engraving::EngravingItem* element)
 {
     if (!element->isTextBase()) {
         return;
@@ -339,7 +345,9 @@ QJsonObject NotationMeta::typeDataJson(mu::engraving::Score* score)
     for (const auto& nameType : namesTypesList) {
         QJsonArray typeData;
         QStringList typeTextStrings;
-        score->scanElements([&](EngravingItem* item) { findTextByType(nameType.second, typeTextStrings, item); });
+        score->scanElements([&](EngravingItem* item) {
+            findTextByType(nameType.second, typeTextStrings, item);
+        });
         for (const auto& typeStr : std::as_const(typeTextStrings)) {
             typeData.append(typeStr);
         }
@@ -378,13 +386,16 @@ QJsonArray NotationMeta::tracksJsonArray(notation::INotationPtr notation)
         QJsonObject jsonTrack;
         jsonTrack.insert("instrumentId", trackId.instrumentId.toQString());
         jsonTrack.insert("partId", trackId.partId.toQString());
-        jsonTrack.insert("type", audioResourceTypeToString(inputParams.resourceMeta.type).toQString());
+        jsonTrack.insert("type", audioResourceTypeToString(
+                             inputParams.resourceMeta.type).toQString());
 
-        audio::AudioSourceType sourceType = sourceTypeFromResourceType(inputParams.resourceMeta.type);
+        audio::AudioSourceType sourceType
+            = sourceTypeFromResourceType(inputParams.resourceMeta.type);
         if (sourceType != audio::AudioSourceType::Fluid) {
             if (sourceType == audio::AudioSourceType::MuseSampler) {
-                jsonTrack.insert("vendor", QString::fromStdString(inputParams.resourceMeta.attributeVal(
-                                                                      u"museVendorName").toStdString()));
+                jsonTrack.insert("vendor",
+                                 QString::fromStdString(inputParams.resourceMeta.attributeVal(
+                                                            u"museVendorName").toStdString()));
             } else {
                 jsonTrack.insert("vendor", QString::fromStdString(inputParams.resourceMeta.vendor));
             }

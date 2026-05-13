@@ -179,7 +179,8 @@ std::vector<String> MscReader::excerptFileNames() const
     std::vector<String> names;
     StringList files = reader()->fileList();
     for (const String& filePath : files) {
-        if (filePath.startsWith(u"Excerpts/") && filePath.endsWith(u".mscx", muse::CaseInsensitive)) {
+        if (filePath.startsWith(u"Excerpts/")
+            && filePath.endsWith(u".mscx", muse::CaseInsensitive)) {
             names.push_back(FileInfo(filePath).completeBaseName());
         }
     }

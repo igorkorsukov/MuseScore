@@ -293,8 +293,10 @@ public:
         const auto minmaxStart = std::minmax_element(intervals.begin(), intervals.end(),
                                                      IntervalStartCmp());
 
-        std::pair<bool, std::pair<Scalar, Scalar> > result = { true, { std::numeric_limits<Scalar>::max(),
-                                                                       std::numeric_limits<Scalar>::min() } };
+        std::pair<bool,
+                  std::pair<Scalar, Scalar> > result = { true, { std::numeric_limits<Scalar>::max(),
+                                                                 std::numeric_limits<Scalar>::
+                                                                 min() } };
         if (!intervals.empty()) {
             result.second.first   = std::min(result.second.first,  minmaxStart.first->start);
             result.second.second  = std::min(result.second.second, minmaxStop.second->stop);

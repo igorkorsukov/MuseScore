@@ -26,7 +26,8 @@
 
 using namespace mu::inspector;
 
-SectionBreakSettingsModel::SectionBreakSettingsModel(QObject* parent, const muse::modularity::ContextPtr& iocCtx,
+SectionBreakSettingsModel::SectionBreakSettingsModel(QObject* parent,
+                                                     const muse::modularity::ContextPtr& iocCtx,
                                                      IElementRepositoryService* repository)
     : AbstractInspectorModel(parent, iocCtx, repository)
 {

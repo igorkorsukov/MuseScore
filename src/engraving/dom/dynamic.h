@@ -89,7 +89,8 @@ public:
     PropertyValue propertyDefault(Pid id) const override;
     Sid getPropertyStyle(Pid) const override;
 
-    std::unique_ptr<ElementGroup> getDragGroup(std::function<bool(const EngravingItem*)> isDragged) override;
+    std::unique_ptr<ElementGroup> getDragGroup(std::function<bool(const EngravingItem*)> isDragged)
+    override;
 
     String accessibleInfo() const override;
     String screenReaderInfo() const override;

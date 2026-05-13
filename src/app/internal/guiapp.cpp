@@ -20,9 +20,11 @@ MuseScoreGuiApp::MuseScoreGuiApp(const std::shared_ptr<MuseScoreCmdOptions>& opt
 {
 }
 
-MuseScoreGuiApp::SplashConfig MuseScoreGuiApp::splashConfig(const std::shared_ptr<CmdOptions>& opt) const
+MuseScoreGuiApp::SplashConfig MuseScoreGuiApp::splashConfig(const std::shared_ptr<CmdOptions>& opt)
+const
 {
-    std::shared_ptr<MuseScoreCmdOptions> options = std::dynamic_pointer_cast<MuseScoreCmdOptions>(opt);
+    std::shared_ptr<MuseScoreCmdOptions> options = std::dynamic_pointer_cast<MuseScoreCmdOptions>(
+        opt);
     IF_ASSERT_FAILED(options) {
         return SplashConfig();
     }
@@ -74,7 +76,8 @@ void MuseScoreGuiApp::showContextSplash(const muse::modularity::ContextPtr& ctxI
 #endif
 }
 
-std::shared_ptr<muse::CmdOptions> MuseScoreGuiApp::makeContextOptions(const muse::StringList& args) const
+std::shared_ptr<muse::CmdOptions> MuseScoreGuiApp::makeContextOptions(const muse::StringList& args)
+const
 {
     if (args.size() > 0) {
         std::vector<std::string> args_ = args.toStdStringList();
@@ -105,7 +108,8 @@ void MuseScoreGuiApp::doStartupScenario(const muse::modularity::ContextPtr& ctxI
     auto startupScenario = muse::modularity::ioc(ctxId)->resolve<IStartupScenario>("app");
 
     //! NOTE Apply startup options
-    const std::shared_ptr<MuseScoreCmdOptions> options = std::dynamic_pointer_cast<MuseScoreCmdOptions>(contextData(ctxId).options);
+    const std::shared_ptr<MuseScoreCmdOptions> options
+        = std::dynamic_pointer_cast<MuseScoreCmdOptions>(contextData(ctxId).options);
     IF_ASSERT_FAILED(options) {
         return;
     }
@@ -141,13 +145,15 @@ void MuseScoreGuiApp::applyCommandLineOptions(const std::shared_ptr<CmdOptions>&
 {
     GuiApplication::applyCommandLineOptions(opt);
 
-    std::shared_ptr<MuseScoreCmdOptions> options = std::dynamic_pointer_cast<MuseScoreCmdOptions>(opt);
+    std::shared_ptr<MuseScoreCmdOptions> options = std::dynamic_pointer_cast<MuseScoreCmdOptions>(
+        opt);
     IF_ASSERT_FAILED(options) {
         return;
     }
 
     if (options->app.revertToFactorySettings) {
-        appshellConfiguration()->revertToFactorySettings(options->app.revertToFactorySettings.value());
+        appshellConfiguration()->revertToFactorySettings(
+            options->app.revertToFactorySettings.value());
     }
 
     if (guitarProConfiguration()) {

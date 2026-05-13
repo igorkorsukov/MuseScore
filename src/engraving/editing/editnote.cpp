@@ -116,7 +116,8 @@ class ChangeFretting : public UndoCommand
         int f_tpc1  = note->tpc1();
         int f_tpc2  = note->tpc2();
         // do not change unless necessary
-        if (f_pitch == pitch && f_string == string && f_fret == fret && f_tpc1 == tpc1 && f_tpc2 == tpc2) {
+        if (f_pitch == pitch && f_string == string && f_fret == fret && f_tpc1 == tpc1
+            && f_tpc2 == tpc2) {
             return;
         }
 
@@ -363,7 +364,8 @@ void EditNote::changeAccidental(Score* score, Note* note, AccidentalType acciden
     // accidental change may result in pitch change
     //
     AccidentalVal acc2 = measure->findAccidental(note);
-    AccidentalVal acc = (accidental == AccidentalType::NONE) ? acc2 : Accidental::subtype2value(accidental);
+    AccidentalVal acc = (accidental == AccidentalType::NONE) ? acc2 : Accidental::subtype2value(
+        accidental);
 
     int pitch = line2pitch(note->line(), clef, Key::C) + int(acc);
     if (!note->concertPitch()) {
@@ -383,7 +385,8 @@ void EditNote::changeAccidental(Score* score, Note* note, AccidentalType acciden
     // precautionary or microtonal accidental
     // either way, we display it unconditionally
     // both for this note and for any linked notes
-    else if (acc == acc2 || (pitch == note->pitch() && !Accidental::isMicrotonal(note->accidentalType()))
+    else if (acc == acc2
+             || (pitch == note->pitch() && !Accidental::isMicrotonal(note->accidentalType()))
              || Accidental::isMicrotonal(accidental)) {
         forceAdd = true;
     }
@@ -504,7 +507,9 @@ void EditNote::upDown(Score* score, bool up, UpDownMode mode)
         StaffGroup staffGroup = staff->staffType(oNote->chord()->tick())->group();
         // if not tab, check for instrument instead of staffType (for pitched to unpitched instrument changes)
         if (staffGroup != StaffGroup::TAB) {
-            staffGroup = staff->part()->instrument(oNote->tick())->useDrumset() ? StaffGroup::PERCUSSION : StaffGroup::STANDARD;
+            staffGroup
+                = staff->part()->instrument(oNote->tick())->useDrumset() ? StaffGroup::PERCUSSION :
+                  StaffGroup::STANDARD;
         }
 
         switch (staffGroup) {
@@ -554,7 +559,9 @@ void EditNote::upDown(Score* score, bool up, UpDownMode mode)
                     return;
                 }
                 upDownChromatic(up, pitch, oNote, key, tpc1, tpc2, newPitch, newTpc1, newTpc2);
-                if (newPitch + pitchOffset != stringData->getPitch(string, fret, staff, oNote->tick()) && !oNote->bendBack()) {
+                if (newPitch + pitchOffset
+                    != stringData->getPitch(string, fret, staff,
+                                            oNote->tick()) && !oNote->bendBack()) {
                     LOGD("upDown tab in-string: pitch mismatch");
                     return;
                 }
@@ -590,7 +597,8 @@ void EditNote::upDown(Score* score, bool up, UpDownMode mode)
 
                 bool error = false;
                 AccidentalVal accOffs = firstTiedNote->chord()->measure()->findAccidental(
-                    firstTiedNote->chord()->segment(), firstTiedNote->chord()->vStaffIdx(), newLine, error);
+                    firstTiedNote->chord()->segment(),
+                    firstTiedNote->chord()->vStaffIdx(), newLine, error);
                 if (error) {
                     accOffs = Accidental::subtype2value(AccidentalType::NONE);
                 }
@@ -614,7 +622,8 @@ void EditNote::upDown(Score* score, bool up, UpDownMode mode)
             break;
         }
 
-        if ((oNote->pitch() != newPitch) || (oNote->tpc1() != newTpc1) || oNote->tpc2() != newTpc2) {
+        if ((oNote->pitch() != newPitch) || (oNote->tpc1() != newTpc1)
+            || oNote->tpc2() != newTpc2) {
             if (mode != UpDownMode::OCTAVE) {
                 auto l = oNote->linkList();
                 for (EngravingObject* e : l) {
@@ -626,8 +635,10 @@ void EditNote::upDown(Score* score, bool up, UpDownMode mode)
             }
             EditNote::undoChangePitch(score, oNote, newPitch, newTpc1, newTpc2);
             if (mode == UpDownMode::DIATONIC) {
-                part->stringData(tick, staff->idx())->convertPitch(newPitch, staff, tick, &string, &fret);
-                EditNote::undoChangeFretting(score, oNote, newPitch, string, fret, newTpc1, newTpc2);
+                part->stringData(tick, staff->idx())->convertPitch(newPitch, staff, tick, &string,
+                                                                   &fret);
+                EditNote::undoChangeFretting(score, oNote, newPitch, string, fret, newTpc1,
+                                             newTpc2);
             }
         } else if (staff->staffType(tick)->group() == StaffGroup::TAB) {
             bool refret = false;
@@ -666,7 +677,8 @@ void EditNote::undoChangePitch(Score* score, Note* note, int pitch, int tpc1, in
 //   undoChangeFretting
 //---------------------------------------------------------
 
-void EditNote::undoChangeFretting(Score* score, Note* note, int pitch, int string, int fret, int tpc1, int tpc2)
+void EditNote::undoChangeFretting(Score* score, Note* note, int pitch, int string, int fret,
+                                  int tpc1, int tpc2)
 {
     for (EngravingObject* e : note->linkList()) {
         Note* n = toNote(e);

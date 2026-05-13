@@ -45,7 +45,8 @@ static mpe::ArticulationType textTypeToArticulationType(ArticulationTextType tex
     return mpe::ArticulationType::Undefined;
 }
 
-mpe::ArticulationTypeSet SymbolsMetaParser::symbolToArticulations(SymId symId, OrnamentStyle ornamentStyle)
+mpe::ArticulationTypeSet SymbolsMetaParser::symbolToArticulations(SymId symId,
+                                                                  OrnamentStyle ornamentStyle)
 {
     mpe::ArticulationTypeSet types;
 
@@ -493,7 +494,8 @@ mpe::ArticulationTypeSet SymbolsMetaParser::symbolToArticulations(SymId symId, O
     return types;
 }
 
-void SymbolsMetaParser::doParse(const EngravingItem* item, const RenderingContext& ctx, mpe::ArticulationMap& result)
+void SymbolsMetaParser::doParse(const EngravingItem* item, const RenderingContext& ctx,
+                                mpe::ArticulationMap& result)
 {
     IF_ASSERT_FAILED(item->isArticulationFamily()) {
         return;
@@ -509,15 +511,18 @@ void SymbolsMetaParser::doParse(const EngravingItem* item, const RenderingContex
     if (articulationSymbol->textType() != ArticulationTextType::NO_TEXT) {
         types.insert(textTypeToArticulationType(articulationSymbol->textType()));
     } else {
-        types = symbolToArticulations(articulationSymbol->symId(), articulationSymbol->ornamentStyle());
+        types = symbolToArticulations(articulationSymbol->symId(),
+                                      articulationSymbol->ornamentStyle());
     }
 
     for (mpe::ArticulationType type : types) {
-        const mpe::ArticulationPattern& pattern = ctx.profile->pattern(type, mpe::ArticulationType::Standard);
+        const mpe::ArticulationPattern& pattern = ctx.profile->pattern(type,
+                                                                       mpe::ArticulationType::Standard);
         if (pattern.empty()) {
             continue;
         }
 
-        appendArticulationData(mpe::ArticulationMeta(type, pattern, ctx.nominalTimestamp, ctx.nominalDuration), result);
+        appendArticulationData(mpe::ArticulationMeta(type, pattern, ctx.nominalTimestamp,
+                                                     ctx.nominalDuration), result);
     }
 }

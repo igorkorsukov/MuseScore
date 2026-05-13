@@ -47,36 +47,43 @@ inline muse::mpe::duration_t pauseUs(const Score* score, const int tick)
     return muse::RealIsNull(secs) ? 0 : secs* 1000000;
 }
 
-inline muse::mpe::duration_t durationFromStartAndEndTick(const Score* score, const int startTick, const int endTick,
+inline muse::mpe::duration_t durationFromStartAndEndTick(const Score* score, const int startTick,
+                                                         const int endTick,
                                                          const int tickPositionOffset)
 {
-    muse::mpe::timestamp_t startTimestamp = timestampFromTicks(score, startTick + tickPositionOffset);
+    muse::mpe::timestamp_t startTimestamp
+        = timestampFromTicks(score, startTick + tickPositionOffset);
     muse::mpe::timestamp_t endTimestamp = timestampFromTicks(score, endTick + tickPositionOffset);
     muse::mpe::duration_t pause = pauseUs(score, endTick);
 
     return endTimestamp - startTimestamp - pause;
 }
 
-inline muse::mpe::duration_t durationFromStartAndTicks(const Score* score, const int startTick, const int durationTicks,
+inline muse::mpe::duration_t durationFromStartAndTicks(const Score* score, const int startTick,
+                                                       const int durationTicks,
                                                        const int tickPositionOffset)
 {
-    return durationFromStartAndEndTick(score, startTick, startTick + durationTicks, tickPositionOffset);
+    return durationFromStartAndEndTick(score, startTick, startTick + durationTicks,
+                                       tickPositionOffset);
 }
 
-inline muse::mpe::TimestampAndDuration timestampAndDurationFromStartAndDurationTicks(const Score* score,
-                                                                                     const int startTick, const int durationTicks,
-                                                                                     const int tickPositionOffset)
+inline muse::mpe::TimestampAndDuration timestampAndDurationFromStartAndDurationTicks(
+    const Score* score,
+    const int startTick, const int durationTicks,
+    const int tickPositionOffset)
 {
     int startTickWithOffset = startTick + tickPositionOffset;
     muse::mpe::timestamp_t startTimestamp = timestampFromTicks(score, startTickWithOffset);
-    muse::mpe::timestamp_t endTimestamp = timestampFromTicks(score, startTickWithOffset + durationTicks);
+    muse::mpe::timestamp_t endTimestamp = timestampFromTicks(score,
+                                                             startTickWithOffset + durationTicks);
     muse::mpe::duration_t pause = pauseUs(score, startTick + durationTicks);
     muse::mpe::duration_t duration = endTimestamp - startTimestamp - pause;
 
     return { startTimestamp, duration };
 }
 
-inline muse::mpe::duration_t durationFromTempoAndTicks(const double beatsPerSecond, const int durationTicks,
+inline muse::mpe::duration_t durationFromTempoAndTicks(const double beatsPerSecond,
+                                                       const int durationTicks,
                                                        const int ticksPerBeat = Constants::DIVISION)
 {
     float beatsNumber = static_cast<float>(durationTicks) / static_cast<float>(ticksPerBeat);
@@ -84,7 +91,8 @@ inline muse::mpe::duration_t durationFromTempoAndTicks(const double beatsPerSeco
     return (beatsNumber / beatsPerSecond) * 1000000;
 }
 
-inline int ticksFromTempoAndDuration(const double beatsPerSecond, const muse::mpe::duration_t duration,
+inline int ticksFromTempoAndDuration(const double beatsPerSecond,
+                                     const muse::mpe::duration_t duration,
                                      const int ticksPerBeat = Constants::DIVISION)
 {
     return (duration * beatsPerSecond * ticksPerBeat) / 1000000;

@@ -50,7 +50,8 @@ public:
     muse::async::Notification percussionPanelUseNotationPreviewChanged() const override;
 
     PercussionPanelAutoShowMode percussionPanelAutoShowMode() const override;
-    void setPercussionPanelAutoShowMode(PercussionPanelAutoShowMode percussionPanelAutoShowMode) override;
+    void setPercussionPanelAutoShowMode(PercussionPanelAutoShowMode percussionPanelAutoShowMode)
+    override;
     muse::async::Notification percussionPanelAutoShowModeChanged() const override;
 
     bool autoClosePercussionPanel() const override;

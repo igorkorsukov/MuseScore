@@ -47,7 +47,8 @@ void PlaybackToolBarModel::load()
     AbstractMenuModel::load();
     updateActions();
 
-    connect(this, &PlaybackToolBarModel::isToolbarFloatingChanged, this, &PlaybackToolBarModel::updateActions);
+    connect(this, &PlaybackToolBarModel::isToolbarFloatingChanged, this,
+            &PlaybackToolBarModel::updateActions);
 
     setupConnections();
 }
@@ -62,7 +63,9 @@ void PlaybackToolBarModel::setupConnections()
         onActionsStateChanges({ PLAY_ACTION_CODE });
     });
 
-    playbackController()->currentPlaybackPositionChanged().onReceive(this, [this](secs_t secs, midi::tick_t) {
+    playbackController()->currentPlaybackPositionChanged().onReceive(this,
+                                                                     [this](secs_t secs,
+                                                                            midi::tick_t) {
         updatePlayPosition(secs);
     });
 
@@ -114,7 +117,8 @@ void PlaybackToolBarModel::updateActions()
         }
     }
 
-    MenuItem* settingsItem = makeMenu(TranslatableString("action", "Playback settings"), settingsItems);
+    MenuItem* settingsItem = makeMenu(TranslatableString("action",
+                                                         "Playback settings"), settingsItems);
 
     UiAction action = settingsItem->action();
     action.iconCode = IconCode::Code::SETTINGS_COG;
@@ -201,7 +205,8 @@ qreal PlaybackToolBarModel::playPosition() const
         return 0.0;
     }
 
-    const qreal position = static_cast<qreal>(m_playbackPositionSecs) / static_cast<qreal>(totalSecs);
+    const qreal position = static_cast<qreal>(m_playbackPositionSecs)
+                           / static_cast<qreal>(totalSecs);
     return position;
 }
 

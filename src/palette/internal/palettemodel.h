@@ -72,7 +72,10 @@ class VisibilityCellFilter : public PaletteCellFilter
 {
     bool acceptedValue;
 
-    bool acceptCell(const PaletteCell& cell) const override { return cell.visible == acceptedValue; }
+    bool acceptCell(const PaletteCell& cell) const override
+    {
+        return cell.visible == acceptedValue;
+    }
 
 public:
     VisibilityCellFilter(bool acceptedVal, QObject* parent = nullptr)
@@ -98,7 +101,8 @@ public:
 //   PaletteTreeModel
 //---------------------------------------------------------
 
-class PaletteTreeModel : public QAbstractItemModel, public muse::async::Asyncable, public muse::Contextable
+class PaletteTreeModel : public QAbstractItemModel, public muse::async::Asyncable,
+    public muse::Contextable
 {
     Q_OBJECT
 
@@ -137,7 +141,8 @@ private:
     void notifyAboutCellsChanged(int changedRole);
 
 private slots:
-    void onDataChanged(const QModelIndex& topLeft, const QModelIndex& bottomRight, const QVector<int>& roles);
+    void onDataChanged(const QModelIndex& topLeft, const QModelIndex& bottomRight,
+                       const QVector<int>& roles);
 
 public slots:
     void itemDataChanged(const QModelIndex& idx);
@@ -148,7 +153,8 @@ signals:
     void treeChanged();
 
 public:
-    explicit PaletteTreeModel(PaletteTreePtr tree, const muse::modularity::ContextPtr& ctx, QObject* parent = nullptr);
+    explicit PaletteTreeModel(PaletteTreePtr tree, const muse::modularity::ContextPtr& ctx,
+                              QObject* parent = nullptr);
 
     bool blockTreeChanged(bool block);
 
@@ -158,7 +164,8 @@ public:
 
     bool paletteTreeChanged() const { return _treeChanged; }
 
-    QModelIndex index(int row, int column, const QModelIndex& parent = QModelIndex()) const override;
+    QModelIndex index(int row, int column,
+                      const QModelIndex& parent = QModelIndex()) const override;
     QModelIndex parent(const QModelIndex& index) const override;
 
     int rowCount(const QModelIndex& parent = QModelIndex()) const override;
@@ -174,15 +181,18 @@ public:
     QMimeData* mimeData(const QModelIndexList& indexes) const override;
     QStringList mimeTypes() const override;
 
-    bool canDropMimeData(const QMimeData* data, Qt::DropAction action, int row, int column, const QModelIndex& parent) const override;
-    bool dropMimeData(const QMimeData* data, Qt::DropAction action, int row, int column, const QModelIndex& parent) override;
+    bool canDropMimeData(const QMimeData* data, Qt::DropAction action, int row, int column,
+                         const QModelIndex& parent) const override;
+    bool dropMimeData(const QMimeData* data, Qt::DropAction action, int row, int column,
+                      const QModelIndex& parent) override;
 
-    QModelIndexList match(const QModelIndex& start, int role, const QVariant& value, int hits, Qt::MatchFlags flags) const override;
+    QModelIndexList match(const QModelIndex& start, int role, const QVariant& value, int hits,
+                          Qt::MatchFlags flags) const override;
     QModelIndex findPaletteCell(const PaletteCell& cell, const QModelIndex& parent) const;
     PaletteCellFilter* getFilter(const QModelIndex&) const;
 
-    bool moveRows(const QModelIndex& sourceParent, int sourceRow, int count, const QModelIndex& destinationParent,
-                  int destinationChild) override;
+    bool moveRows(const QModelIndex& sourceParent, int sourceRow, int count,
+                  const QModelIndex& destinationParent, int destinationChild) override;
     bool removeRows(int row, int count, const QModelIndex& parent = QModelIndex()) override;
     bool insertRows(int row, int count, const QModelIndex& parent = QModelIndex()) override;
 
@@ -207,7 +217,8 @@ class FilterPaletteTreeModel : public QSortFilterProxyModel
     PaletteCellFilter * cellFilter;
 
     bool filterAcceptsRow(int sourceRow, const QModelIndex& sourceParent) const override;
-    bool filterAcceptsColumn(int /* sourceColumn */, const QModelIndex& /* sourceParent */) const override
+    bool filterAcceptsColumn(int /* sourceColumn */,
+                             const QModelIndex& /* sourceParent */) const override
     {
         return true;
     }
@@ -223,7 +234,8 @@ private slots:
     }
 
 public:
-    FilterPaletteTreeModel(PaletteCellFilter* filter, PaletteTreeModel* model, QObject* parent = nullptr);
+    FilterPaletteTreeModel(PaletteCellFilter* filter, PaletteTreeModel* model,
+                           QObject* parent = nullptr);
 };
 
 //---------------------------------------------------------

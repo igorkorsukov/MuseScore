@@ -135,7 +135,9 @@ muse::io::path_t ProjectConfigurationStub::cloudProjectSavingPath(int) const
     return muse::io::path_t();
 }
 
-muse::io::path_t ProjectConfigurationStub::defaultSavingFilePath(INotationProjectPtr, const std::string&, const std::string&) const
+muse::io::path_t ProjectConfigurationStub::defaultSavingFilePath(INotationProjectPtr,
+                                                                 const std::string&,
+                                                                 const std::string&) const
 {
     return muse::io::path_t();
 }
@@ -176,12 +178,14 @@ void ProjectConfigurationStub::setHomeScoresPageTabIndex(int)
 {
 }
 
-IProjectConfiguration::HomeScoresPageViewType ProjectConfigurationStub::homeScoresPageViewType() const
+IProjectConfiguration::HomeScoresPageViewType ProjectConfigurationStub::homeScoresPageViewType()
+const
 {
     return IProjectConfiguration::HomeScoresPageViewType::Grid;
 }
 
-void ProjectConfigurationStub::setHomeScoresPageViewType(IProjectConfiguration::HomeScoresPageViewType)
+void ProjectConfigurationStub::setHomeScoresPageViewType(
+    IProjectConfiguration::HomeScoresPageViewType)
 {
 }
 
@@ -196,7 +200,8 @@ muse::async::Notification ProjectConfigurationStub::templatePreviewBackgroundCha
     return n;
 }
 
-ProjectConfigurationStub::PreferredScoreCreationMode ProjectConfigurationStub::preferredScoreCreationMode() const
+ProjectConfigurationStub::PreferredScoreCreationMode ProjectConfigurationStub::
+preferredScoreCreationMode() const
 {
     return PreferredScoreCreationMode::FromInstruments;
 }

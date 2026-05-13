@@ -39,14 +39,17 @@ using namespace muse::actions;
 static constexpr qreal SCROLL_LIMIT_OFF_OVERSCROLL_FACTOR = 0.75;
 
 AbstractNotationPaintView::AbstractNotationPaintView(QQuickItem* parent)
-    : muse::uicomponents::QuickPaintedView(parent), muse::Contextable(muse::iocCtxForQmlObject(this))
+    : muse::uicomponents::QuickPaintedView(parent),
+    muse::Contextable(muse::iocCtxForQmlObject(this))
 {
     setFlag(ItemHasContents, true);
     setFlag(ItemAcceptsDrops, true);
     setAcceptedMouseButtons(Qt::AllButtons);
 
-    connect(this, &QQuickPaintedItem::widthChanged, this, &AbstractNotationPaintView::onViewSizeChanged);
-    connect(this, &QQuickPaintedItem::heightChanged, this, &AbstractNotationPaintView::onViewSizeChanged);
+    connect(this, &QQuickPaintedItem::widthChanged, this,
+            &AbstractNotationPaintView::onViewSizeChanged);
+    connect(this, &QQuickPaintedItem::heightChanged, this,
+            &AbstractNotationPaintView::onViewSizeChanged);
 
     connect(this, &AbstractNotationPaintView::horizontalScrollChanged, [this]() {
         m_previousHorizontalScrollPosition = startHorizontalScrollPosition();
@@ -80,7 +83,8 @@ void AbstractNotationPaintView::load()
     m_inputController = std::make_unique<NotationViewInputController>(this, iocContext());
     m_playbackCursor = std::make_unique<PlaybackCursor>(iocContext());
     m_playbackCursor->setVisible(false);
-    m_noteInputCursor = std::make_unique<NoteInputCursor>(iocContext(), notationConfiguration()->thinNoteInputCursor());
+    m_noteInputCursor = std::make_unique<NoteInputCursor>(iocContext(),
+                                                          notationConfiguration()->thinNoteInputCursor());
     m_ruler = std::make_unique<NotationRuler>(iocContext());
 
     m_loopInMarker = std::make_unique<LoopMarker>(LoopBoundaryType::LoopIn, iocContext());
@@ -274,7 +278,9 @@ void AbstractNotationPaintView::onLoadNotation(INotationPtr)
         scheduleRedraw();
     });
 
-    interaction->showItemRequested().onReceive(this, [this](const INotationInteraction::ShowItemRequest& request) {
+    interaction->showItemRequested().onReceive(this,
+                                               [this](const INotationInteraction::ShowItemRequest&
+                                                      request) {
         onShowItemRequested(request);
     });
 
@@ -362,7 +368,9 @@ void AbstractNotationPaintView::onLoadNotation(INotationPtr)
             }
 
             auto res = fromLogical(elementRect);
-            res = RectF(PointF::fromQPointF(mapToGlobal(res.topLeft().toQPointF())), SizeF(res.width(), res.height()));
+            res
+                = RectF(PointF::fromQPointF(mapToGlobal(res.topLeft().toQPointF())),
+                        SizeF(res.width(), res.height()));
 
             return res;
         });
@@ -428,7 +436,8 @@ void AbstractNotationPaintView::setMatrix(const Transform& matrix)
     onMatrixChanged(oldMatrix, m_matrix, false);
 }
 
-void AbstractNotationPaintView::onMatrixChanged(const Transform& oldMatrix, const Transform& newMatrix, bool overrideZoomType)
+void AbstractNotationPaintView::onMatrixChanged(const Transform& oldMatrix,
+                                                const Transform& newMatrix, bool overrideZoomType)
 {
     UNUSED(overrideZoomType);
 
@@ -580,7 +589,8 @@ void AbstractNotationPaintView::onNoteInputStateChanged()
     scheduleRedraw();
 }
 
-void AbstractNotationPaintView::onShowItemRequested(const INotationInteraction::ShowItemRequest& request)
+void AbstractNotationPaintView::onShowItemRequested(
+    const INotationInteraction::ShowItemRequest& request)
 {
     IF_ASSERT_FAILED(request.item) {
         return;
@@ -749,7 +759,9 @@ void AbstractNotationPaintView::onNotationSetup()
         onPlayingChanged();
     });
 
-    playbackController()->currentPlaybackPositionChanged().onReceive(this, [this](audio::secs_t, midi::tick_t tick) {
+    playbackController()->currentPlaybackPositionChanged().onReceive(this,
+                                                                     [this](audio::secs_t,
+                                                                            midi::tick_t tick) {
         movePlaybackCursor(tick);
     });
 
@@ -761,7 +773,9 @@ void AbstractNotationPaintView::onNotationSetup()
         scheduleRedraw();
     }, async::Asyncable::Mode::SetReplace);
 
-    engravingConfiguration()->selectionColorChanged().onReceive(this, [this](voice_idx_t, const muse::draw::Color&) {
+    engravingConfiguration()->selectionColorChanged().onReceive(this,
+                                                                [this](voice_idx_t,
+                                                                       const muse::draw::Color&) {
         scheduleRedraw();
     });
 
@@ -791,7 +805,8 @@ void AbstractNotationPaintView::paintBackground(const RectF& rect, muse::draw::P
     if (notationConfiguration()->backgroundUseColor() || wallpaper.isNull()) {
         painter->fillRect(rect, notationConfiguration()->backgroundColor());
     } else {
-        painter->drawTiledPixmap(rect, wallpaper, rect.topLeft() - PointF(m_matrix.m31(), m_matrix.m32()));
+        painter->drawTiledPixmap(rect, wallpaper,
+                                 rect.topLeft() - PointF(m_matrix.m31(), m_matrix.m32()));
     }
 }
 
@@ -821,7 +836,8 @@ std::pair<qreal, qreal> AbstractNotationPaintView::constraintCanvas(qreal dx, qr
         if (viewport.width() > scrollableArea.width()) {
             newLeft = scrollableArea.center().x() - viewport.width() / 2;
         } else {
-            newLeft = qBound(scrollableArea.left(), newLeft, scrollableArea.right() - viewport.width());
+            newLeft = qBound(scrollableArea.left(), newLeft,
+                             scrollableArea.right() - viewport.width());
         }
         dx = viewport.left() - newLeft;
     }
@@ -832,7 +848,8 @@ std::pair<qreal, qreal> AbstractNotationPaintView::constraintCanvas(qreal dx, qr
         if (viewport.height() > scrollableArea.height()) {
             newTop = scrollableArea.center().y() - viewport.height() / 2;
         } else {
-            newTop = qBound(scrollableArea.top(), newTop, scrollableArea.bottom() - viewport.height());
+            newTop = qBound(scrollableArea.top(), newTop,
+                            scrollableArea.bottom() - viewport.height());
         }
         dy = viewport.top() - newTop;
     }
@@ -879,7 +896,8 @@ RectF AbstractNotationPaintView::scrollableAreaRect() const
 {
     TRACEFUNC;
     RectF viewport = this->viewport();
-    qreal overscrollFactor = configuration()->isLimitCanvasScrollArea() ? 0.0 : SCROLL_LIMIT_OFF_OVERSCROLL_FACTOR;
+    qreal overscrollFactor
+        = configuration()->isLimitCanvasScrollArea() ? 0.0 : SCROLL_LIMIT_OFF_OVERSCROLL_FACTOR;
 
     qreal overscrollX = viewport.width() * overscrollFactor;
     qreal overscrollY = viewport.height() * overscrollFactor;
@@ -1040,7 +1058,8 @@ bool AbstractNotationPaintView::adjustCanvasPosition(const RectF& logicRect, boo
             pos.setY(showRect.top() - border);
         } else if (showRect.top() > viewRect.bottom()) {
             pos.setY(showRect.bottom() - height() / _scale + border);
-        } else if (viewRect.height() >= showRect.height() && showRect.bottom() > viewRect.bottom()) {
+        } else if (viewRect.height() >= showRect.height()
+                   && showRect.bottom() > viewRect.bottom()) {
             pos.setY(showRect.top() - border);
         }
     }
@@ -1360,8 +1379,9 @@ bool AbstractNotationPaintView::event(QEvent* event)
     QEvent::Type eventType = event->type();
     auto keyEvent = dynamic_cast<QKeyEvent*>(event);
 
-    bool isContextMenuEvent = ((eventType == QEvent::ShortcutOverride && keyEvent->key() == Qt::Key_Menu)
-                               || eventType == QEvent::Type::ContextMenu) && hasFocus();
+    bool isContextMenuEvent
+        = ((eventType == QEvent::ShortcutOverride && keyEvent->key() == Qt::Key_Menu)
+           || eventType == QEvent::Type::ContextMenu) && hasFocus();
 
     if (isContextMenuEvent) {
         QContextMenuEvent* contextMenuEvent = dynamic_cast<QContextMenuEvent*>(event);
@@ -1613,7 +1633,8 @@ const Page* AbstractNotationPaintView::pageByPoint(const PointF& point) const
     return elements ? elements->pageByPoint(point) : nullptr;
 }
 
-PointF AbstractNotationPaintView::alignToCurrentPageBorder(const RectF& showRect, const PointF& pos) const
+PointF AbstractNotationPaintView::alignToCurrentPageBorder(const RectF& showRect,
+                                                           const PointF& pos) const
 {
     TRACEFUNC;
 
@@ -1627,12 +1648,14 @@ PointF AbstractNotationPaintView::alignToCurrentPageBorder(const RectF& showRect
 
     if (result.x() < page->x() || viewRect.width() >= page->width()) {
         result.setX(page->x());
-    } else if (viewRect.width() < page->width() && viewRect.width() + pos.x() > page->width() + page->x()) {
+    } else if (viewRect.width() < page->width()
+               && viewRect.width() + pos.x() > page->width() + page->x()) {
         result.setX((page->width() + page->x()) - viewRect.width());
     }
     if (result.y() < page->y() || viewRect.height() >= page->height()) {
         result.setY(page->y());
-    } else if (viewRect.height() < page->height() && viewRect.height() + pos.y() > page->height() + page->y()) {
+    } else if (viewRect.height() < page->height()
+               && viewRect.height() + pos.y() > page->height() + page->y()) {
         result.setY((page->height() + page->y()) - viewRect.height());
     }
 
@@ -1693,7 +1716,8 @@ void AbstractNotationPaintView::setPlaybackCursorItem(QQuickItem* cursor)
     }
 }
 
-void AbstractNotationPaintView::requestChangeAutomationPoint(qsizetype lineIdx, qsizetype pointIdx, qreal x, qreal y)
+void AbstractNotationPaintView::requestChangeAutomationPoint(qsizetype lineIdx, qsizetype pointIdx,
+                                                             qreal x, qreal y)
 {
     IF_ASSERT_FAILED(notationAutomation()) {
         return;

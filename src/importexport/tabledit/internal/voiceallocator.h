@@ -42,7 +42,8 @@ public:
     int findFirstPossibleVoice(const TefNote* const note, const std::array<int, 3> voices);
     int stopPosition(const size_t voice);
     int voice(const TefNote* const note);
-    const std::vector<std::vector<const TefNote*> >& voiceContent(mu::engraving::voice_idx_t voice) const
+    const std::vector<std::vector<const TefNote*> >& voiceContent(mu::engraving::voice_idx_t voice)
+    const
     {
         return voiceContents.at(voice);
     }
@@ -50,7 +51,8 @@ public:
 private:
     void appendNoteToVoice(const TefNote* const note, int voice);
     std::map<const TefNote*, int> allocations;
-    std::array<const TefNote*, mu::engraving::VOICES> notesPlaying = { nullptr, nullptr, nullptr, nullptr };
+    std::array<const TefNote*,
+               mu::engraving::VOICES> notesPlaying = { nullptr, nullptr, nullptr, nullptr };
     std::array<std::vector<std::vector<const TefNote*> >, mu::engraving::VOICES> voiceContents;
 };
 } // namespace mu::iex::tabledit

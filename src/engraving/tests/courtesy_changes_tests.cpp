@@ -104,7 +104,8 @@ TEST_F(Engraving_CourtesyChangesTests, toggleCourtesies) {
     score->startCmd(TranslatableString::untranslatable("Courtesy changes"));
     score->style().set(Sid::showCourtesiesAfterCancellingOtherJumps, true);
     score->endCmd();
-    Segment* m5TsRepeatStart = m5->findSegmentR(SegmentType::TimeSigStartRepeatAnnounce, Fraction(0, 1));
+    Segment* m5TsRepeatStart
+        = m5->findSegmentR(SegmentType::TimeSigStartRepeatAnnounce, Fraction(0, 1));
     EXPECT_TRUE(m5TsRepeatStart && m5TsRepeatStart->enabled());
 
     Measure* m6 = toMeasure(score->measure(6));
@@ -144,7 +145,10 @@ TEST_F(Engraving_CourtesyChangesTests, placementBetweenRepeats) {
         }
     };
 
-    std::array<SegmentType, 4> segTypes = { SegmentType::Clef, SegmentType::KeySig, SegmentType::TimeSig, SegmentType::StartRepeatBarLine };
+    std::array<SegmentType,
+               4> segTypes
+        = { SegmentType::Clef, SegmentType::KeySig, SegmentType::TimeSig,
+            SegmentType::StartRepeatBarLine };
     checkSegOrder(m1, segTypes);
 
     score->startCmd(TranslatableString::untranslatable("Courtesy changes"));
@@ -153,7 +157,9 @@ TEST_F(Engraving_CourtesyChangesTests, placementBetweenRepeats) {
     score->setLayoutAll();
     score->doLayout();
 
-    segTypes = { SegmentType::StartRepeatBarLine, SegmentType::Clef, SegmentType::KeySig, SegmentType::TimeSig };
+    segTypes
+        = { SegmentType::StartRepeatBarLine, SegmentType::Clef, SegmentType::KeySig,
+            SegmentType::TimeSig };
     checkSegOrder(m1, segTypes);
 
     score->startCmd(TranslatableString::untranslatable("Courtesy changes"));

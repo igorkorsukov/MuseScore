@@ -50,14 +50,16 @@ DefaultStyle* DefaultStyle::instance()
 static void applyPageSizeToStyle(MStyle* style, const SizeF& pageSize)
 {
     double oldWidth = style->styleD(Sid::pageWidth);
-    double newPrintableWidth = style->styleD(Sid::pagePrintableWidth) + (pageSize.width() - oldWidth);
+    double newPrintableWidth = style->styleD(Sid::pagePrintableWidth)
+                               + (pageSize.width() - oldWidth);
 
     style->set(Sid::pageWidth, pageSize.width());
     style->set(Sid::pageHeight, pageSize.height());
     style->set(Sid::pagePrintableWidth, newPrintableWidth);
 }
 
-void DefaultStyle::init(const path_t& defaultStyleFilePath, const path_t& partStyleFilePath, const SizeF& defaultPageSize)
+void DefaultStyle::init(const path_t& defaultStyleFilePath, const path_t& partStyleFilePath,
+                        const SizeF& defaultPageSize)
 {
     m_baseStyle.precomputeValues();
 
@@ -120,7 +122,8 @@ const MStyle* DefaultStyle::defaultStyleForParts()
 
 const MStyle& DefaultStyle::resolveStyleDefaults(const int defaultsVersion)
 {
-    static auto loadedStyle = [](MStyle& style, const String& path, bool& loaded_flag) -> const MStyle&
+    static auto loadedStyle
+        = [](MStyle& style, const String& path, bool& loaded_flag) -> const MStyle&
     {
         if (loaded_flag) {
             return style;

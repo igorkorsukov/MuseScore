@@ -31,7 +31,10 @@ public:
     StaffLabel(const muse::String& longName, const muse::String& shortName)
         : m_longName(longName), m_shortName(shortName) {}
 
-    bool operator==(const StaffLabel& i) const { return m_longName == i.m_longName && m_shortName == i.m_shortName; }
+    bool operator==(const StaffLabel& i) const
+    {
+        return m_longName == i.m_longName && m_shortName == i.m_shortName;
+    }
 
     const muse::String& longName() const { return m_longName; }
     const muse::String& shortName() const { return m_shortName; }

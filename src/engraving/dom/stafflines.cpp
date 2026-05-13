@@ -99,7 +99,8 @@ Shape StaffLines::hitShape() const
 bool StaffLines::collectForDrawing() const
 {
     staff_idx_t idx = staffIdx();
-    return EngravingItem::collectForDrawing() && (measure()->visible(idx) || measure()->isCutawayClef(idx))
+    return EngravingItem::collectForDrawing()
+           && (measure()->visible(idx) || measure()->isCutawayClef(idx))
            && score()->staff(idx)->show();
 }
 

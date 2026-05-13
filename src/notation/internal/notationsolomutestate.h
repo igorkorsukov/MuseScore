@@ -30,14 +30,18 @@ namespace mu::notation {
 class NotationSoloMuteState : public INotationSoloMuteState, public muse::async::Asyncable
 {
 public:
-    muse::Ret read(const engraving::MscReader& reader, const muse::io::path_t& pathPrefix = "") override;
+    muse::Ret read(const engraving::MscReader& reader,
+                   const muse::io::path_t& pathPrefix = "") override;
     muse::Ret write(muse::io::IODevice* out) override;
 
     bool trackSoloMuteStateExists(const engraving::InstrumentTrackId& trackId) const override;
-    const SoloMuteState& trackSoloMuteState(const engraving::InstrumentTrackId& trackId) const override;
-    void setTrackSoloMuteState(const engraving::InstrumentTrackId& trackId, const SoloMuteState& state) override;
+    const SoloMuteState& trackSoloMuteState(const engraving::InstrumentTrackId& trackId) const
+    override;
+    void setTrackSoloMuteState(const engraving::InstrumentTrackId& trackId,
+                               const SoloMuteState& state) override;
     void removeTrackSoloMuteState(const engraving::InstrumentTrackId& trackId) override;
-    muse::async::Channel<engraving::InstrumentTrackId, SoloMuteState> trackSoloMuteStateChanged() const override;
+    muse::async::Channel<engraving::InstrumentTrackId,
+                         SoloMuteState> trackSoloMuteStateChanged() const override;
 
 private:
     std::unordered_map<engraving::InstrumentTrackId, SoloMuteState> m_trackSoloMuteStatesMap;

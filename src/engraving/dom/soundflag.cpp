@@ -198,7 +198,8 @@ bool SoundFlag::shouldHide() const
     return true;
 }
 
-void SoundFlag::undoChangeSoundFlag(const PresetCodes& presets, const PlayingTechniqueCode& technique)
+void SoundFlag::undoChangeSoundFlag(const PresetCodes& presets,
+                                    const PlayingTechniqueCode& technique)
 {
     if (m_soundPresets == presets && m_playingTechnique == technique) {
         return;

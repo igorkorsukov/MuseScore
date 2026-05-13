@@ -447,7 +447,9 @@ void Box::manageExclusionFromParts(bool exclude)
         const std::list<EngravingObject*> links = linkList();
         for (EngravingObject* linkedObject : links) {
             // Only remove title frame from score
-            if (linkedObject->score() == score() || (!this->score()->isMaster() && titleFrame && !linkedObject->score()->isMaster())) {
+            if (linkedObject->score() == score()
+                || (!this->score()->isMaster() && titleFrame
+                    && !linkedObject->score()->isMaster())) {
                 continue;
             }
             EngravingItem* linkedItem = toEngravingItem(linkedObject);
@@ -476,7 +478,8 @@ void Box::manageExclusionFromParts(bool exclude)
         }
     } else {
         for (Score* score : masterScore()->scoreList()) {
-            if (score == this->score() || (titleFrame && !this->score()->isMaster() && !score->isMaster())) {
+            if (score == this->score()
+                || (titleFrame && !this->score()->isMaster() && !score->isMaster())) {
                 continue;
             }
 
@@ -490,7 +493,8 @@ void Box::manageExclusionFromParts(bool exclude)
             if (!isFBox()) {
                 for (EngravingItem* item : el()) {
                     // Don't add instrument name from current part
-                    if (item->isText() && toText(item)->textStyleType() == TextStyleType::INSTRUMENT_EXCERPT) {
+                    if (item->isText()
+                        && toText(item)->textStyleType() == TextStyleType::INSTRUMENT_EXCERPT) {
                         continue;
                     }
                     // add frame items (Layout Break, Title, ...)
@@ -728,7 +732,9 @@ void FBox::init()
 
     StringList diagramsNamesInScore;
     std::vector<EngravingItem*> harmonyOrDiagramsInScore;
-    for (mu::engraving::Segment* segment = score()->firstSegment(mu::engraving::SegmentType::ChordRest); segment;
+    for (mu::engraving::Segment* segment =
+             score()->firstSegment(mu::engraving::SegmentType::ChordRest);
+         segment;
          segment = segment->next1(mu::engraving::SegmentType::ChordRest)) {
         for (EngravingItem* item : segment->annotations()) {
             if (!item || !item->part()) {
@@ -767,7 +773,8 @@ void FBox::init()
     for (size_t i = 0; i < diagramsNamesInScore.size(); ++i) {
         String newName = diagramsNamesInScore[i];
         if (!muse::contains(oldDiagramsNames, newName)) {
-            FretDiagram* newDiagram = FretDiagram::makeFromHarmonyOrFretDiagram(harmonyOrDiagramsInScore[i]);
+            FretDiagram* newDiagram = FretDiagram::makeFromHarmonyOrFretDiagram(
+                harmonyOrDiagramsInScore[i]);
             newDiagram->setParent(this);
             String nameOfDiagramBeforeThis = i > 0 ? diagramsNamesInScore[i - 1] : String();
             size_t idx = computeInsertionIdx(nameOfDiagramBeforeThis);
@@ -839,9 +846,11 @@ PropertyValue FBox::getProperty(Pid propertyId) const
     case Pid::FRET_FRAME_H_ALIGN:
         return static_cast<int>(m_contentAlignmentH);
     case Pid::LEFT_MARGIN:
-        return m_contentAlignmentH == AlignH::LEFT ? VBox::getProperty(propertyId) : PropertyValue();
+        return m_contentAlignmentH
+               == AlignH::LEFT ? VBox::getProperty(propertyId) : PropertyValue();
     case Pid::RIGHT_MARGIN:
-        return m_contentAlignmentH == AlignH::RIGHT ? VBox::getProperty(propertyId) : PropertyValue();
+        return m_contentAlignmentH
+               == AlignH::RIGHT ? VBox::getProperty(propertyId) : PropertyValue();
     case Pid::FRET_FRAME_DIAGRAMS_ORDER:
         return diagramsOrder().join(FRET_BOX_DIAGRAMS_SEPARATOR);
     default:

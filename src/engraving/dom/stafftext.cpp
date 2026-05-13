@@ -35,7 +35,8 @@ static const ElementStyle STAFF_STYLE {
 };
 
 StaffText::StaffText(Segment* parent, TextStyleType tid)
-    : StaffTextBase(ElementType::STAFF_TEXT, parent, tid, ElementFlag::MOVABLE | ElementFlag::ON_STAFF)
+    : StaffTextBase(ElementType::STAFF_TEXT, parent, tid,
+                    ElementFlag::MOVABLE | ElementFlag::ON_STAFF)
 {
     initElementStyle(&STAFF_STYLE);
     resetProperty(Pid::MUSIC_SYMBOL_SIZE);
@@ -54,7 +55,8 @@ bool StaffText::isEditAllowed(EditData& ed) const
     bool ctrlPressed  = ed.modifiers & ControlModifier;
     bool shiftPressed = ed.modifiers & ShiftModifier;
     bool altPressed = ed.modifiers & AltModifier;
-    if (altPressed && !ctrlPressed && !shiftPressed && (ed.key == Key_Left || ed.key == Key_Right)) {
+    if (altPressed && !ctrlPressed && !shiftPressed
+        && (ed.key == Key_Left || ed.key == Key_Right)) {
         return false;
     }
 

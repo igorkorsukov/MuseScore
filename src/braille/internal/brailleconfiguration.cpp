@@ -32,7 +32,8 @@ static const std::string module_name("braille");
 
 static const Settings::Key BRAILLE_STATUS(module_name, "score/braille/status");
 static const Settings::Key BRAILLE_TABLE(module_name, "score/braille/table");
-static const Settings::Key BRAILLE_INTERVAL_DIRECTION(module_name, "score/braille/intervalDirection");
+static const Settings::Key BRAILLE_INTERVAL_DIRECTION(module_name,
+                                                      "score/braille/intervalDirection");
 
 void BrailleConfiguration::init()
 {
@@ -40,7 +41,8 @@ void BrailleConfiguration::init()
     settings()->valueChanged(BRAILLE_STATUS).onReceive(this, [this](const Val&) {
         m_braillePanelEnabledChanged.notify();
     });
-    settings()->setDefaultValue(BRAILLE_TABLE, Val("Unified English uncontracted braille [en-ueb-g1.ctb]"));
+    settings()->setDefaultValue(BRAILLE_TABLE,
+                                Val("Unified English uncontracted braille [en-ueb-g1.ctb]"));
     settings()->valueChanged(BRAILLE_TABLE).onReceive(this, [this](const Val&) {
         m_brailleTableChanged.notify();
     });

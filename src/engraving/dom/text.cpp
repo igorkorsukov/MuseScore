@@ -58,7 +58,8 @@ static bool styleIsSelectable(TextStyleType style)
 //---------------------------------------------------------
 
 Text::Text(EngravingItem* parent, TextStyleType tid)
-    : TextBase(ElementType::TEXT, parent, tid, styleIsSelectable(tid) ? ElementFlag::NOTHING : ElementFlag::NOT_SELECTABLE)
+    : TextBase(ElementType::TEXT, parent, tid, styleIsSelectable(
+                   tid) ? ElementFlag::NOTHING : ElementFlag::NOT_SELECTABLE)
 {
     initElementStyle(&defaultStyle);
 }
@@ -126,7 +127,8 @@ bool mu::engraving::Text::collectForDrawing() const
 
 bool Text::positionRelativeToNoteheadRest() const
 {
-    if (parent()->isBox() || parent()->isTuplet() || parent()->isSpannerSegment() || parent()->isBracket()) {
+    if (parent()->isBox() || parent()->isTuplet() || parent()->isSpannerSegment()
+        || parent()->isBracket()) {
         return false;
     }
 

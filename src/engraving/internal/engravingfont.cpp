@@ -90,8 +90,10 @@ double EngravingFont::textEnclosureThickness()
 
 double DEFAULT_SMUFL_POINT_SIZE()
 {
-    const double DEFAULT_SPATIUM = StyleDef::styleValues[static_cast<size_t>(Sid::spatium)].defaultValue.toDouble();
-    const double DEFAULT_SPATIUM_IN_POINT_UNITS = DEFAULT_SPATIUM / mu::engraving::DPI * mu::engraving::PPI;
+    const double DEFAULT_SPATIUM
+        = StyleDef::styleValues[static_cast<size_t>(Sid::spatium)].defaultValue.toDouble();
+    const double DEFAULT_SPATIUM_IN_POINT_UNITS = DEFAULT_SPATIUM / mu::engraving::DPI
+                                                  * mu::engraving::PPI;
     const double DEFAULT_SMUFL_POINT_SIZE = 4 * DEFAULT_SPATIUM_IN_POINT_UNITS; // By Smufl spec the spatium is 1/4 of the em
 
     return DEFAULT_SMUFL_POINT_SIZE;
@@ -136,7 +138,8 @@ void EngravingFont::ensureLoad()
     }
 
     std::string error;
-    const JsonObject metadataJson = JsonDocument::fromJson(metadataFile.readAll(), &error).rootObject();
+    const JsonObject metadataJson
+        = JsonDocument::fromJson(metadataFile.readAll(), &error).rootObject();
     if (!error.empty()) {
         LOGE() << "Json parse error in " << metadataFile.filePath() << ", error: " << error;
         return;
@@ -668,7 +671,8 @@ void EngravingFont::loadStylisticAlternates(const JsonObject& glyphsWithAlternat
     bool ok;
     for (const GlyphWithAlternates& glyph : GLYPHS_WITH_ALTERNATES) {
         if (glyphsWithAlternatesObject.contains(glyph.key)) {
-            const JsonArray alternatesArray = glyphsWithAlternatesObject.value(glyph.key).toObject().value("alternates").toArray();
+            const JsonArray alternatesArray
+                = glyphsWithAlternatesObject.value(glyph.key).toObject().value("alternates").toArray();
 
             JsonValue val;
             for (size_t i = 0; i < alternatesArray.size(); ++i) {
@@ -689,7 +693,8 @@ void EngravingFont::loadStylisticAlternates(const JsonObject& glyphsWithAlternat
                     code.smuflCode = smuflCode;
                 }
 
-                char32_t musicSymBlockCode = symObj.value("alternateCodepoint").toString().mid(2).toUInt(&ok, 16);
+                char32_t musicSymBlockCode
+                    = symObj.value("alternateCodepoint").toString().mid(2).toUInt(&ok, 16);
                 if (ok) {
                     code.musicSymBlockCode = musicSymBlockCode;
                 }
@@ -754,7 +759,8 @@ void EngravingFont::loadGlyphsWithAnchors(const JsonObject& glyphsWithAnchors)
             const JsonArray arr = anchors.value(anchorId).toArray();
             const double x = arr.at(0).toDouble();
             const double y = arr.at(1).toDouble();
-            const double defaultSpatium = StyleDef::styleValues[static_cast<size_t>(Sid::spatium)].defaultValue.toDouble();
+            const double defaultSpatium
+                = StyleDef::styleValues[static_cast<size_t>(Sid::spatium)].defaultValue.toDouble();
             sym.smuflAnchors[search->second] = PointF(x, -y) * defaultSpatium;
         }
     }
@@ -799,7 +805,8 @@ void EngravingFont::loadEngravingDefaults(const JsonObject& engravingDefaultsObj
         // "dashedBarlineThickness" not supported
         // "dashedBarlineDashLength" not supported
         // "dashedBarlineGapLength" not supported
-        { "barlineSeparation",          { { Sid::doubleBarDistance }, { "thinThickBarlineSeparation" } } },
+        { "barlineSeparation",
+          { { Sid::doubleBarDistance }, { "thinThickBarlineSeparation" } } },
         { "thinThickBarlineSeparation", { { Sid::endBarDistance } } },
         { "repeatBarlineDotSeparation", { { Sid::repeatBarlineDotSeparation } } },
         { "bracketThickness",           { { Sid::bracketWidth } } },
@@ -847,7 +854,8 @@ void EngravingFont::loadEngravingDefaults(const JsonObject& engravingDefaultsObj
         applyEngravingDefault(key, engravingDefaultsObject.value(key).toDouble());
     }
 
-    m_engravingDefaults.insert({ Sid::musicalTextFont, String(u"%1 Text").arg(String::fromStdString(m_family)) });
+    m_engravingDefaults.insert({ Sid::musicalTextFont,
+                                 String(u"%1 Text").arg(String::fromStdString(m_family)) });
 }
 
 void EngravingFont::computeMetrics(EngravingFont::Sym& sym, const Smufl::Code& code)
@@ -891,7 +899,9 @@ char32_t EngravingFont::symCode(SymId id) const
 
 SymId EngravingFont::fromCode(char32_t code) const
 {
-    auto it = std::find_if(m_symbols.begin(), m_symbols.end(), [code](const Sym& s) { return s.code == code; });
+    auto it = std::find_if(m_symbols.begin(), m_symbols.end(), [code](const Sym& s) {
+        return s.code == code;
+    });
     return static_cast<SymId>(it == m_symbols.end() ? 0 : it - m_symbols.begin());
 }
 
@@ -1021,22 +1031,26 @@ void EngravingFont::constructShapeWithCutouts(Shape& shape, SymId id)
     rects.reserve(6); //at most
 
     // bottom rect
-    rects.emplace_back(RectF(PointF(cutOutSW.x(), bottom), PointF(cutOutSE.x(), topInset)).normalized());
+    rects.emplace_back(RectF(PointF(cutOutSW.x(), bottom), PointF(
+                                 cutOutSE.x(), topInset)).normalized());
     // right rect
     bool rightRectPlaced = false;
     if (!seNull) {
-        rects.emplace_back(RectF(PointF(right, cutOutSE.y()), PointF(leftInset, cutOutNE.y())).normalized());
+        rects.emplace_back(RectF(PointF(right, cutOutSE.y()), PointF(leftInset,
+                                                                     cutOutNE.y())).normalized());
         rightRectPlaced = true;
     }
     // top rect
     bool topRectPlaced = false;
     if (!rightRectPlaced || !neNull) {
-        rects.emplace_back(RectF(PointF(cutOutNW.x(), top), PointF(cutOutNE.x(), bottomInset)).normalized());
+        rects.emplace_back(RectF(PointF(cutOutNW.x(), top), PointF(
+                                     cutOutNE.x(), bottomInset)).normalized());
         topRectPlaced = true;
     }
     // left rect
     if (!topRectPlaced || !nwNull) {
-        rects.emplace_back(RectF(PointF(left, cutOutSW.y()), PointF(rightInset, cutOutNW.y())).normalized());
+        rects.emplace_back(RectF(PointF(left, cutOutSW.y()), PointF(rightInset,
+                                                                    cutOutNW.y())).normalized());
     }
     // center horizontal rect if needed
     if (leftInset > rightInset && topInset < bottomInset) {
@@ -1098,7 +1112,8 @@ PointF EngravingFont::smuflAnchor(SymId symId, SmuflAnchorId anchorId, double ma
 // Draw
 // =============================================
 
-void EngravingFont::draw(SymId id, Painter* painter, const SizeF& mag, const PointF& pos, const double angle) const
+void EngravingFont::draw(SymId id, Painter* painter, const SizeF& mag, const PointF& pos,
+                         const double angle) const
 {
     const Sym& sym = this->sym(id);
     if (sym.isCompound()) { // is this a compound symbol?
@@ -1131,12 +1146,14 @@ void EngravingFont::draw(SymId id, Painter* painter, const SizeF& mag, const Poi
     painter->restore();
 }
 
-void EngravingFont::draw(SymId id, Painter* painter, double mag, const PointF& pos, const double angle) const
+void EngravingFont::draw(SymId id, Painter* painter, double mag, const PointF& pos,
+                         const double angle) const
 {
     draw(id, painter, SizeF(mag, mag), pos, angle);
 }
 
-void EngravingFont::draw(const SymIdList& ids, Painter* painter, double mag, const PointF& startPos, const double angle) const
+void EngravingFont::draw(const SymIdList& ids, Painter* painter, double mag, const PointF& startPos,
+                         const double angle) const
 {
     PointF pos(startPos);
     for (SymId id : ids) {
@@ -1145,7 +1162,8 @@ void EngravingFont::draw(const SymIdList& ids, Painter* painter, double mag, con
     }
 }
 
-void EngravingFont::draw(const SymIdList& ids, Painter* painter, const SizeF& mag, const PointF& startPos, const double angle) const
+void EngravingFont::draw(const SymIdList& ids, Painter* painter, const SizeF& mag,
+                         const PointF& startPos, const double angle) const
 {
     PointF pos(startPos);
     for (SymId id : ids) {

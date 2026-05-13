@@ -230,7 +230,8 @@ struct FiguredBassFont {
     double defLineHeight = 0.0;
     Char displayAccidental[int(FiguredBassItem::Modifier::NUMOF)];
     Char displayParenthesis[int(FiguredBassItem::Parenthesis::NUMOF)];
-    Char displayDigit[int(FiguredBassItem::Style::NUMOF)][10][int(FiguredBassItem::Combination::NUMOF)];
+    Char displayDigit[int(FiguredBassItem::Style::NUMOF)][10][int(FiguredBassItem::Combination::
+                                                                  NUMOF)];
 
     bool read(XmlReader&);
 };
@@ -259,12 +260,14 @@ public:
     ~FiguredBass();
 
     // a convenience static function to create/retrieve a new FiguredBass into/from its intended parent
-    static FiguredBass* addFiguredBassToSegment(Segment* seg, track_idx_t track, const Fraction& extTicks, bool* pNew);
+    static FiguredBass* addFiguredBassToSegment(Segment* seg, track_idx_t track,
+                                                const Fraction& extTicks, bool* pNew);
 
     // static functions for font config files
     static bool readConfigFile(const String& fileName);
     static std::vector<String> fontNames();
-    static bool fontData(int nIdx, String* pFamily, String* pDisplayName, double* pSize, double* pLineHeight);
+    static bool fontData(int nIdx, String* pFamily, String* pDisplayName, double* pSize,
+                         double* pLineHeight);
 
     // standard re-implemented virtual functions
     FiguredBass* clone() const override { return new FiguredBass(*this); }

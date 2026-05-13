@@ -532,7 +532,8 @@ std::vector<DurationType> BrailleInputState::noteDurations()
 
 bool BrailleInputState::isDurationMatch()
 {
-    return std::find(_note_durations.begin(), _note_durations.end(), _current_duration) != _note_durations.end();
+    return std::find(_note_durations.begin(), _note_durations.end(),
+                     _current_duration) != _note_durations.end();
 }
 
 DurationType BrailleInputState::getCloseDuration()

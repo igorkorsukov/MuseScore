@@ -383,11 +383,17 @@ public:
     * @param {String} tag Tag
     * @param {String} value Value
     */
-    Q_INVOKABLE void setMetaTag(const QString& tag, const QString& val) { score()->setMetaTag(tag, val); }
+    Q_INVOKABLE void setMetaTag(const QString& tag, const QString& val)
+    {
+        score()->setMetaTag(tag, val);
+    }
 
     int duration() const { return score()->duration(); }
     QString mscoreVersion() const { return score()->mscoreVersion(); }
-    QString mscoreRevision() const { return QString::number(score()->mscoreRevision(), /* base */ 16); }
+    QString mscoreRevision() const
+    {
+        return QString::number(score()->mscoreRevision(), /* base */ 16);
+    }
     apiv1::MStyle* style() { return styleWrap(&score()->style(), score()); }
 
     int keysig() const { return score()->keysig(); }
@@ -478,7 +484,8 @@ public:
     * @param {Number} segmentType If not specified, defaults to all types.
     * @return {Engraving.Segment} Segment object
     */
-    Q_INVOKABLE apiv1::Segment* firstSegment(int segmentType = int(mu::engraving::SegmentType::All));
+    Q_INVOKABLE apiv1::Segment* firstSegment(
+        int segmentType = int(mu::engraving::SegmentType::All));
 
     /** APIDOC
     * Looks for a segment of a given type at a given tick.
@@ -570,7 +577,8 @@ public:
      * @param {String} name The new long instrument name.
      * @since 4.7
     */
-    Q_INVOKABLE void setInstrumentName(apiv1::Part* part, apiv1::Fraction* tick, const QString& name);
+    Q_INVOKABLE void setInstrumentName(apiv1::Part* part, apiv1::Fraction* tick,
+                                       const QString& name);
 
     /** APIDOC
      * Sets the abbreviated instrument name for a part at the given tick position.
@@ -580,7 +588,8 @@ public:
      * @param {String} abbreviature The new abbreviated instrument name.
      * @since 4.7
     */
-    Q_INVOKABLE void setInstrumentAbbreviature(apiv1::Part* part, apiv1::Fraction* tick, const QString& abbreviature);
+    Q_INVOKABLE void setInstrumentAbbreviature(apiv1::Part* part, apiv1::Fraction* tick,
+                                               const QString& abbreviature);
 
     /** APIDOC
      * Sets the staff type for a staff.
@@ -615,7 +624,8 @@ public:
      * @param {Number} insertMode 0 = BEFORE, 1 = AFTER.
      * @since 4.7
     */
-    Q_INVOKABLE void moveParts(QList<apiv1::Part*> sourceParts, apiv1::Part* destinationPart, int insertMode);
+    Q_INVOKABLE void moveParts(QList<apiv1::Part*> sourceParts, apiv1::Part* destinationPart,
+                               int insertMode);
 
     /** APIDOC
      * Moves staves to a new position relative to a destination staff.
@@ -626,7 +636,8 @@ public:
      * @param {Number} insertMode 0 = BEFORE, 1 = AFTER.
      * @since 4.7
     */
-    Q_INVOKABLE void moveStaves(QList<apiv1::Staff*> sourceStaves, apiv1::Staff* destinationStaff, int insertMode);
+    Q_INVOKABLE void moveStaves(QList<apiv1::Staff*> sourceStaves, apiv1::Staff* destinationStaff,
+                                int insertMode);
 
     /** APIDOC
      * Adds system objects (rehearsal marks, tempo markings, etc.) to the specified staves.
@@ -671,7 +682,8 @@ public:
      * @return {Engraving.Staff} The newly created linked Staff, or null on failure.
      * @since 4.7
     */
-    Q_INVOKABLE apiv1::Staff* appendLinkedStaff(apiv1::Staff* sourceStaff, apiv1::Part* destinationPart);
+    Q_INVOKABLE apiv1::Staff* appendLinkedStaff(apiv1::Staff* sourceStaff,
+                                                apiv1::Part* destinationPart);
 
     /** APIDOC
      * Sets the visibility of a voice on a staff.
@@ -697,7 +709,8 @@ public:
      * @param {Engraving.Drumset} drumset The new Drumset to apply.
      * @since 4.7
     */
-    Q_INVOKABLE void replaceDrumset(apiv1::Part* part, apiv1::Fraction* tick, apiv1::Drumset* drumset);
+    Q_INVOKABLE void replaceDrumset(apiv1::Part* part, apiv1::Fraction* tick,
+                                    apiv1::Drumset* drumset);
 
     /** APIDOC
      * Inserts a part with the instrument defined by `instrumentId` at the given index.

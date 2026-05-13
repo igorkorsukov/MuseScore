@@ -3923,9 +3923,12 @@ QList<MusicData*> MeasureData::getCrossMeasureElements(
     QList<MusicData*> pairs;
 
     for (i = 0; i < m_crossMeasureElements.size(); ++i) {
-        if ((type == MusicDataType::None || m_crossMeasureElements[i].first->getMusicDataType() == type)
-            && (pairType == PairType::All || ((m_crossMeasureElements[i].second && pairType == PairType::Start)
-                                              || (!m_crossMeasureElements[i].second && pairType == PairType::Stop)))) {
+        if ((type == MusicDataType::None
+             || m_crossMeasureElements[i].first->getMusicDataType() == type)
+            && (pairType == PairType::All
+                || ((m_crossMeasureElements[i].second && pairType == PairType::Start)
+                    || (!m_crossMeasureElements[i].second
+                        && pairType == PairType::Stop)))) {
             pairs.push_back(m_crossMeasureElements[i].first);
         }
     }
@@ -4481,7 +4484,8 @@ void TrackParse::setTrack(SizeChunk* chunk)
 bool TrackParse::parse()
 {
     Block* dataBlock = m_chunk->getDataBlock();
-    unsigned int blockSize = m_ove->getIsVersion4() ? m_chunk->getSizeBlock()->toSize() : SizeChunk::version3TrackSize;
+    unsigned int blockSize
+        = m_ove->getIsVersion4() ? m_chunk->getSizeBlock()->toSize() : SizeChunk::version3TrackSize;
     StreamHandle handle(dataBlock->data(), blockSize);
     Block placeHolder;
 
@@ -8768,7 +8772,8 @@ bool BarsParse::parseHarmonyGuitarFrame(MeasureData* measureData, int length)
     return true;
 }
 
-void extractOctave(unsigned int Bits, OctaveShiftType& octaveShiftType, QList<OctaveShiftPosition>& positions)
+void extractOctave(unsigned int Bits, OctaveShiftType& octaveShiftType,
+                   QList<OctaveShiftPosition>& positions)
 {
     octaveShiftType = OctaveShiftType::OS_8;
     positions.clear();
@@ -9651,7 +9656,8 @@ void OveOrganizer::organizeAttributes()
                 lastKey = staff->getKeyType();
 
                 for (j = 0; j < partBarCount; ++j) {
-                    MeasureData* measureData = m_ove->getMeasureData(partStaff.first, partStaff.second, j);
+                    MeasureData* measureData = m_ove->getMeasureData(partStaff.first,
+                                                                     partStaff.second, j);
 
                     if (measureData != 0) {
                         Key* key = measureData->getKey();
@@ -9688,13 +9694,15 @@ void OveOrganizer::organizeAttributes()
                 lastClefType = staff->getClefType();
 
                 for (j = 0; j < partBarCount; ++j) {
-                    MeasureData* measureData = m_ove->getMeasureData(partStaff.first, partStaff.second, j);
+                    MeasureData* measureData = m_ove->getMeasureData(partStaff.first,
+                                                                     partStaff.second, j);
 
                     if (measureData != 0) {
                         Clef* clefPtr = measureData->getClef();
                         clefPtr->setClefType((int)lastClefType);
 
-                        const QList<MusicData*>& clefs = measureData->getMusicDatas(MusicDataType::Clef);
+                        const QList<MusicData*>& clefs = measureData->getMusicDatas(
+                            MusicDataType::Clef);
 
                         for (k = 0; k < clefs.size(); ++k) {
                             Clef* clef = static_cast<Clef*>(clefs[k]);
@@ -9840,7 +9848,8 @@ void OveOrganizer::organizeContainers(int /* part */, int /* track */,
     }
 }
 
-void OveOrganizer::organizeMusicDatas(int /* part */, int /* track */, Measure* measure, MeasureData* measureData)
+void OveOrganizer::organizeMusicDatas(int /* part */, int /* track */, Measure* measure,
+                                      MeasureData* measureData)
 {
     int i;
     int barIndex = measure->getBarNumber()->getIndex();
@@ -9851,10 +9860,12 @@ void OveOrganizer::organizeMusicDatas(int /* part */, int /* track */, Measure* 
     }
 }
 
-void OveOrganizer::organizeCrossMeasureElements(int part, int track, Measure* measure, MeasureData* measureData)
+void OveOrganizer::organizeCrossMeasureElements(int part, int track, Measure* measure,
+                                                MeasureData* measureData)
 {
     int i;
-    QList<MusicData*> pairs = measureData->getCrossMeasureElements(MusicDataType::None, MeasureData::PairType::Start);
+    QList<MusicData*> pairs = measureData->getCrossMeasureElements(MusicDataType::None,
+                                                                   MeasureData::PairType::Start);
 
     for (i = 0; i < pairs.size(); ++i) {
         MusicData* pair = pairs[i];
@@ -9919,7 +9930,8 @@ void OveOrganizer::organizePairElement(
             }
         }
 
-        int tupletTick = NoteTypeToTick(tuplet->getNoteType(), m_ove->getQuarter()) * tuplet->getSpace();
+        int tupletTick
+            = NoteTypeToTick(tuplet->getNoteType(), m_ove->getQuarter()) * tuplet->getSpace();
         if (tuplet->getTick() % tupletTick != 0) {
             int newStartTick = (tuplet->getTick() / tupletTick) * tupletTick;
 
@@ -10000,7 +10012,8 @@ bool getMiddleUnit(
     return false;
 }
 
-void OveOrganizer::organizeWedge(Wedge* wedge, int part, int track, Measure* measure, MeasureData* measureData)
+void OveOrganizer::organizeWedge(Wedge* wedge, int part, int track, Measure* measure,
+                                 MeasureData* measureData)
 {
     int bar1Index = measure->getBarNumber()->getIndex();
     int bar2Index = bar1Index + wedge->stop()->getMeasure();
@@ -10431,7 +10444,9 @@ bool OveSerialize::readHeader()
         }
     }
 
-    QString info = "Not compatible file, try to load and save with newer version, Overture 4 is recommended.\n";
+    QString info
+        =
+            "Not compatible file, try to load and save with newer version, Overture 4 is recommended.\n";
     messageOut(info);
 
     return false;

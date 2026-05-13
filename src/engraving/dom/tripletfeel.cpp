@@ -103,13 +103,19 @@ static const std::map<TripletFeelType, String> tupletSymbols =
 
 static const std::map<TripletFeelType, TranslatableString> tripletFeelNames =
 {
-    { TripletFeelType::TRIPLET_8TH,     TranslatableString("engraving/tripletfeel", "Triplet 8th") },
-    { TripletFeelType::TRIPLET_16TH,    TranslatableString("engraving/tripletfeel", "Triplet 16th") },
+    { TripletFeelType::TRIPLET_8TH,
+      TranslatableString("engraving/tripletfeel", "Triplet 8th") },
+    { TripletFeelType::TRIPLET_16TH,
+      TranslatableString("engraving/tripletfeel", "Triplet 16th") },
     { TripletFeelType::DOTTED_8TH,      TranslatableString("engraving/tripletfeel", "Dotted 8th") },
-    { TripletFeelType::DOTTED_16TH,     TranslatableString("engraving/tripletfeel", "Dotted 16th") },
-    { TripletFeelType::SCOTTISH_8TH,    TranslatableString("engraving/tripletfeel", "Scottish 8th") },
-    { TripletFeelType::SCOTTISH_16TH,   TranslatableString("engraving/tripletfeel", "Scottish 16th") },
-    { TripletFeelType::NONE,            TranslatableString("engraving/tripletfeel", "No triplet feel") }
+    { TripletFeelType::DOTTED_16TH,
+      TranslatableString("engraving/tripletfeel", "Dotted 16th") },
+    { TripletFeelType::SCOTTISH_8TH,
+      TranslatableString("engraving/tripletfeel", "Scottish 8th") },
+    { TripletFeelType::SCOTTISH_16TH,
+      TranslatableString("engraving/tripletfeel", "Scottish 16th") },
+    { TripletFeelType::NONE,            TranslatableString("engraving/tripletfeel",
+                                                           "No triplet feel") }
 };
 
 TripletFeel::TripletFeel(Segment* parent, TripletFeelType tripletFillType)
@@ -154,7 +160,8 @@ void TripletFeel::setTripletProperty()
         break;
     }
 
-    setXmlText(tupletSymbols.at(m_tripletFeelType).arg(String(u"<sym>staffPosLower3</sym><sym>"), String(u"</sym>")));
+    setXmlText(tupletSymbols.at(m_tripletFeelType).arg(String(u"<sym>staffPosLower3</sym><sym>"),
+                                                       String(u"</sym>")));
 }
 
 //---------------------------------------------------------

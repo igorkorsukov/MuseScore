@@ -67,7 +67,9 @@ protected:
 
 public:
 
-    PlayEvent(mu::engraving::NoteEvent* m_ne = new mu::engraving::NoteEvent(), Note* m_parent = nullptr)
+    PlayEvent(
+        mu::engraving::NoteEvent* m_ne = new mu::engraving::NoteEvent(),
+        Note* m_parent = nullptr)
         : QObject(), ne(m_ne), parentNote(m_parent) {}
     // Delete the NoteEvent if parentless.
     virtual ~PlayEvent()
@@ -121,10 +123,14 @@ public:
     QmlPlayEventsListAccess(QObject* obj, engraving::NoteEventList& container)
         : QQmlListProperty<PlayEvent>(obj, &container, &append, &count, &at, &clear) {}
 
-    static qsizetype count(QQmlListProperty<PlayEvent>* l) { return static_cast<engraving::NoteEventList*>(l->data)->size(); }
+    static qsizetype count(QQmlListProperty<PlayEvent>* l)
+    {
+        return static_cast<engraving::NoteEventList*>(l->data)->size();
+    }
     static PlayEvent* at(QQmlListProperty<PlayEvent>* l, qsizetype i)
     {
-        return playEventWrap(&(*(static_cast<engraving::NoteEventList*>(l->data)))[i], reinterpret_cast<Note*>(l->object));
+        return playEventWrap(&(*(static_cast<engraving::NoteEventList*>(l->data)))[i],
+                             reinterpret_cast<Note*>(l->object));
     }
 
     static void clear(QQmlListProperty<PlayEvent>* l);
@@ -132,7 +138,8 @@ public:
 };
 
 /// \cond PLUGIN_API \private \endcond
-inline QmlPlayEventsListAccess wrapPlayEventsContainerProperty(QObject* obj, engraving::NoteEventList& c)
+inline QmlPlayEventsListAccess wrapPlayEventsContainerProperty(QObject* obj,
+                                                               engraving::NoteEventList& c)
 {
     return QmlPlayEventsListAccess(obj, c);
 }

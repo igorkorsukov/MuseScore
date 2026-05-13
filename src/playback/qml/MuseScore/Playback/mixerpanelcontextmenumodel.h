@@ -31,18 +31,25 @@
 #include "playback/playbacktypes.h"
 
 namespace mu::playback {
-class MixerPanelContextMenuModel : public muse::uicomponents::AbstractMenuModel, public muse::actions::Actionable
+class MixerPanelContextMenuModel : public muse::uicomponents::AbstractMenuModel,
+    public muse::actions::Actionable
 {
     Q_OBJECT
 
-    Q_PROPERTY(bool labelsSectionVisible READ labelsSectionVisible NOTIFY labelsSectionVisibleChanged)
+    Q_PROPERTY(
+        bool labelsSectionVisible READ labelsSectionVisible NOTIFY labelsSectionVisibleChanged)
     Q_PROPERTY(bool soundSectionVisible READ soundSectionVisible NOTIFY soundSectionVisibleChanged)
-    Q_PROPERTY(bool audioFxSectionVisible READ audioFxSectionVisible NOTIFY audioFxSectionVisibleChanged)
-    Q_PROPERTY(bool auxSendsSectionVisible READ auxSendsSectionVisible NOTIFY auxSendsSectionVisibleChanged)
-    Q_PROPERTY(bool balanceSectionVisible READ balanceSectionVisible NOTIFY balanceSectionVisibleChanged)
-    Q_PROPERTY(bool volumeSectionVisible READ volumeSectionVisible NOTIFY volumeSectionVisibleChanged)
+    Q_PROPERTY(
+        bool audioFxSectionVisible READ audioFxSectionVisible NOTIFY audioFxSectionVisibleChanged)
+    Q_PROPERTY(
+        bool auxSendsSectionVisible READ auxSendsSectionVisible NOTIFY auxSendsSectionVisibleChanged)
+    Q_PROPERTY(
+        bool balanceSectionVisible READ balanceSectionVisible NOTIFY balanceSectionVisibleChanged)
+    Q_PROPERTY(
+        bool volumeSectionVisible READ volumeSectionVisible NOTIFY volumeSectionVisibleChanged)
     Q_PROPERTY(bool faderSectionVisible READ faderSectionVisible NOTIFY faderSectionVisibleChanged)
-    Q_PROPERTY(bool muteAndSoloSectionVisible READ muteAndSoloSectionVisible NOTIFY muteAndSoloSectionVisibleChanged)
+    Q_PROPERTY(
+        bool muteAndSoloSectionVisible READ muteAndSoloSectionVisible NOTIFY muteAndSoloSectionVisibleChanged)
     Q_PROPERTY(bool titleSectionVisible READ titleSectionVisible NOTIFY titleSectionVisibleChanged)
 
     QML_ELEMENT

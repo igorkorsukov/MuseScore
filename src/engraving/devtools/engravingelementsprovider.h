@@ -47,7 +47,8 @@ public:
     // debug draw
     void select(const mu::engraving::EngravingObject* e, bool arg) override;
     bool isSelected(const mu::engraving::EngravingObject* e) const override;
-    muse::async::Channel<const mu::engraving::EngravingObject*, bool> selectChanged() const override;
+    muse::async::Channel<const mu::engraving::EngravingObject*,
+                         bool> selectChanged() const override;
 
 private:
 

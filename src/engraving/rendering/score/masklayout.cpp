@@ -80,10 +80,12 @@ void MaskLayout::computeMasks(LayoutContext& ctx, Page* page)
     }
 }
 
-void MaskLayout::computeBarlineMasks(const Segment* barlineSement, const System* system, const std::vector<TextBase*>& allSystemText,
+void MaskLayout::computeBarlineMasks(const Segment* barlineSement, const System* system,
+                                     const std::vector<TextBase*>& allSystemText,
                                      LayoutContext& ctx)
 {
-    if (barlineSement->measure()->isLastInSystem() && barlineSement == barlineSement->measure()->lastEnabled()) {
+    if (barlineSement->measure()->isLastInSystem()
+        && barlineSement == barlineSement->measure()->lastEnabled()) {
         return;
     }
 
@@ -119,14 +121,18 @@ void MaskLayout::maskBarlineForText(BarLine* barline, const std::vector<TextBase
         const double collisionPadding = 0.2 * spatium * fontSizeScaleFactor;
         const bool hasFrame = text->frameType() != FrameType::NO_FRAME;
         const bool useHighResShape = !text->isDynamic() && !text->hasFrame();
-        const double maskPadding = hasFrame ? 0.0 : std::clamp(0.5 * spatium * fontSizeScaleFactor, 0.1 * spatium, spatium);
+        const double maskPadding = hasFrame ? 0.0 : std::clamp(0.5 * spatium * fontSizeScaleFactor,
+                                                               0.1 * spatium, spatium);
 
         PointF textPos = text->pagePos();
-        if (!barlineShape.intersects(text->ldata()->bbox().translated(textPos).padded(collisionPadding))) {
+        if (!barlineShape.intersects(text->ldata()->bbox().translated(textPos).padded(
+                                         collisionPadding))) {
             continue;
         }
 
-        Shape textShape = (useHighResShape ? text->ldata()->highResShape() : text->ldata()->shape()).translated(textPos);
+        Shape textShape
+            = (useHighResShape ? text->ldata()->highResShape() : text->ldata()->shape()).translated(
+                  textPos);
 
         Shape filteredTextShape;
         filteredTextShape.elements().reserve(textShape.elements().size());
@@ -182,14 +188,16 @@ void MaskLayout::cleanupMask(const Shape& itemShape, Shape& mask, double minFrag
             ShapeElement& otherEl = mask.elements()[j];
             if (intersects(el.left(), el.right(), otherEl.left(), otherEl.right())) {
                 bool otherIsBelow = otherEl.y() > el.y();
-                double vertClearance = otherIsBelow ? otherEl.top() - el.bottom() : el.top() - otherEl.bottom();
+                double vertClearance = otherIsBelow ? otherEl.top() - el.bottom() : el.top()
+                                       - otherEl.bottom();
                 if (vertClearance < minFragmentLength) {
                     (otherIsBelow ? el : otherEl).adjust(0.0, 0.0, 0.0, minFragmentLength);
                 }
             }
             if (intersects(el.top(), el.bottom(), otherEl.top(), el.bottom())) {
                 bool otherIsRight = otherEl.x() > el.x();
-                double horClearance = otherIsRight ? otherEl.left() - el.right() : el.left() - otherEl.right();
+                double horClearance = otherIsRight ? otherEl.left() - el.right() : el.left()
+                                      - otherEl.right();
                 if (horClearance < minFragmentLength) {
                     (otherIsRight ? el : otherEl).adjust(0.0, 0.0, minFragmentLength, 0.0);
                 }
@@ -251,11 +259,13 @@ std::vector<TextBase*> MaskLayout::collectAllSystemText(const System* system)
     }
 
     for (SpannerSegment* spannerSegment : system->spannerSegments()) {
-        if (!spannerSegment->isTextLineBaseSegment() || !system->staff(spannerSegment->staffIdx())->show()
+        if (!spannerSegment->isTextLineBaseSegment()
+            || !system->staff(spannerSegment->staffIdx())->show()
             || !spannerSegment->getProperty(Pid::VISIBLE).toBool()) {
             continue;
         }
-        TextLineBaseSegment* textLineBaseSegment = static_cast<TextLineBaseSegment*>(spannerSegment);
+        TextLineBaseSegment* textLineBaseSegment
+            = static_cast<TextLineBaseSegment*>(spannerSegment);
         Text* beginText = textLineBaseSegment->text();
         Text* endText = textLineBaseSegment->endText();
         if (beginText && !beginText->empty()) {
@@ -328,7 +338,8 @@ void MaskLayout::maskTABStringLinesForFrets(StaffLines* staffLines, const Layout
             }
 
             if (rightParen && rightParen->visible()) {
-                Shape rightParenShape = rightParen->ldata()->bbox().translated(rightParen->pagePos());
+                Shape rightParenShape
+                    = rightParen->ldata()->bbox().translated(rightParen->pagePos());
                 rightParenShape.pad(padding);
                 rightParenShape.adjust(0, -PAREN_PADDING_EPSILON, 0, PAREN_PADDING_EPSILON);
                 mask.add(rightParenShape.translated(-staffLinesPos));
@@ -337,7 +348,8 @@ void MaskLayout::maskTABStringLinesForFrets(StaffLines* staffLines, const Layout
     };
 
     const Measure* measure = staffLines->measure();
-    for (Segment* seg = measure->first(SegmentType::ChordRest); seg; seg = seg->next(SegmentType::ChordRest)) {
+    for (Segment* seg = measure->first(SegmentType::ChordRest); seg;
+         seg = seg->next(SegmentType::ChordRest)) {
         for (track_idx_t track = startTrack; track < endTrack; ++track) {
             EngravingItem* el = seg->element(track);
             if (!el || !el->isChord()) {

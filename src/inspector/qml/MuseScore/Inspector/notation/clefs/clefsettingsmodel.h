@@ -33,12 +33,16 @@ class ClefSettingsModel : public AbstractInspectorModel
     QML_UNCREATABLE("Not creatable from QML")
 
     Q_PROPERTY(mu::inspector::PropertyItem * shouldShowCourtesy READ shouldShowCourtesy CONSTANT)
-    Q_PROPERTY(mu::inspector::PropertyItem * clefToBarlinePosition READ clefToBarlinePosition CONSTANT)
-    Q_PROPERTY(bool isClefToBarPosAvailable READ isClefToBarPosAvailable NOTIFY isClefToBarPosAvailableChanged)
-    Q_PROPERTY(bool isCourtesyClefAvailable READ isCourtesyClefAvailable NOTIFY isCourtesyClefAvailableChanged)
+    Q_PROPERTY(
+        mu::inspector::PropertyItem * clefToBarlinePosition READ clefToBarlinePosition CONSTANT)
+    Q_PROPERTY(
+        bool isClefToBarPosAvailable READ isClefToBarPosAvailable NOTIFY isClefToBarPosAvailableChanged)
+    Q_PROPERTY(
+        bool isCourtesyClefAvailable READ isCourtesyClefAvailable NOTIFY isCourtesyClefAvailableChanged)
 
 public:
-    explicit ClefSettingsModel(QObject* parent, const muse::modularity::ContextPtr& iocCtx, IElementRepositoryService* repository);
+    explicit ClefSettingsModel(QObject* parent, const muse::modularity::ContextPtr& iocCtx,
+                               IElementRepositoryService* repository);
 
     void createProperties() override;
     void requestElements() override;

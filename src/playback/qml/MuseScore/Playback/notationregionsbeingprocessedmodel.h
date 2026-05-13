@@ -36,11 +36,13 @@
 #include "notation/inotationconfiguration.h"
 
 namespace mu::playback {
-class NotationRegionsBeingProcessedModel : public QAbstractListModel, public muse::async::Asyncable, public muse::Contextable
+class NotationRegionsBeingProcessedModel : public QAbstractListModel, public muse::async::Asyncable,
+    public muse::Contextable
 {
     Q_OBJECT
 
-    Q_PROPERTY(QVariant notationViewMatrix READ notationViewMatrix WRITE setNotationViewMatrix NOTIFY notationViewMatrixChanged)
+    Q_PROPERTY(
+        QVariant notationViewMatrix READ notationViewMatrix WRITE setNotationViewMatrix NOTIFY notationViewMatrixChanged)
 
     Q_PROPERTY(bool isEmpty READ isEmpty NOTIFY isEmptyChanged)
 
@@ -133,7 +135,8 @@ private:
     void stopListeningToProgress(const muse::audio::TrackId trackId);
 
     void onProgressStarted(const mu::engraving::InstrumentTrackId& instrumentTrackId);
-    void onChunksReceived(const mu::engraving::InstrumentTrackId& instrumentTrackId, const ChunkInfoList& chunks);
+    void onChunksReceived(const mu::engraving::InstrumentTrackId& instrumentTrackId,
+                          const ChunkInfoList& chunks);
     void onProgressChanged(const mu::engraving::InstrumentTrackId& instrumentTrackId, int progress);
     void onProgressFinished(const mu::engraving::InstrumentTrackId& instrumentTrackId);
     void onViewMatrixChanged();
@@ -141,8 +144,10 @@ private:
     void initShouldShowRegions();
 
     QList<RegionInfo> calculateRegions(const TracksBeingProcessed& tracks) const;
-    std::vector<QRectF> calculateRects(const mu::engraving::Part* part, const std::vector<TickRange>& ranges) const;
-    std::vector<QRectF> calculateRects(const mu::engraving::Part* part, const mu::engraving::System* system,
+    std::vector<QRectF> calculateRects(const mu::engraving::Part* part,
+                                       const std::vector<TickRange>& ranges) const;
+    std::vector<QRectF> calculateRects(const mu::engraving::Part* part,
+                                       const mu::engraving::System* system,
                                        const std::vector<TickRange>& ranges) const;
 
     QTransform m_notationViewMatrix;

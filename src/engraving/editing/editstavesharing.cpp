@@ -171,7 +171,8 @@ SharedPart* EditStaveSharing::createSharedPart(Score* score, size_t idx, const I
     return sharedPart;
 }
 
-void EditStaveSharing::addStaffToSharedPart(SharedPart* sharedPart, const KeyList& keyList, const StaffType* staffType)
+void EditStaveSharing::addStaffToSharedPart(SharedPart* sharedPart, const KeyList& keyList,
+                                            const StaffType* staffType)
 {
     Staff* staff = Factory::createStaff(sharedPart);
     staff->setStaffType(Fraction(0, 1), *staffType);

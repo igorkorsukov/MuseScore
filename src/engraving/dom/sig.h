@@ -60,7 +60,10 @@ public:
         : TimeSigFrac(f.numerator(), f.denominator()) {}
 
     // isCompound? Note: 3/8, 3/16, ... are NOT considered compound.
-    bool isCompound() const { return numerator() > 3 /*&& denominator() >= 8*/ && numerator() % 3 == 0; }
+    bool isCompound() const
+    {
+        return numerator() > 3 /*&& denominator() >= 8*/ && numerator() % 3 == 0;
+    }
 
     // isBeatedCompound? Note: Conductors will beat the simple unit at slow tempos (<60 compound units per minute)
     // However, the meter is still considered to be compound (at least for our purposes).
@@ -80,13 +83,20 @@ public:
     bool isDuple() const { assert(!isTriple()); return beatsPerMeasure() % 2 == 0; }   // note: always test isTriple() first
 
     // MuseScore stores tempos in quarter-notes-per-second, so conversions to conventional beats-per-minute format are provided here:
-    double tempo2beatsPerMinute(double tempo)   const { return tempo * denominator() * 15.0 / dUnitsPerBeat(); }
-    double beatsPerMinute2tempo(double bpm)     const { return bpm * dUnitsPerBeat() / (15.0 * denominator()); }
+    double tempo2beatsPerMinute(double tempo)   const
+    {
+        return tempo * denominator() * 15.0 / dUnitsPerBeat();
+    }
+    double beatsPerMinute2tempo(double bpm)     const
+    {
+        return bpm * dUnitsPerBeat() / (15.0 * denominator());
+    }
 
     BeatType rtick2beatType(int rtick)  const;
     int rtick2subbeatLevel(int rtick)   const;   // returns negative value if not on a well-defined subbeat
 
-    BeatType strongestBeatInRange(int rtick1, int rtick2, int* dUnitsCrossed = 0, int* subbeatTick = 0, bool saveLast = false) const;   // range is exclusive
+    BeatType strongestBeatInRange(int rtick1, int rtick2, int* dUnitsCrossed = 0,
+                                  int* subbeatTick = 0, bool saveLast = false) const;                                                   // range is exclusive
     int strongestSubbeatLevelInRange(int rtick1, int rtick2, int* subbeatTick = 0) const;   // range is exclusive
 
     int ticksPastDUnit(int rtick)       const { return rtick % dUnitTicks(); }                   // returns 0 if rtick is exactly on a dUnit
@@ -96,7 +106,10 @@ public:
     int ticksToNextBeat(int rtick)      const { return beatTicks() - ticksPastBeat(rtick); }     // returns beatTicks() if rtick is on a beat
 
     int ticksPastSubbeat(int rtick, int level)      const { return rtick % subbeatTicks(level); }
-    int ticksToNextSubbeat(int rtick, int level)    const { return subbeatTicks(level) - ticksPastSubbeat(rtick, level); }
+    int ticksToNextSubbeat(int rtick, int level)    const
+    {
+        return subbeatTicks(level) - ticksPastSubbeat(rtick, level);
+    }
 };
 
 //-------------------------------------------------------------------

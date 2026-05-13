@@ -53,8 +53,8 @@ class EngravingFont : public IEngravingFont
     muse::GlobalInject<muse::draw::IFontProvider> fontProvider;
     muse::GlobalInject<IEngravingFontsProvider> engravingFonts;
 public:
-    EngravingFont(const std::string& name, const std::string& family, const muse::io::path_t& filePath,
-                  const muse::io::path_t& metadataPath);
+    EngravingFont(const std::string& name, const std::string& family,
+                  const muse::io::path_t& filePath, const muse::io::path_t& metadataPath);
     EngravingFont(const EngravingFont& other);
 
     const std::string& name() const override;
@@ -86,11 +86,15 @@ public:
     PointF smuflAnchor(SymId symId, SmuflAnchorId anchorId, double mag) const override;
 
     // Draw
-    void draw(SymId id, muse::draw::Painter* p, double mag, const PointF& pos, const double angle = 0) const override;
-    void draw(SymId id, muse::draw::Painter* p, const SizeF& mag, const PointF& pos, const double angle = 0) const override;
+    void draw(SymId id, muse::draw::Painter* p, double mag, const PointF& pos,
+              const double angle = 0) const override;
+    void draw(SymId id, muse::draw::Painter* p, const SizeF& mag, const PointF& pos,
+              const double angle = 0) const override;
 
-    void draw(const SymIdList& ids, muse::draw::Painter* p, double mag, const PointF& pos, const double angle = 0) const override;
-    void draw(const SymIdList& ids, muse::draw::Painter* p, const SizeF& mag, const PointF& pos, const double angle = 0) const override;
+    void draw(const SymIdList& ids, muse::draw::Painter* p, double mag, const PointF& pos,
+              const double angle = 0) const override;
+    void draw(const SymIdList& ids, muse::draw::Painter* p, const SizeF& mag, const PointF& pos,
+              const double angle = 0) const override;
 
     void ensureLoad();
 

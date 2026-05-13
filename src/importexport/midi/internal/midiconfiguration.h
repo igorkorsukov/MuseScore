@@ -41,7 +41,8 @@ public:
     void setRoundTempo(bool round) override;
     muse::async::Channel<bool> roundTempoChanged() const override;
 
-    void setMidiImportOperationsFile(const std::optional<muse::io::path_t>& filePath) const override;
+    void setMidiImportOperationsFile(
+        const std::optional<muse::io::path_t>& filePath) const override;
 
     // export
     bool isExpandRepeats() const override;

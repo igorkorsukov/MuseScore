@@ -32,7 +32,8 @@ BrailleModel::BrailleModel(QObject* parent)
 
 QString BrailleModel::brailleInfo() const
 {
-    return notationBraille() ? QString::fromStdString(notationBraille()->brailleInfo().val) : QString();
+    return notationBraille() ? QString::fromStdString(notationBraille()->brailleInfo().val) :
+           QString();
 }
 
 QString BrailleModel::keys() const
@@ -131,7 +132,8 @@ bool BrailleModel::isBrailleInputMode()
 
 QString BrailleModel::cursorColor() const
 {
-    QString color = notationBraille() ? QString::fromStdString(notationBraille()->cursorColor().val) : QString();
+    QString color
+        = notationBraille() ? QString::fromStdString(notationBraille()->cursorColor().val) : QString();
     return color;
 }
 

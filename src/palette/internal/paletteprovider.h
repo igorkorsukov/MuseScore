@@ -55,7 +55,8 @@ public:
     PaletteElementEditor(const muse::modularity::ContextPtr& ctx, QObject* parent = nullptr)
         : QObject(parent), muse::Contextable(ctx) {}
     PaletteElementEditor(AbstractPaletteController* controller, QPersistentModelIndex paletteIndex,
-                         Palette::Type type, const muse::modularity::ContextPtr& ctx, QObject* parent = nullptr)
+                         Palette::Type type, const muse::modularity::ContextPtr& ctx,
+                         QObject* parent = nullptr)
         : QObject(parent), muse::Contextable(ctx),
         _controller(controller), _paletteIndex(paletteIndex), _type(type) {}
 
@@ -98,7 +99,8 @@ public:
     AbstractPaletteController(const muse::modularity::ContextPtr& ctx, QObject* parent = nullptr)
         : QObject(parent), muse::Contextable(ctx) {}
 
-    Q_INVOKABLE virtual Qt::DropAction dropAction(const QVariantMap& mimeData, Qt::DropAction proposedAction,
+    Q_INVOKABLE virtual Qt::DropAction dropAction(const QVariantMap& mimeData,
+                                                  Qt::DropAction proposedAction,
                                                   const QModelIndex& parent, bool internal) const
     {
         Q_UNUSED(mimeData);
@@ -108,19 +110,23 @@ public:
         return Qt::IgnoreAction;
     }
 
-    Q_INVOKABLE virtual bool move(const QModelIndex& sourceParent, int sourceRow, const QModelIndex& destinationParent,
-                                  int destinationChild) = 0;
-    Q_INVOKABLE virtual bool insert(const QModelIndex& parent, int row, const QVariantMap& mimeData, Qt::DropAction action) = 0;
-    Q_INVOKABLE virtual bool insertNewItem(const QModelIndex& parent, int row, const QString& name) = 0;
+    Q_INVOKABLE virtual bool move(const QModelIndex& sourceParent, int sourceRow,
+                                  const QModelIndex& destinationParent, int destinationChild) = 0;
+    Q_INVOKABLE virtual bool insert(const QModelIndex& parent, int row, const QVariantMap& mimeData,
+                                    Qt::DropAction action) = 0;
+    Q_INVOKABLE virtual bool insertNewItem(const QModelIndex& parent, int row,
+                                           const QString& name) = 0;
     Q_INVOKABLE virtual void remove(const QModelIndex&) = 0;
-    Q_INVOKABLE virtual void removeSelection(const QModelIndexList&, const QModelIndex& parent = QModelIndex()) = 0;
+    Q_INVOKABLE virtual void removeSelection(const QModelIndexList&,
+                                             const QModelIndex& parent = QModelIndex()) = 0;
 
     Q_INVOKABLE virtual bool canEdit(const QModelIndex&) const { return false; }
 
     Q_INVOKABLE virtual void editPaletteProperties(const QModelIndex& index) { Q_UNUSED(index); }
     Q_INVOKABLE virtual void editCellProperties(const QModelIndex& index) { Q_UNUSED(index); }
 
-    Q_INVOKABLE virtual bool applyPaletteElement(const QModelIndex& index, Qt::KeyboardModifiers modifiers)
+    Q_INVOKABLE virtual bool applyPaletteElement(const QModelIndex& index,
+                                                 Qt::KeyboardModifiers modifiers)
     {
         Q_UNUSED(index);
         Q_UNUSED(modifiers);
@@ -172,7 +178,8 @@ protected:
     const QAbstractItemModel* model() const { return _model; }
 
 public:
-    UserPaletteController(QAbstractItemModel* m, PaletteTreeModel* userPalette, const muse::modularity::ContextPtr& ctx,
+    UserPaletteController(QAbstractItemModel* m, PaletteTreeModel* userPalette,
+                          const muse::modularity::ContextPtr& ctx,
                           QObject* parent = nullptr)
         : AbstractPaletteController(ctx, parent), _model(m), _userPalette(userPalette) {}
 
@@ -181,14 +188,17 @@ public:
     bool custom() const { return _custom; }
     void setCustom(bool val) { _custom = val; _filterCustom = true; }
 
-    Qt::DropAction dropAction(const QVariantMap& mimeData, Qt::DropAction proposedAction, const QModelIndex& parent,
-                              bool internal) const override;
+    Qt::DropAction dropAction(const QVariantMap& mimeData, Qt::DropAction proposedAction,
+                              const QModelIndex& parent, bool internal) const override;
 
-    bool move(const QModelIndex& sourceParent, int sourceRow, const QModelIndex& destinationParent, int destinationChild) override;
-    bool insert(const QModelIndex& parent, int row, const QVariantMap& mimeData, Qt::DropAction action) override;
+    bool move(const QModelIndex& sourceParent, int sourceRow, const QModelIndex& destinationParent,
+              int destinationChild) override;
+    bool insert(const QModelIndex& parent, int row, const QVariantMap& mimeData,
+                Qt::DropAction action) override;
     bool insertNewItem(const QModelIndex& parent, int row, const QString& name) override;
     void remove(const QModelIndex& index) override;
-    void removeSelection(const QModelIndexList&, const QModelIndex& parent = QModelIndex()) override;
+    void removeSelection(const QModelIndexList&,
+                         const QModelIndex& parent = QModelIndex()) override;
 
     void editPaletteProperties(const QModelIndex& index) override;
     void editCellProperties(const QModelIndex& index) override;
@@ -205,19 +215,29 @@ public:
 //   PaletteProvider
 // ========================================================
 
-class PaletteProvider : public QObject, public IPaletteProvider, public muse::async::Asyncable, public muse::Contextable
+class PaletteProvider : public QObject, public IPaletteProvider, public muse::async::Asyncable,
+    public muse::Contextable
 {
     Q_OBJECT
 
-    Q_PROPERTY(QAbstractItemModel * mainPaletteModel READ mainPaletteModel NOTIFY mainPaletteChanged)
-    Q_PROPERTY(mu::palette::AbstractPaletteController * mainPaletteController READ mainPaletteController NOTIFY mainPaletteChanged)
+    Q_PROPERTY(QAbstractItemModel
+               * mainPaletteModel READ mainPaletteModel NOTIFY mainPaletteChanged)
+    Q_PROPERTY(
+        mu::palette::AbstractPaletteController
+        * mainPaletteController READ mainPaletteController NOTIFY mainPaletteChanged)
 
-    Q_PROPERTY(mu::palette::FilterPaletteTreeModel * customElementsPaletteModel READ customElementsPaletteModel CONSTANT)
-    Q_PROPERTY(mu::palette::AbstractPaletteController * customElementsPaletteController READ customElementsPaletteController CONSTANT)
+    Q_PROPERTY(
+        mu::palette::FilterPaletteTreeModel
+        * customElementsPaletteModel READ customElementsPaletteModel CONSTANT)
+    Q_PROPERTY(
+        mu::palette::AbstractPaletteController
+        * customElementsPaletteController READ customElementsPaletteController CONSTANT)
 
     Q_PROPERTY(bool isSinglePalette READ isSinglePalette NOTIFY isSinglePaletteChanged)
-    Q_PROPERTY(bool isSingleClickToOpenPalette READ isSingleClickToOpenPalette NOTIFY isSingleClickToOpenPaletteChanged)
-    Q_PROPERTY(bool isPaletteDragEnabled READ isPaletteDragEnabled NOTIFY isPaletteDragEnabledChanged)
+    Q_PROPERTY(
+        bool isSingleClickToOpenPalette READ isSingleClickToOpenPalette NOTIFY isSingleClickToOpenPaletteChanged)
+    Q_PROPERTY(
+        bool isPaletteDragEnabled READ isPaletteDragEnabled NOTIFY isPaletteDragEnabledChanged)
 
     muse::GlobalInject<IPaletteConfiguration> configuration;
     muse::ContextInject<muse::IInteractive> interactive = { this };
@@ -232,19 +252,24 @@ public:
 
     PaletteTreeModel* userPaletteModel() const { return m_userPaletteModel; }
     PaletteTreePtr userPaletteTree() const override { return m_userPaletteModel->paletteTreePtr(); }
-    muse::async::Notification userPaletteTreeChanged() const override { return m_userPaletteChanged; }
+    muse::async::Notification userPaletteTreeChanged() const override
+    {
+        return m_userPaletteChanged;
+    }
     void setUserPaletteTree(PaletteTreePtr tree) override;
 
     void setDefaultPaletteTree(PaletteTreePtr tree) override;
 
     muse::async::Channel<engraving::ElementPtr> addCustomItemRequested() const override;
 
-    Q_INVOKABLE QModelIndex poolPaletteIndex(const QModelIndex& index, mu::palette::FilterPaletteTreeModel* poolPalette) const;
+    Q_INVOKABLE QModelIndex poolPaletteIndex(const QModelIndex& index,
+                                             mu::palette::FilterPaletteTreeModel* poolPalette) const;
     Q_INVOKABLE QModelIndex customElementsPaletteIndex(const QModelIndex& index);
 
-    Q_INVOKABLE mu::palette::FilterPaletteTreeModel* poolPaletteModel(const QModelIndex& index) const;
-    Q_INVOKABLE mu::palette::AbstractPaletteController* poolPaletteController(mu::palette::FilterPaletteTreeModel*,
-                                                                              const QModelIndex& rootIndex) const;
+    Q_INVOKABLE mu::palette::FilterPaletteTreeModel* poolPaletteModel(const QModelIndex& index)
+    const;
+    Q_INVOKABLE mu::palette::AbstractPaletteController* poolPaletteController(
+        mu::palette::FilterPaletteTreeModel*, const QModelIndex& rootIndex) const;
 
     Q_INVOKABLE QAbstractItemModel* availableExtraPalettesModel() const;
     Q_INVOKABLE bool addPalette(const QPersistentModelIndex&);
@@ -262,7 +287,10 @@ public:
     void write(engraving::XmlWriter&, bool pasteMode) const;
     bool read(engraving::XmlReader&, bool pasteMode);
 
-    void updateCellsState(const engraving::Selection& sel) { m_userPaletteModel->updateCellsState(sel); }
+    void updateCellsState(const engraving::Selection& sel)
+    {
+        m_userPaletteModel->updateCellsState(sel);
+    }
     void retranslate()
     {
         m_userPaletteModel->retranslate();

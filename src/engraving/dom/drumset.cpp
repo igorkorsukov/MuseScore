@@ -105,12 +105,14 @@ void Drumset::save(XmlWriter& xml) const
         xml.startElement("Drum", { { "pitch", i } });
         const NoteHeadGroup nh = noteHead(i);
         //write custom as Normal notehead group + noteheads tag to keep compatibility with 2.X versions
-        const NoteHeadGroup saveNHValue = (nh == NoteHeadGroup::HEAD_CUSTOM) ? NoteHeadGroup::HEAD_NORMAL : nh;
+        const NoteHeadGroup saveNHValue
+            = (nh == NoteHeadGroup::HEAD_CUSTOM) ? NoteHeadGroup::HEAD_NORMAL : nh;
         xml.tag("head", TConv::toXml(saveNHValue));
         if (nh == NoteHeadGroup::HEAD_CUSTOM) {
             xml.startElement("noteheads");
             for (int j = 0; j < int(NoteHeadType::HEAD_TYPES); j++) {
-                xml.tag(TConv::toXml(NoteHeadType(j)), SymNames::nameForSymId(noteHeads(i, NoteHeadType(j))));
+                xml.tag(TConv::toXml(NoteHeadType(j)),
+                        SymNames::nameForSymId(noteHeads(i, NoteHeadType(j))));
             }
             xml.endElement();
         }
@@ -185,7 +187,8 @@ bool Drumset::readDrumProperties(XmlReader& e, int pitch)
                     if (taga == "articulation") {
                         div.articulationName = e.readText();
                     } else if (taga == "tremolo") {
-                        div.tremolo = TConv::fromXml(e.readAsciiText(), TremoloType::INVALID_TREMOLO);
+                        div.tremolo
+                            = TConv::fromXml(e.readAsciiText(), TremoloType::INVALID_TREMOLO);
                     }
                 }
                 m_drums[pitch].addVariant(div);
@@ -279,13 +282,16 @@ int Drumset::prevPitch(int ii) const
 /// find a variant for the given pitch with matching chord articulation and tremolo
 //---------------------------------------------------------
 
-DrumInstrumentVariant Drumset::findVariant(int p, const std::vector<Articulation*>& articulations, TremoloType tremType) const
+DrumInstrumentVariant Drumset::findVariant(int p, const std::vector<Articulation*>& articulations,
+                                           TremoloType tremType) const
 {
     DrumInstrumentVariant div;
     const std::vector<DrumInstrumentVariant>& vs = variants(p);
     for (const DrumInstrumentVariant& v : vs) {
-        bool matchTremolo = ((tremType == TremoloType::INVALID_TREMOLO) && (v.tremolo == TremoloType::INVALID_TREMOLO))
-                            || (v.tremolo == tremType);
+        bool matchTremolo
+            = ((tremType == TremoloType::INVALID_TREMOLO)
+               && (v.tremolo == TremoloType::INVALID_TREMOLO))
+              || (v.tremolo == tremType);
         bool matchArticulation = v.articulationName.empty() && articulations.empty();
         for (const Articulation* a : articulations) {
             matchArticulation = a->articulationName() == v.articulationName;
@@ -351,10 +357,14 @@ void Drumset::initDrumset()
         /*voice*/ 0,
         /*shortcut*/ String());
 
-    smDrumset->drum(28).noteheads[static_cast<int>(NoteHeadType::HEAD_WHOLE)] = SymNames::symIdByName("noteheadSlashX");
-    smDrumset->drum(28).noteheads[static_cast<int>(NoteHeadType::HEAD_HALF)] = SymNames::symIdByName("noteheadSlashX");
-    smDrumset->drum(28).noteheads[static_cast<int>(NoteHeadType::HEAD_QUARTER)] = SymNames::symIdByName("noteheadSlashX");
-    smDrumset->drum(28).noteheads[static_cast<int>(NoteHeadType::HEAD_BREVIS)] = SymNames::symIdByName("noteheadSlashX");
+    smDrumset->drum(28).noteheads[static_cast<int>(NoteHeadType::HEAD_WHOLE)]
+        = SymNames::symIdByName("noteheadSlashX");
+    smDrumset->drum(28).noteheads[static_cast<int>(NoteHeadType::HEAD_HALF)]
+        = SymNames::symIdByName("noteheadSlashX");
+    smDrumset->drum(28).noteheads[static_cast<int>(NoteHeadType::HEAD_QUARTER)]
+        = SymNames::symIdByName("noteheadSlashX");
+    smDrumset->drum(28).noteheads[static_cast<int>(NoteHeadType::HEAD_BREVIS)]
+        = SymNames::symIdByName("noteheadSlashX");
 
     // Scratch Push
     smDrumset->drum(29) = DrumInstrument(
@@ -620,10 +630,14 @@ void Drumset::initDrumset()
         /*voice*/ 0,
         /*shortcut*/ String());
 
-    smDrumset->drum(52).noteheads[static_cast<int>(NoteHeadType::HEAD_WHOLE)] = SymNames::symIdByName("noteheadHeavyXHat");
-    smDrumset->drum(52).noteheads[static_cast<int>(NoteHeadType::HEAD_HALF)] = SymNames::symIdByName("noteheadHeavyXHat");
-    smDrumset->drum(52).noteheads[static_cast<int>(NoteHeadType::HEAD_QUARTER)] = SymNames::symIdByName("noteheadHeavyXHat");
-    smDrumset->drum(52).noteheads[static_cast<int>(NoteHeadType::HEAD_BREVIS)] = SymNames::symIdByName("noteheadHeavyXHat");
+    smDrumset->drum(52).noteheads[static_cast<int>(NoteHeadType::HEAD_WHOLE)]
+        = SymNames::symIdByName("noteheadHeavyXHat");
+    smDrumset->drum(52).noteheads[static_cast<int>(NoteHeadType::HEAD_HALF)]
+        = SymNames::symIdByName("noteheadHeavyXHat");
+    smDrumset->drum(52).noteheads[static_cast<int>(NoteHeadType::HEAD_QUARTER)]
+        = SymNames::symIdByName("noteheadHeavyXHat");
+    smDrumset->drum(52).noteheads[static_cast<int>(NoteHeadType::HEAD_BREVIS)]
+        = SymNames::symIdByName("noteheadHeavyXHat");
 
     // Ride Bell
     smDrumset->drum(53) = DrumInstrument(
@@ -735,10 +749,14 @@ void Drumset::initDrumset()
         /*voice*/ 0,
         /*shortcut*/ String());
 
-    smDrumset->drum(62).noteheads[static_cast<int>(NoteHeadType::HEAD_WHOLE)] = SymNames::symIdByName("noteheadXOrnate");
-    smDrumset->drum(62).noteheads[static_cast<int>(NoteHeadType::HEAD_HALF)] = SymNames::symIdByName("noteheadXOrnate");
-    smDrumset->drum(62).noteheads[static_cast<int>(NoteHeadType::HEAD_QUARTER)] = SymNames::symIdByName("noteheadXOrnate");
-    smDrumset->drum(62).noteheads[static_cast<int>(NoteHeadType::HEAD_BREVIS)] = SymNames::symIdByName("noteheadXOrnate");
+    smDrumset->drum(62).noteheads[static_cast<int>(NoteHeadType::HEAD_WHOLE)]
+        = SymNames::symIdByName("noteheadXOrnate");
+    smDrumset->drum(62).noteheads[static_cast<int>(NoteHeadType::HEAD_HALF)]
+        = SymNames::symIdByName("noteheadXOrnate");
+    smDrumset->drum(62).noteheads[static_cast<int>(NoteHeadType::HEAD_QUARTER)]
+        = SymNames::symIdByName("noteheadXOrnate");
+    smDrumset->drum(62).noteheads[static_cast<int>(NoteHeadType::HEAD_BREVIS)]
+        = SymNames::symIdByName("noteheadXOrnate");
 
     // Open High Conga
     smDrumset->drum(63) = DrumInstrument(
@@ -1004,10 +1022,14 @@ void Drumset::initDrumset()
         /*voice*/ 0,
         /*shortcut*/ String());
 
-    smDrumset->drum(86).noteheads[static_cast<int>(NoteHeadType::HEAD_WHOLE)] = SymNames::symIdByName("noteheadSlashX");
-    smDrumset->drum(86).noteheads[static_cast<int>(NoteHeadType::HEAD_HALF)] = SymNames::symIdByName("noteheadSlashX");
-    smDrumset->drum(86).noteheads[static_cast<int>(NoteHeadType::HEAD_QUARTER)] = SymNames::symIdByName("noteheadSlashX");
-    smDrumset->drum(86).noteheads[static_cast<int>(NoteHeadType::HEAD_BREVIS)] = SymNames::symIdByName("noteheadSlashX");
+    smDrumset->drum(86).noteheads[static_cast<int>(NoteHeadType::HEAD_WHOLE)]
+        = SymNames::symIdByName("noteheadSlashX");
+    smDrumset->drum(86).noteheads[static_cast<int>(NoteHeadType::HEAD_HALF)]
+        = SymNames::symIdByName("noteheadSlashX");
+    smDrumset->drum(86).noteheads[static_cast<int>(NoteHeadType::HEAD_QUARTER)]
+        = SymNames::symIdByName("noteheadSlashX");
+    smDrumset->drum(86).noteheads[static_cast<int>(NoteHeadType::HEAD_BREVIS)]
+        = SymNames::symIdByName("noteheadSlashX");
 
     // Open Surdo
     smDrumset->drum(87) = DrumInstrument(

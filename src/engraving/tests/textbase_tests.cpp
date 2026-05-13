@@ -61,7 +61,8 @@ TEST_F(Engraving_TextBaseTests, createDynamic)
 {
     MasterScore* score = ScoreRW::readScore(u"test.mscx");
     addDynamic(score);
-    EXPECT_TRUE(ScoreComp::saveCompareScore(score, u"createDynamic.mscx", TEXTBASE_DATA_DIR + u"createDynamic-ref.mscx"));
+    EXPECT_TRUE(ScoreComp::saveCompareScore(score, u"createDynamic.mscx",
+                                            TEXTBASE_DATA_DIR + u"createDynamic-ref.mscx"));
 }
 
 TEST_F(Engraving_TextBaseTests, dynamicAddTextBefore)
@@ -74,7 +75,8 @@ TEST_F(Engraving_TextBaseTests, dynamicAddTextBefore)
     score->undo(new InsertText(dynamic->cursor(), String(u"poco ")), &ed);
     score->endCmd();
     dynamic->endEdit(ed);
-    EXPECT_TRUE(ScoreComp::saveCompareScore(score, u"dynamicAddTextBefore.mscx", TEXTBASE_DATA_DIR + u"dynamicAddTextBefore-ref.mscx"));
+    EXPECT_TRUE(ScoreComp::saveCompareScore(score, u"dynamicAddTextBefore.mscx",
+                                            TEXTBASE_DATA_DIR + u"dynamicAddTextBefore-ref.mscx"));
 }
 
 TEST_F(Engraving_TextBaseTests, dynamicAddTextAfter)
@@ -89,7 +91,8 @@ TEST_F(Engraving_TextBaseTests, dynamicAddTextAfter)
     dynamic->edit(ed);
     score->endCmd();
     dynamic->endEdit(ed);
-    EXPECT_TRUE(ScoreComp::saveCompareScore(score, u"dynamicAddTextAfter.mscx", TEXTBASE_DATA_DIR + u"dynamicAddTextAfter-ref.mscx"));
+    EXPECT_TRUE(ScoreComp::saveCompareScore(score, u"dynamicAddTextAfter.mscx",
+                                            TEXTBASE_DATA_DIR + u"dynamicAddTextAfter-ref.mscx"));
 }
 
 TEST_F(Engraving_TextBaseTests, dynamicAddTextNoItalic)
@@ -103,7 +106,9 @@ TEST_F(Engraving_TextBaseTests, dynamicAddTextNoItalic)
     score->undo(new InsertText(dynamic->cursor(), String(u"moderately ")), &ed);
     score->endCmd();
     dynamic->endEdit(ed);
-    EXPECT_TRUE(ScoreComp::saveCompareScore(score, u"dynamicAddTextNoItalic.mscx", TEXTBASE_DATA_DIR + u"dynamicAddTextNoItalic-ref.mscx"));
+    EXPECT_TRUE(ScoreComp::saveCompareScore(score, u"dynamicAddTextNoItalic.mscx",
+                                            TEXTBASE_DATA_DIR
+                                            + u"dynamicAddTextNoItalic-ref.mscx"));
 }
 
 StaffText* Engraving_TextBaseTests::addStaffText(MasterScore* score)
@@ -123,18 +128,25 @@ TEST_F(Engraving_TextBaseTests, getFontStyleProperty)
     EditData ed;
     staffText->startEdit(ed);
     score->undo(new InsertText(staffText->cursor(), String(u"normal ")), &ed);
-    staffText->setProperty(Pid::FONT_STYLE, PropertyValue::fromValue(static_cast<int>(FontStyle::Bold)));
+    staffText->setProperty(Pid::FONT_STYLE,
+                           PropertyValue::fromValue(static_cast<int>(FontStyle::Bold)));
     score->undo(new InsertText(staffText->cursor(), String(u"bold")), &ed);
     staffText->cursor()->moveCursorToStart();
     EXPECT_EQ(staffText->getProperty(Pid::FONT_STYLE), PropertyValue::fromValue(0));
-    staffText->cursor()->movePosition(TextCursor::MoveOperation::NextWord, TextCursor::MoveMode::KeepAnchor);
+    staffText->cursor()->movePosition(TextCursor::MoveOperation::NextWord,
+                                      TextCursor::MoveMode::KeepAnchor);
     EXPECT_EQ(staffText->getProperty(Pid::FONT_STYLE), PropertyValue::fromValue(0));
-    staffText->cursor()->movePosition(TextCursor::MoveOperation::End, TextCursor::MoveMode::KeepAnchor);
+    staffText->cursor()->movePosition(TextCursor::MoveOperation::End,
+                                      TextCursor::MoveMode::KeepAnchor);
     EXPECT_EQ(staffText->getProperty(Pid::FONT_STYLE), PropertyValue::fromValue(0));
-    staffText->cursor()->movePosition(TextCursor::MoveOperation::WordLeft, TextCursor::MoveMode::MoveAnchor);
-    EXPECT_EQ(staffText->getProperty(Pid::FONT_STYLE), PropertyValue::fromValue(static_cast<int>(FontStyle::Normal)));
-    staffText->cursor()->movePosition(TextCursor::MoveOperation::NextWord, TextCursor::MoveMode::KeepAnchor);
-    EXPECT_EQ(staffText->getProperty(Pid::FONT_STYLE), PropertyValue::fromValue(static_cast<int>(FontStyle::Bold)));
+    staffText->cursor()->movePosition(TextCursor::MoveOperation::WordLeft,
+                                      TextCursor::MoveMode::MoveAnchor);
+    EXPECT_EQ(staffText->getProperty(Pid::FONT_STYLE),
+              PropertyValue::fromValue(static_cast<int>(FontStyle::Normal)));
+    staffText->cursor()->movePosition(TextCursor::MoveOperation::NextWord,
+                                      TextCursor::MoveMode::KeepAnchor);
+    EXPECT_EQ(staffText->getProperty(Pid::FONT_STYLE),
+              PropertyValue::fromValue(static_cast<int>(FontStyle::Bold)));
     staffText->endEdit(ed);
     EXPECT_EQ(staffText->getProperty(Pid::FONT_STYLE), PropertyValue::fromValue(0));
 }
@@ -146,11 +158,13 @@ TEST_F(Engraving_TextBaseTests, undoChangeFontStyleProperty)
     staffText->setXmlText(u"normal <b>bold</b> <u>underline</u> <i>italic</i>");
     score->renderer()->layoutItem(staffText);
     score->startCmd(TranslatableString::untranslatable("Engraving text base tests"));
-    staffText->undoChangeProperty(Pid::FONT_STYLE, PropertyValue::fromValue(0), PropertyFlags::UNSTYLED);
+    staffText->undoChangeProperty(Pid::FONT_STYLE, PropertyValue::fromValue(
+                                      0), PropertyFlags::UNSTYLED);
     score->endCmd();
     EXPECT_EQ(staffText->xmlText(), u"normal <b>bold</b> <u>underline</u> <i>italic</i>");
     score->startCmd(TranslatableString::untranslatable("Engraving text base tests"));
-    staffText->undoChangeProperty(Pid::FONT_STYLE, PropertyValue::fromValue(static_cast<int>(FontStyle::Bold)),
+    staffText->undoChangeProperty(Pid::FONT_STYLE,
+                                  PropertyValue::fromValue(static_cast<int>(FontStyle::Bold)),
                                   PropertyFlags::UNSTYLED);
     score->endCmd();
     EXPECT_EQ(staffText->xmlText(), u"<b>normal bold <u>underline</u> <i>italic</i></b>");
@@ -161,18 +175,21 @@ TEST_F(Engraving_TextBaseTests, undoChangeFontStyleProperty)
     EXPECT_EQ(staffText->xmlText(), u"<b>normal bold <u>underline</u> <i>italic</i></b>");
     score->startCmd(TranslatableString::untranslatable("Engraving text base tests"));
     staffText->undoChangeProperty(Pid::FONT_STYLE, PropertyValue::fromValue(
-                                      static_cast<int>(FontStyle::Italic + FontStyle::Bold)), PropertyFlags::UNSTYLED);
+                                      static_cast<int>(FontStyle::Italic + FontStyle::Bold)),
+                                  PropertyFlags::UNSTYLED);
     score->endCmd();
     EXPECT_EQ(staffText->xmlText(), u"<b><i>normal bold <u>underline</u> italic</i></b>");
     score->startCmd(TranslatableString::untranslatable("Engraving text base tests"));
     staffText->undoChangeProperty(Pid::FONT_STYLE,
                                   PropertyValue::fromValue(
-                                      static_cast<int>(FontStyle::Italic + FontStyle::Bold + FontStyle::Underline)),
+                                      static_cast<int>(FontStyle::Italic + FontStyle::Bold
+                                                       + FontStyle::Underline)),
                                   PropertyFlags::UNSTYLED);
     score->endCmd();
     EXPECT_EQ(staffText->xmlText(), u"<b><i><u>normal bold underline italic</u></i></b>");
     score->startCmd(TranslatableString::untranslatable("Engraving text base tests"));
-    staffText->undoChangeProperty(Pid::FONT_STYLE, PropertyValue::fromValue(0), PropertyFlags::UNSTYLED);
+    staffText->undoChangeProperty(Pid::FONT_STYLE, PropertyValue::fromValue(
+                                      0), PropertyFlags::UNSTYLED);
     score->endCmd();
     EXPECT_EQ(staffText->xmlText(), u"normal bold underline italic");
 }
@@ -190,7 +207,8 @@ TEST_F(Engraving_TextBaseTests, undoChangeFontSizeEmptyLines)   // Testcase for 
     score->renderer()->layoutItem(staffText);
 
     score->startCmd(TranslatableString::untranslatable("Engraving text base tests"));
-    staffText->undoChangeProperty(Pid::FONT_SIZE, PropertyValue::fromValue(30.0), PropertyFlags::UNSTYLED); // Change font size from 25 to 30
+    staffText->undoChangeProperty(Pid::FONT_SIZE, PropertyValue::fromValue(
+                                      30.0), PropertyFlags::UNSTYLED);                                      // Change font size from 25 to 30
     score->endCmd();
 
     LOGD(" 1.: Text is now : %s", muPrintable(staffText->xmlText().replace(u"\n", u"\\n")));
@@ -242,7 +260,8 @@ TEST_F(Engraving_TextBaseTests, lineBreakTest)
         staffText->genText();
         // Save to file
         // \n should be converted to <br/>
-        EXPECT_TRUE(ScoreComp::saveCompareScore(score, u"lineBreak.mscx", TEXTBASE_DATA_DIR + u"lineBreak-ref.mscx"));
+        EXPECT_TRUE(ScoreComp::saveCompareScore(score, u"lineBreak.mscx",
+                                                TEXTBASE_DATA_DIR + u"lineBreak-ref.mscx"));
     }
 
     // Read

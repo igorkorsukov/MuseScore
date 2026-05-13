@@ -65,7 +65,8 @@ size_t findExactMatchesFrom2nd(const std::vector<SimplifiedItem>& list)
 // with the measure numbers changed from one-based to zero-based
 // and items describing consecutive sets of measures merged
 
-void ReadingList::initializeList(const size_t nMeasures, const std::vector<TefReadingListItem>& tefReadingList)
+void ReadingList::initializeList(const size_t nMeasures,
+                                 const std::vector<TefReadingListItem>& tefReadingList)
 {
     UNUSED(nMeasures);
     for (const auto& tefItem : tefReadingList) {
@@ -90,7 +91,8 @@ void ReadingList::initializeList(const size_t nMeasures, const std::vector<TefRe
     }
 }
 
-void ReadingList::calculate(const size_t nMeasures, const std::vector<TefReadingListItem>& tefReadingList)
+void ReadingList::calculate(const size_t nMeasures,
+                            const std::vector<TefReadingListItem>& tefReadingList)
 {
     LOGN("reading list size %zu number of measures %zu", tefReadingList.size(), nMeasures);
     if (nMeasures == 0) {
@@ -115,7 +117,8 @@ void ReadingList::analyze()
     while (m_list.size()) {
         size_t itemsUsed { findExactMatches(m_list) };
         LOGN("findExactMatches() count %zu", itemsUsed);
-        bool overlapWithNext { m_list.size() > itemsUsed && m_list.at(0).overlapsWith(m_list.at(itemsUsed)) };
+        bool overlapWithNext { m_list.size() > itemsUsed
+                               && m_list.at(0).overlapsWith(m_list.at(itemsUsed)) };
         LOGN("overlapWithNext %s", (overlapWithNext ? "true" : "false"));
         if (itemsUsed > 1) {
             m_status[m_list.at(0).first].repeatStart = true;
@@ -128,7 +131,8 @@ void ReadingList::analyze()
         }
 
         if (m_list.size() >= 2 && m_list.at(0).overlapsWith(m_list.at(1))) {
-            LOGN("overlap %d-%d %d-%d", m_list.at(0).first, m_list.at(0).last, m_list.at(1).first, m_list.at(1).last);
+            LOGN("overlap %d-%d %d-%d", m_list.at(0).first, m_list.at(0).last, m_list.at(
+                     1).first, m_list.at(1).last);
             if (m_list.at(0).first <= m_list.at(1).first) {
                 m_status[m_list.at(1).first].repeatStart = true;
             } else {
@@ -162,7 +166,8 @@ void ReadingList::analyze()
                     m_status[m_list.at(2).first].ending = ending2;
                     const int measuresInEnding1 { m_list.at(0).last - m_list.at(1).last };
                     const size_t ending1Repeats { findExactMatchesFrom2nd(m_list) };
-                    LOGN("ending 1 end %d measures %d repeats %zu", m_list.at(0).last, measuresInEnding1, ending1Repeats);
+                    LOGN("ending 1 end %d measures %d repeats %zu", m_list.at(
+                             0).last, measuresInEnding1, ending1Repeats);
                     Ending ending1;
                     ending1.duration = measuresInEnding1;
                     ending1.number = 1;

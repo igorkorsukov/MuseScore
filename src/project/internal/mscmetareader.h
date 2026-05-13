@@ -39,7 +39,8 @@ class MscMetaReader : public IMscMetaReader
 public:
     muse::RetVal<QPixmap> readThumbnail(const muse::io::path_t& filePath) const override;
     muse::RetVal<ProjectMeta> readMeta(const muse::io::path_t& filePath) const override;
-    muse::RetVal<CloudProjectInfo> readCloudProjectInfo(const muse::io::path_t& filePath) const override;
+    muse::RetVal<CloudProjectInfo> readCloudProjectInfo(const muse::io::path_t& filePath) const
+    override;
 
 private:
 
@@ -71,7 +72,8 @@ private:
         size_t partsCount = 0;
     };
 
-    muse::Ret prepareReader(const muse::io::path_t& filePath, mu::engraving::MscReader& reader) const;
+    muse::Ret prepareReader(const muse::io::path_t& filePath,
+                            mu::engraving::MscReader& reader) const;
 
     void doReadMeta(muse::XmlStreamReader& xmlReader, ProjectMeta& meta) const;
     RawMeta doReadBox(muse::XmlStreamReader& xmlReader) const;

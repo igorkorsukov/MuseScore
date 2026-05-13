@@ -28,7 +28,8 @@
 #include "../types/types.h"
 
 namespace mu::engraving {
-constexpr muse::mpe::dynamic_level_t NATURAL_DYNAMIC_LEVEL = muse::mpe::dynamicLevelFromType(muse::mpe::DynamicType::Natural);
+constexpr muse::mpe::dynamic_level_t NATURAL_DYNAMIC_LEVEL = muse::mpe::dynamicLevelFromType(
+    muse::mpe::DynamicType::Natural);
 
 inline const std::unordered_map<DynamicType, muse::mpe::dynamic_level_t> ORDINARY_DYNAMIC_LEVELS {
     { DynamicType::N, muse::mpe::dynamicLevelFromType(muse::mpe::DynamicType::ppppppppp) },
@@ -64,7 +65,8 @@ inline muse::mpe::dynamic_level_t dynamicLevelFromOrdinaryType(const DynamicType
     return defLevel;
 }
 
-inline const std::unordered_map<DynamicType, muse::mpe::dynamic_level_t> SINGLE_NOTE_DYNAMIC_LEVELS {
+inline const std::unordered_map<DynamicType,
+                                muse::mpe::dynamic_level_t> SINGLE_NOTE_DYNAMIC_LEVELS {
     { DynamicType::SF, muse::mpe::dynamicLevelFromType(muse::mpe::DynamicType::f) },
     { DynamicType::SFZ, muse::mpe::dynamicLevelFromType(muse::mpe::DynamicType::f) },
     { DynamicType::SFF, muse::mpe::dynamicLevelFromType(muse::mpe::DynamicType::ff) },
@@ -124,7 +126,8 @@ inline const CompoundDynamic& compoundDynamicFromType(const DynamicType type)
     return empty;
 }
 
-inline muse::mpe::ArticulationType articulationFromPlayTechType(const PlayingTechniqueType technique)
+inline muse::mpe::ArticulationType articulationFromPlayTechType(
+    const PlayingTechniqueType technique)
 {
     switch (technique) {
     case PlayingTechniqueType::Natural: return muse::mpe::ArticulationType::Standard;
@@ -165,10 +168,12 @@ static const muse::mpe::ArticulationTypeSet GRACE_NOTE_ARTICULATION_TYPES {
 
 inline bool isGraceNotePlacedBeforePrincipalNote(const muse::mpe::ArticulationType type)
 {
-    return type == muse::mpe::ArticulationType::Acciaccatura || type == muse::mpe::ArticulationType::PreAppoggiatura;
+    return type == muse::mpe::ArticulationType::Acciaccatura
+           || type == muse::mpe::ArticulationType::PreAppoggiatura;
 }
 
-inline void updateArticulationBoundaries(const muse::mpe::ArticulationType type, const muse::mpe::timestamp_t nominalTimestamp,
+inline void updateArticulationBoundaries(const muse::mpe::ArticulationType type,
+                                         const muse::mpe::timestamp_t nominalTimestamp,
                                          const muse::mpe::duration_t nominalDuration,
                                          muse::mpe::ArticulationMap& articulations)
 {
@@ -178,14 +183,18 @@ inline void updateArticulationBoundaries(const muse::mpe::ArticulationType type,
 
     const muse::mpe::ArticulationAppliedData& articulationData = articulations.at(type);
 
-    muse::mpe::timestamp_t articulationOccupiedFrom = nominalTimestamp - articulationData.meta.timestamp;
-    muse::mpe::timestamp_t articulationOccupiedTo = nominalTimestamp + nominalDuration - articulationData.meta.timestamp;
+    muse::mpe::timestamp_t articulationOccupiedFrom = nominalTimestamp
+                                                      - articulationData.meta.timestamp;
+    muse::mpe::timestamp_t articulationOccupiedTo = nominalTimestamp + nominalDuration
+                                                    - articulationData.meta.timestamp;
 
     articulations.updateOccupiedRange(type,
                                       muse::mpe::occupiedPercentage(articulationOccupiedFrom,
-                                                                    articulationData.meta.overallDuration),
+                                                                    articulationData.meta.
+                                                                    overallDuration),
                                       muse::mpe::occupiedPercentage(articulationOccupiedTo,
-                                                                    articulationData.meta.overallDuration));
+                                                                    articulationData.meta.
+                                                                    overallDuration));
 }
 }
 

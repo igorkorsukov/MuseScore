@@ -110,7 +110,8 @@ inline muse::mpe::PitchClass pitchClassFromTpc(const int tpc)
     }
 }
 
-inline muse::mpe::octave_t actualOctave(const int nominalOctave, const muse::mpe::PitchClass nominalPitchClass,
+inline muse::mpe::octave_t actualOctave(const int nominalOctave,
+                                        const muse::mpe::PitchClass nominalPitchClass,
                                         const AccidentalVal accidental)
 {
     int shift = static_cast<int>(nominalPitchClass) - static_cast<int>(accidental);
@@ -129,13 +130,16 @@ inline muse::mpe::octave_t actualOctave(const int nominalOctave, const muse::mpe
     return static_cast<muse::mpe::octave_t>(nominalOctave);
 }
 
-inline muse::mpe::pitch_level_t notePitchLevel(const int noteTpc, const int noteOctave, const double tuningCents = 0.0)
+inline muse::mpe::pitch_level_t notePitchLevel(const int noteTpc, const int noteOctave,
+                                               const double tuningCents = 0.0)
 {
     muse::mpe::PitchClass pitchClass = pitchClassFromTpc(noteTpc);
 
     double tuningFactor = tuningCents / 100.0;
 
-    muse::mpe::pitch_level_t result = muse::mpe::pitchLevel(pitchClass, actualOctave(noteOctave, pitchClass, tpc2alter(noteTpc)));
+    muse::mpe::pitch_level_t result
+        = muse::mpe::pitchLevel(pitchClass,
+                                actualOctave(noteOctave, pitchClass, tpc2alter(noteTpc)));
     result += tuningFactor * muse::mpe::PITCH_LEVEL_STEP;
 
     return result;

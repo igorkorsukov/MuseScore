@@ -36,19 +36,22 @@ struct SystemObjectsGroup {
 using SystemObjectGroups = std::vector<SystemObjectsGroup>;
 using SystemObjectGroupsByStaff = std::map<const mu::engraving::Staff*, SystemObjectGroups>;
 
-inline SystemObjectGroupsByStaff collectSystemObjectGroups(const std::vector<mu::engraving::Staff*>& staves)
+inline SystemObjectGroupsByStaff collectSystemObjectGroups(
+    const std::vector<mu::engraving::Staff*>& staves)
 {
     if (staves.empty()) {
         return {};
     }
 
-    const std::vector<engraving::EngravingItem*> systemObjects = engraving::collectSystemObjects(staves.front()->score(), staves);
+    const std::vector<engraving::EngravingItem*> systemObjects = engraving::collectSystemObjects(
+        staves.front()->score(), staves);
     SystemObjectGroupsByStaff result;
 
     for (engraving::EngravingItem* obj : systemObjects) {
         SystemObjectGroups& groups = result[obj->staff()];
 
-        auto it = std::find_if(groups.begin(), groups.end(), [obj](const SystemObjectsGroup& group) {
+        auto it = std::find_if(groups.begin(),
+                               groups.end(), [obj](const SystemObjectsGroup& group) {
             return group.type == obj->type();
         });
 
@@ -60,12 +63,14 @@ inline SystemObjectGroupsByStaff collectSystemObjectGroups(const std::vector<mu:
     }
 
     const engraving::MStyle& style = staves.front()->style();
-    bool collectMeasureNumbers = style.styleV(engraving::Sid::measureNumberPlacementMode).value<engraving::MeasureNumberPlacement>()
-                                 == engraving::MeasureNumberPlacement::ON_SYSTEM_OBJECT_STAVES;
+    bool collectMeasureNumbers
+        = style.styleV(engraving::Sid::measureNumberPlacementMode).value<engraving::MeasureNumberPlacement>()
+          == engraving::MeasureNumberPlacement::ON_SYSTEM_OBJECT_STAVES;
     if (collectMeasureNumbers) {
         for (mu::engraving::Staff* staff : staves) {
             SystemObjectGroups& systemObjectGroups = result[staff];
-            systemObjectGroups.push_back(SystemObjectsGroup { mu::engraving::ElementType::MEASURE_NUMBER, {}, staff });
+            systemObjectGroups.push_back(
+                SystemObjectsGroup { mu::engraving::ElementType::MEASURE_NUMBER, {}, staff });
         }
     }
 

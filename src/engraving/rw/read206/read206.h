@@ -72,8 +72,9 @@ public:
     static VoiceAssignment readDynamicRange(int);
     static EngravingItem* readArticulation(EngravingItem*, XmlReader&, read400::ReadContext& ctx);
     static void readAccidental206(Accidental*, XmlReader&, read400::ReadContext& ctx);
-    static void readTextStyle206(MStyle* style, XmlReader& e, read400::ReadContext& ctx, std::map<String, std::map<Sid,
-                                                                                                                   PropertyValue> >& excessStyles);
+    static void readTextStyle206(MStyle* style, XmlReader& e, read400::ReadContext& ctx,
+                                 std::map<String, std::map<Sid,
+                                                           PropertyValue> >& excessStyles);
     static void readTextLine206(XmlReader& e, read400::ReadContext& ctx, TextLineBase* tlb);
     static void readTrill206(XmlReader& e, read400::ReadContext& ctx, Trill* t);
     static void readHairpin206(XmlReader& e, read400::ReadContext& ctx, Hairpin* h);
@@ -81,7 +82,8 @@ public:
     static void readTie206(XmlReader& e, read400::ReadContext& ctx, Tie* t);
 
     static bool readNoteProperties206(Note* note, XmlReader& e, read400::ReadContext& ctx);
-    static bool readDurationProperties206(XmlReader& e, read400::ReadContext& ctx, DurationElement* de);
+    static bool readDurationProperties206(XmlReader& e, read400::ReadContext& ctx,
+                                          DurationElement* de);
     static bool readTupletProperties206(XmlReader& e, read400::ReadContext& ctx, Tuplet* t);
     static bool readChordRestProperties206(XmlReader& e, read400::ReadContext& ctx, ChordRest* cr);
     static bool readChordProperties206(XmlReader& e, read400::ReadContext& ctx, Chord* ch);

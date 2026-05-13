@@ -51,7 +51,9 @@ class StaffVisibilityPopupModel : public AbstractElementPopupModel, public QQmlP
     Q_INTERFACES(QQmlParserStatus);
     QML_ELEMENT;
 
-    Q_PROPERTY(mu::notation::EmptyStavesVisibilityModel * emptyStavesVisibilityModel READ emptyStavesVisibilityModel CONSTANT)
+    Q_PROPERTY(
+        mu::notation::EmptyStavesVisibilityModel
+        * emptyStavesVisibilityModel READ emptyStavesVisibilityModel CONSTANT)
     Q_PROPERTY(int systemIndex READ systemIndex NOTIFY systemIndexChanged)
 
 public:
@@ -59,7 +61,10 @@ public:
 
     Q_INVOKABLE void init() override;
 
-    EmptyStavesVisibilityModel* emptyStavesVisibilityModel() const { return m_emptyStavesVisibilityModel.get(); }
+    EmptyStavesVisibilityModel* emptyStavesVisibilityModel() const
+    {
+        return m_emptyStavesVisibilityModel.get();
+    }
     int systemIndex() const { return static_cast<int>(m_systemIndex); }
 
 signals:
@@ -74,7 +79,8 @@ private:
     size_t m_systemIndex = 0;
 };
 
-class EmptyStavesVisibilityModel : public QAbstractItemModel, public muse::Contextable, public muse::async::Asyncable
+class EmptyStavesVisibilityModel : public QAbstractItemModel, public muse::Contextable,
+    public muse::async::Asyncable
 {
     Q_OBJECT
 
@@ -90,7 +96,8 @@ public:
 
     void load(INotationPtr notation, engraving::System* system);
 
-    QModelIndex index(int row, int column, const QModelIndex& parent = QModelIndex()) const override;
+    QModelIndex index(int row, int column,
+                      const QModelIndex& parent = QModelIndex()) const override;
     QModelIndex parent(const QModelIndex& child) const override;
     int rowCount(const QModelIndex& parent = QModelIndex()) const override;
     int columnCount(const QModelIndex& parent = QModelIndex()) const override;

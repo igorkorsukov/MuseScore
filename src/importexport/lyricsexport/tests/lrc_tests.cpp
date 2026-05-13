@@ -56,7 +56,9 @@ void Lrc_Tests::lrcTest(const char* file, bool enhancedLrc)
 
     // Flag to be turned on to generate the test reference lrc files
     if constexpr (s_generateReferenceFile) {
-        bool res = exportFunc(score, ScoreRW::rootPath() + u"/" + LRC_DIR + fileName + u"_ref.lrc", enhancedLrc);
+        bool res = exportFunc(score,
+                              ScoreRW::rootPath() + u"/" + LRC_DIR + fileName + u"_ref.lrc",
+                              enhancedLrc);
         EXPECT_TRUE(res);
         return;
     }
@@ -66,7 +68,9 @@ void Lrc_Tests::lrcTest(const char* file, bool enhancedLrc)
     delete score;
 
     // Compare the lrc files
-    EXPECT_TRUE(ScoreComp::compareFiles(fileName + u".test.lrc", ScoreRW::rootPath() + u"/" + LRC_DIR + fileName + u"_ref.lrc"));
+    EXPECT_TRUE(ScoreComp::compareFiles(fileName + u".test.lrc",
+                                        ScoreRW::rootPath() + u"/" + LRC_DIR + fileName
+                                        + u"_ref.lrc"));
 }
 
 TEST_F(Lrc_Tests, lrc_simple_test1) {

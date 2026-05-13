@@ -29,7 +29,9 @@ class TupletCenteringSelectorModel : public AbstractStyleDialogModel
 {
     Q_OBJECT
 
-    Q_PROPERTY(mu::notation::StyleItem * tupletNumberRythmicCenter READ tupletNumberRythmicCenter CONSTANT)
+    Q_PROPERTY(
+        mu::notation::StyleItem
+        * tupletNumberRythmicCenter READ tupletNumberRythmicCenter CONSTANT)
 
     QML_ELEMENT
 

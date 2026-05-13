@@ -126,7 +126,8 @@ void ExampleView::drawBackground(Painter* p, const RectF& r) const
     if (m_backgroundPixmap == 0 || m_backgroundPixmap->isNull()) {
         p->fillRect(r, m_backgroundColor);
     } else {
-        p->drawTiledPixmap(r, *m_backgroundPixmap, r.topLeft() - PointF(m_matrix.dx(), m_matrix.dy()));
+        p->drawTiledPixmap(r, *m_backgroundPixmap, r.topLeft() - PointF(m_matrix.dx(),
+                                                                        m_matrix.dy()));
     }
 }
 
@@ -265,8 +266,10 @@ void ExampleView::constraintCanvas(int* dxx)
     Q_ASSERT(m_score->pages().front()->system(0));   // should exist if doLayout ran
 
     // form rectangle bounding the system with a spatium margin and translate relative to view space
-    qreal xstart = m_score->pages().front()->system(0)->ldata()->bbox().left() - score()->style().defaultSpatium();
-    qreal xend = m_score->pages().front()->system(0)->ldata()->bbox().right() + 2.0 * score()->style().defaultSpatium();
+    qreal xstart = m_score->pages().front()->system(0)->ldata()->bbox().left()
+                   - score()->style().defaultSpatium();
+    qreal xend = m_score->pages().front()->system(0)->ldata()->bbox().right() + 2.0
+                 * score()->style().defaultSpatium();
     QRectF systemScaledViewRect(xstart * m_matrix.m11(), 0, xend * m_matrix.m11(), 0);
     systemScaledViewRect.translate(m_matrix.dx(), 0);
 

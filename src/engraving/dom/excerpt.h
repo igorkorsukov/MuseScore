@@ -85,14 +85,17 @@ public:
 
     void setVoiceVisible(Staff* staff, voice_idx_t voiceIndex, bool visible);
 
-    static std::vector<Excerpt*> createExcerptsFromParts(const std::vector<Part*>& parts, MasterScore* score);
+    static std::vector<Excerpt*> createExcerptsFromParts(const std::vector<Part*>& parts,
+                                                         MasterScore* score);
 
     static void createExcerpt(Excerpt*);
-    static void cloneStaves(Score* sourceScore, Score* dstScore, const std::vector<staff_idx_t>& sourceStavesIndexes,
+    static void cloneStaves(Score* sourceScore, Score* dstScore,
+                            const std::vector<staff_idx_t>& sourceStavesIndexes,
                             const TracksMap& allTracks);
     static void cloneMeasures(Score* oscore, Score* score);
     static void cloneStaff(Staff* ostaff, Staff* nstaff, bool cloneSpanners = true);
-    static void cloneStaff2(Staff* ostaff, Staff* nstaff, const Fraction& startTick, const Fraction& endTick);
+    static void cloneStaff2(Staff* ostaff, Staff* nstaff, const Fraction& startTick,
+                            const Fraction& endTick);
     static void cloneSpanner(Spanner* s, Score* score, track_idx_t dstTrack, track_idx_t dstTrack2);
     static void createLinkedTabs(MasterScore* score);
 

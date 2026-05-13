@@ -66,18 +66,24 @@ void PaletteModule::resolveImports()
     if (ir) {
         ir->registerWidgetUri<MasterPalette>(Uri("musescore://palette/masterpalette"));
         ir->registerWidgetUri<SpecialCharactersDialog>(Uri("musescore://palette/specialcharacters"));
-        ir->registerWidgetUri<TimeSignaturePropertiesDialog>(Uri("musescore://palette/timesignatureproperties"));
+        ir->registerWidgetUri<TimeSignaturePropertiesDialog>(Uri(
+                                                                 "musescore://palette/timesignatureproperties"));
         ir->registerWidgetUri<CustomizeKitDialog>(Uri("musescore://palette/customizekit"));
         ir->registerWidgetUri<KeyEditorDialog>(Uri("musescore://notation/keysignatures"));
         ir->registerWidgetUri<TimeEditorDialog>(Uri("musescore://notation/timesignatures"));
 
-        ir->registerQmlUri(Uri("musescore://palette/properties"), "MuseScore.Palette", "PalettePropertiesDialog");
-        ir->registerQmlUri(Uri("musescore://palette/cellproperties"), "MuseScore.Palette", "PaletteCellPropertiesDialog");
+        ir->registerQmlUri(Uri(
+                               "musescore://palette/properties"), "MuseScore.Palette",
+                           "PalettePropertiesDialog");
+        ir->registerQmlUri(Uri(
+                               "musescore://palette/cellproperties"), "MuseScore.Palette",
+                           "PaletteCellPropertiesDialog");
     }
 
     auto accr = globalIoc()->resolve<muse::accessibility::IQAccessibleInterfaceRegister>(mname);
     if (accr) {
-        accr->registerInterfaceGetter("mu::palette::PaletteWidget", PaletteWidget::accessibleInterface);
+        accr->registerInterfaceGetter("mu::palette::PaletteWidget",
+                                      PaletteWidget::accessibleInterface);
         accr->registerInterfaceGetter("mu::palette::PaletteCell", PaletteCell::accessibleInterface);
     }
 }

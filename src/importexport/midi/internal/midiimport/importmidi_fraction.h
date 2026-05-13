@@ -38,7 +38,10 @@ public:
 
     static ReducedFraction fromTicks(int ticks);
     ReducedFraction reduced() const;
-    ReducedFraction absValue() const { return ReducedFraction(qAbs(numerator_), qAbs(denominator_)); }
+    ReducedFraction absValue() const
+    {
+        return ReducedFraction(qAbs(numerator_), qAbs(denominator_));
+    }
     double toDouble() const { return numerator_ * 1.0 / denominator_; }
     int ticks() const;
     void reduce();
@@ -52,12 +55,30 @@ public:
     ReducedFraction& operator/=(const ReducedFraction&);
     ReducedFraction& operator/=(int);
 
-    ReducedFraction operator+(const ReducedFraction& v) const { return ReducedFraction(*this) += v; }
-    ReducedFraction operator-(const ReducedFraction& v) const { return ReducedFraction(*this) -= v; }
-    ReducedFraction operator*(const ReducedFraction& v) const { return ReducedFraction(*this) *= v; }
-    ReducedFraction operator*(int v)                    const { return ReducedFraction(*this) *= v; }
-    ReducedFraction operator/(const ReducedFraction& v) const { return ReducedFraction(*this) /= v; }
-    ReducedFraction operator/(int v)                    const { return ReducedFraction(*this) /= v; }
+    ReducedFraction operator+(const ReducedFraction& v) const
+    {
+        return ReducedFraction(*this) += v;
+    }
+    ReducedFraction operator-(const ReducedFraction& v) const
+    {
+        return ReducedFraction(*this) -= v;
+    }
+    ReducedFraction operator*(const ReducedFraction& v) const
+    {
+        return ReducedFraction(*this) *= v;
+    }
+    ReducedFraction operator*(int v)                    const
+    {
+        return ReducedFraction(*this) *= v;
+    }
+    ReducedFraction operator/(const ReducedFraction& v) const
+    {
+        return ReducedFraction(*this) /= v;
+    }
+    ReducedFraction operator/(int v)                    const
+    {
+        return ReducedFraction(*this) /= v;
+    }
 
     bool operator<(const ReducedFraction&) const;
     bool operator<=(const ReducedFraction&) const;

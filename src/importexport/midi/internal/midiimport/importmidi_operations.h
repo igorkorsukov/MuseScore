@@ -185,7 +185,8 @@ struct Opers
     // operations for individual tracks
     TrackOp<int> trackIndexAfterReorder = TrackOp<int>(0);
     TrackOp<bool> doImport = TrackOp<bool>(true);
-    TrackOp<QuantValue> quantValue = TrackOp<QuantValue>(Quantize::defaultQuantValueFromPreferences());
+    TrackOp<QuantValue> quantValue = TrackOp<QuantValue>(
+        Quantize::defaultQuantValueFromPreferences());
     TrackOp<bool> searchTuplets = TrackOp<bool>(true);
     TrackOp<bool> search2plets = TrackOp<bool>(false);
     TrackOp<bool> search3plets = TrackOp<bool>(true);

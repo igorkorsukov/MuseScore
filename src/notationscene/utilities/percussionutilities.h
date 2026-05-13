@@ -52,11 +52,13 @@ public:
     }
 
     static void readDrumset(const muse::ByteArray& drumMapping, mu::engraving::Drumset& drumset);
-    std::shared_ptr<mu::engraving::Chord> getDrumNoteForPreview(const mu::engraving::Drumset* drumset, int pitch);
+    std::shared_ptr<mu::engraving::Chord> getDrumNoteForPreview(
+        const mu::engraving::Drumset* drumset, int pitch);
     bool editPercussionShortcut(mu::engraving::Drumset& drumset, int originPitch);
 
 private:
-    muse::RetVal<muse::Val> openPercussionShortcutDialog(const mu::engraving::Drumset& drumset, int originPitch);
+    muse::RetVal<muse::Val> openPercussionShortcutDialog(const mu::engraving::Drumset& drumset,
+                                                         int originPitch);
     QVariantMap drumToQVariantMap(int pitch, const engraving::DrumInstrument& drum);
 };
 }

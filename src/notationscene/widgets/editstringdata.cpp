@@ -113,7 +113,10 @@ bool EditStringData::eventFilter(QObject* obj, QEvent* event)
 QString EditStringData::openColumnAccessibleText(const QTableWidgetItem* item) const
 {
     return item->data(OPEN_ACCESSIBLE_TITLE_ROLE).toString() + ": "
-           + (item->checkState() == Qt::Checked ? muse::qtrc("ui", "checked", "checkstate") : muse::qtrc("ui", "unchecked", "checkstate"));
+           + (item->checkState()
+              == Qt::Checked ? muse::qtrc("ui", "checked", "checkstate") : muse::qtrc("ui",
+                                                                                      "unchecked",
+                                                                                      "checkstate"));
 }
 
 INotationSelectionPtr EditStringData::currentNotationSelection() const
@@ -242,7 +245,8 @@ void EditStringData::init()
             newCheck->setFlags(Qt::ItemFlags(Qt::ItemIsUserCheckable | Qt::ItemIsEnabled));
             newCheck->setCheckState(strg.open ? Qt::Checked : Qt::Unchecked);
 
-            newCheck->setData(OPEN_ACCESSIBLE_TITLE_ROLE, stringList->horizontalHeaderItem(0)->text());
+            newCheck->setData(OPEN_ACCESSIBLE_TITLE_ROLE, stringList->horizontalHeaderItem(
+                                  0)->text());
             newCheck->setToolTip(toolTip);
             newCheck->setData(Qt::AccessibleTextRole, openColumnAccessibleText(newCheck));
 
@@ -269,7 +273,8 @@ void EditStringData::init()
     connect(newString,    &QPushButton::clicked, this, &EditStringData::newStringClicked);
 
     connect(stringList,   &QTableWidget::itemClicked,       this, &EditStringData::listItemClicked);
-    connect(stringList,   &QTableWidget::itemDoubleClicked, this, &EditStringData::editStringClicked);
+    connect(stringList,   &QTableWidget::itemDoubleClicked, this,
+            &EditStringData::editStringClicked);
 
     _modified = false;
 }

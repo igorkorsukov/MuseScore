@@ -83,7 +83,8 @@ const String Pedal::PEDAL_SYMBOL = u"<sym>keyboardPedalPed</sym>";
 const String Pedal::STAR_SYMBOL = u"<sym>keyboardPedalUp</sym>";
 
 PedalSegment::PedalSegment(Pedal* sp, System* parent)
-    : TextLineBaseSegment(ElementType::PEDAL_SEGMENT, sp, parent, ElementFlag::MOVABLE | ElementFlag::ON_STAFF)
+    : TextLineBaseSegment(ElementType::PEDAL_SEGMENT, sp, parent,
+                          ElementFlag::MOVABLE | ElementFlag::ON_STAFF)
 {
     m_text->setTextStyleType(propertyDefault(Pid::TEXT_STYLE).value<TextStyleType>());
     m_endText->setTextStyleType(propertyDefault(Pid::TEXT_STYLE).value<TextStyleType>());
@@ -97,7 +98,8 @@ Sid Pedal::getPropertyStyle(Pid pid) const
     case Pid::BEGIN_TEXT:
         return beginHookType() == HookType::NONE ? Sid::pedalText : Sid::pedalHookText;
     case Pid::CONTINUE_TEXT:
-        return beginHookType() == HookType::NONE ? Sid::pedalContinueText : Sid:: pedalContinueHookText;
+        return beginHookType()
+               == HookType::NONE ? Sid::pedalContinueText : Sid:: pedalContinueHookText;
     default:
         return TextLineBase::getPropertyStyle(pid);
     }
@@ -192,10 +194,12 @@ bool Pedal::setProperty(Pid propertyId, const PropertyValue& v)
     if (propertyId == Pid::BEGIN_HOOK_TYPE) {
         setBeginHookType(v.value<HookType>());
 
-        PropertyFlags beginTextStyleFlag = beginText() == propertyDefault(Pid::BEGIN_TEXT).value<String>()
+        PropertyFlags beginTextStyleFlag = beginText()
+                                           == propertyDefault(Pid::BEGIN_TEXT).value<String>()
                                            ? PropertyFlags::STYLED : PropertyFlags::UNSTYLED;
         setPropertyFlags(Pid::BEGIN_TEXT, beginTextStyleFlag);
-        PropertyFlags continueTextStyleFlag = continueText() == propertyDefault(Pid::CONTINUE_TEXT).value<String>()
+        PropertyFlags continueTextStyleFlag = continueText()
+                                              == propertyDefault(Pid::CONTINUE_TEXT).value<String>()
                                               ? PropertyFlags::STYLED : PropertyFlags::UNSTYLED;
         setPropertyFlags(Pid::CONTINUE_TEXT, continueTextStyleFlag);
     } else if (propertyId == Pid::LINE_VISIBLE) {
@@ -214,10 +218,12 @@ bool Pedal::setProperty(Pid propertyId, const PropertyValue& v)
 Pedal* Pedal::findNextInStaff() const
 {
     Fraction endTick = tick2();
-    auto spanners = score()->spannerMap().findOverlapping(endTick.ticks(), score()->endTick().ticks());
+    auto spanners = score()->spannerMap().findOverlapping(endTick.ticks(),
+                                                          score()->endTick().ticks());
     for (auto element : spanners) {
         Spanner* spanner = element.value;
-        if (spanner->isPedal() && spanner != this && spanner->staffIdx() == staffIdx() && spanner->tick() == endTick) {
+        if (spanner->isPedal() && spanner != this && spanner->staffIdx() == staffIdx()
+            && spanner->tick() == endTick) {
             return toPedal(spanner);
         }
     }
@@ -233,7 +239,8 @@ bool Pedal::connect45HookToNext() const
 
     Pedal* nextPedal = findNextInStaff();
 
-    return nextPedal && nextPedal->tick() == tick2() && nextPedal->beginHookType() == HookType::HOOK_45;
+    return nextPedal && nextPedal->tick() == tick2()
+           && nextPedal->beginHookType() == HookType::HOOK_45;
 }
 
 //---------------------------------------------------------

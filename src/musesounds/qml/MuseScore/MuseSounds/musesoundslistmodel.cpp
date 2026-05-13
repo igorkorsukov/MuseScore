@@ -36,7 +36,8 @@ static const QVariantMap soundLibraryInfoToMap(const SoundLibraryInfo& soundLibr
     return map;
 }
 
-static const QVariantList soundInfoListToVariantList(const SoundLibraryInfoList& soundLibraryInfoList)
+static const QVariantList soundInfoListToVariantList(
+    const SoundLibraryInfoList& soundLibraryInfoList)
 {
     QVariantList list;
 

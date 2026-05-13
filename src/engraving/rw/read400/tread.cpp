@@ -140,7 +140,8 @@ using namespace mu::engraving;
 using namespace mu::engraving::read400;
 
 using ReadTypes = rtti::TypeList<Accidental, ActionIcon, Ambitus, Arpeggio, Articulation,
-                                 BagpipeEmbellishment, BarLine, Beam, Bend,  HBox, VBox, FBox, TBox, Bracket, Breath,
+                                 BagpipeEmbellishment, BarLine, Beam, Bend,  HBox, VBox, FBox, TBox,
+                                 Bracket, Breath,
                                  Chord, ChordLine, Clef,
                                  Dynamic, Expression,
                                  Fermata, FiguredBass, Fingering, FretDiagram,
@@ -155,7 +156,8 @@ using ReadTypes = rtti::TypeList<Accidental, ActionIcon, Ambitus, Arpeggio, Arti
                                  Page, PalmMute, Pedal, PlayTechAnnotation,
                                  Rasgueado, RehearsalMark, Rest,
                                  Ornament, Ottava,
-                                 Segment, Slur, Spacer, StaffState, StaffText, StaffTypeChange, Stem, StemSlash, Sticking,
+                                 Segment, Slur, Spacer, StaffState, StaffText, StaffTypeChange,
+                                 Stem, StemSlash, Sticking,
                                  Symbol, FSymbol, System, SystemDivider, SystemText,
                                  TempoText, Text, TextLine, Tie, TimeSig, TremoloBar, Trill, Tuplet,
                                  Vibrato, Volta,
@@ -293,7 +295,8 @@ PropertyValue TRead::readPropertyValue(Pid id, XmlReader& e, ReadContext& ctx)
     return PropertyValue();
 }
 
-bool TRead::readProperty(EngravingItem* item, const AsciiStringView& tag, XmlReader& xml, ReadContext& ctx, Pid pid)
+bool TRead::readProperty(EngravingItem* item, const AsciiStringView& tag, XmlReader& xml,
+                         ReadContext& ctx, Pid pid)
 {
     if (tag == propertyName(pid)) {
         readProperty(item, xml, ctx, pid);
@@ -324,7 +327,8 @@ void TRead::readProperty(EngravingItem* item, XmlReader& xml, ReadContext& ctx, 
     // Pre-4.4 compatibility: these items now use DIRECTION property
     if (pid == Pid::PLACEMENT && item->hasVoiceAssignmentProperties()) {
         pid = Pid::DIRECTION;
-        v = v.value<PlacementV>() == PlacementV::ABOVE ? PropertyValue(DirectionV::UP) : PropertyValue(DirectionV::DOWN);
+        v = v.value<PlacementV>()
+            == PlacementV::ABOVE ? PropertyValue(DirectionV::UP) : PropertyValue(DirectionV::DOWN);
     }
 
     if (pid == Pid::OFFSET && ctx.mscVersion() >= 302) {    // in 301 files "pos" is written before placement. Migrate offset after both have been read
@@ -339,7 +343,8 @@ void TRead::readProperty(EngravingItem* item, XmlReader& xml, ReadContext& ctx, 
     }
 }
 
-bool TRead::readStyledProperty(EngravingItem* item, const AsciiStringView& tag, XmlReader& xml, ReadContext& ctx)
+bool TRead::readStyledProperty(EngravingItem* item, const AsciiStringView& tag, XmlReader& xml,
+                               ReadContext& ctx)
 {
     for (const StyledProperty& spp : *item->styledProperties()) {
         if (readProperty(item, tag, xml, ctx, spp.pid)) {
@@ -370,7 +375,8 @@ bool TRead::readItemProperties(EngravingItem* item, XmlReader& e, ReadContext& c
         if (!s) {
             s = ctx.score()->staff(ctx.track() / VOICES);
             if (!s) {
-                LOGW("EngravingItem::readProperties: linked element's staff not found (%s)", item->typeName());
+                LOGW("EngravingItem::readProperties: linked element's staff not found (%s)",
+                     item->typeName());
                 e.skipCurrentElement();
                 return true;
             }
@@ -419,12 +425,14 @@ bool TRead::readItemProperties(EngravingItem* item, XmlReader& e, ReadContext& c
                 if (linked->type() == item->type()) {
                     item->linkTo(linked);
                 } else {
-                    LOGW("EngravingItem::readProperties: linked elements have different types: %s, %s. Input file corrupted?",
-                         item->typeName(), linked->typeName());
+                    LOGW(
+                        "EngravingItem::readProperties: linked elements have different types: %s, %s. Input file corrupted?",
+                        item->typeName(), linked->typeName());
                 }
             }
             if (!item->links()) {
-                LOGW("EngravingItem::readProperties: could not link %s at staff %d", item->typeName(), mainLoc.staff() + 1);
+                LOGW("EngravingItem::readProperties: could not link %s at staff %d",
+                     item->typeName(), mainLoc.staff() + 1);
             }
         }
     } else if (tag == "tick") {
@@ -473,7 +481,8 @@ void TRead::read(TempoText* t, XmlReader& e, ReadContext& ctx)
     }
     // check sanity
     if (t->xmlText().isEmpty()) {
-        t->setXmlText(String(u"<sym>metNoteQuarterUp</sym> = %1").arg(int(lrint(t->tempo().toBPM().val))));
+        t->setXmlText(String(u"<sym>metNoteQuarterUp</sym> = %1").arg(int(lrint(t->tempo().toBPM().
+                                                                                val))));
         t->setVisible(false);
     }
 
@@ -685,7 +694,9 @@ void TRead::read(FretDiagram* d, XmlReader& e, ReadContext& ctx)
                 if (t == "dot") {
                     d->setDot(no, e.readInt());
                 } else if (t == "marker") {
-                    d->setMarker(no, Char(e.readInt()) == u'X' ? FretMarkerType::CROSS : FretMarkerType::CIRCLE);
+                    d->setMarker(no, Char(
+                                     e.readInt())
+                                 == u'X' ? FretMarkerType::CROSS : FretMarkerType::CIRCLE);
                 }
                 /*else if (t == "fingering")
                       setFingering(no, e.readInt());*/
@@ -806,7 +817,8 @@ void TRead::read(Instrument* item, XmlReader& e, ReadContext& ctx, Part* part)
     }
 }
 
-bool TRead::readProperties(Instrument* item, XmlReader& e, ReadContext& ctx, Part* part, bool* customDrumset)
+bool TRead::readProperties(Instrument* item, XmlReader& e, ReadContext& ctx, Part* part,
+                           bool* customDrumset)
 {
     PartAudioSettingsCompat partAudioSetting;
     InstrumentTrackId trackId;
@@ -902,10 +914,14 @@ bool TRead::readProperties(Instrument* item, XmlReader& e, ReadContext& ctx, Par
         item->setClefType(idx, ClefTypeList(ct, ct));
     } else if (tag == "concertClef") {
         int idx = e.intAttribute("staff", 1) - 1;
-        item->setClefType(idx, ClefTypeList(TConv::fromXml(e.readAsciiText(), ClefType::G), item->clefType(idx).transposingClef));
+        item->setClefType(idx,
+                          ClefTypeList(TConv::fromXml(e.readAsciiText(), ClefType::G),
+                                       item->clefType(idx).transposingClef));
     } else if (tag == "transposingClef") {
         int idx = e.intAttribute("staff", 1) - 1;
-        item->setClefType(idx, ClefTypeList(item->clefType(idx).concertClef, TConv::fromXml(e.readAsciiText(), ClefType::G)));
+        item->setClefType(idx,
+                          ClefTypeList(item->clefType(idx).concertClef, TConv::fromXml(
+                                           e.readAsciiText(), ClefType::G)));
     } else {
         return false;
     }
@@ -913,7 +929,8 @@ bool TRead::readProperties(Instrument* item, XmlReader& e, ReadContext& ctx, Par
     return true;
 }
 
-void TRead::read(InstrChannel* item, XmlReader& e, ReadContext& ctx, Part* part, const InstrumentTrackId& instrId)
+void TRead::read(InstrChannel* item, XmlReader& e, ReadContext& ctx, Part* part,
+                 const InstrumentTrackId& instrId)
 {
     item->setNotifyAboutChangedEnabled(false);
 
@@ -1211,13 +1228,17 @@ void TRead::read(KeySig* s, XmlReader& e, ReadContext& ctx)
                     e.readNext();
                 } else if (t == "pos") { // for older files
                     Spatium prevx = 0_sp;
-                    Spatium accidentalGap = ctx.score()->style().styleS(Sid::keysigAccidentalDistance);
+                    Spatium accidentalGap = ctx.score()->style().styleS(
+                        Sid::keysigAccidentalDistance);
                     double _spatium = s->spatium();
                     // count default x position
                     for (CustDef& cd2 : sig.customKeyDefs()) {
-                        prevx += Spatium::fromAbsolute(s->symWidth(cd2.sym), _spatium) + accidentalGap + cd2.xAlt;
+                        prevx
+                            += Spatium::fromAbsolute(s->symWidth(cd2.sym),
+                                                     _spatium) + accidentalGap + cd2.xAlt;
                     }
-                    bool flat = std::string(SymNames::nameForSymId(cd.sym).ascii()).find("Flat") != std::string::npos;
+                    bool flat = std::string(SymNames::nameForSymId(cd.sym).ascii()).find("Flat")
+                                != std::string::npos;
                     // if x not there, use default step
                     cd.xAlt = Spatium(e.doubleAttribute("x", prevx.val())) - prevx;
                     // if y not there, use middle line
@@ -1270,7 +1291,8 @@ void TRead::read(KeySig* s, XmlReader& e, ReadContext& ctx)
     }
     // if there are more than 6 accidentals in transposing key, it cannot be PreferSharpFlat::AUTO
     if (p && !s->concertPitch() && (sig.key() > 6 || sig.key() < -6)
-        && p->preferSharpFlat() == PreferSharpFlat::AUTO && !p->instrument(s->tick())->transpose().isZero()) {
+        && p->preferSharpFlat() == PreferSharpFlat::AUTO
+        && !p->instrument(s->tick())->transpose().isZero()) {
         p->setPreferSharpFlat(PreferSharpFlat::NONE);
     }
 
@@ -1497,7 +1519,8 @@ void TRead::read(Tuplet* t, XmlReader& e, ReadContext& ctx)
             number->setColor(t->color());
             number->setTrack(t->track());
             // move property flags from _number back to tuplet
-            for (auto p : { Pid::FONT_FACE, Pid::FONT_SIZE, Pid::FONT_STYLE, Pid::ALIGN, Pid::POSITION }) {
+            for (auto p :
+                 { Pid::FONT_FACE, Pid::FONT_SIZE, Pid::FONT_STYLE, Pid::ALIGN, Pid::POSITION }) {
                 t->setPropertyFlags(p, number->propertyFlags(p));
             }
         } else if (!readItemProperties(t, e, ctx)) {
@@ -1528,7 +1551,9 @@ void TRead::read(Beam* b, XmlReader& e, ReadContext& ctx)
             b->setGrowRight(e.readDouble());
         } else if (tag == "Fragment") {
             BeamFragment* f = new BeamFragment;
-            int idx = (b->direction() == DirectionV::AUTO || b->direction() == DirectionV::DOWN) ? 0 : 1;
+            int idx
+                = (b->direction() == DirectionV::AUTO
+                   || b->direction() == DirectionV::DOWN) ? 0 : 1;
             b->setUserModified(true);
             double _spatium = b->spatium();
             while (e.readNextStartElement()) {
@@ -1774,7 +1799,8 @@ bool TRead::readProperties(Ornament* o, XmlReader& xml, ReadContext& ctx)
         Accidental* accidental = Factory::createAccidental(o);
         TRead::read(accidental, xml, ctx);
         accidental->setParent(o);
-        accidental->placement() == PlacementV::ABOVE ? o->setAccidentalAbove(accidental) : o->setAccidentalBelow(accidental);
+        accidental->placement()
+        == PlacementV::ABOVE ? o->setAccidentalAbove(accidental) : o->setAccidentalBelow(accidental);
     } else if (tag == "Chord") {
         Chord* chord = Factory::createChord(ctx.score()->dummy()->segment());
         TRead::read(chord, xml, ctx);
@@ -2267,7 +2293,8 @@ void TRead::read(Symbol* sym, XmlReader& e, ReadContext& ctx)
         } else if (tag == "small" || tag == "subtype") {    // obsolete
             e.skipCurrentElement();
         } else if (tag == "offset" && sym->score()->mscVersion() < 400 && sym->onTabStaff()
-                   && (symId == SymId::noteheadParenthesisLeft || symId == SymId::noteheadParenthesisRight)) {
+                   && (symId == SymId::noteheadParenthesisLeft
+                       || symId == SymId::noteheadParenthesisRight)) {
             // Reset mu3 TAB parentheses offset
             e.skipCurrentElement();
         } else if (!TRead::readProperties(static_cast<BSymbol*>(sym), e, ctx)) {
@@ -2428,7 +2455,8 @@ bool TRead::readProperties(ChordRest* ch, XmlReader& e, ReadContext& ctx)
                 &&            // rest durations are initialized to full measure duration when
                               // created upon reading the <Rest> tag (see Measure::read() )
                               // so a V_WHOLE rest in a measure of 4/4 or less => V_MEASURE
-                (ch->actualDurationType() == DurationType::V_WHOLE && ch->ticks() <= Fraction(4, 4))) {
+                (ch->actualDurationType() == DurationType::V_WHOLE
+                 && ch->ticks() <= Fraction(4, 4))) {
                 // old pre 2.0 scores: convert
                 ch->setDurationType(DurationType::V_MEASURE);
             } else {    // not from old score: set duration fraction from duration type
@@ -2485,7 +2513,8 @@ bool TRead::readProperties(ChordRest* ch, XmlReader& e, ReadContext& ctx)
         ch->setDots(e.readInt());
     } else if (tag == "staffMove") {
         ch->setStaffMove(e.readInt());
-        if (ch->vStaffIdx() < ch->part()->staves().front()->idx() || ch->vStaffIdx() > ch->part()->staves().back()->idx()) {
+        if (ch->vStaffIdx() < ch->part()->staves().front()->idx()
+            || ch->vStaffIdx() > ch->part()->staves().back()->idx()) {
             ch->setStaffMove(0);
         }
     } else if (tag == "Spanner") {
@@ -2785,10 +2814,12 @@ void TRead::read(Harmony* h, XmlReader& e, ReadContext& ctx)
                 }
             }
         } else if (tag == "leftParen") {
-            h->setParenthesesMode(h->rightParen() ? ParenthesesMode::BOTH : ParenthesesMode::LEFT, true, false);
+            h->setParenthesesMode(
+                h->rightParen() ? ParenthesesMode::BOTH : ParenthesesMode::LEFT, true, false);
             e.readNext();
         } else if (tag == "rightParen") {
-            h->setParenthesesMode(h->leftParen() ? ParenthesesMode::BOTH : ParenthesesMode::RIGHT, true, false);
+            h->setParenthesesMode(
+                h->leftParen() ? ParenthesesMode::BOTH : ParenthesesMode::RIGHT, true, false);
             e.readNext();
         } else if (TRead::readProperty(h, tag, e, ctx, Pid::POS_ABOVE)) {
         } else if (TRead::readProperty(h, tag, e, ctx, Pid::HARMONY_TYPE)) {
@@ -3246,7 +3277,8 @@ void TRead::read(Ottava* o, XmlReader& e, ReadContext& ctx)
     }
     compat::CompatUtils::resetHookHeightSign(o);
     compat::CompatUtils::setTextLineTextPositionFromAlign(o);
-    if (o->ottavaType() != OttavaType::OTTAVA_8VA || o->numbersOnly() != o->propertyDefault(Pid::NUMBERS_ONLY).toBool()) {
+    if (o->ottavaType() != OttavaType::OTTAVA_8VA
+        || o->numbersOnly() != o->propertyDefault(Pid::NUMBERS_ONLY).toBool()) {
         o->styleChanged();
     }
 }
@@ -3641,7 +3673,8 @@ void TRead::read(SlurTieSegment* s, XmlReader& e, ReadContext& ctx)
     double _spatium = s->style().spatium();
     while (e.readNextStartElement()) {
         const AsciiStringView tag(e.name());
-        if (s->score()->mscVersion() < 400 && (tag == "o1" || tag == "o2" || tag == "o3" || tag == "o4")) {
+        if (s->score()->mscVersion() < 400
+            && (tag == "o1" || tag == "o2" || tag == "o3" || tag == "o4")) {
             e.skipCurrentElement(); // Ignore slur user offsets from pre-4.0
         } else if (tag == "o1") {
             s->ups(Grip::START).off = e.readPoint() * _spatium;
@@ -3824,9 +3857,11 @@ bool TRead::readProperties(Staff* s, XmlReader& e, ReadContext& ctx, StaffHideMo
         ClefType ct = TConv::fromXml(e.readAsciiText(), ClefType::G);
         s->setDefaultClefType(ClefTypeList(ct, ct));
     } else if (tag == "defaultConcertClef") {
-        s->setDefaultClefType(ClefTypeList(TConv::fromXml(e.readAsciiText(), ClefType::G), s->defaultClefType().transposingClef));
+        s->setDefaultClefType(ClefTypeList(TConv::fromXml(e.readAsciiText(), ClefType::G),
+                                           s->defaultClefType().transposingClef));
     } else if (tag == "defaultTransposingClef") {
-        s->setDefaultClefType(ClefTypeList(s->defaultClefType().concertClef, TConv::fromXml(e.readAsciiText(), ClefType::G)));
+        s->setDefaultClefType(ClefTypeList(s->defaultClefType().concertClef,
+                                           TConv::fromXml(e.readAsciiText(), ClefType::G)));
     } else if (tag == "small") {                // obsolete
         s->staffType(Fraction(0, 1))->setSmall(e.readInt());
     } else if (tag == "invisible") {
@@ -4105,7 +4140,8 @@ void TRead::read(TimeSig* s, XmlReader& e, ReadContext& ctx)
     // See https://musescore.org/node/308139.
     String version = s->score()->mscoreVersion();
     if (!version.isEmpty() && (version >= u"3.0") && (version < u"3.5")) {
-        if ((timeSigType == TimeSigType::NORMAL) && !numeratorString.isEmpty() && denominatorString.isEmpty()) {
+        if ((timeSigType == TimeSigType::NORMAL) && !numeratorString.isEmpty()
+            && denominatorString.isEmpty()) {
             if (numeratorString == String::number(sig.numerator())) {
                 numeratorString.clear();
             } else {
@@ -4390,7 +4426,8 @@ bool TRead::readProperties(Volta* v, XmlReader& e, ReadContext& ctx)
 
     if (v->anchor() != Volta::VOLTA_ANCHOR) {
         // Volta strictly assumes that its anchor is measure, so don't let old scores override this.
-        LOGW("Correcting volta anchor type from %d to %d", int(v->anchor()), int(Volta::VOLTA_ANCHOR));
+        LOGW("Correcting volta anchor type from %d to %d",
+             int(v->anchor()), int(Volta::VOLTA_ANCHOR));
         v->setAnchor(Volta::VOLTA_ANCHOR);
     }
 
@@ -4399,12 +4436,14 @@ bool TRead::readProperties(Volta* v, XmlReader& e, ReadContext& ctx)
 
 void TRead::readSpanner(XmlReader& e, ReadContext& ctx, EngravingItem* current, track_idx_t track)
 {
-    std::shared_ptr<ConnectorInfoReader> info(new ConnectorInfoReader(e, &ctx, current, static_cast<int>(track)));
+    std::shared_ptr<ConnectorInfoReader> info(new ConnectorInfoReader(e, &ctx, current,
+                                                                      static_cast<int>(track)));
     ConnectorInfoReader::readConnector(info, e, ctx);
 }
 
 void TRead::readSpanner(XmlReader& e, ReadContext& ctx, Score* current, track_idx_t track)
 {
-    std::shared_ptr<ConnectorInfoReader> info(new ConnectorInfoReader(e, &ctx, current, static_cast<int>(track)));
+    std::shared_ptr<ConnectorInfoReader> info(new ConnectorInfoReader(e, &ctx, current,
+                                                                      static_cast<int>(track)));
     ConnectorInfoReader::readConnector(info, e, ctx);
 }

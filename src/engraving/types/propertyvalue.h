@@ -333,10 +333,14 @@ public:
         : m_type(P_TYPE::ORNAMENT_SHOW_ACCIDENTAL), m_data(make_data<OrnamentShowAccidental>(v)) {}
 
     PropertyValue(const LyricsDashSystemStart& v)
-        : m_type(P_TYPE::LYRICS_DASH_SYSTEM_START_TYPE), m_data(make_data<LyricsDashSystemStart>(v)) {}
+        : m_type(P_TYPE::LYRICS_DASH_SYSTEM_START_TYPE), m_data(make_data<LyricsDashSystemStart>(v))
+    {
+    }
 
     PropertyValue(const PartialSpannerDirection& v)
-        : m_type(P_TYPE::PARTIAL_SPANNER_DIRECTION), m_data(make_data<PartialSpannerDirection>(v)) {}
+        : m_type(P_TYPE::PARTIAL_SPANNER_DIRECTION), m_data(make_data<PartialSpannerDirection>(v))
+    {
+    }
 
     PropertyValue(const LHTappingSymbol& v)
         : m_type(P_TYPE::LH_TAPPING_SYMBOL), m_data(make_data<LHTappingSymbol>(v)) {}
@@ -549,7 +553,8 @@ private:
 };
 }
 
-inline muse::logger::Stream& operator<<(muse::logger::Stream& s, const mu::engraving::PropertyValue&)
+inline muse::logger::Stream& operator<<(muse::logger::Stream& s,
+                                        const mu::engraving::PropertyValue&)
 {
     s << "property(not implemented log output)";
     return s;

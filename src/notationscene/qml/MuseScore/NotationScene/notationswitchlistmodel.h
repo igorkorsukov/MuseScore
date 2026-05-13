@@ -31,7 +31,8 @@
 #include "actions/iactionsdispatcher.h"
 
 namespace mu::notation {
-class NotationSwitchListModel : public QAbstractListModel, public muse::Contextable, public muse::async::Asyncable
+class NotationSwitchListModel : public QAbstractListModel, public muse::Contextable,
+    public muse::async::Asyncable
 {
     Q_OBJECT
     QML_ELEMENT;

@@ -156,7 +156,8 @@ QString EditStyleUtils::pageCodeForElement(const EngravingItem* element)
         return "bend";
 
     case ElementType::TEXTLINE:
-        return element->isTextLine() && toTextLine(element)->systemFlag() ? "system-text-line" : "text-line";
+        return element->isTextLine()
+               && toTextLine(element)->systemFlag() ? "system-text-line" : "text-line";
     case ElementType::TEXTLINE_SEGMENT:
         return element->isTextLineSegment() && toTextLineSegment(element)->systemFlag()
                ? "system-text-line" : "text-line";

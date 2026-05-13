@@ -181,7 +181,8 @@ TEST_F(Engraving_TupletTests, addStaff)
     newStaff->setKey(Fraction(0, 1), ke);
     score->undoInsertStaff(newStaff, 0, true);
 
-    EXPECT_TRUE(ScoreComp::saveCompareScore(score, u"nestedTuplets_addStaff.mscx", TUPLET_DATA_DIR + u"nestedTuplets_addStaff-ref.mscx"));
+    EXPECT_TRUE(ScoreComp::saveCompareScore(score, u"nestedTuplets_addStaff.mscx",
+                                            TUPLET_DATA_DIR + u"nestedTuplets_addStaff-ref.mscx"));
     delete score;
 }
 
@@ -194,6 +195,7 @@ TEST_F(Engraving_TupletTests, saveLoad)
     MasterScore* score = ScoreRW::readScore(TUPLET_DATA_DIR + "save-load.mscx");
     EXPECT_TRUE(score);
     //simply load and save
-    EXPECT_TRUE(ScoreComp::saveCompareScore(score, u"save-load.mscx", TUPLET_DATA_DIR + u"save-load.mscx"));
+    EXPECT_TRUE(ScoreComp::saveCompareScore(score, u"save-load.mscx",
+                                            TUPLET_DATA_DIR + u"save-load.mscx"));
     delete score;
 }

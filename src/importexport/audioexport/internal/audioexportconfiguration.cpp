@@ -32,20 +32,25 @@ using namespace muse::audio;
 
 static const Settings::Key EXPORT_SAMPLE_RATE_KEY("iex_audioexport", "export/audio/sampleRate");
 static const Settings::Key EXPORT_MP3_BITRATE("iex_audioexport", "export/audio/mp3Bitrate");
-static const Settings::Key EXPORT_WAV_SAMPLE_FORMAT_KEY("iex_audioexport", "export/audio/wavSampleFormat");
-static const Settings::Key EXPORT_FLAC_SAMPLE_FORMAT_KEY("iex_audioexport", "export/audio/flacSampleFormat");
+static const Settings::Key EXPORT_WAV_SAMPLE_FORMAT_KEY("iex_audioexport",
+                                                        "export/audio/wavSampleFormat");
+static const Settings::Key EXPORT_FLAC_SAMPLE_FORMAT_KEY("iex_audioexport",
+                                                         "export/audio/flacSampleFormat");
 
 void AudioExportConfiguration::init()
 {
     settings()->setDefaultValue(EXPORT_SAMPLE_RATE_KEY, Val(44100));
     settings()->setDefaultValue(EXPORT_MP3_BITRATE, Val(128));
-    settings()->setDefaultValue(EXPORT_WAV_SAMPLE_FORMAT_KEY, Val(static_cast<int>(AudioSampleFormat::Float32)));
-    settings()->setDefaultValue(EXPORT_FLAC_SAMPLE_FORMAT_KEY, Val(static_cast<int>(AudioSampleFormat::Int16)));
+    settings()->setDefaultValue(EXPORT_WAV_SAMPLE_FORMAT_KEY,
+                                Val(static_cast<int>(AudioSampleFormat::Float32)));
+    settings()->setDefaultValue(EXPORT_FLAC_SAMPLE_FORMAT_KEY,
+                                Val(static_cast<int>(AudioSampleFormat::Int16)));
 }
 
 int AudioExportConfiguration::exportMp3Bitrate() const
 {
-    return m_exportMp3BitrateOverride ? m_exportMp3BitrateOverride.value() : settings()->value(EXPORT_MP3_BITRATE).toInt();
+    return m_exportMp3BitrateOverride ? m_exportMp3BitrateOverride.value() : settings()->value(
+        EXPORT_MP3_BITRATE).toInt();
 }
 
 void AudioExportConfiguration::setExportMp3Bitrate(int bitrate)
@@ -60,7 +65,8 @@ void AudioExportConfiguration::setExportMp3BitrateOverride(std::optional<int> bi
 
 const std::vector<int>& AudioExportConfiguration::availableMp3BitRates() const
 {
-    static const std::vector<int> rates { 32, 40, 48, 56, 64, 80, 96, 112, 128, 160, 192, 224, 256, 320, };
+    static const std::vector<int> rates { 32, 40, 48, 56, 64, 80, 96, 112, 128, 160, 192, 224, 256,
+                                          320, };
     return rates;
 }
 
@@ -95,7 +101,8 @@ void AudioExportConfiguration::setExportSampleFormat(AudioSampleFormat format)
     m_exportSampleFormat = format;
 }
 
-void AudioExportConfiguration::setExportSampleFormat(const QString& extension, AudioSampleFormat format)
+void AudioExportConfiguration::setExportSampleFormat(const QString& extension,
+                                                     AudioSampleFormat format)
 {
     m_exportSampleFormat = format;
     if (extension == QLatin1String("wav")) {
@@ -105,7 +112,8 @@ void AudioExportConfiguration::setExportSampleFormat(const QString& extension, A
     }
 }
 
-const std::vector<AudioSampleFormat>& AudioExportConfiguration::availableSampleFormats(const QString& extension) const
+const std::vector<AudioSampleFormat>& AudioExportConfiguration::availableSampleFormats(
+    const QString& extension) const
 {
     if (extension == QLatin1String("wav")) {
         static const std::vector<muse::audio::AudioSampleFormat> wavSampleFormats {
@@ -129,9 +137,12 @@ const std::vector<AudioSampleFormat>& AudioExportConfiguration::availableSampleF
 void AudioExportConfiguration::loadSampleFormatSetting(const QString& extension)
 {
     if (extension == QLatin1String("wav")) {
-        setExportSampleFormat(static_cast<AudioSampleFormat>(settings()->value(EXPORT_WAV_SAMPLE_FORMAT_KEY).toInt()));
+        setExportSampleFormat(static_cast<AudioSampleFormat>(settings()->value(
+                                                                 EXPORT_WAV_SAMPLE_FORMAT_KEY).toInt()));
     } else if (extension == QLatin1String("flac")) {
-        setExportSampleFormat(static_cast<AudioSampleFormat>(settings()->value(EXPORT_FLAC_SAMPLE_FORMAT_KEY).toInt()));
+        setExportSampleFormat(static_cast<AudioSampleFormat>(settings()->value(
+                                                                 EXPORT_FLAC_SAMPLE_FORMAT_KEY).
+                                                             toInt()));
     }
 }
 

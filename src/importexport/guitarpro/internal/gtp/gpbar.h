@@ -21,7 +21,10 @@ public:
         ClefType type{ ClefType::G2 };
         OttaviaType ottavia{ OttaviaType::Regular };
 
-        bool operator==(const GPBar::Clef& c) const { return type == c.type && ottavia == c.ottavia; }
+        bool operator==(const GPBar::Clef& c) const
+        {
+            return type == c.type && ottavia == c.ottavia;
+        }
     };
 
     ~GPBar() = default;

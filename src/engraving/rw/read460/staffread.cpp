@@ -53,7 +53,8 @@ void StaffRead::readStaff(Score* score, XmlReader& e, ReadContext& ctx)
                 // inherit timesig from previous measure
                 //
                 Measure* m = ctx.lastMeasure();             // measure->prevMeasure();
-                Fraction f(ctx.timeSigForNextMeasure() != Fraction(0, 1) ? ctx.timeSigForNextMeasure()
+                Fraction f(ctx.timeSigForNextMeasure()
+                           != Fraction(0, 1) ? ctx.timeSigForNextMeasure()
                            : m ? m->timesig() : Fraction(4, 4));
                 measure->setTicks(f);
                 measure->setTimesig(f);
@@ -66,7 +67,8 @@ void StaffRead::readStaff(Score* score, XmlReader& e, ReadContext& ctx)
                     if (m && m->mmRest()) {
                         m->mmRest()->setNext(measure);
                     }
-                    score->checkSpanner(ctx.tick(), ctx.tick() + measure->ticks(), /*removeOrphans*/ false);
+                    score->checkSpanner(ctx.tick(),
+                                        ctx.tick() + measure->ticks(), /*removeOrphans*/ false);
                     ctx.setLastMeasure(measure);
                     ctx.setTick(measure->tick() + measure->ticks());
                 } else {
@@ -86,7 +88,8 @@ void StaffRead::readStaff(Score* score, XmlReader& e, ReadContext& ctx)
                 score->measures()->append(mb);
 
                 // This default value needs initialising after being added to the score, as it depends on whether this is the title frame
-                mb->setSizeIsSpatiumDependent(mb->propertyDefault(Pid::SIZE_SPATIUM_DEPENDENT).toBool());
+                mb->setSizeIsSpatiumDependent(mb->propertyDefault(
+                                                  Pid::SIZE_SPATIUM_DEPENDENT).toBool());
 
                 TRead::readItem(mb, e, ctx);
             } else if (tag == "tick") {

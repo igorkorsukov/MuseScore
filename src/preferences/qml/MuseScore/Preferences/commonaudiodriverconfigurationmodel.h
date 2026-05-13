@@ -34,7 +34,8 @@
 #include "interactive/iinteractive.h"
 
 namespace mu::preferences {
-class CommonAudioDriverConfigurationModel : public QObject, public muse::Contextable, public muse::async::Asyncable
+class CommonAudioDriverConfigurationModel : public QObject, public muse::Contextable,
+    public muse::async::Asyncable
 {
     Q_OBJECT
     QML_ELEMENT;

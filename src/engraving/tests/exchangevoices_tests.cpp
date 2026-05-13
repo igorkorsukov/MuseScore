@@ -59,7 +59,9 @@ TEST_F(Engraving_ExchangevoicesTests, slurs)
     score->endCmd();
 
     // compare
-    EXPECT_TRUE(ScoreComp::saveCompareScore(score, u"exchangevoices-slurs.mscx", EXCHVOICES_DATA_DIR + u"exchangevoices-slurs-ref.mscx"));
+    EXPECT_TRUE(ScoreComp::saveCompareScore(score, u"exchangevoices-slurs.mscx",
+                                            EXCHVOICES_DATA_DIR
+                                            + u"exchangevoices-slurs-ref.mscx"));
 }
 
 TEST_F(Engraving_ExchangevoicesTests, glissandi)
@@ -79,7 +81,9 @@ TEST_F(Engraving_ExchangevoicesTests, glissandi)
     score->endCmd();
 
     // compare
-    EXPECT_TRUE(ScoreComp::saveCompareScore(score, u"exchangevoices-gliss.mscx", EXCHVOICES_DATA_DIR + u"exchangevoices-gliss-ref.mscx"));
+    EXPECT_TRUE(ScoreComp::saveCompareScore(score, u"exchangevoices-gliss.mscx",
+                                            EXCHVOICES_DATA_DIR
+                                            + u"exchangevoices-gliss-ref.mscx"));
 }
 
 TEST_F(Engraving_ExchangevoicesTests, rangeSelection)
@@ -98,7 +102,8 @@ TEST_F(Engraving_ExchangevoicesTests, rangeSelection)
     score->endCmd();
 
     EXPECT_TRUE(ScoreComp::saveCompareScore(score, u"exchangevoices-range.mscx",
-                                            EXCHVOICES_DATA_DIR + u"exchangevoices-range-ref.mscx"));
+                                            EXCHVOICES_DATA_DIR
+                                            + u"exchangevoices-range-ref.mscx"));
 
     EditData ed;
     score->undoStack()->undo(&ed);
@@ -122,7 +127,8 @@ TEST_F(Engraving_ExchangevoicesTests, undoChangeVoice)
     // do
     score->deselectAll();
     // select bottom note of all voice 1 chords
-    for (Segment* s = score->firstSegment(SegmentType::ChordRest); s; s = s->next1(SegmentType::ChordRest)) {
+    for (Segment* s = score->firstSegment(SegmentType::ChordRest); s;
+         s = s->next1(SegmentType::ChordRest)) {
         ChordRest* cr = toChordRest(s->element(0));
         if (cr && cr->isChord()) {
             Chord* c = toChord(cr);

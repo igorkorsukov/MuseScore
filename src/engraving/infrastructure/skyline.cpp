@@ -51,7 +51,8 @@ void Skyline::add(const ShapeElement& r)
             Beam* beam = chord->beam();
             TremoloTwoChord* tremolo = chord->tremoloTwoChord();
             bool isCross = (beam && beam->cross())
-                           || (tremolo && tremolo->chord1()->staffMove() != tremolo->chord2()->staffMove());
+                           || (tremolo
+                               && tremolo->chord1()->staffMove() != tremolo->chord2()->staffMove());
             if (isCross) {
                 std::vector<ChordRest*> elements;
                 if (beam) {
@@ -127,7 +128,8 @@ void SkylineLine::add(const ShapeElement& r)
     double staffLinesBottom = staffLinesBottomAtX(x);
 
     if (r.item() && r.item()->isStaffLines()) {
-        if (!(muse::RealIsEqual(top, staffLinesTop) && muse::RealIsEqual(bottom, staffLinesBottom))) {
+        if (!(muse::RealIsEqual(top,
+                                staffLinesTop) && muse::RealIsEqual(bottom, staffLinesBottom))) {
             m_staffLineEdges.emplace(round(x), StaffLineEdge(top, bottom));
         }
     } else if (hasValidStaffLineEdges()) {
@@ -205,12 +207,14 @@ double SkylineLine::minDistance(const SkylineLine& sl, double minHorizontalClear
     return m_shape.minVerticalDistance(sl.m_shape, minHorizontalClearance);
 }
 
-double SkylineLine::minDistanceToShapeAbove(const Shape& shapeAbove, double minHorizontalClearance) const
+double SkylineLine::minDistanceToShapeAbove(const Shape& shapeAbove,
+                                            double minHorizontalClearance) const
 {
     return shapeAbove.minVerticalDistance(m_shape, minHorizontalClearance);
 }
 
-double SkylineLine::minDistanceToShapeBelow(const Shape& shapeBelow, double minHorizontalClearance) const
+double SkylineLine::minDistanceToShapeBelow(const Shape& shapeBelow,
+                                            double minHorizontalClearance) const
 {
     return m_shape.minVerticalDistance(shapeBelow, minHorizontalClearance);
 }

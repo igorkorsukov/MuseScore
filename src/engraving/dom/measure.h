@@ -173,7 +173,8 @@ public:
     void spatiumChanged(double oldValue, double newValue) override;
 
     System* system() const { return toSystem(explicitParent()); }
-    bool hasVoices(staff_idx_t staffIdx, Fraction stick, Fraction len, bool considerInvisible = false) const;
+    bool hasVoices(staff_idx_t staffIdx, Fraction stick, Fraction len,
+                   bool considerInvisible = false) const;
     bool hasVoices(staff_idx_t staffIdx) const;
     void setHasVoices(staff_idx_t staffIdx, bool v);
 
@@ -186,8 +187,14 @@ public:
     void setHideStaffIfEmpty(staff_idx_t staffIdx, AutoOnOff hideIfEmpty);
     bool corrupted(staff_idx_t staffIdx) const { return m_mstaves[staffIdx]->corrupted(); }
     void setCorrupted(staff_idx_t staffIdx, bool val) { m_mstaves[staffIdx]->setCorrupted(val); }
-    MeasureNumber* measureNumber(staff_idx_t staffIdx) const { return m_mstaves[staffIdx]->measureNumber(); }
-    void setMeasureNumber(staff_idx_t staffIdx, MeasureNumber* t) { m_mstaves[staffIdx]->setMeasureNumber(t); }
+    MeasureNumber* measureNumber(staff_idx_t staffIdx) const
+    {
+        return m_mstaves[staffIdx]->measureNumber();
+    }
+    void setMeasureNumber(staff_idx_t staffIdx, MeasureNumber* t)
+    {
+        m_mstaves[staffIdx]->setMeasureNumber(t);
+    }
 
     const std::vector<MStaff*>& mstaves() const { return m_mstaves; }
     std::vector<MStaff*>& mstaves() { return m_mstaves; }
@@ -262,7 +269,8 @@ public:
     Fraction snap(const Fraction& tick, const PointF p) const;
     Fraction snapNote(const Fraction& tick, const PointF p, int staff) const;
 
-    Segment* searchSegment(double x, SegmentType st, track_idx_t strack, track_idx_t etrack, const Segment* preferredSegment = nullptr,
+    Segment* searchSegment(double x, SegmentType st, track_idx_t strack, track_idx_t etrack,
+                           const Segment* preferredSegment = nullptr,
                            double spacingFactor = 0.5) const;
 
     void insertStaff(Staff*, staff_idx_t staff);
@@ -293,15 +301,25 @@ public:
     Segment* findFirstR(SegmentType st, const Fraction& rtick) const;
 
     // segment routines with absolute tick values
-    Segment* findSegment(SegmentType st,    const Fraction& f) const { return findSegmentR(st, f - tick()); }
-    Segment* undoGetSegment(SegmentType st, const Fraction& f) { return undoGetSegmentR(st, f - tick()); }
-    Segment* getSegment(SegmentType st,     const Fraction& f) { return getSegmentR(st, f - tick()); }
+    Segment* findSegment(SegmentType st,    const Fraction& f) const
+    {
+        return findSegmentR(st, f - tick());
+    }
+    Segment* undoGetSegment(SegmentType st, const Fraction& f)
+    {
+        return undoGetSegmentR(st, f - tick());
+    }
+    Segment* getSegment(SegmentType st,     const Fraction& f)
+    {
+        return getSegmentR(st, f - tick());
+    }
     Segment* undoGetChordRestOrTimeTickSegment(const Fraction& f);
     Segment* getChordRestOrTimeTickSegment(const Fraction& f);
 
     void connectTremolo();
 
-    void setEndBarLineType(BarLineType val, track_idx_t track, bool visible = true, Color color = Color());
+    void setEndBarLineType(BarLineType val, track_idx_t track, bool visible = true,
+                           Color color = Color());
 
     void scanElements(std::function<void(EngravingItem*)> func) override;
     void createVoice(int track);
@@ -419,7 +437,8 @@ private:
     void push_back(Segment* e);
     void push_front(Segment* e);
 
-    void fillGap(const Fraction& pos, const Fraction& len, track_idx_t track, const Fraction& stretch, bool useGapRests = true);
+    void fillGap(const Fraction& pos, const Fraction& len, track_idx_t track,
+                 const Fraction& stretch, bool useGapRests = true);
 
     MStaff* mstaff(staff_idx_t staffIndex) const;
 

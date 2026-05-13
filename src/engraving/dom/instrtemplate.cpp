@@ -144,7 +144,8 @@ void InstrumentGroup::read(XmlReader& e)
             if (t == 0) {
                 t = new InstrumentTemplate;
                 // init with global articulation
-                t->midiArticulations.insert(t->midiArticulations.end(), midiArticulations.begin(), midiArticulations.end());
+                t->midiArticulations.insert(t->midiArticulations.end(),
+                                            midiArticulations.begin(), midiArticulations.end());
                 t->sequenceOrder = static_cast<int>(instrumentTemplates.size());
                 instrumentTemplates.push_back(t);
             }
@@ -316,8 +317,10 @@ void InstrumentTemplate::write(XmlWriter& xml) const
             }
         } else {
             if (i) {
-                xml.tag("concertClef", { { "staff", i + 1 } }, TConv::toXml(clefTypes[i].concertClef));
-                xml.tag("transposingClef", { { "staff", i + 1 } }, TConv::toXml(clefTypes[i].transposingClef));
+                xml.tag("concertClef", { { "staff", i + 1 } }, TConv::toXml(
+                            clefTypes[i].concertClef));
+                xml.tag("transposingClef", { { "staff", i + 1 } },
+                        TConv::toXml(clefTypes[i].transposingClef));
             } else {
                 xml.tag("concertClef", TConv::toXml(clefTypes[i].concertClef));
                 xml.tag("transposingClef", TConv::toXml(clefTypes[i].transposingClef));
@@ -414,7 +417,8 @@ void InstrumentTemplate::write(XmlWriter& xml) const
 //   read
 //---------------------------------------------------------
 
-String translateInstrumentName(const String& instrumentId, const String& nameType, const String& text)
+String translateInstrumentName(const String& instrumentId, const String& nameType,
+                               const String& text)
 {
     String disambiguation = instrumentId + u' ' + nameType;
     return muse::mtrc("engraving/instruments", text, disambiguation);
@@ -678,7 +682,8 @@ bool loadInstrumentTemplates(const muse::io::path_t& instrTemplatesPath)
                     midiArticulations.push_back(a);
                 } else if (tag == "Genre") {
                     String idGenre(e.attribute("id"));
-                    InstrumentGenre* genre = const_cast<InstrumentGenre*>(searchInstrumentGenre(idGenre));
+                    InstrumentGenre* genre
+                        = const_cast<InstrumentGenre*>(searchInstrumentGenre(idGenre));
                     if (!genre) {
                         genre = new InstrumentGenre;
                         instrumentGenres.push_back(genre);
@@ -686,7 +691,8 @@ bool loadInstrumentTemplates(const muse::io::path_t& instrTemplatesPath)
                     genre->read(e);
                 } else if (tag == "Family") {
                     String idFamily(e.attribute("id"));
-                    InstrumentFamily* fam = const_cast<InstrumentFamily*>(searchInstrumentFamily(idFamily));
+                    InstrumentFamily* fam
+                        = const_cast<InstrumentFamily*>(searchInstrumentFamily(idFamily));
                     if (!fam) {
                         fam = new InstrumentFamily;
                         instrumentFamilies.push_back(fam);
@@ -749,7 +755,8 @@ const InstrumentTemplate* combinedTemplateSearch(const Instrument& instrument)
     if (musicXmlId.isEmpty()) {
         if (trackName.contains(u"drum", muse::CaseInsensitive)) {
             musicXmlId = u"drum.group.set";
-        } else if (trackName == u"MusicXML Part" || trackName.contains(u"piano", muse::CaseInsensitive)) {
+        } else if (trackName == u"MusicXML Part"
+                   || trackName.contains(u"piano", muse::CaseInsensitive)) {
             musicXmlId = u"keyboard.piano";
         }
     } else {
@@ -797,11 +804,13 @@ const InstrumentTemplate* combinedTemplateSearch(const Instrument& instrument)
                 matchStrength += TRACK_NAME_WEIGHT;
             }
 
-            if (!instrument.longName().empty() && instrument.longName() == templ->instrumentName.longName()) {
+            if (!instrument.longName().empty()
+                && instrument.longName() == templ->instrumentName.longName()) {
                 matchStrength += LONG_NAME_WEIGHT;
             }
 
-            if (!instrument.shortName().empty() && instrument.shortName() == templ->instrumentName.shortName()) {
+            if (!instrument.shortName().empty()
+                && instrument.shortName() == templ->instrumentName.shortName()) {
                 matchStrength += SHORT_NAME_WEIGHT;
             }
 
@@ -853,7 +862,8 @@ const InstrumentTemplate* combinedTemplateSearch(const Instrument& instrument)
             levDist
                 = std::min(levDist,
                            muse::strings::levenshteinDistance(instrument.longName().toStdString(),
-                                                              templ->instrumentName.longName().toStdString()));
+                                                              templ->instrumentName.longName().
+                                                              toStdString()));
 
             if (levDist < bestMatchLevDist) {
                 bestMatch = templ;
@@ -877,7 +887,8 @@ const InstrumentTemplate* searchTemplateForMusicXmlId(const String& mxmlId)
     return 0;
 }
 
-const InstrumentTemplate* searchTemplateForInstrNameList(const std::vector<String>& nameList, bool useDrumset, bool caseSensitive)
+const InstrumentTemplate* searchTemplateForInstrNameList(const std::vector<String>& nameList,
+                                                         bool useDrumset, bool caseSensitive)
 {
     const InstrumentTemplate* bestMatch = nullptr; // default if no matches
     int bestMatchStrength = 0; // higher for better matches
@@ -889,11 +900,15 @@ const InstrumentTemplate* searchTemplateForInstrNameList(const std::vector<Strin
 
         auto stringEqualsName = caseSensitive
                                 ? std::function([&name](const String& s) { return s == name; })
-                                : std::function([&name](const String& s) { return s.isEqualIgnoreCase(name); });
+                                : std::function([&name](const String& s) {
+            return s.isEqualIgnoreCase(name);
+        });
 
         auto staffNameEqualsName = caseSensitive
                                    ? std::function([&name](const String& sn) { return sn == name; })
-                                   : std::function([&name](const String& sn) { return sn.isEqualIgnoreCase(name); });
+                                   : std::function([&name](const String& sn) {
+            return sn.isEqualIgnoreCase(name);
+        });
 
         for (const InstrumentGroup* g : instrumentGroups) {
             for (const InstrumentTemplate* it : g->instrumentTemplates) {
@@ -927,7 +942,9 @@ const InstrumentTemplate* searchTemplateForInstrNameList(const std::vector<Strin
                 return searchTemplate(u"drumset"); // Large Drum Kit
             }
 
-            if (name.contains(u"drum", muse::CaseInsensitive) || name.contains(u"percussion", muse::CaseInsensitive)) {
+            if (name.contains(u"drum",
+                              muse::CaseInsensitive)
+                || name.contains(u"percussion", muse::CaseInsensitive)) {
                 return searchTemplate(u"percussion-synthesizer"); // General MIDI percussion
             }
 

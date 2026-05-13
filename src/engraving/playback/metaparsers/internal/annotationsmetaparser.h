@@ -31,7 +31,8 @@ class AnnotationsMetaParser : public MetaParserBase<AnnotationsMetaParser>
 protected:
     friend MetaParserBase;
 
-    static void doParse(const EngravingItem* item, const RenderingContext& ctx, muse::mpe::ArticulationMap& result);
+    static void doParse(const EngravingItem* item, const RenderingContext& ctx,
+                        muse::mpe::ArticulationMap& result);
 };
 }
 

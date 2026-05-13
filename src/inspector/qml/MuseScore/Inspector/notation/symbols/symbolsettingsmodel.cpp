@@ -27,7 +27,9 @@
 
 using namespace mu::inspector;
 
-SymbolSettingsModel::SymbolSettingsModel(QObject* parent, const muse::modularity::ContextPtr& iocCtx, IElementRepositoryService* repository)
+SymbolSettingsModel::SymbolSettingsModel(QObject* parent,
+                                         const muse::modularity::ContextPtr& iocCtx,
+                                         IElementRepositoryService* repository)
     : AbstractInspectorModel(parent, iocCtx, repository)
 {
     setModelType(InspectorModelType::TYPE_SYMBOL);
@@ -42,7 +44,8 @@ void SymbolSettingsModel::createProperties()
     m_scoreFont = buildPropertyItem(mu::engraving::Pid::SCORE_FONT);
     m_symbolSize = buildPropertyItem(mu::engraving::Pid::SYMBOLS_SIZE,
                                      [this](const mu::engraving::Pid pid, const QVariant& newValue) {
-        onPropertyValueChanged(pid, newValue.toDouble() / 100);
+        onPropertyValueChanged(pid,
+                               newValue.toDouble() / 100);
     },
                                      [this](const mu::engraving::Sid sid, const QVariant& newValue) {
         updateStyleValue(sid, newValue.toDouble() / 100);

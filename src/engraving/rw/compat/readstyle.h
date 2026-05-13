@@ -36,7 +36,8 @@ namespace mu::engraving::compat {
 class ReadStyleHook
 {
 public:
-    ReadStyleHook(Score* score, const muse::ByteArray& scoreData, const muse::String& completeBaseName);
+    ReadStyleHook(Score* score, const muse::ByteArray& scoreData,
+                  const muse::String& completeBaseName);
 
     void setupDefaultStyle();
 

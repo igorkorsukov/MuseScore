@@ -333,7 +333,8 @@ TDuration toMuseScoreDuration(mnx::NoteValue nv)
 
 std::optional<mnx::NoteValue::Required> toMnxNoteValue(const TDuration& duration)
 {
-    const auto base = muse::key(duraTypeTable, duration.type(), std::optional<mnx::NoteValueBase> {});
+    const auto base
+        = muse::key(duraTypeTable, duration.type(), std::optional<mnx::NoteValueBase> {});
     if (!base) {
         return std::nullopt;
     }
@@ -482,8 +483,10 @@ NoteVal toMuseScoreNoteVal(const mnx::sequence::Pitch::Required& pitch, Key key,
     int step = static_cast<int>(pitch.step);
     int alteration = pitch.alter;
     NoteVal nval;
-    nval.pitch = 60 /*middle C*/ + (octaveShift + pitch.octave - 4) * PITCH_DELTA_OCTAVE + step2pitch(step) + alteration;
-    if (alteration < int(AccidentalVal::MIN) || alteration > int(AccidentalVal::MAX) || !pitchIsValid(nval.pitch)) {
+    nval.pitch = 60 /*middle C*/ + (octaveShift + pitch.octave - 4) * PITCH_DELTA_OCTAVE
+                 + step2pitch(step) + alteration;
+    if (alteration < int(AccidentalVal::MIN) || alteration > int(AccidentalVal::MAX)
+        || !pitchIsValid(nval.pitch)) {
         nval.pitch = clampPitch(nval.pitch);
         nval.tpc1 = pitch2tpc(nval.pitch, key, Prefer::NEAREST);
     } else {
@@ -612,7 +615,8 @@ int toMnxKeyFifthsFlipValue(PreferSharpFlat prefer, const Interval& keyTransposi
     case PreferSharpFlat::NONE:
     default: {
         const int absFlipAt = (prefer == PreferSharpFlat::AUTO) ? 7 : 8;
-        const int keyDelta = int(Transpose::transposeKey(Key::C, keyTransposition, prefer)) - int(Key::C);
+        const int keyDelta
+            = int(Transpose::transposeKey(Key::C, keyTransposition, prefer)) - int(Key::C);
         return keyDelta >= 0 ? absFlipAt : -absFlipAt;
     }
     }

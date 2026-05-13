@@ -35,7 +35,8 @@ class FBox;
 
 namespace mu::inspector {
 class FretFrameChordItem;
-class FretFrameChordListModel : public muse::uicomponents::SelectableItemListModel, public muse::Contextable
+class FretFrameChordListModel : public muse::uicomponents::SelectableItemListModel,
+    public muse::Contextable
 {
     Q_OBJECT
     QML_ELEMENT;

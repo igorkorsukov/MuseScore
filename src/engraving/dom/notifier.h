@@ -106,7 +106,8 @@ public:
             return;
         }
         m_atChange = true;
-        m_listeners.erase(std::remove(m_listeners.begin(), m_listeners.end(), l), m_listeners.end());
+        m_listeners.erase(std::remove(m_listeners.begin(), m_listeners.end(), l),
+                          m_listeners.end());
         l->detachNotifier(this);
         m_atChange = false;
     }

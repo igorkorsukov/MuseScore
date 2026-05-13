@@ -110,9 +110,12 @@ void EngravingModule::registerExports()
 #endif
 
     // internal
-    globalIoc()->registerExport<rendering::IScoreRenderer>(mname, new rendering::score::ScoreRenderer());
-    globalIoc()->registerExport<rendering::ISingleRenderer>(mname, new rendering::single::SingleRenderer());
-    globalIoc()->registerExport<rendering::IEditModeRenderer>(mname, new rendering::editmode::EditModeRenderer());
+    globalIoc()->registerExport<rendering::IScoreRenderer>(mname,
+                                                           new rendering::score::ScoreRenderer());
+    globalIoc()->registerExport<rendering::ISingleRenderer>(mname,
+                                                            new rendering::single::SingleRenderer());
+    globalIoc()->registerExport<rendering::IEditModeRenderer>(mname,
+                                                              new rendering::editmode::EditModeRenderer());
 
 #ifdef MUE_BUILD_ENGRAVING_DEVTOOLS
     globalIoc()->registerExport<IDiagnosticDrawProvider>(mname, new DiagnosticDrawProvider());
@@ -124,9 +127,15 @@ void EngravingModule::resolveImports()
 #ifdef MUE_BUILD_ENGRAVING_DEVTOOLS
     auto ir = globalIoc()->resolve<muse::interactive::IInteractiveUriRegister>(mname);
     if (ir) {
-        ir->registerQmlUri(Uri("musescore://diagnostics/engraving/elements"), "MuseScore.Engraving", "EngravingElementsDialog");
-        ir->registerQmlUri(Uri("musescore://diagnostics/engraving/undostack"), "MuseScore.Engraving", "EngravingUndoStackDialog");
-        ir->registerQmlUri(Uri("musescore://diagnostics/engraving/style"), "MuseScore.Engraving", "EngravingStyleDialog");
+        ir->registerQmlUri(Uri(
+                               "musescore://diagnostics/engraving/elements"), "MuseScore.Engraving",
+                           "EngravingElementsDialog");
+        ir->registerQmlUri(Uri(
+                               "musescore://diagnostics/engraving/undostack"), "MuseScore.Engraving",
+                           "EngravingUndoStackDialog");
+        ir->registerQmlUri(Uri(
+                               "musescore://diagnostics/engraving/style"), "MuseScore.Engraving",
+                           "EngravingStyleDialog");
     }
 #endif
 }
@@ -138,7 +147,8 @@ void EngravingModule::registerApi()
 
     auto api = globalIoc()->resolve<muse::api::IApiRegister>(mname);
     if (api) {
-        api->regApiCreator(mname, "MuseApi.Engraving", new muse::api::ApiCreator<apiv1::EngravingApiV1>());
+        api->regApiCreator(mname, "MuseApi.Engraving",
+                           new muse::api::ApiCreator<apiv1::EngravingApiV1>());
 
         //! TODO remove me
         const char* uri = "MuseApi.Engraving";
@@ -174,9 +184,12 @@ void EngravingModule::onInit(const IApplication::RunMode&)
         fdb->addFont(FontDataKey(u"Edwin", true, true), ":/fonts/edwin/Edwin-BdIta.otf");
 
         // MusicSymbol[Text]
-        auto addMusicFont = [this, fdb](const std::string& name, const FontDataKey& fontDataKey, const muse::io::path_t& filePath){
+        auto addMusicFont
+            = [this, fdb](const std::string& name, const FontDataKey& fontDataKey,
+                          const muse::io::path_t& filePath){
             fdb->addFont(FontDataKey(fontDataKey), filePath);
-            m_engravingfonts->addInternalFont(name, fontDataKey.family().id().toStdString(), filePath);
+            m_engravingfonts->addInternalFont(name,
+                                              fontDataKey.family().id().toStdString(), filePath);
         };
 
         addMusicFont("Bravura", FontDataKey(u"Bravura"), ":/fonts/bravura/Bravura.otf");
@@ -191,10 +204,14 @@ void EngravingModule::onInit(const IApplication::RunMode&)
         fdb->addFont(FontDataKey(u"MuseJazz Text"), ":/fonts/musejazz/MuseJazzText.otf");
         addMusicFont("Petaluma", FontDataKey(u"Petaluma"),    ":/fonts/petaluma/Petaluma.otf");
         fdb->addFont(FontDataKey(u"Petaluma Text"), ":/fonts/petaluma/PetalumaText.otf");
-        addMusicFont("Finale Maestro", FontDataKey(u"Finale Maestro"), ":/fonts/finalemaestro/FinaleMaestro.otf");
-        fdb->addFont(FontDataKey(u"Finale Maestro Text"), ":/fonts/finalemaestro/FinaleMaestroText.otf");
-        addMusicFont("Finale Broadway", FontDataKey(u"Finale Broadway"), ":/fonts/finalebroadway/FinaleBroadway.otf");
-        fdb->addFont(FontDataKey(u"Finale Broadway Text"), ":/fonts/finalebroadway/FinaleBroadwayText.otf");
+        addMusicFont("Finale Maestro", FontDataKey(
+                         u"Finale Maestro"), ":/fonts/finalemaestro/FinaleMaestro.otf");
+        fdb->addFont(FontDataKey(
+                         u"Finale Maestro Text"), ":/fonts/finalemaestro/FinaleMaestroText.otf");
+        addMusicFont("Finale Broadway", FontDataKey(
+                         u"Finale Broadway"), ":/fonts/finalebroadway/FinaleBroadway.otf");
+        fdb->addFont(FontDataKey(
+                         u"Finale Broadway Text"), ":/fonts/finalebroadway/FinaleBroadwayText.otf");
 
         // Tabulature
         fdb->addFont(FontDataKey(u"FreeSerif"), ":/fonts/FreeSerif.ttf");
@@ -282,7 +299,9 @@ void EngravingContext::registerExports()
     m_paletteScoreProvider = std::make_shared<PaletteScoreProvider>(iocContext());
     ioc()->registerExport<IPaletteScoreProvider>(mname, m_paletteScoreProvider);
     ioc()->registerExport<IEngravingElementsProvider>(mname, new EngravingElementsProvider());
-    ioc()->registerExport<IEngravingContextConfiguration>(mname, new EngravingContextConfiguration(iocContext()));
+    ioc()->registerExport<IEngravingContextConfiguration>(mname,
+                                                          new EngravingContextConfiguration(
+                                                              iocContext()));
 #endif
 }
 

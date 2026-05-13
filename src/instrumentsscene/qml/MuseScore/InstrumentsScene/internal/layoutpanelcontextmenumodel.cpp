@@ -48,7 +48,8 @@ LayoutPanelContextMenuModel::LayoutPanelContextMenuModel(QObject* parent)
 
 void LayoutPanelContextMenuModel::load()
 {
-    dispatcher()->reg(this, SET_INSTRUMENTS_ORDER_CODE, this, &LayoutPanelContextMenuModel::setInstrumentsOrder);
+    dispatcher()->reg(this, SET_INSTRUMENTS_ORDER_CODE, this,
+                      &LayoutPanelContextMenuModel::setInstrumentsOrder);
 
     globalContext()->currentNotationChanged().onNotify(this, [this]() {
         updateMenu();
@@ -179,7 +180,8 @@ MenuItem* LayoutPanelContextMenuModel::createInstrumentsOrderingItem()
         }
     }
 
-    return makeMenu(TranslatableString("layoutpanel", "Instrument ordering"), orderItems, ORDERING_MENU_ID);
+    return makeMenu(TranslatableString("layoutpanel",
+                                       "Instrument ordering"), orderItems, ORDERING_MENU_ID);
 }
 
 MenuItem* LayoutPanelContextMenuModel::createExpandCollapseAllItem(bool expand)

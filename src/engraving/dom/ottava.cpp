@@ -83,7 +83,8 @@ static const ElementStyle ottavaStyle {
 };
 
 OttavaSegment::OttavaSegment(Ottava* sp, System* parent)
-    : TextLineBaseSegment(ElementType::OTTAVA_SEGMENT, sp, parent, ElementFlag::MOVABLE | ElementFlag::ON_STAFF)
+    : TextLineBaseSegment(ElementType::OTTAVA_SEGMENT, sp, parent,
+                          ElementFlag::MOVABLE | ElementFlag::ON_STAFF)
 {
     m_text->setTextStyleType(propertyDefault(Pid::TEXT_STYLE).value<TextStyleType>());
     m_endText->setTextStyleType(propertyDefault(Pid::TEXT_STYLE).value<TextStyleType>());
@@ -380,7 +381,9 @@ PropertyValue Ottava::propertyDefault(Pid pid) const
 
 String Ottava::accessibleInfo() const
 {
-    return String(u"%1: %2").arg(EngravingItem::accessibleInfo(), String::fromUtf8(ottavaDefault[static_cast<int>(ottavaType())].name));
+    return String(u"%1: %2").arg(EngravingItem::accessibleInfo(),
+                                 String::fromUtf8(
+                                     ottavaDefault[static_cast<int>(ottavaType())].name));
 }
 
 //---------------------------------------------------------
@@ -420,7 +423,8 @@ PointF Ottava::linePos(Grip grip, System** system) const
         return SLine::linePos(grip, system);
     }
 
-    ChordRest* endCr = endElement() && endElement()->isChordRest() ? toChordRest(endElement()) : nullptr;
+    ChordRest* endCr = endElement()
+                       && endElement()->isChordRest() ? toChordRest(endElement()) : nullptr;
     if (!endCr) {
         return PointF();
     }

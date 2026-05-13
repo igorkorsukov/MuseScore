@@ -28,7 +28,9 @@
 using namespace mu::inspector;
 using namespace mu::engraving;
 
-SpacerSettingsModel::SpacerSettingsModel(QObject* parent, const muse::modularity::ContextPtr& iocCtx, IElementRepositoryService* repository)
+SpacerSettingsModel::SpacerSettingsModel(QObject* parent,
+                                         const muse::modularity::ContextPtr& iocCtx,
+                                         IElementRepositoryService* repository)
     : AbstractInspectorModel(parent, iocCtx, repository)
 {
     setModelType(InspectorModelType::TYPE_SPACER);
@@ -57,7 +59,8 @@ void SpacerSettingsModel::resetProperties()
     m_spacerHeight->resetToDefault();
 }
 
-void SpacerSettingsModel::onNotationChanged(const PropertyIdSet& changedPropertyIdSet, const StyleIdSet&)
+void SpacerSettingsModel::onNotationChanged(const PropertyIdSet& changedPropertyIdSet,
+                                            const StyleIdSet&)
 {
     if (muse::contains(changedPropertyIdSet, Pid::SPACE)) {
         loadPropertyItem(m_spacerHeight, formatDoubleFunc);

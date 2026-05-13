@@ -36,14 +36,17 @@ class CapoSettingsModel : public AbstractElementPopupModel
 {
     Q_OBJECT
 
-    Q_PROPERTY(int transposeMode READ transposeMode WRITE setTransposeMode NOTIFY transposeModeChanged) // CapoParams::TransposeMode
+    Q_PROPERTY(
+        int transposeMode READ transposeMode WRITE setTransposeMode NOTIFY transposeModeChanged)        // CapoParams::TransposeMode
     Q_PROPERTY(bool capoIsOn READ capoIsOn WRITE setCapoIsOn NOTIFY capoIsOnChanged)
     Q_PROPERTY(int fretPosition READ fretPosition WRITE setFretPosition NOTIFY fretPositionChanged)
     Q_PROPERTY(QList<mu::notation::StringItem*> strings READ strings NOTIFY stringsChanged)
-    Q_PROPERTY(int capoPlacement READ capoPlacement WRITE setCapoPlacement NOTIFY capoPlacementChanged)
+    Q_PROPERTY(
+        int capoPlacement READ capoPlacement WRITE setCapoPlacement NOTIFY capoPlacementChanged)
     Q_PROPERTY(
         bool capoTextSpecifiedByUser READ capoTextSpecifiedByUser WRITE setCapoTextSpecifiedByUser NOTIFY capoTextSpecifiedByUserChanged)
-    Q_PROPERTY(QString userCapoText READ userCapoText WRITE setUserCapoText NOTIFY userCapoTextChanged)
+    Q_PROPERTY(
+        QString userCapoText READ userCapoText WRITE setUserCapoText NOTIFY userCapoTextChanged)
 
     QML_ELEMENT
 

@@ -37,8 +37,10 @@ class IEngravingFontsProvider : MODULE_GLOBAL_INTERFACE
 public:
     virtual ~IEngravingFontsProvider() = default;
 
-    virtual void addInternalFont(const std::string& name, const std::string& family, const muse::io::path_t& filePath) = 0;
-    virtual void addExternalFont(const std::string& name, const std::string& family, const muse::io::path_t& filePath,
+    virtual void addInternalFont(const std::string& name, const std::string& family,
+                                 const muse::io::path_t& filePath) = 0;
+    virtual void addExternalFont(const std::string& name, const std::string& family,
+                                 const muse::io::path_t& filePath,
                                  const muse::io::path_t& metadataPath) = 0;
     virtual IEngravingFontPtr fontByName(const std::string& name) const = 0;
     virtual std::vector<IEngravingFontPtr> fonts() const = 0;

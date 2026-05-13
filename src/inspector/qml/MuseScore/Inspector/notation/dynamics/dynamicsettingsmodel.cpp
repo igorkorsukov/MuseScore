@@ -28,7 +28,8 @@
 using namespace mu::inspector;
 using namespace mu::engraving;
 
-DynamicsSettingsModel::DynamicsSettingsModel(QObject* parent, const muse::modularity::ContextPtr& iocCtx,
+DynamicsSettingsModel::DynamicsSettingsModel(QObject* parent,
+                                             const muse::modularity::ContextPtr& iocCtx,
                                              IElementRepositoryService* repository)
     : InspectorModelWithVoiceAndPositionOptions(parent, iocCtx, repository)
 {
@@ -54,7 +55,8 @@ void DynamicsSettingsModel::createProperties()
     m_centerOnNotehead = buildPropertyItem(Pid::CENTER_ON_NOTEHEAD);
 
     m_frameType = buildPropertyItem(Pid::FRAME_TYPE, [this](const Pid pid, const QVariant& newValue) {
-        onPropertyValueChanged(pid, newValue);
+        onPropertyValueChanged(pid,
+                               newValue);
         updateFramePropertiesAvailability();
     });
     m_frameBorderColor = buildPropertyItem(Pid::FRAME_FG_COLOR);
@@ -160,5 +162,6 @@ void DynamicsSettingsModel::updateFramePropertiesAvailability()
     m_frameFillColor->setIsEnabled(isFrameVisible);
     m_frameMargin->setIsEnabled(isFrameVisible);
     m_frameCornerRadius->setIsEnabled(
-        static_cast<TextTypes::FrameType>(m_frameType->value().toInt()) == TextTypes::FrameType::FRAME_TYPE_SQUARE);
+        static_cast<TextTypes::FrameType>(m_frameType->value().toInt())
+        == TextTypes::FrameType::FRAME_TYPE_SQUARE);
 }

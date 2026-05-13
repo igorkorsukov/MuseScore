@@ -27,7 +27,8 @@
 using namespace mu::inspector;
 using namespace mu::engraving;
 
-BeamSettingsModel::BeamSettingsModel(QObject* parent, const muse::modularity::ContextPtr& iocCtx, IElementRepositoryService* repository)
+BeamSettingsModel::BeamSettingsModel(QObject* parent, const muse::modularity::ContextPtr& iocCtx,
+                                     IElementRepositoryService* repository)
     : AbstractInspectorModel(parent, iocCtx, repository)
 {
     setModelType(InspectorModelType::TYPE_BEAM);
@@ -43,7 +44,9 @@ BeamSettingsModel::BeamSettingsModel(QObject* parent, const muse::modularity::Co
         }
     });
 
-    connect(m_beamModesModel->mode(), &PropertyItem::propertyModified, this, &AbstractInspectorModel::requestReloadPropertyItems);
+    connect(
+        m_beamModesModel->mode(), &PropertyItem::propertyModified, this,
+        &AbstractInspectorModel::requestReloadPropertyItems);
 
     createProperties();
 }
@@ -53,26 +56,34 @@ void BeamSettingsModel::createProperties()
     m_featheringHeightLeft = buildPropertyItem(mu::engraving::Pid::GROW_LEFT);
     m_featheringHeightRight = buildPropertyItem(mu::engraving::Pid::GROW_RIGHT);
 
-    m_isBeamHidden = buildPropertyItem(mu::engraving::Pid::VISIBLE, [this](const mu::engraving::Pid pid, const QVariant& isBeamHidden) {
+    m_isBeamHidden
+        = buildPropertyItem(mu::engraving::Pid::VISIBLE,
+                            [this](const mu::engraving::Pid pid, const QVariant& isBeamHidden) {
         onPropertyValueChanged(pid, !isBeamHidden.toBool());
     });
 
-    m_beamHeightLeft = buildPropertyItem(mu::engraving::Pid::BEAM_POS, [this](const mu::engraving::Pid, const QVariant& newValue) {
+    m_beamHeightLeft
+        = buildPropertyItem(mu::engraving::Pid::BEAM_POS,
+                            [this](const mu::engraving::Pid, const QVariant& newValue) {
         setBeamHeightLeft(newValue.toDouble());
     });
 
-    m_beamHeightRight = buildPropertyItem(mu::engraving::Pid::BEAM_POS, [this](const mu::engraving::Pid, const QVariant& newValue) {
+    m_beamHeightRight
+        = buildPropertyItem(mu::engraving::Pid::BEAM_POS,
+                            [this](const mu::engraving::Pid, const QVariant& newValue) {
         setBeamHeightRight(newValue.toDouble());
     });
 
     m_forceHorizontal = buildPropertyItem(mu::engraving::Pid::BEAM_NO_SLOPE,
-                                          [this](const mu::engraving::Pid pid, const QVariant& newValue) {
+                                          [this](const mu::engraving::Pid pid,
+                                                 const QVariant& newValue) {
         onPropertyValueChanged(pid, newValue);
         loadBeamHeightProperties();
     });
 
     m_customPositioned = buildPropertyItem(mu::engraving::Pid::USER_MODIFIED,
-                                           [this](const mu::engraving::Pid pid, const QVariant& newValue) {
+                                           [this](const mu::engraving::Pid pid,
+                                                  const QVariant& newValue) {
         onPropertyValueChanged(pid, newValue);
         loadBeamHeightProperties();
     });
@@ -80,7 +91,8 @@ void BeamSettingsModel::createProperties()
     m_stemDirection = buildPropertyItem(mu::engraving::Pid::STEM_DIRECTION);
 
     m_crossStaffMove = buildPropertyItem(mu::engraving::Pid::BEAM_CROSS_STAFF_MOVE,
-                                         [this](const mu::engraving::Pid pid, const QVariant& newValue) {
+                                         [this](const mu::engraving::Pid pid,
+                                                const QVariant& newValue) {
         onPropertyValueChanged(pid, newValue);
         loadPropertyItem(m_crossStaffMove);
         loadBeamHeightProperties();
@@ -108,7 +120,8 @@ void BeamSettingsModel::loadProperties()
     loadProperties(propertyIdSet);
 }
 
-void BeamSettingsModel::onNotationChanged(const PropertyIdSet& changedPropertyIdSet, const StyleIdSet&)
+void BeamSettingsModel::onNotationChanged(const PropertyIdSet& changedPropertyIdSet,
+                                          const StyleIdSet&)
 {
     loadProperties(changedPropertyIdSet);
 }
@@ -132,7 +145,9 @@ void BeamSettingsModel::loadProperties(const mu::engraving::PropertyIdSet& prope
     loadBeamHeightProperties();
 
     if (m_featheringHeightLeft->value().isValid() && m_featheringHeightRight->value().isValid()) {
-        updateFeatheringMode(m_featheringHeightLeft->value().toDouble(), m_featheringHeightRight->value().toDouble());
+        updateFeatheringMode(
+            m_featheringHeightLeft->value().toDouble(),
+            m_featheringHeightRight->value().toDouble());
     }
 
     loadPropertyItem(m_stemDirection);
@@ -229,7 +244,8 @@ void BeamSettingsModel::setBeamHeight(const qreal left, const qreal right)
 {
     m_customPositioned->setValue(true);
 
-    onPropertyValueChanged(engraving::Pid::BEAM_POS, QVariant::fromValue(QPair<qreal, qreal>(left, right)));
+    onPropertyValueChanged(engraving::Pid::BEAM_POS,
+                           QVariant::fromValue(QPair<qreal, qreal>(left, right)));
 
     loadBeamHeightProperties();
 }

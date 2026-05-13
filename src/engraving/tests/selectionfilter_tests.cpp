@@ -42,7 +42,8 @@ public:
 
 void Engraving_SelectionFilterTests::testFilter(int idx, const SelectionFilterTypesVariant& type)
 {
-    Score* score = ScoreRW::readScore(SELECTIONFILTER_DATA_DIR + String(u"selectionfilter%1.mscx").arg(idx));
+    Score* score = ScoreRW::readScore(SELECTIONFILTER_DATA_DIR + String(
+                                          u"selectionfilter%1.mscx").arg(idx));
     EXPECT_TRUE(score);
     score->doLayout();
 
@@ -54,23 +55,29 @@ void Engraving_SelectionFilterTests::testFilter(int idx, const SelectionFilterTy
     EXPECT_TRUE(score->selection().canCopy());
     EXPECT_EQ(score->selection().mimeType(), mimeStaffListFormat);
 
-    EXPECT_TRUE(ScoreComp::saveCompareMimeData(score->selection().mimeData(), String("selectionfilter%1-base.xml").arg(idx),
-                                               SELECTIONFILTER_DATA_DIR + String("selectionfilter%1-base-ref.xml").arg(idx)));
+    EXPECT_TRUE(ScoreComp::saveCompareMimeData(score->selection().mimeData(),
+                                               String("selectionfilter%1-base.xml").arg(idx),
+                                               SELECTIONFILTER_DATA_DIR
+                                               + String("selectionfilter%1-base-ref.xml").arg(idx)));
 
     score->selectionFilter().setFiltered(type, false);
 
     EXPECT_TRUE(score->selection().canCopy());
     EXPECT_EQ(score->selection().mimeType(), mimeStaffListFormat);
 
-    EXPECT_TRUE(ScoreComp::saveCompareMimeData(score->selection().mimeData(), String("selectionfilter%1.xml").arg(idx),
-                                               SELECTIONFILTER_DATA_DIR + String("selectionfilter%1-ref.xml").arg(idx)));
+    EXPECT_TRUE(ScoreComp::saveCompareMimeData(score->selection().mimeData(),
+                                               String("selectionfilter%1.xml").arg(idx),
+                                               SELECTIONFILTER_DATA_DIR
+                                               + String("selectionfilter%1-ref.xml").arg(idx)));
 
     delete score;
 }
 
-void Engraving_SelectionFilterTests::testFilterSpanner(int idx, const SelectionFilterTypesVariant& type)
+void Engraving_SelectionFilterTests::testFilterSpanner(int idx,
+                                                       const SelectionFilterTypesVariant& type)
 {
-    Score* score = ScoreRW::readScore(SELECTIONFILTER_DATA_DIR + String("selectionfilter%1.mscx").arg(idx));
+    Score* score = ScoreRW::readScore(SELECTIONFILTER_DATA_DIR + String(
+                                          "selectionfilter%1.mscx").arg(idx));
     EXPECT_TRUE(score);
     score->doLayout();
 
@@ -86,16 +93,20 @@ void Engraving_SelectionFilterTests::testFilterSpanner(int idx, const SelectionF
     EXPECT_TRUE(score->selection().canCopy());
     EXPECT_EQ(score->selection().mimeType(), mimeStaffListFormat);
 
-    EXPECT_TRUE(ScoreComp::saveCompareMimeData(score->selection().mimeData(), String("selectionfilter%1-base.xml").arg(idx),
-                                               SELECTIONFILTER_DATA_DIR + String("selectionfilter%1-base-ref.xml").arg(idx)));
+    EXPECT_TRUE(ScoreComp::saveCompareMimeData(score->selection().mimeData(),
+                                               String("selectionfilter%1-base.xml").arg(idx),
+                                               SELECTIONFILTER_DATA_DIR
+                                               + String("selectionfilter%1-base-ref.xml").arg(idx)));
 
     score->selectionFilter().setFiltered(type, false);
 
     EXPECT_TRUE(score->selection().canCopy());
     EXPECT_EQ(score->selection().mimeType(), mimeStaffListFormat);
 
-    EXPECT_TRUE(ScoreComp::saveCompareMimeData(score->selection().mimeData(), String("selectionfilter%1.xml").arg(idx),
-                                               SELECTIONFILTER_DATA_DIR + String("selectionfilter%1-ref.xml").arg(idx)));
+    EXPECT_TRUE(ScoreComp::saveCompareMimeData(score->selection().mimeData(),
+                                               String("selectionfilter%1.xml").arg(idx),
+                                               SELECTIONFILTER_DATA_DIR
+                                               + String("selectionfilter%1-ref.xml").arg(idx)));
 
     delete score;
 }
@@ -216,10 +227,13 @@ TEST_F(Engraving_SelectionFilterTests, filterOrnament)
  *          repeated every five measures (until measure 25), and the result is compared with the given reference. The "action" method can take
  *          an auxiliary Measure - for copy/pastes this is used as the paste destination...
  */
-void Engraving_SelectionFilterTests::testNotesInChordsAction(void (*action)(Score*, MeasureBase* auxMeasure), const String& reference)
+void Engraving_SelectionFilterTests::testNotesInChordsAction(void (*action)(Score*,
+                                                                            MeasureBase* auxMeasure), const String& reference)
 {
     //! [GIVEN] A score with a mixture of chords, single notes, and tuplets...
-    MasterScore* score = ScoreRW::readScore(SELECTIONFILTER_DATA_DIR + String(u"selectionfilter_notesinchords.mscx"));
+    MasterScore* score
+        = ScoreRW::readScore(SELECTIONFILTER_DATA_DIR + String(
+                                 u"selectionfilter_notesinchords.mscx"));
     EXPECT_TRUE(score);
 
     const auto prepareSelectionRange = [score](MeasureBase* rangeStart, MeasureBase* rangeEnd){
@@ -310,7 +324,8 @@ void Engraving_SelectionFilterTests::testNotesInChordsAction(void (*action)(Scor
     action(score, auxMeasure);
 
     //! [EXPECT] The result matches the given reference...
-    EXPECT_TRUE(ScoreComp::saveCompareScore(score, String(u"selectionfilter_notesinchords.mscx"), reference));
+    EXPECT_TRUE(ScoreComp::saveCompareScore(score, String(u"selectionfilter_notesinchords.mscx"),
+                                            reference));
 }
 
 /**
@@ -325,7 +340,9 @@ TEST_F(Engraving_SelectionFilterTests, notesInChordsDeleteRange)
         score->endCmd();
     };
 
-    testNotesInChordsAction(deleteAction, SELECTIONFILTER_DATA_DIR + String(u"selectionfilter_notesinchords_deleterange-ref.mscx"));
+    testNotesInChordsAction(deleteAction,
+                            SELECTIONFILTER_DATA_DIR
+                            + String(u"selectionfilter_notesinchords_deleterange-ref.mscx"));
 }
 
 /**
@@ -346,7 +363,9 @@ TEST_F(Engraving_SelectionFilterTests, notesInChordsCopyPaste)
         score->endCmd();
     };
 
-    testNotesInChordsAction(copyPasteAction, SELECTIONFILTER_DATA_DIR + String(u"selectionfilter_notesinchords_copypaste-ref.mscx"));
+    testNotesInChordsAction(copyPasteAction,
+                            SELECTIONFILTER_DATA_DIR
+                            + String(u"selectionfilter_notesinchords_copypaste-ref.mscx"));
 }
 
 /**
@@ -357,7 +376,9 @@ TEST_F(Engraving_SelectionFilterTests, notesInChordsCopyPaste)
 TEST_F(Engraving_SelectionFilterTests, gracesAndSlurs)
 {
     //! [GIVEN] A score with a grace notes and slurs
-    MasterScore* score = ScoreRW::readScore(SELECTIONFILTER_DATA_DIR + String(u"selectionfilter_gracesandslurs.mscx"));
+    MasterScore* score
+        = ScoreRW::readScore(SELECTIONFILTER_DATA_DIR
+                             + String(u"selectionfilter_gracesandslurs.mscx"));
     EXPECT_TRUE(score);
 
     // Clear selection filter...
@@ -418,6 +439,8 @@ TEST_F(Engraving_SelectionFilterTests, gracesAndSlurs)
     score->endCmd();
 
     //! [EXPECT] The result matches the given reference...
-    EXPECT_TRUE(ScoreComp::saveCompareScore(score, String(u"selectionfilter_gracesandslurs.mscx.mscx"),
-                                            SELECTIONFILTER_DATA_DIR + String("selectionfilter_gracesandslurs-ref.mscx")));
+    EXPECT_TRUE(ScoreComp::saveCompareScore(score,
+                                            String(u"selectionfilter_gracesandslurs.mscx.mscx"),
+                                            SELECTIONFILTER_DATA_DIR
+                                            + String("selectionfilter_gracesandslurs-ref.mscx")));
 }

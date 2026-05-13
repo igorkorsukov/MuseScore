@@ -31,8 +31,8 @@
 #include "actions/iactionsdispatcher.h"
 
 namespace mu::appshell {
-class ApplicationActionController : public QObject, public muse::Contextable, public muse::actions::Actionable,
-    public muse::async::Asyncable
+class ApplicationActionController : public QObject, public muse::Contextable,
+    public muse::actions::Actionable, public muse::async::Asyncable
 {
     muse::ContextInject<muse::actions::IActionsDispatcher> dispatcher = { this };
 

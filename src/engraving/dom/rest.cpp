@@ -250,10 +250,12 @@ SymId Rest::getSymbol(DurationType type, int line, int lines) const
     case DurationType::V_LONG:
         return SymId::restLonga;
     case DurationType::V_BREVE:
-        return (line < 0 || line >= lines) ? SymId::restDoubleWholeLegerLine : SymId::restDoubleWhole;
+        return (line < 0
+                || line >= lines) ? SymId::restDoubleWholeLegerLine : SymId::restDoubleWhole;
     case DurationType::V_MEASURE:
         if (ticks() >= Fraction(2, 1)) {
-            return (line < 0 || line >= lines) ? SymId::restDoubleWholeLegerLine : SymId::restDoubleWhole;
+            return (line < 0
+                    || line >= lines) ? SymId::restDoubleWholeLegerLine : SymId::restDoubleWhole;
         }
     // fall through
     case DurationType::V_WHOLE:
@@ -366,14 +368,16 @@ bool Rest::isWholeRest() const
 {
     TDuration durType = durationType();
     return durType == DurationType::V_WHOLE
-           || (durType == DurationType::V_MEASURE && measure() && measure()->ticks() < Fraction(2, 1));
+           || (durType == DurationType::V_MEASURE && measure() && measure()->ticks() < Fraction(2,
+                                                                                                1));
 }
 
 bool Rest::isBreveRest() const
 {
     TDuration durType = durationType();
     return durType == DurationType::V_BREVE
-           || (durType == DurationType::V_MEASURE && measure() && measure()->ticks() >= Fraction(2, 1));
+           || (durType == DurationType::V_MEASURE && measure()
+               && measure()->ticks() >= Fraction(2, 1));
 }
 
 //---------------------------------------------------------
@@ -505,7 +509,8 @@ void Rest::setAccent(bool flag)
 String Rest::accessibleInfo() const
 {
     String voice = muse::mtrc("engraving", "Voice: %1").arg(track() % VOICES + 1);
-    return muse::mtrc("engraving", "%1; Duration: %2; %3").arg(EngravingItem::accessibleInfo(), durationUserName(), voice);
+    return muse::mtrc("engraving", "%1; Duration: %2; %3").arg(
+        EngravingItem::accessibleInfo(), durationUserName(), voice);
 }
 
 //---------------------------------------------------------
@@ -516,14 +521,16 @@ String Rest::screenReaderInfo() const
 {
     Measure* m = measure();
     bool voices = m ? m->hasVoices(staffIdx()) : false;
-    String voice = voices ? (u"; " + muse::mtrc("engraving", "Voice: %1").arg(track() % VOICES + 1)) : u"";
+    String voice
+        = voices ? (u"; " + muse::mtrc("engraving", "Voice: %1").arg(track() % VOICES + 1)) : u"";
     String crossStaff;
     if (staffMove() < 0) {
         crossStaff = u"; " + muse::mtrc("engraving", "Cross-staff above");
     } else if (staffMove() > 0) {
         crossStaff = u"; " + muse::mtrc("engraving", "Cross-staff below");
     }
-    return String(u"%1 %2%3%4").arg(EngravingItem::accessibleInfo(), durationUserName(), crossStaff, voice);
+    return String(u"%1 %2%3%4").arg(EngravingItem::accessibleInfo(),
+                                    durationUserName(), crossStaff, voice);
 }
 
 //---------------------------------------------------------

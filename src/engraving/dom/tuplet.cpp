@@ -192,7 +192,9 @@ void Tuplet::resetNumberProperty()
 
 void Tuplet::resetNumberProperty(Text* number)
 {
-    for (auto p : { Pid::FONT_FACE, Pid::FONT_STYLE, Pid::FONT_SIZE, Pid::ALIGN, Pid::POSITION, Pid::SIZE_SPATIUM_DEPENDENT }) {
+    for (auto p :
+         { Pid::FONT_FACE, Pid::FONT_STYLE, Pid::FONT_SIZE, Pid::ALIGN, Pid::POSITION,
+          Pid::SIZE_SPATIUM_DEPENDENT }) {
         number->resetProperty(p);
     }
 }
@@ -252,7 +254,8 @@ bool Tuplet::calcHasBracket(const DurationElement* cr1, const DurationElement* c
     bool startChordBreaks64 = false;
     Chord* prevStartChord = c1->prev();
     if (prevStartChord) {
-        beamStart->calcBeamBreaks(c1, prevStartChord, beamCount - 1, startChordBreaks32, startChordBreaks64);
+        beamStart->calcBeamBreaks(c1, prevStartChord, beamCount - 1, startChordBreaks32,
+                                  startChordBreaks64);
     }
     bool startChordDefinesTuplet = startChordBreaks32 || startChordBreaks64 || tupletStartsBeam;
     if (prevStartChord) {
@@ -263,7 +266,8 @@ bool Tuplet::calcHasBracket(const DurationElement* cr1, const DurationElement* c
     bool endChordBreaks64 = false;
     Chord* nextEndChord = c2->next();
     if (nextEndChord) {
-        beamEnd->calcBeamBreaks(nextEndChord, c2, beamCount - 1, endChordBreaks32, endChordBreaks64);
+        beamEnd->calcBeamBreaks(nextEndChord, c2, beamCount - 1, endChordBreaks32,
+                                endChordBreaks64);
     }
     bool endChordDefinesTuplet = endChordBreaks32 || endChordBreaks64 || tupletEndsBeam;
     if (nextEndChord) {
@@ -351,7 +355,8 @@ void Tuplet::remove(EngravingItem* e)
     case ElementType::CHORD:
     case ElementType::REST:
     case ElementType::TUPLET: {
-        auto i = std::find(m_currentElements.begin(), m_currentElements.end(), toDurationElement(e));
+        auto i
+            = std::find(m_currentElements.begin(), m_currentElements.end(), toDurationElement(e));
         if (i == m_currentElements.end()) {
             LOGD("Tuplet::remove: cannot find element <%s>", e->typeName());
             LOGD("  elements %zu", m_currentElements.size());
@@ -701,7 +706,8 @@ void Tuplet::sanitizeTuplet()
     if (ratio().numerator() == ratio().reduced().numerator()) { // return if the ratio is an irreducible fraction
         return;
     }
-    Fraction baseLenDuration = (Fraction(ratio().denominator(), 1) * baseLen().fraction()).reduced();
+    Fraction baseLenDuration
+        = (Fraction(ratio().denominator(), 1) * baseLen().fraction()).reduced();
 
     // Due to a bug present in 2.1 (and before), a tuplet with non-reduced ratio could be
     // in a corrupted state (mismatch between duration and base length).
@@ -758,7 +764,8 @@ Fraction Tuplet::addMissingElement(const Fraction& startTick, const Fraction& en
     Fraction f = (endTick - startTick) * ratio();
     TDuration d = TDuration(f, true);
     if (!d.isValid()) {
-        LOGD("Tuplet::addMissingElement(): invalid duration: %d/%d", f.numerator(), f.denominator());
+        LOGD("Tuplet::addMissingElement(): invalid duration: %d/%d", f.numerator(),
+             f.denominator());
         return Fraction::fromTicks(0);
     }
     f = d.fraction();
@@ -814,12 +821,15 @@ void Tuplet::addMissingElements()
 
     // calculate the tick where we would expect a tuplet of this duration to start
     // TODO: check:
-    expectedTick = elements().front()->tick() - Fraction::fromTicks(elements().front()->tick().ticks() % ticks().ticks());
+    expectedTick = elements().front()->tick() - Fraction::fromTicks(
+        elements().front()->tick().ticks() % ticks().ticks());
     if (expectedTick != elements().front()->tick()) {
         // try to fill a hole at the beginning of the tuplet
         Fraction firstAvailableTick = measure()->tick();
-        Segment* segment = measure()->findSegment(SegmentType::ChordRest, elements().front()->tick());
-        ChordRest* prevChordRest = segment && segment->prev() ? segment->prev()->nextChordRest(track(), true) : nullptr;
+        Segment* segment
+            = measure()->findSegment(SegmentType::ChordRest, elements().front()->tick());
+        ChordRest* prevChordRest = segment && segment->prev() ? segment->prev()->nextChordRest(
+            track(), true) : nullptr;
         if (prevChordRest && prevChordRest->measure() == measure()) {
             firstAvailableTick = prevChordRest->endTick();
         }
@@ -842,7 +852,8 @@ void Tuplet::addMissingElements()
     Fraction endTick = elements().front()->tick() + ticks();
     // just to be safe, find the next ChordRest in the track, and adjust endTick if necessary
     Segment* segment = measure()->findSegment(SegmentType::ChordRest, elements().back()->tick());
-    ChordRest* nextChordRest = segment && segment->next() ? segment->next()->nextChordRest(track(), false) : nullptr;
+    ChordRest* nextChordRest = segment && segment->next() ? segment->next()->nextChordRest(
+        track(), false) : nullptr;
     if (nextChordRest && nextChordRest->tick() < endTick) {
         endTick = nextChordRest->tick();
     }

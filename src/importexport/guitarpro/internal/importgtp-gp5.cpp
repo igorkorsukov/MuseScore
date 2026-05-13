@@ -194,7 +194,8 @@ void GuitarPro5::readPageSetup()
 //   readBeat
 //---------------------------------------------------------
 
-Fraction GuitarPro5::readBeat(const Fraction& tick, int voice, Measure* measure, int staffIdx, Tuplet** tuplets,
+Fraction GuitarPro5::readBeat(const Fraction& tick, int voice, Measure* measure, int staffIdx,
+                              Tuplet** tuplets,
                               bool /*mixChange*/)
 {
     uint8_t beatBits = readUInt8();
@@ -304,7 +305,9 @@ Fraction GuitarPro5::readBeat(const Fraction& tick, int voice, Measure* measure,
         if (tuple) {
             int track2 = staffIdx * 2 + voice;
             Tuplet* tuplet = tuplets[track2];
-            if ((tuplet == nullptr) || (tuplet->elementsDuration() == tuplet->baseLen().fraction() * tuplet->ratio().numerator())) {
+            if ((tuplet == nullptr)
+                || (tuplet->elementsDuration()
+                    == tuplet->baseLen().fraction() * tuplet->ratio().numerator())) {
                 tuplet = Factory::createTuplet(measure);
                 tuplets[track2] = tuplet;
                 setTuplet(tuplet, tuple);
@@ -404,7 +407,8 @@ Fraction GuitarPro5::readBeat(const Fraction& tick, int voice, Measure* measure,
         bool hasVibratoWTremBarOnBeat = false;
 
         do {
-            applyBeatEffects(chord, beatEffects % 100, hasVibratoLeftHandOnBeat, hasVibratoWTremBarOnBeat);
+            applyBeatEffects(chord, beatEffects % 100, hasVibratoLeftHandOnBeat,
+                             hasVibratoWTremBarOnBeat);
             hasVibratoLeftHand = hasVibratoLeftHand || hasVibratoLeftHandOnBeat;
             hasVibratoWTremBar = hasVibratoWTremBar || hasVibratoWTremBarOnBeat;
         } while (beatEffects /= 100);
@@ -428,7 +432,8 @@ Fraction GuitarPro5::readBeat(const Fraction& tick, int voice, Measure* measure,
         addRasgueado(cr, m_currentBeatHasRasgueado);
         addVibratoLeftHand(cr, hasVibratoLeftHand);
         addVibratoWTremBar(cr, hasVibratoWTremBar);
-        addHarmonicMarks(cr, hasHarmonicArtificial, hasHarmonicPinch, hasHarmonicTap, hasHarmonicSemi);
+        addHarmonicMarks(cr, hasHarmonicArtificial, hasHarmonicPinch, hasHarmonicTap,
+                         hasHarmonicSemi);
     }
 
     int r = readChar();
@@ -469,7 +474,8 @@ void GuitarPro5::readMeasure(Measure* measure, int staffIdx, Tuplet** tuplets, b
             measureLen += ticks;
         }
         if (measureLen < measure->ticks()) {
-            score->setRest(tick, staffIdx * VOICES + voice, measure->ticks() - measureLen, false, nullptr, false);
+            score->setRest(tick, staffIdx * VOICES + voice,
+                           measure->ticks() - measureLen, false, nullptr, false);
             m_continiousElementsBuilder->notifyUncompletedMeasure();
         }
     }
@@ -818,7 +824,8 @@ void GuitarPro5::readMeasures(int /*startingTempo*/)
                                 pos = std::string::npos;
                                 text = lyricsInIndex;
                             } else {
-                                text = lyricsInIndex.mid(gpLyrics.lyricPos[index], pos + 1 - gpLyrics.lyricPos[index]);
+                                text = lyricsInIndex.mid(gpLyrics.lyricPos[index],
+                                                         pos + 1 - gpLyrics.lyricPos[index]);
                                 gpLyrics.lyricPos[index] = pos + 1;
                             }
                         } else {
@@ -840,7 +847,8 @@ void GuitarPro5::readMeasures(int /*startingTempo*/)
                 }
             }
         } while ((beg = beg->next())
-                 || (mes->next() && mes->next()->isMeasure() && (mes = toMeasure(mes->next())) && (beg = mes->first())));
+                 || (mes->next() && mes->next()->isMeasure() && (mes = toMeasure(mes->next()))
+                     && (beg = mes->first())));
     }
 }
 
@@ -1002,7 +1010,8 @@ bool GuitarPro5::read(IODevice* io)
 
             std::vector<int> tuningPitches(sd.strings());
             for (size_t i = 0; i < tuningPitches.size(); ++i) {
-                tuningPitches[i] = sd.stringList().at(i).pitch + p->instrument()->transpose().chromatic;
+                tuningPitches[i] = sd.stringList().at(i).pitch
+                                   + p->instrument()->transpose().chromatic;
             }
 
             if (utils::isStandardTuning(p->instrument()->channel(0)->program(), tuningPitches)) {
@@ -1015,7 +1024,8 @@ bool GuitarPro5::read(IODevice* io)
             tun->setParent(seg);
             seg->add(tun);
 
-            auto tuning = utils::standardTuningFor(p->instrument()->channel(0)->program(), (int)sd.strings());
+            auto tuning = utils::standardTuningFor(p->instrument()->channel(
+                                                       0)->program(), (int)sd.strings());
             sd = StringData(sd.frets(), (int)tuning.size(), tuning.data());
             p->instrument()->setStringData(sd);
         }
@@ -1023,7 +1033,8 @@ bool GuitarPro5::read(IODevice* io)
     for (auto n : slideList) {
         auto segment = n->chord()->segment();
         auto measure = segment->measure();
-        while ((segment = segment->next1(SegmentType::ChordRest)) || ((measure = measure->nextMeasure()) && (segment = measure->first()))) {
+        while ((segment = segment->next1(SegmentType::ChordRest))
+               || ((measure = measure->nextMeasure()) && (segment = measure->first()))) {
             if (segment->segmentType() != SegmentType::ChordRest) {
                 continue;
             }
@@ -1036,7 +1047,8 @@ bool GuitarPro5::read(IODevice* io)
                         for (auto e : nt->el()) {
                             if (e->isChordLine()) {
                                 ChordLine* cl = toChordLine(e);
-                                if (cl->chordLineType() == ChordLineType::PLOP || cl->chordLineType() == ChordLineType::SCOOP) {
+                                if (cl->chordLineType() == ChordLineType::PLOP
+                                    || cl->chordLineType() == ChordLineType::SCOOP) {
                                     br = true;
                                     break;
                                 }
@@ -1156,7 +1168,8 @@ GuitarPro::ReadNoteResult GuitarPro5::readNoteEffects(Note* note)
             note_type = NoteType::APPOGGIATURA;
         }
 
-        int grace_pitch = note->staff()->part()->instrument()->stringData()->getPitch(note->string(), fret, nullptr);
+        int grace_pitch = note->staff()->part()->instrument()->stringData()->getPitch(
+            note->string(), fret, nullptr);
 
         auto gnote = score->setGraceNote(note->chord(), grace_pitch, note_type, grace_len);
 
@@ -1166,7 +1179,8 @@ GuitarPro::ReadNoteResult GuitarPro5::readNoteEffects(Note* note)
 
         gnote->setString(note->string());
         auto sd = note->part()->instrument()->stringData();
-        gnote->setFret(grace_pitch - sd->stringList().at(sd->stringList().size() - note->string() - 1).pitch);
+        gnote->setFret(grace_pitch
+                       - sd->stringList().at(sd->stringList().size() - note->string() - 1).pitch);
         if (transition == 0) {
             // no transition
         } else if (transition == 1) {
@@ -1277,7 +1291,8 @@ GuitarPro::ReadNoteResult GuitarPro5::readNoteEffects(Note* note)
             note->setDisplayFret(Note::DisplayFretOption::NaturalHarmonic);
             note->setHarmonicFret(harmonicFret);
             auto staff = note->staff();
-            int pitch = staff->part()->instrument()->stringData()->getPitch(note->string(), harmonicOvertone, staff);
+            int pitch = staff->part()->instrument()->stringData()->getPitch(
+                note->string(), harmonicOvertone, staff);
 
             note->setPitch(clampPitch(pitch));
             note->setTpcFromPitch(Prefer::SHARPS);
@@ -1337,7 +1352,8 @@ GuitarPro::ReadNoteResult GuitarPro5::readNoteEffects(Note* note)
             harmonicNote->setFret(note->fret());
             harmonicNote->setHarmonicFret(harmonicFret + fret);
 
-            int pitch = staff->part()->instrument()->stringData()->getPitch(note->string(), overtoneFret + note->part()->capoFret(), staff);
+            int pitch = staff->part()->instrument()->stringData()->getPitch(
+                note->string(), overtoneFret + note->part()->capoFret(), staff);
 
             harmonicNote->setPitch(clampPitch(pitch));
             harmonicNote->setTpcFromPitch(Prefer::SHARPS);
@@ -1512,7 +1528,9 @@ GuitarPro::ReadNoteResult GuitarPro5::readNote(int string, Note* note)
         note->setHeadGroup(NoteHeadGroup::HEAD_CROSS);
         note->setDeadNote(true);
     }
-    int pitch = staff->part()->instrument()->stringData()->getPitch(string, fretNumber + note->part()->capoFret(), nullptr);
+    int pitch = staff->part()->instrument()->stringData()->getPitch(string,
+                                                                    fretNumber + note->part()->capoFret(),
+                                                                    nullptr);
     note->setFret(fretNumber);
     note->setString(string);
     note->setPitch(pitch);
@@ -1559,7 +1577,8 @@ GuitarPro::ReadNoteResult GuitarPro5::readNote(int string, Note* note)
                             muse::remove(m_letRingForChords, chord2);
                         }
 
-                        if (m_harmonicNotes.find(note) != m_harmonicNotes.end() && m_harmonicNotes.find(note2) != m_harmonicNotes.end()) {
+                        if (m_harmonicNotes.find(note) != m_harmonicNotes.end()
+                            && m_harmonicNotes.find(note2) != m_harmonicNotes.end()) {
                             Note* startHarmonicNote = m_harmonicNotes.at(note2);
                             Note* endHarmonicNote = m_harmonicNotes.at(note);
 
@@ -1577,7 +1596,8 @@ GuitarPro::ReadNoteResult GuitarPro5::readNote(int string, Note* note)
                         if (m_tremolosInChords.find(chord2) != m_tremolosInChords.end()) {
                             TremoloType type = m_tremolosInChords.at(chord2);
                             DO_ASSERT(!isTremoloTwoChord(type));
-                            TremoloSingleChord* t = Factory::createTremoloSingleChord(score->dummy()->chord());
+                            TremoloSingleChord* t = Factory::createTremoloSingleChord(
+                                score->dummy()->chord());
                             t->setTremoloType(type);
                             chord->add(t);
                             muse::remove(m_tremolosInChords, chord2);
@@ -1646,7 +1666,8 @@ GuitarPro::ReadNoteResult GuitarPro5::readNote(int string, Note* note)
         if (!found) {
             note->setFret(INVALID_FRET_INDEX);
             dead_end[{ static_cast<int>(staffIdx), string }] = true;
-            LOGD("tied note not found, pitch %d fret %d string %d", note->pitch(), note->fret(), note->string());
+            LOGD("tied note not found, pitch %d fret %d string %d", note->pitch(),
+                 note->fret(), note->string());
             result.slur = false;
             return result;
         }

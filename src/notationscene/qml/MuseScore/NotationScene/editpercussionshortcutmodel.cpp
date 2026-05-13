@@ -33,7 +33,8 @@ EditPercussionShortcutModel::EditPercussionShortcutModel(QObject* parent)
 {
 }
 
-void EditPercussionShortcutModel::load(const QVariant& originDrum, const QVariantList& drumsWithShortcut,
+void EditPercussionShortcutModel::load(const QVariant& originDrum,
+                                       const QVariantList& drumsWithShortcut,
                                        const QVariantList& applicationShortcuts)
 {
     m_originDrum = originDrum.toMap();
@@ -100,8 +101,10 @@ bool EditPercussionShortcutModel::trySave()
     }
 
     const QString originTitle = m_originDrum.value("title").toString();
-    const QString headerText = qtrc("shortcuts", "Reassign shortcut for <b>%1</b>").arg(originTitle);
-    const IInteractive::Text text(getConflictWarningText().toStdString(), IInteractive::TextFormat::RichText);
+    const QString headerText
+        = qtrc("shortcuts", "Reassign shortcut for <b>%1</b>").arg(originTitle);
+    const IInteractive::Text text(getConflictWarningText().toStdString(),
+                                  IInteractive::TextFormat::RichText);
 
     const IInteractive::Button btn = interactive()->warningSync(headerText.toStdString(), text, {
         interactive()->buttonData(IInteractive::Button::Cancel),
@@ -183,12 +186,14 @@ QString EditPercussionShortcutModel::getConflictWarningText() const
     if (m_conflictInAppShortcuts) {
         const QString conflictTitle = m_conflictShortcut["title"].toString();
         const QString conflictShortcut = m_conflictShortcut["shortcut"].toString();
-        return qtrc("shortcuts", "When this instrument is selected, <b>%1</b> will no longer run <b>%2</b>.")
+        return qtrc("shortcuts",
+                    "When this instrument is selected, <b>%1</b> will no longer run <b>%2</b>.")
                .arg(conflictShortcut, conflictTitle);
     }
 
     const QString originTitle = m_originDrum.value("title").toString();
-    return informationText() + "<br><br>" + qtrc("shortcuts", "Are you sure you want to assign it to <b>%1</b> instead?")
+    return informationText() + "<br><br>" + qtrc("shortcuts",
+                                                 "Are you sure you want to assign it to <b>%1</b> instead?")
            .arg(originTitle);
 }
 

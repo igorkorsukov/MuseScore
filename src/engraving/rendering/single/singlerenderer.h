@@ -30,6 +30,7 @@ public:
     SingleRenderer() = default;
 
     void layoutItem(EngravingItem* item) override;
-    void drawItem(const EngravingItem* item, muse::draw::Painter* p, const PaintOptions& opt) override;
+    void drawItem(const EngravingItem* item, muse::draw::Painter* p,
+                  const PaintOptions& opt) override;
 };
 }

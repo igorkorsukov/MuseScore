@@ -178,7 +178,8 @@ void System::clear()
 
 void System::appendMeasure(MeasureBase* mb)
 {
-    assert(!mb->isMeasure() || !(style().styleB(Sid::createMultiMeasureRests) && toMeasure(mb)->hasMMRest()));
+    assert(!mb->isMeasure()
+           || !(style().styleB(Sid::createMultiMeasureRests) && toMeasure(mb)->hasMMRest()));
     mb->setParent(this);
     m_ml.push_back(mb);
 }
@@ -393,7 +394,8 @@ staff_idx_t System::firstVisibleStaff() const
 ///   \returns Number of the found staff.
 //---------------------------------------------------------
 
-staff_idx_t System::searchStaff(double y, staff_idx_t preferredStaff /* = invalid */, double spacingFactor) const
+staff_idx_t System::searchStaff(double y, staff_idx_t preferredStaff /* = invalid */,
+                                double spacingFactor) const
 {
     staff_idx_t i = 0;
     const size_t nstaves = score()->nstaves();
@@ -659,7 +661,8 @@ Fraction System::snapNote(const Fraction& tick, const PointF p, int staff) const
 
 Measure* System::firstMeasure() const
 {
-    auto i = std::find_if(m_ml.begin(), m_ml.end(), [](MeasureBase* mb) { return mb->isMeasure(); });
+    auto i
+        = std::find_if(m_ml.begin(), m_ml.end(), [](MeasureBase* mb) { return mb->isMeasure(); });
     return i != m_ml.end() ? toMeasure(*i) : 0;
 }
 
@@ -669,7 +672,9 @@ Measure* System::firstMeasure() const
 
 Measure* System::lastMeasure() const
 {
-    auto i = std::find_if(m_ml.rbegin(), m_ml.rend(), [](MeasureBase* mb) { return mb->isMeasure(); });
+    auto i = std::find_if(m_ml.rbegin(), m_ml.rend(), [](MeasureBase* mb) {
+        return mb->isMeasure();
+    });
     return i != m_ml.rend() ? toMeasure(*i) : 0;
 }
 
@@ -683,7 +688,8 @@ MeasureBase* System::nextMeasure(const MeasureBase* m) const
         return 0;
     }
     MeasureBase* nm = m->next();
-    if (nm->isMeasure() && style().styleB(Sid::createMultiMeasureRests) && toMeasure(nm)->hasMMRest()) {
+    if (nm->isMeasure() && style().styleB(Sid::createMultiMeasureRests) && toMeasure(
+            nm)->hasMMRest()) {
         nm = toMeasure(nm)->mmRest();
     }
     return nm;
@@ -741,12 +747,14 @@ void System::scanElements(std::function<void(EngravingItem*)> func)
     for (SpannerSegment* ss : m_spannerSegments) {
         staff_idx_t staffIdx = ss->spanner()->staffIdx();
         if (staffIdx == muse::nidx) {
-            LOGD("System::scanElements: staffIDx == -1: %s %p", ss->spanner()->typeName(), ss->spanner());
+            LOGD("System::scanElements: staffIDx == -1: %s %p",
+                 ss->spanner()->typeName(), ss->spanner());
             staffIdx = 0;
         }
         bool v = true;
         Spanner* spanner = ss->spanner();
-        if (spanner->anchor() == Spanner::Anchor::SEGMENT || spanner->anchor() == Spanner::Anchor::CHORD) {
+        if (spanner->anchor() == Spanner::Anchor::SEGMENT
+            || spanner->anchor() == Spanner::Anchor::CHORD) {
             EngravingItem* se = spanner->startElement();
             EngravingItem* ee = spanner->endElement();
             bool v1 = true;
@@ -763,7 +771,8 @@ void System::scanElements(std::function<void(EngravingItem*)> func)
             }
             v = v1 || v2;       // hide spanner if both chords are hidden
         }
-        if ((score()->staff(staffIdx)->show() && m_staves[staffIdx]->show() && v) || spanner->isVolta()
+        if ((score()->staff(staffIdx)->show() && m_staves[staffIdx]->show() && v)
+            || spanner->isVolta()
             || spanner->systemFlag()) {
             ss->scanElements(func);
         }
@@ -993,7 +1002,8 @@ Spacer* System::upSpacer(staff_idx_t staffIdx, Spacer* prevDownSpacer) const
         }
         Spacer* sp { toMeasure(mb)->vspacerUp(staffIdx) };
         if (sp) {
-            if (!spacer || ((spacer->spacerType() == SpacerType::UP) && (sp->gap() > spacer->gap()))) {
+            if (!spacer
+                || ((spacer->spacerType() == SpacerType::UP) && (sp->gap() > spacer->gap()))) {
                 spacer = sp;
             }
             continue;
@@ -1079,7 +1089,8 @@ double System::endingXForOpenEndedLines() const
 
 ChordRest* System::lastChordRest(track_idx_t track) const
 {
-    for (auto measureBaseIter = measures().rbegin(); measureBaseIter != measures().rend(); measureBaseIter++) {
+    for (auto measureBaseIter = measures().rbegin(); measureBaseIter != measures().rend();
+         measureBaseIter++) {
         if ((*measureBaseIter)->isMeasure()) {
             const Measure* measure = toMeasure(*measureBaseIter);
             return measure->lastChordRest(track);
@@ -1160,7 +1171,8 @@ staff_idx_t System::firstVisibleSysStaffOfPart(const Part* part) const
     return muse::nidx; // No visible staves on this part.
 }
 
-staff_idx_t System::firstVisibleSysStaffWithInstrument(const String& instrumentId, staff_idx_t startFrom)
+staff_idx_t System::firstVisibleSysStaffWithInstrument(const String& instrumentId,
+                                                       staff_idx_t startFrom)
 {
     Fraction tick = first()->tick();
     for (staff_idx_t idx = startFrom; idx < m_staves.size(); ++idx) {
@@ -1199,7 +1211,8 @@ staff_idx_t System::lastVisibleSysStaffOfPart(const Part* part) const
     if (firstStaffIdx == muse::nidx) {
         return muse::nidx;
     }
-    for (int idx = static_cast<int>(lastSysStaffOfPart(part)); idx >= static_cast<int>(firstStaffIdx); --idx) {
+    for (int idx = static_cast<int>(lastSysStaffOfPart(part));
+         idx >= static_cast<int>(firstStaffIdx); --idx) {
         if (staff(idx)->show()) {
             return idx;
         }

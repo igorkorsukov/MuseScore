@@ -48,23 +48,27 @@ class EditModeRenderer : public IEditModeRenderer
 public:
     EditModeRenderer() = default;
 
-    void drawItem(const EngravingItem* item, muse::draw::Painter* p, const EditData& ed, double currentViewScaling,
-                  const PaintOptions& opt) override;
+    void drawItem(const EngravingItem* item, muse::draw::Painter* p, const EditData& ed,
+                  double currentViewScaling, const PaintOptions& opt) override;
 
 private:
-    static void drawEngravingItem(const EngravingItem* item, muse::draw::Painter* painter, const EditData& ed, double currentViewScaling,
+    static void drawEngravingItem(const EngravingItem* item, muse::draw::Painter* painter,
+                                  const EditData& ed, double currentViewScaling,
                                   const PaintOptions& opt);
 
-    static void drawBarline(const BarLine* item, muse::draw::Painter* painter, const EditData& ed, double currentViewScaling,
-                            const PaintOptions& opt);
-    static void drawDynamic(const Dynamic* item, muse::draw::Painter* painter, const EditData& ed, double currentViewScaling,
-                            const PaintOptions& opt);
-    static void drawSlurTieSegment(const SlurTieSegment* item, muse::draw::Painter* painter, const EditData& ed, double currentViewScaling,
+    static void drawBarline(const BarLine* item, muse::draw::Painter* painter, const EditData& ed,
+                            double currentViewScaling, const PaintOptions& opt);
+    static void drawDynamic(const Dynamic* item, muse::draw::Painter* painter, const EditData& ed,
+                            double currentViewScaling, const PaintOptions& opt);
+    static void drawSlurTieSegment(const SlurTieSegment* item, muse::draw::Painter* painter,
+                                   const EditData& ed, double currentViewScaling,
                                    const PaintOptions& opt);
 
-    static void drawTextBase(const TextBase* item, muse::draw::Painter* painter, const EditData& ed, double currentViewScaling,
-                             const PaintOptions& opt);
-    static void draw(const TextBlock& textBlock, const TextBase* item, muse::draw::Painter* painter);
-    static void draw(const TextFragment& textFragment, const TextBase* item, muse::draw::Painter* painter);
+    static void drawTextBase(const TextBase* item, muse::draw::Painter* painter, const EditData& ed,
+                             double currentViewScaling, const PaintOptions& opt);
+    static void draw(const TextBlock& textBlock, const TextBase* item,
+                     muse::draw::Painter* painter);
+    static void draw(const TextFragment& textFragment, const TextBase* item,
+                     muse::draw::Painter* painter);
 };
 }

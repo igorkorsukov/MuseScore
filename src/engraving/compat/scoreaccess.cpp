@@ -40,13 +40,15 @@ MasterScore* ScoreAccess::createMasterScoreWithBaseStyle(const muse::modularity:
     return new MasterScore(iocCtx_, DefaultStyle::baseStyle());
 }
 
-MasterScore* ScoreAccess::createMasterScoreWithDefaultStyle(const muse::modularity::ContextPtr& iocCtx)
+MasterScore* ScoreAccess::createMasterScoreWithDefaultStyle(
+    const muse::modularity::ContextPtr& iocCtx)
 {
     const muse::modularity::ContextPtr iocCtx_ = iocCtx ? iocCtx : utestCtx;
     return new MasterScore(iocCtx_, DefaultStyle::defaultStyle());
 }
 
-MasterScore* ScoreAccess::createMasterScore(const muse::modularity::ContextPtr& iocCtx, const MStyle& style)
+MasterScore* ScoreAccess::createMasterScore(const muse::modularity::ContextPtr& iocCtx,
+                                            const MStyle& style)
 {
     const muse::modularity::ContextPtr iocCtx_ = iocCtx ? iocCtx : utestCtx;
     return new MasterScore(iocCtx_, style);

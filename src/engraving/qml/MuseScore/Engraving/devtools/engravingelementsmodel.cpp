@@ -147,7 +147,8 @@ EngravingElementsModel::Item* EngravingElementsModel::createItem(Item* parent)
     return item;
 }
 
-EngravingElementsModel::Item* EngravingElementsModel::itemByModelIndex(const QModelIndex& index) const
+EngravingElementsModel::Item* EngravingElementsModel::itemByModelIndex(const QModelIndex& index)
+const
 {
     return m_allItems.value(index.internalId(), nullptr);
 }
@@ -192,7 +193,8 @@ QVariantMap EngravingElementsModel::makeData(const mu::engraving::EngravingObjec
     info += "\n";
     if (el->isEngravingItem()) {
         const mu::engraving::EngravingItem* item = mu::engraving::toEngravingItem(el);
-        info += "pagePos: " + formatPoint(item->pagePos()) + ", bbox: " + formatRect(item->ldata()->bbox());
+        info += "pagePos: " + formatPoint(item->pagePos()) + ", bbox: " + formatRect(
+            item->ldata()->bbox());
     }
 
     QVariantMap d;
@@ -266,7 +268,8 @@ void EngravingElementsModel::load(const EngravingObjectSet& elements, Item* root
     }
 }
 
-const EngravingElementsModel::Item* EngravingElementsModel::findItem(const mu::engraving::EngravingObject* el, const Item* root) const
+const EngravingElementsModel::Item* EngravingElementsModel::findItem(
+    const mu::engraving::EngravingObject* el, const Item* root) const
 {
     if (root->element() == el) {
         return root;

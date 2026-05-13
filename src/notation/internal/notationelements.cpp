@@ -100,11 +100,13 @@ std::vector<EngravingItem*> NotationElements::search(const QString& searchText) 
     return {};
 }
 
-std::vector<EngravingItem*> NotationElements::elements(const FilterElementsOptions& elementsOptions) const
+std::vector<EngravingItem*> NotationElements::elements(const FilterElementsOptions& elementsOptions)
+const
 {
     std::vector<EngravingItem*> result;
 
-    const FilterElementsOptions* elementsFilterOptions = dynamic_cast<const FilterElementsOptions*>(&elementsOptions);
+    const FilterElementsOptions* elementsFilterOptions
+        = dynamic_cast<const FilterElementsOptions*>(&elementsOptions);
 
     if (!elementsFilterOptions) {
         return allScoreElements();
@@ -112,7 +114,8 @@ std::vector<EngravingItem*> NotationElements::elements(const FilterElementsOptio
 
     // todo: add check for range search
 
-    const FilterNotesOptions* noteOptions = dynamic_cast<const FilterNotesOptions*>(elementsFilterOptions);
+    const FilterNotesOptions* noteOptions
+        = dynamic_cast<const FilterNotesOptions*>(elementsFilterOptions);
     if (noteOptions) {
         result = filterNotes(noteOptions);
     } else {
@@ -126,7 +129,9 @@ mu::engraving::RehearsalMark* NotationElements::rehearsalMark(const String& name
 {
     String qname = name.toLower();
 
-    for (mu::engraving::Segment* segment = score()->firstSegment(mu::engraving::SegmentType::ChordRest); segment;
+    for (mu::engraving::Segment* segment =
+             score()->firstSegment(mu::engraving::SegmentType::ChordRest);
+         segment;
          segment = segment->next1(mu::engraving::SegmentType::ChordRest)) {
         for (EngravingItem* element: segment->annotations()) {
             if (!element->isRehearsalMark()) {
@@ -180,11 +185,14 @@ std::vector<EngravingItem*> NotationElements::allScoreElements() const
     return result;
 }
 
-std::vector<EngravingItem*> NotationElements::filterElements(const FilterElementsOptions* elementsOptions) const
+std::vector<EngravingItem*> NotationElements::filterElements(
+    const FilterElementsOptions* elementsOptions) const
 {
     ElementPattern pattern = constructElementPattern(elementsOptions);
 
-    score()->scanElements([&](EngravingItem* item) { mu::engraving::Score::collectMatch(&pattern, item); });
+    score()->scanElements([&](EngravingItem* item) {
+        mu::engraving::Score::collectMatch(&pattern, item);
+    });
 
     std::vector<EngravingItem*> result;
     for (EngravingItem* element: pattern.el) {
@@ -194,11 +202,14 @@ std::vector<EngravingItem*> NotationElements::filterElements(const FilterElement
     return result;
 }
 
-std::vector<EngravingItem*> NotationElements::filterNotes(const FilterNotesOptions* notesOptions) const
+std::vector<EngravingItem*> NotationElements::filterNotes(const FilterNotesOptions* notesOptions)
+const
 {
     mu::engraving::NotePattern pattern = constructNotePattern(notesOptions);
 
-    score()->scanElements([&](EngravingItem* item) { mu::engraving::Score::collectNoteMatch(&pattern, item); });
+    score()->scanElements([&](EngravingItem* item) {
+        mu::engraving::Score::collectNoteMatch(&pattern, item);
+    });
 
     std::vector<EngravingItem*> result;
     for (EngravingItem* element: pattern.el) {
@@ -217,7 +228,8 @@ mu::engraving::Score* NotationElements::score() const
     return m_getScore->score();
 }
 
-ElementPattern NotationElements::constructElementPattern(const FilterElementsOptions* elementOptions) const
+ElementPattern NotationElements::constructElementPattern(
+    const FilterElementsOptions* elementOptions) const
 {
     mu::engraving::ElementPattern pattern;
     pattern.type = static_cast<int>(elementOptions->elementType);
@@ -234,7 +246,8 @@ ElementPattern NotationElements::constructElementPattern(const FilterElementsOpt
     return pattern;
 }
 
-mu::engraving::NotePattern NotationElements::constructNotePattern(const FilterNotesOptions* notesOptions) const
+mu::engraving::NotePattern NotationElements::constructNotePattern(
+    const FilterNotesOptions* notesOptions) const
 {
     mu::engraving::NotePattern pattern;
     pattern.pitch = notesOptions->pitch;

@@ -46,7 +46,8 @@ bool MeiWriter::supportsUnitType(UnitType unitType) const
     return std::find(unitTypes.cbegin(), unitTypes.cend(), unitType) != unitTypes.cend();
 }
 
-Ret MeiWriter::write(notation::INotationPtr notation, io::IODevice& destinationDevice, const Options&)
+Ret MeiWriter::write(notation::INotationPtr notation, io::IODevice& destinationDevice,
+                     const Options&)
 {
     IF_ASSERT_FAILED(notation) {
         return make_ret(Ret::Code::UnknownError);
@@ -74,7 +75,8 @@ mu::engraving::Err MeiWriter::writeScore(mu::engraving::Score* score, const muse
     // Force no layout option in this case
     exporter.configuration()->setMeiExportLayout(false);
     std::string meiData;
-    if (exporter.write(meiData) && io::File::writeFile(path, ByteArray(meiData.c_str(), meiData.size()))) {
+    if (exporter.write(meiData)
+        && io::File::writeFile(path, ByteArray(meiData.c_str(), meiData.size()))) {
         return engraving::Err::NoError;
     } else {
         return engraving::Err::UnknownError;

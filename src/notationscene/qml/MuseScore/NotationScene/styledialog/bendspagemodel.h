@@ -31,15 +31,21 @@ class BendsPageModel : public AbstractStyleDialogModel
 
     Q_PROPERTY(mu::notation::StyleItem * guitarBendUseFull READ guitarBendUseFull CONSTANT)
     Q_PROPERTY(mu::notation::StyleItem * guitarBendLineWidth READ guitarBendLineWidth CONSTANT)
-    Q_PROPERTY(mu::notation::StyleItem * guitarBendLineWidthTab READ guitarBendLineWidthTab CONSTANT)
+    Q_PROPERTY(mu::notation::StyleItem
+               * guitarBendLineWidthTab READ guitarBendLineWidthTab CONSTANT)
     Q_PROPERTY(mu::notation::StyleItem * guitarBendArrowWidth READ guitarBendArrowWidth CONSTANT)
     Q_PROPERTY(mu::notation::StyleItem * guitarBendArrowHeight READ guitarBendArrowHeight CONSTANT)
     Q_PROPERTY(mu::notation::StyleItem * guitarDivesAboveStaff READ guitarDivesAboveStaff CONSTANT)
-    Q_PROPERTY(mu::notation::StyleItem * useCueSizeFretForGraceBends READ useCueSizeFretForGraceBends CONSTANT)
+    Q_PROPERTY(
+        mu::notation::StyleItem
+        * useCueSizeFretForGraceBends READ useCueSizeFretForGraceBends CONSTANT)
     Q_PROPERTY(mu::notation::StyleItem * useFractionCharacters READ useFractionCharacters CONSTANT)
-    Q_PROPERTY(mu::notation::StyleItem * alignPreBendAndPreDiveToGraceNote READ alignPreBendAndPreDiveToGraceNote CONSTANT)
+    Q_PROPERTY(
+        mu::notation::StyleItem
+        * alignPreBendAndPreDiveToGraceNote READ alignPreBendAndPreDiveToGraceNote CONSTANT)
     Q_PROPERTY(mu::notation::StyleItem * guitarDiveLineWidth READ guitarDiveLineWidth CONSTANT)
-    Q_PROPERTY(mu::notation::StyleItem * guitarDiveLineWidthTab READ guitarDiveLineWidthTab CONSTANT)
+    Q_PROPERTY(mu::notation::StyleItem
+               * guitarDiveLineWidthTab READ guitarDiveLineWidthTab CONSTANT)
     Q_PROPERTY(mu::notation::StyleItem * whammyBarText READ whammyBarText CONSTANT)
     Q_PROPERTY(mu::notation::StyleItem * whammyBarLineStyle READ whammyBarLineStyle CONSTANT)
     Q_PROPERTY(mu::notation::StyleItem * whammyBarDashLineLen READ whammyBarDashLineLen CONSTANT)

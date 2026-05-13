@@ -45,7 +45,8 @@ static const std::string TRACK_ID_KEY("trackId");
 static const std::string RESOURCE_ID_KEY("resourceId");
 static const std::string CHAIN_ORDER_KEY("chainOrder");
 
-MixerChannelItem::MixerChannelItem(QObject* parent, Type type, bool outputOnly, audio::TrackId trackId)
+MixerChannelItem::MixerChannelItem(QObject* parent, Type type, bool outputOnly,
+                                   audio::TrackId trackId)
     : QObject(parent), muse::Contextable(muse::iocCtxForQmlObject(this)),
     m_type(type),
     m_trackId(trackId),
@@ -90,7 +91,8 @@ const mu::engraving::InstrumentTrackId& MixerChannelItem::instrumentTrackId() co
     return m_instrumentTrackId;
 }
 
-void MixerChannelItem::setInstrumentTrackId(const mu::engraving::InstrumentTrackId& instrumentTrackId)
+void MixerChannelItem::setInstrumentTrackId(
+    const mu::engraving::InstrumentTrackId& instrumentTrackId)
 {
     m_instrumentTrackId = instrumentTrackId;
 }
@@ -312,7 +314,9 @@ void MixerChannelItem::loadAuxSendItems(const AuxSendsParams& auxSends)
 
     m_outParams.auxSends = auxSends;
 
-    configuration()->isAuxSendVisibleChanged().onReceive(this, [this](aux_channel_idx_t index, bool visible) {
+    configuration()->isAuxSendVisibleChanged().onReceive(this,
+                                                         [this](aux_channel_idx_t index,
+                                                                bool visible) {
         if (visible) {
             IF_ASSERT_FAILED(index < m_outParams.auxSends.size()) {
                 return;
@@ -352,7 +356,8 @@ void MixerChannelItem::loadAuxSendItems(const AuxSendsParams& auxSends)
     }
 }
 
-void MixerChannelItem::loadSoloMuteState(const notation::INotationSoloMuteState::SoloMuteState& newState)
+void MixerChannelItem::loadSoloMuteState(
+    const notation::INotationSoloMuteState::SoloMuteState& newState)
 {
     if (m_outParams.muted != newState.mute) {
         m_outParams.muted = newState.mute;
@@ -490,7 +495,8 @@ mu::notation::INotationPlaybackPtr MixerChannelItem::notationPlayback() const
     return project ? project->masterNotation()->playback() : nullptr;
 }
 
-void MixerChannelItem::setAudioChannelVolumePressure(const audio::audioch_t chNum, const float newValue)
+void MixerChannelItem::setAudioChannelVolumePressure(const audio::audioch_t chNum,
+                                                     const float newValue)
 {
     if (chNum == 0) {
         setLeftChannelPressure(newValue);
@@ -509,7 +515,8 @@ InputResourceItem* MixerChannelItem::buildInputResourceItem()
 {
     InputResourceItem* newItem = new InputResourceItem(this);
 
-    connect(newItem, &InputResourceItem::inputParamsChangeRequested, this, [this, newItem](const AudioResourceMeta& newMeta) {
+    connect(newItem, &InputResourceItem::inputParamsChangeRequested, this,
+            [this, newItem](const AudioResourceMeta& newMeta) {
         if (askAboutChangingSound()) {
             newItem->setParamsRecourceMeta(newMeta);
         }
@@ -526,13 +533,17 @@ InputResourceItem* MixerChannelItem::buildInputResourceItem()
         }
 
         bool auxParamsChanged = false;
-        for (aux_channel_idx_t idx = 0; idx < static_cast<size_t>(m_outParams.auxSends.size()); ++idx) {
-            const muse::String& soundId = m_inputParams.resourceMeta.attributeVal(PLAYBACK_SETUP_DATA_ATTRIBUTE);
-            gain_t newAudioSignalAmount = configuration()->defaultAuxSendValue(idx, m_inputParams.type(), soundId);
+        for (aux_channel_idx_t idx = 0; idx < static_cast<size_t>(m_outParams.auxSends.size());
+             ++idx) {
+            const muse::String& soundId
+                = m_inputParams.resourceMeta.attributeVal(PLAYBACK_SETUP_DATA_ATTRIBUTE);
+            gain_t newAudioSignalAmount
+                = configuration()->defaultAuxSendValue(idx, m_inputParams.type(), soundId);
 
             auto it = m_auxSendItems.find(idx);
             if (it == m_auxSendItems.end()) {
-                if (!muse::RealIsEqual(m_outParams.auxSends.at(idx).signalAmount, newAudioSignalAmount)) {
+                if (!muse::RealIsEqual(m_outParams.auxSends.at(idx).signalAmount,
+                                       newAudioSignalAmount)) {
                     m_outParams.auxSends.at(idx).signalAmount = newAudioSignalAmount;
                     auxParamsChanged = true;
                 }
@@ -546,7 +557,8 @@ InputResourceItem* MixerChannelItem::buildInputResourceItem()
         }
     });
 
-    connect(newItem, &InputResourceItem::isBlankChanged, this, &MixerChannelItem::inputResourceItemChanged);
+    connect(newItem, &InputResourceItem::isBlankChanged, this,
+            &MixerChannelItem::inputResourceItemChanged);
 
     connect(newItem, &InputResourceItem::nativeEditorViewLaunchRequested, this, [this, newItem]() {
         if (newItem->params().type() != AudioSourceType::Vsti) {
@@ -609,7 +621,8 @@ OutputResourceItem* MixerChannelItem::buildOutputResourceItem(const audio::Audio
     return newItem;
 }
 
-AuxSendItem* MixerChannelItem::buildAuxSendItem(aux_channel_idx_t index, const AuxSendParams& params)
+AuxSendItem* MixerChannelItem::buildAuxSendItem(aux_channel_idx_t index,
+                                                const AuxSendParams& params)
 {
     AuxSendItem* newItem = new AuxSendItem(this);
     newItem->blockSignals(true);
@@ -628,7 +641,8 @@ AuxSendItem* MixerChannelItem::buildAuxSendItem(aux_channel_idx_t index, const A
     });
 
     connect(newItem, &AuxSendItem::audioSignalPercentageChanged, this, [this, index](int percentage) {
-        IF_ASSERT_FAILED(index < m_outParams.auxSends.size()) {
+        IF_ASSERT_FAILED(
+            index < m_outParams.auxSends.size()) {
             return;
         }
 
@@ -639,7 +653,8 @@ AuxSendItem* MixerChannelItem::buildAuxSendItem(aux_channel_idx_t index, const A
     return newItem;
 }
 
-void MixerChannelItem::openEditor(AbstractAudioResourceItem* item, const actions::ActionQuery& action)
+void MixerChannelItem::openEditor(AbstractAudioResourceItem* item,
+                                  const actions::ActionQuery& action)
 {
     if (item->editorAction() != action) {
         if (item->editorAction().isValid()) {
@@ -678,16 +693,19 @@ bool MixerChannelItem::askAboutChangingSound()
     }
 
     int changeBtn = int(IInteractive::Button::Apply);
-    IInteractive::Options options = IInteractive::Option::WithIcon | IInteractive::Option::WithDontShowAgainCheckBox;
+    IInteractive::Options options = IInteractive::Option::WithIcon
+                                    | IInteractive::Option::WithDontShowAgainCheckBox;
     IInteractive::ButtonDatas buttons = {
         interactive()->buttonData(IInteractive::Button::Cancel),
         IInteractive::ButtonData(changeBtn, muse::trc("playback", "Change sound"), true /*accent*/)
     };
 
-    IInteractive::Result result = interactive()->warningSync(muse::trc("playback", "Are you sure you want to change this sound?"),
-                                                             muse::trc("playback",
-                                                                       "Sound flags on this instrument may be reset, but staff text will remain. This action can’t be undone."),
-                                                             buttons, changeBtn, options);
+    IInteractive::Result result
+        = interactive()->warningSync(muse::trc("playback",
+                                               "Are you sure you want to change this sound?"),
+                                     muse::trc("playback",
+                                               "Sound flags on this instrument may be reset, but staff text will remain. This action can’t be undone."),
+                                     buttons, changeBtn, options);
 
     if (result.button() == changeBtn) {
         if (!result.showAgain()) {

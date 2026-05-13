@@ -39,7 +39,8 @@ class Engraving_HideEmptyStavesTests : public ::testing::Test
 
 TEST_F(Engraving_HideEmptyStavesTests, Compat450)
 {
-    MasterScore* masterScore = ScoreRW::readScore(HIDEEMPTYSTAVES_DATA_DIR + "compat450/compat450.mscx");
+    MasterScore* masterScore = ScoreRW::readScore(
+        HIDEEMPTYSTAVES_DATA_DIR + "compat450/compat450.mscx");
     ASSERT_TRUE(masterScore);
 
     // 4 single-staff parts and 10 two-staff parts

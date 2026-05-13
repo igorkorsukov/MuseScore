@@ -166,7 +166,8 @@ ElementPtr PaletteWidget::elementForCellAt(int idx) const
     return cell ? cell->element : nullptr;
 }
 
-PaletteCellPtr PaletteWidget::insertElement(int idx, ElementPtr element, const QString& name, qreal mag, const QPointF offset,
+PaletteCellPtr PaletteWidget::insertElement(int idx, ElementPtr element, const QString& name,
+                                            qreal mag, const QPointF offset,
                                             const QString& tag)
 {
     PaletteCellPtr cell = m_palette->insertElement(idx, element, name, mag, offset, tag);
@@ -177,7 +178,8 @@ PaletteCellPtr PaletteWidget::insertElement(int idx, ElementPtr element, const Q
     return cell;
 }
 
-PaletteCellPtr PaletteWidget::appendElement(ElementPtr element, const QString& name, qreal mag, const QPointF offset, const QString& tag)
+PaletteCellPtr PaletteWidget::appendElement(ElementPtr element, const QString& name, qreal mag,
+                                            const QPointF offset, const QString& tag)
 {
     PaletteCellPtr cell = m_palette->appendElement(element, name, mag, offset, tag);
 
@@ -733,7 +735,8 @@ void PaletteWidget::mouseDoubleClickEvent(QMouseEvent* ev)
 void PaletteWidget::mouseMoveEvent(QMouseEvent* ev)
 {
     if ((m_currentIdx != -1) && (m_dragIdx == m_currentIdx) && (ev->buttons() & Qt::LeftButton)
-        && (ev->pos() - m_dragStartPosition).manhattanLength() > QApplication::startDragDistance()) {
+        && (ev->pos() - m_dragStartPosition).manhattanLength()
+        > QApplication::startDragDistance()) {
         PaletteCellPtr cell = cellAt(m_currentIdx);
         if (cell && cell->element) {
             QDrag* drag         = new QDrag(this);
@@ -880,16 +883,21 @@ void PaletteWidget::dropEvent(QDropEvent* event)
             rw::RWRegister::reader()->readItem(symbol.get(), xml);
             element = symbol;
         } else {
-            element = std::shared_ptr<EngravingItem>(Factory::createItem(type, paletteScoreProvider()->paletteScore()->dummy()));
+            element
+                = std::shared_ptr<EngravingItem>(Factory::createItem(type,
+                                                                     paletteScoreProvider()->
+                                                                     paletteScore()->dummy()));
             if (element) {
                 rw::RWRegister::reader()->readItem(element.get(), xml);
                 element->setTrack(0);
 
                 if (element->isActionIcon()) {
                     ActionIcon* icon = toActionIcon(element.get());
-                    const muse::ui::UiAction& actionItem = actionsRegister()->action(icon->actionCode());
+                    const muse::ui::UiAction& actionItem = actionsRegister()->action(
+                        icon->actionCode());
                     if (actionItem.isValid()) {
-                        icon->setAction(icon->actionCode(), static_cast<char16_t>(actionItem.iconCode));
+                        icon->setAction(icon->actionCode(),
+                                        static_cast<char16_t>(actionItem.iconCode));
                     }
                 }
             }
@@ -1001,13 +1009,19 @@ void PaletteWidget::paintEvent(QPaintEvent* /*event*/)
         }
 
         if (currentCell->focused) {
-            painter.setPen(QColor(uiConfiguration()->currentTheme().values[muse::ui::FONT_PRIMARY_COLOR].toString()));
+            painter.setPen(QColor(uiConfiguration()->currentTheme().values[muse::ui::
+                                                                           FONT_PRIMARY_COLOR].
+                                  toString()));
             painter.setBrush(QColor(Qt::transparent));
 
-            int borderWidth = uiConfiguration()->currentTheme().values[muse::ui::NAVIGATION_CONTROL_BORDER_WIDTH].toInt();
+            int borderWidth
+                = uiConfiguration()->currentTheme().values[muse::ui::NAVIGATION_CONTROL_BORDER_WIDTH
+                  ].
+                  toInt();
             qreal border = borderWidth / 2;
 
-            painter.drawRoundedRect(r.adjusted(border, border, -border, -border), borderWidth, borderWidth);
+            painter.drawRoundedRect(r.adjusted(border, border, -border,
+                                               -border), borderWidth, borderWidth);
             r.adjust(borderWidth, borderWidth, -borderWidth, -borderWidth);
         }
 
@@ -1032,7 +1046,8 @@ void PaletteWidget::paintEvent(QPaintEvent* /*event*/)
         }
 
         muse::draw::Pen pen(linesColor);
-        pen.setWidthF(engraving::DefaultStyle::defaultStyle().styleS(Sid::staffLineWidth).val() * magS);
+        pen.setWidthF(engraving::DefaultStyle::defaultStyle().styleS(
+                          Sid::staffLineWidth).val() * magS);
         painter.setPen(pen);
 
         ElementPtr el = currentCell->element;
@@ -1139,7 +1154,8 @@ void PaletteWidget::contextMenuEvent(QContextMenuEvent* event)
         PaletteCellPtr cell = cellAt(i);
         if (cell) {
             std::string title = muse::trc("palette", "Delete palette cell");
-            std::string question = muse::qtrc("palette", "Are you sure you want to delete palette cell “%1”?")
+            std::string question = muse::qtrc("palette",
+                                              "Are you sure you want to delete palette cell “%1”?")
                                    .arg(cell->name).toStdString();
 
             auto promise = interactive()->question(title, question, {

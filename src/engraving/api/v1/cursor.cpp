@@ -192,9 +192,11 @@ void Cursor::rewindToFraction(Fraction* f)
     if (!seg && m_filter & mu::engraving::SegmentType::TimeTick) {
         mu::engraving::Measure* measure = m_score->tick2measure(fraction);
         if (measure) {
-            mu::engraving::TimeTickAnchor* anchor = mu::engraving::EditTimeTickAnchors::createTimeTickAnchor(measure,
-                                                                                                             fraction - measure->tick(),
-                                                                                                             track2staff(track()));
+            mu::engraving::TimeTickAnchor* anchor
+                = mu::engraving::EditTimeTickAnchors::createTimeTickAnchor(measure,
+                                                                           fraction - measure->tick(),
+                                                                           track2staff(
+                                                                               track()));
             mu::engraving::EditTimeTickAnchors::updateLayout(measure);
             seg = anchor->segment();
         } else {
@@ -296,7 +298,8 @@ void Cursor::add(EngravingItem* wrapped)
     }
     switch (s->type()) {
     case ElementType::KEYSIG: {
-        mu::engraving::Segment* ns = _segment->measure()->undoGetSegment(SegmentType::KeySig, _segment->tick());
+        mu::engraving::Segment* ns = _segment->measure()->undoGetSegment(SegmentType::KeySig,
+                                                                         _segment->tick());
         s->setParent(ns);
         m_score->undoAddElement(s);
         break;
@@ -412,7 +415,8 @@ void Cursor::add(EngravingItem* wrapped)
         // Find backwards first measure containing a clef
         mu::engraving::Segment* parent = nullptr;
         for (mu::engraving::Measure* m = _segment->measure(); m; m = m->prevMeasure()) {
-            mu::engraving::Segment* seg = m->findSegment(SegmentType::Clef | SegmentType::HeaderClef, m->tick());
+            mu::engraving::Segment* seg = m->findSegment(
+                SegmentType::Clef | SegmentType::HeaderClef, m->tick());
             if (!seg) {
                 continue;
             }
@@ -525,7 +529,8 @@ void Cursor::addTuplet(Fraction* ratio, Fraction* duration)
 
     if (!fRatio.isValid() || fRatio.isZero() || fRatio.negative()
         || !fDuration.isValid() || fDuration.isZero() || fDuration.negative()) {
-        LOGW("Cursor::addTuplet: invalid parameter values: %s, %s", qPrintable(fRatio.toString()), qPrintable(fDuration.toString()));
+        LOGW("Cursor::addTuplet: invalid parameter values: %s, %s", qPrintable(
+                 fRatio.toString()), qPrintable(fDuration.toString()));
         return;
     }
 
@@ -534,12 +539,14 @@ void Cursor::addTuplet(Fraction* ratio, Fraction* duration)
     if (tupletTick + fDuration > tupletMeasure->endTick()) {
         LOGW(
             "Cursor::addTuplet: cannot add cross-measure tuplet (measure %d, rel.tick %s, duration %s)",
-            tupletMeasure->measureNumber() + 1, qPrintable(segment()->rtick().toString()), qPrintable(fDuration.toString()));
+            tupletMeasure->measureNumber() + 1, qPrintable(
+                segment()->rtick().toString()), qPrintable(fDuration.toString()));
 
         return;
     }
 
-    const mu::engraving::Fraction baseLen = fDuration * mu::engraving::Fraction(1, fRatio.denominator());
+    const mu::engraving::Fraction baseLen = fDuration * mu::engraving::Fraction(1,
+                                                                                fRatio.denominator());
     if (!TDuration::isValid(baseLen)) {
         LOGW(
             "Cursor::addTuplet: cannot create tuplet for ratio %s and duration %s",

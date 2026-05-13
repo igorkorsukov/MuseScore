@@ -33,7 +33,8 @@ class PlayTechAnnotation final : public StaffTextBase
     DECLARE_CLASSOF(ElementType::PLAYTECH_ANNOTATION)
 
 public:
-    PlayTechAnnotation(Segment* parent = nullptr, PlayingTechniqueType techniqueType = PlayingTechniqueType::Natural,
+    PlayTechAnnotation(Segment* parent = nullptr,
+                       PlayingTechniqueType techniqueType = PlayingTechniqueType::Natural,
                        TextStyleType tid = TextStyleType::STAFF);
 
     PlayingTechniqueType techniqueType() const;

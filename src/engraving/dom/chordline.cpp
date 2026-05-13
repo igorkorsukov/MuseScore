@@ -101,13 +101,17 @@ void ChordLine::dragGrip(EditData& ed)
 
     // used to limit how grips can affect the slide, stops the user from being able to turn one kind of slide into another
     int slideBoundary = 5;
-    if ((m_chordLineType == ChordLineType::PLOP || m_chordLineType == ChordLineType::FALL) && m_lengthY < -slideBoundary) {
+    if ((m_chordLineType == ChordLineType::PLOP || m_chordLineType == ChordLineType::FALL)
+        && m_lengthY < -slideBoundary) {
         m_lengthY = -slideBoundary;
-    } else if ((m_chordLineType == ChordLineType::FALL || m_chordLineType == ChordLineType::DOIT) && m_lengthX < -slideBoundary) {
+    } else if ((m_chordLineType == ChordLineType::FALL || m_chordLineType == ChordLineType::DOIT)
+               && m_lengthX < -slideBoundary) {
         m_lengthX = -slideBoundary;
-    } else if ((m_chordLineType == ChordLineType::DOIT || m_chordLineType == ChordLineType::SCOOP) && m_lengthY > slideBoundary) {
+    } else if ((m_chordLineType == ChordLineType::DOIT
+                || m_chordLineType == ChordLineType::SCOOP) && m_lengthY > slideBoundary) {
         m_lengthY = slideBoundary;
-    } else if ((m_chordLineType == ChordLineType::SCOOP || m_chordLineType == ChordLineType::PLOP) && m_lengthX > slideBoundary) {
+    } else if ((m_chordLineType == ChordLineType::SCOOP
+                || m_chordLineType == ChordLineType::PLOP) && m_lengthX > slideBoundary) {
         m_lengthX = slideBoundary;
     }
 
@@ -123,10 +127,14 @@ void ChordLine::dragGrip(EditData& ed)
             }
             // check the gradient of the line
             const PainterPath::Element& startPoint = path.elementAt(0);
-            if ((m_chordLineType == ChordLineType::FALL && (e.x + dx < startPoint.x || e.y + dy < startPoint.y))
-                || (m_chordLineType == ChordLineType::DOIT && (e.x + dx < startPoint.x || e.y + dy > startPoint.y))
-                || (m_chordLineType == ChordLineType::SCOOP && (e.x + dx > startPoint.x || e.y + dy < startPoint.y))
-                || (m_chordLineType == ChordLineType::PLOP && (e.x + dx > startPoint.x || e.y + dy > startPoint.y))) {
+            if ((m_chordLineType == ChordLineType::FALL
+                 && (e.x + dx < startPoint.x || e.y + dy < startPoint.y))
+                || (m_chordLineType == ChordLineType::DOIT
+                    && (e.x + dx < startPoint.x || e.y + dy > startPoint.y))
+                || (m_chordLineType == ChordLineType::SCOOP
+                    && (e.x + dx > startPoint.x || e.y + dy < startPoint.y))
+                || (m_chordLineType == ChordLineType::PLOP
+                    && (e.x + dx > startPoint.x || e.y + dy > startPoint.y))) {
                 return;
             }
         }

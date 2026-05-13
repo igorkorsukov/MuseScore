@@ -37,7 +37,8 @@
 namespace mu::notation {
 class EditStaffType;
 
-class EditStaff : public muse::ui::WidgetDialog, private Ui::EditStaffBase, public muse::async::Asyncable
+class EditStaff : public muse::ui::WidgetDialog, private Ui::EditStaffBase,
+    public muse::async::Asyncable
 {
     Q_OBJECT
 

@@ -100,7 +100,8 @@ bool EngravingElementsProvider::isSelected(const mu::engraving::EngravingObject*
     return false;
 }
 
-muse::async::Channel<const mu::engraving::EngravingObject*, bool> EngravingElementsProvider::selectChanged() const
+muse::async::Channel<const mu::engraving::EngravingObject*,
+                     bool> EngravingElementsProvider::selectChanged() const
 {
     return m_selectChanged;
 }

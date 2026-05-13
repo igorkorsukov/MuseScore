@@ -31,14 +31,18 @@
 #include "project/iprojectconfiguration.h"
 
 namespace mu::preferences {
-class SaveAndPublishPreferencesModel : public QObject, public muse::Contextable, public muse::async::Asyncable
+class SaveAndPublishPreferencesModel : public QObject, public muse::Contextable,
+    public muse::async::Asyncable
 {
     Q_OBJECT
     QML_ELEMENT;
 
-    Q_PROPERTY(bool isAutoSaveEnabled READ isAutoSaveEnabled WRITE setAutoSaveEnabled NOTIFY autoSaveEnabledChanged)
-    Q_PROPERTY(int autoSaveInterval READ autoSaveInterval WRITE setAutoSaveInterval NOTIFY autoSaveIntervalChanged)
-    Q_PROPERTY(int alsoShareAudioCom READ alsoShareAudioCom WRITE setAlsoShareAudioCom NOTIFY alsoShareAudioComChanged)
+    Q_PROPERTY(
+        bool isAutoSaveEnabled READ isAutoSaveEnabled WRITE setAutoSaveEnabled NOTIFY autoSaveEnabledChanged)
+    Q_PROPERTY(
+        int autoSaveInterval READ autoSaveInterval WRITE setAutoSaveInterval NOTIFY autoSaveIntervalChanged)
+    Q_PROPERTY(
+        int alsoShareAudioCom READ alsoShareAudioCom WRITE setAlsoShareAudioCom NOTIFY alsoShareAudioComChanged)
 
     muse::GlobalInject<project::IProjectConfiguration> projectConfiguration;
 

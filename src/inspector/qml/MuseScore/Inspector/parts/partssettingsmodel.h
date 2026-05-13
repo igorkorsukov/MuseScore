@@ -32,18 +32,26 @@ class PartsSettingsModel : public AbstractInspectorModel
     QML_ELEMENT;
     QML_UNCREATABLE("Not creatable from QML")
 
-    Q_PROPERTY(mu::inspector::PropertyItem * positionLinkedToMaster READ positionLinkedToMaster CONSTANT)
-    Q_PROPERTY(mu::inspector::PropertyItem * appearanceLinkedToMaster READ appearanceLinkedToMaster CONSTANT)
+    Q_PROPERTY(
+        mu::inspector::PropertyItem
+        * positionLinkedToMaster READ positionLinkedToMaster CONSTANT)
+    Q_PROPERTY(
+        mu::inspector::PropertyItem
+        * appearanceLinkedToMaster READ appearanceLinkedToMaster CONSTANT)
     Q_PROPERTY(mu::inspector::PropertyItem * textLinkedToMaster READ textLinkedToMaster CONSTANT)
-    Q_PROPERTY(mu::inspector::PropertyItem * excludeFromOtherParts READ excludeFromOtherParts CONSTANT)
+    Q_PROPERTY(
+        mu::inspector::PropertyItem * excludeFromOtherParts READ excludeFromOtherParts CONSTANT)
 
-    Q_PROPERTY(bool showPartLinkingOption READ showPartLinkingOption NOTIFY showPartLinkingOptionChanged)
+    Q_PROPERTY(
+        bool showPartLinkingOption READ showPartLinkingOption NOTIFY showPartLinkingOptionChanged)
     Q_PROPERTY(bool showExcludeOption READ showExcludeOption NOTIFY showExcludeOptionChanged)
-    Q_PROPERTY(bool showTextLinkingOption READ showTextLinkingOption NOTIFY showTextLinkingOptionChanged)
+    Q_PROPERTY(
+        bool showTextLinkingOption READ showTextLinkingOption NOTIFY showTextLinkingOptionChanged)
     Q_PROPERTY(bool isMasterScore READ isMasterScore NOTIFY isMasterScoreChanged)
 
 public:
-    explicit PartsSettingsModel(QObject* parent, const muse::modularity::ContextPtr& iocCtx, IElementRepositoryService* repository);
+    explicit PartsSettingsModel(QObject* parent, const muse::modularity::ContextPtr& iocCtx,
+                                IElementRepositoryService* repository);
 
     PropertyItem* positionLinkedToMaster() const;
     PropertyItem* appearanceLinkedToMaster() const;
@@ -66,7 +74,8 @@ private:
     void requestElements() override;
     void loadProperties() override;
     void resetProperties() override;
-    void onNotationChanged(const mu::engraving::PropertyIdSet&, const mu::engraving::StyleIdSet&) override;
+    void onNotationChanged(const mu::engraving::PropertyIdSet&,
+                           const mu::engraving::StyleIdSet&) override;
     void onCurrentNotationChanged() override;
 
     void updateShowPartLinkingOption();

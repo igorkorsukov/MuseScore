@@ -103,7 +103,8 @@ void MasterScore::checkMidiMapping()
 //   getNextFreeMidiMapping
 //---------------------------------------------------------
 
-int MasterScore::getNextFreeMidiMapping(std::set<int>& occupiedMidiChannels, unsigned int& searchMidiMappingFrom, int p, int ch)
+int MasterScore::getNextFreeMidiMapping(std::set<int>& occupiedMidiChannels,
+                                        unsigned int& searchMidiMappingFrom, int p, int ch)
 {
     if (ch != -1 && p != -1) {
         return p * 16 + ch;
@@ -124,7 +125,8 @@ int MasterScore::getNextFreeMidiMapping(std::set<int>& occupiedMidiChannels, uns
     }
 
     for (;; searchMidiMappingFrom++) {
-        if (searchMidiMappingFrom % 16 != 9 && !muse::contains(occupiedMidiChannels, int(searchMidiMappingFrom))) {
+        if (searchMidiMappingFrom % 16 != 9
+            && !muse::contains(occupiedMidiChannels, int(searchMidiMappingFrom))) {
             occupiedMidiChannels.insert(searchMidiMappingFrom);
             return searchMidiMappingFrom;
         }
@@ -155,7 +157,8 @@ void MasterScore::rebuildExcerptsMidiMapping()
         for (Part* p : ex->excerptScore()->parts()) {
             const Part* masterPart = p->masterPart();
             if (!masterPart->score()->isMaster()) {
-                LOGW() << "rebuildExcerptsMidiMapping: no part in master score is linked with " << p->partName();
+                LOGW() << "rebuildExcerptsMidiMapping: no part in master score is linked with " <<
+                    p->partName();
                 continue;
             }
             assert(p->instruments().size() == masterPart->instruments().size());
@@ -190,7 +193,8 @@ void MasterScore::reorderMidiMapping()
         for (const auto& pair : part->instruments()) {
             const Instrument* instr = pair.second;
             for (InstrChannel* channel : instr->channel()) {
-                if (m_midiMapping[sequenceNumber].part() == part && m_midiMapping[sequenceNumber].m_masterChannel == channel) {
+                if (m_midiMapping[sequenceNumber].part() == part
+                    && m_midiMapping[sequenceNumber].m_masterChannel == channel) {
                     sequenceNumber++;
                     continue;
                 }
@@ -227,8 +231,10 @@ void MasterScore::removeDeletedMidiMapping()
         for (const auto& pair : part->instruments()) {
             const Instrument* instr = pair.second;
             channelExists = (m_midiMapping[index].articulation()->channel() != -1
-                             && muse::contains(instr->channel(), m_midiMapping[index].m_masterChannel)
-                             && !(m_midiMapping[index].port() == -1 && m_midiMapping[index].channel() == -1));
+                             && muse::contains(instr->channel(),
+                                               m_midiMapping[index].m_masterChannel)
+                             && !(m_midiMapping[index].port() == -1
+                                  && m_midiMapping[index].channel() == -1));
             if (channelExists) {
                 break;
             }
@@ -277,7 +283,8 @@ int MasterScore::updateMidiMapping()
             const Instrument* instr = pair.second;
             const bool useDrumset = instr->useDrumset();
             for (InstrChannel* channel : instr->channel()) {
-                doUpdateMidiMapping(maxport, occupiedMidiChannels, searchMidiMappingFrom, part, channel, useDrumset);
+                doUpdateMidiMapping(maxport, occupiedMidiChannels, searchMidiMappingFrom, part,
+                                    channel, useDrumset);
             }
         }
     }
@@ -285,12 +292,15 @@ int MasterScore::updateMidiMapping()
     return maxport;
 }
 
-void MasterScore::doUpdateMidiMapping(int& maxport, std::set<int>& occupiedMidiChannels, unsigned int& searchMidiMappingFrom,
+void MasterScore::doUpdateMidiMapping(int& maxport, std::set<int>& occupiedMidiChannels,
+                                      unsigned int& searchMidiMappingFrom,
                                       Part* part, InstrChannel* channel, bool useDrumset)
 {
     bool channelExists = false;
     for (const MidiMapping& mapping : m_midiMapping) {
-        const bool validChannelIndex = channel->channel() >= 0 && channel->channel() < static_cast<int>(m_midiMapping.size());
+        const bool validChannelIndex = channel->channel() >= 0
+                                       && channel->channel()
+                                       < static_cast<int>(m_midiMapping.size());
         if (channel == mapping.m_masterChannel && validChannelIndex) {
             channelExists = true;
             break;
@@ -322,7 +332,8 @@ void MasterScore::doUpdateMidiMapping(int& maxport, std::set<int>& occupiedMidiC
     MidiMapping& mapping = m_midiMapping.at(channel->channel());
 
     if (mapping.port() == -1) {
-        const int nm = getNextFreeMidiMapping(occupiedMidiChannels, searchMidiMappingFrom, -1, mapping.channel());
+        const int nm = getNextFreeMidiMapping(occupiedMidiChannels, searchMidiMappingFrom, -1,
+                                              mapping.channel());
         mapping.m_port = nm / 16;
         return;
     }
@@ -333,7 +344,8 @@ void MasterScore::doUpdateMidiMapping(int& maxport, std::set<int>& occupiedMidiC
             mapping.m_channel = 9;
             return;
         }
-        const int nm = getNextFreeMidiMapping(occupiedMidiChannels, searchMidiMappingFrom,  mapping.port());
+        const int nm = getNextFreeMidiMapping(occupiedMidiChannels, searchMidiMappingFrom,
+                                              mapping.port());
         mapping.m_port    = nm / 16;
         mapping.m_channel = nm % 16;
     }
@@ -369,7 +381,8 @@ void MasterScore::addMidiMapping(InstrChannel* channel, Part* part, int midiPort
 //   updateMidiMapping
 //---------------------------------------------------------
 
-void MasterScore::updateMidiMapping(InstrChannel* channel, Part* part, int midiPort, int midiChannel)
+void MasterScore::updateMidiMapping(InstrChannel* channel, Part* part, int midiPort,
+                                    int midiChannel)
 {
     const int c = channel->channel();
     if (c < 0) {

@@ -41,14 +41,19 @@ static void writeMeasure(XmlWriter& xml, WriteContext& ctx, MeasureBase* m,
     //
     if (m->isMeasure() || staffIdx == 0) {
         if (Measure::classof(m)) {
-            MeasureWrite::writeMeasure(toMeasure(m), xml, ctx, staffIdx, writeSystemElements, forceTimeSig);
+            MeasureWrite::writeMeasure(toMeasure(
+                                           m), xml, ctx, staffIdx, writeSystemElements,
+                                       forceTimeSig);
         } else {
             TWrite::writeItem(m, xml, ctx);
         }
     }
 
-    if (m->score()->style().styleB(Sid::createMultiMeasureRests) && m->isMeasure() && toMeasure(m)->mmRest()) {
-        MeasureWrite::writeMeasure(toMeasure(m)->mmRest(), xml, ctx, staffIdx, writeSystemElements, forceTimeSig);
+    if (m->score()->style().styleB(Sid::createMultiMeasureRests) && m->isMeasure()
+        && toMeasure(m)->mmRest()) {
+        MeasureWrite::writeMeasure(toMeasure(
+                                       m)->mmRest(), xml, ctx, staffIdx, writeSystemElements,
+                                   forceTimeSig);
     }
 
     ctx.setCurTick(m->endTick());

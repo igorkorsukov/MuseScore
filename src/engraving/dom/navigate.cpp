@@ -95,7 +95,8 @@ static bool isChild1beforeChild2(const ElementPair& child1, const ElementPair& c
 //    on the basis of position
 //---------------------------------------------------------
 
-static std::set<ElementPair, decltype(& isChild1beforeChild2)> toChildPairsSet(const EngravingItem* element)
+static std::set<ElementPair, decltype(& isChild1beforeChild2)> toChildPairsSet(
+    const EngravingItem* element)
 {
     std::set<ElementPair, decltype(& isChild1beforeChild2)> children(&isChild1beforeChild2);
     int index = 0;
@@ -201,7 +202,8 @@ ChordRest* nextChordRest(const ChordRest* cr, const ChordRestNavigateOptions& op
         }
         ChordRest* e = toChordRest(seg->element(track));
         if (e) {
-            if (options.skipMeasureRepeatRests && e->isRest() && e->measure()->isMeasureRepeatGroup(track2staff(track))) {
+            if (options.skipMeasureRepeatRests && e->isRest()
+                && e->measure()->isMeasureRepeatGroup(track2staff(track))) {
                 continue; // these rests are not shown, skip them
             }
             if (e->isChord() && !options.skipGrace) {
@@ -283,7 +285,8 @@ ChordRest* prevChordRest(const ChordRest* cr, const ChordRestNavigateOptions& op
 
         ChordRest* e = toChordRest(seg->element(track));
         if (e) {
-            if (options.skipMeasureRepeatRests && e->isRest() && e->measure()->isMeasureRepeatGroup(track2staff(track))) {
+            if (options.skipMeasureRepeatRests && e->isRest()
+                && e->measure()->isMeasureRepeatGroup(track2staff(track))) {
                 continue; // these rests are not shown, skip them
             }
             if (e->isChord() && !options.skipGrace) {
@@ -535,14 +538,16 @@ ChordRest* Score::nextTrack(ChordRest* cr, bool skipMeasureRepeatRests)
             return toChordRest(measure->first(SegmentType::ChordRest)->element(track));
         }
         // find element at same or previous segment within this track
-        for (Segment* segment = cr->segment(); segment; segment = segment->prev(SegmentType::ChordRest)) {
+        for (Segment* segment = cr->segment(); segment;
+             segment = segment->prev(SegmentType::ChordRest)) {
             el = toChordRest(segment->element(track));
             if (el) {
                 break;
             }
         }
     }
-    if (skipMeasureRepeatRests && el->isRest() && measure->isMeasureRepeatGroup(track2staff(track))) {
+    if (skipMeasureRepeatRests && el->isRest()
+        && measure->isMeasureRepeatGroup(track2staff(track))) {
         el = measure->measureRepeatElement(track2staff(track));
     }
     return el;
@@ -582,14 +587,16 @@ ChordRest* Score::prevTrack(ChordRest* cr, bool skipMeasureRepeatRests)
             return toChordRest(measure->first(SegmentType::ChordRest)->element(track));
         }
         // find element at same or previous segment within this track
-        for (Segment* segment = cr->segment(); segment; segment = segment->prev(SegmentType::ChordRest)) {
+        for (Segment* segment = cr->segment(); segment;
+             segment = segment->prev(SegmentType::ChordRest)) {
             el = toChordRest(segment->element(track));
             if (el) {
                 break;
             }
         }
     }
-    if (skipMeasureRepeatRests && el->isRest() && measure->isMeasureRepeatGroup(track2staff(track))) {
+    if (skipMeasureRepeatRests && el->isRest()
+        && measure->isMeasureRepeatGroup(track2staff(track))) {
         el = measure->measureRepeatElement(track2staff(track));
     }
     return el;
@@ -666,7 +673,8 @@ ChordRest* Score::prevMeasure(ChordRest* element, bool mmRest)
     Fraction startTick = element->measure()->first()->nextChordRest(element->track())->tick();
     bool last = false;
 
-    if (selection().isRange() && selection().isEndActive() && selection().startSegment()->tick() <= startTick) {
+    if (selection().isRange() && selection().isEndActive()
+        && selection().startSegment()->tick() <= startTick) {
         last = true;
     } else if (element->tick() != startTick) {
         measure = element->measure();
@@ -810,7 +818,8 @@ EngravingItem* Score::nextElement()
                         if (Spanner* spanner = nextSegment->firstSpanner(staffId)) {
                             return spanner->spannerSegments().front();
                         }
-                    } else if (EngravingItem* nextEl = nextSegment->firstElementOfSegment(staffId)) {
+                    } else if (EngravingItem* nextEl
+                                   = nextSegment->firstElementOfSegment(staffId)) {
                         return nextEl;
                     }
                     nextSegment = nextSegment->next1MM();
@@ -821,7 +830,8 @@ EngravingItem* Score::nextElement()
         case ElementType::GUITAR_BEND_SEGMENT:
         case ElementType::GUITAR_BEND_HOLD_SEGMENT: {
             GuitarBend* bend
-                = e->isGuitarBendSegment() ? toGuitarBendSegment(e)->guitarBend() : toGuitarBendHoldSegment(e)->guitarBendHold()->
+                = e->isGuitarBendSegment() ? toGuitarBendSegment(e)->guitarBend() :
+                  toGuitarBendHoldSegment(e)->guitarBendHold()->
                   guitarBend();
             if (bend->bendType() != GuitarBendType::SLIGHT_BEND) {
                 return bend->endNote();
@@ -1048,7 +1058,8 @@ EngravingItem* Score::prevElement()
                 }
                 if (startSeg->isTimeTickType()) {
                     startSeg = startSeg->prev1MMenabled();
-                    for (; startSeg && startSeg->isTimeTickType(); startSeg = startSeg->prev1MMenabled()) {
+                    for (; startSeg && startSeg->isTimeTickType();
+                         startSeg = startSeg->prev1MMenabled()) {
                         if (Spanner* spanner = startSeg->lastSpanner(staffId)) {
                             return spanner->spannerSegments().front();
                         }
@@ -1168,7 +1179,9 @@ EngravingItem* Score::prevElement()
 
                 return fretBox;
             } else if (harmony->explicitParent()->isFretDiagram()) {
-                EngravingItem* prev = harmony->getParentSeg()->prevAnnotation(toFretDiagram(harmony->explicitParent()));
+                EngravingItem* prev
+                    = harmony->getParentSeg()->prevAnnotation(toFretDiagram(harmony->
+                                                                            explicitParent()));
                 if (prev) {
                     return prev;
                 }
@@ -1199,14 +1212,17 @@ EngravingItem* Score::prevElement()
 //    - currently used to determine the first lyric of a melisma
 //---------------------------------------------------------
 
-Lyrics* lastLyricsInMeasure(const Segment* seg, const staff_idx_t staffIdx, const int no, const PlacementV& placement)
+Lyrics* lastLyricsInMeasure(const Segment* seg, const staff_idx_t staffIdx, const int no,
+                            const PlacementV& placement)
 {
     while (seg) {
         const track_idx_t strack = staffIdx * VOICES;
         const track_idx_t etrack = strack + VOICES;
         for (track_idx_t track = strack; track < etrack; ++track) {
             EngravingItem* el = seg->element(track);
-            Lyrics* prevLyrics = el && el->isChord() ? toChordRest(el)->lyrics(no, placement) : nullptr;
+            Lyrics* prevLyrics = el
+                                 && el->isChord() ? toChordRest(el)->lyrics(no,
+                                                                            placement) : nullptr;
             if (prevLyrics) {
                 return prevLyrics;
             }
@@ -1227,7 +1243,8 @@ Lyrics* prevLyrics(const Lyrics* lyrics)
         const track_idx_t etrack = strack + VOICES;
         for (track_idx_t track = strack; track < etrack; ++track) {
             EngravingItem* el = seg->element(track);
-            Lyrics* prevLyrics = el && el->isChord() ? toChordRest(el)->lyrics(lyrics->verse(), lyrics->placement()) : nullptr;
+            Lyrics* prevLyrics = el && el->isChord() ? toChordRest(el)->lyrics(
+                lyrics->verse(), lyrics->placement()) : nullptr;
             if (prevLyrics) {
                 return prevLyrics;
             }
@@ -1248,7 +1265,8 @@ Lyrics* nextLyrics(const Lyrics* lyrics)
         const track_idx_t etrack = strack + VOICES;
         for (track_idx_t track = strack; track < etrack; ++track) {
             EngravingItem* el = nextSegment->element(track);
-            Lyrics* nextLyrics = el && el->isChord() ? toChordRest(el)->lyrics(lyrics->verse(), lyrics->placement()) : nullptr;
+            Lyrics* nextLyrics = el && el->isChord() ? toChordRest(el)->lyrics(
+                lyrics->verse(), lyrics->placement()) : nullptr;
             if (nextLyrics) {
                 return nextLyrics;
             }

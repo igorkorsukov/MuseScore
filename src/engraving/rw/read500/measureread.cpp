@@ -89,7 +89,8 @@ void MeasureRead::readMeasure(Measure* measure, XmlReader& e, ReadContext& ctx, 
         bool ok = true;
         measure->setTicks(Fraction::fromString(e.attribute("len"), &ok));
         if (!ok || measure->ticks() < Fraction(1, 128)) {
-            e.raiseError(muse::mtrc("engraving", "MSCX error at byte offset %1: invalid measure length: %2")
+            e.raiseError(muse::mtrc("engraving",
+                                    "MSCX error at byte offset %1: invalid measure length: %2")
                          .arg(e.byteOffset()).arg(e.attribute("len")));
             return;
         }
@@ -160,7 +161,8 @@ void MeasureRead::readMeasure(Measure* measure, XmlReader& e, ReadContext& ctx, 
         } else if (tag == "stemless") {
             measure->mstaves()[staffIdx]->setStemless(e.readInt());
         } else if (tag == "hideIfEmpty") {
-            measure->mstaves()[staffIdx]->setHideIfEmpty(TConv::fromXml(e.readAsciiText(), AutoOnOff::AUTO));
+            measure->mstaves()[staffIdx]->setHideIfEmpty(TConv::fromXml(e.readAsciiText(),
+                                                                        AutoOnOff::AUTO));
         } else if (tag == "measureRepeatCount") {
             measure->setMeasureRepeatCount(e.readInt(), staffIdx);
         } else if (tag == "SystemDivider") {
@@ -201,7 +203,8 @@ void MeasureRead::readMeasure(Measure* measure, XmlReader& e, ReadContext& ctx, 
     measure->connectTremolo();
 }
 
-void MeasureRead::readVoice(Measure* measure, XmlReader& e, ReadContext& ctx, int staffIdx, bool irregular)
+void MeasureRead::readVoice(Measure* measure, XmlReader& e, ReadContext& ctx, int staffIdx,
+                            bool irregular)
 {
     Segment* segment = nullptr;
     std::vector<Chord*> graceNotes;
@@ -220,7 +223,9 @@ void MeasureRead::readVoice(Measure* measure, XmlReader& e, ReadContext& ctx, in
             TRead::read(&loc, e, ctx);
             ctx.setLocation(loc);
             if (loc.isTimeTick()) {
-                EditTimeTickAnchors::createTimeTickAnchor(measure, ctx.tick() - measure->tick(), track2staff(ctx.track()));
+                EditTimeTickAnchors::createTimeTickAnchor(measure,
+                                                          ctx.tick() - measure->tick(),
+                                                          track2staff(ctx.track()));
             }
         } else if (tag == "tick") {             // obsolete?
             LOGD() << "read midi tick";
@@ -241,7 +246,8 @@ void MeasureRead::readVoice(Measure* measure, XmlReader& e, ReadContext& ctx, in
                 st = SegmentType::BarLine;
             } else if (barLine->barLineType() == BarLineType::START_REPEAT && t.isZero()) {
                 st = SegmentType::StartRepeatBarLine;
-            } else if (barLine->barLineType() == BarLineType::START_REPEAT && t == measure->ticks()) {
+            } else if (barLine->barLineType() == BarLineType::START_REPEAT
+                       && t == measure->ticks()) {
                 // old version, ignore
                 delete barLine;
                 barLine = 0;
@@ -353,7 +359,8 @@ void MeasureRead::readVoice(Measure* measure, XmlReader& e, ReadContext& ctx, in
             TRead::read(clef, e, ctx);
             clef->setGenerated(false);
 
-            segment = measure->getSegment(clef->isHeader() ? SegmentType::HeaderClef : SegmentType::Clef, ctx.tick());
+            segment = measure->getSegment(
+                clef->isHeader() ? SegmentType::HeaderClef : SegmentType::Clef, ctx.tick());
             segment->add(clef);
         } else if (tag == "TimeSig") {
             TimeSig* ts = Factory::createTimeSig(ctx.dummy()->segment());
@@ -362,7 +369,8 @@ void MeasureRead::readVoice(Measure* measure, XmlReader& e, ReadContext& ctx, in
 
             Fraction currTick = ctx.tick();
             bool courtesySig = ts->isCourtesy();
-            segment = measure->getSegment(courtesySig ? SegmentType::TimeSigAnnounce : SegmentType::TimeSig, currTick);
+            segment = measure->getSegment(
+                courtesySig ? SegmentType::TimeSigAnnounce : SegmentType::TimeSig, currTick);
             segment->add(ts);
 
             if (!courtesySig) {
@@ -391,7 +399,8 @@ void MeasureRead::readVoice(Measure* measure, XmlReader& e, ReadContext& ctx, in
 
             Fraction curTick = ctx.tick();
             bool courtesySig = ks->isCourtesy();
-            segment = measure->getSegment(courtesySig ? SegmentType::KeySigAnnounce : SegmentType::KeySig, curTick);
+            segment = measure->getSegment(
+                courtesySig ? SegmentType::KeySigAnnounce : SegmentType::KeySig, curTick);
             segment->add(ks);
 
             if (!courtesySig) {
@@ -562,7 +571,8 @@ void MeasureRead::readVoice(Measure* measure, XmlReader& e, ReadContext& ctx, in
             tuplet = tuplet->tuplet();
             if (oldTuplet->elements().empty()) {
                 // this should not happen and is a sign of input file corruption
-                LOGD("Measure:read: empty tuplet in measure index=%d, input file corrupted?", ctx.currentMeasureIndex());
+                LOGD("Measure:read: empty tuplet in measure index=%d, input file corrupted?",
+                     ctx.currentMeasureIndex());
                 if (tuplet) {
                     tuplet->remove(oldTuplet);
                 }
@@ -597,7 +607,8 @@ void MeasureRead::readVoice(Measure* measure, XmlReader& e, ReadContext& ctx, in
         delete startingBeam;
     }
     if (tuplet) {
-        LOGD("Measure:readVoice: measure index=%d, <endTuplet/> not found", ctx.currentMeasureIndex());
+        LOGD("Measure:readVoice: measure index=%d, <endTuplet/> not found",
+             ctx.currentMeasureIndex());
         if (tuplet->elements().empty()) {
             if (tuplet->tuplet()) {
                 tuplet->tuplet()->remove(tuplet);
@@ -606,7 +617,8 @@ void MeasureRead::readVoice(Measure* measure, XmlReader& e, ReadContext& ctx, in
         }
     }
     if (fermata) {
-        SegmentType st = (ctx.tick() == measure->endTick() ? SegmentType::EndBarLine : SegmentType::ChordRest);
+        SegmentType st
+            = (ctx.tick() == measure->endTick() ? SegmentType::EndBarLine : SegmentType::ChordRest);
         segment = measure->getSegment(st, ctx.tick());
         segment->add(fermata);
         fermata = nullptr;

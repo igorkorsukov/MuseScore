@@ -33,5 +33,6 @@ std::string MidiModule::moduleName() const
 
 void MidiModule::registerExports()
 {
-    globalIoc()->registerExport<IMidiImportExportConfiguration>(moduleName(), new MidiConfigurationStub());
+    globalIoc()->registerExport<IMidiImportExportConfiguration>(
+        moduleName(), new MidiConfigurationStub());
 }

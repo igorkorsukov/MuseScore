@@ -71,7 +71,8 @@ void UndoRedoToolbarModel::onActionsStateChanges(const muse::actions::ActionCode
         if (code == UNDO_ACTION_CODE) {
             ToolBarItem* undoItem = findItemPtr(UNDO_ACTION_CODE);
             if (undoItem) {
-                const TranslatableString undoActionName = stack ? stack->topMostUndoActionName() : TranslatableString();
+                const TranslatableString undoActionName
+                    = stack ? stack->topMostUndoActionName() : TranslatableString();
                 undoItem->setTitle(undoActionName.isEmpty()
                                    ? TranslatableString("action", "Undo")
                                    : TranslatableString("action", "Undo ‘%1’").arg(undoActionName));
@@ -79,7 +80,8 @@ void UndoRedoToolbarModel::onActionsStateChanges(const muse::actions::ActionCode
         } else if (code == REDO_ACTION_CODE) {
             ToolBarItem* redoItem = findItemPtr(REDO_ACTION_CODE);
             if (redoItem) {
-                const TranslatableString redoActionName = stack ? stack->topMostRedoActionName() : TranslatableString();
+                const TranslatableString redoActionName
+                    = stack ? stack->topMostRedoActionName() : TranslatableString();
                 redoItem->setTitle(redoActionName.isEmpty()
                                    ? TranslatableString("action", "Redo")
                                    : TranslatableString("action", "Redo ‘%1’").arg(redoActionName));

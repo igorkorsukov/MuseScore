@@ -72,7 +72,8 @@ void ElementRepositoryService::updateElementList(const QList<EngravingItem*>& ne
     m_elementsUpdated.send(m_rawElementList);
 }
 
-QList<mu::engraving::EngravingItem*> ElementRepositoryService::findElementsByType(const mu::engraving::ElementType elementType) const
+QList<mu::engraving::EngravingItem*> ElementRepositoryService::findElementsByType(
+    const mu::engraving::ElementType elementType) const
 {
     switch (elementType) {
     case mu::engraving::ElementType::CHORD: return findChords();
@@ -122,8 +123,9 @@ QList<mu::engraving::EngravingItem*> ElementRepositoryService::findElementsByTyp
     }
 }
 
-QList<mu::engraving::EngravingItem*> ElementRepositoryService::findElementsByType(const mu::engraving::ElementType elementType,
-                                                                                  std::function<bool(const mu::engraving::EngravingItem*)> filterFunc)
+QList<mu::engraving::EngravingItem*> ElementRepositoryService::findElementsByType(
+    const mu::engraving::ElementType elementType,
+    std::function<bool(const mu::engraving::EngravingItem*)> filterFunc)
 const
 {
     QList<mu::engraving::EngravingItem*> resultList;
@@ -144,7 +146,8 @@ QList<mu::engraving::EngravingItem*> ElementRepositoryService::takeAllElements()
     return m_exposedElementList;
 }
 
-QList<mu::engraving::EngravingItem*> ElementRepositoryService::exposeRawElements(const QList<mu::engraving::EngravingItem*>& rawElementList)
+QList<mu::engraving::EngravingItem*> ElementRepositoryService::exposeRawElements(
+    const QList<mu::engraving::EngravingItem*>& rawElementList)
 const
 {
     QList<mu::engraving::EngravingItem*> resultList;
@@ -192,7 +195,8 @@ QList<mu::engraving::EngravingItem*> ElementRepositoryService::findChords() cons
             continue;
         }
 
-        mu::engraving::EngravingItem* chord = element->findAncestor(mu::engraving::ElementType::CHORD);
+        mu::engraving::EngravingItem* chord = element->findAncestor(
+            mu::engraving::ElementType::CHORD);
         if (chord) {
             elements << chord;
         }
@@ -309,9 +313,11 @@ QList<mu::engraving::EngravingItem*> ElementRepositoryService::findBeams() const
     return resultList;
 }
 
-QList<mu::engraving::EngravingItem*> ElementRepositoryService::findLines(mu::engraving::ElementType lineType) const
+QList<mu::engraving::EngravingItem*> ElementRepositoryService::findLines(
+    mu::engraving::ElementType lineType) const
 {
-    static const QMap<mu::engraving::ElementType, mu::engraving::ElementType> lineTypeToSegmentType {
+    static const QMap<mu::engraving::ElementType,
+                      mu::engraving::ElementType> lineTypeToSegmentType {
         { mu::engraving::ElementType::GLISSANDO, mu::engraving::ElementType::GLISSANDO_SEGMENT },
         { mu::engraving::ElementType::VIBRATO, mu::engraving::ElementType::VIBRATO_SEGMENT },
         { mu::engraving::ElementType::PEDAL, mu::engraving::ElementType::PEDAL_SEGMENT },
@@ -324,13 +330,18 @@ QList<mu::engraving::EngravingItem*> ElementRepositoryService::findLines(mu::eng
         { mu::engraving::ElementType::TEXTLINE_BASE, mu::engraving::ElementType::TEXTLINE_SEGMENT },
         { mu::engraving::ElementType::NOTELINE, mu::engraving::ElementType::NOTELINE_SEGMENT },
         { mu::engraving::ElementType::SLUR, mu::engraving::ElementType::SLUR_SEGMENT },
-        { mu::engraving::ElementType::HAMMER_ON_PULL_OFF, mu::engraving::ElementType::HAMMER_ON_PULL_OFF_SEGMENT },
+        { mu::engraving::ElementType::HAMMER_ON_PULL_OFF,
+          mu::engraving::ElementType::HAMMER_ON_PULL_OFF_SEGMENT },
         { mu::engraving::ElementType::TIE, mu::engraving::ElementType::TIE_SEGMENT },
-        { mu::engraving::ElementType::LAISSEZ_VIB, mu::engraving::ElementType::LAISSEZ_VIB_SEGMENT },
-        { mu::engraving::ElementType::PARTIAL_TIE, mu::engraving::ElementType::PARTIAL_TIE_SEGMENT },
-        { mu::engraving::ElementType::GRADUAL_TEMPO_CHANGE, mu::engraving::ElementType::GRADUAL_TEMPO_CHANGE_SEGMENT },
+        { mu::engraving::ElementType::LAISSEZ_VIB,
+          mu::engraving::ElementType::LAISSEZ_VIB_SEGMENT },
+        { mu::engraving::ElementType::PARTIAL_TIE,
+          mu::engraving::ElementType::PARTIAL_TIE_SEGMENT },
+        { mu::engraving::ElementType::GRADUAL_TEMPO_CHANGE,
+          mu::engraving::ElementType::GRADUAL_TEMPO_CHANGE_SEGMENT },
         { mu::engraving::ElementType::LYRICSLINE, mu::engraving::ElementType::LYRICSLINE_SEGMENT },
-        { mu::engraving::ElementType::PARTIAL_LYRICSLINE, mu::engraving::ElementType::PARTIAL_LYRICSLINE_SEGMENT }
+        { mu::engraving::ElementType::PARTIAL_LYRICSLINE,
+          mu::engraving::ElementType::PARTIAL_LYRICSLINE_SEGMENT }
     };
 
     QList<mu::engraving::EngravingItem*> resultList;
@@ -342,7 +353,8 @@ QList<mu::engraving::EngravingItem*> ElementRepositoryService::findLines(mu::eng
     mu::engraving::ElementType segmentType = lineTypeToSegmentType[lineType];
 
     for (mu::engraving::EngravingItem* element : m_exposedElementList) {
-        if (element->type() == segmentType || (lineType == ElementType::TEXTLINE_BASE && element->isTextLineBaseSegment())) {
+        if (element->type() == segmentType
+            || (lineType == ElementType::TEXTLINE_BASE && element->isTextLineBaseSegment())) {
             const mu::engraving::SpannerSegment* segment = mu::engraving::toSpannerSegment(element);
             mu::engraving::Spanner* line = segment ? segment->spanner() : nullptr;
 
@@ -390,7 +402,8 @@ QList<mu::engraving::EngravingItem*> ElementRepositoryService::findSectionBreaks
     return resultList;
 }
 
-std::vector<EngravingItem*> ElementRepositoryService::findTextDelegates(EngravingItem* element) const
+std::vector<EngravingItem*> ElementRepositoryService::findTextDelegates(EngravingItem* element)
+const
 {
     if (element->isTextLineBaseSegment()) {
         std::vector<EngravingItem*> textItems;
@@ -410,7 +423,8 @@ std::vector<EngravingItem*> ElementRepositoryService::findTextDelegates(Engravin
 
     if (element->isBarLine()) {
         Segment* seg = toBarLine(element)->segment();
-        if (PlayCountText* playCountText = toPlayCountText(seg->findAnnotation(ElementType::PLAY_COUNT_TEXT, 0, 0))) {
+        if (PlayCountText* playCountText
+                = toPlayCountText(seg->findAnnotation(ElementType::PLAY_COUNT_TEXT, 0, 0))) {
             return { playCountText };
         }
         return {};

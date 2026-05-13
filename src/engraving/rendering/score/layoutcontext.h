@@ -40,7 +40,8 @@
 #define LAYOUT_CALL_CLEAR mu::engraving::rendering::dev::LayoutDebug::instance()->callClear
 #define LAYOUT_CALL_BEGIN(name) mu::engraving::rendering::dev::LayoutDebug::CallBegin(name)
 #define LAYOUT_CALL_END mu::engraving::rendering::dev::LayoutDebug::instance()->callEnd
-#define LAYOUT_CALL() mu::engraving::rendering::dev::LayoutDebug::CallMarker _ldcall; _ldcall.begin(FUNCNAME).stream
+#define LAYOUT_CALL() mu::engraving::rendering::dev::LayoutDebug::CallMarker _ldcall; _ldcall.begin( \
+        FUNCNAME).stream
 #define LAYOUT_ITEM_INFO(item) item->typeName() << "(" << item->eid() << ")"
 
 #define LAYOUT_CALL_PRINT mu::engraving::rendering::dev::LayoutDebug::instance()->callPrint
@@ -198,7 +199,8 @@ public:
     RootItem* rootItem() const;
     compat::DummyElement* dummyParent() const;
     void doUndoAddElement(EngravingItem*);
-    void undoAddElement(EngravingItem* item, bool addToLinkedStaves = true, bool ctrlModifier = false);
+    void undoAddElement(EngravingItem* item, bool addToLinkedStaves = true,
+                        bool ctrlModifier = false);
     void doUndoRemoveElement(EngravingItem* item);
     void undoRemoveElement(EngravingItem* item);
     void undo(UndoCommand* cmd, EditData* ed = nullptr) const;

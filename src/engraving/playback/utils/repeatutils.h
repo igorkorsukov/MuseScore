@@ -35,10 +35,12 @@ struct PartiallyTiedNoteInfo {
     bool isValid() const { return repeat && note; }
 };
 
-inline PartiallyTiedNoteInfo findOutgoingNoteInPreviousRepeat(const Note* incomingNote, const RenderingContext& ctx)
+inline PartiallyTiedNoteInfo findOutgoingNoteInPreviousRepeat(const Note* incomingNote,
+                                                              const RenderingContext& ctx)
 {
     const RepeatList& repeats = ctx.score->repeatList();
-    auto currRepeatIt = repeats.findRepeatSegmentFromUTick(ctx.nominalPositionStartTick + ctx.positionTickOffset);
+    auto currRepeatIt = repeats.findRepeatSegmentFromUTick(
+        ctx.nominalPositionStartTick + ctx.positionTickOffset);
     if (currRepeatIt == repeats.cbegin() || currRepeatIt == repeats.cend()) {
         return PartiallyTiedNoteInfo();
     }
@@ -68,17 +70,20 @@ inline PartiallyTiedNoteInfo findOutgoingNoteInPreviousRepeat(const Note* incomi
     return PartiallyTiedNoteInfo();
 }
 
-inline PartiallyTiedNoteInfo findIncomingNoteInNextRepeat(const Note* outgoingNote, const RenderingContext& ctx)
+inline PartiallyTiedNoteInfo findIncomingNoteInNextRepeat(const Note* outgoingNote,
+                                                          const RenderingContext& ctx)
 {
     const RepeatList& repeats = ctx.score->repeatList();
-    auto currRepeatIt = repeats.findRepeatSegmentFromUTick(ctx.nominalPositionStartTick + ctx.positionTickOffset);
+    auto currRepeatIt = repeats.findRepeatSegmentFromUTick(
+        ctx.nominalPositionStartTick + ctx.positionTickOffset);
     if (currRepeatIt == repeats.cend()) {
         return PartiallyTiedNoteInfo();
     }
 
     const RepeatSegment* currRepeat = (*currRepeatIt);
     const int currRepeatLastTick = currRepeat->utick + currRepeat->len();
-    if (ctx.nominalPositionStartTick + ctx.positionTickOffset != currRepeatLastTick - ctx.nominalDurationTicks) {
+    if (ctx.nominalPositionStartTick + ctx.positionTickOffset
+        != currRepeatLastTick - ctx.nominalDurationTicks) {
         return PartiallyTiedNoteInfo(); // the outgoing note is not the last note in this repeat
     }
 
@@ -107,7 +112,8 @@ inline PartiallyTiedNoteInfo findIncomingNoteInNextRepeat(const Note* outgoingNo
     return PartiallyTiedNoteInfo();
 }
 
-inline bool notesInSameRepeat(const Score* score, const Note* note1, const Note* note2, const int tickPositionOffset)
+inline bool notesInSameRepeat(const Score* score, const Note* note1, const Note* note2,
+                              const int tickPositionOffset)
 {
     const RepeatList& repeats = score->repeatList();
     if (repeats.size() == 1) {

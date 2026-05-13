@@ -318,7 +318,8 @@ int GuitarPro6::readInteger(ByteArray* buffer, int offset)
     // increment positioning so we keep track of where we are
     position += sizeof(int) * BITS_IN_BYTE;
     // bit shift in order to compute our integer value and return
-    return ((bytes[3] & 0xff) << 24) | ((bytes[2] & 0xff) << 16) | ((bytes[1] & 0xff) << 8) | (bytes[0] & 0xff);
+    return ((bytes[3] & 0xff) <<
+        24) | ((bytes[2] & 0xff) << 16) | ((bytes[1] & 0xff) << 8) | (bytes[0] & 0xff);
 }
 
 //---------------------------------------------------------
@@ -361,7 +362,8 @@ XmlDomNode GuitarPro6::getNode(const String& id, XmlDomNode currentDomNode)
         }
         currentDomNode = currentDomNode.nextSibling();
     }
-    LOGD() << "WARNING: A null node was returned when search for the identifier" << id << ". Your Guitar Pro file may be corrupted.";
+    LOGD() << "WARNING: A null node was returned when search for the identifier" << id <<
+        ". Your Guitar Pro file may be corrupted.";
     return currentDomNode;
 }
 
@@ -438,7 +440,8 @@ void GuitarPro6::readGPX(ByteArray* buffer)
         *buffer = buffer->right(buffer->size() - sizeof(int));
         size_t sectorSize = 0x1000;
         int offset        = 0;
-        while ((offset = (offset + static_cast<int>(sectorSize))) + 3 < static_cast<int>(buffer->size())) {
+        while ((offset = (offset + static_cast<int>(sectorSize))) + 3
+               < static_cast<int>(buffer->size())) {
             int newInt = readInteger(buffer, offset);
             if (newInt == 2) {
                 int indexFileName = (offset + 4);
@@ -449,8 +452,11 @@ void GuitarPro6::readGPX(ByteArray* buffer)
                 int block             = 0;
                 int blockCount        = 0;
                 ByteArray* fileBytes = new ByteArray();
-                while ((block = (readInteger(buffer, (indexOfBlock + (4 * (blockCount++)))))) != 0) {
-                    fileBytes->push_back(getBytes(buffer, (offset = (block * static_cast<int>(sectorSize))), static_cast<int>(sectorSize)));
+                while ((block
+                            = (readInteger(buffer, (indexOfBlock + (4 * (blockCount++)))))) != 0) {
+                    fileBytes->push_back(getBytes(buffer,
+                                                  (offset = (block * static_cast<int>(sectorSize))),
+                                                  static_cast<int>(sectorSize)));
                 }
                 // get file information and read the file
                 size_t fileSize = readInteger(buffer, indexFileSize);

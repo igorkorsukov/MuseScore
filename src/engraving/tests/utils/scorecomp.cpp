@@ -30,7 +30,8 @@
 using namespace muse::io;
 using namespace mu::engraving;
 
-bool ScoreComp::saveCompareScore(Score* score, const String& saveName, const String& compareWithLocalPath)
+bool ScoreComp::saveCompareScore(Score* score, const String& saveName,
+                                 const String& compareWithLocalPath)
 {
     if (!ScoreRW::saveScore(score, saveName)) {
         return false;
@@ -40,7 +41,8 @@ bool ScoreComp::saveCompareScore(Score* score, const String& saveName, const Str
     return val;
 }
 
-bool ScoreComp::saveCompareMimeData(muse::ByteArray mimeData, const muse::String& saveName, const muse::String& compareWithLocalPath)
+bool ScoreComp::saveCompareMimeData(muse::ByteArray mimeData, const muse::String& saveName,
+                                    const muse::String& compareWithLocalPath)
 {
     if (!ScoreRW::saveMimeData(mimeData, saveName)) {
         return false;

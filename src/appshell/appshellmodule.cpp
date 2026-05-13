@@ -74,9 +74,13 @@ void AppShellModule::resolveImports()
         ir->registerPageUri(Uri("musescore://devtools"));
 
         ir->registerQmlUri(Uri("musescore://about/musescore"), "MuseScore.AppShell", "AboutDialog");
-        ir->registerQmlUri(Uri("musescore://about/musicxml"), "MuseScore.AppShell", "AboutMusicXMLDialog");
+        ir->registerQmlUri(Uri(
+                               "musescore://about/musicxml"), "MuseScore.AppShell",
+                           "AboutMusicXMLDialog");
         ir->registerQmlUri(Uri("musescore://welcomedialog"), "MuseScore.AppShell", "WelcomeDialog");
-        ir->registerQmlUri(Uri("musescore://firstLaunchSetup"), "MuseScore.AppShell", "FirstLaunchSetupDialog");
+        ir->registerQmlUri(Uri(
+                               "musescore://firstLaunchSetup"), "MuseScore.AppShell",
+                           "FirstLaunchSetupDialog");
     }
 }
 
@@ -94,7 +98,8 @@ void AppShellModule::onAllInited(const IApplication::RunMode&)
 }
 
 // Context
-muse::modularity::IContextSetup* AppShellModule::newContext(const muse::modularity::ContextPtr& ctx) const
+muse::modularity::IContextSetup* AppShellModule::newContext(const muse::modularity::ContextPtr& ctx)
+const
 {
     return new AppShellContext(ctx);
 }
@@ -103,7 +108,8 @@ void AppShellContext::registerExports()
 {
     m_appshellState = std::make_shared<AppShellState>(iocContext());
     m_applicationActionController = std::make_shared<ApplicationActionController>(iocContext());
-    m_applicationUiActions = std::make_shared<ApplicationUiActions>(m_applicationActionController, iocContext());
+    m_applicationUiActions = std::make_shared<ApplicationUiActions>(m_applicationActionController,
+                                                                    iocContext());
     m_sessionsManager = std::make_shared<SessionsManager>(iocContext());
 
     ioc()->registerExport<IAppShellState>(mname, m_appshellState);

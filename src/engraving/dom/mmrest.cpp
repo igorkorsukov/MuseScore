@@ -56,12 +56,16 @@ MMRest::MMRest(const MMRest& r, bool link)
 
 bool MMRest::shouldShowNumberByDefault() const
 {
-    bool shouldShow = isOldStyle() && ldata()->number == 1 ? style().styleB(Sid::singleMeasureMMRestShowNumber) : true;
+    bool shouldShow = isOldStyle() && ldata()->number == 1 ? style().styleB(
+        Sid::singleMeasureMMRestShowNumber) : true;
 
     const Part* itemPart = part();
     const System* system = measure()->system();
-    bool isTopStaffOfPartAndCenteringIsActive = itemPart->nstaves() > 1 && staff() == itemPart->staves().front()
-                                                && (system && system->nextVisibleStaff(staffIdx()) != muse::nidx)
+    bool isTopStaffOfPartAndCenteringIsActive = itemPart->nstaves() > 1
+                                                && staff() == itemPart->staves().front()
+                                                && (system
+                                                    && system->nextVisibleStaff(staffIdx())
+                                                    != muse::nidx)
                                                 && style().styleB(Sid::mmRestBetweenStaves);
 
     return shouldShow && !isTopStaffOfPartAndCenteringIsActive;
@@ -75,7 +79,8 @@ bool MMRest::showNumber() const
 bool MMRest::isOldStyle() const
 {
     int number = ldata()->number;
-    return (style().styleB(Sid::oldStyleMultiMeasureRests) && number <= style().styleI(Sid::mmRestOldStyleMaxMeasures))
+    return (style().styleB(Sid::oldStyleMultiMeasureRests)
+            && number <= style().styleI(Sid::mmRestOldStyleMaxMeasures))
            || (number == 1 && style().styleB(Sid::singleMeasureMMRestUseNormalRest));
 }
 

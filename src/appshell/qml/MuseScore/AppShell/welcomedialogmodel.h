@@ -38,7 +38,8 @@ class WelcomeDialogModel : public QObject, public muse::Contextable
     Q_PROPERTY(QVariant currentItem READ currentItem NOTIFY currentItemChanged)
     Q_PROPERTY(int currentIndex READ currentIndex NOTIFY currentItemChanged)
 
-    Q_PROPERTY(bool showOnStartup READ showOnStartup WRITE setShowOnStartup NOTIFY showOnStartupChanged)
+    Q_PROPERTY(
+        bool showOnStartup READ showOnStartup WRITE setShowOnStartup NOTIFY showOnStartupChanged)
 
     QML_ELEMENT
 

@@ -82,7 +82,8 @@ async::Channel<bool> MidiConfiguration::roundTempoChanged() const
     return m_roundTempoChanged;
 }
 
-void MidiConfiguration::setMidiImportOperationsFile(const std::optional<muse::io::path_t>& filePath) const
+void MidiConfiguration::setMidiImportOperationsFile(const std::optional<muse::io::path_t>& filePath)
+const
 {
     if (filePath) {
         midiImportOperations.setOperationsFile(filePath.value().toQString());

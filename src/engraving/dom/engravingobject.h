@@ -314,7 +314,10 @@ private:
 
 public:
 
-    virtual std::list<EngravingObject*> linkListForPropertyPropagation() const { return linkList(); }
+    virtual std::list<EngravingObject*> linkListForPropertyPropagation() const
+    {
+        return linkList();
+    }
 
     //---------------------------------------------------
     // check type
@@ -497,12 +500,14 @@ public:
 
     bool isSlur() const
     {
-        return type() == ElementType::SLUR || type() == ElementType::HAMMER_ON_PULL_OFF || type() == ElementType::TAPPING_HALF_SLUR;
+        return type() == ElementType::SLUR || type() == ElementType::HAMMER_ON_PULL_OFF
+               || type() == ElementType::TAPPING_HALF_SLUR;
     }
 
     bool isSlurSegment() const
     {
-        return type() == ElementType::SLUR_SEGMENT || type() == ElementType::HAMMER_ON_PULL_OFF_SEGMENT
+        return type() == ElementType::SLUR_SEGMENT
+               || type() == ElementType::HAMMER_ON_PULL_OFF_SEGMENT
                || type() == ElementType::TAPPING_HALF_SLUR_SEGMENT;
     }
 
@@ -526,7 +531,8 @@ public:
 
     bool isTie() const
     {
-        return type() == ElementType::TIE || type() == ElementType::LAISSEZ_VIB || type() == ElementType::PARTIAL_TIE;
+        return type() == ElementType::TIE || type() == ElementType::LAISSEZ_VIB
+               || type() == ElementType::PARTIAL_TIE;
     }
 
     bool isSpannerSegment() const
@@ -552,16 +558,21 @@ public:
                || isNoteLine();
     }
 
-    bool isLyricsLine() const { return type() == ElementType::LYRICSLINE || type() == ElementType::PARTIAL_LYRICSLINE; }
+    bool isLyricsLine() const
+    {
+        return type() == ElementType::LYRICSLINE || type() == ElementType::PARTIAL_LYRICSLINE;
+    }
 
     bool isLyricsLineSegment() const
     {
-        return type() == ElementType::LYRICSLINE_SEGMENT || type() == ElementType::PARTIAL_LYRICSLINE_SEGMENT;
+        return type() == ElementType::LYRICSLINE_SEGMENT
+               || type() == ElementType::PARTIAL_LYRICSLINE_SEGMENT;
     }
 
     bool isSLine() const
     {
-        return isTextLineBase() || isTrill() || isGlissando() || isVibrato() || isGuitarBend() || isGuitarBendHold();
+        return isTextLineBase() || isTrill() || isGlissando() || isVibrato() || isGuitarBend()
+               || isGuitarBendHold();
     }
 
     bool isSpanner() const
@@ -571,7 +582,8 @@ public:
 
     bool isStaffTextBase() const
     {
-        return isStaffText() || isSystemText() || isTripletFeel() || isPlayTechAnnotation() || isCapo() || isStringTunings();
+        return isStaffText() || isSystemText() || isTripletFeel() || isPlayTechAnnotation()
+               || isCapo() || isStringTunings();
     }
 
     bool isArticulationFamily() const
@@ -633,7 +645,8 @@ static inline const Arpeggio* toArpeggio(const EngravingObject* e)
 
 #define CONVERT(a)  \
     static inline a* to##a(EngravingObject * e) { assert(!e || e->is##a()); return (a*)e; } \
-    static inline const a* to##a(const EngravingObject * e) { assert(!e || e->is##a()); return (const a*)e; }
+    static inline const a* to##a(const EngravingObject * e) { assert(!e || e->is##a()); \
+                                                              return (const a*)e; }
 
 CONVERT(EngravingItem)
 CONVERT(Note)

@@ -121,7 +121,8 @@ QVariantList AppearancePreferencesModel::highContrastThemes() const
     QVariantList result;
 
     for (const ThemeInfo& theme : allThemes()) {
-        if (theme.codeKey == HIGH_CONTRAST_WHITE_THEME_CODE || theme.codeKey == HIGH_CONTRAST_BLACK_THEME_CODE) {
+        if (theme.codeKey == HIGH_CONTRAST_WHITE_THEME_CODE
+            || theme.codeKey == HIGH_CONTRAST_BLACK_THEME_CODE) {
             result << ThemeConverter::toMap(theme);
         }
     }
@@ -149,7 +150,8 @@ void AppearancePreferencesModel::setNewColor(const QColor& newColor, ColorType c
         uiConfiguration()->setCurrentThemeStyleValue(ThemeStyleKey::ACCENT_COLOR, Val(newColor));
         break;
     case TextAndIconsColor:
-        uiConfiguration()->setCurrentThemeStyleValue(ThemeStyleKey::FONT_PRIMARY_COLOR, Val(newColor));
+        uiConfiguration()->setCurrentThemeStyleValue(ThemeStyleKey::FONT_PRIMARY_COLOR, Val(
+                                                         newColor));
         break;
     case DisabledColor:
         NOT_IMPLEMENTED;

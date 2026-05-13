@@ -36,8 +36,12 @@ class VoltasPageModel : public AbstractStyleDialogModel
     Q_PROPERTY(mu::notation::StyleItem * voltaDashLineLen READ voltaDashLineLen CONSTANT)
     Q_PROPERTY(mu::notation::StyleItem * voltaDashGapLen READ voltaDashGapLen CONSTANT)
 
-    Q_PROPERTY(mu::notation::StyleItem * voltaAlignStartBeforeKeySig READ voltaAlignStartBeforeKeySig CONSTANT)
-    Q_PROPERTY(mu::notation::StyleItem * voltaAlignEndLeftOfBarline READ voltaAlignEndLeftOfBarline CONSTANT)
+    Q_PROPERTY(
+        mu::notation::StyleItem
+        * voltaAlignStartBeforeKeySig READ voltaAlignStartBeforeKeySig CONSTANT)
+    Q_PROPERTY(
+        mu::notation::StyleItem
+        * voltaAlignEndLeftOfBarline READ voltaAlignEndLeftOfBarline CONSTANT)
 
     QML_ELEMENT
 

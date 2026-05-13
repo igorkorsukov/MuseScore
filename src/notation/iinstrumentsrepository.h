@@ -35,7 +35,8 @@ public:
     virtual ~IInstrumentsRepository() = default;
 
     virtual const InstrumentTemplateList& instrumentTemplates() const = 0;
-    virtual const InstrumentTemplate& instrumentTemplate(const muse::String& instrumentId) const = 0;
+    virtual const InstrumentTemplate& instrumentTemplate(
+        const muse::String& instrumentId) const = 0;
 
     virtual const ScoreOrderList& orders() const = 0;
     virtual const ScoreOrder& order(const muse::String& orderId) const = 0;

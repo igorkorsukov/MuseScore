@@ -206,7 +206,8 @@ ChordRest* Selection::firstChordRestInRange(track_idx_t preferredTrack) const
 
     Segment* firstCRSegment = nullptr;
 
-    for (Segment* currSeg = m_startSegment; currSeg && (currSeg != m_endSegment); currSeg = currSeg->next1MM()) {
+    for (Segment* currSeg = m_startSegment; currSeg && (currSeg != m_endSegment);
+         currSeg = currSeg->next1MM()) {
         if (!currSeg->enabled() || !currSeg->isChordRestType()) {
             continue;
         }
@@ -421,7 +422,8 @@ std::vector<System*> Selection::selectedSystems() const
 
     bool mmrests = score()->style().styleB(Sid::createMultiMeasureRests);
     std::vector<System*> systems;
-    for (const MeasureBase* mb = startMB; mb && mb->isBeforeOrEqual(endMB); mb = mmrests ? mb->nextMM() : mb->next()) {
+    for (const MeasureBase* mb = startMB; mb && mb->isBeforeOrEqual(endMB);
+         mb = mmrests ? mb->nextMM() : mb->next()) {
         System* sys = mb->system();
         if ((mb->isMeasure() || mb->isHBox()) && (systems.empty() || sys != systems.back())) {
             systems.push_back(sys);
@@ -583,7 +585,9 @@ void Selection::appendChordRest(ChordRest* cr)
     for (size_t noteIdx = 0; noteIdx < totalNotesInChord; ++noteIdx) {
         Note* note = chord->notes().at(noteIdx);
 
-        const std::unordered_set<EngravingItem*> noteAnchored = collectElementsAnchoredToNote(note, true, false);
+        const std::unordered_set<EngravingItem*> noteAnchored = collectElementsAnchoredToNote(note,
+                                                                                              true,
+                                                                                              false);
         appendFiltered(noteAnchored);
 
         if (chord->isGrace() && !canSelect(chord)) {
@@ -595,7 +599,8 @@ void Selection::appendChordRest(ChordRest* cr)
         //! whether the "includeSingleNotes" flag should apply - see includeSingleNotes in select.h). For this reason, this
         //! method ALWAYS appends single note chords. If single note chords should be ommitted from a selection, we simply
         //! don't call this method (see usage of appendChordRest in Selection::updateSelectedElements).
-        if (/*hack*/ !isSingleNote && !canSelectNoteIdx(noteIdx, totalNotesInChord, /*hack*/ true)) {
+        if (/*hack*/ !isSingleNote
+            && !canSelectNoteIdx(noteIdx, totalNotesInChord, /*hack*/ true)) {
             continue;
         }
 
@@ -637,7 +642,8 @@ void Selection::appendChordRest(ChordRest* cr)
 
 void Selection::appendTupletHierarchy(Tuplet* innermostTuplet)
 {
-    if (!canSelectVoice(innermostTuplet->voice()) || muse::contains(m_el, static_cast<EngravingItem*>(innermostTuplet))) {
+    if (!canSelectVoice(innermostTuplet->voice())
+        || muse::contains(m_el, static_cast<EngravingItem*>(innermostTuplet))) {
         return;
     }
 
@@ -688,7 +694,8 @@ void Selection::updateSelectedElements()
         update();
         return;
     }
-    if (m_state == SelState::RANGE && m_plannedTick1 != Fraction(-1, 1) && m_plannedTick2 != Fraction(-1, 1)) {
+    if (m_state == SelState::RANGE
+        && m_plannedTick1 != Fraction(-1, 1) && m_plannedTick2 != Fraction(-1, 1)) {
         const staff_idx_t staffStart = m_staffStart;
         const staff_idx_t staffEnd = m_staffEnd;
 
@@ -730,9 +737,11 @@ void Selection::updateSelectedElements()
 
     // assert:
     size_t staves = m_score->nstaves();
-    if (m_staffStart == muse::nidx || m_staffStart >= staves || m_staffEnd == muse::nidx || m_staffEnd > staves
+    if (m_staffStart == muse::nidx || m_staffStart >= staves || m_staffEnd == muse::nidx
+        || m_staffEnd > staves
         || m_staffStart >= m_staffEnd) {
-        LOGD("updateSelectedElements: bad staff selection %zu - %zu, staves %zu", m_staffStart, m_staffEnd, staves);
+        LOGD("updateSelectedElements: bad staff selection %zu - %zu, staves %zu", m_staffStart,
+             m_staffEnd, staves);
         m_staffStart = 0;
         m_staffEnd   = 0;
     }
@@ -804,9 +813,11 @@ void Selection::updateSelectedElements()
         } else {
             // Include elements anchored to the note even if the note itself isn't included...
             const Note* note = singleNoteChord->notes().front();
-            const std::unordered_set<EngravingItem*> noteAnchored = collectElementsAnchoredToNote(note, true, false);
+            const std::unordered_set<EngravingItem*> noteAnchored = collectElementsAnchoredToNote(
+                note, true, false);
             appendFiltered(noteAnchored);
-            const std::unordered_set<EngravingItem*> crAnchored = collectElementsAnchoredToChordRest(singleNoteChord);
+            const std::unordered_set<EngravingItem*> crAnchored
+                = collectElementsAnchoredToChordRest(singleNoteChord);
             appendFiltered(crAnchored);
         }
     }
@@ -856,7 +867,8 @@ bool Selection::rangeContainsMultiNoteChords() const
     return m_rangeContainsMultiNoteChords;
 }
 
-void Selection::setRange(Segment* startSegment, Segment* endSegment, staff_idx_t staffStart, staff_idx_t staffEnd)
+void Selection::setRange(Segment* startSegment, Segment* endSegment, staff_idx_t staffStart,
+                         staff_idx_t staffEnd)
 {
     assert(staffEnd > staffStart && staffEnd <= m_score->nstaves());
     assert(!(endSegment && !startSegment));
@@ -883,7 +895,8 @@ void Selection::setRange(Segment* startSegment, Segment* endSegment, staff_idx_t
 //    creating MM rests is pending).
 //---------------------------------------------------------
 
-void Selection::setRangeTicks(const Fraction& tick1, const Fraction& tick2, staff_idx_t staffStart, staff_idx_t staffEnd)
+void Selection::setRangeTicks(const Fraction& tick1, const Fraction& tick2, staff_idx_t staffStart,
+                              staff_idx_t staffEnd)
 {
     assert(staffEnd > staffStart && staffEnd <= m_score->nstaves());
 
@@ -928,7 +941,8 @@ void Selection::update()
         const size_t noteCount = notes.size();
         for (size_t noteIdx = noteCount - 1; noteIdx < noteCount; --noteIdx) {
             Note* note = notes.at(noteIdx);
-            if (selectionFilter().canSelectNoteIdx(noteIdx, notes.size(), rangeContainsMultiNoteChords())) {
+            if (selectionFilter().canSelectNoteIdx(noteIdx, notes.size(),
+                                                   rangeContainsMultiNoteChords())) {
                 toSelectAgain = note;
                 break;
             }
@@ -975,7 +989,9 @@ void Selection::updateState()
 
     //! NOTE: m_startSegment being non-null and m_endSegment being null is a valid case. It means we've selected the
     //! last segment of the final measure...
-    const bool rangeSegsInvalid = !m_startSegment || (m_endSegment && m_endSegment->tick() <= m_startSegment->tick());
+    const bool rangeSegsInvalid = !m_startSegment
+                                  || (m_endSegment
+                                      && m_endSegment->tick() <= m_startSegment->tick());
     const bool rangeStavesInvalid = m_staffStart == muse::nidx || m_staffStart >= totalStaves
                                     || m_staffEnd == muse::nidx || m_staffEnd > totalStaves
                                     || m_staffStart >= m_staffEnd;
@@ -1018,7 +1034,8 @@ String Selection::mimeType() const
 {
     switch (m_state) {
     case SelState::LIST:
-        return isSingle() ? String::fromAscii(mimeSymbolFormat) : String::fromAscii(mimeSymbolListFormat);
+        return isSingle() ? String::fromAscii(mimeSymbolFormat) : String::fromAscii(
+            mimeSymbolListFormat);
     case SelState::RANGE:
         return String::fromAscii(mimeStaffListFormat);
     case SelState::NONE:
@@ -1131,7 +1148,8 @@ muse::ByteArray Selection::staffMimeData() const
         }
         xml.endElement();     // </voiceOffset>
 
-        rw::RWRegister::writer()->writeSegments(xml, &filter, startTrack, endTrack, seg1, seg2, false, false, curTick);
+        rw::RWRegister::writer()->writeSegments(xml, &filter, startTrack, endTrack, seg1, seg2,
+                                                false, false, curTick);
         xml.endElement();
     }
 
@@ -1261,7 +1279,8 @@ muse::ByteArray Selection::symbolListMimeData() const
             firstTick = seg->tick();
         }
         MapData mapData = { e, seg };
-        map.insert(std::pair<int64_t, MapData>(((int64_t)track << 32) + seg->tick().ticks(), mapData));
+        map.insert(std::pair<int64_t, MapData>(
+                       ((int64_t)track << 32) + seg->tick().ticks(), mapData));
     }
 
     xml.startElement("SymbolList", { { "version", Constants::MSC_VERSION_STR },
@@ -1373,7 +1392,8 @@ std::vector<Note*> Selection::noteList(track_idx_t selTrack) const
                     const std::vector<Note*> notes = c->notes();
                     for (size_t noteIdx = 0; noteIdx < notes.size(); ++noteIdx) {
                         Note* note = notes.at(noteIdx);
-                        if (selectionFilter().canSelectNoteIdx(noteIdx, notes.size(), rangeContainsMultiNoteChords())) {
+                        if (selectionFilter().canSelectNoteIdx(noteIdx, notes.size(),
+                                                               rangeContainsMultiNoteChords())) {
                             nl.push_back(note);
                         }
                     }
@@ -1510,7 +1530,8 @@ bool Selection::canCopy() const
                 endSegmentSelection = endSegmentSelection->nextCR(track);
             }
 
-            const MsError err = checkEndForPartialCopy(endSegmentSelection->element(track), endTick);
+            const MsError err
+                = checkEndForPartialCopy(endSegmentSelection->element(track), endTick);
             if (err != MsError::MS_NO_ERROR) {
                 MScore::setError(err);
                 return false;
@@ -1519,7 +1540,8 @@ bool Selection::canCopy() const
 
         // Check that all selected measures have the same time stretch - allows copy/paste within a local time signature,
         // but don't yet support it between differing local time signatures.
-        for (Measure* m = m_startSegment->measure(); m && m->tick() < endTick; m = m->nextMeasure()) {
+        for (Measure* m = m_startSegment->measure(); m && m->tick() < endTick;
+             m = m->nextMeasure()) {
             Fraction mTimeStretch = m_score->staff(staffIdx)->timeStretch(m->tick());
             if (!timeStretch.isValid()) {
                 timeStretch = mTimeStretch;
@@ -1665,7 +1687,8 @@ void Selection::extendRangeSelection(ChordRest* cr)
 //    extending by a chord rest.
 //---------------------------------------------------------
 
-void Selection::extendRangeSelection(Segment* seg, Segment* segAfter, staff_idx_t staffIdx, const Fraction& tick, const Fraction& etick)
+void Selection::extendRangeSelection(Segment* seg, Segment* segAfter, staff_idx_t staffIdx,
+                                     const Fraction& tick, const Fraction& etick)
 {
     bool activeSegmentIsStart = false;
     staff_idx_t activeStaff = m_activeTrack / VOICES;
@@ -1705,7 +1728,9 @@ SelectionFilter Selection::selectionFilter() const
     return m_score->selectionFilter();
 }
 
-bool Selection::canSelectNoteIdx(size_t noteIdx, size_t totalNotesInChord, bool selectionContainsMultiNoteChords) const
+bool Selection::canSelectNoteIdx(size_t noteIdx, size_t totalNotesInChord,
+                                 bool selectionContainsMultiNoteChords) const
 {
-    return selectionFilter().canSelectNoteIdx(noteIdx, totalNotesInChord, selectionContainsMultiNoteChords);
+    return selectionFilter().canSelectNoteIdx(noteIdx, totalNotesInChord,
+                                              selectionContainsMultiNoteChords);
 }

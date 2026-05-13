@@ -86,7 +86,8 @@ void ParenthesisLayout::layoutChordParentheses(const Chord* chord, const LayoutC
     }
 }
 
-void ParenthesisLayout::layoutParentheses(Parenthesis* leftParen, Parenthesis* rightParen, Shape& dummyItemShape, bool itemAddToSkyline,
+void ParenthesisLayout::layoutParentheses(Parenthesis* leftParen, Parenthesis* rightParen,
+                                          Shape& dummyItemShape, bool itemAddToSkyline,
                                           const LayoutContext& ctx)
 {
     UNUSED(ctx);
@@ -98,12 +99,14 @@ void ParenthesisLayout::layoutParentheses(Parenthesis* leftParen, Parenthesis* r
         double minDist = 0.0;
         if (!leftBracket && itemAddToSkyline) {
             // Space against existing item shape
-            minDist = HorizontalSpacing::minHorizontalDistance(dummyItemShape, paren->shape().translated(
+            minDist = HorizontalSpacing::minHorizontalDistance(dummyItemShape,
+                                                               paren->shape().translated(
                                                                    ldata->pos()), paren->spatium());
         } else if (itemAddToSkyline) {
             // Space following item shape against this
             minDist = -HorizontalSpacing::minHorizontalDistance(paren->shape().translated(
-                                                                    ldata->pos()), dummyItemShape, paren->spatium());
+                                                                    ldata->pos()), dummyItemShape,
+                                                                paren->spatium());
         }
         paren->mutldata()->moveX(minDist);
 
@@ -124,13 +127,18 @@ void ParenthesisLayout::layoutParentheses(Parenthesis* leftParen, Parenthesis* r
     const double parentWidth = dummyItemShape.bbox().width();
     const double itemRightX = itemLeftX + parentWidth;
 
-    const double leftParenPadding = HorizontalSpacing::minHorizontalDistance(leftParen->shape().translated(leftLdata->pos()),
-                                                                             dummyItemShape, leftParen->spatium());
+    const double leftParenPadding = HorizontalSpacing::minHorizontalDistance(
+        leftParen->shape().translated(
+            leftLdata->pos()),
+        dummyItemShape,
+        leftParen->spatium());
     leftLdata->moveX(-leftParenPadding);
     dummyItemShape.add(leftParen->shape().translate(leftLdata->pos() + leftParen->staffOffset()));
 
-    const double rightParenPadding = HorizontalSpacing::minHorizontalDistance(dummyItemShape, rightParen->shape().translated(
-                                                                                  rightLdata->pos()), rightParen->spatium());
+    const double rightParenPadding = HorizontalSpacing::minHorizontalDistance(dummyItemShape,
+                                                                              rightParen->shape().translated(
+                                                                                  rightLdata->pos()),
+                                                                              rightParen->spatium());
     rightLdata->moveX(rightParenPadding);
 
     // If the right parenthesis has been padded against the left parenthesis, this means the parenthesis -> parenthesis padding distance
@@ -144,8 +152,10 @@ void ParenthesisLayout::layoutParentheses(Parenthesis* leftParen, Parenthesis* r
     }
 
     // Move parentheses to place item in the middle
-    const double leftParenX = leftLdata->pos().x() + leftParen->ldata()->bbox().x() + leftParen->ldata()->midPointThickness;
-    const double rightParenX = rightLdata->pos().x() + rightParen->ldata()->bbox().x() + rightParen->width()
+    const double leftParenX = leftLdata->pos().x() + leftParen->ldata()->bbox().x()
+                              + leftParen->ldata()->midPointThickness;
+    const double rightParenX = rightLdata->pos().x() + rightParen->ldata()->bbox().x()
+                               + rightParen->width()
                                - rightParen->ldata()->midPointThickness;
 
     const double leftParenToItem = itemLeftX - leftParenX;
@@ -156,7 +166,8 @@ void ParenthesisLayout::layoutParentheses(Parenthesis* leftParen, Parenthesis* r
     rightLdata->moveX(-(itemToRightParen - parenToItemDist));
 }
 
-void ParenthesisLayout::layoutParenthesis(Parenthesis* item, Parenthesis::LayoutData* ldata, const LayoutContext& ctx)
+void ParenthesisLayout::layoutParenthesis(Parenthesis* item, Parenthesis::LayoutData* ldata,
+                                          const LayoutContext& ctx)
 {
     setLayoutValues(item, ldata, ctx);
 
@@ -167,7 +178,8 @@ void ParenthesisLayout::layoutParenthesis(Parenthesis* item, Parenthesis::Layout
     }
 }
 
-bool ParenthesisLayout::isInternalParenPadding(const EngravingItem* item1, const EngravingItem* item2)
+bool ParenthesisLayout::isInternalParenPadding(const EngravingItem* item1,
+                                               const EngravingItem* item2)
 {
     const Chord* chord1 = toChord(item1->findAncestor(ElementType::CHORD));
     const Chord* chord2 = toChord(item2->findAncestor(ElementType::CHORD));
@@ -182,7 +194,8 @@ bool ParenthesisLayout::isInternalParenPadding(const EngravingItem* item1, const
     return internalPadding;
 }
 
-double ParenthesisLayout::computeExternalParenthesisPadding(const EngravingItem* item1, const EngravingItem* item2)
+double ParenthesisLayout::computeExternalParenthesisPadding(const EngravingItem* item1,
+                                                            const EngravingItem* item2)
 {
     EngravingItem* parent = item1->isParenthesis() ? item1->parentItem() : item2->parentItem();
 
@@ -198,7 +211,8 @@ double ParenthesisLayout::computeExternalParenthesisPadding(const EngravingItem*
     return padding;
 }
 
-double ParenthesisLayout::computeParenthesisPadding(const EngravingItem* item1, const EngravingItem* item2)
+double ParenthesisLayout::computeParenthesisPadding(const EngravingItem* item1,
+                                                    const EngravingItem* item2)
 {
     if (isInternalParenPadding(item1, item2)) {
         return computeInternalParenthesisPadding(item1, item2);
@@ -207,7 +221,8 @@ double ParenthesisLayout::computeParenthesisPadding(const EngravingItem* item1, 
     return computeExternalParenthesisPadding(item1, item2);
 }
 
-double ParenthesisLayout::computeInternalParenthesisPadding(const EngravingItem* item1, const EngravingItem* item2)
+double ParenthesisLayout::computeInternalParenthesisPadding(const EngravingItem* item1,
+                                                            const EngravingItem* item2)
 {
     bool parenFirst = item1->isParenthesis();
     const EngravingItem* other = item1->isParenthesis() ? item2 : item1;
@@ -271,7 +286,8 @@ void ParenthesisLayout::createPathAndShape(Parenthesis* item, Parenthesis::Layou
     const double xPos = ldata->pos().x();
     const double mag = ldata->mag();
     const double maxMidPointThickness = MAX_MID_THICKNESS.toAbsolute(spatium);
-    const double midPointThickness = std::min(ldata->midPointThickness.value(), maxMidPointThickness);
+    const double midPointThickness
+        = std::min(ldata->midPointThickness.value(), maxMidPointThickness);
 
     const double heightInSpatium = height / spatium;
     const double shoulderYOffset = 0.2 * height;
@@ -344,7 +360,8 @@ void ParenthesisLayout::createSmuflShape(Parenthesis* item, Parenthesis::LayoutD
     ldata->setShape(bbox);
 }
 
-void ParenthesisLayout::setLayoutValues(Parenthesis* item, Parenthesis::LayoutData* ldata, const LayoutContext& ctx)
+void ParenthesisLayout::setLayoutValues(Parenthesis* item, Parenthesis::LayoutData* ldata,
+                                        const LayoutContext& ctx)
 {
     if (!item->parentItem()) {
         return;
@@ -402,10 +419,12 @@ void ParenthesisLayout::setClefValues(Parenthesis* item, Parenthesis::LayoutData
     ldata->startY.mut_value() += offset;
 }
 
-void ParenthesisLayout::setTimeSigValues(Parenthesis* item, Parenthesis::LayoutData* ldata, const LayoutContext& ctx)
+void ParenthesisLayout::setTimeSigValues(Parenthesis* item, Parenthesis::LayoutData* ldata,
+                                         const LayoutContext& ctx)
 {
     const TimeSig* parentTs = toTimeSig(item->parentItem());
-    if (ctx.conf().styleV(Sid::timeSigPlacement).value<TimeSigPlacement>() == TimeSigPlacement::NORMAL) {
+    if (ctx.conf().styleV(Sid::timeSigPlacement).value<TimeSigPlacement>()
+        == TimeSigPlacement::NORMAL) {
         return;
     }
 
@@ -474,7 +493,8 @@ void ParenthesisLayout::setChordValues(Parenthesis* item, Parenthesis::LayoutDat
     ldata->endPointThickness.set_value(0.05);
 }
 
-void ParenthesisLayout::setHarmonyValues(Parenthesis* item, Parenthesis::LayoutData* ldata, const LayoutContext& ctx)
+void ParenthesisLayout::setHarmonyValues(Parenthesis* item, Parenthesis::LayoutData* ldata,
+                                         const LayoutContext& ctx)
 {
     const double spatium = item->spatium();
     Harmony* parent = toHarmony(item->parentItem());
@@ -504,7 +524,8 @@ void ParenthesisLayout::setHarmonyValues(Parenthesis* item, Parenthesis::LayoutD
     double height = bottom - top;
 
     if (ctx.conf().styleB(Sid::harmonyParenUseSmuflSym)) {
-        ldata->symId = item->direction() == DirectionH::LEFT ? SymId::csymParensLeftTall : SymId::csymParensRightTall;
+        ldata->symId = item->direction()
+                       == DirectionH::LEFT ? SymId::csymParensLeftTall : SymId::csymParensRightTall;
         double symHeight = item->symHeight(ldata->symId);
         ldata->symScale = height / symHeight;
 
@@ -518,14 +539,16 @@ void ParenthesisLayout::setHarmonyValues(Parenthesis* item, Parenthesis::LayoutD
     ldata->startY = top;
     ldata->height = height;
     static constexpr double HEIGHT_TO_WIDTH_RATIO = 20;
-    ldata->midPointThickness.set_value(ldata->height / HEIGHT_TO_WIDTH_RATIO * ldata->mag() * 1 / std::sqrt(scale));
+    ldata->midPointThickness.set_value(
+        ldata->height / HEIGHT_TO_WIDTH_RATIO * ldata->mag() * 1 / std::sqrt(scale));
     ldata->endPointThickness.set_value(endPointThickness);
 
     double shoulder = 0.2 * ldata->height * std::pow(ldata->mag(), 0.1) * 1 / std::sqrt(scale);
     ldata->shoulderWidth = shoulder;
 
     const double PADDING = spatium * 0.2;
-    ldata->setPosX(item->direction() == DirectionH::RIGHT ? bbox.right() + PADDING : bbox.left() - PADDING);
+    ldata->setPosX(
+        item->direction() == DirectionH::RIGHT ? bbox.right() + PADDING : bbox.left() - PADDING);
 }
 
 void ParenthesisLayout::setDefaultValues(Parenthesis* item, Parenthesis::LayoutData* ldata)
@@ -539,7 +562,8 @@ void ParenthesisLayout::setDefaultValues(Parenthesis* item, Parenthesis::LayoutD
     ldata->height = bbox.height() + 0.5 * spatium;
     ldata->midPointThickness.set_value(ldata->height / 60 * ldata->mag());  // 0.1sp for a height of 6sp
     const double PADDING = spatium * 0.2;
-    ldata->setPosX(item->direction() == DirectionH::RIGHT ? bbox.right() + PADDING : bbox.left() - PADDING);
+    ldata->setPosX(
+        item->direction() == DirectionH::RIGHT ? bbox.right() + PADDING : bbox.left() - PADDING);
 }
 
 Shape ParenthesisLayout::getParentShape(const EngravingItem* parent)

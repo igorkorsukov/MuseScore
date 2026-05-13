@@ -25,7 +25,8 @@
 
 using namespace mu::inspector;
 
-MeasureRepeatSettingsModel::MeasureRepeatSettingsModel(QObject* parent, const muse::modularity::ContextPtr& iocCtx,
+MeasureRepeatSettingsModel::MeasureRepeatSettingsModel(QObject* parent,
+                                                       const muse::modularity::ContextPtr& iocCtx,
                                                        IElementRepositoryService* repository)
     : AbstractInspectorModel(parent, iocCtx, repository)
 {

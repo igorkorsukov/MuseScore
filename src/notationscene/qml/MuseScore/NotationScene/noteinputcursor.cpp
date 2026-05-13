@@ -24,7 +24,8 @@
 using namespace mu::notation;
 using namespace mu::engraving;
 
-static void drawInputStringMarks(const StaffType& staffType, muse::draw::Painter* p, int string, const Color& color, const RectF& rect);
+static void drawInputStringMarks(const StaffType& staffType, muse::draw::Painter* p, int string,
+                                 const Color& color, const RectF& rect);
 
 NoteInputCursor::NoteInputCursor(const muse::modularity::ContextPtr& iocCtx, bool isThinLine)
     : muse::Contextable(iocCtx), m_isThinLine(isThinLine)
@@ -56,7 +57,8 @@ void NoteInputCursor::paint(muse::draw::Painter* painter)
     const double spatium = staffType->spatium();
     const int leftLineWidth = 0.14 * spatium;
 
-    const RectF leftLine(cursorRect.topLeft().x(), cursorRect.topLeft().y(), leftLineWidth, cursorRect.height());
+    const RectF leftLine(cursorRect.topLeft().x(), cursorRect.topLeft().y(), leftLineWidth,
+                         cursorRect.height());
     const Color lineColor = fillColor;
     painter->fillRect(leftLine, lineColor);
 
@@ -83,7 +85,8 @@ void NoteInputCursor::paint(muse::draw::Painter* painter)
 /// @param rect    the rect note input cursor
 ///
 /// Moved from StaffType class.
-static void drawInputStringMarks(const StaffType& staffType, muse::draw::Painter* p, int string, const Color& color, const RectF& rect)
+static void drawInputStringMarks(const StaffType& staffType, muse::draw::Painter* p, int string,
+                                 const Color& color, const RectF& rect)
 {
     static constexpr double LEDGER_LINE_THICKNESS = 0.15; // in sp
     static constexpr double LEDGER_LINE_LEFTX = 0.25; // in % of cursor rectangle width

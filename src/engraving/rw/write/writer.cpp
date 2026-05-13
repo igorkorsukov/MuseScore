@@ -96,7 +96,8 @@ void Writer::write(Score* score, XmlWriter& xml, WriteContext& ctx, compat::Writ
         for (Part* part : score->m_parts) {
             if (!part->show()) {
                 if (!unhide) {
-                    score->startCmd(TranslatableString::untranslatable("Unhide instruments for save"));
+                    score->startCmd(TranslatableString::untranslatable(
+                                        "Unhide instruments for save"));
                     unhide = true;
                 }
                 part->undoChangeProperty(Pid::VISIBLE, true);
@@ -172,7 +173,8 @@ void Writer::write(Score* score, XmlWriter& xml, WriteContext& ctx, compat::Writ
 
     for (const auto& t : score->m_metaTags) {
         // do not output "platform" and "creationDate" in test and save template mode
-        if ((!MScore::testMode && !MScore::saveTemplateMode) || (t.first != "platform" && t.first != "creationDate")) {
+        if ((!MScore::testMode && !MScore::saveTemplateMode)
+            || (t.first != "platform" && t.first != "creationDate")) {
             xml.tag("metaTag", { { "name", t.first.toXmlEscaped() } }, t.second);
         }
     }
@@ -274,8 +276,10 @@ void Writer::write(Score* score, XmlWriter& xml, WriteContext& ctx, compat::Writ
     }
 }
 
-void Writer::writeSegments(XmlWriter& xml, SelectionFilter* filter, track_idx_t strack, track_idx_t etrack,
-                           Segment* sseg, Segment* eseg, bool writeSystemElements, bool forceTimeSig, Fraction& curTick)
+void Writer::writeSegments(XmlWriter& xml, SelectionFilter* filter, track_idx_t strack,
+                           track_idx_t etrack,
+                           Segment* sseg, Segment* eseg, bool writeSystemElements,
+                           bool forceTimeSig, Fraction& curTick)
 {
     WriteContext ctx(sseg->score());
     ctx.setClipboardmode(true);

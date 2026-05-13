@@ -75,7 +75,8 @@ public:
 
     // Select
     virtual void moveChordNoteSelection(MoveDirection d) = 0;
-    virtual void select(const std::vector<EngravingItem*>& elements, SelectType type = SelectType::REPLACE,
+    virtual void select(const std::vector<EngravingItem*>& elements,
+                        SelectType type = SelectType::REPLACE,
                         engraving::staff_idx_t staffIndex = 0) = 0;
     virtual void selectAndStartEditIfNeeded(EngravingItem* element) = 0;
     virtual void selectAll() = 0;
@@ -96,13 +97,15 @@ public:
     // Drag
     using IsDraggable = std::function<bool (const EngravingItem*)>;
     virtual bool isDragStarted() const = 0;
-    virtual void startDrag(const std::vector<EngravingItem*>& elems, const muse::PointF& eoffset, const IsDraggable& isDrag) = 0;
+    virtual void startDrag(const std::vector<EngravingItem*>& elems, const muse::PointF& eoffset,
+                           const IsDraggable& isDrag) = 0;
     virtual void drag(const muse::PointF& fromPos, const muse::PointF& toPos, DragMode mode) = 0;
     virtual void endDrag() = 0;
     virtual muse::async::Notification dragChanged() const = 0;
 
     virtual bool isOutgoingDragElementAllowed(const EngravingItem* element) const = 0;
-    virtual void startOutgoingDragElement(const EngravingItem* element, QObject* dragSource, const muse::PointF& hotSpot) = 0;
+    virtual void startOutgoingDragElement(const EngravingItem* element, QObject* dragSource,
+                                          const muse::PointF& hotSpot) = 0;
     virtual void startOutgoingDragRange(QObject* dragSource) = 0;
     virtual bool isOutgoingDragStarted() const = 0;
     virtual void endOutgoingDrag() = 0;
@@ -111,19 +114,23 @@ public:
     //! TODO Change KeyboardModifiers to modes
     virtual bool startDropSingle(const QByteArray& edata) = 0;
     virtual bool startDropRange(const QByteArray& data) = 0;
-    virtual bool startDropRange(const Fraction& sourceTick, const Fraction& tickLength, engraving::staff_idx_t sourceStaffIdx,
-                                size_t numStaves, bool preserveMeasureAlignment) = 0;
+    virtual bool startDropRange(const Fraction& sourceTick, const Fraction& tickLength,
+                                engraving::staff_idx_t sourceStaffIdx, size_t numStaves,
+                                bool preserveMeasureAlignment) = 0;
     virtual bool startDropImage(const QUrl& url) = 0;
     virtual bool updateDropSingle(const muse::PointF& pos, Qt::KeyboardModifiers modifiers) = 0; //! NOTE Also may set drop target
-    virtual bool updateDropRange(const muse::PointF& pos, std::optional<bool> preserveMeasureAlignment = std::nullopt) = 0;
+    virtual bool updateDropRange(const muse::PointF& pos,
+                                 std::optional<bool> preserveMeasureAlignment = std::nullopt) = 0;
     virtual bool dropSingle(const muse::PointF& pos, Qt::KeyboardModifiers modifiers) = 0;
-    virtual bool dropRange(const QByteArray& data, const muse::PointF& pos, bool deleteSourceMaterial) = 0;
+    virtual bool dropRange(const QByteArray& data, const muse::PointF& pos,
+                           bool deleteSourceMaterial) = 0;
     virtual void setDropTarget(EngravingItem* item, bool notify = true) = 0;
     virtual void setDropRect(const muse::RectF& rect) = 0;
     virtual void endDrop() = 0;
     virtual muse::async::Notification dropChanged() const = 0;
 
-    virtual bool applyPaletteElement(mu::engraving::EngravingItem* element, Qt::KeyboardModifiers modifiers = {}) = 0;
+    virtual bool applyPaletteElement(mu::engraving::EngravingItem* element,
+                                     Qt::KeyboardModifiers modifiers = {}) = 0;
     virtual void undo() = 0;
     virtual void redo() = 0;
     virtual void undoRedoToIndex(size_t idx) = 0;
@@ -152,7 +159,8 @@ public:
     virtual bool isTextSelected() const = 0;
     virtual bool isTextEditingStarted() const = 0;
     virtual bool textEditingAllowed(const EngravingItem* element) const = 0;
-    virtual void startEditText(EngravingItem* element, const muse::PointF& elementPos = muse::PointF()) = 0;
+    virtual void startEditText(EngravingItem* element,
+                               const muse::PointF& elementPos = muse::PointF()) = 0;
     virtual void editText(QInputMethodEvent* event) = 0;
     virtual void endEditText() = 0;
     virtual void changeTextCursorPosition(const muse::PointF& newCursorPos) = 0;
@@ -253,12 +261,14 @@ public:
     virtual void addStretch(qreal value) = 0;
 
     virtual Measure* selectedMeasure() const = 0;
-    virtual void addTimeSignature(Measure* measure, engraving::staff_idx_t staffIndex, TimeSignature* timeSignature) = 0;
+    virtual void addTimeSignature(Measure* measure, engraving::staff_idx_t staffIndex,
+                                  TimeSignature* timeSignature) = 0;
 
     virtual void explodeSelectedStaff() = 0;
     virtual void implodeSelectedStaff() = 0;
 
-    virtual void realizeSelectedChordSymbols(bool literal, Voicing voicing, HarmonyDurationType durationType) = 0;
+    virtual void realizeSelectedChordSymbols(bool literal, Voicing voicing,
+                                             HarmonyDurationType durationType) = 0;
     virtual void extendToNextNote() = 0;
     virtual void removeSelectedMeasures() = 0;
     virtual void removeSelectedRange() = 0;
@@ -322,7 +332,8 @@ public:
     virtual void transposeDiatonicAlterations(mu::engraving::TransposeDirection) = 0;
     virtual void toggleAutoplace(bool all) = 0;
     virtual void getLocation() = 0;
-    virtual void execute(void (mu::engraving::Score::*)(), const muse::TranslatableString& actionName) = 0;
+    virtual void execute(void (mu::engraving::Score::*)(),
+                         const muse::TranslatableString& actionName) = 0;
 
     struct ShowItemRequest {
         const EngravingItem* item = nullptr;

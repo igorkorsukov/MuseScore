@@ -87,7 +87,8 @@ static bool isChordArticulation(const EngravingItem* item)
 
 static muse::String noteName(const Note* note)
 {
-    return tpc2name(note->tpc(), NoteSpellingType::STANDARD, NoteCaseType::AUTO) + String::number(note->octave());
+    return tpc2name(note->tpc(), NoteSpellingType::STANDARD, NoteCaseType::AUTO) + String::number(
+        note->octave());
 }
 
 static ElementInfo::NoteList chordToNotes(const Chord* chord)
@@ -239,11 +240,14 @@ ElementMap ScoreElementScanner::scanElements(Score* score)
     TRACEFUNC;
 
     ScannerData data;
-    score->scanElements([&](mu::engraving::EngravingItem* item) { addElementInfoIfNeed(&data, item); });
+    score->scanElements([&](mu::engraving::EngravingItem* item) {
+        addElementInfoIfNeed(&data, item);
+    });
 
     // Sort elements: staff -> measure -> beat -> voice
     for (auto& pair : data.elements) {
-        std::stable_sort(pair.second.begin(), pair.second.end(), [](const ElementInfo& a, const ElementInfo& b) {
+        std::stable_sort(pair.second.begin(), pair.second.end(),
+                         [](const ElementInfo& a, const ElementInfo& b) {
             const auto& A = a.start;
             const auto& B = b.start;
 
@@ -251,7 +255,8 @@ ElementMap ScoreElementScanner::scanElements(Score* score)
             const float beatA = (A.beat < 0.f) ? std::numeric_limits<float>::max() : A.beat;
             const float beatB = (B.beat < 0.f) ? std::numeric_limits<float>::max() : B.beat;
 
-            return std::tie(A.staffIdx, A.measureIdx, beatA, A.voiceIdx) < std::tie(B.staffIdx, B.measureIdx, beatB, B.voiceIdx);
+            return std::tie(A.staffIdx, A.measureIdx, beatA,
+                            A.voiceIdx) < std::tie(B.staffIdx, B.measureIdx, beatB, B.voiceIdx);
         });
     }
 

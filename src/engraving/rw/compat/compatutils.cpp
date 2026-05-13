@@ -222,13 +222,15 @@ void CompatUtils::replaceStaffTextWithPlayTechniqueAnnotation(MasterScore* score
 
                 StaffTextBase* text = toStaffTextBase(annotation);
                 PlayingTechniqueType type
-                    = muse::value(textToPlayTechniqueType, text->plainText().toLower(), PlayingTechniqueType::Undefined);
+                    = muse::value(textToPlayTechniqueType,
+                                  text->plainText().toLower(), PlayingTechniqueType::Undefined);
 
                 if (type == PlayingTechniqueType::Undefined) {
                     muse::String channelName = text->channelName(0).toLower();
 
                     if (!channelName.isEmpty()) {
-                        type = muse::value(textToPlayTechniqueType, channelName, PlayingTechniqueType::Undefined);
+                        type = muse::value(textToPlayTechniqueType, channelName,
+                                           PlayingTechniqueType::Undefined);
                     }
                 }
 
@@ -255,7 +257,8 @@ void CompatUtils::replaceStaffTextWithPlayTechniqueAnnotation(MasterScore* score
         PlayingTechniqueType type = pair.second;
         Segment* parentSegment = oldPlayTech->segment();
 
-        PlayTechAnnotation* newPlayTech = Factory::createPlayTechAnnotation(parentSegment, type, oldPlayTech->textStyleType());
+        PlayTechAnnotation* newPlayTech = Factory::createPlayTechAnnotation(parentSegment, type,
+                                                                            oldPlayTech->textStyleType());
         newPlayTech->setXmlText(oldPlayTech->xmlText());
         newPlayTech->setTrack(oldPlayTech->track());
 
@@ -374,7 +377,8 @@ void CompatUtils::replaceOldWithNewExpressions(MasterScore* score)
     for (Measure* measure = score->firstMeasure(); measure; measure = measure->nextMeasure()) {
         for (Segment& seg : measure->segments()) {
             for (EngravingItem* item : seg.annotations()) {
-                if (item && item->isStaffText() && toStaffText(item)->textStyleType() == TextStyleType::EXPRESSION) {
+                if (item && item->isStaffText()
+                    && toStaffText(item)->textStyleType() == TextStyleType::EXPRESSION) {
                     oldExpressions.insert(toStaffText(item));
                     LinkedObjects* links = item->links();
                     if (!links || links->empty()) {
@@ -420,7 +424,8 @@ void CompatUtils::reconstructTypeOfCustomDynamics(MasterScore* score)
     for (Measure* measure = score->firstMeasure(); measure; measure = measure->nextMeasure()) {
         for (Segment& seg : measure->segments()) {
             for (EngravingItem* item : seg.annotations()) {
-                if (item && item->isDynamic() && toDynamic(item)->dynamicType() == DynamicType::OTHER) {
+                if (item && item->isDynamic()
+                    && toDynamic(item)->dynamicType() == DynamicType::OTHER) {
                     otherTypeDynamic.insert(toDynamic(item));
                     LinkedObjects* links = item->links();
                     if (!links || links->empty()) {
@@ -589,7 +594,8 @@ double CompatUtils::convertChordExtModUnits(double val)
     // After 4.6 this is in % of root cap height
     // The best we can do for conversion of old files is to assume a default spatium of 1.75mm and a default font size of 10pt
     // The height value is calculated from Edwin at 10pt using FontMetrics::capHeight
-    const double DEFAULT_SPATIUM = StyleDef::styleValues[static_cast<size_t>(Sid::spatium)].defaultValue.toDouble();
+    const double DEFAULT_SPATIUM
+        = StyleDef::styleValues[static_cast<size_t>(Sid::spatium)].defaultValue.toDouble();
     muse::draw::Font f(u"Edwin", muse::draw::Font::Type::Text);
     f.setPointSizeF(10);
     const double DEFAULT_FONT_CAP_HEIGHT = muse::draw::FontMetrics::capHeight(f);   // 121
@@ -762,7 +768,8 @@ void CompatUtils::addMissingInitKeyForTransposingInstrument(MasterScore* score)
 void CompatUtils::resetFramesExclusionFromParts(MasterScore* masterScore)
 {
     for (Score* score : masterScore->scoreList()) {
-        for (MeasureBase* measureBase = score->first(); measureBase; measureBase = measureBase->next()) {
+        for (MeasureBase* measureBase = score->first(); measureBase;
+             measureBase = measureBase->next()) {
             if (!measureBase->isMeasure()) {
                 measureBase->setExcludeFromOtherParts(false);
             }
@@ -775,7 +782,8 @@ void CompatUtils::mapHeaderFooterStyles(MasterScore* score)
     // Copyright and page numbers used header/footer styling before 4.4 - after 4.4 these have their own styles. To ensure nothing
     // changes visually when loading a pre-4.4 score for the first time, we must search the header/footer strings for copyright/page
     // number macros and set the "defaults" for copyright/page number styles based on where the macros were inserted...
-    const auto doMap = [score](const TextStyleType type, const std::vector<Sid>& headerFooterStringSids) {
+    const auto doMap
+        = [score](const TextStyleType type, const std::vector<Sid>& headerFooterStringSids) {
         const TextStyle* headerFooterTextStyle = textStyle(type);
         const TextStyle* copyrightTextStyle = textStyle(TextStyleType::COPYRIGHT);
         const TextStyle* pageNumberTextStyle = textStyle(TextStyleType::PAGE_NUMBER);
@@ -858,7 +866,8 @@ void CompatUtils::convertTextLineToNoteAnchoredLine(MasterScore* masterScore)
 {
     std::set<TextLine*> oldLines; // NoteLines used to be TextLines
 
-    for (Measure* measure = masterScore->firstMeasure(); measure; measure = measure->nextMeasure()) {
+    for (Measure* measure = masterScore->firstMeasure(); measure;
+         measure = measure->nextMeasure()) {
         for (Segment& segment : measure->segments()) {
             if (!segment.isChordRestType()) {
                 continue;
@@ -954,7 +963,8 @@ void CompatUtils::convertLaissezVibArticToTie(MasterScore* masterScore)
     }
 }
 
-void CompatUtils::setHarmonyRootTpcFromFunction(HarmonyInfo* info, const Harmony* h, const muse::String& s)
+void CompatUtils::setHarmonyRootTpcFromFunction(HarmonyInfo* info, const Harmony* h,
+                                                const muse::String& s)
 {
     Key key = Key::INVALID;
     const Staff* st = h->staff();
@@ -990,7 +1000,8 @@ void CompatUtils::setTextLineTextPositionFromAlign(TextLineBase* tl)
         tl->setPropertyFlags(Pid::BEGIN_TEXT_POSITION, PropertyFlags::UNSTYLED);
     }
     tl->setContinueTextPosition(tl->continueTextAlign().horizontal);
-    if (tl->continueTextPosition() != tl->propertyDefault(Pid::CONTINUE_TEXT_POSITION).value<AlignH>()) {
+    if (tl->continueTextPosition()
+        != tl->propertyDefault(Pid::CONTINUE_TEXT_POSITION).value<AlignH>()) {
         tl->setPropertyFlags(Pid::CONTINUE_TEXT_POSITION, PropertyFlags::UNSTYLED);
     }
     tl->setEndTextPosition(tl->endTextAlign().horizontal);
@@ -1020,7 +1031,8 @@ void mu::engraving::compat::CompatUtils::setMusicSymbolSize470(MStyle& style)
     // Music symbols have their own point size in 4.7
     // Initialize this to the text type's default font size
     for (TextStyleType textStyleType : allTextStyles()) {
-        if (textStyleType == TextStyleType::REPEAT_LEFT || textStyleType == TextStyleType::REPEAT_RIGHT) {
+        if (textStyleType == TextStyleType::REPEAT_LEFT
+            || textStyleType == TextStyleType::REPEAT_RIGHT) {
             continue;
         }
 
@@ -1079,7 +1091,8 @@ static constexpr double PRE_470_DPI = 360;
 Spatium mu::engraving::compat::CompatUtils::convertPre470FrameRadius(double frameRadius)
 {
     // The frame radius used to be expressed in raster units and divided by 2 at drawing. Since 4.7 it is expressed in spatium.
-    return Spatium(frameRadius * (DPI / PRE_470_DPI) / DefaultStyle::baseStyle().value(Sid::spatium).toDouble()) / 2;
+    return Spatium(frameRadius * (DPI / PRE_470_DPI) / DefaultStyle::baseStyle().value(
+                       Sid::spatium).toDouble()) / 2;
 }
 
 void CompatUtils::convertPre470ImageSize(Image* image)

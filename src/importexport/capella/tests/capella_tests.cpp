@@ -61,7 +61,8 @@ void Capella_Tests::capReadTest(const char* file)
     EXPECT_TRUE(score);
     score->setMetaTag(u"originalFormat", u"cap");
 
-    EXPECT_TRUE(ScoreComp::saveCompareScore(score, fileName + u".mscx", CAPELLA_DIR + fileName + u".cap-ref.mscx"));
+    EXPECT_TRUE(ScoreComp::saveCompareScore(score, fileName + u".mscx",
+                                            CAPELLA_DIR + fileName + u".cap-ref.mscx"));
     delete score;
 }
 
@@ -81,7 +82,8 @@ void Capella_Tests::capxReadTest(const char* file)
     EXPECT_TRUE(score);
     score->setMetaTag(u"originalFormat", u"capx");
 
-    EXPECT_TRUE(ScoreComp::saveCompareScore(score, fileName + u".mscx", CAPELLA_DIR + fileName + u".capx-ref.mscx"));
+    EXPECT_TRUE(ScoreComp::saveCompareScore(score, fileName + u".mscx",
+                                            CAPELLA_DIR + fileName + u".capx-ref.mscx"));
     delete score;
 }
 

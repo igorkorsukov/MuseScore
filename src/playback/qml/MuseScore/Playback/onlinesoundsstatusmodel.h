@@ -36,12 +36,14 @@
 #include "tours/itoursservice.h"
 
 namespace mu::playback {
-class OnlineSoundsStatusModel : public QObject, public muse::async::Asyncable, public muse::Contextable
+class OnlineSoundsStatusModel : public QObject, public muse::async::Asyncable,
+    public muse::Contextable
 {
     Q_OBJECT
 
     Q_PROPERTY(bool hasOnlineSounds READ hasOnlineSounds NOTIFY hasOnlineSoundsChanged)
-    Q_PROPERTY(bool manualProcessingAllowed READ manualProcessingAllowed NOTIFY manualProcessingAllowedChanged)
+    Q_PROPERTY(
+        bool manualProcessingAllowed READ manualProcessingAllowed NOTIFY manualProcessingAllowedChanged)
 
     Q_PROPERTY(int status READ status NOTIFY statusChanged)
     Q_PROPERTY(QString errorTitle READ errorTitle NOTIFY statusChanged)

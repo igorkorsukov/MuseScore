@@ -32,7 +32,10 @@ class Score;
 }
 
 namespace mu::iex::musicxml {
-engraving::Err importMusicXmlfromBuffer(engraving::Score* score, const muse::String&, const muse::ByteArray& data);
-engraving::Err importCompressedMusicXml(engraving::MasterScore* score, const muse::String& name, bool forceMode);
-engraving::Err importMusicXml(engraving::MasterScore* score, const muse::String& name, bool forceMode);
+engraving::Err importMusicXmlfromBuffer(engraving::Score* score, const muse::String&,
+                                        const muse::ByteArray& data);
+engraving::Err importCompressedMusicXml(engraving::MasterScore* score, const muse::String& name,
+                                        bool forceMode);
+engraving::Err importMusicXml(engraving::MasterScore* score, const muse::String& name,
+                              bool forceMode);
 }

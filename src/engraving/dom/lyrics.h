@@ -55,7 +55,10 @@ public:
     EngravingItem* drop(EditData&) override;
 
     Segment* segment() const { return toSegment(explicitParent()->explicitParent()); }
-    Measure* measure() const { return toMeasure(explicitParent()->explicitParent()->explicitParent()); }
+    Measure* measure() const
+    {
+        return toMeasure(explicitParent()->explicitParent()->explicitParent());
+    }
     ChordRest* chordRest() const { return toChordRest(explicitParent()); }
 
     int subtype() const override { return m_verse; }
@@ -202,7 +205,8 @@ public:
     DECLARE_LAYOUTDATA_METHODS(LyricsLineSegment)
 
 protected:
-    LyricsLineSegment(const ElementType& type, LyricsLine* sp, System* parent, ElementFlags f = ElementFlag::NOTHING);
+    LyricsLineSegment(const ElementType& type, LyricsLine* sp, System* parent,
+                      ElementFlags f = ElementFlag::NOTHING);
     void rebaseAnchors(EditData&, Grip) override;
 };
 

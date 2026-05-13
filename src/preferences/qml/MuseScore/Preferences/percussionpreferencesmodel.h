@@ -31,13 +31,15 @@
 
 #include "async/asyncable.h"
 
-class PercussionPreferencesModel : public QObject, public muse::Contextable, public muse::async::Asyncable
+class PercussionPreferencesModel : public QObject, public muse::Contextable,
+    public muse::async::Asyncable
 {
     Q_OBJECT
     QML_ELEMENT;
 
     Q_PROPERTY(QVariantList autoShowModes READ autoShowModes CONSTANT)
-    Q_PROPERTY(int autoShowMode READ autoShowMode WRITE setAutoShowMode NOTIFY percussionPanelAutoShowModeChanged)
+    Q_PROPERTY(
+        int autoShowMode READ autoShowMode WRITE setAutoShowMode NOTIFY percussionPanelAutoShowModeChanged)
     Q_PROPERTY(bool neverAutoShow READ neverAutoShow NOTIFY percussionPanelAutoShowModeChanged)
 
     Q_PROPERTY(bool autoClosePercussionPanel READ autoClosePercussionPanel
@@ -80,7 +82,8 @@ signals:
 private:
     struct AutoShowMode
     {
-        mu::notation::PercussionPanelAutoShowMode type = mu::notation::PercussionPanelAutoShowMode::UNPITCHED_STAFF;
+        mu::notation::PercussionPanelAutoShowMode type
+            = mu::notation::PercussionPanelAutoShowMode::UNPITCHED_STAFF;
         QString title;
         bool checked = false;
     };

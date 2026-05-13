@@ -67,7 +67,8 @@ void SelectDialog::componentComplete()
     subtype->setEnabled(m_element->subtype() != -1);
 
     const auto isSingleSelection = m_element->score()->selection().isSingle();
-    inSelection->setCheckState(isSingleSelection ? Qt::CheckState::Unchecked : Qt::CheckState::Checked);
+    inSelection->setCheckState(
+        isSingleSelection ? Qt::CheckState::Unchecked : Qt::CheckState::Checked);
     inSelection->setEnabled(!isSingleSelection);
 
     sameDuration->setEnabled(m_element->isRest());
@@ -259,8 +260,10 @@ void SelectDialog::apply() const
     }
     if (isInSelection()) {
         const auto& selectedElements = interaction->selection()->elements();
-        elements.erase(std::remove_if(elements.begin(), elements.end(), [selectedElements](const auto& e) {
-            return std::find(selectedElements.begin(), selectedElements.end(), e) == selectedElements.end();
+        elements.erase(std::remove_if(elements.begin(), elements.end(),
+                                      [selectedElements](const auto& e) {
+            return std::find(selectedElements.begin(), selectedElements.end(),
+                             e) == selectedElements.end();
         }), elements.end());
     }
 
@@ -270,7 +273,8 @@ void SelectDialog::apply() const
     } else if (doSubtract()) {
         std::vector<EngravingItem*> selectionElements = interaction->selection()->elements();
         for (EngravingItem* element: elements) {
-            selectionElements.erase(std::remove(selectionElements.begin(), selectionElements.end(), element), selectionElements.end());
+            selectionElements.erase(std::remove(selectionElements.begin(), selectionElements.end(),
+                                                element), selectionElements.end());
         }
 
         interaction->clearSelection();

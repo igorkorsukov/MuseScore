@@ -38,7 +38,8 @@ void NotationNavigatorCursorView::paint(QPainter* painter)
     QColor color(configuration()->selectionColor());
     QPen pen(color, configuration()->borderWidth());
     painter->setPen(pen);
-    painter->setBrush(QColor(color.red(), color.green(), color.blue(), configuration()->cursorOpacity()));
+    painter->setBrush(QColor(color.red(), color.green(), color.blue(),
+                             configuration()->cursorOpacity()));
 
     painter->drawRect(m_cursorRect.toQRectF());
 }
@@ -290,7 +291,8 @@ void NotationNavigator::paintPageNumbers(QPainter* painter)
 
     for (const Page* page : pages()) {
         painter->translate(page->pos().toQPointF());
-        painter->drawText(page->ldata()->bbox().toQRectF(), Qt::AlignCenter, QString("%1").arg(page->pageNumber() + 1));
+        painter->drawText(page->ldata()->bbox().toQRectF(), Qt::AlignCenter,
+                          QString("%1").arg(page->pageNumber() + 1));
         painter->translate(-page->pos().toQPointF());
     }
 }

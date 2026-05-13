@@ -29,9 +29,14 @@ class RepeatBarlinesSectionModel : public AbstractStyleDialogModel
 {
     Q_OBJECT
 
-    Q_PROPERTY(mu::notation::StyleItem * barlineBeforeSigChange READ barlineBeforeSigChange CONSTANT)
-    Q_PROPERTY(mu::notation::StyleItem * doubleBarlineBeforeKeySig READ doubleBarlineBeforeKeySig CONSTANT)
-    Q_PROPERTY(mu::notation::StyleItem * doubleBarlineBeforeTimeSig READ doubleBarlineBeforeTimeSig CONSTANT)
+    Q_PROPERTY(mu::notation::StyleItem
+               * barlineBeforeSigChange READ barlineBeforeSigChange CONSTANT)
+    Q_PROPERTY(
+        mu::notation::StyleItem
+        * doubleBarlineBeforeKeySig READ doubleBarlineBeforeKeySig CONSTANT)
+    Q_PROPERTY(
+        mu::notation::StyleItem
+        * doubleBarlineBeforeTimeSig READ doubleBarlineBeforeTimeSig CONSTANT)
 
     QML_ELEMENT
 

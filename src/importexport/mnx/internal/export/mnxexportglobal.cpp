@@ -105,7 +105,8 @@ static void assignTimeSignature(mnx::global::Measure& mnxMeasure, const Measure*
 
     const auto unit = toMnxTimeSignatureUnit(timeSig.denominator());
     if (!unit) {
-        LOGW() << "Skipping time signature with unsupported MNX time signature unit: " << timeSig.denominator();
+        LOGW() << "Skipping time signature with unsupported MNX time signature unit: " <<
+            timeSig.denominator();
         return;
     }
 
@@ -117,7 +118,8 @@ static void assignTimeSignature(mnx::global::Measure& mnxMeasure, const Measure*
 //   assignKeySignature
 //---------------------------------------------------------
 
-static void assignKeySignature(mnx::global::Measure& mnxMeasure, const Score* score, const Measure* measure,
+static void assignKeySignature(mnx::global::Measure& mnxMeasure, const Score* score,
+                               const Measure* measure,
                                std::optional<int>& prevKeyFifths)
 {
     if (score->staves().empty()) {
@@ -155,12 +157,15 @@ static void assignBarline(mnx::global::Measure& mnxMeasure, const Measure* measu
         if (const BarLine* barline = measure->endBarLine()) {
             const int spanFrom = barline->spanFrom();
             const int spanTo = barline->spanTo();
-            const bool isShort = (spanFrom == BARLINE_SPAN_SHORT1_FROM && spanTo == BARLINE_SPAN_SHORT1_TO)
-                                 || (spanFrom == BARLINE_SPAN_SHORT2_FROM && spanTo == BARLINE_SPAN_SHORT2_TO);
+            const bool isShort
+                = (spanFrom == BARLINE_SPAN_SHORT1_FROM && spanTo == BARLINE_SPAN_SHORT1_TO)
+                  || (spanFrom == BARLINE_SPAN_SHORT2_FROM
+                      && spanTo == BARLINE_SPAN_SHORT2_TO);
             if (isShort) {
                 barlineType = mnx::BarlineType::Short;
             } else if (const Staff* staff = barline->staff()) {
-                const Fraction tick = barline->segment() ? barline->segment()->tick() : measure->tick();
+                const Fraction tick
+                    = barline->segment() ? barline->segment()->tick() : measure->tick();
                 const int lines = staff->lines(tick - Fraction::eps()) - 1;
                 const bool isOneLine = (lines <= 0);
                 if (isOneLine) {
@@ -170,8 +175,10 @@ static void assignBarline(mnx::global::Measure& mnxMeasure, const Measure* measu
                         barlineType = mnx::BarlineType::Tick;
                     }
                 } else {
-                    const bool isTick = (spanFrom == BARLINE_SPAN_TICK1_FROM && spanTo == BARLINE_SPAN_TICK1_TO)
-                                        || (spanFrom == BARLINE_SPAN_TICK2_FROM && spanTo == BARLINE_SPAN_TICK2_TO);
+                    const bool isTick
+                        = (spanFrom == BARLINE_SPAN_TICK1_FROM && spanTo == BARLINE_SPAN_TICK1_TO)
+                          || (spanFrom == BARLINE_SPAN_TICK2_FROM
+                              && spanTo == BARLINE_SPAN_TICK2_TO);
                     if (isTick) {
                         barlineType = mnx::BarlineType::Tick;
                     }
@@ -212,7 +219,8 @@ static void assignRepeats(mnx::global::Measure& mnxMeasure, const Measure* measu
 //   emit a MNX tempo entry from a TempoText item
 //---------------------------------------------------------
 
-static void createTempo(mnx::global::Measure& mnxMeasure, const TempoText* tempo, const Fraction& relTick)
+static void createTempo(mnx::global::Measure& mnxMeasure, const TempoText* tempo,
+                        const Fraction& relTick)
 {
     IF_ASSERT_FAILED(tempo) {
         return;
@@ -232,7 +240,8 @@ static void createTempo(mnx::global::Measure& mnxMeasure, const TempoText* tempo
         return;
     }
 
-    auto mnxTempo = mnxMeasure.ensure_tempos().append(static_cast<int>(std::lround(bpm)), *noteValue);
+    auto mnxTempo
+        = mnxMeasure.ensure_tempos().append(static_cast<int>(std::lround(bpm)), *noteValue);
     if (relTick.isNotZero()) {
         mnxTempo.ensure_location(location);
     }
@@ -323,7 +332,8 @@ void MnxExporter::createGlobal()
     std::optional<int> prevKeyFifths;
     size_t measureIndex = 0;
 
-    for (const Measure* measure = m_score->firstMeasure(); measure; measure = measure->nextMeasure()) {
+    for (const Measure* measure = m_score->firstMeasure(); measure;
+         measure = measure->nextMeasure()) {
         auto mnxMeasure = mnxMeasures.append();
         mnxMeasure.set_id(getOrAssignEID(const_cast<Measure*>(measure)).toStdString());
         m_measToMnxMeas.emplace(measure, measureIndex);

@@ -44,7 +44,8 @@ private:
     void addDynamicPoints(const Dynamic* dynamic, int tickOffset);
     void addDynamicPoints(const Dynamic* dynamic, int tickOffset, const AutomationCurveKey& key);
 
-    void addSpannerPoints(const Score* score, int repeatStartTick, int repeatEndTick, int tickOffset);
+    void addSpannerPoints(const Score* score, int repeatStartTick, int repeatEndTick,
+                          int tickOffset);
     void addHairpinPoints(const Hairpin* hairpin, int tickOffset, const AutomationCurveKey& key);
 
     IAutomation* m_automation = nullptr;

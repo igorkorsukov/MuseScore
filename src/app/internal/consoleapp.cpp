@@ -37,7 +37,8 @@ using namespace muse;
 using namespace mu::app;
 using namespace mu::converter;
 
-static std::optional<ConvertTarget> parseTarget(const QMap<MuseScoreCmdOptions::ParamKey, QVariant>& params)
+static std::optional<ConvertTarget> parseTarget(const QMap<MuseScoreCmdOptions::ParamKey,
+                                                           QVariant>& params)
 {
     auto it = params.find(MuseScoreCmdOptions::ParamKey::ScoreRegion);
     if (it != params.end()) {
@@ -84,7 +85,8 @@ void MuseScoreConsoleApp::applyCommandLineOptions(const std::shared_ptr<muse::Cm
         return;
     }
 
-    const std::shared_ptr<MuseScoreCmdOptions> options = std::dynamic_pointer_cast<MuseScoreCmdOptions>(opt);
+    const std::shared_ptr<MuseScoreCmdOptions> options
+        = std::dynamic_pointer_cast<MuseScoreCmdOptions>(opt);
     IF_ASSERT_FAILED(options) {
         return;
     }
@@ -117,7 +119,8 @@ void MuseScoreConsoleApp::applyCommandLineOptions(const std::shared_ptr<muse::Cm
 
 #ifdef MUE_BUILD_IMPEXP_IMAGESEXPORT_MODULE
     imagesExportConfiguration()->setTrimMarginPixelSize(options->exportImage.trimMarginPixelSize);
-    imagesExportConfiguration()->setExportPngDpiResolutionOverride(options->exportImage.pngDpiResolution);
+    imagesExportConfiguration()->setExportPngDpiResolutionOverride(
+        options->exportImage.pngDpiResolution);
 #endif
 
 #ifdef MUE_BUILD_IMPEXP_VIDEOEXPORT_MODULE
@@ -148,7 +151,8 @@ void MuseScoreConsoleApp::applyCommandLineOptions(const std::shared_ptr<muse::Cm
 
 void MuseScoreConsoleApp::doStartupScenario(const muse::modularity::ContextPtr& ctxId)
 {
-    const std::shared_ptr<MuseScoreCmdOptions> options = std::dynamic_pointer_cast<MuseScoreCmdOptions>(contextData(ctxId).options);
+    const std::shared_ptr<MuseScoreCmdOptions> options
+        = std::dynamic_pointer_cast<MuseScoreCmdOptions>(contextData(ctxId).options);
     IF_ASSERT_FAILED(options) {
         return;
     }
@@ -180,7 +184,8 @@ void MuseScoreConsoleApp::doStartupScenario(const muse::modularity::ContextPtr& 
         }
     } break;
     case IApplication::RunMode::AudioPluginRegistration: {
-        MuseScoreCmdOptions::AudioPluginRegistration pluginRegistration = options->audioPluginRegistration;
+        MuseScoreCmdOptions::AudioPluginRegistration pluginRegistration
+            = options->audioPluginRegistration;
 
         int code = processAudioPluginRegistration(pluginRegistration, ctxId);
         qApp->exit(code);
@@ -191,14 +196,16 @@ void MuseScoreConsoleApp::doStartupScenario(const muse::modularity::ContextPtr& 
     }
 }
 
-int MuseScoreConsoleApp::processConverter(const MuseScoreCmdOptions::ConverterTask& task, const muse::modularity::ContextPtr& ctx)
+int MuseScoreConsoleApp::processConverter(const MuseScoreCmdOptions::ConverterTask& task,
+                                          const muse::modularity::ContextPtr& ctx)
 {
     muse::ContextInject<converter::IConverterController> converter = { ctx };
     muse::ContextInject<playback::ISoundProfilesRepository> soundProfilesRepository = { ctx };
 
     Ret ret = make_ret(Ret::Code::Ok);
     String soundProfile = task.params[MuseScoreCmdOptions::ParamKey::SoundProfile].toString();
-    UriQuery extensionUri = UriQuery(task.params[MuseScoreCmdOptions::ParamKey::ExtensionUri].toString().toStdString());
+    UriQuery extensionUri = UriQuery(
+        task.params[MuseScoreCmdOptions::ParamKey::ExtensionUri].toString().toStdString());
 
     if (!soundProfile.isEmpty() && !soundProfilesRepository()->containsProfile(soundProfile)) {
         LOGE() << "Unknown sound profile: " << soundProfile;
@@ -215,18 +222,24 @@ int MuseScoreConsoleApp::processConverter(const MuseScoreCmdOptions::ConverterTa
         ret = converter()->batchConvert(task.inputFile, openParams, soundProfile, extensionUri);
         break;
     case ConvertType::File: {
-        std::string transposeOptionsJson = task.params[MuseScoreCmdOptions::ParamKey::ScoreTransposeOptions].toString().toStdString();
+        std::string transposeOptionsJson
+            = task.params[MuseScoreCmdOptions::ParamKey::ScoreTransposeOptions].toString().
+              toStdString();
         std::optional<ConvertTarget> target = parseTarget(task.params);
-        io::path_t tracksDiffPath = task.params[MuseScoreCmdOptions::ParamKey::TracksDiffPath].toString();
-        ret = converter()->fileConvert(task.inputFile, task.outputFile, openParams, soundProfile, tracksDiffPath,
+        io::path_t tracksDiffPath
+            = task.params[MuseScoreCmdOptions::ParamKey::TracksDiffPath].toString();
+        ret = converter()->fileConvert(task.inputFile, task.outputFile, openParams, soundProfile,
+                                       tracksDiffPath,
                                        extensionUri, transposeOptionsJson, target);
     } break;
     case ConvertType::ConvertScoreParts:
         ret = converter()->convertScoreParts(task.inputFile, task.outputFile, openParams);
         break;
     case ConvertType::ExportScoreMedia: {
-        muse::io::path_t highlightConfigPath = task.params[MuseScoreCmdOptions::ParamKey::HighlightConfigPath].toString();
-        ret = converter()->exportScoreMedia(task.inputFile, task.outputFile, openParams, highlightConfigPath);
+        muse::io::path_t highlightConfigPath
+            = task.params[MuseScoreCmdOptions::ParamKey::HighlightConfigPath].toString();
+        ret = converter()->exportScoreMedia(task.inputFile, task.outputFile, openParams,
+                                            highlightConfigPath);
     } break;
     case ConvertType::ExportScoreMeta:
         ret = converter()->exportScoreMeta(task.inputFile, task.outputFile, openParams);
@@ -238,8 +251,11 @@ int MuseScoreConsoleApp::processConverter(const MuseScoreCmdOptions::ConverterTa
         ret = converter()->exportScorePartsPdfs(task.inputFile, task.outputFile, openParams);
         break;
     case ConvertType::ExportScoreTranspose: {
-        std::string scoreTranspose = task.params[MuseScoreCmdOptions::ParamKey::ScoreTransposeOptions].toString().toStdString();
-        ret = converter()->exportScoreTranspose(task.inputFile, task.outputFile, scoreTranspose, openParams);
+        std::string scoreTranspose
+            = task.params[MuseScoreCmdOptions::ParamKey::ScoreTransposeOptions].toString().
+              toStdString();
+        ret = converter()->exportScoreTranspose(task.inputFile, task.outputFile, scoreTranspose,
+                                                openParams);
     } break;
     case ConvertType::ExportScoreElements: {
         ret = converter()->exportScoreElements(task.inputFile, task.outputFile, openParams);
@@ -248,7 +264,8 @@ int MuseScoreConsoleApp::processConverter(const MuseScoreCmdOptions::ConverterTa
         ret = converter()->exportScoreVideo(task.inputFile, task.outputFile, openParams);
     } break;
     case ConvertType::SourceUpdate: {
-        std::string scoreSource = task.params[MuseScoreCmdOptions::ParamKey::ScoreSource].toString().toStdString();
+        std::string scoreSource
+            = task.params[MuseScoreCmdOptions::ParamKey::ScoreSource].toString().toStdString();
         ret = converter()->updateSource(task.inputFile, scoreSource, openParams.forceMode);
     } break;
     }
@@ -260,7 +277,8 @@ int MuseScoreConsoleApp::processConverter(const MuseScoreCmdOptions::ConverterTa
     return ret.code();
 }
 
-int MuseScoreConsoleApp::processDiagnostic(const MuseScoreCmdOptions::Diagnostic& task, const muse::modularity::ContextPtr&)
+int MuseScoreConsoleApp::processDiagnostic(const MuseScoreCmdOptions::Diagnostic& task,
+                                           const muse::modularity::ContextPtr&)
 {
     if (!diagnosticDrawProvider()) {
         return make_ret(Ret::Code::NotSupported);
@@ -315,12 +333,14 @@ int MuseScoreConsoleApp::processDiagnostic(const MuseScoreCmdOptions::Diagnostic
     return ret.code();
 }
 
-int MuseScoreConsoleApp::processAudioPluginRegistration(const MuseScoreCmdOptions::AudioPluginRegistration& task,
-                                                        const muse::modularity::ContextPtr& ctx)
+int MuseScoreConsoleApp::processAudioPluginRegistration(
+    const MuseScoreCmdOptions::AudioPluginRegistration& task,
+    const muse::modularity::ContextPtr& ctx)
 {
     Ret ret = make_ret(Ret::Code::Ok);
 
-    muse::ContextInject<audioplugins::IRegisterAudioPluginsScenario> registerAudioPluginsScenario = { ctx };
+    muse::ContextInject<audioplugins::IRegisterAudioPluginsScenario> registerAudioPluginsScenario
+        = { ctx };
 
     if (task.failedPlugin) {
         ret = registerAudioPluginsScenario()->registerFailedPlugin(task.pluginPath, task.failCode);
@@ -335,7 +355,8 @@ int MuseScoreConsoleApp::processAudioPluginRegistration(const MuseScoreCmdOption
     return ret.code();
 }
 
-void MuseScoreConsoleApp::processTestflow(const MuseScoreCmdOptions::Testflow& task, const muse::modularity::ContextPtr& ctx)
+void MuseScoreConsoleApp::processTestflow(const MuseScoreCmdOptions::Testflow& task,
+                                          const muse::modularity::ContextPtr& ctx)
 {
     using namespace muse::testflow;
     muse::ContextInject<ITestflow> testflow = { ctx };
@@ -350,7 +371,8 @@ void MuseScoreConsoleApp::processTestflow(const MuseScoreCmdOptions::Testflow& t
         }
     });
 
-    muse::async::Channel<muse::io::path_t, ITestflow::Status> statusCh = testflow()->statusChanged();
+    muse::async::Channel<muse::io::path_t,
+                         ITestflow::Status> statusCh = testflow()->statusChanged();
     statusCh.onReceive(nullptr, [](const muse::io::path_t& path, ITestflow::Status st) {
         if (st == ITestflow::Status::Finished) {
             LOGI() << "success finished, path: " << path;

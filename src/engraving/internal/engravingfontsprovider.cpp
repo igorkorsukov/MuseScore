@@ -36,19 +36,23 @@ void EngravingFontsProvider::deinit()
     m_fallback.font = nullptr;
 }
 
-void EngravingFontsProvider::addInternalFont(const std::string& name, const std::string& family, const muse::io::path_t& filePath)
+void EngravingFontsProvider::addInternalFont(const std::string& name, const std::string& family,
+                                             const muse::io::path_t& filePath)
 {
     muse::io::path_t basePath = muse::io::dirpath(filePath.toQString());
     muse::io::path_t metadataPath = basePath + "/metadata.json";
-    std::shared_ptr<EngravingFont> f = std::make_shared<EngravingFont>(name, family, filePath, metadataPath);
+    std::shared_ptr<EngravingFont> f = std::make_shared<EngravingFont>(name, family, filePath,
+                                                                       metadataPath);
     m_symbolFonts.push_back(f);
     m_fallback.font = nullptr;
 }
 
-void EngravingFontsProvider::addExternalFont(const std::string& name, const std::string& family, const muse::io::path_t& filePath,
+void EngravingFontsProvider::addExternalFont(const std::string& name, const std::string& family,
+                                             const muse::io::path_t& filePath,
                                              const muse::io::path_t& metadataPath)
 {
-    std::shared_ptr<EngravingFont> f = std::make_shared<EngravingFont>(name, family, filePath, metadataPath);
+    std::shared_ptr<EngravingFont> f = std::make_shared<EngravingFont>(name, family, filePath,
+                                                                       metadataPath);
     m_externalSymbolFonts.emplace(muse::strings::toLower(name), f);
 }
 

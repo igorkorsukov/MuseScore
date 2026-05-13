@@ -41,7 +41,8 @@ void SoundProfilesModel::init()
         m_profiles.push_back(pair.second);
     }
 
-    std::sort(m_profiles.begin(), m_profiles.end(), [this](const SoundProfile& left, const SoundProfile& right) {
+    std::sort(m_profiles.begin(), m_profiles.end(),
+              [this](const SoundProfile& left, const SoundProfile& right) {
         if (left.name == config()->basicSoundProfileName()
             && right.name == config()->museSoundsProfileName()) {
             return true;
@@ -133,7 +134,8 @@ void SoundProfilesModel::setDefaultProjectsProfile(const QString& newDefaultProj
     }
 
     m_defaultProjectsProfile = newDefaultProjectsProfile;
-    config()->setDefaultProfileForNewProjects(SoundProfileName::fromQString(newDefaultProjectsProfile));
+    config()->setDefaultProfileForNewProjects(SoundProfileName::fromQString(
+                                                  newDefaultProjectsProfile));
 
     emit defaultProjectsProfileChanged();
 }
@@ -155,16 +157,20 @@ bool SoundProfilesModel::askAboutChangingSounds()
     }
 
     int changeBtn = int(muse::IInteractive::Button::Apply);
-    muse::IInteractive::Options options = muse::IInteractive::Option::WithIcon | muse::IInteractive::Option::WithDontShowAgainCheckBox;
+    muse::IInteractive::Options options = muse::IInteractive::Option::WithIcon
+                                          | muse::IInteractive::Option::WithDontShowAgainCheckBox;
     muse::IInteractive::ButtonDatas buttons = {
         interactive()->buttonData(muse::IInteractive::Button::Cancel),
-        muse::IInteractive::ButtonData(changeBtn, muse::trc("playback", "Change sounds"), true /*accent*/)
+        muse::IInteractive::ButtonData(changeBtn, muse::trc("playback", "Change sounds"),
+                                       true /*accent*/)
     };
 
-    muse::IInteractive::Result result = interactive()->warningSync(muse::trc("playback", "Are you sure you want to change sounds?"),
-                                                                   muse::trc("playback",
-                                                                             "Sound flags may be reset, but staff text will remain. This action can’t be undone."),
-                                                                   buttons, changeBtn, options);
+    muse::IInteractive::Result result
+        = interactive()->warningSync(muse::trc("playback",
+                                               "Are you sure you want to change sounds?"),
+                                     muse::trc("playback",
+                                               "Sound flags may be reset, but staff text will remain. This action can’t be undone."),
+                                     buttons, changeBtn, options);
 
     if (result.button() == changeBtn) {
         if (!result.showAgain()) {

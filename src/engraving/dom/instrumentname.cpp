@@ -54,7 +54,8 @@ static const ElementStyle shortInstrumentStyle {
 //---------------------------------------------------------
 
 InstrumentName::InstrumentName(System* s)
-    : TextBase(ElementType::INSTRUMENT_NAME, s, TextStyleType::INSTRUMENT_LONG, ElementFlag::NOTHING)
+    : TextBase(ElementType::INSTRUMENT_NAME, s, TextStyleType::INSTRUMENT_LONG,
+               ElementFlag::NOTHING)
 {
     setFlag(ElementFlag::MOVABLE, false);
     setInstrumentNameType(InstrumentNameType::LONG);

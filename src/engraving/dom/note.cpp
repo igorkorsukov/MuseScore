@@ -87,75 +87,108 @@ namespace mu::engraving {
 //---------------------------------------------------------
 
 //int(NoteHeadGroup::HEAD_GROUPS) - 1: "-1" is needed to prevent building CUSTOM_GROUP noteheads set, since it is built by users and keep a specific set of existing noteheads
-static const SymId noteHeads[2][int(NoteHeadGroup::HEAD_GROUPS) - 1][int(NoteHeadType::HEAD_TYPES)] = {
+static const SymId noteHeads[2][int(NoteHeadGroup::HEAD_GROUPS)
+                                - 1][int(NoteHeadType::HEAD_TYPES)] = {
     {    // down stem
-        { SymId::noteheadWhole,               SymId::noteheadHalf,                SymId::noteheadBlack,
+        { SymId::noteheadWhole,               SymId::noteheadHalf,
+          SymId::noteheadBlack,
           SymId::noteheadDoubleWhole },
-        { SymId::noteheadXWhole,              SymId::noteheadXHalf,               SymId::noteheadXBlack,
+        { SymId::noteheadXWhole,              SymId::noteheadXHalf,
+          SymId::noteheadXBlack,
           SymId::noteheadXDoubleWhole },
-        { SymId::noteheadPlusWhole,           SymId::noteheadPlusHalf,            SymId::noteheadPlusBlack,
+        { SymId::noteheadPlusWhole,           SymId::noteheadPlusHalf,
+          SymId::noteheadPlusBlack,
           SymId::noteheadPlusDoubleWhole },
-        { SymId::noteheadCircleXWhole,        SymId::noteheadCircleXHalf,         SymId::noteheadCircleX,
+        { SymId::noteheadCircleXWhole,        SymId::noteheadCircleXHalf,
+          SymId::noteheadCircleX,
           SymId::noteheadCircleXDoubleWhole },
-        { SymId::noteheadWholeWithX,          SymId::noteheadHalfWithX,           SymId::noteheadVoidWithX,
+        { SymId::noteheadWholeWithX,          SymId::noteheadHalfWithX,
+          SymId::noteheadVoidWithX,
           SymId::noteheadDoubleWholeWithX },
-        { SymId::noteheadTriangleUpWhole,     SymId::noteheadTriangleUpHalf,      SymId::noteheadTriangleUpBlack,
+        { SymId::noteheadTriangleUpWhole,     SymId::noteheadTriangleUpHalf,
+          SymId::noteheadTriangleUpBlack,
           SymId::noteheadTriangleUpDoubleWhole },
-        { SymId::noteheadTriangleDownWhole,   SymId::noteheadTriangleDownHalf,    SymId::noteheadTriangleDownBlack,
+        { SymId::noteheadTriangleDownWhole,   SymId::noteheadTriangleDownHalf,
+          SymId::noteheadTriangleDownBlack,
           SymId::noteheadTriangleDownDoubleWhole },
-        { SymId::noteheadSlashedWhole1,       SymId::noteheadSlashedHalf1,        SymId::noteheadSlashedBlack1,
+        { SymId::noteheadSlashedWhole1,       SymId::noteheadSlashedHalf1,
+          SymId::noteheadSlashedBlack1,
           SymId::noteheadSlashedDoubleWhole1 },
-        { SymId::noteheadSlashedWhole2,       SymId::noteheadSlashedHalf2,        SymId::noteheadSlashedBlack2,
+        { SymId::noteheadSlashedWhole2,       SymId::noteheadSlashedHalf2,
+          SymId::noteheadSlashedBlack2,
           SymId::noteheadSlashedDoubleWhole2 },
-        { SymId::noteheadDiamondWhole,        SymId::noteheadDiamondHalf,         SymId::noteheadDiamondBlack,
+        { SymId::noteheadDiamondWhole,        SymId::noteheadDiamondHalf,
+          SymId::noteheadDiamondBlack,
           SymId::noteheadDiamondDoubleWhole },
-        { SymId::noteheadDiamondWholeOld,     SymId::noteheadDiamondHalfOld,      SymId::noteheadDiamondBlackOld,
+        { SymId::noteheadDiamondWholeOld,     SymId::noteheadDiamondHalfOld,
+          SymId::noteheadDiamondBlackOld,
           SymId::noteheadDiamondDoubleWholeOld },
-        { SymId::noteheadCircledWhole,        SymId::noteheadCircledHalf,         SymId::noteheadCircledBlack,
+        { SymId::noteheadCircledWhole,        SymId::noteheadCircledHalf,
+          SymId::noteheadCircledBlack,
           SymId::noteheadCircledDoubleWhole },
-        { SymId::noteheadCircledWholeLarge,   SymId::noteheadCircledHalfLarge,    SymId::noteheadCircledBlackLarge,
+        { SymId::noteheadCircledWholeLarge,   SymId::noteheadCircledHalfLarge,
+          SymId::noteheadCircledBlackLarge,
           SymId::noteheadCircledDoubleWholeLarge },
-        { SymId::noteheadLargeArrowUpWhole,   SymId::noteheadLargeArrowUpHalf,    SymId::noteheadLargeArrowUpBlack,
+        { SymId::noteheadLargeArrowUpWhole,   SymId::noteheadLargeArrowUpHalf,
+          SymId::noteheadLargeArrowUpBlack,
           SymId::noteheadLargeArrowUpDoubleWhole },
-        { SymId::noteheadWhole,               SymId::noteheadHalf,                SymId::noteheadBlack,
+        { SymId::noteheadWhole,               SymId::noteheadHalf,
+          SymId::noteheadBlack,
           SymId::noteheadDoubleWholeSquare },
 
-        { SymId::noteheadSlashWhiteWhole,     SymId::noteheadSlashWhiteHalf,      SymId::noteheadSlashHorizontalEnds,
+        { SymId::noteheadSlashWhiteWhole,     SymId::noteheadSlashWhiteHalf,
+          SymId::noteheadSlashHorizontalEnds,
           SymId::noteheadSlashWhiteWhole },
-        { SymId::noteheadSlashDiamondWhite,   SymId::noteheadSlashDiamondWhite,   SymId::noteheadSlashHorizontalEnds,
+        { SymId::noteheadSlashDiamondWhite,   SymId::noteheadSlashDiamondWhite,
+          SymId::noteheadSlashHorizontalEnds,
           SymId::noteheadSlashWhiteWhole },
 
-        { SymId::noteShapeRoundWhite,         SymId::noteShapeRoundWhite,         SymId::noteShapeRoundBlack,
+        { SymId::noteShapeRoundWhite,         SymId::noteShapeRoundWhite,
+          SymId::noteShapeRoundBlack,
           SymId::noteShapeRoundDoubleWhole },
-        { SymId::noteShapeSquareWhite,        SymId::noteShapeSquareWhite,        SymId::noteShapeSquareBlack,
+        { SymId::noteShapeSquareWhite,        SymId::noteShapeSquareWhite,
+          SymId::noteShapeSquareBlack,
           SymId::noteShapeSquareDoubleWhole },
-        { SymId::noteShapeTriangleRightWhite, SymId::noteShapeTriangleRightWhite, SymId::noteShapeTriangleRightBlack,
+        { SymId::noteShapeTriangleRightWhite, SymId::noteShapeTriangleRightWhite,
+          SymId::noteShapeTriangleRightBlack,
           SymId::noteShapeTriangleRightDoubleWhole },
-        { SymId::noteShapeDiamondWhite,       SymId::noteShapeDiamondWhite,       SymId::noteShapeDiamondBlack,
+        { SymId::noteShapeDiamondWhite,       SymId::noteShapeDiamondWhite,
+          SymId::noteShapeDiamondBlack,
           SymId::noteShapeDiamondDoubleWhole },
-        { SymId::noteShapeTriangleUpWhite,    SymId::noteShapeTriangleUpWhite,    SymId::noteShapeTriangleUpBlack,
+        { SymId::noteShapeTriangleUpWhite,    SymId::noteShapeTriangleUpWhite,
+          SymId::noteShapeTriangleUpBlack,
           SymId::noteShapeTriangleUpDoubleWhole },
-        { SymId::noteShapeMoonWhite,          SymId::noteShapeMoonWhite,          SymId::noteShapeMoonBlack,
+        { SymId::noteShapeMoonWhite,          SymId::noteShapeMoonWhite,
+          SymId::noteShapeMoonBlack,
           SymId::noteShapeMoonDoubleWhole },
-        { SymId::noteShapeTriangleRoundWhite, SymId::noteShapeTriangleRoundWhite, SymId::noteShapeTriangleRoundBlack,
+        { SymId::noteShapeTriangleRoundWhite, SymId::noteShapeTriangleRoundWhite,
+          SymId::noteShapeTriangleRoundBlack,
           SymId::noteShapeTriangleRoundDoubleWhole },
 
-        { SymId::noteheadHeavyX,              SymId::noteheadHeavyX,              SymId::noteheadHeavyX,
+        { SymId::noteheadHeavyX,              SymId::noteheadHeavyX,
+          SymId::noteheadHeavyX,
           SymId::noteheadHeavyX },
-        { SymId::noteheadHeavyXHat,           SymId::noteheadHeavyXHat,           SymId::noteheadHeavyXHat,
+        { SymId::noteheadHeavyXHat,           SymId::noteheadHeavyXHat,
+          SymId::noteheadHeavyXHat,
           SymId::noteheadHeavyXHat },
 
-        { SymId::noteShapeKeystoneWhite,          SymId::noteShapeKeystoneWhite,          SymId::noteShapeKeystoneBlack,
+        { SymId::noteShapeKeystoneWhite,          SymId::noteShapeKeystoneWhite,
+          SymId::noteShapeKeystoneBlack,
           SymId::noteShapeKeystoneDoubleWhole },
-        { SymId::noteShapeQuarterMoonWhite,       SymId::noteShapeQuarterMoonWhite,       SymId::noteShapeQuarterMoonBlack,
+        { SymId::noteShapeQuarterMoonWhite,       SymId::noteShapeQuarterMoonWhite,
+          SymId::noteShapeQuarterMoonBlack,
           SymId::noteShapeQuarterMoonDoubleWhole },
-        { SymId::noteShapeIsoscelesTriangleWhite, SymId::noteShapeIsoscelesTriangleWhite, SymId::noteShapeIsoscelesTriangleBlack,
+        { SymId::noteShapeIsoscelesTriangleWhite, SymId::noteShapeIsoscelesTriangleWhite,
+          SymId::noteShapeIsoscelesTriangleBlack,
           SymId::noteShapeIsoscelesTriangleDoubleWhole },
-        { SymId::noteShapeMoonLeftWhite,          SymId::noteShapeMoonLeftWhite,          SymId::noteShapeMoonLeftBlack,
+        { SymId::noteShapeMoonLeftWhite,          SymId::noteShapeMoonLeftWhite,
+          SymId::noteShapeMoonLeftBlack,
           SymId::noteShapeMoonLeftDoubleWhole },
-        { SymId::noteShapeArrowheadLeftWhite,     SymId::noteShapeArrowheadLeftWhite,     SymId::noteShapeArrowheadLeftBlack,
+        { SymId::noteShapeArrowheadLeftWhite,     SymId::noteShapeArrowheadLeftWhite,
+          SymId::noteShapeArrowheadLeftBlack,
           SymId::noteShapeArrowheadLeftDoubleWhole },
-        { SymId::noteShapeTriangleRoundLeftWhite, SymId::noteShapeTriangleRoundLeftWhite, SymId::noteShapeTriangleRoundLeftBlack,
+        { SymId::noteShapeTriangleRoundLeftWhite, SymId::noteShapeTriangleRoundLeftWhite,
+          SymId::noteShapeTriangleRoundLeftBlack,
           SymId::noteShapeTriangleRoundLeftDoubleWhole },
 
         { SymId::noteDoWhole,  SymId::noteDoHalf,  SymId::noteDoBlack,  SymId::noSym },
@@ -200,79 +233,113 @@ static const SymId noteHeads[2][int(NoteHeadGroup::HEAD_GROUPS) - 1][int(NoteHea
         { SymId::noteHWhole,       SymId::noteHHalf,       SymId::noteHBlack,       SymId::noSym },
         { SymId::noteHSharpWhole,  SymId::noteHSharpHalf,  SymId::noteHSharpBlack,  SymId::noSym },
 
-        { SymId::noSym, SymId::swissRudimentsNoteheadHalfFlam,   SymId::swissRudimentsNoteheadBlackFlam,   SymId::noSym },
-        { SymId::noSym, SymId::swissRudimentsNoteheadHalfDouble, SymId::swissRudimentsNoteheadBlackDouble, SymId::noSym }
+        { SymId::noSym, SymId::swissRudimentsNoteheadHalfFlam,
+          SymId::swissRudimentsNoteheadBlackFlam,   SymId::noSym },
+        { SymId::noSym, SymId::swissRudimentsNoteheadHalfDouble,
+          SymId::swissRudimentsNoteheadBlackDouble, SymId::noSym }
     },
     {    // up stem
-        { SymId::noteheadWhole,               SymId::noteheadHalf,                SymId::noteheadBlack,
+        { SymId::noteheadWhole,               SymId::noteheadHalf,
+          SymId::noteheadBlack,
           SymId::noteheadDoubleWhole },
-        { SymId::noteheadXWhole,              SymId::noteheadXHalf,               SymId::noteheadXBlack,
+        { SymId::noteheadXWhole,              SymId::noteheadXHalf,
+          SymId::noteheadXBlack,
           SymId::noteheadXDoubleWhole },
-        { SymId::noteheadPlusWhole,           SymId::noteheadPlusHalf,            SymId::noteheadPlusBlack,
+        { SymId::noteheadPlusWhole,           SymId::noteheadPlusHalf,
+          SymId::noteheadPlusBlack,
           SymId::noteheadPlusDoubleWhole },
-        { SymId::noteheadCircleXWhole,        SymId::noteheadCircleXHalf,         SymId::noteheadCircleX,
+        { SymId::noteheadCircleXWhole,        SymId::noteheadCircleXHalf,
+          SymId::noteheadCircleX,
           SymId::noteheadCircleXDoubleWhole },
-        { SymId::noteheadWholeWithX,          SymId::noteheadHalfWithX,           SymId::noteheadVoidWithX,
+        { SymId::noteheadWholeWithX,          SymId::noteheadHalfWithX,
+          SymId::noteheadVoidWithX,
           SymId::noteheadDoubleWholeWithX },
-        { SymId::noteheadTriangleUpWhole,     SymId::noteheadTriangleUpHalf,      SymId::noteheadTriangleUpBlack,
+        { SymId::noteheadTriangleUpWhole,     SymId::noteheadTriangleUpHalf,
+          SymId::noteheadTriangleUpBlack,
           SymId::noteheadTriangleUpDoubleWhole },
-        { SymId::noteheadTriangleDownWhole,   SymId::noteheadTriangleDownHalf,    SymId::noteheadTriangleDownBlack,
+        { SymId::noteheadTriangleDownWhole,   SymId::noteheadTriangleDownHalf,
+          SymId::noteheadTriangleDownBlack,
           SymId::noteheadTriangleDownDoubleWhole },
-        { SymId::noteheadSlashedWhole1,       SymId::noteheadSlashedHalf1,        SymId::noteheadSlashedBlack1,
+        { SymId::noteheadSlashedWhole1,       SymId::noteheadSlashedHalf1,
+          SymId::noteheadSlashedBlack1,
           SymId::noteheadSlashedDoubleWhole1 },
-        { SymId::noteheadSlashedWhole2,       SymId::noteheadSlashedHalf2,        SymId::noteheadSlashedBlack2,
+        { SymId::noteheadSlashedWhole2,       SymId::noteheadSlashedHalf2,
+          SymId::noteheadSlashedBlack2,
           SymId::noteheadSlashedDoubleWhole2 },
-        { SymId::noteheadDiamondWhole,        SymId::noteheadDiamondHalf,         SymId::noteheadDiamondBlack,
+        { SymId::noteheadDiamondWhole,        SymId::noteheadDiamondHalf,
+          SymId::noteheadDiamondBlack,
           SymId::noteheadDiamondDoubleWhole },
-        { SymId::noteheadDiamondWholeOld,     SymId::noteheadDiamondHalfOld,      SymId::noteheadDiamondBlackOld,
+        { SymId::noteheadDiamondWholeOld,     SymId::noteheadDiamondHalfOld,
+          SymId::noteheadDiamondBlackOld,
           SymId::noteheadDiamondDoubleWholeOld },
-        { SymId::noteheadCircledWhole,        SymId::noteheadCircledHalf,         SymId::noteheadCircledBlack,
+        { SymId::noteheadCircledWhole,        SymId::noteheadCircledHalf,
+          SymId::noteheadCircledBlack,
           SymId::noteheadCircledDoubleWhole },
-        { SymId::noteheadCircledWholeLarge,   SymId::noteheadCircledHalfLarge,    SymId::noteheadCircledBlackLarge,
+        { SymId::noteheadCircledWholeLarge,   SymId::noteheadCircledHalfLarge,
+          SymId::noteheadCircledBlackLarge,
           SymId::noteheadCircledDoubleWholeLarge },
         // different from down, find source?
-        { SymId::noteheadLargeArrowDownWhole, SymId::noteheadLargeArrowDownHalf,  SymId::noteheadLargeArrowDownBlack,
+        { SymId::noteheadLargeArrowDownWhole, SymId::noteheadLargeArrowDownHalf,
+          SymId::noteheadLargeArrowDownBlack,
           SymId::noteheadLargeArrowDownDoubleWhole },
-        { SymId::noteheadWhole,               SymId::noteheadHalf,                SymId::noteheadBlack,
+        { SymId::noteheadWhole,               SymId::noteheadHalf,
+          SymId::noteheadBlack,
           SymId::noteheadDoubleWholeSquare },
 
-        { SymId::noteheadSlashWhiteWhole,     SymId::noteheadSlashWhiteHalf,      SymId::noteheadSlashHorizontalEnds,
+        { SymId::noteheadSlashWhiteWhole,     SymId::noteheadSlashWhiteHalf,
+          SymId::noteheadSlashHorizontalEnds,
           SymId::noteheadSlashWhiteDoubleWhole },
-        { SymId::noteheadSlashDiamondWhite,   SymId::noteheadSlashDiamondWhite,   SymId::noteheadSlashHorizontalEnds,
+        { SymId::noteheadSlashDiamondWhite,   SymId::noteheadSlashDiamondWhite,
+          SymId::noteheadSlashHorizontalEnds,
           SymId::noteheadSlashWhiteDoubleWhole },
 
-        { SymId::noteShapeRoundWhite,         SymId::noteShapeRoundWhite,         SymId::noteShapeRoundBlack,
+        { SymId::noteShapeRoundWhite,         SymId::noteShapeRoundWhite,
+          SymId::noteShapeRoundBlack,
           SymId::noteShapeRoundDoubleWhole },
-        { SymId::noteShapeSquareWhite,        SymId::noteShapeSquareWhite,        SymId::noteShapeSquareBlack,
+        { SymId::noteShapeSquareWhite,        SymId::noteShapeSquareWhite,
+          SymId::noteShapeSquareBlack,
           SymId::noteShapeSquareDoubleWhole },
         // different from down
-        { SymId::noteShapeTriangleLeftWhite,  SymId::noteShapeTriangleLeftWhite,  SymId::noteShapeTriangleLeftBlack,
+        { SymId::noteShapeTriangleLeftWhite,  SymId::noteShapeTriangleLeftWhite,
+          SymId::noteShapeTriangleLeftBlack,
           SymId::noteShapeTriangleLeftDoubleWhole },
-        { SymId::noteShapeDiamondWhite,       SymId::noteShapeDiamondWhite,       SymId::noteShapeDiamondBlack,
+        { SymId::noteShapeDiamondWhite,       SymId::noteShapeDiamondWhite,
+          SymId::noteShapeDiamondBlack,
           SymId::noteShapeDiamondDoubleWhole },
-        { SymId::noteShapeTriangleUpWhite,    SymId::noteShapeTriangleUpWhite,    SymId::noteShapeTriangleUpBlack,
+        { SymId::noteShapeTriangleUpWhite,    SymId::noteShapeTriangleUpWhite,
+          SymId::noteShapeTriangleUpBlack,
           SymId::noteShapeTriangleUpDoubleWhole },
-        { SymId::noteShapeMoonWhite,          SymId::noteShapeMoonWhite,          SymId::noteShapeMoonBlack,
+        { SymId::noteShapeMoonWhite,          SymId::noteShapeMoonWhite,
+          SymId::noteShapeMoonBlack,
           SymId::noteShapeMoonDoubleWhole },
-        { SymId::noteShapeTriangleRoundWhite, SymId::noteShapeTriangleRoundWhite, SymId::noteShapeTriangleRoundBlack,
+        { SymId::noteShapeTriangleRoundWhite, SymId::noteShapeTriangleRoundWhite,
+          SymId::noteShapeTriangleRoundBlack,
           SymId::noteShapeTriangleRoundDoubleWhole },
 
-        { SymId::noteheadHeavyX,              SymId::noteheadHeavyX,              SymId::noteheadHeavyX,
+        { SymId::noteheadHeavyX,              SymId::noteheadHeavyX,
+          SymId::noteheadHeavyX,
           SymId::noteheadHeavyX },
-        { SymId::noteheadHeavyXHat,           SymId::noteheadHeavyXHat,           SymId::noteheadHeavyXHat,
+        { SymId::noteheadHeavyXHat,           SymId::noteheadHeavyXHat,
+          SymId::noteheadHeavyXHat,
           SymId::noteheadHeavyXHat },
 
-        { SymId::noteShapeKeystoneWhite,          SymId::noteShapeKeystoneWhite,          SymId::noteShapeKeystoneBlack,
+        { SymId::noteShapeKeystoneWhite,          SymId::noteShapeKeystoneWhite,
+          SymId::noteShapeKeystoneBlack,
           SymId::noteShapeKeystoneDoubleWhole },
-        { SymId::noteShapeQuarterMoonWhite,       SymId::noteShapeQuarterMoonWhite,       SymId::noteShapeQuarterMoonBlack,
+        { SymId::noteShapeQuarterMoonWhite,       SymId::noteShapeQuarterMoonWhite,
+          SymId::noteShapeQuarterMoonBlack,
           SymId::noteShapeQuarterMoonDoubleWhole },
-        { SymId::noteShapeIsoscelesTriangleWhite, SymId::noteShapeIsoscelesTriangleWhite, SymId::noteShapeIsoscelesTriangleBlack,
+        { SymId::noteShapeIsoscelesTriangleWhite, SymId::noteShapeIsoscelesTriangleWhite,
+          SymId::noteShapeIsoscelesTriangleBlack,
           SymId::noteShapeIsoscelesTriangleDoubleWhole },
-        { SymId::noteShapeMoonLeftWhite,          SymId::noteShapeMoonLeftWhite,          SymId::noteShapeMoonLeftBlack,
+        { SymId::noteShapeMoonLeftWhite,          SymId::noteShapeMoonLeftWhite,
+          SymId::noteShapeMoonLeftBlack,
           SymId::noteShapeMoonLeftDoubleWhole },
-        { SymId::noteShapeArrowheadLeftWhite,     SymId::noteShapeArrowheadLeftWhite,     SymId::noteShapeArrowheadLeftBlack,
+        { SymId::noteShapeArrowheadLeftWhite,     SymId::noteShapeArrowheadLeftWhite,
+          SymId::noteShapeArrowheadLeftBlack,
           SymId::noteShapeArrowheadLeftDoubleWhole },
-        { SymId::noteShapeTriangleRoundLeftWhite, SymId::noteShapeTriangleRoundLeftWhite, SymId::noteShapeTriangleRoundLeftBlack,
+        { SymId::noteShapeTriangleRoundLeftWhite, SymId::noteShapeTriangleRoundLeftWhite,
+          SymId::noteShapeTriangleRoundLeftBlack,
           SymId::noteShapeTriangleRoundLeftDoubleWhole },
 
         { SymId::noteDoWhole,  SymId::noteDoHalf,  SymId::noteDoBlack,  SymId::noSym },
@@ -317,8 +384,10 @@ static const SymId noteHeads[2][int(NoteHeadGroup::HEAD_GROUPS) - 1][int(NoteHea
         { SymId::noteHWhole,       SymId::noteHHalf,       SymId::noteHBlack,       SymId::noSym },
         { SymId::noteHSharpWhole,  SymId::noteHSharpHalf,  SymId::noteHSharpBlack,  SymId::noSym },
 
-        { SymId::noSym, SymId::swissRudimentsNoteheadHalfFlam,   SymId::swissRudimentsNoteheadBlackFlam,   SymId::noSym },
-        { SymId::noSym, SymId::swissRudimentsNoteheadHalfDouble, SymId::swissRudimentsNoteheadBlackDouble, SymId::noSym }
+        { SymId::noSym, SymId::swissRudimentsNoteheadHalfFlam,
+          SymId::swissRudimentsNoteheadBlackFlam,   SymId::noSym },
+        { SymId::noSym, SymId::swissRudimentsNoteheadHalfDouble,
+          SymId::swissRudimentsNoteheadBlackDouble, SymId::noSym }
     }
 };
 
@@ -331,14 +400,16 @@ SymId Note::noteHead(int direction, NoteHeadGroup group, NoteHeadType t)
     return noteHeads[direction][int(group)][int(t)];
 }
 
-SymId Note::noteHead(int direction, NoteHeadGroup group, NoteHeadType t, int tpc, Key key, NoteHeadScheme scheme)
+SymId Note::noteHead(int direction, NoteHeadGroup group, NoteHeadType t, int tpc, Key key,
+                     NoteHeadScheme scheme)
 {
     // shortcut
     if (scheme == NoteHeadScheme::HEAD_NORMAL) {
         return noteHeads[direction][int(group)][int(t)];
     }
     // other schemes
-    if (scheme == NoteHeadScheme::HEAD_PITCHNAME || scheme == NoteHeadScheme::HEAD_PITCHNAME_GERMAN) {
+    if (scheme == NoteHeadScheme::HEAD_PITCHNAME
+        || scheme == NoteHeadScheme::HEAD_PITCHNAME_GERMAN) {
         if (tpc == Tpc::TPC_A) {
             group = NoteHeadGroup::HEAD_A;
         } else if (tpc == Tpc::TPC_B) {
@@ -834,7 +905,9 @@ int Note::tpc() const
 
 String Note::tpcUserName(const bool explicitAccidental, bool full) const
 {
-    String pitchName = engraving::tpcUserName(tpc(), epitch() + ottaveCapoFret(), explicitAccidental, full);
+    String pitchName = engraving::tpcUserName(tpc(),
+                                              epitch() + ottaveCapoFret(), explicitAccidental,
+                                              full);
 
     pitchName = muse::mtrc("global/pitchName", pitchName);
 
@@ -862,7 +935,8 @@ String Note::tpcUserName(const bool explicitAccidental, bool full) const
     if (!concertPitch() && transposition()) {
         String soundingPitch = engraving::tpcUserName(tpc1(), ppitch(), explicitAccidental);
         soundingPitch = muse::mtrc("global/pitchName", soundingPitch);
-        return muse::mtrc("engraving", "%1 (sounding as %2%3)").arg(pitchName, soundingPitch, pitchOffset);
+        return muse::mtrc("engraving", "%1 (sounding as %2%3)").arg(pitchName, soundingPitch,
+                                                                    pitchOffset);
     }
     return pitchName + pitchOffset;
 }
@@ -1021,7 +1095,8 @@ double Note::outsideTieAttachX(bool up) const
         }
         return x() + xo;
     }
-    if (m_headGroup == NoteHeadGroup::HEAD_SLASHED1 || m_headGroup == NoteHeadGroup::HEAD_SLASHED2) {
+    if (m_headGroup == NoteHeadGroup::HEAD_SLASHED1
+        || m_headGroup == NoteHeadGroup::HEAD_SLASHED2) {
         // just use the very center of the notehead
         return x() + ((headBodyWidth() / 2) * mag());
     }
@@ -1074,7 +1149,8 @@ void Note::updateHeadGroup(const NoteHeadGroup headGroup)
             scoreElement->undoChangeProperty(Pid::HEAD_GROUP, group);
             Note* note = toNote(scoreElement);
 
-            if (note->staff() && !note->staff()->isDrumStaff(chord()->tick()) && group == NoteHeadGroup::HEAD_CROSS) {
+            if (note->staff() && !note->staff()->isDrumStaff(chord()->tick())
+                && group == NoteHeadGroup::HEAD_CROSS) {
                 scoreElement->undoChangeProperty(Pid::DEAD, true);
             }
         }
@@ -1123,7 +1199,8 @@ double Note::noteheadCenterX() const
 double Note::tabHeadWidth(const StaffType* tab) const
 {
     double val;
-    if (tab && tab->isTabStaff() && m_fret != INVALID_FRET_INDEX && m_string != INVALID_STRING_INDEX) {
+    if (tab && tab->isTabStaff() && m_fret != INVALID_FRET_INDEX
+        && m_string != INVALID_STRING_INDEX) {
         Font f = tab->fretFont();
         f.setPointSizeF(tab->fretFontSize());
         val = FontMetrics::width(f, m_fretString) * magS();
@@ -1225,7 +1302,8 @@ void Note::removeSpanner(Spanner* l)
     Note* e = toNote(l->endElement());
     if (e && e->isNote()) {
         if (!e->removeSpannerBack(l)) {
-            LOGD("Note::removeSpanner(%p): cannot remove spannerBack %s %p", this, l->typeName(), l);
+            LOGD("Note::removeSpanner(%p): cannot remove spannerBack %s %p", this, l->typeName(),
+                 l);
             // abort();
         }
         if (l->isGlissando()) {
@@ -1430,7 +1508,8 @@ bool Note::shouldHideFret() const
         return false;
     }
 
-    ParenthesizeTiedFret parenthTiedFret = style().value(Sid::tabParenthesizeTiedFret).value<ParenthesizeTiedFret>();
+    ParenthesizeTiedFret parenthTiedFret
+        = style().value(Sid::tabParenthesizeTiedFret).value<ParenthesizeTiedFret>();
     if (parenthTiedFret == ParenthesizeTiedFret::NEVER || !rtick().isZero()) {
         return true;
     }
@@ -1466,7 +1545,8 @@ bool Note::shouldForceShowFret() const
     };
 
     auto hasVibratoLine = [&] () {
-        auto spanners = score()->spannerMap().findOverlapping(tick().ticks(), ch->endTick().ticks());
+        auto spanners
+            = score()->spannerMap().findOverlapping(tick().ticks(), ch->endTick().ticks());
         for (auto interval : spanners) {
             Spanner* sp = interval.value;
             if (sp->isVibrato() && sp->startElement() == ch) {
@@ -1493,7 +1573,8 @@ bool Note::shouldForceShowFret() const
         }
     }
 
-    return !ch->articulations().empty() || ch->chordLine() || startsNonBendSpanner || startUnconnectedBend || hasTremoloBar()
+    return !ch->articulations().empty() || ch->chordLine() || startsNonBendSpanner
+           || startUnconnectedBend || hasTremoloBar()
            || hasVibratoLine() || chordHasDip;
 }
 
@@ -1595,7 +1676,8 @@ void Note::setupAfterRead(const Fraction& ctxTick, bool pasteMode)
     }
 
     const StaffType* st = staffType();
-    if (st && st->isTabStaff() && st->fretUseTextStyle() && color() == configuration()->defaultColor()) {
+    if (st && st->isTabStaff() && st->fretUseTextStyle()
+        && color() == configuration()->defaultColor()) {
         setColor(propertyDefault(Pid::COLOR).value<Color>());
     }
 }
@@ -1811,13 +1893,17 @@ EngravingItem* Note::drop(EditData& data)
         switch (toActionIcon(e)->actionType()) {
         case ActionIconType::ACCIACCATURA:
         {
-            Note* note = score()->setGraceNote(ch, pitch(), NoteType::ACCIACCATURA, Constants::DIVISION / 2);
+            Note* note = score()->setGraceNote(ch,
+                                               pitch(), NoteType::ACCIACCATURA,
+                                               Constants::DIVISION / 2);
             score()->select(note, SelectType::SINGLE, 0);
             break;
         }
         case ActionIconType::APPOGGIATURA:
         {
-            Note* note = score()->setGraceNote(ch, pitch(), NoteType::APPOGGIATURA, Constants::DIVISION / 2);
+            Note* note = score()->setGraceNote(ch,
+                                               pitch(), NoteType::APPOGGIATURA,
+                                               Constants::DIVISION / 2);
             score()->select(note, SelectType::SINGLE, 0);
             break;
         }
@@ -1829,31 +1915,40 @@ EngravingItem* Note::drop(EditData& data)
         }
         case ActionIconType::GRACE16:
         {
-            Note* note = score()->setGraceNote(ch, pitch(), NoteType::GRACE16,  Constants::DIVISION / 4);
+            Note* note = score()->setGraceNote(ch,
+                                               pitch(), NoteType::GRACE16,
+                                               Constants::DIVISION / 4);
             score()->select(note, SelectType::SINGLE, 0);
             break;
         }
         case ActionIconType::GRACE32:
         {
-            Note* note = score()->setGraceNote(ch, pitch(), NoteType::GRACE32, Constants::DIVISION / 8);
+            Note* note = score()->setGraceNote(ch,
+                                               pitch(), NoteType::GRACE32, Constants::DIVISION / 8);
             score()->select(note, SelectType::SINGLE, 0);
             break;
         }
         case ActionIconType::GRACE8_AFTER:
         {
-            Note* note = score()->setGraceNote(ch, pitch(), NoteType::GRACE8_AFTER, Constants::DIVISION / 2);
+            Note* note = score()->setGraceNote(ch,
+                                               pitch(), NoteType::GRACE8_AFTER,
+                                               Constants::DIVISION / 2);
             score()->select(note, SelectType::SINGLE, 0);
             break;
         }
         case ActionIconType::GRACE16_AFTER:
         {
-            Note* note = score()->setGraceNote(ch, pitch(), NoteType::GRACE16_AFTER, Constants::DIVISION / 4);
+            Note* note = score()->setGraceNote(ch,
+                                               pitch(), NoteType::GRACE16_AFTER,
+                                               Constants::DIVISION / 4);
             score()->select(note, SelectType::SINGLE, 0);
             break;
         }
         case ActionIconType::GRACE32_AFTER:
         {
-            Note* note = score()->setGraceNote(ch, pitch(), NoteType::GRACE32_AFTER, Constants::DIVISION / 8);
+            Note* note = score()->setGraceNote(ch,
+                                               pitch(), NoteType::GRACE32_AFTER,
+                                               Constants::DIVISION / 8);
             score()->select(note, SelectType::SINGLE, 0);
             break;
         }
@@ -1868,7 +1963,8 @@ EngravingItem* Note::drop(EditData& data)
         case ActionIconType::DIVE:
         case ActionIconType::DIP:
         case ActionIconType::SCOOP:
-            score()->addGuitarBend(GuitarBend::bendTypeFromActionIcon(toActionIcon(e)->actionType()), this);
+            score()->addGuitarBend(GuitarBend::bendTypeFromActionIcon(toActionIcon(
+                                                                          e)->actionType()), this);
             break;
         case ActionIconType::PRE_BEND:
         case ActionIconType::GRACE_NOTE_BEND:
@@ -1982,7 +2078,8 @@ EngravingItem* Note::drop(EditData& data)
 
             const Sid styleId = gliss->getPropertyStyle(Pid::GLISS_STYLE);
             if (gliss->isStyled(Pid::GLISS_STYLE) && score()->style().isDefault(styleId)) {
-                const GlissandoStyle instrumentStyle = part()->instrument(gliss->tick())->glissandoStyle();
+                const GlissandoStyle instrumentStyle
+                    = part()->instrument(gliss->tick())->glissandoStyle();
                 if (instrumentStyle != gliss->glissandoStyle()) {
                     gliss->setGlissandoStyle(instrumentStyle);
                     gliss->setPropertyFlags(Pid::GLISS_STYLE, PropertyFlags::UNSTYLED);
@@ -2068,7 +2165,8 @@ static bool hasAlteredUnison(Note* note)
     AccidentalVal accVal = tpc2alter(note->tpc());
     int absLine = absStep(note->tpc(), note->epitch());
     return std::find_if(chordNotes.begin(), chordNotes.end(), [note, accVal, absLine](Note* n) {
-        return n != note && !n->hidden() && absStep(n->tpc(), n->epitch()) == absLine && tpc2alter(n->tpc()) != accVal;
+        return n != note && !n->hidden()
+               && absStep(n->tpc(), n->epitch()) == absLine && tpc2alter(n->tpc()) != accVal;
     }) != chordNotes.end();
 }
 
@@ -2093,17 +2191,24 @@ void Note::updateAccidental(AccidentalState* as)
 
     // Ensure m_centOffset and microtonal accidental match (they can mismatch when switching from TAB)
     if (muse::RealIsNull(m_centOffset)) {
-        if (m_accidental && !muse::RealIsNull(Accidental::subtype2centOffset(m_accidental->accidentalType()))) {
+        if (m_accidental
+            && !muse::RealIsNull(Accidental::subtype2centOffset(m_accidental->accidentalType()))) {
             score()->undoRemoveElement(m_accidental);
         }
     } else {
         if (m_accidental) {
-            bool correct = muse::RealIsEqual(Accidental::subtype2centOffset(m_accidental->accidentalType()), m_centOffset);
+            bool correct
+                = muse::RealIsEqual(Accidental::subtype2centOffset(
+                                        m_accidental->accidentalType()), m_centOffset);
             if (!correct) {
-                m_accidental->undoChangeProperty(Pid::ACCIDENTAL_TYPE, static_cast<int>(Accidental::centOffset2Subtype(m_centOffset)));
+                m_accidental->undoChangeProperty(Pid::ACCIDENTAL_TYPE,
+                                                 static_cast<int>(Accidental::centOffset2Subtype(
+                                                                      m_centOffset)));
             }
         } else {
-            AccidentalType accType = Accidental::value2MicrotonalSubtype(tpc2alter(tpc()), quarterToneOffset());
+            AccidentalType accType = Accidental::value2MicrotonalSubtype(tpc2alter(
+                                                                             tpc()),
+                                                                         quarterToneOffset());
             updateLine();
             EditNote::changeAccidental(score(), this, accType);
         }
@@ -2123,7 +2228,8 @@ void Note::updateAccidental(AccidentalState* as)
             LOGD("error accidentalVal()");
             return;
         }
-        if ((accVal != absLineAccVal) || hidden() || as->tieContext(eAbsLine) || as->forceRestateAccidental(eAbsLine)) {
+        if ((accVal != absLineAccVal) || hidden() || as->tieContext(eAbsLine)
+            || as->forceRestateAccidental(eAbsLine)) {
             as->setAccidentalVal(eAbsLine, accVal, m_tieBack != 0 && m_accidental == 0);
             acci = Accidental::value2subtype(accVal);
             // if previous tied note has same tpc, don't show accidental
@@ -2299,7 +2405,8 @@ void Note::reset()
     undoChangeProperty(Pid::OFFSET, PointF());
     undoResetProperty(Pid::LEADING_SPACE);
     chord()->undoChangeProperty(Pid::OFFSET, PropertyValue::fromValue(PointF()));
-    chord()->undoChangeProperty(Pid::STEM_DIRECTION, PropertyValue::fromValue<DirectionV>(DirectionV::AUTO));
+    chord()->undoChangeProperty(Pid::STEM_DIRECTION,
+                                PropertyValue::fromValue<DirectionV>(DirectionV::AUTO));
     setOverrideBendVisibilityRules(false);
     setHideGeneratedParens(false);
 }
@@ -2375,7 +2482,8 @@ GuitarBend* Note::bendBack() const
         }
 
         GuitarBend* bend = toGuitarBend(sp);
-        if (bend->bendType() == GuitarBendType::SLIGHT_BEND || bend->bendType() == GuitarBendType::DIP) {
+        if (bend->bendType() == GuitarBendType::SLIGHT_BEND
+            || bend->bendType() == GuitarBendType::DIP) {
             continue;
         }
 
@@ -2392,7 +2500,8 @@ GuitarBend* Note::bendBack() const
 GuitarBend* Note::diveFor() const
 {
     for (Spanner* sp : m_spannerFor) {
-        if (sp->isGuitarBend() && toGuitarBend(sp)->isDive() && toGuitarBend(sp)->bendType() != GuitarBendType::SCOOP) {
+        if (sp->isGuitarBend() && toGuitarBend(sp)->isDive()
+            && toGuitarBend(sp)->bendType() != GuitarBendType::SCOOP) {
             return toGuitarBend(sp);
         }
     }
@@ -2403,7 +2512,8 @@ GuitarBend* Note::diveFor() const
 GuitarBend* Note::diveBack() const
 {
     for (Spanner* sp : m_spannerBack) {
-        if (sp->isGuitarBend() && toGuitarBend(sp)->isDive() && toGuitarBend(sp)->bendType() != GuitarBendType::DIP) {
+        if (sp->isGuitarBend() && toGuitarBend(sp)->isDive()
+            && toGuitarBend(sp)->bendType() != GuitarBendType::DIP) {
             return toGuitarBend(sp);
         }
     }
@@ -2523,7 +2633,8 @@ int Note::ottaveCapoFret() const
 
     using MODE = CapoParams::TransposeMode;
     if (capo.active && MODE::PLAYBACK_ONLY == capo.transposeMode) {
-        if (capo.ignoredStrings.empty() || !muse::contains(capo.ignoredStrings, static_cast<string_idx_t>(m_string))) {
+        if (capo.ignoredStrings.empty()
+            || !muse::contains(capo.ignoredStrings, static_cast<string_idx_t>(m_string))) {
             capoFret = capo.fretPosition;
         }
     }
@@ -2549,7 +2660,8 @@ int Note::ppitch() const
         if (staff && staff->isDrumStaff(tick)) {
             const Drumset* ds = staff->part()->instrument(tick)->drumset();
             if (ds) {
-                DrumInstrumentVariant div = ds->findVariant(m_pitch, ch->articulations(), ch->tremoloType());
+                DrumInstrumentVariant div = ds->findVariant(m_pitch,
+                                                            ch->articulations(), ch->tremoloType());
                 if (div.pitch != INVALID_PITCH) {
                     return div.pitch;
                 }
@@ -2674,7 +2786,8 @@ RectF Note::drag(EditData& ed)
     }
 
     bool isSingleNoteSelection = score()->getSelectedElement() == this;
-    if (noteEditData->mode == NoteEditData::EditMode_AddSpacing && isSingleNoteSelection && !(ed.modifiers & ControlModifier)) {
+    if (noteEditData->mode == NoteEditData::EditMode_AddSpacing && isSingleNoteSelection
+        && !(ed.modifiers & ControlModifier)) {
         horizontalDrag(ed);
     } else if (noteEditData->mode == NoteEditData::EditMode_ChangePitch) {
         verticalDrag(ed);
@@ -2716,7 +2829,9 @@ void Note::dragInEditMode(EditData& editData)
     } else if (ch->notes().size() == 1) {
         // if the chord contains only this note, then move the whole chord
         // including stem, flag etc.
-        ch->undoChangeProperty(Pid::OFFSET, PropertyValue::fromValue(ch->offset() + offset() + editData.evtDelta));
+        ch->undoChangeProperty(Pid::OFFSET,
+                               PropertyValue::fromValue(ch->offset() + offset()
+                                                        + editData.evtDelta));
         setOffset(PointF());
     } else {
         setOffset(offset() + editData.evtDelta);
@@ -3013,7 +3128,8 @@ PropertyValue Note::getProperty(Pid propertyId) const
     case Pid::POSITION_LINKED_TO_MASTER:
     case Pid::APPEARANCE_LINKED_TO_MASTER:
         if (chord()) {
-            return EngravingItem::getProperty(propertyId).toBool() && chord()->getProperty(propertyId).toBool();
+            return EngravingItem::getProperty(propertyId).toBool() && chord()->getProperty(
+                propertyId).toBool();
         }
     default:
         break;
@@ -3062,11 +3178,13 @@ bool Note::setProperty(Pid propertyId, const PropertyValue& v)
         if (links()) {
             for (EngravingObject* scoreElement : *links()) {
                 Note* note = toNote(scoreElement);
-                note->setDeadNote(staff() && !staff()->isDrumStaff(tick()) && m_headGroup == NoteHeadGroup::HEAD_CROSS);
+                note->setDeadNote(staff() && !staff()->isDrumStaff(
+                                      tick()) && m_headGroup == NoteHeadGroup::HEAD_CROSS);
                 note->setHeadGroup(m_headGroup);
             }
         } else {
-            setDeadNote(staff() && !staff()->isDrumStaff(tick()) && m_headGroup == NoteHeadGroup::HEAD_CROSS);
+            setDeadNote(staff() && !staff()->isDrumStaff(
+                            tick()) && m_headGroup == NoteHeadGroup::HEAD_CROSS);
             setHeadGroup(m_headGroup);
         }
         break;
@@ -3091,7 +3209,10 @@ bool Note::setProperty(Pid propertyId, const PropertyValue& v)
         setDeadNote(v.toBool());
         if (!staff()->isDrumStaff(tick())) {
             NoteHeadGroup head
-                = (m_deadNote && m_headGroup != NoteHeadGroup::HEAD_CROSS) ? NoteHeadGroup::HEAD_CROSS : NoteHeadGroup::HEAD_NORMAL;
+                = (m_deadNote
+                   && m_headGroup
+                   != NoteHeadGroup::HEAD_CROSS) ? NoteHeadGroup::HEAD_CROSS : NoteHeadGroup::
+                  HEAD_NORMAL;
             setHeadGroup(head);
         }
         break;
@@ -3120,7 +3241,8 @@ bool Note::setProperty(Pid propertyId, const PropertyValue& v)
         setFixedLine(v.toInt());
         break;
     case Pid::HAS_PARENTHESES:
-        if (v.value<ParenthesesMode>() != ParenthesesMode::BOTH && v.value<ParenthesesMode>() != ParenthesesMode::NONE) {
+        if (v.value<ParenthesesMode>() != ParenthesesMode::BOTH
+            && v.value<ParenthesesMode>() != ParenthesesMode::NONE) {
             ASSERT_X("Notes cannot set left & right parens individually");
         }
         m_hasParens = v.value<ParenthesesMode>() == ParenthesesMode::BOTH;
@@ -3295,7 +3417,8 @@ String Note::accessibleInfo() const
 
     const Drumset* drumset = part()->instrument(chord()->tick())->drumset();
     if (fixed() && headGroup() == NoteHeadGroup::HEAD_SLASH) {
-        pitchName = chord()->noStem() ? muse::mtrc("engraving", "Beat slash") : muse::mtrc("engraving", "Rhythm slash");
+        pitchName = chord()->noStem() ? muse::mtrc("engraving", "Beat slash") : muse::mtrc(
+            "engraving", "Rhythm slash");
     } else if (staff()->isDrumStaff(tick()) && drumset) {
         pitchName = drumset->translatedName(pitch());
     } else if (staff()->isTabStaff(tick())) {
@@ -3306,7 +3429,8 @@ String Note::accessibleInfo() const
     }
 
     return muse::mtrc("engraving", "%1; Pitch: %2; Duration: %3%4%5")
-           .arg(noteTypeUserName(), pitchName, duration, onofftime, (chord()->isGrace() ? u"" : String(u"; %1").arg(voice)));
+           .arg(noteTypeUserName(), pitchName, duration, onofftime,
+                (chord()->isGrace() ? u"" : String(u"; %1").arg(voice)));
 }
 
 //---------------------------------------------------------
@@ -3335,17 +3459,20 @@ String Note::screenReaderInfo() const
     String pitchName;
     String pitchOutOfRangeWarning;
     if (fixed() && headGroup() == NoteHeadGroup::HEAD_SLASH) {
-        pitchName = chord->noStem() ? muse::mtrc("engraving", "Beat slash") : muse::mtrc("engraving", "Rhythm slash");
+        pitchName = chord->noStem() ? muse::mtrc("engraving", "Beat slash") : muse::mtrc(
+            "engraving", "Rhythm slash");
     } else if (const Drumset* d = instrument->drumset(); d&& instrument->useDrumset()) {
         pitchName = d->translatedName(m_pitch);
     } else if (const Staff* staff = this->staff(); staff&& staff->isTabStaff(tick)) {
         pitchName = muse::mtrc("engraving", "%1; String: %2; Fret: %3")
-                    .arg(tpcUserName(true, true), String::number(string() + 1), String::number(fret()));
+                    .arg(tpcUserName(true, true), String::number(string() + 1),
+                         String::number(fret()));
     } else {
         pitchName = m_headGroup == NoteHeadGroup::HEAD_NORMAL
                     ? tpcUserName(true, true)
                     //: head as in note head. %1 is head type (circle, cross, etc.). %2 is pitch (e.g. Db4).
-                    : muse::mtrc("engraving", "%1 head %2").arg(translatedSubtypeUserName()).arg(tpcUserName(true));
+                    : muse::mtrc("engraving", "%1 head %2").arg(translatedSubtypeUserName()).arg(tpcUserName(
+                                                                                                     true));
         if (chord->staffMove() < 0) {
             duration += u"; " + muse::mtrc("engraving", "Cross-staff above");
         } else if (chord->staffMove() > 0) {
@@ -3362,8 +3489,9 @@ String Note::screenReaderInfo() const
             pitchOutOfRangeWarning = u" " + muse::mtrc("engraving", "too high for amateurs");
         }
     }
-    return String(u"%1 %2 %3%4%5").arg(noteTypeUserName(), pitchName, duration, pitchOutOfRangeWarning,
-                                       (chord->isGrace() ? u"" : String(u"; %1").arg(voice)));
+    return String(u"%1 %2 %3%4%5").arg(
+        noteTypeUserName(), pitchName, duration, pitchOutOfRangeWarning,
+        (chord->isGrace() ? u"" : String(u"; %1").arg(voice)));
 }
 
 //---------------------------------------------------------
@@ -3750,12 +3878,16 @@ std::vector<Note*> Note::findTiedNotes(Note* startNote, bool followPartialTies)
                 if (!jumpPoint->active() || jumpPoint->followingNote()) {
                     continue;
                 }
-                if (!jumpPoint->note() || std::find(notes.begin(), notes.end(), jumpPoint->note()) != notes.end()) {
+                if (!jumpPoint->note()
+                    || std::find(notes.begin(), notes.end(), jumpPoint->note()) != notes.end()) {
                     continue;
                 }
                 // ONLY backtrack when end point is a full tie eg. around a segno
-                const bool endTieIsFullTie = jumpPoint->endTie() && !jumpPoint->endTie()->isPartialTie();
-                Note* jumpPointNote = endTieIsFullTie ? jumpPoint->endTie()->startNote()->firstTiedNote() : jumpPoint->note();
+                const bool endTieIsFullTie = jumpPoint->endTie()
+                                             && !jumpPoint->endTie()->isPartialTie();
+                Note* jumpPointNote
+                    = endTieIsFullTie ? jumpPoint->endTie()->startNote()->firstTiedNote() :
+                      jumpPoint->note();
                 std::vector<Note*> partialTieNotes = findTiedNotes(jumpPointNote, !endTieIsFullTie);
                 notes.insert(notes.end(), partialTieNotes.begin(), partialTieNotes.end());
             }
@@ -3910,7 +4042,8 @@ void Note::setParenthesesMode(const ParenthesesMode& v, bool addToLinked, bool g
         return;
     }
 
-    if ((m_hasParens && v == ParenthesesMode::BOTH) || (!m_hasParens && v == ParenthesesMode::NONE)) {
+    if ((m_hasParens && v == ParenthesesMode::BOTH)
+        || (!m_hasParens && v == ParenthesesMode::NONE)) {
         return;
     }
 
@@ -4052,7 +4185,8 @@ void Note::addLineAttachPoint(PointF point, EngravingItem* line, bool start)
 
 bool Note::negativeFretUsed() const
 {
-    return configuration()->negativeFretsAllowed() && m_fret < 0 && m_string != INVALID_STRING_INDEX;
+    return configuration()->negativeFretsAllowed() && m_fret < 0
+           && m_string != INVALID_STRING_INDEX;
 }
 
 int Note::stringOrLine() const

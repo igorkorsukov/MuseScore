@@ -212,7 +212,8 @@ int TextCursor::currentPosition() const
 TextCursor::Range TextCursor::selectionRange() const
 {
     int cursorPosition = currentPosition();
-    int selectionPosition = position(static_cast<int>(selectLine()), static_cast<int>(selectColumn()));
+    int selectionPosition = position(static_cast<int>(selectLine()),
+                                     static_cast<int>(selectColumn()));
 
     if (cursorPosition > selectionPosition) {
         return range(selectionPosition, cursorPosition);
@@ -389,7 +390,8 @@ const CharFormat TextCursor::selectedFragmentsFormat() const
 
     TextBase::sort(startRow, selectionStartCol, endRow, selectionEndCol);
 
-    const TextFragment* tf = ldata->textBlock(static_cast<int>(startRow)).fragment(static_cast<int>(selectionStartCol));
+    const TextFragment* tf
+        = ldata->textBlock(static_cast<int>(startRow)).fragment(static_cast<int>(selectionStartCol));
     CharFormat resultFormat = tf ? tf->format : CharFormat();
 
     bool allBlocksEmpty = true;
@@ -402,7 +404,8 @@ const CharFormat TextCursor::selectedFragmentsFormat() const
         allBlocksEmpty = false;
 
         const size_t startColumn = (row == startRow) ? selectionStartCol : 0;
-        const size_t endColumn = (row == endRow && hasSelection()) ? selectionEndCol : block.columns();
+        const size_t endColumn
+            = (row == endRow && hasSelection()) ? selectionEndCol : block.columns();
 
         size_t column = 0;
 
@@ -428,7 +431,8 @@ const CharFormat TextCursor::selectedFragmentsFormat() const
             if (resultFormat.fontFamily() == "ScoreText") {
                 resultFormat.setFontFamily(fragment.format.fontFamily());
             }
-            if (fragment.format.fontFamily() != "ScoreText" && resultFormat.fontFamily() != fragment.format.fontFamily()) {
+            if (fragment.format.fontFamily() != "ScoreText"
+                && resultFormat.fontFamily() != fragment.format.fontFamily()) {
                 resultFormat.setFontFamily(TextBase::UNDEFINED_FONT_FAMILY);
             }
 
@@ -452,7 +456,8 @@ const CharFormat TextCursor::selectedFragmentsFormat() const
     defaultFormat.setStyle(FontStyle(m_text->propertyDefault(Pid::FONT_STYLE).value<int>()));
     defaultFormat.setFontFamily(m_text->propertyDefault(Pid::FONT_FACE).value<String>());
     defaultFormat.setFontSize(m_text->propertyDefault(Pid::FONT_SIZE).toDouble());
-    defaultFormat.setValign(VerticalAlignment(m_text->propertyDefault(Pid::TEXT_SCRIPT_ALIGN).toInt()));
+    defaultFormat.setValign(VerticalAlignment(m_text->propertyDefault(
+                                                  Pid::TEXT_SCRIPT_ALIGN).toInt()));
 
     return defaultFormat;
 }
@@ -704,7 +709,8 @@ String TextCursor::selectedText(bool withFormat) const
     size_t c1 = selectColumn();
     size_t c2 = column();
     TextBase::sort(r1, c1, r2, c2);
-    return extractText(static_cast<int>(r1), static_cast<int>(c1), static_cast<int>(r2), static_cast<int>(c2), withFormat);
+    return extractText(static_cast<int>(r1), static_cast<int>(c1), static_cast<int>(r2),
+                       static_cast<int>(c2), withFormat);
 }
 
 //---------------------------------------------------------
@@ -882,7 +888,9 @@ Font TextFragment::font(const TextBase* t) const
     Font::Type fontType = Font::Type::Unknown;
     if (format.fontFamily() == "ScoreText") {
         if (t->hasSymbolScale()) {
-            std::string fontName = engravingFonts()->fontByName(t->style().styleSt(Sid::musicalSymbolFont).toStdString())->family();
+            std::string fontName
+                = engravingFonts()->fontByName(t->style().styleSt(
+                                                   Sid::musicalSymbolFont).toStdString())->family();
             family = String::fromStdString(fontName);
             fontType = Font::Type::MusicSymbol;
 
@@ -893,7 +901,9 @@ Font TextFragment::font(const TextBase* t) const
             }
 
             if (t->style().styleB(Sid::dynamicsOverrideFont)) {
-                std::string fontName2 = engravingFonts()->fontByName(t->style().styleSt(Sid::dynamicsFont).toStdString())->family();
+                std::string fontName2
+                    = engravingFonts()->fontByName(t->style().styleSt(
+                                                       Sid::dynamicsFont).toStdString())->family();
                 family = String::fromStdString(fontName2);
             }
 
@@ -952,7 +962,8 @@ double TextFragment::calculatedFontSize(const TextBase* t) const
     return size * t->mag();
 }
 
-void TextFragment::resolveFallback(muse::draw::Font::Type fontType, const muse::draw::FontMetrics& fm,
+void TextFragment::resolveFallback(muse::draw::Font::Type fontType,
+                                   const muse::draw::FontMetrics& fm,
                                    String& family) const
 {
     std::vector<char32_t> missingChars;
@@ -978,7 +989,8 @@ void TextFragment::resolveFallback(muse::draw::Font::Type fontType, const muse::
     static String fallbackSymbolFontFamily = String::fromUtf8(FALLBACK_SYMBOL_FONT);
     static String fallbackSymbolTextFontFamily = String::fromUtf8(FALLBACK_SYMBOLTEXT_FONT);
     static FontMetrics fallbackSymbolFM(Font(fallbackSymbolFontFamily, Font::Type::MusicSymbol));
-    static FontMetrics fallbackSymbolTextFM(Font(fallbackSymbolTextFontFamily, Font::Type::MusicSymbolText));
+    static FontMetrics fallbackSymbolTextFM(Font(fallbackSymbolTextFontFamily,
+                                                 Font::Type::MusicSymbolText));
 
     if (fontType == Font::Type::MusicSymbol) {
         for (char32_t missingChar : missingChars) {
@@ -1503,7 +1515,8 @@ TextBlock TextBlock::split(int column, TextCursor* cursor)
 
 static String toSymbolXml(Char c)
 {
-    static std::shared_ptr<IEngravingFontsProvider> provider = muse::modularity::globalIoc()->resolve<IEngravingFontsProvider>("engraving");
+    static std::shared_ptr<IEngravingFontsProvider> provider
+        = muse::modularity::globalIoc()->resolve<IEngravingFontsProvider>("engraving");
 
     SymId symId = provider->fallbackFont()->fromCode(c.unicode());
     return u"<sym>" + String::fromAscii(SymNames::nameForSymId(symId).ascii()) + u"</sym>";
@@ -1525,7 +1538,9 @@ String TextBlock::text(int col1, int len, bool withFormat) const
             continue;
         }
         if (withFormat) {
-            s += TextBase::getHtmlStartTag(f.format.fontSize(), size, f.format.fontFamily(), family, f.format.style(), f.format.valign());
+            s += TextBase::getHtmlStartTag(f.format.fontSize(), size,
+                                           f.format.fontFamily(), family,
+                                           f.format.style(), f.format.valign());
         }
 
         for (size_t i = 0; i < f.text.size(); ++i) {
@@ -1552,7 +1567,8 @@ String TextBlock::text(int col1, int len, bool withFormat) const
 //   Text
 //---------------------------------------------------------
 
-TextBase::TextBase(const ElementType& type, EngravingItem* parent, TextStyleType tid, ElementFlags f)
+TextBase::TextBase(const ElementType& type, EngravingItem* parent, TextStyleType tid,
+                   ElementFlags f)
     : EngravingItem(type, parent, f | ElementFlag::MOVABLE)
 {
     m_textLineSpacing        = 1.0;
@@ -1755,7 +1771,8 @@ void TextBase::createBlocks(LayoutData* ldata) const
 
                         //char32_t code = score()->scoreFont()->symCode(id);
                         char32_t code = id
-                                        == SymId::space ? static_cast<char32_t>(' ') : score()->engravingFonts()->fallbackFont()->symCode(id);
+                                        == SymId::space ? static_cast<char32_t>(' ') : score()->
+                                        engravingFonts()->fallbackFont()->symCode(id);
                         cursor.format()->setFontFamily(u"ScoreText");
                         insert(&cursor, code, ldata);
                         cursor.setFormat(fmt); // restore format
@@ -1835,7 +1852,8 @@ bool TextBase::prepareFormat(const String& token, CharFormat& format)
             format.setFontFamily(face);
             return true;
         } else {
-            LOGD("cannot parse html property <%s> in text <%s>", muPrintable(token), muPrintable(m_text));
+            LOGD("cannot parse html property <%s> in text <%s>", muPrintable(token),
+                 muPrintable(m_text));
         }
     }
     return false;
@@ -1846,7 +1864,9 @@ bool TextBase::prepareFormat(const String& token, CharFormat& format)
 //---------------------------------------------------------
 void TextBase::prepareFormat(const String& token, TextCursor& cursor)
 {
-    if (prepareFormat(token, *cursor.format()) && cursor.format()->fontFamily() != propertyDefault(Pid::FONT_FACE).value<String>()) {
+    if (prepareFormat(token,
+                      *cursor.format())
+        && cursor.format()->fontFamily() != propertyDefault(Pid::FONT_FACE).value<String>()) {
         setPropertyFlags(Pid::FONT_FACE, PropertyFlags::UNSTYLED);
     }
 }
@@ -1881,10 +1901,12 @@ void TextBase::layoutFrame(LayoutData* ldata) const
         }
     } else if (circle()) {
         if (ldata->frame.width() > ldata->frame.height()) {
-            ldata->frame.setTop(ldata->frame.y() + (ldata->frame.width() - ldata->frame.height()) * -.5);
+            ldata->frame.setTop(
+                ldata->frame.y() + (ldata->frame.width() - ldata->frame.height()) * -.5);
             ldata->frame.setHeight(ldata->frame.width());
         } else {
-            ldata->frame.setLeft(ldata->frame.x() + (ldata->frame.height() - ldata->frame.width()) * -.5);
+            ldata->frame.setLeft(
+                ldata->frame.x() + (ldata->frame.height() - ldata->frame.width()) * -.5);
             ldata->frame.setWidth(ldata->frame.height());
         }
     }
@@ -2186,7 +2208,9 @@ void TextBase::select(EditData& editData, SelectTextType type)
 
 RectF TextBase::pageRectangle() const
 {
-    if (explicitParent() && (explicitParent()->isHBox() || explicitParent()->isVBox() || explicitParent()->isTBox())) {
+    if (explicitParent()
+        && (explicitParent()->isHBox() || explicitParent()->isVBox()
+            || explicitParent()->isTBox())) {
         Box* box = toBox(explicitParent());
         RectF r = box->pageBoundingRect();
         double x = r.x() + box->leftMargin() * DPMM;
@@ -2249,7 +2273,9 @@ bool TextBase::mousePress(EditData& ed)
 {
     bool shift = ed.modifiers & ShiftModifier;
     TextEditData* ted = static_cast<TextEditData*>(ed.getData(this).get());
-    if (!ted->cursor()->set(ed.startMove, shift ? TextCursor::MoveMode::KeepAnchor : TextCursor::MoveMode::MoveAnchor)) {
+    if (!ted->cursor()->set(ed.startMove,
+                            shift ? TextCursor::MoveMode::KeepAnchor : TextCursor::MoveMode::
+                            MoveAnchor)) {
         return false;
     }
 
@@ -2487,7 +2513,8 @@ int TextBase::subtype() const
 
 TranslatableString TextBase::subtypeUserName() const
 {
-    return score() ? score()->getTextStyleUserName(textStyleType()) : TConv::userName(textStyleType());
+    return score() ? score()->getTextStyleUserName(textStyleType()) : TConv::userName(
+        textStyleType());
 }
 
 //---------------------------------------------------------
@@ -2520,7 +2547,8 @@ bool TextBase::validateText(String& s)
                 d.append(u"&amp;");
             }
         } else if (c == u'<') {
-            const char16_t* ok[] { u"b>", u"/b>", u"i>", u"/i>", u"u>", u"/u", u"s>", u"/s>", u"font ", u"/font>", u"sym>", u"/sym>",
+            const char16_t* ok[] { u"b>", u"/b>", u"i>", u"/i>", u"u>", u"/u", u"s>", u"/s>",
+                                   u"font ", u"/font>", u"sym>", u"/sym>",
                                    u"sub>", u"/sub>", u"sup>", u"/sup>" };
             String t = s.mid(i + 1);
             bool found = false;
@@ -2606,7 +2634,8 @@ bool TextBase::isUnlinkedFromMaster() const
         return true;
     }
 
-    return !getProperty(Pid::TEXT_LINKED_TO_MASTER).toBool() || EngravingItem::isUnlinkedFromMaster();
+    return !getProperty(Pid::TEXT_LINKED_TO_MASTER).toBool()
+           || EngravingItem::isUnlinkedFromMaster();
 }
 
 //---------------------------------------------------------
@@ -2852,7 +2881,8 @@ PointF TextBase::defaultPos() const
 //---------------------------------------------------------
 //   getHtmlStartTag - helper function for extractText with withFormat = true
 //---------------------------------------------------------
-String TextBase::getHtmlStartTag(double newSize, double& curSize, const String& newFamily, String& curFamily, FontStyle style,
+String TextBase::getHtmlStartTag(double newSize, double& curSize, const String& newFamily,
+                                 String& curFamily, FontStyle style,
                                  VerticalAlignment vAlign)
 {
     String s;
@@ -2923,7 +2953,8 @@ void TextBase::notifyAboutTextCursorChanged()
 #ifndef ENGRAVING_NO_ACCESSIBILITY
     using namespace muse::accessibility;
     if (accessible()) {
-        accessible()->accessiblePropertyChanged().send(IAccessible::Property::TextCursor, muse::Val());
+        accessible()->accessiblePropertyChanged().send(IAccessible::Property::TextCursor,
+                                                       muse::Val());
     }
 #endif
 }
@@ -2934,7 +2965,8 @@ void TextBase::notifyAboutTextInserted(int startPosition, int endPosition, const
     using namespace muse::accessibility;
     if (accessible()) {
         auto range = IAccessible::TextRange(startPosition, endPosition, text);
-        accessible()->accessiblePropertyChanged().send(IAccessible::Property::TextInsert, muse::Val::fromQVariant(range.toMap()));
+        accessible()->accessiblePropertyChanged().send(IAccessible::Property::TextInsert, muse::Val::fromQVariant(
+                                                           range.toMap()));
     }
 #else
     UNUSED(startPosition);
@@ -2949,7 +2981,8 @@ void TextBase::notifyAboutTextRemoved(int startPosition, int endPosition, const 
     using namespace muse::accessibility;
     if (accessible()) {
         auto range = IAccessible::TextRange(startPosition, endPosition, text);
-        accessible()->accessiblePropertyChanged().send(IAccessible::Property::TextRemove, muse::Val::fromQVariant(range.toMap()));
+        accessible()->accessiblePropertyChanged().send(IAccessible::Property::TextRemove, muse::Val::fromQVariant(
+                                                           range.toMap()));
     }
 #else
     UNUSED(startPosition);
@@ -3049,7 +3082,8 @@ void TextBase::initTextStyleType(TextStyleType tid, bool preserveDifferent)
     setTextStyleType(tid);
 
     for (const auto& p : *textStyle(tid)) {
-        const bool isFragmentStyle = p.pid == Pid::FONT_FACE || p.pid == Pid::FONT_SIZE || p.pid == Pid::FONT_STYLE;
+        const bool isFragmentStyle = p.pid == Pid::FONT_FACE || p.pid == Pid::FONT_SIZE
+                                     || p.pid == Pid::FONT_STYLE;
         if (isFragmentStyle && hadCustomFragments) {
             continue;
         }
@@ -3062,12 +3096,14 @@ void TextBase::initTextStyleType(TextStyleType tid, bool preserveDifferent)
 void TextBase::initTextStyleType(TextStyleType tid)
 {
     auto getTextPID = [&](Pid p) -> Pid {
-        static const std::vector<std::pair<Pid, Pid> > TEXT_LINE_PID_MAP = { { Pid::FONT_FACE, Pid::BEGIN_FONT_FACE },
+        static const std::vector<std::pair<Pid,
+                                           Pid> > TEXT_LINE_PID_MAP
+            = { { Pid::FONT_FACE, Pid::BEGIN_FONT_FACE },
             { Pid::FONT_SIZE, Pid::BEGIN_FONT_SIZE },
             { Pid::FONT_STYLE, Pid::BEGIN_FONT_STYLE },
             { Pid::ALIGN, Pid::BEGIN_TEXT_ALIGN },
             { Pid::POSITION, Pid::BEGIN_TEXT_POSITION },
-        };
+            };
 
         const bool isTextLine = parent()->isTextLineBaseSegment();
         for (const auto& pidPair : TEXT_LINE_PID_MAP) {

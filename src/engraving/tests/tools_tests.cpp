@@ -209,7 +209,8 @@ void Engraving_ToolsTests::changeEnharmonic(bool both)
         score->changeEnharmonicSpelling(both);
         score->endCmd();
         String prefix = u"change-enharmonic-" + mode + u"-0" + (u'0' + i);
-        EXPECT_TRUE(ScoreComp::saveCompareScore(score, prefix + u"-test.mscx", TOOLS_DATA_DIR + prefix + u"-ref.mscx"));
+        EXPECT_TRUE(ScoreComp::saveCompareScore(score, prefix + u"-test.mscx",
+                                                TOOLS_DATA_DIR + prefix + u"-ref.mscx"));
     }
 }
 

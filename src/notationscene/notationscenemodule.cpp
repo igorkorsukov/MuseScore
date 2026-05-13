@@ -76,14 +76,25 @@ void NotationSceneModule::resolveImports()
         ir->registerWidgetUri<SelectNoteDialog>(Uri("musescore://notation/selectnote"));
         ir->registerWidgetUri<SelectDialog>(Uri("musescore://notation/selectelement"));
         ir->registerWidgetUri<TupletDialog>(Uri("musescore://notation/othertupletdialog"));
-        ir->registerWidgetUri<StaffTextPropertiesDialog>(Uri("musescore://notation/stafftextproperties"));
+        ir->registerWidgetUri<StaffTextPropertiesDialog>(Uri(
+                                                             "musescore://notation/stafftextproperties"));
         ir->registerWidgetUri<RealizeHarmonyDialog>(Uri("musescore://notation/realizechordsymbols"));
 
-        ir->registerQmlUri(Uri("musescore://notation/parts"), "MuseScore.NotationScene", "PartsDialog");
-        ir->registerQmlUri(Uri("musescore://notation/selectmeasurescount"), "MuseScore.NotationScene", "SelectMeasuresCountDialog");
-        ir->registerQmlUri(Uri("musescore://notation/editgridsize"), "MuseScore.NotationScene", "EditGridSizeDialog");
-        ir->registerQmlUri(Uri("musescore://notation/percussionpanelpadswap"), "MuseScore.NotationScene", "PercussionPanelPadSwapDialog");
-        ir->registerQmlUri(Uri("musescore://notation/editpercussionshortcut"), "MuseScore.NotationScene", "EditPercussionShortcutDialog");
+        ir->registerQmlUri(Uri(
+                               "musescore://notation/parts"), "MuseScore.NotationScene",
+                           "PartsDialog");
+        ir->registerQmlUri(Uri(
+                               "musescore://notation/selectmeasurescount"), "MuseScore.NotationScene",
+                           "SelectMeasuresCountDialog");
+        ir->registerQmlUri(Uri(
+                               "musescore://notation/editgridsize"), "MuseScore.NotationScene",
+                           "EditGridSizeDialog");
+        ir->registerQmlUri(Uri(
+                               "musescore://notation/percussionpanelpadswap"), "MuseScore.NotationScene",
+                           "PercussionPanelPadSwapDialog");
+        ir->registerQmlUri(Uri(
+                               "musescore://notation/editpercussionshortcut"), "MuseScore.NotationScene",
+                           "EditPercussionShortcutDialog");
     }
 }
 

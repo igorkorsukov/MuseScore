@@ -70,7 +70,8 @@ static bool containsSpan(const LayoutGroupSpan& parent, const LayoutGroupSpan& c
 //   sortChildIndices
 //---------------------------------------------------------
 
-static void sortChildIndices(std::vector<size_t>& childIdxs, const std::vector<LayoutGroupNode>& nodes)
+static void sortChildIndices(std::vector<size_t>& childIdxs,
+                             const std::vector<LayoutGroupNode>& nodes)
 {
     std::sort(childIdxs.begin(), childIdxs.end(), [&](size_t lhs, size_t rhs) {
         const LayoutGroupSpan& a = nodes[lhs].span;
@@ -89,7 +90,8 @@ static void sortChildIndices(std::vector<size_t>& childIdxs, const std::vector<L
 //   buildGroupSpans
 //---------------------------------------------------------
 
-static std::vector<LayoutGroupSpan> buildGroupSpans(const std::vector<Staff*>& staves, size_t staffCount)
+static std::vector<LayoutGroupSpan> buildGroupSpans(const std::vector<Staff*>& staves,
+                                                    size_t staffCount)
 {
     std::vector<LayoutGroupSpan> groups;
     groups.reserve(staffCount);
@@ -153,7 +155,8 @@ static std::vector<LayoutGroupSpan> buildGroupSpans(const std::vector<Staff*>& s
 //   buildGroupNodes
 //---------------------------------------------------------
 
-static void buildGroupNodes(const std::vector<LayoutGroupSpan>& groups, std::vector<LayoutGroupNode>& nodes,
+static void buildGroupNodes(const std::vector<LayoutGroupSpan>& groups,
+                            std::vector<LayoutGroupNode>& nodes,
                             std::vector<size_t>& rootChildren)
 {
     nodes.clear();
@@ -283,7 +286,8 @@ static bool isSinglePartGroup(const LayoutBuildContext& ctx, const LayoutGroupSp
 //   calcGroupBarlineOverride
 //---------------------------------------------------------
 
-static mnx::StaffGroupBarlineOverride calcGroupBarlineOverride(const LayoutBuildContext& ctx, const LayoutGroupSpan& span)
+static mnx::StaffGroupBarlineOverride calcGroupBarlineOverride(const LayoutBuildContext& ctx,
+                                                               const LayoutGroupSpan& span)
 {
     if (span.end <= span.start || span.end >= ctx.staffCount) {
         return mnx::StaffGroupBarlineOverride::None;

@@ -68,7 +68,8 @@ void EngravingItem::setOffsetY(qreal offY)
 
 static QRectF scaleRect(const mu::engraving::RectF& rect, double spatium)
 {
-    return QRectF(rect.x() / spatium, rect.y() / spatium, rect.width() / spatium, rect.height() / spatium);
+    return QRectF(rect.x() / spatium, rect.y() / spatium, rect.width() / spatium,
+                  rect.height() / spatium);
 }
 
 //---------------------------------------------------------
@@ -125,7 +126,8 @@ Fraction* EngravingItem::beat() const
 
 int ChordRest::actualBeamMode(bool beamRests)
 {
-    if (chordRest()->isRest() && !beamRests && chordRest()->beamMode() == mu::engraving::BeamMode::AUTO) {
+    if (chordRest()->isRest() && !beamRests
+        && chordRest()->beamMode() == mu::engraving::BeamMode::AUTO) {
         return int(mu::engraving::BeamMode::NONE);
     }
     mu::engraving::ChordRest* prev = nullptr;
@@ -259,9 +261,11 @@ void Note::remove(apiv1::EngravingItem* wrapped)
 {
     mu::engraving::EngravingItem* s = wrapped->element();
     if (!s) {
-        LOGW("PluginAPI::Note::remove: Unable to retrieve element. %s", qPrintable(wrapped->name()));
+        LOGW("PluginAPI::Note::remove: Unable to retrieve element. %s",
+             qPrintable(wrapped->name()));
     } else if (s->explicitParent() != note()) {
-        LOGW("PluginAPI::Note::remove: The element is not a child of this note. Use removeElement() instead.");
+        LOGW(
+            "PluginAPI::Note::remove: The element is not a child of this note. Use removeElement() instead.");
     } else if (isChildAllowed(s->type())) {
         note()->score()->deleteItem(s);     // Create undo op and remove the element.
     } else {
@@ -290,7 +294,8 @@ void DurationElement::changeCRlen(Fraction* len)
     }
     const mu::engraving::Fraction f = len->fraction();
     if (!f.isValid() || f.isZero() || f.negative()) {
-        LOGW("DurationElement::changeCRlen: invalid parameter values: %s", qPrintable(f.toString()));
+        LOGW("DurationElement::changeCRlen: invalid parameter values: %s",
+             qPrintable(f.toString()));
         return;
     }
     if (durationElement()->isChord() && toChord(durationElement())->isGrace()) {
@@ -386,9 +391,11 @@ void Chord::remove(apiv1::EngravingItem* wrapped)
 {
     mu::engraving::EngravingItem* s = wrapped->element();
     if (!s) {
-        LOGW("PluginAPI::Chord::remove: Unable to retrieve element. %s", qPrintable(wrapped->name()));
+        LOGW("PluginAPI::Chord::remove: Unable to retrieve element. %s",
+             qPrintable(wrapped->name()));
     } else if (s->explicitParent() != chord()) {
-        LOGW("PluginAPI::Chord::remove: The element is not a child of this chord. Use removeElement() instead.");
+        LOGW(
+            "PluginAPI::Chord::remove: The element is not a child of this chord. Use removeElement() instead.");
     } else if (chord()->notes().size() <= 1 && s->isNote()) {
         LOGW("PluginAPI::Chord::remove: Removal of final note is not allowed.");
     } else {
@@ -447,7 +454,8 @@ void MeasureBase::add(apiv1::EngravingItem* wrapped)
     if (s) {
         // Ensure that the object has the expected ownership
         if (wrapped->ownership() == Ownership::SCORE) {
-            LOGW("MeasureBase::add: Cannot add this element. The element is already part of the score.");
+            LOGW(
+                "MeasureBase::add: Cannot add this element. The element is already part of the score.");
             return;              // Don't allow operation.
         }
         // Score now owns the object.
@@ -457,7 +465,8 @@ void MeasureBase::add(apiv1::EngravingItem* wrapped)
     }
 }
 
-void MeasureBase::addInternal(mu::engraving::MeasureBase* measureBase, mu::engraving::EngravingItem* s)
+void MeasureBase::addInternal(mu::engraving::MeasureBase* measureBase,
+                              mu::engraving::EngravingItem* s)
 {
     s->setScore(measureBase->score());
     s->setParent(measureBase);
@@ -468,9 +477,11 @@ void MeasureBase::remove(apiv1::EngravingItem* wrapped)
 {
     mu::engraving::EngravingItem* s = wrapped->element();
     if (!s) {
-        LOGW("PluginAPI::MeasureBase::remove: Unable to retrieve element. %s", qPrintable(wrapped->name()));
+        LOGW("PluginAPI::MeasureBase::remove: Unable to retrieve element. %s",
+             qPrintable(wrapped->name()));
     } else if (s->explicitParent() != measureBase()) {
-        LOGW("PluginAPI::MeasureBase::remove: The element is not a child of this measure base. Use removeElement() instead.");
+        LOGW(
+            "PluginAPI::MeasureBase::remove: The element is not a child of this measure base. Use removeElement() instead.");
     } else {
         measureBase()->score()->deleteItem(s);     // Create undo op and remove the element.
     }
@@ -478,25 +489,29 @@ void MeasureBase::remove(apiv1::EngravingItem* wrapped)
 
 QRectF System::bbox(int staffIdx)
 {
-    mu::engraving::SysStaff* ss = muse::value(system()->staves(), static_cast<staff_idx_t>(staffIdx));
+    mu::engraving::SysStaff* ss
+        = muse::value(system()->staves(), static_cast<staff_idx_t>(staffIdx));
     return ss ? scaleRect(ss->bbox(), system()->spatium()) : QRectF();
 }
 
 qreal System::yOffset(int staffIdx)
 {
-    mu::engraving::SysStaff* ss = muse::value(system()->staves(), static_cast<staff_idx_t>(staffIdx));
+    mu::engraving::SysStaff* ss
+        = muse::value(system()->staves(), static_cast<staff_idx_t>(staffIdx));
     return ss ? ss->yOffset() / system()->spatium() : 0.0;
 }
 
 bool System::show(int staffIdx)
 {
-    mu::engraving::SysStaff* ss = muse::value(system()->staves(), static_cast<staff_idx_t>(staffIdx));
+    mu::engraving::SysStaff* ss
+        = muse::value(system()->staves(), static_cast<staff_idx_t>(staffIdx));
     return ss ? ss->show() : false;
 }
 
 void System::setHideStaffIfEmpty(int staffIdx, int hide)
 {
-    system()->score()->cmdSetHideStaffIfEmptyOverride(static_cast<staff_idx_t>(staffIdx), system(), AutoOnOff(hide));
+    system()->score()->cmdSetHideStaffIfEmptyOverride(static_cast<staff_idx_t>(staffIdx),
+                                                      system(), AutoOnOff(hide));
 }
 
 void System::setIsLocked(bool locked)
@@ -508,7 +523,9 @@ void System::setIsLocked(bool locked)
     if (currentLock && !locked) {
         EditSystemLocks::undoRemoveSystemLock(system()->score(), currentLock);
     } else if (!currentLock && locked) {
-        EditSystemLocks::undoAddSystemLock(system()->score(), new mu::engraving::SystemLock(system()->first(), system()->last()));
+        EditSystemLocks::undoAddSystemLock(system()->score(),
+                                           new mu::engraving::SystemLock(system()->first(),
+                                                                         system()->last()));
     }
 }
 
@@ -677,7 +694,8 @@ Ornament* Spanner::ornament() const
 void FretDiagram::setDot(int string, int fret, bool add, int dotType)
 {
     if (string < 0 || string >= fretDiagram()->strings()) {
-        LOGW("PluginAPI::FretDiagram::setDot: string %d is out of range (0..%d)", string, fretDiagram()->strings() - 1);
+        LOGW("PluginAPI::FretDiagram::setDot: string %d is out of range (0..%d)", string,
+             fretDiagram()->strings() - 1);
         return;
     }
     if (fret < 0) {
@@ -701,7 +719,8 @@ void FretDiagram::setDot(int string, int fret, bool add, int dotType)
 void FretDiagram::setMarker(int string, int marker)
 {
     if (string < 0 || string >= fretDiagram()->strings()) {
-        LOGW("PluginAPI::FretDiagram::setMarker: string %d is out of range (0..%d)", string, fretDiagram()->strings() - 1);
+        LOGW("PluginAPI::FretDiagram::setMarker: string %d is out of range (0..%d)", string,
+             fretDiagram()->strings() - 1);
         return;
     }
     if (marker < int(mu::engraving::FretMarkerType::NONE)
@@ -721,7 +740,8 @@ void FretDiagram::setMarker(int string, int marker)
 void FretDiagram::setBarre(int string, int fret, bool add)
 {
     if (string < 0 || string >= fretDiagram()->strings()) {
-        LOGW("PluginAPI::FretDiagram::setBarre: string %d is out of range (0..%d)", string, fretDiagram()->strings() - 1);
+        LOGW("PluginAPI::FretDiagram::setBarre: string %d is out of range (0..%d)", string,
+             fretDiagram()->strings() - 1);
         return;
     }
     if (fret <= 0) {

@@ -82,7 +82,8 @@ void createTupletNotes(
         tuplet->setRatio(tupletRatio.fraction());
 
         tuplet->setTicks(tupletData.len.fraction());
-        const TDuration baseLen = tupletData.len.fraction() / Fraction(tupletRatio.denominator(), 1);
+        const TDuration baseLen = tupletData.len.fraction()
+                                  / Fraction(tupletRatio.denominator(), 1);
         tuplet->setBaseLen(baseLen);
 
         tuplet->setTrack(track);
@@ -111,7 +112,8 @@ bool haveTupletsEnoughElements(const Staff* staff)
     const track_idx_t strack = staff->idx() * VOICES;
 
     for (voice_idx_t voice = 0; voice < VOICES; ++voice) {
-        for (Segment* seg = staff->score()->firstSegment(SegmentType::All); seg; seg = seg->next1()) {
+        for (Segment* seg = staff->score()->firstSegment(SegmentType::All); seg;
+             seg = seg->next1()) {
             if (seg->segmentType() == SegmentType::ChordRest) {
                 const ChordRest* cr = toChordRest(seg->element(strack + voice));
                 if (!cr) {

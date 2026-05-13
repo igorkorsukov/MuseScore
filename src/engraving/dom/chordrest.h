@@ -116,7 +116,8 @@ public:
     int actualDots() const { return m_durationType.dots(); }
     Fraction durationTypeTicks() const
     {
-        return m_crossMeasure == CrossMeasure::FIRST ? m_crossMeasureTDur.ticks() : m_durationType.ticks();
+        return m_crossMeasure
+               == CrossMeasure::FIRST ? m_crossMeasureTDur.ticks() : m_durationType.ticks();
     }
 
     String durationUserName() const;
@@ -153,7 +154,8 @@ public:
     TDuration crossMeasureDurationType() const { return m_crossMeasureTDur; }
     void setCrossMeasureDurationType(TDuration v) { m_crossMeasureTDur = v; }
 
-    void undoChangeProperty(Pid id, const PropertyValue& newValue, PropertyFlags ps = PropertyFlags::NOSTYLE) override;
+    void undoChangeProperty(Pid id, const PropertyValue& newValue,
+                            PropertyFlags ps = PropertyFlags::NOSTYLE) override;
     void localSpatiumChanged(double oldValue, double newValue) override;
     PropertyValue getProperty(Pid propertyId) const override;
     bool setProperty(Pid propertyId, const PropertyValue&) override;

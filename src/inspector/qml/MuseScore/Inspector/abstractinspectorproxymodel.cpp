@@ -26,7 +26,8 @@
 
 using namespace mu::inspector;
 
-AbstractInspectorProxyModel::AbstractInspectorProxyModel(QObject* parent, const muse::modularity::ContextPtr& iocCtx,
+AbstractInspectorProxyModel::AbstractInspectorProxyModel(QObject* parent,
+                                                         const muse::modularity::ContextPtr& iocCtx,
                                                          IElementRepositoryService* repository)
     : AbstractInspectorModel(parent, iocCtx, repository)
 {
@@ -150,8 +151,9 @@ void AbstractInspectorProxyModel::onCurrentNotationChanged()
     AbstractInspectorModel::onCurrentNotationChanged();
 }
 
-void AbstractInspectorProxyModel::onNotationChanged(const engraving::PropertyIdSet& changedPropertyIdSet,
-                                                    const engraving::StyleIdSet& changedStyleIdSet)
+void AbstractInspectorProxyModel::onNotationChanged(
+    const engraving::PropertyIdSet& changedPropertyIdSet,
+    const engraving::StyleIdSet& changedStyleIdSet)
 {
     for (AbstractInspectorModel* model : modelList()) {
         if (!model->shouldUpdateOnScoreChange()) {
@@ -168,7 +170,8 @@ void AbstractInspectorProxyModel::onNotationChanged(const engraving::PropertyIdS
             }
         }
 
-        mu::engraving::PropertyIdSet expandedPropertyIdSet = model->propertyIdSetFromStyleIdSet(changedStyleIdSet);
+        mu::engraving::PropertyIdSet expandedPropertyIdSet = model->propertyIdSetFromStyleIdSet(
+            changedStyleIdSet);
         expandedPropertyIdSet.insert(changedPropertyIdSet.cbegin(), changedPropertyIdSet.cend());
         model->onNotationChanged(expandedPropertyIdSet, changedStyleIdSet);
     }
@@ -190,7 +193,8 @@ void AbstractInspectorProxyModel::updateModels(const ElementKeySet& newElementKe
         auto model = dynamic_cast<AbstractInspectorModel*>(modelByType(modelType));
 
         if (!model) {
-            model = InspectorModelCreator::newInspectorModel(modelType, this, iocContext(), m_repository);
+            model = InspectorModelCreator::newInspectorModel(modelType, this,
+                                                             iocContext(), m_repository);
         }
 
         if (model) {

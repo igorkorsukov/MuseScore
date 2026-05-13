@@ -32,7 +32,8 @@
 #include "interactive/iplatforminteractive.h"
 
 namespace mu::musesounds {
-class MuseSoundsCheckUpdateService : public IMuseSoundsCheckUpdateService, public muse::async::Asyncable
+class MuseSoundsCheckUpdateService : public IMuseSoundsCheckUpdateService,
+    public muse::async::Asyncable
 {
     muse::GlobalInject<IMuseSoundsConfiguration> configuration;
     muse::GlobalInject<muse::network::INetworkManagerCreator> networkManagerCreator;

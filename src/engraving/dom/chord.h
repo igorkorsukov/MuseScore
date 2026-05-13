@@ -389,7 +389,8 @@ private:
     Chord(const Chord&, bool link = false);
 
     // `includeTemporarySiblings`: whether items that are deleted & recreated during every layout should also be processed
-    void processSiblings(std::function<void(EngravingItem*)> func, bool includeTemporarySiblings) const;
+    void processSiblings(std::function<void(EngravingItem*)> func,
+                         bool includeTemporarySiblings) const;
 
     std::vector<Note*> m_notes;           // sorted to decreasing line step
     std::vector<LedgerLine*> m_ledgerLines;

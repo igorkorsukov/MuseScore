@@ -36,8 +36,10 @@ class StaffSettingsModel : public QObject, public muse::Contextable
 
     Q_PROPERTY(int staffType READ staffType WRITE setStaffType NOTIFY staffTypeChanged)
     Q_PROPERTY(bool isSmallStaff READ isSmallStaff WRITE setIsSmallStaff NOTIFY isSmallStaffChanged)
-    Q_PROPERTY(bool cutawayEnabled READ cutawayEnabled WRITE setCutawayEnabled NOTIFY cutawayEnabledChanged)
-    Q_PROPERTY(int hideWhenEmpty READ hideWhenEmpty WRITE setHideWhenEmpty NOTIFY hideWhenEmptyChanged)
+    Q_PROPERTY(
+        bool cutawayEnabled READ cutawayEnabled WRITE setCutawayEnabled NOTIFY cutawayEnabledChanged)
+    Q_PROPERTY(
+        int hideWhenEmpty READ hideWhenEmpty WRITE setHideWhenEmpty NOTIFY hideWhenEmptyChanged)
     Q_PROPERTY(
         bool showIfEntireSystemEmpty READ showIfEntireSystemEmpty WRITE setShowIfEntireSystemEmpty NOTIFY showIfEntireSystemEmptyChanged)
     Q_PROPERTY(QString longName READ longName WRITE setLongName NOTIFY longNameChanged)

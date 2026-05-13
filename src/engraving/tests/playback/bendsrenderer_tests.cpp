@@ -46,7 +46,8 @@ class Engraving_BendsRendererTests : public ::testing::Test
 protected:
     static void SetUpTestSuite()
     {
-        s_score = ScoreRW::readScore(u"playback/playbackeventsrenderer_data/guitar_bends/guitar_bends.mscx");
+        s_score = ScoreRW::readScore(
+            u"playback/playbackeventsrenderer_data/guitar_bends/guitar_bends.mscx");
 
         ASSERT_TRUE(s_score);
         ASSERT_EQ(s_score->parts().size(), 2);
@@ -73,9 +74,12 @@ protected:
 
     static ArticulationPattern buildTestArticulationPattern()
     {
-        ArticulationPatternSegment blankSegment(ArrangementPattern(HUNDRED_PERCENT /*durationFactor*/, 0 /*timestampOffset*/),
-                                                PitchPattern(ArticulationMap::EXPECTED_SIZE, TEN_PERCENT, 0),
-                                                ExpressionPattern(ArticulationMap::EXPECTED_SIZE, TEN_PERCENT, 0));
+        ArticulationPatternSegment blankSegment(ArrangementPattern(HUNDRED_PERCENT /*durationFactor*/,
+                                                                   0 /*timestampOffset*/),
+                                                PitchPattern(ArticulationMap::EXPECTED_SIZE,
+                                                             TEN_PERCENT, 0),
+                                                ExpressionPattern(ArticulationMap::EXPECTED_SIZE,
+                                                                  TEN_PERCENT, 0));
 
         ArticulationPattern pattern;
         pattern.emplace(0, std::move(blankSegment));

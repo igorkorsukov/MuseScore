@@ -77,7 +77,8 @@ enum class ArticulationShowIn : char {
 
 constexpr ArticulationShowIn operator|(ArticulationShowIn a1, ArticulationShowIn a2)
 {
-    return static_cast<ArticulationShowIn>(static_cast<unsigned char>(a1) | static_cast<unsigned char>(a2));
+    return static_cast<ArticulationShowIn>(static_cast<unsigned char>(a1)
+                                           | static_cast<unsigned char>(a2));
 }
 
 constexpr bool operator&(ArticulationShowIn a1, ArticulationShowIn a2)
@@ -90,11 +91,13 @@ enum class ArticulationsUpdateMode : unsigned char {
     Remove
 };
 
-std::set<SymId> updateArticulations(const std::set<SymId>& articulationSymbolIds, SymId articulationSymbolId,
+std::set<SymId> updateArticulations(const std::set<SymId>& articulationSymbolIds,
+                                    SymId articulationSymbolId,
                                     ArticulationsUpdateMode updateMode = ArticulationsUpdateMode::Insert);
 std::set<SymId> splitArticulations(const std::set<SymId>& articulationSymbolIds);
 std::set<SymId> joinArticulations(const std::set<SymId>& articulationSymbolIds);
-std::set<SymId> flipArticulations(const std::set<SymId>& articulationSymbolIds, PlacementV placement);
+std::set<SymId> flipArticulations(const std::set<SymId>& articulationSymbolIds,
+                                  PlacementV placement);
 
 //---------------------------------------------------------
 //   @@ Articulation

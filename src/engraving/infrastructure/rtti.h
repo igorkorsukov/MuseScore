@@ -51,7 +51,8 @@ To item_cast(From from, CastMode mode = CastMode::CHECK) noexcept
         To casted = dynamic_cast<To>(from);
         if (mode == CastMode::CHECK) {
             if (!(casted || !from)) {
-                LOGE() << "[BAD CAST] from: " << typeid(From).name() << ", to: " << typeid(To).name();
+                LOGE() << "[BAD CAST] from: " << typeid(From).name() << ", to: " <<
+                    typeid(To).name();
             }
             assert(casted || !from);
         }

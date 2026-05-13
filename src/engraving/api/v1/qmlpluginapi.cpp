@@ -163,7 +163,8 @@ void PluginAPI::registerQmlTypes()
         LOGW("qmlRegisterType failed: MuseScore");
     }
 
-    qmlRegisterUncreatableType<Enum>("MuseScore", 3, 0, "MuseScoreEnum", "Cannot create an enumeration");
+    qmlRegisterUncreatableType<Enum>("MuseScore", 3, 0, "MuseScoreEnum",
+                                     "Cannot create an enumeration");
 
     //qmlRegisterType<ScoreView>("MuseScore", 3, 0, "ScoreView");
 
@@ -395,7 +396,8 @@ apiv1::Score* PluginAPI::newScore(const QString& /*name*/, const QString& part, 
         currentScore()->endCmd();
     }
 
-    MasterScore* score = mu::engraving::compat::ScoreAccess::createMasterScoreWithDefaultStyle(iocContext());
+    MasterScore* score = mu::engraving::compat::ScoreAccess::createMasterScoreWithDefaultStyle(
+        iocContext());
 
     // TODO: Set path/filename
     NOT_IMPLEMENTED << "setting path/filename";
@@ -637,7 +639,8 @@ OrnamentIntervalWrapper* PluginAPI::defaultOrnamentInterval() const
 
 OrnamentIntervalWrapper* PluginAPI::ornamentInterval(int step, int type) const
 {
-    return wrap(mu::engraving::OrnamentInterval(mu::engraving::IntervalStep(step), mu::engraving::IntervalType(type)));
+    return wrap(mu::engraving::OrnamentInterval(mu::engraving::IntervalStep(step),
+                                                mu::engraving::IntervalType(type)));
 }
 
 //---------------------------------------------------------

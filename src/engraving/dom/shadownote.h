@@ -60,14 +60,15 @@ public:
 
     const TDuration& duration() const { return m_duration; }
 
-    void setState(SymId noteSymbol, TDuration duration, bool isRest, bool beyondScore, AccidentalType accidentalType = AccidentalType::NONE,
+    void setState(SymId noteSymbol, TDuration duration, bool isRest, bool beyondScore,
+                  AccidentalType accidentalType = AccidentalType::NONE,
                   const std::set<SymId>& articulationIds = {});
 
     void drawArticulations(muse::draw::Painter* painter) const;
-    void drawCloseArticulation(muse::draw::Painter* painter, const SymId& articulation, RectF& boundRect, bool up,
-                               const SymId& prevArticulation) const;
-    void drawFarArticulation(muse::draw::Painter* painter, const SymId& articulation, RectF& boundRect, bool up,
-                             bool accentStaccatoKern) const;
+    void drawCloseArticulation(muse::draw::Painter* painter, const SymId& articulation,
+                               RectF& boundRect, bool up, const SymId& prevArticulation) const;
+    void drawFarArticulation(muse::draw::Painter* painter, const SymId& articulation,
+                             RectF& boundRect, bool up, bool accentStaccatoKern) const;
 
     bool computeUp() const;
     SymId noteheadSymbol() const { return m_noteheadSymbol; }

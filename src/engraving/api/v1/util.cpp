@@ -55,7 +55,8 @@ QString FileIO::userDataPath()
 // User-configured Plugins directory (Preferences → Folders → Plugins)
 QString FileIO::pluginsUserPath()
 {
-    return extensionsConfiguration() ? extensionsConfiguration()->pluginsUserPath().toQString() : QString();
+    return extensionsConfiguration() ? extensionsConfiguration()->pluginsUserPath().toQString() :
+           QString();
 }
 
 // User-configured Scores directory (Preferences → Folders → Scores)
@@ -67,7 +68,8 @@ QString FileIO::userProjectsPath()
 // User-configured Templates directory (Preferences → Folders → Templates)
 QString FileIO::userTemplatesPath()
 {
-    return projectConfiguration() ? projectConfiguration()->userTemplatesPath().toQString() : QString();
+    return projectConfiguration() ? projectConfiguration()->userTemplatesPath().toQString() :
+           QString();
 }
 
 // User-configured Styles directory (Preferences → Folders → Styles)
@@ -229,7 +231,8 @@ bool FileIO::isPathWriteable(const QString& filePath)
     }
 
     if (!allowed) {
-        LOGW() << "File write blocked: path '" << canonicalPath << "' is outside allowed directories";
+        LOGW() << "File write blocked: path '" << canonicalPath <<
+            "' is outside allowed directories";
         LOGW() << "Allowed directories: " << allowedPaths.join(", ");
     }
 

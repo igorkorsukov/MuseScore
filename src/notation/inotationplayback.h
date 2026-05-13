@@ -49,12 +49,15 @@ public:
     virtual engraving::InstrumentTrackId chordSymbolsTrackId(const muse::ID& partId) const = 0;
     virtual bool isChordSymbolsTrack(const engraving::InstrumentTrackId& trackId) const = 0;
 
-    virtual const muse::mpe::PlaybackData& trackPlaybackData(const engraving::InstrumentTrackId& trackId) const = 0;
+    virtual const muse::mpe::PlaybackData& trackPlaybackData(
+        const engraving::InstrumentTrackId& trackId) const = 0;
 
-    virtual void triggerEventsForItems(const std::vector<const EngravingItem*>& items, muse::mpe::duration_t duration, bool flushSound) = 0;
+    virtual void triggerEventsForItems(const std::vector<const EngravingItem*>& items,
+                                       muse::mpe::duration_t duration, bool flushSound) = 0;
     virtual void triggerMetronome(muse::midi::tick_t tick) = 0;
     virtual void triggerCountIn(muse::midi::tick_t tick, muse::secs_t& countInDuration) = 0;
-    virtual void triggerControllers(const muse::mpe::ControllerChangeEventList& list, notation::staff_idx_t staffIdx, int tick) = 0;
+    virtual void triggerControllers(const muse::mpe::ControllerChangeEventList& list,
+                                    notation::staff_idx_t staffIdx, int tick) = 0;
 
     virtual engraving::InstrumentTrackIdSet existingTrackIdSet() const = 0;
     virtual muse::async::Channel<engraving::InstrumentTrackId> trackAdded() const = 0;
@@ -67,8 +70,10 @@ public:
     virtual muse::midi::tick_t secToPlayedTick(muse::audio::secs_t sec) const = 0;
     virtual muse::midi::tick_t secToTick(muse::audio::secs_t sec) const = 0;
 
-    virtual muse::RetVal<muse::midi::tick_t> playPositionTickByRawTick(muse::midi::tick_t tick) const = 0;
-    virtual muse::RetVal<muse::midi::tick_t> playPositionTickByElement(const EngravingItem* element) const = 0;
+    virtual muse::RetVal<muse::midi::tick_t> playPositionTickByRawTick(muse::midi::tick_t tick)
+    const = 0;
+    virtual muse::RetVal<muse::midi::tick_t> playPositionTickByElement(const EngravingItem* element)
+    const = 0;
 
     enum BoundaryTick {
         FirstScoreTick = 0,

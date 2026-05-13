@@ -76,7 +76,8 @@ class HChord
 public:
     HChord() = default;
     HChord(int k) { m_keys = k; }
-    HChord(int a, int b, int c=-1, int d=-1, int e=-1, int f=-1, int g=-1, int h=-1, int i=-1, int k=-1, int l=-1);
+    HChord(int a, int b, int c=-1, int d=-1, int e=-1, int f=-1, int g=-1, int h=-1, int i=-1,
+           int k=-1, int l=-1);
     HChord(const String&);
 
     void rotate(int semiTones);
@@ -346,7 +347,8 @@ public:
     ParsedChord() = default;
 
     bool parse(const String&, const ChordList*, bool syntaxOnly = false, bool preferMinor = false);
-    String fromXml(const String&, const String&, const String&, const String&, const std::vector<HDegree>&, const ChordList*);
+    String fromXml(const String&, const String&, const String&, const String&,
+                   const std::vector<HDegree>&, const ChordList*);
     const std::vector<RenderActionPtr >& renderList(const ChordList* cl, bool stacked);
     bool parseable() const { return m_parseable; }
     bool understandable() const { return m_understandable; }
@@ -478,11 +480,13 @@ public:
     bool excludeModsHAlign() const { return m_excludeModsHAlign; }
     double stackedModifierMag() const { return m_stackedmmag; }
     const ChordStylePreset& chordPreset() const { return m_chordPreset; }
-    void configureAutoAdjust(double emag = 1.0, double eadjust = 0.0, double mmag = 1.0, double madjust = 0.0, double stackedmmag = 0.0,
-                             bool stackModifiers = false, bool excludeModsHAlign = false, String symbolFont = u"",
+    void configureAutoAdjust(double emag = 1.0, double eadjust = 0.0, double mmag = 1.0,
+                             double madjust = 0.0, double stackedmmag = 0.0,
+                             bool stackModifiers = false, bool excludeModsHAlign = false,
+                             String symbolFont = u"",
                              const ChordStylePreset& preset = ChordStylePreset::STANDARD);
-    double position(const StringList& names, bool stackModifiers, bool superScript, ChordTokenClass ctc, size_t modifierIdx,
-                    size_t nmodifiers) const;
+    double position(const StringList& names, bool stackModifiers, bool superScript,
+                    ChordTokenClass ctc, size_t modifierIdx, size_t nmodifiers) const;
 
     void checkChordList(const MStyle& style);
     bool read(const String& name);

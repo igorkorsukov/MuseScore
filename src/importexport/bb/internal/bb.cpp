@@ -354,7 +354,8 @@ bool BBFile::read(const QString& name)
                     track->setOutChannel(channel);
                     _tracks.append(track);
                 }
-                Fraction tick = Fraction::fromTicks(a[idx] + (a[idx + 1] << 8) + (a[idx + 2] << 16) + (a[idx + 3] << 24));
+                Fraction tick = Fraction::fromTicks(
+                    a[idx] + (a[idx + 1] << 8) + (a[idx + 2] << 16) + (a[idx + 3] << 24));
                 tick -= Fraction::fromTicks(4 * bbDivision);
                 if (tick >= endTick) {
                     LOGD("event tick %d > %d", tick.ticks(), endTick.ticks());
@@ -365,7 +366,8 @@ bool BBFile::read(const QString& name)
                 note.setPitch(a[idx + 5]);
                 note.setVelo(a[idx + 6]);
                 note.setChannel(channel);
-                int len1 = a[idx + 8] + (a[idx + 9] << 8) + (a[idx + 10] << 16) + (a[idx + 11] << 24);
+                int len1 = a[idx + 8]
+                           + (a[idx + 9] << 8) + (a[idx + 10] << 16) + (a[idx + 11] << 24);
                 if (len1 == 0) {
                     if (lastLen == 0) {
                         LOGD("note event of len 0 at idx %04x", idx);
@@ -562,7 +564,8 @@ Err importBB(MasterScore* score, const QString& name)
         if (!v.isZero() && !score->style().styleB(Sid::concertPitch)) {
             cKey = Transpose::transposeKey(key, v);
             // if there are more than 6 accidentals in transposing key, it cannot be PreferSharpFlat::AUTO
-            if ((key > 6 || key < -6) && staff->part()->preferSharpFlat() == PreferSharpFlat::AUTO) {
+            if ((key > 6 || key < -6)
+                && staff->part()->preferSharpFlat() == PreferSharpFlat::AUTO) {
                 staff->part()->setPreferSharpFlat(PreferSharpFlat::NONE);
             }
         }
@@ -572,7 +575,8 @@ Err importBB(MasterScore* score, const QString& name)
         Measure* mks = score->tick2measure(tick);
         Segment* sks = mks->getSegment(SegmentType::KeySig, tick);
         KeySig* keysig = Factory::createKeySig(sks);
-        keysig->setTrack((static_cast<int>(score->staffIdx(staff->part())) + staff->rstaff()) * VOICES);
+        keysig->setTrack((static_cast<int>(score->staffIdx(
+                                               staff->part())) + staff->rstaff()) * VOICES);
         keysig->setKey(cKey, key);
         sks->add(keysig);
     }
@@ -584,7 +588,8 @@ Err importBB(MasterScore* score, const QString& name)
 //   processPendingNotes
 //---------------------------------------------------------
 
-Fraction BBFile::processPendingNotes(Score* score, QList<MNote*>* notes, const Fraction& l, int track)
+Fraction BBFile::processPendingNotes(Score* score, QList<MNote*>* notes, const Fraction& l,
+                                     int track)
 {
     Fraction len(l);
     Staff* cstaff                = score->staff(track / VOICES);
@@ -667,7 +672,8 @@ Fraction BBFile::processPendingNotes(Score* score, QList<MNote*>* notes, const F
 //   collectNotes
 //---------------------------------------------------------
 
-static ciEvent collectNotes(const Fraction& tick, int voice, ciEvent i, const EventList* el, QList<MNote*>* notes)
+static ciEvent collectNotes(const Fraction& tick, int voice, ciEvent i, const EventList* el,
+                            QList<MNote*>* notes)
 {
     for (; i != el->end(); ++i) {
         const Event& e = *i;
@@ -719,13 +725,15 @@ void BBFile::convertTrack(Score* score, BBTrack* track, int staffIdx)
 // LOGD("ctick %d  rest %d ontick %d size %d", ctick, restLen, e.ontime(), notes.size());
 
             if (restLen <= Fraction(0, 1)) {
-                ASSERT_X(QString::asprintf("bad restlen ontime %d - ctick %d", e.ontime(), ctick.ticks()));
+                ASSERT_X(QString::asprintf("bad restlen ontime %d - ctick %d", e.ontime(),
+                                           ctick.ticks()));
             }
 
             while (!notes.isEmpty()) {
                 Fraction len = processPendingNotes(score, &notes, restLen, tr);
                 if (len.isZero()) {
-                    LOGD("processPendingNotes returns zero, restlen %d, track %d", restLen.ticks(), tr);
+                    LOGD("processPendingNotes returns zero, restlen %d, track %d",
+                         restLen.ticks(), tr);
                     ctick += restLen;
                     restLen = Fraction(0, 1);
                     break;

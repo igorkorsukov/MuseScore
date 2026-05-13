@@ -35,7 +35,8 @@ class IGetScore;
 class NotationParts : public INotationParts, public muse::async::Asyncable
 {
 public:
-    NotationParts(IGetScore* getScore, INotationInteractionPtr interaction, INotationUndoStackPtr undoStack, INotationStylePtr style);
+    NotationParts(IGetScore* getScore, INotationInteractionPtr interaction,
+                  INotationUndoStackPtr undoStack, INotationStylePtr style);
 
     muse::async::NotifyList<const Part*> partList() const override;
     muse::async::NotifyList<const Staff*> staffList(const muse::ID& partId) const override;
@@ -58,37 +59,46 @@ public:
     void setStaffVisible(const muse::ID& staffId, bool visible) override;
     void setPartSharpFlat(const muse::ID& partId, const SharpFlat& sharpFlat) override;
     void setInstrumentName(const InstrumentKey& instrumentKey, const QString& name) override;
-    void setInstrumentAbbreviature(const InstrumentKey& instrumentKey, const QString& abbreviature) override;
-    void setInstrumentGroupNameOptions(const std::vector<InstrumentKey>& instruments, bool useCustom, const QString& longName,
+    void setInstrumentAbbreviature(const InstrumentKey& instrumentKey,
+                                   const QString& abbreviature) override;
+    void setInstrumentGroupNameOptions(const std::vector<InstrumentKey>& instruments,
+                                       bool useCustom, const QString& longName,
                                        const QString& shortName) override;
     void setInstrumentNumber(const InstrumentKey& instrumentKey, int v) override;
     void setStaffType(const muse::ID& staffId, StaffTypeId type) override;
-    void setStaffConfig(const muse::ID& staffId, const StaffConfig& config, Fraction tick = Fraction(0, 1)) override;
+    void setStaffConfig(const muse::ID& staffId, const StaffConfig& config,
+                        Fraction tick = Fraction(0, 1)) override;
     void setSharedPartEnabled(const muse::ID& partId, bool enable) override;
 
     void removeParts(const muse::IDList& partsIds) override;
     void removeStaves(const muse::IDList& stavesIds) override;
 
-    void moveParts(const muse::IDList& sourcePartsIds, const muse::ID& destinationPartId, InsertMode mode = InsertMode::Before) override;
-    void moveStaves(const muse::IDList& sourceStavesIds, const muse::ID& destinationStaffId, InsertMode mode = InsertMode::Before) override;
+    void moveParts(const muse::IDList& sourcePartsIds, const muse::ID& destinationPartId,
+                   InsertMode mode = InsertMode::Before) override;
+    void moveStaves(const muse::IDList& sourceStavesIds, const muse::ID& destinationStaffId,
+                    InsertMode mode = InsertMode::Before) override;
 
     bool appendStaff(Staff* staff, const muse::ID& destinationPartId) override;
-    bool appendStaffLinkedToMaster(Staff* staff, Staff* masterSourceStaff, const muse::ID& destinationPartId) override;
-    bool appendLinkedStaff(Staff* staff, const muse::ID& sourceStaffId, const muse::ID& destinationPartId) override;
+    bool appendStaffLinkedToMaster(Staff* staff, Staff* masterSourceStaff,
+                                   const muse::ID& destinationPartId) override;
+    bool appendLinkedStaff(Staff* staff, const muse::ID& sourceStaffId,
+                           const muse::ID& destinationPartId) override;
 
     void insertPart(Part* part, size_t index) override;
 
     void replacePart(const muse::ID& partId, Part* newPart) override;
     void replaceInstrument(const InstrumentKey& instrumentKey, const Instrument& newInstrument,
                            const StaffType* newStaffType = nullptr) override;
-    void replaceDrumset(const InstrumentKey& instrumentKey, const Drumset& newDrumset, bool undoable = true) override;
+    void replaceDrumset(const InstrumentKey& instrumentKey, const Drumset& newDrumset,
+                        bool undoable = true) override;
 
     const std::vector<Staff*>& systemObjectStaves() const override;
     muse::async::Notification systemObjectStavesChanged() const override;
 
     void addSystemObjects(const muse::IDList& stavesIds) override;
     void removeSystemObjects(const muse::IDList& stavesIds) override;
-    void moveSystemObjects(const muse::ID& sourceStaffId, const muse::ID& destinationStaffId) override;
+    void moveSystemObjects(const muse::ID& sourceStaffId,
+                           const muse::ID& destinationStaffId) override;
     void moveSystemObjectLayerBelowBottomStaff() override;
     void moveSystemObjectLayerAboveBottomStaff() override;
 
@@ -129,9 +139,12 @@ private:
     std::vector<Staff*> staves(const muse::IDList& stavesIds) const;
     std::vector<Part*> parts(const muse::IDList& partsIds) const;
 
-    void appendStaves(Part* part, const InstrumentTemplate& templ, const mu::engraving::KeyList& keyList);
-    void insertStaff(Staff* staff, engraving::staff_idx_t destinationStaffIndex, bool createRests=true);
-    void initStaff(Staff* staff, const InstrumentTemplate& templ, const mu::engraving::StaffType* staffType, size_t cleffIndex);
+    void appendStaves(Part* part, const InstrumentTemplate& templ,
+                      const mu::engraving::KeyList& keyList);
+    void insertStaff(Staff* staff, engraving::staff_idx_t destinationStaffIndex,
+                     bool createRests=true);
+    void initStaff(Staff* staff, const InstrumentTemplate& templ,
+                   const mu::engraving::StaffType* staffType, size_t cleffIndex);
 
     void removeMissingParts(const PartInstrumentList& newParts);
     void insertNewParts(const PartInstrumentList& parts, const mu::engraving::KeyList& keyList);
@@ -139,7 +152,8 @@ private:
     void updateSoloist(const PartInstrumentList& parts);
     void sortParts(const PartInstrumentList& parts);
 
-    int resolveNewInstrumentNumber(const InstrumentTemplate& instrument, const PartInstrumentList& allNewInstruments) const;
+    int resolveNewInstrumentNumber(const InstrumentTemplate& instrument,
+                                   const PartInstrumentList& allNewInstruments) const;
 
     void setBracketsAndBarlines();
 
@@ -168,6 +182,7 @@ private:
     bool m_ignoreUndoStackChanges = false;
 
     mutable muse::async::ChangedNotifier<const Part*> m_partChangedNotifier;
-    mutable std::map<muse::ID, muse::async::ChangedNotifier<const Staff*> > m_staffChangedNotifierMap;
+    mutable std::map<muse::ID,
+                     muse::async::ChangedNotifier<const Staff*> > m_staffChangedNotifierMap;
 };
 }

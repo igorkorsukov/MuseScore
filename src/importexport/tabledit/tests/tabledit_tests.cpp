@@ -54,7 +54,8 @@ void TablEdit_Tests::tefReadTest(const char* file)
     EXPECT_TRUE(score);
     score->setMetaTag(u"originalFormat", u"tef");
 
-    EXPECT_TRUE(ScoreComp::saveCompareScore(score, fileName + u".mscx", TABLEDIT_DIR + fileName + u".mscx"));
+    EXPECT_TRUE(ScoreComp::saveCompareScore(score, fileName + u".mscx",
+                                            TABLEDIT_DIR + fileName + u".mscx"));
     delete score;
 }
 

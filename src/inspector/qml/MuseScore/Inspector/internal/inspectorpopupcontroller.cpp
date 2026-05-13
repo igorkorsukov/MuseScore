@@ -237,13 +237,15 @@ void InspectorPopupController::closePopupIfNeed(const QPointF& mouseGlobalPos)
     QRectF globalVisualControlRect = globalRect(m_visualControl);
     QRectF globalPopupContentRect = globalRect(popupContent);
 
-    if (globalVisualControlRect.contains(mouseGlobalPos) || globalPopupContentRect.contains(mouseGlobalPos)) {
+    if (globalVisualControlRect.contains(mouseGlobalPos)
+        || globalPopupContentRect.contains(mouseGlobalPos)) {
         return;
     }
 
     QRectF globalNotationViewRect = globalRect(m_notationView);
     QWindow* windowUnderCursor = qGuiApp->topLevelAt(mouseGlobalPos.toPoint());
-    if (windowUnderCursor == mainWindow()->qWindow() && globalNotationViewRect.contains(mouseGlobalPos)) {
+    if (windowUnderCursor == mainWindow()->qWindow()
+        && globalNotationViewRect.contains(mouseGlobalPos)) {
         return;
     }
 

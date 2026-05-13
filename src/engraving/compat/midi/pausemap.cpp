@@ -73,16 +73,21 @@ void PauseMap::calculate(const Score* s)
             if (RealIsNull(it->second.pause)) {
                 // We have a regular tempo change. Don't include tempo change from first tick of next RepeatSegment (it will be included later).
                 if (tick != endTick) {
-                    m_tempomapWithPauses->insert(std::pair<const int, TEvent>(tickWithPauses(utick), it->second));
+                    m_tempomapWithPauses->insert(std::pair<const int, TEvent>(tickWithPauses(utick),
+                                                                              it->second));
                 }
             } else {
                 // We have a pause event. Don't include pauses from first tick of current RepeatSegment (it was included in the previous one).
                 if (tick != startTick) {
                     Fraction timeSig(sigmap->timesig(tick).timesig());
-                    double quarterNotesPerMeasure = (4.0 * timeSig.numerator()) / timeSig.denominator();
+                    double quarterNotesPerMeasure = (4.0 * timeSig.numerator())
+                                                    / timeSig.denominator();
                     int ticksPerMeasure =  quarterNotesPerMeasure * Constants::DIVISION;           // store a full measure of ticks to keep barlines in same places
-                    m_tempomapWithPauses->setTempo(tickWithPauses(utick), quarterNotesPerMeasure / it->second.pause);           // new tempo for pause
-                    insert(std::pair<const int, int>(utick, ticksPerMeasure + offsetAtUTick(utick)));            // store running total of extra ticks
+                    m_tempomapWithPauses->setTempo(tickWithPauses(
+                                                       utick),
+                                                   quarterNotesPerMeasure / it->second.pause);                                  // new tempo for pause
+                    insert(std::pair<const int, int>(utick,
+                                                     ticksPerMeasure + offsetAtUTick(utick)));                   // store running total of extra ticks
                     m_tempomapWithPauses->setTempo(tickWithPauses(utick), it->second.tempo);           // restore previous tempo
                 }
             }

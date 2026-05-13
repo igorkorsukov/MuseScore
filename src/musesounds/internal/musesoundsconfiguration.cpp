@@ -30,11 +30,14 @@ using namespace muse;
 using namespace muse::network;
 
 static const std::string module_name("musesounds");
-static const Settings::Key CHECK_FOR_MUSESOUNDS_UPDATE_KEY(module_name, "musesounds/checkForUpdate");
+static const Settings::Key CHECK_FOR_MUSESOUNDS_UPDATE_KEY(module_name,
+                                                           "musesounds/checkForUpdate");
 static const Settings::Key GET_SOUNDS_TEST_MODE_KEY(module_name, "musesounds/getSoundsTestMode");
-static const Settings::Key LAST_MUSESOUNDS_SHOWN_VERSION_KEY(module_name, "application/lastShownMuseSoundsReleaseVersion");
+static const Settings::Key LAST_MUSESOUNDS_SHOWN_VERSION_KEY(module_name,
+                                                             "application/lastShownMuseSoundsReleaseVersion");
 
-static const Settings::Key MUSESOUNDS_CHECK_FOR_UPDATE_TEST_MODE(module_name, "musesounds/checkForUpdateTestMode");
+static const Settings::Key MUSESOUNDS_CHECK_FOR_UPDATE_TEST_MODE(module_name,
+                                                                 "musesounds/checkForUpdateTestMode");
 
 static const muse::String OPEN_SOUND_URL("https://www.musehub.com/muse-sounds/");
 
@@ -56,7 +59,8 @@ void MuseSoundsConfiguration::init()
 {
     settings()->setDefaultValue(CHECK_FOR_MUSESOUNDS_UPDATE_KEY, Val(true));
     settings()->setCanBeManuallyEdited(CHECK_FOR_MUSESOUNDS_UPDATE_KEY, true);
-    settings()->setDescription(CHECK_FOR_MUSESOUNDS_UPDATE_KEY, muse::trc("musesounds", "Show occasional MuseHub promotions"));
+    settings()->setDescription(CHECK_FOR_MUSESOUNDS_UPDATE_KEY,
+                               muse::trc("musesounds", "Show occasional MuseHub promotions"));
     settings()->setDefaultValue(GET_SOUNDS_TEST_MODE_KEY, Val(false));
     settings()->setDefaultValue(MUSESOUNDS_CHECK_FOR_UPDATE_TEST_MODE, Val(false));
 }
@@ -82,7 +86,9 @@ UriQuery MuseSoundsConfiguration::soundsUri() const
 
 UriQuery MuseSoundsConfiguration::soundPageUri(const muse::String& soundCode) const
 {
-    String utm = String("?utm_source=mss-app&utm_medium=mh-cta&utm_campaign=mss-app-home-mh-%1").arg(soundCode);
+    String utm
+        = String("?utm_source=mss-app&utm_medium=mh-cta&utm_campaign=mss-app-home-mh-%1").arg(
+              soundCode);
     return UriQuery(OPEN_SOUND_URL + soundCode + utm);
 }
 

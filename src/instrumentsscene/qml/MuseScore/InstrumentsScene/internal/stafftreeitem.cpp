@@ -26,7 +26,8 @@
 using namespace mu::instrumentsscene;
 using namespace mu::notation;
 
-StaffTreeItem::StaffTreeItem(IMasterNotationPtr masterNotation, INotationPtr notation, QObject* parent)
+StaffTreeItem::StaffTreeItem(IMasterNotationPtr masterNotation, INotationPtr notation,
+                             QObject* parent)
     : AbstractLayoutPanelTreeItem(LayoutPanelItemType::STAFF, masterNotation, notation, parent)
 {
     connect(this, &AbstractLayoutPanelTreeItem::isVisibleChanged, [this](bool isVisible) {
@@ -65,7 +66,9 @@ void StaffTreeItem::init(const Staff* masterStaff)
     }
 
     //: Prefix for the display name for a linked staff. Preferably, keep this short.
-    QString title = masterStaff->isLinked() ? muse::qtrc("layoutpanel", "[LINK] %1").arg(staffName) : staffName;
+    QString title
+        = masterStaff->isLinked() ? muse::qtrc("layoutpanel",
+                                               "[LINK] %1").arg(staffName) : staffName;
 
     setId(staff->id());
     setTitle(title);

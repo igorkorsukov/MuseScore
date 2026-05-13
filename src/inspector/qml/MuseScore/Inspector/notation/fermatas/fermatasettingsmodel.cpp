@@ -25,7 +25,8 @@
 
 using namespace mu::inspector;
 
-FermataSettingsModel::FermataSettingsModel(QObject* parent, const muse::modularity::ContextPtr& iocCtx,
+FermataSettingsModel::FermataSettingsModel(QObject* parent,
+                                           const muse::modularity::ContextPtr& iocCtx,
                                            IElementRepositoryService* repository)
     : AbstractInspectorModel(parent, iocCtx, repository)
 {

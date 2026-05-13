@@ -214,7 +214,8 @@ bool NavigableAppMenuModel::eventFilter(QObject* watched, QEvent* event)
     if (event->type() == QEvent::MouseButtonPress && watched == appWindow()) {
         QMouseEvent* mouseEvent = static_cast<QMouseEvent*>(event);
         bool clickOutsideAppMenuAreaRect = !m_appMenuAreaRect.contains(mouseEvent->pos());
-        bool clickOutsideOpenedMenu = isMenuOpened ? !m_openedMenuAreaRect.contains(mouseEvent->pos()) : true;
+        bool clickOutsideOpenedMenu = isMenuOpened ? !m_openedMenuAreaRect.contains(
+            mouseEvent->pos()) : true;
         if (clickOutsideAppMenuAreaRect && clickOutsideOpenedMenu) {
             resetNavigation();
             emit closeOpenedMenuRequested();
@@ -427,7 +428,8 @@ void NavigableAppMenuModel::navigate(const QSet<int>& activatePossibleKeys)
     activateHighlightedMenu();
 }
 
-void NavigableAppMenuModel::navigateToSubItem(const QString& menuId, const QSet<int>& activatePossibleKeys)
+void NavigableAppMenuModel::navigateToSubItem(const QString& menuId,
+                                              const QSet<int>& activatePossibleKeys)
 {
     MenuItem& menuItem = findMenu(menuId);
     MenuItem& subItem = findItem(this->menuItemId(menuItem.subitems(), activatePossibleKeys));
@@ -504,7 +506,8 @@ void NavigableAppMenuModel::restoreMUNavigationSystemState()
     if (m_lastActiveMUNavigationState.has_value()) {
         MUNavigationSystemState state = m_lastActiveMUNavigationState.value();
 
-        bool ok = navigationController()->requestActivateByName(state.sectionName, state.panelName, state.controlName);
+        bool ok = navigationController()->requestActivateByName(state.sectionName, state.panelName,
+                                                                state.controlName);
         if (!ok) {
             navigationController()->resetNavigation();
         }
@@ -530,7 +533,8 @@ QString NavigableAppMenuModel::openedMenuId() const
     return m_openedMenuId;
 }
 
-QString NavigableAppMenuModel::menuItemId(const MenuItemList& items, const QSet<int>& activatePossibleKeys)
+QString NavigableAppMenuModel::menuItemId(const MenuItemList& items,
+                                          const QSet<int>& activatePossibleKeys)
 {
     for (const MenuItem* item : items) {
         QString title = item->action().title.qTranslatedWithMnemonicAmpersand();

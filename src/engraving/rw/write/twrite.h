@@ -311,9 +311,11 @@ public:
 
     static void write(const WhammyBar* item, XmlWriter& xml, WriteContext& ctx);
 
-    static void writeSegments(XmlWriter& xml, WriteContext& ctx, track_idx_t st, track_idx_t et, Segment* sseg, Segment* eseg, bool, bool);
+    static void writeSegments(XmlWriter& xml, WriteContext& ctx, track_idx_t st, track_idx_t et,
+                              Segment* sseg, Segment* eseg, bool, bool);
 
-    static void writeProperty(const EngravingItem* item, XmlWriter& xml, Pid pid, bool force = false);
+    static void writeProperty(const EngravingItem* item, XmlWriter& xml, Pid pid,
+                              bool force = false);
 
     static void writeSystemLocks(const Score* score, XmlWriter& xml);
     static void writeSystemDividers(const Score* score, XmlWriter& xml, WriteContext& ctx);
@@ -347,8 +349,10 @@ private:
     static void writeProperties(const SlurTie* item, XmlWriter& xml, WriteContext& ctx);
     static void writeSlur(const SlurTieSegment* seg, XmlWriter& xml, WriteContext& ctx, int no);
 
-    static void writeProperties(const HammerOnPullOffSegment* seg, XmlWriter& xml, WriteContext& ctx);
-    static void write(const HammerOnPullOffText* item, XmlWriter& xml, WriteContext& ctx, size_t idx);
+    static void writeProperties(const HammerOnPullOffSegment* seg, XmlWriter& xml,
+                                WriteContext& ctx);
+    static void write(const HammerOnPullOffText* item, XmlWriter& xml, WriteContext& ctx,
+                      size_t idx);
 
     static void writeProperties(const SLine* item, XmlWriter& xml, WriteContext& ctx);
     static void writeProperties(const GuitarBendSegment* item, XmlWriter& xml, WriteContext& ctx);
@@ -356,11 +360,14 @@ private:
     static void writeProperties(const BSymbol* item, XmlWriter& xml, WriteContext& ctx);
 
     static void writeProperties(const TextLineBase* item, XmlWriter& xml, WriteContext& ctx);
-    static void writeProperties(const TextBase* item, XmlWriter& xml, WriteContext& ctx, bool writeText);
+    static void writeProperties(const TextBase* item, XmlWriter& xml, WriteContext& ctx,
+                                bool writeText);
 
-    static void writeSpannerStart(Spanner* s, XmlWriter& xml, WriteContext& ctx, const EngravingItem* current, track_idx_t track,
+    static void writeSpannerStart(Spanner* s, XmlWriter& xml, WriteContext& ctx,
+                                  const EngravingItem* current, track_idx_t track,
                                   Fraction frac = { -1, 1 });
-    static void writeSpannerEnd(Spanner* s, XmlWriter& xml, WriteContext& ctx, const EngravingItem* current, track_idx_t track,
+    static void writeSpannerEnd(Spanner* s, XmlWriter& xml, WriteContext& ctx,
+                                const EngravingItem* current, track_idx_t track,
                                 Fraction frac = { -1, 1 });
 
     static void writeTupletStart(DurationElement* item, XmlWriter& xml, WriteContext& ctx);

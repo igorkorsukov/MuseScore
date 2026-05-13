@@ -36,29 +36,38 @@ using namespace mu::engraving::rendering::score;
 
 void HeaderFooterLayout::layoutHeaderFooter(const LayoutContext& ctx, Page* page)
 {
-    const bool isPageMode = ctx.conf().isMode(LayoutMode::PAGE) || ctx.conf().isMode(LayoutMode::FLOAT);
+    const bool isPageMode = ctx.conf().isMode(LayoutMode::PAGE) || ctx.conf().isMode(
+        LayoutMode::FLOAT);
     if (!isPageMode) {
         return;
     }
 
     const page_idx_t n = page->pageNumber() + 1 + page->score()->pageNumberOffset();
 
-    if (ctx.conf().styleB(Sid::showHeader) && (page->pageNumber() || ctx.conf().styleB(Sid::headerFirstPage))) {
+    if (ctx.conf().styleB(Sid::showHeader)
+        && (page->pageNumber() || ctx.conf().styleB(Sid::headerFirstPage))) {
         const bool odd = (n & 1) || !ctx.conf().styleB(Sid::headerOddEven);
-        createUpdateHeaderText(ctx, page, 0, ctx.conf().styleSt(odd ? Sid::oddHeaderL : Sid::evenHeaderL));
-        createUpdateHeaderText(ctx, page, 1, ctx.conf().styleSt(odd ? Sid::oddHeaderC : Sid::evenHeaderC));
-        createUpdateHeaderText(ctx, page, 2, ctx.conf().styleSt(odd ? Sid::oddHeaderR : Sid::evenHeaderR));
+        createUpdateHeaderText(ctx, page, 0,
+                               ctx.conf().styleSt(odd ? Sid::oddHeaderL : Sid::evenHeaderL));
+        createUpdateHeaderText(ctx, page, 1,
+                               ctx.conf().styleSt(odd ? Sid::oddHeaderC : Sid::evenHeaderC));
+        createUpdateHeaderText(ctx, page, 2,
+                               ctx.conf().styleSt(odd ? Sid::oddHeaderR : Sid::evenHeaderR));
     } else {
         for (int area = 0; area < MAX_HEADERS; ++area) {
             removeHeaderText(page, area);
         }
     }
 
-    if (ctx.conf().styleB(Sid::showFooter) && (page->pageNumber() || ctx.conf().styleB(Sid::footerFirstPage))) {
+    if (ctx.conf().styleB(Sid::showFooter)
+        && (page->pageNumber() || ctx.conf().styleB(Sid::footerFirstPage))) {
         const bool odd = (n & 1) || !ctx.conf().styleB(Sid::footerOddEven);
-        createUpdateFooterText(ctx, page, 0, ctx.conf().styleSt(odd ? Sid::oddFooterL : Sid::evenFooterL));
-        createUpdateFooterText(ctx, page, 1, ctx.conf().styleSt(odd ? Sid::oddFooterC : Sid::evenFooterC));
-        createUpdateFooterText(ctx, page, 2, ctx.conf().styleSt(odd ? Sid::oddFooterR : Sid::evenFooterR));
+        createUpdateFooterText(ctx, page, 0,
+                               ctx.conf().styleSt(odd ? Sid::oddFooterL : Sid::evenFooterL));
+        createUpdateFooterText(ctx, page, 1,
+                               ctx.conf().styleSt(odd ? Sid::oddFooterC : Sid::evenFooterC));
+        createUpdateFooterText(ctx, page, 2,
+                               ctx.conf().styleSt(odd ? Sid::oddFooterR : Sid::evenFooterR));
     } else {
         for (int area = 0; area < MAX_FOOTERS; ++area) {
             removeFooterText(page, area);
@@ -66,7 +75,8 @@ void HeaderFooterLayout::layoutHeaderFooter(const LayoutContext& ctx, Page* page
     }
 }
 
-void HeaderFooterLayout::createUpdateHeaderText(const LayoutContext& ctx, Page* page, int area, const String& s)
+void HeaderFooterLayout::createUpdateHeaderText(const LayoutContext& ctx, Page* page, int area,
+                                                const String& s)
 {
     if (s.empty()) {
         removeHeaderText(page, area);
@@ -105,7 +115,8 @@ void HeaderFooterLayout::createUpdateHeaderText(const LayoutContext& ctx, Page* 
     }
 }
 
-void HeaderFooterLayout::createUpdateFooterText(const LayoutContext& ctx, Page* page, int area, const String& s)
+void HeaderFooterLayout::createUpdateFooterText(const LayoutContext& ctx, Page* page, int area,
+                                                const String& s)
 {
     if (s.empty()) {
         removeFooterText(page, area);
@@ -144,7 +155,8 @@ void HeaderFooterLayout::createUpdateFooterText(const LayoutContext& ctx, Page* 
     }
 }
 
-bool HeaderFooterLayout::updateHeaderFooterText(const LayoutContext& ctx, Page* page, Text* text, const String& s)
+bool HeaderFooterLayout::updateHeaderFooterText(const LayoutContext& ctx, Page* page, Text* text,
+                                                const String& s)
 {
     // Hack: we can't use toXmlEscaped on the entire string because this would erase any manual XML
     // formatting, but we do want to be able to use a plain '&' in favour of XML character entities ...
@@ -178,7 +190,8 @@ bool HeaderFooterLayout::updateHeaderFooterText(const LayoutContext& ctx, Page* 
         if (dummyText->xmlText().isEmpty()) {
             emptyBlocks++; // count empty blocks to remove them later if there is only 1 empty block
         }
-        newBlocks.insert(newBlocks.end(), dummyText->ldata()->blocks.cbegin(), dummyText->ldata()->blocks.cend());
+        newBlocks.insert(newBlocks.end(), dummyText->ldata()->blocks.cbegin(),
+                         dummyText->ldata()->blocks.cend());
         delete dummyText;
     }
 
@@ -243,7 +256,8 @@ void HeaderFooterLayout::removeFooterText(Page* page, int area)
 //       workTitle
 //---------------------------------------------------------
 
-TextBlock HeaderFooterLayout::replaceTextMacros(const LayoutContext& ctx, const Page* page, const TextBlock& tb)
+TextBlock HeaderFooterLayout::replaceTextMacros(const LayoutContext& ctx, const Page* page,
+                                                const TextBlock& tb)
 {
     std::list<TextFragment> newFragments;
     for (const TextFragment& tf: tb.fragments()) {
@@ -277,7 +291,8 @@ TextBlock HeaderFooterLayout::replaceTextMacros(const LayoutContext& ctx, const 
                     if (no > 0) {
                         const String pageNumberString = String::number(no);
                         const CharFormat pageNumberFormat = formatForMacro(ctx, String('$' + nc));
-                        appendFormattedString(newFragments, pageNumberString, defaultFormat, pageNumberFormat);
+                        appendFormattedString(newFragments, pageNumberString, defaultFormat,
+                                              pageNumberFormat);
                     }
                 }
                 break;
@@ -286,7 +301,8 @@ TextBlock HeaderFooterLayout::replaceTextMacros(const LayoutContext& ctx, const 
                     size_t no = page->score()->npages() + page->score()->pageNumberOffset();
                     const String numberOfPagesString = String::number(no);
                     const CharFormat pageNumberFormat = formatForMacro(ctx, String('$' + nc));
-                    appendFormattedString(newFragments, numberOfPagesString, defaultFormat, pageNumberFormat);
+                    appendFormattedString(newFragments, numberOfPagesString, defaultFormat,
+                                          pageNumberFormat);
                 }
                 break;
                 case 'i': // not on first page
@@ -298,30 +314,36 @@ TextBlock HeaderFooterLayout::replaceTextMacros(const LayoutContext& ctx, const 
                     newFragments.back().text += page->score()->metaTag(u"partName");
                     break;
                 case 'f':
-                    newFragments.back().text += page->score()->masterScore()->fileInfo()->fileName(false).toString();
+                    newFragments.back().text += page->score()->masterScore()->fileInfo()->fileName(
+                        false).toString();
                     break;
                 case 'F':
-                    newFragments.back().text += page->score()->masterScore()->fileInfo()->path().toString();
+                    newFragments.back().text
+                        += page->score()->masterScore()->fileInfo()->path().toString();
                     break;
                 case 'd':
-                    newFragments.back().text += muse::Date::currentDate().toString(muse::DateFormat::ISODate);
+                    newFragments.back().text += muse::Date::currentDate().toString(
+                        muse::DateFormat::ISODate);
                     break;
                 case 'D':
                 {
                     String creationDate = page->score()->metaTag(u"creationDate");
                     if (creationDate.isEmpty()) {
-                        newFragments.back().text += page->score()->masterScore()->fileInfo()->birthTime().date().toString(
-                            muse::DateFormat::ISODate);
+                        newFragments.back().text
+                            += page->score()->masterScore()->fileInfo()->birthTime().date().toString(
+                                   muse::DateFormat::ISODate);
                     } else {
-                        newFragments.back().text += muse::Date::fromStringISOFormat(creationDate).toString(
-                            muse::DateFormat::ISODate);
+                        newFragments.back().text
+                            += muse::Date::fromStringISOFormat(creationDate).toString(
+                                   muse::DateFormat::ISODate);
                     }
                 }
                 break;
                 case 'm': {
                     IFileInfoProviderPtr fileInfo = page->score()->masterScore()->fileInfo();
                     if (page->score()->dirty() || !fileInfo->saved()) {
-                        newFragments.back().text += muse::Time::currentTime().toString(muse::DateFormat::ISODate);
+                        newFragments.back().text += muse::Time::currentTime().toString(
+                            muse::DateFormat::ISODate);
                     } else {
                         newFragments.back().text += fileInfo->lastModified().time().toString(
                             muse::DateFormat::ISODate);
@@ -331,9 +353,11 @@ TextBlock HeaderFooterLayout::replaceTextMacros(const LayoutContext& ctx, const 
                 case 'M': {
                     IFileInfoProviderPtr fileInfo = page->score()->masterScore()->fileInfo();
                     if (page->score()->dirty() || !fileInfo->saved()) {
-                        newFragments.back().text += muse::Date::currentDate().toString(muse::DateFormat::ISODate);
+                        newFragments.back().text += muse::Date::currentDate().toString(
+                            muse::DateFormat::ISODate);
                     } else {
-                        newFragments.back().text += fileInfo->lastModified().date().toString(muse::DateFormat::ISODate);
+                        newFragments.back().text += fileInfo->lastModified().date().toString(
+                            muse::DateFormat::ISODate);
                     }
                 }
                 break;
@@ -346,7 +370,8 @@ TextBlock HeaderFooterLayout::replaceTextMacros(const LayoutContext& ctx, const 
                 {
                     const String copyrightString = page->score()->metaTag(u"copyright");
                     const CharFormat copyrightFormat = formatForMacro(ctx, String('$' + nc));
-                    appendFormattedString(newFragments, copyrightString, defaultFormat, copyrightFormat);
+                    appendFormattedString(newFragments, copyrightString, defaultFormat,
+                                          copyrightFormat);
                 }
                 break;
                 case 'v':
@@ -385,8 +410,10 @@ TextBlock HeaderFooterLayout::replaceTextMacros(const LayoutContext& ctx, const 
                     if (k != n) {      // found ':' ?
                         if (tag == u"copyright") {
                             const String copyrightString = page->score()->metaTag(tag);
-                            const CharFormat copyrightFormat = formatForMacro(ctx, String(u"$:" + tag + u":"));
-                            appendFormattedString(newFragments, copyrightString, defaultFormat, copyrightFormat);
+                            const CharFormat copyrightFormat
+                                = formatForMacro(ctx, String(u"$:" + tag + u":"));
+                            appendFormattedString(newFragments, copyrightString, defaultFormat,
+                                                  copyrightFormat);
                         } else {
                             newFragments.back().text += page->score()->metaTag(tag);
                         }
@@ -426,7 +453,9 @@ CharFormat HeaderFooterLayout::formatForMacro(const LayoutContext& ctx, const St
     return format;
 }
 
-void HeaderFooterLayout::appendFormattedString(std::list<TextFragment>& fragments, const String& string, const CharFormat& defaultFormat,
+void HeaderFooterLayout::appendFormattedString(std::list<TextFragment>& fragments,
+                                               const String& string,
+                                               const CharFormat& defaultFormat,
                                                const CharFormat& newFormat)
 {
     // If the default format equals the format for this macro, we don't need to create a new fragment...
@@ -443,12 +472,14 @@ void HeaderFooterLayout::appendFormattedString(std::list<TextFragment>& fragment
 
 double HeaderFooterLayout::headerExtension(const LayoutContext& ctx, const Page* page)
 {
-    const bool isPageMode = ctx.conf().isMode(LayoutMode::PAGE) || ctx.conf().isMode(LayoutMode::FLOAT);
+    const bool isPageMode = ctx.conf().isMode(LayoutMode::PAGE) || ctx.conf().isMode(
+        LayoutMode::FLOAT);
     if (!isPageMode) {
         return 0.0;
     }
 
-    if (ctx.conf().styleB(Sid::showHeader) && (page->pageNumber() || ctx.conf().styleB(Sid::headerFirstPage))) {
+    if (ctx.conf().styleB(Sid::showHeader)
+        && (page->pageNumber() || ctx.conf().styleB(Sid::headerFirstPage))) {
         double maxHeight = 0.0;
         for (int area = 0; area < MAX_HEADERS; ++area) {
             if (Text* text = page->headerText(area)) {
@@ -467,12 +498,14 @@ double HeaderFooterLayout::headerExtension(const LayoutContext& ctx, const Page*
 
 double HeaderFooterLayout::footerExtension(const LayoutContext& ctx, const Page* page)
 {
-    const bool isPageMode = ctx.conf().isMode(LayoutMode::PAGE) || ctx.conf().isMode(LayoutMode::FLOAT);
+    const bool isPageMode = ctx.conf().isMode(LayoutMode::PAGE) || ctx.conf().isMode(
+        LayoutMode::FLOAT);
     if (!isPageMode) {
         return 0.0;
     }
 
-    if (ctx.conf().styleB(Sid::showFooter) && (page->pageNumber() || ctx.conf().styleB(Sid::footerFirstPage))) {
+    if (ctx.conf().styleB(Sid::showFooter)
+        && (page->pageNumber() || ctx.conf().styleB(Sid::footerFirstPage))) {
         double maxHeight = 0.0;
         for (int area = 0; area < MAX_FOOTERS; ++area) {
             if (Text* text = page->footerText(area)) {

@@ -27,7 +27,8 @@
 
 using namespace mu::inspector;
 
-ArpeggioPlaybackModel::ArpeggioPlaybackModel(QObject* parent, const muse::modularity::ContextPtr& iocCtx,
+ArpeggioPlaybackModel::ArpeggioPlaybackModel(QObject* parent,
+                                             const muse::modularity::ContextPtr& iocCtx,
                                              IElementRepositoryService* repository)
     : AbstractInspectorModel(parent, iocCtx, repository)
 {

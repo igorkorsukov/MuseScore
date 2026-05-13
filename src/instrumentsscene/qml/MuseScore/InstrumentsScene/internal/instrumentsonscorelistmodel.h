@@ -29,12 +29,14 @@
 #include "notation/iinstrumentsrepository.h"
 
 namespace mu::instrumentsscene {
-class InstrumentsOnScoreListModel : public muse::uicomponents::SelectableItemListModel, public muse::Contextable
+class InstrumentsOnScoreListModel : public muse::uicomponents::SelectableItemListModel,
+    public muse::Contextable
 {
     Q_OBJECT
 
     Q_PROPERTY(QStringList orders READ orders NOTIFY ordersChanged)
-    Q_PROPERTY(int currentOrderIndex READ currentOrderIndex WRITE setCurrentOrderIndex NOTIFY currentOrderChanged)
+    Q_PROPERTY(
+        int currentOrderIndex READ currentOrderIndex WRITE setCurrentOrderIndex NOTIFY currentOrderChanged)
 
     QML_ELEMENT
 

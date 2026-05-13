@@ -42,7 +42,8 @@ static NPlayEvent noteEvent(int pitch, int volume, int channel)
     return NPlayEvent(EventType::ME_NOTEON, channel, pitch, volume);
 }
 
-static void checkEventInterval(EventsHolder& events, int tickStart, int tickEnd, int pitch, int volume,
+static void checkEventInterval(EventsHolder& events, int tickStart, int tickEnd, int pitch,
+                               int volume,
                                MidiInstrumentEffect effect = MidiInstrumentEffect::NONE,
                                int channel = DEFAULT_CHANNEL)
 {
@@ -73,7 +74,8 @@ static void checkEventInterval(EventsHolder& events, int tickStart, int tickEnd,
     events[channel].erase(it);
 }
 
-static void checkPitchBend(EventsHolder& events, int tick, int pitchValue, MidiInstrumentEffect effect = MidiInstrumentEffect::NONE,
+static void checkPitchBend(EventsHolder& events, int tick, int pitchValue,
+                           MidiInstrumentEffect effect = MidiInstrumentEffect::NONE,
                            int channel = DEFAULT_CHANNEL)
 {
     auto it = events[channel].find(tick);
@@ -92,7 +94,8 @@ static void checkPitchBend(EventsHolder& events, int tick, int pitchValue, MidiI
     events[channel].erase(it);
 }
 
-static EventsHolder renderMidiEvents(const String& fileName, bool eachStringHasChannel = false, bool instrumentsHaveEffects = false)
+static EventsHolder renderMidiEvents(const String& fileName, bool eachStringHasChannel = false,
+                                     bool instrumentsHaveEffects = false)
 {
     MasterScore* score = ScoreRW::readScore(MIDIRENDERER_TESTS_DIR + fileName);
     EXPECT_TRUE(score);
@@ -416,7 +419,8 @@ TEST_F(MidiRenderer_Tests, sameStringWithEffects)
 
     checkEventInterval(events, 0, 959, 60, defVol, MidiInstrumentEffect::NONE, DEFAULT_CHANNEL);
     checkEventInterval(events, 480, 1439, 64, defVol, MidiInstrumentEffect::NONE, DEFAULT_CHANNEL);
-    checkEventInterval(events, 960, 1919, 60, defVol, MidiInstrumentEffect::PALM_MUTE, DEFAULT_CHANNEL + 1);
+    checkEventInterval(events, 960, 1919, 60, defVol, MidiInstrumentEffect::PALM_MUTE,
+                       DEFAULT_CHANNEL + 1);
 }
 
 TEST_F(MidiRenderer_Tests, diffStringNoEffects)
@@ -431,7 +435,8 @@ TEST_F(MidiRenderer_Tests, diffStringNoEffects)
     EXPECT_EQ(events[DEFAULT_CHANNEL + 1].size(), 2);
 
     checkEventInterval(events, 0, 959, 60, defVol, MidiInstrumentEffect::NONE, DEFAULT_CHANNEL);
-    checkEventInterval(events, 480, 1439, 64, defVol, MidiInstrumentEffect::NONE, DEFAULT_CHANNEL + 1);
+    checkEventInterval(events, 480, 1439, 64, defVol, MidiInstrumentEffect::NONE,
+                       DEFAULT_CHANNEL + 1);
     checkEventInterval(events, 960, 1919, 60, defVol, MidiInstrumentEffect::NONE, DEFAULT_CHANNEL);
 }
 
@@ -448,8 +453,10 @@ TEST_F(MidiRenderer_Tests, diffStringWithEffects)
     EXPECT_EQ(events[DEFAULT_CHANNEL + 2].size(), 2);
 
     checkEventInterval(events, 0, 959, 60, defVol, MidiInstrumentEffect::NONE, DEFAULT_CHANNEL);
-    checkEventInterval(events, 480, 1439, 64, defVol, MidiInstrumentEffect::NONE, DEFAULT_CHANNEL + 1);
-    checkEventInterval(events, 960, 1919, 60, defVol, MidiInstrumentEffect::PALM_MUTE, DEFAULT_CHANNEL + 2);
+    checkEventInterval(events, 480, 1439, 64, defVol, MidiInstrumentEffect::NONE,
+                       DEFAULT_CHANNEL + 1);
+    checkEventInterval(events, 960, 1919, 60, defVol, MidiInstrumentEffect::PALM_MUTE,
+                       DEFAULT_CHANNEL + 2);
 }
 
 TEST_F(MidiRenderer_Tests, tremoloAndGlissando)
@@ -604,7 +611,8 @@ TEST_F(MidiRenderer_Tests, sameStringDifferentStaves)
 
     checkEventInterval(events, 0, 239, 62, defVol, MidiInstrumentEffect::NONE, DEFAULT_CHANNEL);
     checkEventInterval(events, 240, 479, 62, defVol, MidiInstrumentEffect::NONE, DEFAULT_CHANNEL);
-    checkEventInterval(events, 0, 1919, 35, defVol, MidiInstrumentEffect::NONE, DEFAULT_CHANNEL + 1);
+    checkEventInterval(events, 0, 1919, 35, defVol, MidiInstrumentEffect::NONE,
+                       DEFAULT_CHANNEL + 1);
 }
 
 TEST_F(MidiRenderer_Tests, trillOnHiddenStaff)
@@ -620,14 +628,22 @@ TEST_F(MidiRenderer_Tests, trillOnHiddenStaff)
     EXPECT_EQ(events[DEFAULT_CHANNEL + 1].size(), 16);
 
     checkEventInterval(events, 0, 1919, 60, mfVol, MidiInstrumentEffect::NONE, DEFAULT_CHANNEL);
-    checkEventInterval(events, 1920, 1979, 79, fVol, MidiInstrumentEffect::NONE, DEFAULT_CHANNEL + 1);
-    checkEventInterval(events, 1980, 2039, 81, fVol, MidiInstrumentEffect::NONE, DEFAULT_CHANNEL + 1);
-    checkEventInterval(events, 2040, 2099, 79, fVol, MidiInstrumentEffect::NONE, DEFAULT_CHANNEL + 1);
-    checkEventInterval(events, 2100, 2159, 81, fVol, MidiInstrumentEffect::NONE, DEFAULT_CHANNEL + 1);
-    checkEventInterval(events, 2160, 2219, 79, fVol, MidiInstrumentEffect::NONE, DEFAULT_CHANNEL + 1);
-    checkEventInterval(events, 2220, 2279, 81, fVol, MidiInstrumentEffect::NONE, DEFAULT_CHANNEL + 1);
-    checkEventInterval(events, 2280, 2339, 79, fVol, MidiInstrumentEffect::NONE, DEFAULT_CHANNEL + 1);
-    checkEventInterval(events, 2340, 2399, 81, fVol, MidiInstrumentEffect::NONE, DEFAULT_CHANNEL + 1);
+    checkEventInterval(events, 1920, 1979, 79, fVol, MidiInstrumentEffect::NONE,
+                       DEFAULT_CHANNEL + 1);
+    checkEventInterval(events, 1980, 2039, 81, fVol, MidiInstrumentEffect::NONE,
+                       DEFAULT_CHANNEL + 1);
+    checkEventInterval(events, 2040, 2099, 79, fVol, MidiInstrumentEffect::NONE,
+                       DEFAULT_CHANNEL + 1);
+    checkEventInterval(events, 2100, 2159, 81, fVol, MidiInstrumentEffect::NONE,
+                       DEFAULT_CHANNEL + 1);
+    checkEventInterval(events, 2160, 2219, 79, fVol, MidiInstrumentEffect::NONE,
+                       DEFAULT_CHANNEL + 1);
+    checkEventInterval(events, 2220, 2279, 81, fVol, MidiInstrumentEffect::NONE,
+                       DEFAULT_CHANNEL + 1);
+    checkEventInterval(events, 2280, 2339, 79, fVol, MidiInstrumentEffect::NONE,
+                       DEFAULT_CHANNEL + 1);
+    checkEventInterval(events, 2340, 2399, 81, fVol, MidiInstrumentEffect::NONE,
+                       DEFAULT_CHANNEL + 1);
 }
 
 TEST_F(MidiRenderer_Tests, letRingRepeat)
@@ -641,9 +657,11 @@ TEST_F(MidiRenderer_Tests, letRingRepeat)
     EXPECT_EQ(events[DEFAULT_CHANNEL + 1].size(), 4);
 
     checkEventInterval(events, 1920, 3840, 60, defVol, MidiInstrumentEffect::NONE, DEFAULT_CHANNEL);
-    checkEventInterval(events, 2880, 3840, 64, defVol, MidiInstrumentEffect::NONE, DEFAULT_CHANNEL + 1);
+    checkEventInterval(events, 2880, 3840, 64, defVol, MidiInstrumentEffect::NONE,
+                       DEFAULT_CHANNEL + 1);
     checkEventInterval(events, 5760, 7680, 60, defVol, MidiInstrumentEffect::NONE, DEFAULT_CHANNEL);
-    checkEventInterval(events, 6720, 7680, 64, defVol, MidiInstrumentEffect::NONE, DEFAULT_CHANNEL + 1);
+    checkEventInterval(events, 6720, 7680, 64, defVol, MidiInstrumentEffect::NONE,
+                       DEFAULT_CHANNEL + 1);
 }
 
 TEST_F(MidiRenderer_Tests, letRingLong)
@@ -670,12 +688,17 @@ TEST_F(MidiRenderer_Tests, slideInLetRing)
     EXPECT_EQ(events[DEFAULT_CHANNEL + 2].size(), 2);
     EXPECT_EQ(events[DEFAULT_CHANNEL + 3].size(), 2);
 
-    checkEventInterval(events, 420, 438, 72, defVol, MidiInstrumentEffect::SLIDE, DEFAULT_CHANNEL + 1);
-    checkEventInterval(events, 440, 458, 71, defVol, MidiInstrumentEffect::SLIDE, DEFAULT_CHANNEL + 1);
-    checkEventInterval(events, 460, 478, 70, defVol, MidiInstrumentEffect::SLIDE, DEFAULT_CHANNEL + 1);
+    checkEventInterval(events, 420, 438, 72, defVol, MidiInstrumentEffect::SLIDE,
+                       DEFAULT_CHANNEL + 1);
+    checkEventInterval(events, 440, 458, 71, defVol, MidiInstrumentEffect::SLIDE,
+                       DEFAULT_CHANNEL + 1);
+    checkEventInterval(events, 460, 478, 70, defVol, MidiInstrumentEffect::SLIDE,
+                       DEFAULT_CHANNEL + 1);
     checkEventInterval(events, 480, 1920, 69, defVol, MidiInstrumentEffect::NONE, DEFAULT_CHANNEL);
-    checkEventInterval(events, 960, 1920, 67, defVol, MidiInstrumentEffect::NONE, DEFAULT_CHANNEL + 2);
-    checkEventInterval(events, 1440, 1920, 62, defVol, MidiInstrumentEffect::NONE, DEFAULT_CHANNEL + 3);
+    checkEventInterval(events, 960, 1920, 67, defVol, MidiInstrumentEffect::NONE,
+                       DEFAULT_CHANNEL + 2);
+    checkEventInterval(events, 1440, 1920, 62, defVol, MidiInstrumentEffect::NONE,
+                       DEFAULT_CHANNEL + 3);
 }
 
 TEST_F(MidiRenderer_Tests, slideOutLetRing)
@@ -691,11 +714,16 @@ TEST_F(MidiRenderer_Tests, slideOutLetRing)
     EXPECT_EQ(events[DEFAULT_CHANNEL + 3].size(), 2);
 
     checkEventInterval(events, 0, 419, 69, defVol, MidiInstrumentEffect::NONE, DEFAULT_CHANNEL);
-    checkEventInterval(events, 420, 438, 68, defVol, MidiInstrumentEffect::SLIDE, DEFAULT_CHANNEL + 1);
-    checkEventInterval(events, 439, 457, 67, defVol, MidiInstrumentEffect::SLIDE, DEFAULT_CHANNEL + 1);
-    checkEventInterval(events, 459, 477, 66, defVol, MidiInstrumentEffect::SLIDE, DEFAULT_CHANNEL + 1);
-    checkEventInterval(events, 480, 1440, 52, defVol, MidiInstrumentEffect::NONE, DEFAULT_CHANNEL + 2);
-    checkEventInterval(events, 960, 1440, 50, defVol, MidiInstrumentEffect::NONE, DEFAULT_CHANNEL + 3);
+    checkEventInterval(events, 420, 438, 68, defVol, MidiInstrumentEffect::SLIDE,
+                       DEFAULT_CHANNEL + 1);
+    checkEventInterval(events, 439, 457, 67, defVol, MidiInstrumentEffect::SLIDE,
+                       DEFAULT_CHANNEL + 1);
+    checkEventInterval(events, 459, 477, 66, defVol, MidiInstrumentEffect::SLIDE,
+                       DEFAULT_CHANNEL + 1);
+    checkEventInterval(events, 480, 1440, 52, defVol, MidiInstrumentEffect::NONE,
+                       DEFAULT_CHANNEL + 2);
+    checkEventInterval(events, 960, 1440, 50, defVol, MidiInstrumentEffect::NONE,
+                       DEFAULT_CHANNEL + 3);
 }
 
 TEST_F(MidiRenderer_Tests, glissandoLetRing)
@@ -710,10 +738,14 @@ TEST_F(MidiRenderer_Tests, glissandoLetRing)
     EXPECT_EQ(events[DEFAULT_CHANNEL + 2].size(), 2);
 
     checkEventInterval(events, 0, 320, 69, defVol, MidiInstrumentEffect::NONE, DEFAULT_CHANNEL);
-    checkEventInterval(events, 321, 399, 68, defVol, MidiInstrumentEffect::SLIDE, DEFAULT_CHANNEL + 1);
-    checkEventInterval(events, 400, 478, 67, defVol, MidiInstrumentEffect::SLIDE, DEFAULT_CHANNEL + 1);
-    checkEventInterval(events, 480, 1440, 66, defVol, MidiInstrumentEffect::SLIDE, DEFAULT_CHANNEL + 1);
-    checkEventInterval(events, 960, 1440, 60, defVol, MidiInstrumentEffect::NONE, DEFAULT_CHANNEL + 2);
+    checkEventInterval(events, 321, 399, 68, defVol, MidiInstrumentEffect::SLIDE,
+                       DEFAULT_CHANNEL + 1);
+    checkEventInterval(events, 400, 478, 67, defVol, MidiInstrumentEffect::SLIDE,
+                       DEFAULT_CHANNEL + 1);
+    checkEventInterval(events, 480, 1440, 66, defVol, MidiInstrumentEffect::SLIDE,
+                       DEFAULT_CHANNEL + 1);
+    checkEventInterval(events, 960, 1440, 60, defVol, MidiInstrumentEffect::NONE,
+                       DEFAULT_CHANNEL + 2);
 }
 
 TEST_F(MidiRenderer_Tests, slideToTiedNote)
@@ -994,7 +1026,8 @@ TEST_F(MidiRenderer_Tests, hairpinTwoInstruments)
 
 TEST_F(MidiRenderer_Tests, hammerOnPullOff)
 {
-    EventsHolder events = getNoteOnEvents(renderMidiEvents(u"hammer_on_pull_off.mscx", false, true));
+    EventsHolder events
+        = getNoteOnEvents(renderMidiEvents(u"hammer_on_pull_off.mscx", false, true));
 
     EXPECT_EQ(events.size(), 2);
 
@@ -1002,12 +1035,16 @@ TEST_F(MidiRenderer_Tests, hammerOnPullOff)
     EXPECT_EQ(events[DEFAULT_CHANNEL + 1].size(), 8);
 
     checkEventInterval(events, 0, 479, 52, 80, MidiInstrumentEffect::NONE, DEFAULT_CHANNEL);
-    checkEventInterval(events, 480, 959, 53, 80, MidiInstrumentEffect::HAMMER_PULL, DEFAULT_CHANNEL + 1);
+    checkEventInterval(events, 480, 959, 53, 80, MidiInstrumentEffect::HAMMER_PULL,
+                       DEFAULT_CHANNEL + 1);
 
     checkEventInterval(events, 960, 1199, 52, 80, MidiInstrumentEffect::NONE, DEFAULT_CHANNEL);
-    checkEventInterval(events, 1200, 1439, 53, 80, MidiInstrumentEffect::HAMMER_PULL, DEFAULT_CHANNEL + 1);
-    checkEventInterval(events, 1440, 1679, 55, 80, MidiInstrumentEffect::HAMMER_PULL, DEFAULT_CHANNEL + 1);
-    checkEventInterval(events, 1680, 1919, 53, 80, MidiInstrumentEffect::HAMMER_PULL, DEFAULT_CHANNEL + 1);
+    checkEventInterval(events, 1200, 1439, 53, 80, MidiInstrumentEffect::HAMMER_PULL,
+                       DEFAULT_CHANNEL + 1);
+    checkEventInterval(events, 1440, 1679, 55, 80, MidiInstrumentEffect::HAMMER_PULL,
+                       DEFAULT_CHANNEL + 1);
+    checkEventInterval(events, 1680, 1919, 53, 80, MidiInstrumentEffect::HAMMER_PULL,
+                       DEFAULT_CHANNEL + 1);
 }
 
 TEST_F(MidiRenderer_Tests, vibrato)

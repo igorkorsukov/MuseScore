@@ -134,7 +134,8 @@ void MeasureWrite::writeMeasure(const Measure* measure, XmlWriter& xml, WriteCon
     assert(measure->first());
     assert(measure->last());
     if (measure->first() && measure->last()) {
-        TWrite::writeSegments(xml, ctx, strack, etrack, measure->first(), measure->last()->next1(), writeSystemElements,
+        TWrite::writeSegments(xml, ctx, strack, etrack, measure->first(),
+                              measure->last()->next1(), writeSystemElements,
                               forceTimeSig);
     }
 

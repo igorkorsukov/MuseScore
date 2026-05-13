@@ -42,7 +42,8 @@ class TextLineBaseSegment : public LineSegment
     OBJECT_ALLOCATOR(engraving, TextLineBaseSegment)
 
 public:
-    TextLineBaseSegment(const ElementType& type, Spanner*, System* parent, ElementFlags f = ElementFlag::NOTHING);
+    TextLineBaseSegment(const ElementType& type, Spanner*, System* parent,
+                        ElementFlags f = ElementFlag::NOTHING);
     TextLineBaseSegment(const TextLineBaseSegment&);
     ~TextLineBaseSegment();
 
@@ -72,7 +73,8 @@ public:
     };
     DECLARE_LAYOUTDATA_METHODS(TextLineBaseSegment)
 
-    static RectF boundingBoxOfLine(const PointF& p1, const PointF& p2, double lw2, bool isDottedLine);
+    static RectF boundingBoxOfLine(const PointF& p1, const PointF& p2, double lw2,
+                                   bool isDottedLine);
 
 protected:
 
@@ -140,7 +142,8 @@ class TextLineBase : public SLine
     M_PROPERTY(bool,       textSizeSpatiumDependent, setTextSizeSpatiumDependent)
 
 public:
-    TextLineBase(const ElementType& type, EngravingItem* parent, ElementFlags = ElementFlag::NOTHING);
+    TextLineBase(const ElementType& type, EngravingItem* parent,
+                 ElementFlags = ElementFlag::NOTHING);
 
     void spatiumChanged(double /*oldValue*/, double /*newValue*/) override;
 

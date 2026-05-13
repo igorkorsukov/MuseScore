@@ -40,14 +40,15 @@ class QItemSelectionModel;
 
 namespace mu::notation {
 class NoteInputBarCustomiseItem;
-class NoteInputBarCustomiseModel : public muse::uicomponents::SelectableItemListModel, public muse::Contextable,
-    public muse::async::Asyncable
+class NoteInputBarCustomiseModel : public muse::uicomponents::SelectableItemListModel,
+    public muse::Contextable, public muse::async::Asyncable
 {
     Q_OBJECT
     QML_ELEMENT;
 
     Q_PROPERTY(QItemSelectionModel * selectionModel READ selectionModel NOTIFY selectionChanged)
-    Q_PROPERTY(bool isAddSeparatorAvailable READ isAddSeparatorAvailable NOTIFY isAddSeparatorAvailableChanged)
+    Q_PROPERTY(
+        bool isAddSeparatorAvailable READ isAddSeparatorAvailable NOTIFY isAddSeparatorAvailableChanged)
 
     muse::ContextInject<muse::ui::IUiState> uiState = { this };
     muse::ContextInject<muse::ui::IUiActionsRegister> actionsRegister = { this };

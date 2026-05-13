@@ -30,8 +30,11 @@ namespace mu::notation {
 class MscMetaReaderMock : public project::IMscMetaReader
 {
 public:
-    MOCK_METHOD(muse::RetVal<QPixmap>, readThumbnail, (const muse::io::path_t& filePath), (const, override));
-    MOCK_METHOD(muse::RetVal<project::ProjectMeta>, readMeta, (const muse::io::path_t& filePath), (const, override));
-    MOCK_METHOD(muse::RetVal<project::CloudProjectInfo>, readCloudProjectInfo, (const muse::io::path_t& filePath), (const, override));
+    MOCK_METHOD(muse::RetVal<QPixmap>, readThumbnail, (const muse::io::path_t& filePath),
+                (const, override));
+    MOCK_METHOD(muse::RetVal<project::ProjectMeta>, readMeta, (const muse::io::path_t& filePath),
+                (const, override));
+    MOCK_METHOD(muse::RetVal<project::CloudProjectInfo>, readCloudProjectInfo,
+                (const muse::io::path_t& filePath), (const, override));
 };
 }

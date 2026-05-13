@@ -46,8 +46,8 @@ class NotationMidiInput : public INotationMidiInput, public muse::Contextable
     muse::ContextInject<muse::actions::IActionsDispatcher> dispatcher = { this };
 
 public:
-    NotationMidiInput(IGetScore* getScore, INotationInteractionPtr notationInteraction, INotationUndoStackPtr undoStack,
-                      const muse::modularity::ContextPtr& iocCtx);
+    NotationMidiInput(IGetScore* getScore, INotationInteractionPtr notationInteraction,
+                      INotationUndoStackPtr undoStack, const muse::modularity::ContextPtr& iocCtx);
 
     void onMidiEventReceived(const muse::midi::Event& event) override;
     muse::async::Channel<std::vector<const Note*> > notesReceived() const override;

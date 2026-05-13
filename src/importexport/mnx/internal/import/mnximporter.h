@@ -67,7 +67,8 @@ public:
 
 private:
     using GraceNeighborsMap = std::unordered_map<std::string,
-                                                 std::pair<engraving::ChordRest*, engraving::ChordRest*> >;
+                                                 std::pair<engraving::ChordRest*,
+                                                           engraving::ChordRest*> >;
 
     // settings
     void importSettings();
@@ -86,38 +87,54 @@ private:
     void createTimeSig(engraving::Measure* measure, const mnx::TimeSignature& timeSig);
     void setBarline(engraving::Measure* measure, const mnx::global::Barline& barline);
     void createVolta(engraving::Measure* measure, const mnx::global::Ending& ending);
-    void createJumpOrMarker(engraving::Measure* measure, const mnx::FractionValue& location, std::variant<engraving::JumpType,
-                                                                                                          engraving::MarkerType> type,
+    void createJumpOrMarker(engraving::Measure* measure, const mnx::FractionValue& location,
+                            std::variant<engraving::JumpType,
+                                         engraving::MarkerType> type,
                             const std::optional<std::string> glyphName = std::nullopt);
     void createTempoMark(engraving::Measure* measure, const mnx::global::Tempo& tempo);
 
     // part measures
     void importPartMeasures();
-    void importSequences(const mnx::Part& mnxPart, const mnx::part::Measure& partMeasure, engraving::Measure* measure);
-    bool importNonGraceEvents(const mnx::Sequence& sequence, engraving::Measure* measure, engraving::track_idx_t curTrackIdx,
+    void importSequences(const mnx::Part& mnxPart, const mnx::part::Measure& partMeasure,
+                         engraving::Measure* measure);
+    bool importNonGraceEvents(const mnx::Sequence& sequence, engraving::Measure* measure,
+                              engraving::track_idx_t curTrackIdx,
                               GraceNeighborsMap& graceNeighbors);
-    void updateLyricLineUsageForEvent(const mnx::sequence::Event& event, const mnx::Sequence& sequence, engraving::Measure* measure,
-                                      engraving::track_idx_t curTrackIdx, const mnx::FractionValue& startTick);
-    void importGraceEvents(const mnx::Sequence& sequence, engraving::Measure* measure, engraving::track_idx_t curTrackIdx,
+    void updateLyricLineUsageForEvent(const mnx::sequence::Event& event,
+                                      const mnx::Sequence& sequence, engraving::Measure* measure,
+                                      engraving::track_idx_t curTrackIdx,
+                                      const mnx::FractionValue& startTick);
+    void importGraceEvents(const mnx::Sequence& sequence, engraving::Measure* measure,
+                           engraving::track_idx_t curTrackIdx,
                            const GraceNeighborsMap& graceNeighbors);
-    engraving::ChordRest* importEvent(const mnx::sequence::Event& event, engraving::track_idx_t, engraving::Measure* measure,
-                                      const mnx::FractionValue& startTick, const std::stack<engraving::Tuplet*>& activeTuplets,
+    engraving::ChordRest* importEvent(const mnx::sequence::Event& event, engraving::track_idx_t,
+                                      engraving::Measure* measure,
+                                      const mnx::FractionValue& startTick,
+                                      const std::stack<engraving::Tuplet*>& activeTuplets,
                                       engraving::TremoloTwoChord* activeTremolo);
-    engraving::Tuplet* createTuplet(const mnx::sequence::Tuplet& mnxTuplet, engraving::Measure* measure,
+    engraving::Tuplet* createTuplet(const mnx::sequence::Tuplet& mnxTuplet,
+                                    engraving::Measure* measure,
                                     engraving::track_idx_t curTrackIdx);
-    void createTremolo(const mnx::sequence::MultiNoteTremolo& mnxTremolo, engraving::Measure* measure, engraving::track_idx_t curTrackIdx,
+    void createTremolo(const mnx::sequence::MultiNoteTremolo& mnxTremolo,
+                       engraving::Measure* measure, engraving::track_idx_t curTrackIdx,
                        const mnx::FractionValue& startTick, const mnx::FractionValue& endTick);
     void processSequencePass2(const mnx::Sequence& sequence, engraving::Measure* measure);
     void createSlur(const mnx::sequence::Slur& mnxSlur, engraving::ChordRest* startCR);
     void createLyrics(const mnx::sequence::Event& mnxEvent, engraving::ChordRest* cr);
     void createTies(const mnx::Array<mnx::sequence::Tie>& ties, engraving::Note* startNote);
-    void createAccidentals(const mnx::sequence::Note& mnxNote, engraving::Note* note, engraving::Measure* measure);
+    void createAccidentals(const mnx::sequence::Note& mnxNote, engraving::Note* note,
+                           engraving::Measure* measure);
     void importRestProperties(const mnx::sequence::Rest& mnxRest, engraving::Rest* rest);
-    engraving::Rest* emitGapRest(engraving::Measure* measure, engraving::track_idx_t curTrackIdx, const mnx::FractionValue& startTick,
-                                 const mnx::FractionValue& duration, engraving::Tuplet* tupletToAdd);
-    engraving::Note* createNote(const mnx::sequence::Note& mnxNote, engraving::Chord* chord, engraving::Staff* baseStaff,
-                                const engraving::Fraction& tick, int ottavaDisplacement, engraving::track_idx_t curTrackIdx);
-    void createClefs(const mnx::Part& mnxPart, const mnx::Array<mnx::part::PositionedClef>& mnxClefs, engraving::Measure* measure);
+    engraving::Rest* emitGapRest(engraving::Measure* measure, engraving::track_idx_t curTrackIdx,
+                                 const mnx::FractionValue& startTick,
+                                 const mnx::FractionValue& duration,
+                                 engraving::Tuplet* tupletToAdd);
+    engraving::Note* createNote(const mnx::sequence::Note& mnxNote, engraving::Chord* chord,
+                                engraving::Staff* baseStaff, const engraving::Fraction& tick,
+                                int ottavaDisplacement, engraving::track_idx_t curTrackIdx);
+    void createClefs(const mnx::Part& mnxPart,
+                     const mnx::Array<mnx::part::PositionedClef>& mnxClefs,
+                     engraving::Measure* measure);
     void createOttavas(const mnx::part::Measure& mnxMeasure, engraving::Measure* measure);
     void createBeams(const mnx::part::Measure& mnxMeasure);
     void createDynamics(const mnx::part::Measure& mnxMeasure, engraving::Measure* measure);
@@ -128,10 +145,12 @@ private:
     void importBreath(const mnx::sequence::BreathMark& breath, engraving::ChordRest* cr);
     void importSoftAccent(const mnx::sequence::SoftAccent& softAccent, engraving::ChordRest* cr);
     void importSpiccato(const mnx::sequence::Spiccato& spiccato, engraving::ChordRest* cr);
-    void importStaccatissimo(const mnx::sequence::Staccatissimo& staccatissimo, engraving::ChordRest* cr);
+    void importStaccatissimo(const mnx::sequence::Staccatissimo& staccatissimo,
+                             engraving::ChordRest* cr);
     void importStaccato(const mnx::sequence::Staccato& staccato, engraving::ChordRest* cr);
     void importStress(const mnx::sequence::Stress& stress, engraving::ChordRest* cr);
-    void importStrongAccent(const mnx::sequence::StrongAccent& strongAccent, engraving::ChordRest* cr);
+    void importStrongAccent(const mnx::sequence::StrongAccent& strongAccent,
+                            engraving::ChordRest* cr);
     void importTenuto(const mnx::sequence::Tenuto& tenuto, engraving::ChordRest* cr);
     void importTremolo(const mnx::sequence::SingleNoteTremolo& tremolo, engraving::ChordRest* cr);
     void importUnstress(const mnx::sequence::Unstress& unstress, engraving::ChordRest* cr);
@@ -142,7 +161,8 @@ private:
     engraving::Measure* mnxMeasureToMeasure(const size_t mnxMeasIdx);
     engraving::ChordRest* mnxEventIdToCR(const std::string& eventId);
     engraving::Note* mnxNoteIdToNote(const std::string& noteId);
-    static void setAndStyleProperty(engraving::EngravingObject* e, engraving::Pid id, engraving::PropertyValue v);
+    static void setAndStyleProperty(engraving::EngravingObject* e, engraving::Pid id,
+                                    engraving::PropertyValue v);
     engraving::Fraction mnxMeasurePosToTick(const mnx::MeasureRhythmicPosition& measPos);
 
     // ordered map avoids need for hash on std::pair
@@ -150,8 +170,11 @@ private:
     std::unordered_map<engraving::staff_idx_t, size_t> m_StaffToMnxPart;
     std::unordered_map<size_t, engraving::Fraction> m_mnxMeasToTick;
     std::unordered_map<engraving::staff_idx_t,
-                       std::unordered_map<std::string, std::pair<engraving::Fraction, engraving::Fraction> > > m_lyricLineUsage;
-    std::unordered_map<engraving::staff_idx_t, std::unordered_map<std::string, int> > m_lyricLineToVerse;
+                       std::unordered_map<std::string, std::pair<engraving::Fraction,
+                                                                 engraving::Fraction> > >
+    m_lyricLineUsage;
+    std::unordered_map<engraving::staff_idx_t,
+                       std::unordered_map<std::string, int> > m_lyricLineToVerse;
     struct GroupBarlineOverrideSpan {
         engraving::staff_idx_t startStaff{};
         engraving::staff_idx_t endStaff{};

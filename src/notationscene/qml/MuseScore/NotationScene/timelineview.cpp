@@ -123,7 +123,8 @@ void TimelineView::doDraw()
         m_image.fill(Qt::transparent);
 
         if (qWidget()) {
-            qWidget()->render(&m_image, QPoint(), QRegion(), QWidget::DrawWindowBackground | QWidget::DrawChildren);
+            qWidget()->render(&m_image, QPoint(),
+                              QRegion(), QWidget::DrawWindowBackground | QWidget::DrawChildren);
         }
 
         update();

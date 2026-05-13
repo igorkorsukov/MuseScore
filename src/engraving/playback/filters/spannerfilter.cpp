@@ -50,11 +50,13 @@ bool SpannerFilter::isPlayable(const EngravingItem* item, const RenderingContext
     return true;
 }
 
-int SpannerFilter::spannerActualDurationTicks(const Spanner* spanner, const int nominalDurationTicks)
+int SpannerFilter::spannerActualDurationTicks(const Spanner* spanner,
+                                              const int nominalDurationTicks)
 {
     const ElementType type = spanner->type();
 
-    if (type == ElementType::SLUR || type == ElementType::HAMMER_ON_PULL_OFF || type == ElementType::TRILL) {
+    if (type == ElementType::SLUR || type == ElementType::HAMMER_ON_PULL_OFF
+        || type == ElementType::TRILL) {
         const EngravingItem* startItem = spanner->startElement();
         const EngravingItem* endItem = spanner->endElement();
 
@@ -65,7 +67,8 @@ int SpannerFilter::spannerActualDurationTicks(const Spanner* spanner, const int 
         if (startItem->isChordRest() && endItem->isChordRest()) {
             const ChordRest* startChord = toChordRest(startItem);
             const ChordRest* endChord = toChordRest(endItem);
-            return endChord->tick().ticks() + endChord->ticks().ticks() - startChord->tick().ticks();
+            return endChord->tick().ticks() + endChord->ticks().ticks()
+                   - startChord->tick().ticks();
         }
     }
 

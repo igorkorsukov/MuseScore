@@ -139,8 +139,12 @@ ReducedFraction findSumLengthOfRests(
         const MidiChord& midiChord = chord.second->second;
         const auto& chordOnTime = (chord.second->first < startBarTick)
                                   ? startBarTick
-                                  : Quantize::findQuantizedTupletChordOnTime(*chord.second, tupletInfo.len,
-                                                                             tupletLimits(tupletInfo.tupletNumber).ratio, startBarTick);
+                                  : Quantize::findQuantizedTupletChordOnTime(*chord.second,
+                                                                             tupletInfo.len,
+                                                                             tupletLimits(tupletInfo
+                                                                                          .
+                                                                                          tupletNumber).ratio,
+                                                                             startBarTick);
         if (beg < chordOnTime) {
             sumLen += (chordOnTime - beg);
         }
@@ -155,7 +159,9 @@ ReducedFraction findSumLengthOfRests(
             }
         }
         beg = Quantize::findQuantizedTupletNoteOffTime(chord.first, maxOffTime, tupletInfo.len,
-                                                       tupletLimits(tupletInfo.tupletNumber).ratio, startBarTick).first;
+                                                       tupletLimits(
+                                                           tupletInfo.tupletNumber).ratio,
+                                                       startBarTick).first;
         if (beg >= tupletEndTime) {
             break;
         }
@@ -400,7 +406,8 @@ std::vector<TupletInfo> detectTuplets(
                     continue;
                 }
                 auto tupletInfo = findTupletApproximation(divLen, tupletNumber,
-                                                          basicQuant, startDivTime, startDivChordIt, endDivChordIt);
+                                                          basicQuant, startDivTime, startDivChordIt,
+                                                          endDivChordIt);
 
                 const auto& opers = midiImportOperations.data()->trackOpers;
                 const int currentTrack = midiImportOperations.currentTrack();

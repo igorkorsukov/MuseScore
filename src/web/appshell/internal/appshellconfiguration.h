@@ -31,7 +31,8 @@
 #include "ui/iuiconfiguration.h"
 
 namespace mu::appshell {
-class AppShellConfiguration : public IAppShellConfiguration, public muse::Contextable, public muse::async::Asyncable
+class AppShellConfiguration : public IAppShellConfiguration, public muse::Contextable,
+    public muse::async::Asyncable
 {
     muse::GlobalInject<muse::ui::IUiConfiguration> uiConfiguration;
     muse::ContextInject<muse::IApplication> application = { this };

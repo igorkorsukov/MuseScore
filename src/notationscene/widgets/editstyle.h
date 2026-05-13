@@ -44,8 +44,10 @@ class EditStyle : public muse::ui::WidgetDialog, private Ui::EditStyleBase
 {
     Q_OBJECT
 
-    Q_PROPERTY(QString currentPageCode READ currentPageCode WRITE setCurrentPageCode NOTIFY currentPageChanged)
-    Q_PROPERTY(QString currentSubPageCode READ currentSubPageCode WRITE setCurrentSubPageCode NOTIFY currentSubPageChanged)
+    Q_PROPERTY(
+        QString currentPageCode READ currentPageCode WRITE setCurrentPageCode NOTIFY currentPageChanged)
+    Q_PROPERTY(
+        QString currentSubPageCode READ currentSubPageCode WRITE setCurrentSubPageCode NOTIFY currentSubPageChanged)
 
     muse::GlobalInject<mu::notation::INotationSceneConfiguration> configuration;
     muse::GlobalInject<muse::ui::IUiConfiguration> uiConfiguration;
@@ -53,7 +55,8 @@ class EditStyle : public muse::ui::WidgetDialog, private Ui::EditStyleBase
     muse::ContextInject<mu::context::IGlobalContext> globalContext = { this };
     muse::ContextInject<muse::IInteractive> interactive = { this };
     muse::ContextInject<muse::ui::IUiEngine> uiEngine = { this };
-    muse::ContextInject<muse::accessibility::IAccessibilityController> accessibilityController = { this };
+    muse::ContextInject<muse::accessibility::IAccessibilityController> accessibilityController
+        = { this };
 
 public:
     EditStyle(QWidget* = nullptr);
@@ -147,7 +150,8 @@ private slots:
     void valueChanged(int);
     void textStyleChanged(int);
     void resetTextStyle(engraving::TextStylePropertyType type);
-    void textStyleValueChanged(engraving::TextStylePropertyType type, const engraving::PropertyValue& value);
+    void textStyleValueChanged(engraving::TextStylePropertyType type,
+                               const engraving::PropertyValue& value);
     void on_comboFBFont_currentIndexChanged(int index);
     void on_buttonTogglePagelist_clicked();
     void on_resetStylesButton_clicked();

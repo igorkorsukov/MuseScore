@@ -34,7 +34,8 @@ GuitarBendImporter::GuitarBendImporter(mu::engraving::Score* score)
 {
 }
 
-void GuitarBendImporter::collectBend(mu::engraving::Note* note, const mu::engraving::PitchValues& pitchValues)
+void GuitarBendImporter::collectBend(mu::engraving::Note* note,
+                                     const mu::engraving::PitchValues& pitchValues)
 {
     m_dataCollector->storeBendData(note, pitchValues);
 }

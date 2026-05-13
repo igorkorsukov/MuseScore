@@ -345,7 +345,8 @@ static void readAccidental(Accidental* a, XmlReader& e, ReadContext& ctx)
             bool isInt;
             int i = text.toInt(&isInt);
             if (isInt) {
-                a->setBracket(i & 0x8000 ? AccidentalBracket::PARENTHESIS : AccidentalBracket::BRACKET);
+                a->setBracket(
+                    i & 0x8000 ? AccidentalBracket::PARENTHESIS : AccidentalBracket::BRACKET);
                 i &= ~0x8000;
                 AccidentalType at;
                 switch (i) {
@@ -453,13 +454,20 @@ static void readAccidental(Accidental* a, XmlReader& e, ReadContext& ctx)
                 static const std::map<String, AccidentalType> accMap = {
                     { u"none", AccidentalType::NONE }, { u"sharp", AccidentalType::SHARP },
                     { u"flat", AccidentalType::FLAT }, { u"natural", AccidentalType::NATURAL },
-                    { u"double sharp", AccidentalType::SHARP2 }, { u"double flat", AccidentalType::FLAT2 },
-                    { u"flat-slash", AccidentalType::FLAT_SLASH }, { u"flat-slash2", AccidentalType::FLAT_SLASH2 },
-                    { u"mirrored-flat2", AccidentalType::MIRRORED_FLAT2 }, { u"mirrored-flat", AccidentalType::MIRRORED_FLAT },
-                    { u"sharp-slash", AccidentalType::SHARP_SLASH }, { u"sharp-slash2", AccidentalType::SHARP_SLASH2 },
-                    { u"sharp-slash3", AccidentalType::SHARP_SLASH3 }, { u"sharp-slash4", AccidentalType::SHARP_SLASH4 },
-                    { u"sharp arrow up", AccidentalType::SHARP_ARROW_UP }, { u"sharp arrow down", AccidentalType::SHARP_ARROW_DOWN },
-                    { u"flat arrow up", AccidentalType::FLAT_ARROW_UP }, { u"flat arrow down", AccidentalType::FLAT_ARROW_DOWN },
+                    { u"double sharp", AccidentalType::SHARP2 },
+                    { u"double flat", AccidentalType::FLAT2 },
+                    { u"flat-slash", AccidentalType::FLAT_SLASH },
+                    { u"flat-slash2", AccidentalType::FLAT_SLASH2 },
+                    { u"mirrored-flat2", AccidentalType::MIRRORED_FLAT2 },
+                    { u"mirrored-flat", AccidentalType::MIRRORED_FLAT },
+                    { u"sharp-slash", AccidentalType::SHARP_SLASH },
+                    { u"sharp-slash2", AccidentalType::SHARP_SLASH2 },
+                    { u"sharp-slash3", AccidentalType::SHARP_SLASH3 },
+                    { u"sharp-slash4", AccidentalType::SHARP_SLASH4 },
+                    { u"sharp arrow up", AccidentalType::SHARP_ARROW_UP },
+                    { u"sharp arrow down", AccidentalType::SHARP_ARROW_DOWN },
+                    { u"flat arrow up", AccidentalType::FLAT_ARROW_UP },
+                    { u"flat arrow down", AccidentalType::FLAT_ARROW_DOWN },
                     { u"natural arrow up", AccidentalType::NATURAL_ARROW_UP },
                     { u"natural arrow down", AccidentalType::NATURAL_ARROW_DOWN },
                     { u"sori", AccidentalType::SORI }, { u"koron", AccidentalType::KORON }
@@ -593,7 +601,9 @@ static void readNote(Note* note, XmlReader& e, ReadContext& ctx)
             }
         } else if (tag == "offTimeOffset") {
             if (note->offTimeType() == 1) {
-                note->setOffTimeOffset(1000 + (e.readInt() * 1000 / note->chord()->actualTicks().ticks()));
+                note->setOffTimeOffset(1000
+                                       + (e.readInt() * 1000
+                                          / note->chord()->actualTicks().ticks()));
             } else {
                 note->setOffTimeOffset(1000 + (e.readInt() * 10));
             }
@@ -724,7 +734,8 @@ static void readNote(Note* note, XmlReader& e, ReadContext& ctx)
         note->setTpc1(Tpc::TPC_INVALID);
     }
     if (!tpcIsValid(note->tpc1()) && !tpcIsValid(note->tpc2())) {
-        Key key = (note->staff() && note->chord()) ? note->staff()->key(note->chord()->tick()) : Key::C;
+        Key key
+            = (note->staff() && note->chord()) ? note->staff()->key(note->chord()->tick()) : Key::C;
         int tpc = pitch2tpc(note->pitch(), key, Prefer::NEAREST);
         if (note->concertPitch()) {
             note->setTpc1(tpc);
@@ -865,7 +876,8 @@ static void readTuplet(Tuplet* tuplet, XmlReader& e, ReadContext& ctx)
         if (tag == "subtype") {      // obsolete
             e.skipCurrentElement();
         } else if (tag == "hasNumber") {  // obsolete even in 1.3
-            tuplet->setNumberType(e.readInt() ? TupletNumberType::SHOW_NUMBER : TupletNumberType::NO_TEXT);
+            tuplet->setNumberType(
+                e.readInt() ? TupletNumberType::SHOW_NUMBER : TupletNumberType::NO_TEXT);
         } else if (tag == "hasLine") {    // obsolete even in 1.3
             tuplet->setHasBracket(e.readInt());
             tuplet->setBracketType(TupletBracketType::AUTO_BRACKET);
@@ -1169,7 +1181,8 @@ static void readVolta114(XmlReader& e, ReadContext& ctx, Volta* volta)
     }
     if (volta->anchor() != Volta::VOLTA_ANCHOR) {
         // Volta strictly assumes that its anchor is measure, so don't let old scores override this.
-        LOGW("Correcting volta anchor type from %d to %d", int(volta->anchor()), int(Volta::VOLTA_ANCHOR));
+        LOGW("Correcting volta anchor type from %d to %d", int(volta->anchor()),
+             int(Volta::VOLTA_ANCHOR));
         volta->setAnchor(Volta::VOLTA_ANCHOR);
     }
     volta->setOffset(PointF());          // ignore offsets
@@ -1268,19 +1281,22 @@ static void readTextLine114(XmlReader& e, ReadContext& ctx, TextLine* textLine)
             String text(e.readText());
             textLine->setBeginText(String(u"<sym>%1</sym>").arg(
                                        text.at(0).isDigit()
-                                       ? resolveSymCompatibility(SymId(text.toInt()), ctx.mscoreVersion())
+                                       ? resolveSymCompatibility(SymId(text.toInt()),
+                                                                 ctx.mscoreVersion())
                                        : text));
         } else if (tag == "continueSymbol") {
             String text(e.readText());
             textLine->setContinueText(String(u"<sym>%1</sym>").arg(
                                           text.at(0).isDigit()
-                                          ? resolveSymCompatibility(SymId(text.toInt()), ctx.mscoreVersion())
+                                          ? resolveSymCompatibility(SymId(text.toInt()),
+                                                                    ctx.mscoreVersion())
                                           : text));
         } else if (tag == "endSymbol") {
             String text(e.readText());
             textLine->setEndText(String(u"<sym>%1</sym>").arg(
                                      text.at(0).isDigit()
-                                     ? resolveSymCompatibility(SymId(text.toInt()), ctx.mscoreVersion())
+                                     ? resolveSymCompatibility(SymId(text.toInt()),
+                                                               ctx.mscoreVersion())
                                      : text));
         } else if (tag == "beginSymbolOffset") { // obsolete
             e.readPoint();
@@ -1384,7 +1400,8 @@ static void readPedal114(XmlReader& e, ReadContext& ctx, Pedal* pedal)
     if (!continueTextTag) {
         pedal->setContinueText(String());
         pedal->setPropertyFlags(Pid::CONTINUE_TEXT, PropertyFlags::UNSTYLED);
-    } else if (pedal->continueText() == pedal->propertyDefault(Pid::CONTINUE_TEXT).value<String>()) {
+    } else if (pedal->continueText()
+               == pedal->propertyDefault(Pid::CONTINUE_TEXT).value<String>()) {
         pedal->setPropertyFlags(Pid::CONTINUE_TEXT, PropertyFlags::STYLED);
     }
     if (!endTextTag) {
@@ -1463,10 +1480,12 @@ static void readHarmony114(XmlReader& e, ReadContext& ctx, Harmony* h)
                 }
             }
         } else if (tag == "leftParen") {
-            h->setParenthesesMode(h->rightParen() ? ParenthesesMode::BOTH : ParenthesesMode::LEFT, true, false);
+            h->setParenthesesMode(
+                h->rightParen() ? ParenthesesMode::BOTH : ParenthesesMode::LEFT, true, false);
             e.readNext();
         } else if (tag == "rightParen") {
-            h->setParenthesesMode(h->leftParen() ? ParenthesesMode::BOTH : ParenthesesMode::RIGHT, true, false);
+            h->setParenthesesMode(
+                h->leftParen() ? ParenthesesMode::BOTH : ParenthesesMode::RIGHT, true, false);
             e.readNext();
         } else if (!readTextProperties(e, ctx, h, h)) {
             e.unknown();
@@ -1580,7 +1599,8 @@ static void readMeasure(Measure* m, int staffIdx, XmlReader& e, ReadContext& ctx
             SegmentType st;
             if ((ctx.tick() != m->tick()) && (ctx.tick() != m->endTick())) {
                 st = SegmentType::BarLine;
-            } else if (barLine->barLineType() == BarLineType::START_REPEAT && ctx.tick() == m->tick()) {
+            } else if (barLine->barLineType() == BarLineType::START_REPEAT
+                       && ctx.tick() == m->tick()) {
                 st = SegmentType::StartRepeatBarLine;
             } else if (ctx.tick() == m->tick() && segment == 0) {
                 st = SegmentType::BeginBarLine;
@@ -1617,7 +1637,8 @@ static void readMeasure(Measure* m, int staffIdx, XmlReader& e, ReadContext& ctx
                     TremoloTwoChord* tremolo = chord->tremoloTwoChord();
                     track_idx_t track = chord->track();
                     Segment* ss = 0;
-                    for (Segment* ps = m->first(SegmentType::ChordRest); ps; ps = ps->next(SegmentType::ChordRest)) {
+                    for (Segment* ps = m->first(SegmentType::ChordRest); ps;
+                         ps = ps->next(SegmentType::ChordRest)) {
                         if (ps->tick() >= ctx.tick()) {
                             break;
                         }
@@ -1797,7 +1818,8 @@ static void readMeasure(Measure* m, int staffIdx, XmlReader& e, ReadContext& ctx
                     }
                 }
             }
-            segment = m->getSegment(header ? SegmentType::HeaderClef : SegmentType::Clef, ctx.tick());
+            segment
+                = m->getSegment(header ? SegmentType::HeaderClef : SegmentType::Clef, ctx.tick());
 
             Clef* clef = Factory::createClef(segment);
             clef->setTrack(ctx.track());
@@ -1851,7 +1873,8 @@ static void readMeasure(Measure* m, int staffIdx, XmlReader& e, ReadContext& ctx
             Fraction curTick = ctx.tick();
             // if key sig not at beginning of measure => courtesy key sig
             bool courtesySig = (curTick == m->endTick());
-            segment = m->getSegment(courtesySig ? SegmentType::KeySigAnnounce : SegmentType::KeySig, curTick);
+            segment = m->getSegment(courtesySig ? SegmentType::KeySigAnnounce : SegmentType::KeySig,
+                                    curTick);
             segment->add(ks);
             if (!courtesySig) {
                 staff->setKey(curTick, ks->keySigEvent());
@@ -2039,7 +2062,8 @@ static void readMeasure(Measure* m, int staffIdx, XmlReader& e, ReadContext& ctx
             a->setMarkerType(mt);
 
             if (a->markerType() == MarkerType::SEGNO || a->markerType() == MarkerType::CODA
-                || a->markerType() == MarkerType::VARCODA || a->markerType() == MarkerType::CODETTA) {
+                || a->markerType() == MarkerType::VARCODA
+                || a->markerType() == MarkerType::CODETTA) {
                 // force the marker type for correct display
                 a->setXmlText(u"");
                 a->setMarkerType(a->markerType());
@@ -2157,9 +2181,12 @@ static void readMeasure(Measure* m, int staffIdx, XmlReader& e, ReadContext& ctx
                 continue;
             }
             // int possibleDuration = tuplet2->duration().ticks() * tuplet->ratio().denominator() / tuplet->ratio().numerator() - 1;
-            Fraction possibleDuration = tuplet2->ticks() * Fraction(tuplet->ratio().denominator(), (tuplet->ratio().numerator() - 1));
+            Fraction possibleDuration = tuplet2->ticks()
+                                        * Fraction(tuplet->ratio().denominator(),
+                                                   (tuplet->ratio().numerator() - 1));
 
-            if ((tuplet2 != tuplet) && (tuplet2->tick() >= tupletTick) && (tuplet2->tick() < tupletTick + tupletDuration)
+            if ((tuplet2 != tuplet) && (tuplet2->tick() >= tupletTick)
+                && (tuplet2->tick() < tupletTick + tupletDuration)
                 && (tuplet2->tick() + possibleDuration < tupletTick + tupletDuration)) {
                 bool found = false;
                 for (DurationElement* de : tElements) {
@@ -2596,7 +2623,8 @@ static void readPart(Part* part, XmlReader& e, ReadContext& ctx)
             int lines = staff->lines(Fraction(0, 1));
             int bf    = staff->barLineFrom();
             int bt    = staff->barLineTo();
-            staff->setStaffType(Fraction(0, 1), *StaffType::getDefaultPreset(StaffGroup::PERCUSSION));
+            staff->setStaffType(Fraction(0, 1),
+                                *StaffType::getDefaultPreset(StaffGroup::PERCUSSION));
 
             // this allows 2/3-line percussion staves to keep the double spacing they had in 1.3
 
@@ -2712,7 +2740,8 @@ static void readStyle(MStyle* style, XmlReader& e, ReadChordListHook& readChordL
             style->set(Sid::concertPitch, bool(e.readInt()));
         } else if (tag == "ChordList") {
             readChordListHook.read(e);
-        } else if (tag == "pageFillLimit" || tag == "genTimesig" || tag == "FixMeasureNumbers" || tag == "FixMeasureWidth") {   // obsolete
+        } else if (tag == "pageFillLimit" || tag == "genTimesig" || tag == "FixMeasureNumbers"
+                   || tag == "FixMeasureWidth") {                                                                               // obsolete
             e.skipCurrentElement();
         } else if (tag == "systemDistance") {  // obsolete
             style->set(Sid::minSystemDistance, e.readDouble());
@@ -2730,7 +2759,8 @@ static void readStyle(MStyle* style, XmlReader& e, ReadChordListHook& readChordL
             }
         }
         // for compatibility:
-        else if (tag == "oddHeader" || tag == "evenHeader" || tag == "oddFooter" || tag == "evenFooter") {
+        else if (tag == "oddHeader" || tag == "evenHeader" || tag == "oddFooter"
+                 || tag == "evenFooter") {
             tag += u"C";
         } else {
             if (!ReadStyleHook::readStyleProperties(style, e)) {
@@ -3105,7 +3135,8 @@ muse::Ret Read114::readScoreFile(Score* score, XmlReader& e, ReadInOutData* out)
     if (masterScore->style().styleI(Sid::minEmptyMeasures) == 0) {
         masterScore->style().set(Sid::minEmptyMeasures, 1);
     }
-    masterScore->style().set(Sid::frameSystemDistance, masterScore->style().styleS(Sid::frameSystemDistance) + 6.0_sp);
+    masterScore->style().set(Sid::frameSystemDistance,
+                             masterScore->style().styleS(Sid::frameSystemDistance) + 6.0_sp);
     masterScore->resetStyleValue(Sid::measureSpacing);
 
     // add invisible tempo text if necessary
@@ -3116,7 +3147,8 @@ muse::Ret Read114::readScoreFile(Score* score, XmlReader& e, ReadInOutData* out)
         BeatsPerSecond tempo   = i.second.tempo;
         if (masterScore->tempomap()->tempo(tick.ticks()) != tempo) {
             TempoText* tt = Factory::createTempoText(masterScore->dummy()->segment());
-            tt->setXmlText(String(u"<sym>metNoteQuarterUp</sym> = %1").arg(std::round(tempo.toBPM().val)));
+            tt->setXmlText(String(u"<sym>metNoteQuarterUp</sym> = %1").arg(std::round(tempo.toBPM().
+                                                                                      val)));
             tt->setTempo(tempo);
             tt->setTrack(0);
             tt->setVisible(false);
@@ -3152,7 +3184,8 @@ muse::Ret Read114::readScoreFile(Score* score, XmlReader& e, ReadInOutData* out)
     // we'll force this and live with it for the score
     // but we wait until now to do it so parts don't have this issue
 
-    if (masterScore->style().styleV(Sid::voltaPosAbove) == DefaultStyle::baseStyle().value(Sid::voltaPosAbove)) {
+    if (masterScore->style().styleV(Sid::voltaPosAbove)
+        == DefaultStyle::baseStyle().value(Sid::voltaPosAbove)) {
         masterScore->style().set(Sid::voltaPosAbove, PointF(0.0, -2.0f));
     }
 

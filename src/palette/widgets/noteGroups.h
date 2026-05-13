@@ -49,7 +49,8 @@ class NoteGroups : public QGroupBox, Ui::NoteGroups, public muse::Contextable
     engraving::Fraction _sig;
     QString _z, _n;
 
-    engraving::Score* createScore(int n, engraving::DurationType t, std::vector<engraving::Chord*>* chords);
+    engraving::Score* createScore(int n, engraving::DurationType t,
+                                  std::vector<engraving::Chord*>* chords);
     void updateBeams(engraving::Chord*, engraving::BeamMode);
 
 private slots:
@@ -62,7 +63,8 @@ public:
 
     void classBegin();
 
-    void setSig(engraving::Fraction sig, const engraving::Groups&, const QString& zText, const QString& nText);
+    void setSig(engraving::Fraction sig, const engraving::Groups&, const QString& zText,
+                const QString& nText);
     engraving::Groups groups();
 };
 }

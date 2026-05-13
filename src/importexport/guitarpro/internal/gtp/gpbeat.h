@@ -207,7 +207,10 @@ public:
     bool deadSlapped() const { return m_deadSlapped; }
 
     void setStemOrientationUp(bool up) { m_stemOrientation.up = up; }
-    void setStemOrientationUserDefined(bool userDefined) { m_stemOrientation.userDefined = userDefined; }
+    void setStemOrientationUserDefined(bool userDefined)
+    {
+        m_stemOrientation.userDefined = userDefined;
+    }
     bool stemOrientationUp() const { return m_stemOrientation.up; }
     bool stemOrientationUserDefined() const { return m_stemOrientation.userDefined; }
 

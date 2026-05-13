@@ -38,20 +38,23 @@ class Score;
 }
 
 namespace mu::notation {
-class NotationNoteInput : public INotationNoteInput, public muse::Contextable, public muse::async::Asyncable
+class NotationNoteInput : public INotationNoteInput, public muse::Contextable,
+    public muse::async::Asyncable
 {
     muse::GlobalInject<INotationConfiguration> configuration;
-    muse::ContextInject<muse::accessibility::IAccessibilityController> accessibilityController = { this };
+    muse::ContextInject<muse::accessibility::IAccessibilityController> accessibilityController
+        = { this };
 
 public:
-    NotationNoteInput(const IGetScore* getScore, INotationInteraction* interaction, INotationUndoStackPtr undoStack,
-                      const muse::modularity::ContextPtr& iocCtx);
+    NotationNoteInput(const IGetScore* getScore, INotationInteraction* interaction,
+                      INotationUndoStackPtr undoStack, const muse::modularity::ContextPtr& iocCtx);
 
     bool isNoteInputMode() const override;
 
     const NoteInputState& state() const override;
 
-    void startNoteInput(NoteInputMethod method = NoteInputMethod::BY_NOTE_NAME, bool focusNotation = true) override;
+    void startNoteInput(NoteInputMethod method = NoteInputMethod::BY_NOTE_NAME,
+                        bool focusNotation = true) override;
     void endNoteInput(bool resetState = false) override;
 
     muse::async::Channel</*focusNotation*/ bool> noteInputStarted() const override;

@@ -7,7 +7,8 @@
 using namespace muse;
 
 namespace mu::iex::guitarpro {
-std::pair<int, std::unique_ptr<GPTrack> > GP7DomBuilder::createGPTrack(XmlDomNode* trackNode, XmlDomNode* versionNode)
+std::pair<int, std::unique_ptr<GPTrack> > GP7DomBuilder::createGPTrack(XmlDomNode* trackNode,
+                                                                       XmlDomNode* versionNode)
 {
     static const std::set<String> sUnused = {
         u"Color", u"SystemsDefautLayout", u"SystemsLayout", u"AutoBrush",

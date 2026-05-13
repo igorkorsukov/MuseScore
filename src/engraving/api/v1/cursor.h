@@ -152,7 +152,10 @@ private:
     mu::engraving::EngravingItem* currentElement() const;
 
     engraving::InputState& inputState();
-    const engraving::InputState& inputState() const { return const_cast<Cursor*>(this)->inputState(); }
+    const engraving::InputState& inputState() const
+    {
+        return const_cast<Cursor*>(this)->inputState();
+    }
 
     mu::engraving::Segment* segment() const;
     void setSegment(mu::engraving::Segment* seg);

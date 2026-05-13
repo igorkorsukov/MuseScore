@@ -124,8 +124,9 @@ MenuItem* PianoKeyboardPanelContextMenuModel::makeViewMenu()
     return makeMenu(muse::TranslatableString("notation", "View"), items);
 }
 
-MenuItem* PianoKeyboardPanelContextMenuModel::makeKeyWidthScalingItem(const muse::TranslatableString& title,
-                                                                      qreal scaling)
+MenuItem* PianoKeyboardPanelContextMenuModel::makeKeyWidthScalingItem(
+    const muse::TranslatableString& title,
+    qreal scaling)
 {
     UiAction action;
     action.title = title;
@@ -142,7 +143,8 @@ MenuItem* PianoKeyboardPanelContextMenuModel::makeKeyWidthScalingItem(const muse
     return item;
 }
 
-MenuItem* PianoKeyboardPanelContextMenuModel::makeNumberOfKeysItem(const muse::TranslatableString& title, int numberOfKeys)
+MenuItem* PianoKeyboardPanelContextMenuModel::makeNumberOfKeysItem(
+    const muse::TranslatableString& title, int numberOfKeys)
 {
     UiAction action;
     action.title = title;
@@ -171,8 +173,10 @@ void PianoKeyboardPanelContextMenuModel::updateKeyWidthScalingItems()
 {
     qreal roundedCurrentScaling = NORMAL_KEY_WIDTH_SCALING;
 
-    constexpr qreal betweenNormalAndSmall = (NORMAL_KEY_WIDTH_SCALING + SMALL_KEY_WIDTH_SCALING) / 2;
-    constexpr qreal betweenNormalAndLarge = (NORMAL_KEY_WIDTH_SCALING + LARGE_KEY_WIDTH_SCALING) / 2;
+    constexpr qreal betweenNormalAndSmall = (NORMAL_KEY_WIDTH_SCALING + SMALL_KEY_WIDTH_SCALING)
+                                            / 2;
+    constexpr qreal betweenNormalAndLarge = (NORMAL_KEY_WIDTH_SCALING + LARGE_KEY_WIDTH_SCALING)
+                                            / 2;
 
     if (m_currentKeyWidthScaling < betweenNormalAndSmall) {
         roundedCurrentScaling = SMALL_KEY_WIDTH_SCALING;

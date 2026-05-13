@@ -51,7 +51,8 @@ void RealizeHarmonyDialog::componentComplete()
         return;
     }
 
-    const std::vector<mu::engraving::EngravingItem*>& selectedElements = interaction->selection()->elements();
+    const std::vector<mu::engraving::EngravingItem*>& selectedElements
+        = interaction->selection()->elements();
     QList<mu::engraving::Harmony*> selectedHarmonyList;
 
     for (mu::engraving::EngravingItem* element : selectedElements) {
@@ -79,7 +80,8 @@ void RealizeHarmonyDialog::accept()
     bool optionsOverride = optionsBox->isChecked();
     Voicing voicing = optionsOverride ? Voicing(voicingSelect->getVoicing())
                       : Voicing::INVALID;
-    HarmonyDurationType durationType = optionsOverride ? HarmonyDurationType(voicingSelect->getDuration())
+    HarmonyDurationType durationType = optionsOverride ? HarmonyDurationType(
+        voicingSelect->getDuration())
                                        : HarmonyDurationType::INVALID;
 
     interaction->realizeSelectedChordSymbols(voicingSelect->getLiteral(), voicing, durationType);
@@ -91,7 +93,8 @@ void RealizeHarmonyDialog::toggleChordTable()
 {
     int visible = chordTable->isVisible();
     chordTable->setVisible(!visible);
-    showButton->setText(!visible ? muse::qtrc("global", "Show less…") : muse::qtrc("global", "Show more…"));
+    showButton->setText(!visible ? muse::qtrc("global", "Show less…") : muse::qtrc("global",
+                                                                                   "Show more…"));
 }
 
 //---------------------------------------------------------
@@ -118,12 +121,16 @@ void RealizeHarmonyDialog::setChordList(const QList<Harmony*>& hlist)
         QString noteNames;
         int rootTpc = h->rootTpc();
 
-        noteNames = tpc2name(rootTpc, mu::engraving::NoteSpellingType::STANDARD, mu::engraving::NoteCaseType::AUTO);
+        noteNames = tpc2name(rootTpc, mu::engraving::NoteSpellingType::STANDARD,
+                             mu::engraving::NoteCaseType::AUTO);
         const mu::engraving::RealizedHarmony::PitchMap& notes = h->getRealizedHarmony().notes();
 
         for (const auto& [pitch, tpc] : notes) {
-            intervals += QString::number((pitch - mu::engraving::tpc2pitch(rootTpc)) % 128 % 12) + " ";
-            noteNames += u", " + mu::engraving::tpc2name(tpc, mu::engraving::NoteSpellingType::STANDARD, mu::engraving::NoteCaseType::AUTO);
+            intervals += QString::number((pitch - mu::engraving::tpc2pitch(rootTpc)) % 128 % 12)
+                         + " ";
+            noteNames += u", " + mu::engraving::tpc2name(tpc,
+                                                         mu::engraving::NoteSpellingType::STANDARD,
+                                                         mu::engraving::NoteCaseType::AUTO);
         }
 
         chordTable->setItem(i, 0, new QTableWidgetItem(QString::number(h->id())));

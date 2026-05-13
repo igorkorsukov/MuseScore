@@ -88,11 +88,13 @@ void FoldersPreferencesModel::load()
 
     m_folders = {
         {
-            FolderType::Scores, muse::qtrc("preferences", "Scores"), projectConfiguration()->userProjectsPath().toQString(),
+            FolderType::Scores, muse::qtrc("preferences", "Scores"),
+            projectConfiguration()->userProjectsPath().toQString(),
             projectConfiguration()->userProjectsPath().toQString()
         },
         {
-            FolderType::Styles, muse::qtrc("preferences", "Styles"), notationConfiguration()->userStylesPath().toQString(),
+            FolderType::Styles, muse::qtrc("preferences", "Styles"),
+            notationConfiguration()->userStylesPath().toQString(),
             notationConfiguration()->userStylesPath().toQString()
         },
         {
@@ -101,11 +103,13 @@ void FoldersPreferencesModel::load()
             notationConfiguration()->userInstrumentsFolder().toQString()
         },
         {
-            FolderType::Templates, muse::qtrc("preferences", "Templates"), projectConfiguration()->userTemplatesPath().toQString(),
+            FolderType::Templates, muse::qtrc("preferences", "Templates"),
+            projectConfiguration()->userTemplatesPath().toQString(),
             projectConfiguration()->userTemplatesPath().toQString()
         },
         {
-            FolderType::Plugins, muse::qtrc("preferences", "Plugins"), extensionsConfiguration()->pluginsUserPath().toQString(),
+            FolderType::Plugins, muse::qtrc("preferences", "Plugins"),
+            extensionsConfiguration()->pluginsUserPath().toQString(),
             extensionsConfiguration()->pluginsUserPath().toQString()
         },
         {
@@ -120,7 +124,8 @@ void FoldersPreferencesModel::load()
         },
 #ifdef MUSE_MODULE_VST
         {
-            FolderType::VST3, muse::qtrc("preferences", "VST3"), pathsToString(vstConfiguration()->userVstDirectories()),
+            FolderType::VST3, muse::qtrc("preferences", "VST3"), pathsToString(
+                vstConfiguration()->userVstDirectories()),
             globalConfiguration()->userDataPath().toQString(), FolderValueType::MultiDirectories
         }
 #endif
@@ -133,23 +138,33 @@ void FoldersPreferencesModel::load()
 
 void FoldersPreferencesModel::setupConnections()
 {
-    projectConfiguration()->userProjectsPathChanged().onReceive(this, [this](const muse::io::path_t& path) {
-        setFolderPaths(FolderType::Scores, path.toQString());
+    projectConfiguration()->userProjectsPathChanged().onReceive(this,
+                                                                [this](const muse::io::path_t& path) {
+        setFolderPaths(FolderType::Scores,
+                       path.toQString());
     });
 
-    notationConfiguration()->userStylesPathChanged().onReceive(this, [this](const muse::io::path_t& path) {
-        setFolderPaths(FolderType::Styles, path.toQString());
+    notationConfiguration()->userStylesPathChanged().onReceive(this,
+                                                               [this](const muse::io::path_t& path) {
+        setFolderPaths(FolderType::Styles,
+                       path.toQString());
     });
 
-    notationConfiguration()->userInstrumentsFolderChanged().onReceive(this, [this](const muse::io::path_t& path) {
+    notationConfiguration()->userInstrumentsFolderChanged().onReceive(this,
+                                                                      [this](const muse::io::path_t&
+                                                                             path) {
         setFolderPaths(FolderType::Instruments, path.toQString());
     });
 
-    projectConfiguration()->userTemplatesPathChanged().onReceive(this, [this](const muse::io::path_t& path) {
-        setFolderPaths(FolderType::Templates, path.toQString());
+    projectConfiguration()->userTemplatesPathChanged().onReceive(this,
+                                                                 [this](const muse::io::path_t& path) {
+        setFolderPaths(FolderType::Templates,
+                       path.toQString());
     });
 
-    extensionsConfiguration()->pluginsUserPathChanged().onReceive(this, [this](const muse::io::path_t& path) {
+    extensionsConfiguration()->pluginsUserPathChanged().onReceive(this,
+                                                                  [this](const muse::io::path_t&
+                                                                         path) {
         setFolderPaths(FolderType::Plugins, path.toQString());
     });
 
@@ -158,16 +173,20 @@ void FoldersPreferencesModel::setupConnections()
         setFolderPaths(FolderType::SoundFonts, pathsToString(userSoundFontsPaths));
     });
 
-    notationConfiguration()->userMusicFontsPathChanged().onReceive(this, [this](const muse::io::path_t& path) {
+    notationConfiguration()->userMusicFontsPathChanged().onReceive(this,
+                                                                   [this](const muse::io::path_t&
+                                                                          path) {
         setFolderPaths(FolderType::MusicFonts, path.toQString());
     });
 
     vstConfiguration()->userVstDirectoriesChanged().onReceive(this, [this](const io::paths_t& paths) {
-        setFolderPaths(FolderType::VST3, pathsToString(paths));
+        setFolderPaths(FolderType::VST3, pathsToString(
+                           paths));
     });
 }
 
-void FoldersPreferencesModel::saveFolderPaths(FoldersPreferencesModel::FolderType folderType, const QString& paths)
+void FoldersPreferencesModel::saveFolderPaths(FoldersPreferencesModel::FolderType folderType,
+                                              const QString& paths)
 {
     switch (folderType) {
     case FolderType::Scores: {
@@ -212,7 +231,8 @@ void FoldersPreferencesModel::saveFolderPaths(FoldersPreferencesModel::FolderTyp
     }
 }
 
-void FoldersPreferencesModel::setFolderPaths(FoldersPreferencesModel::FolderType folderType, const QString& paths)
+void FoldersPreferencesModel::setFolderPaths(FoldersPreferencesModel::FolderType folderType,
+                                             const QString& paths)
 {
     QModelIndex index = folderIndex(folderType);
     if (!index.isValid()) {

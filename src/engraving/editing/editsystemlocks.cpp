@@ -217,7 +217,8 @@ void EditSystemLocks::addRemoveSystemLocks(Score* score, int interval, bool lock
         return;
     }
 
-    std::vector<const SystemLock*> currentLocks = score->systemLocks()->locksContainedInRange(startMeasure, endMeasure);
+    std::vector<const SystemLock*> currentLocks = score->systemLocks()->locksContainedInRange(
+        startMeasure, endMeasure);
     for (const SystemLock* l : currentLocks) {
         undoRemoveSystemLock(score, l);
     }
@@ -255,7 +256,8 @@ void EditSystemLocks::makeIntoSystem(Score* score, MeasureBase* first, MeasureBa
         undoRemoveSystemLock(score, lockContainingfirst);
         if (lockContainingfirst->startMB()->isBefore(first)) {
             MeasureBase* oneBeforeFirst = mmrests ? first->prevMM() : first->prev();
-            SystemLock* newLockBefore = new SystemLock(lockContainingfirst->startMB(), oneBeforeFirst);
+            SystemLock* newLockBefore = new SystemLock(
+                lockContainingfirst->startMB(), oneBeforeFirst);
             undoAddSystemLock(score, newLockBefore);
         }
     }
@@ -271,7 +273,8 @@ void EditSystemLocks::makeIntoSystem(Score* score, MeasureBase* first, MeasureBa
         }
     }
 
-    std::vector<const SystemLock*> locksContainedInRange = score->systemLocks()->locksContainedInRange(first, last);
+    std::vector<const SystemLock*> locksContainedInRange
+        = score->systemLocks()->locksContainedInRange(first, last);
     for (const SystemLock* lock : locksContainedInRange) {
         if (lock != lockContainingfirst && lock != lockContaininglast) {
             undoRemoveSystemLock(score, lock);
@@ -389,7 +392,8 @@ void EditSystemLocks::applyLockToSelection(Score* score)
     }
 }
 
-void EditSystemLocks::removeSystemLocksOnAddLayoutBreak(Score* score, LayoutBreakType breakType, const MeasureBase* measure)
+void EditSystemLocks::removeSystemLocksOnAddLayoutBreak(Score* score, LayoutBreakType breakType,
+                                                        const MeasureBase* measure)
 {
     IF_ASSERT_FAILED(breakType != LayoutBreakType::NOBREAK) {
         return; // NOBREAK not allowed on locked measures
@@ -404,7 +408,8 @@ void EditSystemLocks::removeSystemLocksOnAddLayoutBreak(Score* score, LayoutBrea
 void EditSystemLocks::removeLayoutBreaksOnAddSystemLock(Score* score, const SystemLock* lock)
 {
     bool mmrests = score->style().styleB(Sid::createMultiMeasureRests);
-    for (MeasureBase* mb = lock->startMB(); mb && mb->isBeforeOrEqual(lock->endMB()); mb = mmrests ? mb->nextMM() : mb->next()) {
+    for (MeasureBase* mb = lock->startMB(); mb && mb->isBeforeOrEqual(lock->endMB());
+         mb = mmrests ? mb->nextMM() : mb->next()) {
         mb->undoSetBreak(false, LayoutBreakType::LINE);
         mb->undoSetBreak(false, LayoutBreakType::NOBREAK);
         if (mb != lock->endMB()) {
@@ -414,7 +419,8 @@ void EditSystemLocks::removeLayoutBreaksOnAddSystemLock(Score* score, const Syst
     }
 }
 
-void EditSystemLocks::removeSystemLocksOnRemoveMeasures(Score* score, const MeasureBase* m1, const MeasureBase* m2)
+void EditSystemLocks::removeSystemLocksOnRemoveMeasures(Score* score, const MeasureBase* m1,
+                                                        const MeasureBase* m2)
 {
     std::vector<const SystemLock*> allSysLocks = score->systemLocks()->allLocks();
     for (const SystemLock* lock : allSysLocks) {

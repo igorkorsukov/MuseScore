@@ -93,7 +93,8 @@ void SystemDivider::styleChanged()
 Sid SystemDivider::getPropertyStyle(Pid id) const
 {
     if (id == Pid::SYMBOLS_SIZE) {
-        return m_dividerType == SystemDividerType::LEFT ? Sid::dividerLeftSize : Sid::dividerRightSize;
+        return m_dividerType
+               == SystemDividerType::LEFT ? Sid::dividerLeftSize : Sid::dividerRightSize;
     }
 
     return Symbol::getPropertyStyle(id);
@@ -110,7 +111,8 @@ std::vector<LineF> SystemDivider::dragAnchorLines() const
 
     RectF systemBBox = system->canvasBoundingRect();
     PointF p1 =  PointF(m_dividerType == SystemDividerType::LEFT
-                        ? systemBBox.left() + system->leftMargin() : systemBBox.right(), systemBBox.bottom());
+                        ? systemBBox.left() + system->leftMargin() : systemBBox.right(),
+                        systemBBox.bottom());
 
     RectF thisBBox = canvasBoundingRect();
     PointF p2 = 0.5 * (thisBBox.topLeft() + thisBBox.bottomRight());
@@ -140,7 +142,9 @@ PropertyValue SystemDivider::propertyDefault(Pid id) const
 {
     switch (id) {
     case Pid::SYMBOLS_SIZE:
-        return style().styleD(m_dividerType == SystemDividerType::LEFT ? Sid::dividerLeftSize : Sid::dividerRightSize);
+        return style().styleD(
+            m_dividerType
+            == SystemDividerType::LEFT ? Sid::dividerLeftSize : Sid::dividerRightSize);
     default:
         return Symbol::propertyDefault(id);
     }

@@ -29,7 +29,8 @@
 #include "ui/inavigationcontroller.h"
 
 namespace mu::context {
-class UiContextResolver : public IUiContextResolver, public muse::Contextable, public muse::async::Asyncable
+class UiContextResolver : public IUiContextResolver, public muse::Contextable,
+    public muse::async::Asyncable
 {
     muse::ContextInject<muse::IInteractive> interactive = { this };
     muse::ContextInject<IGlobalContext> globalContext = { this };
@@ -44,7 +45,8 @@ public:
     const muse::ui::UiContext& currentUiContext() const override;
     muse::async::Notification currentUiContextChanged() const override;
 
-    bool match(const muse::ui::UiContext& currentCtx, const muse::ui::UiContext& actCtx) const override;
+    bool match(const muse::ui::UiContext& currentCtx,
+               const muse::ui::UiContext& actCtx) const override;
     bool matchWithCurrent(const muse::ui::UiContext& ctx) const override;
 
     bool isShortcutContextAllowed(const std::string& scContext) const override;

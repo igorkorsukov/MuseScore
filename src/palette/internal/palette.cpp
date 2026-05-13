@@ -102,7 +102,8 @@ Palette::Type Palette::contentType() const
     return t;
 }
 
-PaletteCellPtr Palette::insertElement(size_t idx, ElementPtr element, const QString& name, qreal mag, const QPointF& offset,
+PaletteCellPtr Palette::insertElement(size_t idx, ElementPtr element, const QString& name,
+                                      qreal mag, const QPointF& offset,
                                       const QString& tag)
 {
     if (element) {
@@ -110,7 +111,8 @@ PaletteCellPtr Palette::insertElement(size_t idx, ElementPtr element, const QStr
         engravingRender()->layoutItem(element.get());
     }
 
-    PaletteCellPtr cell = std::make_shared<PaletteCell>(iocContext(), element, name, mag, offset, tag, this);
+    PaletteCellPtr cell = std::make_shared<PaletteCell>(
+        iocContext(), element, name, mag, offset, tag, this);
 
     auto cellHandler = cellHandlerByPaletteType(m_type);
     if (cellHandler) {
@@ -121,16 +123,20 @@ PaletteCellPtr Palette::insertElement(size_t idx, ElementPtr element, const QStr
     return cell;
 }
 
-PaletteCellPtr Palette::insertElement(size_t idx, ElementPtr element, const muse::TranslatableString& name, qreal mag,
+PaletteCellPtr Palette::insertElement(size_t idx, ElementPtr element,
+                                      const muse::TranslatableString& name, qreal mag,
                                       const QPointF& offset, const QString& tag)
 {
     return insertElement(idx, element, name.str, mag, offset, tag);
 }
 
-PaletteCellPtr Palette::insertActionIcon(size_t idx, ActionIconType type, ActionCode code, double mag)
+PaletteCellPtr Palette::insertActionIcon(size_t idx, ActionIconType type, ActionCode code,
+                                         double mag)
 {
     const muse::ui::UiAction& action = actionsRegister()->action(code);
-    QString name = !action.description.isEmpty() ? action.description.qTranslated() : action.title.qTranslatedWithoutMnemonic();
+    QString name
+        = !action.description.isEmpty() ? action.description.qTranslated() : action.title.
+          qTranslatedWithoutMnemonic();
     auto icon = std::make_shared<ActionIcon>(paletteScoreProvider()->paletteScore()->dummy());
     icon->setActionType(type);
     icon->setAction(code, static_cast<char16_t>(action.iconCode));
@@ -138,14 +144,16 @@ PaletteCellPtr Palette::insertActionIcon(size_t idx, ActionIconType type, Action
     return insertElement(idx, icon, name, mag);
 }
 
-PaletteCellPtr Palette::appendElement(ElementPtr element, const QString& name, qreal mag, const QPointF& offset, const QString& tag)
+PaletteCellPtr Palette::appendElement(ElementPtr element, const QString& name, qreal mag,
+                                      const QPointF& offset, const QString& tag)
 {
     if (element) {
         // layout may be important for comparing cells, e.g. filtering "More" popup content
         engravingRender()->layoutItem(element.get());
     }
 
-    PaletteCellPtr cell = std::make_shared<PaletteCell>(iocContext(), element, name, mag, offset, tag, this);
+    PaletteCellPtr cell = std::make_shared<PaletteCell>(
+        iocContext(), element, name, mag, offset, tag, this);
 
     auto cellHandler = cellHandlerByPaletteType(m_type);
     if (cellHandler) {
@@ -156,7 +164,8 @@ PaletteCellPtr Palette::appendElement(ElementPtr element, const QString& name, q
     return cell;
 }
 
-PaletteCellPtr Palette::appendElement(ElementPtr element, const muse::TranslatableString& name, qreal mag, const QPointF& offset,
+PaletteCellPtr Palette::appendElement(ElementPtr element, const muse::TranslatableString& name,
+                                      qreal mag, const QPointF& offset,
                                       const QString& tag)
 {
     return appendElement(element, name.str, mag, offset, tag);
@@ -165,7 +174,8 @@ PaletteCellPtr Palette::appendElement(ElementPtr element, const muse::Translatab
 PaletteCellPtr Palette::appendActionIcon(ActionIconType type, ActionCode code, double mag)
 {
     const muse::ui::UiAction& action = actionsRegister()->action(code);
-    const QString name = !action.description.isEmpty() ? action.description.str : action.title.raw().str;
+    const QString name
+        = !action.description.isEmpty() ? action.description.str : action.title.raw().str;
     auto icon = std::make_shared<ActionIcon>(paletteScoreProvider()->paletteScore()->dummy());
     icon->setActionType(type);
     icon->setAction(code, static_cast<char16_t>(action.iconCode));
@@ -227,7 +237,8 @@ std::vector<PaletteCellPtr> Palette::takeCells(size_t idx, size_t count)
     auto removeBegin = m_cells.begin() + idx;
     auto removeEnd = removeBegin + count;
 
-    removedCells.insert(removedCells.end(), std::make_move_iterator(removeBegin), std::make_move_iterator(removeEnd));
+    removedCells.insert(removedCells.end(), std::make_move_iterator(
+                            removeBegin), std::make_move_iterator(removeEnd));
     m_cells.erase(removeBegin, removeEnd);
 
     for (PaletteCellPtr& c : removedCells) {
@@ -548,7 +559,8 @@ bool Palette::writeToFile(const QString& p) const
 void Palette::showWritingPaletteError(const QString& path) const
 {
     std::string title = muse::trc("palette", "Writing palette file");
-    std::string message = muse::qtrc("palette", "Writing palette file\n%1\nfailed.").arg(path).toStdString();
+    std::string message
+        = muse::qtrc("palette", "Writing palette file\n%1\nfailed.").arg(path).toStdString();
     interactive()->error(title, message);
 }
 
@@ -630,10 +642,12 @@ Palette::Type Palette::guessType() const
         if (actionCode.contains("beam")) {
             return Type::Beam;
         }
-        if (actionCode.contains("grace") || actionCode.contains("acciaccatura") || actionCode.contains("appoggiatura")) {
+        if (actionCode.contains("grace") || actionCode.contains("acciaccatura")
+            || actionCode.contains("appoggiatura")) {
             return Type::GraceNote;
         }
-        if (actionCode.contains("frame") || actionCode.contains("box") || actionCode.contains("measure")) {
+        if (actionCode.contains("frame") || actionCode.contains("box")
+            || actionCode.contains("measure")) {
             return Type::Layout;
         }
         return Type::Custom;
@@ -651,7 +665,8 @@ Palette::Type Palette::guessType() const
     return Type::Custom;
 }
 
-std::function<void(PaletteCellPtr)> Palette::cellHandlerByPaletteType(const Palette::Type& type) const
+std::function<void(PaletteCellPtr)> Palette::cellHandlerByPaletteType(const Palette::Type& type)
+const
 {
     switch (type) {
     case Type::Bracket:

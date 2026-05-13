@@ -45,7 +45,9 @@ void HarpPedalPopupModel::init()
 
 void HarpPedalPopupModel::load()
 {
-    mu::engraving::HarpPedalDiagram* diagram = m_item && m_item->isHarpPedalDiagram() ? toHarpPedalDiagram(m_item) : nullptr;
+    mu::engraving::HarpPedalDiagram* diagram = m_item
+                                               && m_item->isHarpPedalDiagram() ? toHarpPedalDiagram(
+        m_item) : nullptr;
     if (!diagram) {
         return;
     }
@@ -57,7 +59,8 @@ void HarpPedalPopupModel::load()
     emit pedalStateChanged(pedalState());
 }
 
-std::array<mu::engraving::PedalPosition, mu::engraving::HARP_STRING_NO> HarpPedalPopupModel::getPopupPedalState()
+std::array<mu::engraving::PedalPosition,
+           mu::engraving::HARP_STRING_NO> HarpPedalPopupModel::getPopupPedalState()
 {
     std::array<mu::engraving::PedalPosition, mu::engraving::HARP_STRING_NO> posArr;
     for (int i = 0; i < mu::engraving::HARP_STRING_NO; i++) {
@@ -83,12 +86,14 @@ std::array<mu::engraving::PedalPosition, mu::engraving::HARP_STRING_NO> HarpPeda
     return posArr;
 }
 
-void HarpPedalPopupModel::setPopupPedalState(std::array<HarpPedalPopupModel::Position, mu::engraving::HARP_STRING_NO> pos)
+void HarpPedalPopupModel::setPopupPedalState(std::array<HarpPedalPopupModel::Position,
+                                                        mu::engraving::HARP_STRING_NO> pos)
 {
     m_pedalState = pos;
 }
 
-void HarpPedalPopupModel::setPopupPedalState(std::array<mu::engraving::PedalPosition, mu::engraving::HARP_STRING_NO> pos)
+void HarpPedalPopupModel::setPopupPedalState(std::array<mu::engraving::PedalPosition,
+                                                        mu::engraving::HARP_STRING_NO> pos)
 {
     std::array<HarpPedalPopupModel::Position, mu::engraving::HARP_STRING_NO> posArr;
     for (int i = 0; i < mu::engraving::HARP_STRING_NO; i++) {
@@ -140,7 +145,8 @@ QRectF HarpPedalPopupModel::staffPos() const
             = muse::RectF(measure->canvasBoundingRect().x(),
                           topStaff->canvasBoundingRect().y(),
                           measure->canvasBoundingRect().width(),
-                          bottomStaff->canvasBoundingRect().bottomLeft().y() - topStaff->canvasBoundingRect().topLeft().y());
+                          bottomStaff->canvasBoundingRect().bottomLeft().y()
+                          - topStaff->canvasBoundingRect().topLeft().y());
 
         return fromLogical(staffRect).toQRectF();
     }
@@ -160,7 +166,8 @@ void HarpPedalPopupModel::setIsDiagram(bool isDiagram)
     }
 
     m_isDiagram = isDiagram;
-    changeItemProperty(mu::engraving::Pid::HARP_IS_DIAGRAM, m_isDiagram, mu::engraving::PropertyFlags::STYLED);
+    changeItemProperty(mu::engraving::Pid::HARP_IS_DIAGRAM, m_isDiagram,
+                       mu::engraving::PropertyFlags::STYLED);
 
     emit isDiagramChanged(m_isDiagram);
 }

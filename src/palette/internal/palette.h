@@ -94,7 +94,8 @@ public:
     };
     Q_ENUM(Type)
 
-    explicit Palette(const muse::modularity::ContextPtr& iocCtx, Type t = Type::Custom, QObject* parent = nullptr);
+    explicit Palette(const muse::modularity::ContextPtr& iocCtx, Type t = Type::Custom,
+                     QObject* parent = nullptr);
     ~Palette();
 
     QString id() const;
@@ -111,17 +112,23 @@ public:
     Type contentType() const;
 
     // TODO: Remove QString overload
-    PaletteCellPtr insertElement(size_t idx, engraving::ElementPtr element, const QString& name, qreal mag = 1.0,
+    PaletteCellPtr insertElement(size_t idx, engraving::ElementPtr element, const QString& name,
+                                 qreal mag = 1.0,
                                  const QPointF& offset = QPointF(), const QString& tag = "");
-    PaletteCellPtr insertElement(size_t idx, engraving::ElementPtr element, const muse::TranslatableString& name, qreal mag = 1.0,
+    PaletteCellPtr insertElement(size_t idx, engraving::ElementPtr element,
+                                 const muse::TranslatableString& name, qreal mag = 1.0,
                                  const QPointF& offset = QPointF(), const QString& tag = "");
-    PaletteCellPtr insertActionIcon(size_t idx, engraving::ActionIconType type, muse::actions::ActionCode code, double mag = 1.0);
+    PaletteCellPtr insertActionIcon(size_t idx, engraving::ActionIconType type,
+                                    muse::actions::ActionCode code, double mag = 1.0);
     // TODO: Remove QString overload
-    PaletteCellPtr appendElement(engraving::ElementPtr element, const QString& name, qreal mag = 1.0,
+    PaletteCellPtr appendElement(engraving::ElementPtr element, const QString& name,
+                                 qreal mag = 1.0,
                                  const QPointF& offset = QPointF(), const QString& tag = "");
-    PaletteCellPtr appendElement(engraving::ElementPtr element, const muse::TranslatableString& name, qreal mag = 1.0,
+    PaletteCellPtr appendElement(engraving::ElementPtr element,
+                                 const muse::TranslatableString& name, qreal mag = 1.0,
                                  const QPointF& offset = QPointF(), const QString& tag = "");
-    PaletteCellPtr appendActionIcon(engraving::ActionIconType type, muse::actions::ActionCode code, double mag = 1.0);
+    PaletteCellPtr appendActionIcon(engraving::ActionIconType type, muse::actions::ActionCode code,
+                                    double mag = 1.0);
 
     bool insertCell(size_t idx, PaletteCellPtr cell);
     bool insertCells(size_t idx, std::vector<PaletteCellPtr> cells);
@@ -171,7 +178,8 @@ public:
 
     bool read(engraving::XmlReader&, bool pasteMode);
     void write(engraving::XmlWriter&, bool pasteMode) const;
-    static PalettePtr fromMimeData(const QByteArray& data, const muse::modularity::ContextPtr& iocCtx);
+    static PalettePtr fromMimeData(const QByteArray& data,
+                                   const muse::modularity::ContextPtr& iocCtx);
     QByteArray toMimeData() const;
 
     bool readFromFile(const QString& path);

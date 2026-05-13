@@ -35,9 +35,10 @@ public:
 
     static void layoutArpeggio2(Arpeggio* item, LayoutContext& ctx);
 
-    static double insetDistance(const Arpeggio* item, const LayoutContext& ctx, double mag_, const Chord* _chord);
-    static double insetDistance(const Arpeggio* item, const LayoutContext& ctx, double mag_, const Chord* _chord,
-                                const std::vector<Accidental*>& accidentals);
+    static double insetDistance(const Arpeggio* item, const LayoutContext& ctx, double mag_,
+                                const Chord* _chord);
+    static double insetDistance(const Arpeggio* item, const LayoutContext& ctx, double mag_,
+                                const Chord* _chord, const std::vector<Accidental*>& accidentals);
     static double insetTop(const Arpeggio* item, const Chord* c);
     static double insetBottom(const Arpeggio* item, const Chord* c);
     static double insetWidth(const Arpeggio* item);
@@ -45,7 +46,8 @@ public:
 
     static double computeHeight(const Arpeggio* item);
     static double calcTop(const Arpeggio* item, const LayoutConfiguration& conf);
-    static double calcBottom(const Arpeggio* item, double arpeggioHeight, const LayoutConfiguration& conf);
+    static double calcBottom(const Arpeggio* item, double arpeggioHeight,
+                             const LayoutConfiguration& conf);
 };
 }
 

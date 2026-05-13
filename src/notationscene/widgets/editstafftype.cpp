@@ -90,11 +90,13 @@ EditStaffType::EditStaffType(const muse::modularity::ContextPtr& ctx, QWidget* p
     }
 
     // load a sample standard score in preview
-    mu::engraving::MasterScore* sc = mu::engraving::compat::ScoreAccess::createMasterScoreWithDefaultStyle(iocContext());
+    mu::engraving::MasterScore* sc
+        = mu::engraving::compat::ScoreAccess::createMasterScoreWithDefaultStyle(iocContext());
     if (loadScore(sc, ":/resources/std_sample.mscx")) {
         standardPreview->setScore(sc);
     } else {
-        Q_ASSERT_X(false, "EditStaffType::EditStaffType", "Error in opening sample standard file for preview");
+        Q_ASSERT_X(false, "EditStaffType::EditStaffType",
+                   "Error in opening sample standard file for preview");
     }
 
     // load a sample tablature score in preview
@@ -102,7 +104,8 @@ EditStaffType::EditStaffType(const muse::modularity::ContextPtr& ctx, QWidget* p
     if (loadScore(sc, ":/resources/tab_sample.mscx")) {
         tabPreview->setScore(sc);
     } else {
-        Q_ASSERT_X(false, "EditStaffType::EditStaffType", "Error in opening sample tab file for preview");
+        Q_ASSERT_X(false, "EditStaffType::EditStaffType",
+                   "Error in opening sample tab file for preview");
     }
     tabPreview->adjustSize();
 
@@ -131,17 +134,21 @@ EditStaffType::EditStaffType(const muse::modularity::ContextPtr& ctx, QWidget* p
     connect(valuesRepeatMeasure, &QRadioButton::toggled, this, &EditStaffType::updatePreview);
     connect(valuesRepeatAlways,  &QRadioButton::toggled, this, &EditStaffType::updatePreview);
     connect(stemBesideRadio,     &QRadioButton::toggled, this, &EditStaffType::updatePreview);
-    connect(stemThroughRadio,    &QRadioButton::toggled, this, &EditStaffType::tabStemThroughToggled);
+    connect(stemThroughRadio,    &QRadioButton::toggled, this,
+            &EditStaffType::tabStemThroughToggled);
     connect(stemAboveRadio,      &QRadioButton::toggled, this, &EditStaffType::updatePreview);
     connect(stemBelowRadio,      &QRadioButton::toggled, this, &EditStaffType::updatePreview);
-    connect(minimShortRadio,     &QRadioButton::toggled, this, &EditStaffType::tabMinimShortToggled);
+    connect(minimShortRadio,     &QRadioButton::toggled, this,
+            &EditStaffType::tabMinimShortToggled);
     connect(minimSlashedRadio,   &QRadioButton::toggled, this, &EditStaffType::updatePreview);
     connect(showRests,           &QRadioButton::toggled, this, &EditStaffType::updatePreview);
 
     connect(textStyleRadioButton, &QRadioButton::toggled, this, &EditStaffType::textStylesToggled);
     connect(presetRadioButton, &QRadioButton::toggled, this, &EditStaffType::presetsToggled);
-    connect(textStyleComboBox, &QComboBox::currentIndexChanged, this, &EditStaffType::updatePreview);
-    connect(fretFontName, &QComboBox::currentIndexChanged, this, &EditStaffType::fretFontNameChanged);
+    connect(textStyleComboBox, &QComboBox::currentIndexChanged, this,
+            &EditStaffType::updatePreview);
+    connect(fretFontName, &QComboBox::currentIndexChanged, this,
+            &EditStaffType::fretFontNameChanged);
     connect(fretFontSize, &QDoubleSpinBox::valueChanged, this, &EditStaffType::updatePreview);
     connect(fretY,        &QDoubleSpinBox::valueChanged, this, &EditStaffType::updatePreview);
     connect(durFontName, &QComboBox::currentIndexChanged, this, &EditStaffType::durFontNameChanged);
@@ -190,7 +197,8 @@ void EditStaffType::setInstrument(const Instrument& instrument)
     for (const mu::engraving::StaffType& t : mu::engraving::StaffType::presets()) {
         if ((t.group() == mu::engraving::StaffGroup::STANDARD && bStandard)
             || (t.group() == mu::engraving::StaffGroup::PERCUSSION && bPerc)
-            || (t.group() == mu::engraving::StaffGroup::TAB && bTab && t.lines() <= instrument.stringData()->frettedStrings())) {
+            || (t.group() == mu::engraving::StaffGroup::TAB && bTab
+                && t.lines() <= instrument.stringData()->frettedStrings())) {
             templateCombo->addItem(t.staffTypeName(), idx);
         }
         idx++;
@@ -233,7 +241,8 @@ std::vector<QString> EditStaffType::textStyleNames() const
 {
     std::vector<QString> names;
     for (const TextStyleType& tid : allTextStyles()) {
-        muse::TranslatableString styleName = staffType.score() ? staffType.score()->getTextStyleUserName(tid) : TConv::userName(tid);
+        muse::TranslatableString styleName
+            = staffType.score() ? staffType.score()->getTextStyleUserName(tid) : TConv::userName(tid);
         names.push_back(styleName.qTranslated());
     }
     return names;
@@ -242,7 +251,8 @@ std::vector<QString> EditStaffType::textStyleNames() const
 TextStyleType EditStaffType::getTextStyle(const QString& styleName) const
 {
     for (const TextStyleType& tid : allTextStyles()) {
-        muse::TranslatableString textStyleName = staffType.score() ? staffType.score()->getTextStyleUserName(tid) : TConv::userName(tid);
+        muse::TranslatableString textStyleName
+            = staffType.score() ? staffType.score()->getTextStyleUserName(tid) : TConv::userName(tid);
 
         if (textStyleName.qTranslated() == styleName) {
             return tid;
@@ -518,7 +528,8 @@ void EditStaffType::setFromDlg()
         staffType.setGenKeysig(genKeysigPitched->isChecked());
         staffType.setShowLedgerLines(showLedgerLinesPitched->isChecked());
         staffType.setStemless(stemlessPitched->isChecked());
-        staffType.setNoteHeadScheme(static_cast<NoteHeadScheme>(noteHeadScheme->currentData().toInt()));
+        staffType.setNoteHeadScheme(
+            static_cast<NoteHeadScheme>(noteHeadScheme->currentData().toInt()));
     }
     if (staffType.group() == mu::engraving::StaffGroup::PERCUSSION) {
         staffType.setGenKeysig(genKeysigPercussion->isChecked());
@@ -538,14 +549,19 @@ void EditStaffType::setFromDlg()
             staffType.setFretFontUserY(fretY->value());
         }
         staffType.setLinesThrough(linesThroughRadio->isChecked());
-        staffType.setMinimStyle(minimNoneRadio->isChecked() ? mu::engraving::TablatureMinimStyle::NONE
-                                : (minimShortRadio->isChecked() ? mu::engraving::TablatureMinimStyle::SHORTER : mu::engraving::
-                                   TablatureMinimStyle::
-                                   SLASHED));
-        staffType.setSymbolRepeat(valuesRepeatNever->isChecked() ? mu::engraving::TablatureSymbolRepeat::NEVER
-                                  : (valuesRepeatSystem->isChecked() ? mu::engraving::TablatureSymbolRepeat::SYSTEM
-                                     : valuesRepeatMeasure->isChecked() ? mu::engraving::TablatureSymbolRepeat::MEASURE
-                                     : mu::engraving::TablatureSymbolRepeat::ALWAYS));
+        staffType.setMinimStyle(
+            minimNoneRadio->isChecked() ? mu::engraving::TablatureMinimStyle::NONE
+            : (minimShortRadio->isChecked() ? mu::engraving::TablatureMinimStyle
+               ::SHORTER : mu::engraving::
+               TablatureMinimStyle::
+               SLASHED));
+        staffType.setSymbolRepeat(
+            valuesRepeatNever->isChecked() ? mu::engraving::TablatureSymbolRepeat::NEVER
+            : (valuesRepeatSystem->isChecked() ? mu::engraving::
+               TablatureSymbolRepeat::SYSTEM
+               : valuesRepeatMeasure->isChecked() ? mu::engraving::
+               TablatureSymbolRepeat::MEASURE
+               : mu::engraving::TablatureSymbolRepeat::ALWAYS));
         staffType.setOnLines(onLinesRadio->isChecked());
         staffType.setShowRests(showRests->isChecked());
         staffType.setUpsideDown(upsideDown->isChecked());

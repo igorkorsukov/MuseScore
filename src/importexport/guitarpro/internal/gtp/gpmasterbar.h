@@ -73,7 +73,11 @@ public:
     TimeSig timeSig() const { return _timeSig; }
     bool useFlats() const { return _useFlats; }
 
-    void setKeySig(GPMasterBar::KeySig sig, bool useFlats = false) { _keySig = sig; _useFlats = useFlats; }
+    void setKeySig(GPMasterBar::KeySig sig, bool useFlats = false)
+    {
+        _keySig = sig;
+        _useFlats = useFlats;
+    }
     KeySig keySig() const { return _keySig; }
 
     void setFermatas(std::vector<Fermata>&& f) { _fermatas.swap(f); }

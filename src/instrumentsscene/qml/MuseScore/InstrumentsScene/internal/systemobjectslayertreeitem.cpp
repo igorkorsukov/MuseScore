@@ -90,8 +90,10 @@ static bool isLayerVisible(const SystemObjectGroups& groups)
     return false;
 }
 
-SystemObjectsLayerTreeItem::SystemObjectsLayerTreeItem(IMasterNotationPtr masterNotation, INotationPtr notation, QObject* parent)
-    : AbstractLayoutPanelTreeItem(LayoutPanelItemType::SYSTEM_OBJECTS_LAYER, masterNotation, notation, parent)
+SystemObjectsLayerTreeItem::SystemObjectsLayerTreeItem(IMasterNotationPtr masterNotation,
+                                                       INotationPtr notation, QObject* parent)
+    : AbstractLayoutPanelTreeItem(LayoutPanelItemType::SYSTEM_OBJECTS_LAYER, masterNotation,
+                                  notation, parent)
 {
     setSettingsAvailable(true);
     setIsExpandable(false);
@@ -163,7 +165,8 @@ void SystemObjectsLayerTreeItem::onScoreChanged(const mu::engraving::ScoreChange
 
         EngravingItem* item = toEngravingItem(pair.first);
 
-        bool isSystemObj = item->systemFlag() || (item->isStaff() && toStaff(item)->isSystemObjectStaff());
+        bool isSystemObj = item->systemFlag()
+                           || (item->isStaff() && toStaff(item)->isSystemObjectStaff());
         if (!isSystemObj && item->isTimeSig()) {
             isSystemObj = toTimeSig(item)->timeSigPlacement() != TimeSigPlacement::NORMAL;
         }
@@ -193,7 +196,8 @@ void SystemObjectsLayerTreeItem::onScoreChanged(const mu::engraving::ScoreChange
             shouldUpdateState |= addSystemObject(item);
         } else if (muse::contains(pair.second, CommandType::ChangeProperty)) {
             shouldUpdateState |= muse::contains(changes.changedPropertyIdSet, Pid::VISIBLE);
-            shouldUpdateState |= muse::contains(changes.changedPropertyIdSet, Pid::SHOW_MEASURE_NUMBERS);
+            shouldUpdateState |= muse::contains(changes.changedPropertyIdSet,
+                                                Pid::SHOW_MEASURE_NUMBERS);
         }
     }
 

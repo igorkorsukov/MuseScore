@@ -47,7 +47,8 @@ void NoteInputBarCustomiseModel::load()
 
     QList<Item*> items;
 
-    ToolConfig toolConfig = uiState()->toolConfig(NOTE_INPUT_TOOLBAR_NAME, NotationUiActions::defaultNoteInputBarConfig());
+    ToolConfig toolConfig = uiState()->toolConfig(NOTE_INPUT_TOOLBAR_NAME,
+                                                  NotationUiActions::defaultNoteInputBarConfig());
 
     for (const ToolConfig::Item& item : toolConfig.items) {
         const UiAction& action = actionsRegister()->action(item.action);
@@ -122,7 +123,8 @@ void NoteInputBarCustomiseModel::setIsAddSeparatorAvailable(bool isAddSeparatorA
     emit isAddSeparatorAvailableChanged(m_isAddSeparatorAvailable);
 }
 
-NoteInputBarCustomiseItem* NoteInputBarCustomiseModel::modelIndexToItem(const QModelIndex& index) const
+NoteInputBarCustomiseItem* NoteInputBarCustomiseModel::modelIndexToItem(const QModelIndex& index)
+const
 {
     return dynamic_cast<NoteInputBarCustomiseItem*>(item(index));
 }
@@ -208,13 +210,15 @@ void NoteInputBarCustomiseModel::updateAddSeparatorAvailability()
     setIsAddSeparatorAvailable(addingAvailable);
 }
 
-NoteInputBarCustomiseItem* NoteInputBarCustomiseModel::makeItem(const UiAction& action, bool checked)
+NoteInputBarCustomiseItem* NoteInputBarCustomiseModel::makeItem(const UiAction& action,
+                                                                bool checked)
 {
     if (action.code.empty()) {
         return makeSeparatorItem();
     }
 
-    NoteInputBarCustomiseItem* item = new NoteInputBarCustomiseItem(NoteInputBarCustomiseItem::ItemType::ACTION, this);
+    NoteInputBarCustomiseItem* item = new NoteInputBarCustomiseItem(
+        NoteInputBarCustomiseItem::ItemType::ACTION, this);
     item->setId(QString::fromStdString(action.code));
     item->setTitle(action.title.qTranslatedWithoutMnemonic());
     item->setIcon(action.iconCode);
@@ -229,7 +233,8 @@ NoteInputBarCustomiseItem* NoteInputBarCustomiseModel::makeItem(const UiAction& 
 
 NoteInputBarCustomiseItem* NoteInputBarCustomiseModel::makeSeparatorItem()
 {
-    NoteInputBarCustomiseItem* item = new NoteInputBarCustomiseItem(NoteInputBarCustomiseItem::ItemType::SEPARATOR, this);
+    NoteInputBarCustomiseItem* item = new NoteInputBarCustomiseItem(
+        NoteInputBarCustomiseItem::ItemType::SEPARATOR, this);
     item->setTitle(QString("-------  %1  -------").arg(muse::qtrc("notation", "Separator line")));
     item->setChecked(true); //! NOTE Can't be unchecked
     return item;

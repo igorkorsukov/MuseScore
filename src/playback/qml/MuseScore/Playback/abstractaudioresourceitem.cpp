@@ -39,7 +39,8 @@ void AbstractAudioResourceItem::requestToCloseNativeEditorView()
 
 void AbstractAudioResourceItem::doRequestToLaunchNativeEditorView()
 {
-    QTimer::singleShot(EXPLICIT_DELAY_MSECS, this, &AbstractAudioResourceItem::nativeEditorViewLaunchRequested);
+    QTimer::singleShot(EXPLICIT_DELAY_MSECS, this,
+                       &AbstractAudioResourceItem::nativeEditorViewLaunchRequested);
 }
 
 QString AbstractAudioResourceItem::title() const
@@ -91,7 +92,8 @@ QVariantMap AbstractAudioResourceItem::buildSeparator() const
     return result;
 }
 
-QVariantMap AbstractAudioResourceItem::buildExternalLinkMenuItem(const QString& menuId, const QString& title) const
+QVariantMap AbstractAudioResourceItem::buildExternalLinkMenuItem(const QString& menuId,
+                                                                 const QString& title) const
 {
     QVariantMap result;
 
@@ -106,7 +108,8 @@ QVariantMap AbstractAudioResourceItem::buildExternalLinkMenuItem(const QString& 
 
 void AbstractAudioResourceItem::sortResourcesList(audio::AudioResourceMetaList& list)
 {
-    std::sort(list.begin(), list.end(), [](const audio::AudioResourceMeta& m1, const audio::AudioResourceMeta& m2) {
+    std::sort(list.begin(), list.end(),
+              [](const audio::AudioResourceMeta& m1, const audio::AudioResourceMeta& m2) {
         return strings::lessThanCaseInsensitive(m1.id, m2.id);
     });
 }

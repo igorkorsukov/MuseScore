@@ -50,7 +50,8 @@ class FretFrameChordsSettingsModel : public AbstractInspectorModel
     muse::ContextInject<context::IGlobalContext> globalContext = { this };
 
 public:
-    explicit FretFrameChordsSettingsModel(QObject* parent, const muse::modularity::ContextPtr& iocCtx,
+    explicit FretFrameChordsSettingsModel(QObject* parent,
+                                          const muse::modularity::ContextPtr& iocCtx,
                                           IElementRepositoryService* repository);
 
     FretFrameChordListModel* chordListModel() const;

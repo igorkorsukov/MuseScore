@@ -27,7 +27,8 @@
 
 using namespace mu::inspector;
 
-StaffTypeSettingsModel::StaffTypeSettingsModel(QObject* parent, const muse::modularity::ContextPtr& iocCtx,
+StaffTypeSettingsModel::StaffTypeSettingsModel(QObject* parent,
+                                               const muse::modularity::ContextPtr& iocCtx,
                                                IElementRepositoryService* repository)
     : AbstractInspectorModel(parent, iocCtx, repository)
 {
@@ -41,7 +42,9 @@ void StaffTypeSettingsModel::createProperties()
 {
     m_isSmall = buildPropertyItem(mu::engraving::Pid::SMALL);
     m_verticalOffset = buildPropertyItem(mu::engraving::Pid::STAFF_YOFFSET);
-    m_scale = buildPropertyItem(mu::engraving::Pid::MAG, [this](const mu::engraving::Pid pid, const QVariant& newValue) {
+    m_scale
+        = buildPropertyItem(mu::engraving::Pid::MAG,
+                            [this](const mu::engraving::Pid pid, const QVariant& newValue) {
         onPropertyValueChanged(pid, newValue.toDouble() / 100);
     });
 

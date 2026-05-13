@@ -79,7 +79,8 @@ using namespace mu;
 using namespace mu::engraving;
 
 namespace mu::engraving {
-NoteParenthesisInfo::NoteParenthesisInfo (Parenthesis* lParen, Parenthesis* rParen, std::vector<Note*> nList)
+NoteParenthesisInfo::NoteParenthesisInfo (Parenthesis* lParen, Parenthesis* rParen,
+                                          std::vector<Note*> nList)
     : m_leftParen(lParen), m_rightParen(rParen), m_notes(nList)
 {
     std::sort(m_notes.begin(), m_notes.end(), noteIsBefore);
@@ -351,7 +352,9 @@ Chord::Chord(const Chord& c, bool link)
         add(Factory::copyStemSlash(*(c.m_stemSlash)));
     }
     if (c.m_arpeggio) {
-        Arpeggio* a = c.m_arpeggio->isChordBracket() ? new ChordBracket(*toChordBracket(c.m_arpeggio)) : new Arpeggio(*(c.m_arpeggio));
+        Arpeggio* a = c.m_arpeggio->isChordBracket() ? new ChordBracket(*toChordBracket(
+                                                                            c.m_arpeggio)) : new
+                      Arpeggio(*(c.m_arpeggio));
         add(a);
         if (link) {
             score()->undo(new Link(a, const_cast<Arpeggio*>(c.m_arpeggio)));
@@ -550,7 +553,8 @@ void Chord::setTremoloTwoChord(TremoloTwoChord* tr, bool applyLogic)
         }
 
         setDurationType(d);
-        Chord* other = m_tremoloTwoChord->chord1() == this ? m_tremoloTwoChord->chord2() : m_tremoloTwoChord->chord1();
+        Chord* other = m_tremoloTwoChord->chord1()
+                       == this ? m_tremoloTwoChord->chord2() : m_tremoloTwoChord->chord1();
         m_tremoloTwoChord = nullptr;
         if (other) {
             other->setTremoloTwoChord(nullptr);
@@ -598,7 +602,8 @@ void Chord::setTremoloSingleChord(TremoloSingleChord* tr)
         }
 
         setDurationType(d);
-        Chord* other = m_tremoloTwoChord->chord1() == this ? m_tremoloTwoChord->chord2() : m_tremoloTwoChord->chord1();
+        Chord* other = m_tremoloTwoChord->chord1()
+                       == this ? m_tremoloTwoChord->chord2() : m_tremoloTwoChord->chord1();
         m_tremoloTwoChord = nullptr;
         if (other) {
             other->setTremoloTwoChord(nullptr);
@@ -638,7 +643,8 @@ void Chord::add(EngravingItem* e)
                 // but it's often not yet possible since line is unknown
                 // use pitch instead, and line as a second sort criteria.
                 if (note->pitch() <= m_notes[idx]->pitch()) {
-                    if (note->pitch() == m_notes[idx]->pitch() && note->line() >= m_notes[idx]->line()) {
+                    if (note->pitch() == m_notes[idx]->pitch()
+                        && note->line() >= m_notes[idx]->line()) {
                         m_notes.insert(m_notes.begin() + idx + 1, note);
                     } else {
                         m_notes.insert(m_notes.begin() + idx, note);
@@ -929,7 +935,8 @@ bool Chord::allElementsInvisible() const
 //   processSiblings
 //---------------------------------------------------------
 
-void Chord::processSiblings(std::function<void(EngravingItem*)> func, bool includeTemporarySiblings) const
+void Chord::processSiblings(std::function<void(EngravingItem*)> func,
+                            bool includeTemporarySiblings) const
 {
     if (m_hook) {
         func(m_hook);
@@ -977,7 +984,8 @@ void Chord::setTrack(track_idx_t val)
 
 bool Chord::shouldCombineVoice() const
 {
-    return combineVoice() == AutoOnOff::ON || (combineVoice() == AutoOnOff::AUTO && style().styleB(Sid::combineVoice));
+    return combineVoice() == AutoOnOff::ON
+           || (combineVoice() == AutoOnOff::AUTO && style().styleB(Sid::combineVoice));
 }
 
 bool Chord::combineVoice(const Chord* chord1, const Chord* chord2)
@@ -1048,8 +1056,11 @@ void Chord::setBeamExtension(double extension)
 {
     if (m_stem) {
         double baseLength = m_stem->absoluteFromSpatium(m_stem->baseLength());
-        m_stem->setBaseLength(std::max(Spatium::fromAbsolute(baseLength + extension, spatium()), 0.0_sp));
-        m_defaultStemLength = std::max(m_defaultStemLength + extension, m_stem->absoluteFromSpatium(m_stem->baseLength()));
+        m_stem->setBaseLength(std::max(Spatium::fromAbsolute(baseLength + extension, spatium()),
+                                       0.0_sp));
+        m_defaultStemLength
+            = std::max(m_defaultStemLength + extension,
+                       m_stem->absoluteFromSpatium(m_stem->baseLength()));
     }
 }
 
@@ -1181,7 +1192,10 @@ void Chord::cmdUpdateNotes(AccidentalState* as, staff_idx_t staffIdx)
         return;
     } else {
         // if not tablature, use instrument->useDrumset to set staffGroup (to allow pitched to unpitched in same staff)
-        staffGroup = st->part()->instrument(this->tick())->useDrumset() ? StaffGroup::PERCUSSION : StaffGroup::STANDARD;
+        staffGroup
+            = st->part()->instrument(this->tick())->useDrumset() ? StaffGroup::PERCUSSION :
+              StaffGroup
+              ::STANDARD;
     }
 
     // PITCHED_ and PERCUSSION_STAFF can go note by note
@@ -1201,7 +1215,8 @@ void Chord::cmdUpdateNotes(AccidentalState* as, staff_idx_t staffIdx)
         if (vStaffIdx() == staffIdx) {
             std::vector<Note*> lnotes(notes());      // we need a copy!
             for (Note* note : lnotes) {
-                if (note->tieBackNonPartial() && note->tpc() == note->tieBack()->startNote()->tpc()) {
+                if (note->tieBackNonPartial()
+                    && note->tpc() == note->tieBack()->startNote()->tpc()) {
                     // same pitch
                     if (note->accidental() && note->accidental()->role() == AccidentalRole::AUTO) {
                         // not courtesy
@@ -1367,7 +1382,9 @@ void Chord::removeNoteParenthesisInfo(const NoteParenthesisInfo* noteParenInfo)
         return;
     }
 
-    auto it = std::find_if(m_noteParens.begin(), m_noteParens.end(), [noteParenInfo](const NoteParenthesisInfo* ptr) {
+    auto it
+        = std::find_if(m_noteParens.begin(), m_noteParens.end(),
+                       [noteParenInfo](const NoteParenthesisInfo* ptr) {
         return ptr == noteParenInfo;
     });
 
@@ -1785,7 +1802,8 @@ Tapping* Chord::tapping() const
     return tappings.size() > 0 ? tappings.front() : nullptr;
 }
 
-void Chord::updateArticulations(const std::set<SymId>& newArticulationIds, ArticulationsUpdateMode updateMode)
+void Chord::updateArticulations(const std::set<SymId>& newArticulationIds,
+                                ArticulationsUpdateMode updateMode)
 {
     Articulation* staccato = nullptr;
     Articulation* accent = nullptr;
@@ -1802,10 +1820,12 @@ void Chord::updateArticulations(const std::set<SymId>& newArticulationIds, Artic
             }
             auto splitSyms = splitArticulations({ artic->symId() });
             for (const SymId& id : splitSyms) {
-                Articulation* newArticulation = Factory::createArticulation(score()->dummy()->chord());
+                Articulation* newArticulation = Factory::createArticulation(
+                    score()->dummy()->chord());
                 newArticulation->setSymId(id);
                 newArticulation->setAnchor(artic->anchor());
-                newArticulation->setPropertyFlags(Pid::ARTICULATION_ANCHOR, artic->propertyFlags(Pid::ARTICULATION_ANCHOR));
+                newArticulation->setPropertyFlags(Pid::ARTICULATION_ANCHOR,
+                                                  artic->propertyFlags(Pid::ARTICULATION_ANCHOR));
                 if (!hasArticulation(newArticulation)) {
                     EditChord::toggleArticulation(score(), this, newArticulation);
                 } else {
@@ -1821,7 +1841,8 @@ void Chord::updateArticulations(const std::set<SymId>& newArticulationIds, Artic
         // take an inventory of which articulations are already present
         for (Articulation* artic : m_articulations) {
             PropertyFlags pf = artic->propertyFlags(Pid::ARTICULATION_ANCHOR);
-            if (!mixedDirections && pf == PropertyFlags::UNSTYLED && artic->anchor() != ArticulationAnchor::AUTO) {
+            if (!mixedDirections && pf == PropertyFlags::UNSTYLED
+                && artic->anchor() != ArticulationAnchor::AUTO) {
                 if (overallAnchor != ArticulationAnchor::AUTO && artic->anchor() != overallAnchor) {
                     mixedDirections = true;
                     overallAnchor = ArticulationAnchor::AUTO;
@@ -1893,7 +1914,8 @@ void Chord::updateArticulations(const std::set<SymId>& newArticulationIds, Artic
             newArticulation->setSymId(id);
             if (overallAnchor != ArticulationAnchor::AUTO) {
                 newArticulation->setAnchor(overallAnchor);
-                newArticulation->setPropertyFlags(Pid::ARTICULATION_ANCHOR, PropertyFlags::UNSTYLED);
+                newArticulation->setPropertyFlags(Pid::ARTICULATION_ANCHOR,
+                                                  PropertyFlags::UNSTYLED);
             }
             if (!hasArticulation(newArticulation)) {
                 EditChord::toggleArticulation(score(), this, newArticulation);
@@ -1971,7 +1993,8 @@ void Chord::setSlash(bool flag, bool stemless)
     if (track() % VOICES < 2) {
         // use middle line
         line = staffType->middleLine();
-        undoChangeProperty(Pid::STEM_DIRECTION, PropertyValue::fromValue<DirectionV>(DirectionV::DOWN));
+        undoChangeProperty(Pid::STEM_DIRECTION,
+                           PropertyValue::fromValue<DirectionV>(DirectionV::DOWN));
     } else {
         // set small
         undoChangeProperty(Pid::SMALL, true);
@@ -1980,13 +2003,15 @@ void Chord::setSlash(bool flag, bool stemless)
         if (track() % 2) {
             line = staffType->bottomLine() + 1;
             y    = 0.5 * spatium();
-            undoChangeProperty(Pid::STEM_DIRECTION, PropertyValue::fromValue<DirectionV>(DirectionV::DOWN));
+            undoChangeProperty(Pid::STEM_DIRECTION,
+                               PropertyValue::fromValue<DirectionV>(DirectionV::DOWN));
         } else {
             line = -1;
             if (!staffType->isDrumStaff()) {
                 y = -0.5 * spatium();
             }
-            undoChangeProperty(Pid::STEM_DIRECTION, PropertyValue::fromValue<DirectionV>(DirectionV::UP));
+            undoChangeProperty(Pid::STEM_DIRECTION,
+                               PropertyValue::fromValue<DirectionV>(DirectionV::UP));
         }
         // for non-drum staves, add an additional offset
         // for drum staves, no offset, but use normal head
@@ -2163,7 +2188,8 @@ GraceNotesGroup& Chord::graceNotesAfter(bool filterUnplayable) const
     for (int i = static_cast<int>(m_graceNotes.size()) - 1; i >= 0; i--) {
         Chord* c = m_graceNotes[i];
         assert(c->noteType() != NoteType::NORMAL && c->noteType() != NoteType::INVALID);
-        if (c->noteType() & (NoteType::GRACE8_AFTER | NoteType::GRACE16_AFTER | NoteType::GRACE32_AFTER)) {
+        if (c->noteType()
+            & (NoteType::GRACE8_AFTER | NoteType::GRACE16_AFTER | NoteType::GRACE32_AFTER)) {
             if (filterUnplayable && !c->isChordPlayable()) {
                 continue;
             }
@@ -2264,7 +2290,8 @@ void Chord::sortNotes()
 
 Chord* Chord::nextTiedChord(bool backwards, bool sameSize) const
 {
-    Segment* nextSeg = backwards ? segment()->prev1(SegmentType::ChordRest) : segment()->next1(SegmentType::ChordRest);
+    Segment* nextSeg = backwards ? segment()->prev1(SegmentType::ChordRest) : segment()->next1(
+        SegmentType::ChordRest);
     if (!nextSeg) {
         return 0;
     }
@@ -2327,8 +2354,10 @@ bool Chord::isPreBendOrGraceBendStart() const
 
     for (const Note* note : m_notes) {
         GuitarBend* gb = note->bendFor();
-        if (gb && (gb->bendType() == GuitarBendType::PRE_BEND || gb->bendType() == GuitarBendType::GRACE_NOTE_BEND
-                   || gb->bendType() == GuitarBendType::PRE_DIVE)) {
+        if (gb
+            && (gb->bendType() == GuitarBendType::PRE_BEND
+                || gb->bendType() == GuitarBendType::GRACE_NOTE_BEND
+                || gb->bendType() == GuitarBendType::PRE_DIVE)) {
             return true;
         }
     }

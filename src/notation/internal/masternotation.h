@@ -37,15 +37,18 @@ class NotationProject;
 }
 
 namespace mu::notation {
-class MasterNotation : public IMasterNotation, public Notation, public std::enable_shared_from_this<MasterNotation>
+class MasterNotation : public IMasterNotation, public Notation,
+    public std::enable_shared_from_this<MasterNotation>
 {
 public:
     ~MasterNotation();
 
     project::INotationProject* project() const override;
 
-    muse::Ret setupNewScore(engraving::MasterScore* score, const ScoreCreateOptions& options) override;
-    void applyOptions(engraving::MasterScore* score, const ScoreCreateOptions& options, bool createdFromTemplate = false) override;
+    muse::Ret setupNewScore(engraving::MasterScore* score,
+                            const ScoreCreateOptions& options) override;
+    void applyOptions(engraving::MasterScore* score, const ScoreCreateOptions& options,
+                      bool createdFromTemplate = false) override;
     engraving::MasterScore* masterScore() const override;
     void setMasterScore(engraving::MasterScore* masterScore, bool disablePlayback = false) override;
 
@@ -76,7 +79,8 @@ public:
 
 private:
     friend class project::NotationProject;
-    explicit MasterNotation(project::INotationProject* project, const muse::modularity::ContextPtr& iocCtx);
+    explicit MasterNotation(project::INotationProject* project,
+                            const muse::modularity::ContextPtr& iocCtx);
 
     void initAfterSettingScore(const engraving::MasterScore* score, bool disablePlayback = false);
 

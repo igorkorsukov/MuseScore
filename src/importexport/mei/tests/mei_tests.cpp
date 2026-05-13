@@ -73,13 +73,15 @@ void Mei_Tests::meiReadTest(const char* file)
 
     // Flag to be turned on to generate the test reference .mscx files from the .mei
     if (s_generateReferenceFile) {
-        bool res = ScoreRW::saveScore(score, ScoreRW::rootPath() + u"/" + MEI_DIR + fileName + u".mscx");
+        bool res = ScoreRW::saveScore(score,
+                                      ScoreRW::rootPath() + u"/" + MEI_DIR + fileName + u".mscx");
         EXPECT_TRUE(res);
         return;
     }
 
     // Compare with the reference MuseScore file
-    EXPECT_TRUE(ScoreComp::saveCompareScore(score, fileName + u".mscx", MEI_DIR + fileName + u".mscx"));
+    EXPECT_TRUE(ScoreComp::saveCompareScore(score, fileName + u".mscx",
+                                            MEI_DIR + fileName + u".mscx"));
 
     // Save the .mei file for round trip testing
     bool output = ScoreRW::saveScore(score,  fileName + u".test.mei", exportFunc);
@@ -87,7 +89,8 @@ void Mei_Tests::meiReadTest(const char* file)
     delete score;
 
     // Compare the mei files
-    EXPECT_TRUE(ScoreComp::compareFiles(fileName + u".test.mei", ScoreRW::rootPath() + u"/" + MEI_DIR + fileName + u".mei"));
+    EXPECT_TRUE(ScoreComp::compareFiles(fileName + u".test.mei",
+                                        ScoreRW::rootPath() + u"/" + MEI_DIR + fileName + u".mei"));
 }
 
 TEST_F(Mei_Tests, mei_accid_01) {

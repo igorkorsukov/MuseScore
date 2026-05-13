@@ -54,7 +54,8 @@ void Engraving_BeamTests::beam(const char* path)
 {
     MasterScore* score = ScoreRW::readScore(BEAM_DATA_DIR + String::fromUtf8(path));
     EXPECT_TRUE(score);
-    EXPECT_TRUE(ScoreComp::saveCompareScore(score, String::fromUtf8(path), BEAM_DATA_DIR + String::fromUtf8(path)));
+    EXPECT_TRUE(ScoreComp::saveCompareScore(score, String::fromUtf8(path),
+                                            BEAM_DATA_DIR + String::fromUtf8(path)));
     delete score;
 }
 
@@ -119,7 +120,8 @@ TEST_F(Engraving_BeamTests, flatBeams)
 {
     MasterScore* score = ScoreRW::readScore(BEAM_DATA_DIR + u"flatBeams.mscx");
     EXPECT_TRUE(score);
-    EXPECT_TRUE(ScoreComp::saveCompareScore(score, u"flatBeams.mscx", BEAM_DATA_DIR + u"flatBeams-ref.mscx"));
+    EXPECT_TRUE(ScoreComp::saveCompareScore(score, u"flatBeams.mscx",
+                                            BEAM_DATA_DIR + u"flatBeams-ref.mscx"));
     delete score;
 }
 
@@ -197,7 +199,8 @@ TEST_F(Engraving_BeamTests, beamStemDir)
     score->update();
     score->doLayout();
 
-    EXPECT_TRUE(ScoreComp::saveCompareScore(score, u"beamStemDir-01.mscx", BEAM_DATA_DIR + u"beamStemDir-01-ref.mscx"));
+    EXPECT_TRUE(ScoreComp::saveCompareScore(score, u"beamStemDir-01.mscx",
+                                            BEAM_DATA_DIR + u"beamStemDir-01-ref.mscx"));
 
     delete score;
 }
@@ -227,7 +230,8 @@ TEST_F(Engraving_BeamTests, flipBeamStemDir)
     score->update();
     score->doLayout();
 
-    EXPECT_TRUE(ScoreComp::saveCompareScore(score, u"flipBeamStemDir-01.mscx", BEAM_DATA_DIR + u"flipBeamStemDir-01-ref.mscx"));
+    EXPECT_TRUE(ScoreComp::saveCompareScore(score, u"flipBeamStemDir-01.mscx",
+                                            BEAM_DATA_DIR + u"flipBeamStemDir-01-ref.mscx"));
 
     delete score;
 }
@@ -269,13 +273,17 @@ TEST_F(Engraving_BeamTests, deleteBeamStemDirection)
     EXPECT_TRUE(score);
 
     Measure* m1 = score->firstMeasure();
-    ChordRest* cr1 = toChordRest(m1->findSegment(SegmentType::ChordRest, Fraction(0, 8))->element(0));
+    ChordRest* cr1
+        = toChordRest(m1->findSegment(SegmentType::ChordRest, Fraction(0, 8))->element(0));
     EXPECT_TRUE(cr1);
-    ChordRest* cr2 = toChordRest(m1->findSegment(SegmentType::ChordRest, Fraction(1, 8))->element(0));
+    ChordRest* cr2
+        = toChordRest(m1->findSegment(SegmentType::ChordRest, Fraction(1, 8))->element(0));
     EXPECT_TRUE(cr2);
-    ChordRest* cr3 = toChordRest(m1->findSegment(SegmentType::ChordRest, Fraction(2, 8))->element(0));
+    ChordRest* cr3
+        = toChordRest(m1->findSegment(SegmentType::ChordRest, Fraction(2, 8))->element(0));
     EXPECT_TRUE(cr3);
-    ChordRest* cr4 = toChordRest(m1->findSegment(SegmentType::ChordRest, Fraction(3, 8))->element(0));
+    ChordRest* cr4
+        = toChordRest(m1->findSegment(SegmentType::ChordRest, Fraction(3, 8))->element(0));
     EXPECT_TRUE(cr4);
 
     for (ChordRest* cr : { cr1, cr2, cr3, cr4 }) {

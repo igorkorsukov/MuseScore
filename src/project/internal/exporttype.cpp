@@ -88,7 +88,8 @@ bool ExportType::hasSubtypes() const
     return !subtypes.isEmpty();
 }
 
-ExportType ExportType::makeWithSuffixes(const QStringList& suffixes, const QString& name, const QString& filterName,
+ExportType ExportType::makeWithSuffixes(const QStringList& suffixes, const QString& name,
+                                        const QString& filterName,
                                         const QString& settingsPagePath)
 {
     ExportType type;

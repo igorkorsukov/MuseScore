@@ -98,8 +98,10 @@ public:
     void setFiltered(const SelectionFilterTypesVariant& variant, bool filtered);
 
     bool canSelect(const EngravingItem* element) const;
-    bool canSelectNoteIdx(size_t noteIdx, size_t totalNotesInChord, bool selectionContainsMultiNoteChords) const;
-    bool canSelectTuplet(const Tuplet* tuplet, const Fraction& selectionRangeStart, const Fraction& selectionRangeEnd,
+    bool canSelectNoteIdx(size_t noteIdx, size_t totalNotesInChord,
+                          bool selectionContainsMultiNoteChords) const;
+    bool canSelectTuplet(const Tuplet* tuplet, const Fraction& selectionRangeStart,
+                         const Fraction& selectionRangeEnd,
                          bool selectionContainsMultiNoteChords) const;
     bool canSelectVoice(track_idx_t track) const;
 
@@ -110,8 +112,10 @@ public:
 
 private:
     unsigned int m_filteredVoicesTypes = static_cast<unsigned int>(VoicesSelectionFilterTypes::ALL);
-    unsigned int m_filteredNotesInChordTypes = static_cast<unsigned int>(NotesInChordSelectionFilterTypes::ALL);
-    unsigned int m_filteredElementsTypes = static_cast<unsigned int>(ElementsSelectionFilterTypes::ALL);
+    unsigned int m_filteredNotesInChordTypes
+        = static_cast<unsigned int>(NotesInChordSelectionFilterTypes::ALL);
+    unsigned int m_filteredElementsTypes
+        = static_cast<unsigned int>(ElementsSelectionFilterTypes::ALL);
 
     bool m_includeSingleNotes = true;
 };

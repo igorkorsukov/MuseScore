@@ -48,18 +48,23 @@ public:
     static double footerExtension(const LayoutContext& ctx, const Page* page);
 
 private:
-    static void createUpdateHeaderText(const LayoutContext& ctx, Page* page, int area, const String& s);
-    static void createUpdateFooterText(const LayoutContext& ctx, Page* page, int area, const String& s);
+    static void createUpdateHeaderText(const LayoutContext& ctx, Page* page, int area,
+                                       const String& s);
+    static void createUpdateFooterText(const LayoutContext& ctx, Page* page, int area,
+                                       const String& s);
 
     /// Returns false if text is empty and should be removed
-    static bool updateHeaderFooterText(const LayoutContext& ctx, Page* page, Text* text, const String& s);
+    static bool updateHeaderFooterText(const LayoutContext& ctx, Page* page, Text* text,
+                                       const String& s);
 
     static void removeHeaderText(Page* page, int area);
     static void removeFooterText(Page* page, int area);
 
-    static TextBlock replaceTextMacros(const LayoutContext& ctx, const Page* page, const TextBlock& tb);
+    static TextBlock replaceTextMacros(const LayoutContext& ctx, const Page* page,
+                                       const TextBlock& tb);
     static CharFormat formatForMacro(const LayoutContext& ctx, const String& macro);
-    static void appendFormattedString(std::list<TextFragment>& fragments, const String& s, const CharFormat& defaultFormat,
+    static void appendFormattedString(std::list<TextFragment>& fragments, const String& s,
+                                      const CharFormat& defaultFormat,
                                       const CharFormat& macroFormat);
 };
 }

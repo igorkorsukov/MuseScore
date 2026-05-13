@@ -140,7 +140,8 @@ public:
 
     virtual bool addAccidentalDotsArticulationsToNextNoteEntered() const = 0;
     virtual void setAddAccidentalDotsArticulationsToNextNoteEntered(bool value) = 0;
-    virtual muse::async::Notification addAccidentalDotsArticulationsToNextNoteEnteredChanged() const = 0;
+    virtual muse::async::Notification addAccidentalDotsArticulationsToNextNoteEnteredChanged() const
+    = 0;
 
     virtual muse::io::path_t userMusicFontsPath() const = 0;
     virtual void setUserMusicFontsPath(const muse::io::path_t& path) = 0;
@@ -152,7 +153,8 @@ public:
 
     virtual bool startNoteInputAtSelectedNoteRestWhenPressingMidiKey() const = 0;
     virtual void setStartNoteInputAtSelectedNoteRestWhenPressingMidiKey(bool value) = 0;
-    virtual muse::async::Notification startNoteInputAtSelectedNoteRestWhenPressingMidiKeyChanged() const = 0;
+    virtual muse::async::Notification startNoteInputAtSelectedNoteRestWhenPressingMidiKeyChanged()
+    const = 0;
 
     virtual bool isAutomaticallyPanEnabled() const = 0;
     virtual void setIsAutomaticallyPanEnabled(bool enabled) = 0;

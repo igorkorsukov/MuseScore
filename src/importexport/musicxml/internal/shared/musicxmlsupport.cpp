@@ -58,7 +58,8 @@ muse::String checkAtEndElement(const muse::XmlStreamReader& e, const muse::Strin
         return String();
     }
 
-    String res = muse::mtrc("iex_musicxml", "expected token type and name ‘EndElement %1’, actual ‘%2 %3’")
+    String res = muse::mtrc("iex_musicxml",
+                            "expected token type and name ‘EndElement %1’, actual ‘%2 %3’")
                  .arg(expName)
                  .arg(muse::String::fromAscii(e.tokenString().ascii()))
                  .arg(muse::String::fromAscii(e.name().ascii()));
@@ -140,7 +141,8 @@ Fraction MusicXmlSupport::noteTypeToFraction(const String& type)
  Convert note type, number of dots and actual and normal notes into a duration
  */
 
-Fraction MusicXmlSupport::calculateFraction(const String& type, int dots, int normalNotes, int actualNotes)
+Fraction MusicXmlSupport::calculateFraction(const String& type, int dots, int normalNotes,
+                                            int actualNotes)
 {
     // type
     Fraction f = MusicXmlSupport::noteTypeToFraction(type);
@@ -444,51 +446,76 @@ String accidentalType2MusicXmlString(const AccidentalType type)
 }
 
 static const std::map<muse::String, AccidentalType> smuflAccidentalTypes {
-    { u"accidentalDoubleFlatOneArrowDown",                AccidentalType::DOUBLE_FLAT_ONE_ARROW_DOWN },
+    { u"accidentalDoubleFlatOneArrowDown",
+      AccidentalType::DOUBLE_FLAT_ONE_ARROW_DOWN },
     { u"accidentalFlatOneArrowDown",                      AccidentalType::FLAT_ONE_ARROW_DOWN },
     { u"accidentalNaturalOneArrowDown",                   AccidentalType::NATURAL_ONE_ARROW_DOWN },
     { u"accidentalSharpOneArrowDown",                     AccidentalType::SHARP_ONE_ARROW_DOWN },
-    { u"accidentalDoubleSharpOneArrowDown",               AccidentalType::DOUBLE_SHARP_ONE_ARROW_DOWN },
-    { u"accidentalDoubleFlatOneArrowUp",                  AccidentalType::DOUBLE_FLAT_ONE_ARROW_UP },
+    { u"accidentalDoubleSharpOneArrowDown",
+      AccidentalType::DOUBLE_SHARP_ONE_ARROW_DOWN },
+    { u"accidentalDoubleFlatOneArrowUp",
+      AccidentalType::DOUBLE_FLAT_ONE_ARROW_UP },
     { u"accidentalFlatOneArrowUp",                        AccidentalType::FLAT_ONE_ARROW_UP },
     { u"accidentalNaturalOneArrowUp",                     AccidentalType::NATURAL_ONE_ARROW_UP },
     { u"accidentalSharpOneArrowUp",                       AccidentalType::SHARP_ONE_ARROW_UP },
-    { u"accidentalDoubleSharpOneArrowUp",                 AccidentalType::DOUBLE_SHARP_ONE_ARROW_UP },
-    { u"accidentalDoubleFlatTwoArrowsDown",               AccidentalType::DOUBLE_FLAT_TWO_ARROWS_DOWN },
+    { u"accidentalDoubleSharpOneArrowUp",
+      AccidentalType::DOUBLE_SHARP_ONE_ARROW_UP },
+    { u"accidentalDoubleFlatTwoArrowsDown",
+      AccidentalType::DOUBLE_FLAT_TWO_ARROWS_DOWN },
     { u"accidentalFlatTwoArrowsDown",                     AccidentalType::FLAT_TWO_ARROWS_DOWN },
     { u"accidentalNaturalTwoArrowsDown",                  AccidentalType::NATURAL_TWO_ARROWS_DOWN },
     { u"accidentalSharpTwoArrowsDown",                    AccidentalType::SHARP_TWO_ARROWS_DOWN },
-    { u"accidentalDoubleSharpTwoArrowsDown",              AccidentalType::DOUBLE_SHARP_TWO_ARROWS_DOWN },
-    { u"accidentalDoubleFlatTwoArrowsUp",                 AccidentalType::DOUBLE_FLAT_TWO_ARROWS_UP },
+    { u"accidentalDoubleSharpTwoArrowsDown",
+      AccidentalType::DOUBLE_SHARP_TWO_ARROWS_DOWN },
+    { u"accidentalDoubleFlatTwoArrowsUp",
+      AccidentalType::DOUBLE_FLAT_TWO_ARROWS_UP },
     { u"accidentalFlatTwoArrowsUp",                       AccidentalType::FLAT_TWO_ARROWS_UP },
     { u"accidentalNaturalTwoArrowsUp",                    AccidentalType::NATURAL_TWO_ARROWS_UP },
     { u"accidentalSharpTwoArrowsUp",                      AccidentalType::SHARP_TWO_ARROWS_UP },
-    { u"accidentalDoubleSharpTwoArrowsUp",                AccidentalType::DOUBLE_SHARP_TWO_ARROWS_UP },
-    { u"accidentalDoubleFlatThreeArrowsDown",             AccidentalType::DOUBLE_FLAT_THREE_ARROWS_DOWN },
+    { u"accidentalDoubleSharpTwoArrowsUp",
+      AccidentalType::DOUBLE_SHARP_TWO_ARROWS_UP },
+    { u"accidentalDoubleFlatThreeArrowsDown",
+      AccidentalType::DOUBLE_FLAT_THREE_ARROWS_DOWN },
     { u"accidentalFlatThreeArrowsDown",                   AccidentalType::FLAT_THREE_ARROWS_DOWN },
-    { u"accidentalNaturalThreeArrowsDown",                AccidentalType::NATURAL_THREE_ARROWS_DOWN },
+    { u"accidentalNaturalThreeArrowsDown",
+      AccidentalType::NATURAL_THREE_ARROWS_DOWN },
     { u"accidentalSharpThreeArrowsDown",                  AccidentalType::SHARP_THREE_ARROWS_DOWN },
-    { u"accidentalDoubleSharpThreeArrowsDown",            AccidentalType::DOUBLE_SHARP_THREE_ARROWS_DOWN },
-    { u"accidentalDoubleFlatThreeArrowsUp",               AccidentalType::DOUBLE_FLAT_THREE_ARROWS_UP },
+    { u"accidentalDoubleSharpThreeArrowsDown",
+      AccidentalType::DOUBLE_SHARP_THREE_ARROWS_DOWN },
+    { u"accidentalDoubleFlatThreeArrowsUp",
+      AccidentalType::DOUBLE_FLAT_THREE_ARROWS_UP },
     { u"accidentalFlatThreeArrowsUp",                     AccidentalType::FLAT_THREE_ARROWS_UP },
     { u"accidentalNaturalThreeArrowsUp",                  AccidentalType::NATURAL_THREE_ARROWS_UP },
     { u"accidentalSharpThreeArrowsUp",                    AccidentalType::SHARP_THREE_ARROWS_UP },
-    { u"accidentalDoubleSharpThreeArrowsUp",              AccidentalType::DOUBLE_SHARP_THREE_ARROWS_UP },
-    { u"accidentalLowerOneSeptimalComma",                 AccidentalType::LOWER_ONE_SEPTIMAL_COMMA },
-    { u"accidentalRaiseOneSeptimalComma",                 AccidentalType::RAISE_ONE_SEPTIMAL_COMMA },
-    { u"accidentalLowerTwoSeptimalCommas",                AccidentalType::LOWER_TWO_SEPTIMAL_COMMAS },
-    { u"accidentalRaiseTwoSeptimalCommas",                AccidentalType::RAISE_TWO_SEPTIMAL_COMMAS },
-    { u"accidentalLowerOneUndecimalQuartertone",          AccidentalType::LOWER_ONE_UNDECIMAL_QUARTERTONE },
-    { u"accidentalRaiseOneUndecimalQuartertone",          AccidentalType::RAISE_ONE_UNDECIMAL_QUARTERTONE },
-    { u"accidentalLowerOneTridecimalQuartertone",         AccidentalType::LOWER_ONE_TRIDECIMAL_QUARTERTONE },
-    { u"accidentalRaiseOneTridecimalQuartertone",         AccidentalType::RAISE_ONE_TRIDECIMAL_QUARTERTONE },
-    { u"accidentalDoubleFlatEqualTempered",               AccidentalType::DOUBLE_FLAT_EQUAL_TEMPERED },
+    { u"accidentalDoubleSharpThreeArrowsUp",
+      AccidentalType::DOUBLE_SHARP_THREE_ARROWS_UP },
+    { u"accidentalLowerOneSeptimalComma",
+      AccidentalType::LOWER_ONE_SEPTIMAL_COMMA },
+    { u"accidentalRaiseOneSeptimalComma",
+      AccidentalType::RAISE_ONE_SEPTIMAL_COMMA },
+    { u"accidentalLowerTwoSeptimalCommas",
+      AccidentalType::LOWER_TWO_SEPTIMAL_COMMAS },
+    { u"accidentalRaiseTwoSeptimalCommas",
+      AccidentalType::RAISE_TWO_SEPTIMAL_COMMAS },
+    { u"accidentalLowerOneUndecimalQuartertone",
+      AccidentalType::LOWER_ONE_UNDECIMAL_QUARTERTONE },
+    { u"accidentalRaiseOneUndecimalQuartertone",
+      AccidentalType::RAISE_ONE_UNDECIMAL_QUARTERTONE },
+    { u"accidentalLowerOneTridecimalQuartertone",
+      AccidentalType::LOWER_ONE_TRIDECIMAL_QUARTERTONE },
+    { u"accidentalRaiseOneTridecimalQuartertone",
+      AccidentalType::RAISE_ONE_TRIDECIMAL_QUARTERTONE },
+    { u"accidentalDoubleFlatEqualTempered",
+      AccidentalType::DOUBLE_FLAT_EQUAL_TEMPERED },
     { u"accidentalFlatEqualTempered",                     AccidentalType::FLAT_EQUAL_TEMPERED },
     { u"accidentalNaturalEqualTempered",                  AccidentalType::NATURAL_EQUAL_TEMPERED },
     { u"accidentalSharpEqualTempered",                    AccidentalType::SHARP_EQUAL_TEMPERED },
-    { u"accidentalDoubleSharpEqualTempered",              AccidentalType::DOUBLE_SHARP_EQUAL_TEMPERED },
-    { u"accidentalQuarterFlatEqualTempered",              AccidentalType::QUARTER_FLAT_EQUAL_TEMPERED },
-    { u"accidentalQuarterSharpEqualTempered",             AccidentalType::QUARTER_SHARP_EQUAL_TEMPERED }
+    { u"accidentalDoubleSharpEqualTempered",
+      AccidentalType::DOUBLE_SHARP_EQUAL_TEMPERED },
+    { u"accidentalQuarterFlatEqualTempered",
+      AccidentalType::QUARTER_FLAT_EQUAL_TEMPERED },
+    { u"accidentalQuarterSharpEqualTempered",
+      AccidentalType::QUARTER_SHARP_EQUAL_TEMPERED }
 };
 
 //---------------------------------------------------------
@@ -705,8 +732,10 @@ StringList harmonyXmlDegrees(const engraving::HarmonyInfo* h)
     return cd ? cd->xmlDegrees : StringList();
 }
 
-const ChordDescription* harmonyFromXml(engraving::HarmonyInfo* info, engraving::Score* score, const muse::String& kind,
-                                       const muse::String& kindText, const muse::String& symbols, const muse::String& parens,
+const ChordDescription* harmonyFromXml(engraving::HarmonyInfo* info, engraving::Score* score,
+                                       const muse::String& kind,
+                                       const muse::String& kindText, const muse::String& symbols,
+                                       const muse::String& parens,
                                        const std::vector<engraving::HDegree>& dl)
 {
     if (!info) {
@@ -719,7 +748,8 @@ const ChordDescription* harmonyFromXml(engraving::HarmonyInfo* info, engraving::
     return cd;
 }
 
-String harmonyXmlFunction(const engraving::HarmonyInfo* info, const engraving::Harmony* h, engraving::Key key)
+String harmonyXmlFunction(const engraving::HarmonyInfo* info, const engraving::Harmony* h,
+                          engraving::Key key)
 {
     if (!info || !tpcIsValid(info->rootTpc())) {
         return String();
@@ -741,7 +771,8 @@ String harmonyXmlFunction(const engraving::HarmonyInfo* info, const engraving::H
     return tpc2Function(info->rootTpc(), key);
 }
 
-void setHarmonyRootTpcFromFunction(HarmonyInfo* info, const Harmony* h, const muse::String& s, engraving::Key key)
+void setHarmonyRootTpcFromFunction(HarmonyInfo* info, const Harmony* h, const muse::String& s,
+                                   engraving::Key key)
 {
     if (!info) {
         return;
