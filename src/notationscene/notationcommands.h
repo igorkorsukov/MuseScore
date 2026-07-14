@@ -97,4 +97,12 @@ inline static const muse::rcommand::Command USE_VOICE_4_COMMAND("command://notat
 
 inline static const muse::rcommand::Command FLIP_COMMAND("command://notation/flip");
 inline static const muse::rcommand::Command FLIP_HORIZONTALLY_COMMAND("command://notation/flip-horizontally");
+
+inline static const muse::rcommand::Command ADD_NOTE_C_COMMAND("command://notation/add-note-c");
+inline static const muse::rcommand::Command ADD_NOTE_D_COMMAND("command://notation/add-note-d");
+inline static const muse::rcommand::Command ADD_NOTE_E_COMMAND("command://notation/add-note-e");
+inline static const muse::rcommand::Command ADD_NOTE_F_COMMAND("command://notation/add-note-f");
+inline static const muse::rcommand::Command ADD_NOTE_G_COMMAND("command://notation/add-note-g");
+inline static const muse::rcommand::Command ADD_NOTE_A_COMMAND("command://notation/add-note-a");
+inline static const muse::rcommand::Command ADD_NOTE_B_COMMAND("command://notation/add-note-b");
 }
